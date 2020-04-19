@@ -90,7 +90,7 @@ install {
         pom {
             project {
                 packaging 'jar'
-                groupId 'co.infinum.sentinel'
+                groupId 'com.infinum.sentinel'
                 artifactId 'sentinel'
 
                 name 'sentinel'
