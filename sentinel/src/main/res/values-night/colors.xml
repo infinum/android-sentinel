@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="sentinel_color_primary">#26d8d2</color>
+    <color name="sentinel_color_background">#424242</color>
+    <color name="sentinel_color_surface">#ffffff</color>
+    <color name="sentinel_color_secondary">#26d8d2</color>
+    <color name="sentinel_color_error">#d8262c</color>
+    <color name="sentinel_color_on_primary">#ffffff</color>
+    <color name="sentinel_color_on_secondary">#000000</color>
+    <color name="sentinel_color_on_background">#000000</color>
+    <color name="sentinel_color_on_surface">#000000</color>
+    <color name="sentinel_color_on_error">#ffffff</color>
+
+    <color name="sentinel_color_button_text">#22c2bd</color>
+    <color name="sentinel_color_button_ripple">#1b9793</color>
+    <color name="sentinel_color_divider">#595959</color>
+</resources>

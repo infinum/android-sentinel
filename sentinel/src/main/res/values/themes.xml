@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Sentinel.BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/sentinel_color_primary</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
+        <item name="colorSecondary">@color/sentinel_color_secondary</item>
+        <item name="colorSurface">@color/sentinel_color_surface</item>
+        <item name="colorError">@color/sentinel_color_error</item>
+        <item name="colorOnPrimary">@color/sentinel_color_on_primary</item>
+        <item name="colorOnSecondary">@color/sentinel_color_on_secondary</item>
+        <item name="colorOnBackground">@color/sentinel_color_on_background</item>
+        <item name="colorOnSurface">@color/sentinel_color_on_surface</item>
+        <item name="colorOnError">@color/sentinel_color_on_error</item>
+        <item name="colorControlNormal">@color/sentinel_color_on_secondary</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:colorBackground">@color/sentinel_color_background</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@style/Sentinel.Animation</item>
+    </style>
+
+    <style name="Sentinel.Theme" parent="Sentinel.BaseTheme" />
+
+    <style name="Sentinel.Theme.BottomSheet" parent="@style/Theme.MaterialComponents.DayNight.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Sentinel.Widget.BottomSheet.Modal</item>
+    </style>
+
+    <style name="Sentinel.Widget.BottomSheet.Modal" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="Sentinel.Animation" parent="@android:style/Animation">
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+</resources>

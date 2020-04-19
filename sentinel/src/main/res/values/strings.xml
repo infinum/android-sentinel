@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sentinel_name" translatable="false">Sentinel</string>
+    <string name="sentinel_application">Application</string>
+    <string name="sentinel_device">Device</string>
+    <string name="sentinel_tools">Tools</string>
+    <string name="sentinel_permissions">Permissions</string>
+    <string name="sentinel_settings">Settings</string>
+    <string name="sentinel_app_info">App info</string>
+    <string name="sentinel_share">Share</string>
+
+    <string name="sentinel_network">Network</string>
+    <string name="sentinel_analytics">Analytics</string>
+    <string name="sentinel_database">Database</string>
+    <string name="sentinel_report">Report</string>
+    <string name="sentinel_bluetooth">Bluetooth</string>
+    <string name="sentinel_google_play">Google Play</string>
+    <string name="sentinel_triggers">Triggers</string>
+    <string name="sentinel_plain">Plain</string>
+    <string name="sentinel_json">JSON</string>
+    <string name="sentinel_xml">XML</string>
+    <string name="sentinel_share_format">Share format</string>
+    <string name="sentinel_html">HTML</string>
+    <string name="sentinel_table">Table</string>
+    <string name="sentinel_markdown">Markdown</string>
+</resources>

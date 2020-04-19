@@ -1,0 +1,4 @@
+rootProject.name='Sentinel'
+
+include ':sample'
+include ':sentinel'
