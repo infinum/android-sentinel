@@ -14,3 +14,7 @@
 .cxx
 bintray.properties
 /.idea/
+/tool-chucker/build/
+/tool-collar/build/
+/tool-dbinspector/build/
+/tool-googleplay/build/
