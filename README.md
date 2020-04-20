@@ -16,7 +16,7 @@ The project is organized in the following modules:
 - `tool-googleplay` - contains a class wrapper for Google Play
 - `sample` - a sample app for testing and developing
 
-[UI](ui.jpg)
+![UI](ui.jpg)
 
 ## Usage
 
