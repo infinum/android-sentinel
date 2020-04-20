@@ -6,7 +6,7 @@ import android.net.Uri
 import android.view.View
 import com.infinum.sentinel.Sentinel
 
-class GooglePlayTool : Sentinel.Distribution {
+class GooglePlayTool : Sentinel.DistributionTool {
 
     companion object {
         private const val SCHEME_MARKET = "market"
