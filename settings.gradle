@@ -2,3 +2,4 @@ rootProject.name='Sentinel'
 
 include ':sample'
 include ':sentinel'
+include ':sentinel-no-op'

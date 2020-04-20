@@ -5,7 +5,7 @@ import android.view.View
 import com.chuckerteam.chucker.api.Chucker
 import com.infinum.sentinel.Sentinel
 
-class ChuckTool : Sentinel.NetworkTool {
+class ChuckerTool : Sentinel.NetworkTool {
 
     override fun listener(): View.OnClickListener = View.OnClickListener {
         it.context.startActivity(

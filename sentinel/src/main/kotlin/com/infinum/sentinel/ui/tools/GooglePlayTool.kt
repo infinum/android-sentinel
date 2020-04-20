@@ -10,13 +10,13 @@ import com.infinum.sentinel.Sentinel
 class GooglePlayTool : Sentinel.Tool {
 
     companion object {
-        private const val SCHEME_MARKET ="market"
-        private const val SCHEME_HTTPS ="https"
-        private const val AUTHORITY_GOOGLE_PLAY ="play.google.com"
-        private const val PATH_STORE ="store"
-        private const val PATH_APPS ="apps"
-        private const val PATH_DETAILS ="details"
-        private const val QUERY_ID ="id"
+        private const val SCHEME_MARKET = "market"
+        private const val SCHEME_HTTPS = "https"
+        private const val AUTHORITY_GOOGLE_PLAY = "play.google.com"
+        private const val PATH_STORE = "store"
+        private const val PATH_APPS = "apps"
+        private const val PATH_DETAILS = "details"
+        private const val QUERY_ID = "id"
 
         private const val VENDING_PACKAGE_NAME = "com.android.vending"
     }

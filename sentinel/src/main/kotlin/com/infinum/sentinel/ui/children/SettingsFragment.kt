@@ -34,6 +34,16 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupTriggers()
+        setupFormats()
+    }
+
+    override fun onDestroy() =
+        super.onDestroy().run {
+            viewBinding = null
+        }
+
+    private fun setupTriggers() {
         viewBinding?.let {
             TriggersRepository.load().observeForever { triggers ->
                 it.triggersLayout.removeAllViews()
@@ -57,6 +67,11 @@ class SettingsFragment : Fragment() {
                     )
                 }
             }
+        }
+    }
+
+    private fun setupFormats() {
+        viewBinding?.let {
             it.formatGroup.setOnCheckedChangeListener { _, checkedId ->
                 FormatsRepository.save(
                     listOf(
@@ -101,9 +116,4 @@ class SettingsFragment : Fragment() {
             }
         }
     }
-
-    override fun onDestroy() =
-        super.onDestroy().run {
-            viewBinding = null
-        }
 }

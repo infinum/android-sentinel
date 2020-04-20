@@ -9,7 +9,8 @@ import androidx.fragment.app.FragmentActivity
 import com.infinum.sentinel.data.models.raw.AppInfo
 import com.infinum.sentinel.data.sources.raw.DataSource
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
+import java.util.Date
 
 class SentinelActivity : FragmentActivity() {
 
@@ -39,7 +40,11 @@ class SentinelActivity : FragmentActivity() {
         data[AppInfo.NAME] = applicationInfo.loadLabel(packageManager).toString()
         with(packageManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS)) {
             data[AppInfo.VERSION_CODE] =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) longVersionCode.toString() else versionCode.toString()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    longVersionCode.toString()
+                } else {
+                    versionCode.toString()
+                }
             data[AppInfo.VERSION_NAME] = versionName
             data[AppInfo.FIRST_INSTALL] =
                 SimpleDateFormat(

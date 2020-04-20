@@ -17,9 +17,9 @@ class MainActivity : AppCompatActivity() {
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
-        sentinel = Sentinel(
+        sentinel = Sentinel.watch(
             this,
-            listOf(ChuckTool(), CollarTool(), DbInspectorTool(), GooglePlayTool())
+            listOf(ChuckerTool(), CollarTool(), DbInspectorTool(), GooglePlayTool())
         )
 
         viewBinding.button.setOnClickListener {

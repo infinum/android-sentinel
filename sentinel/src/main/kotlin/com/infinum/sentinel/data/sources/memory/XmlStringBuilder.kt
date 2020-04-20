@@ -4,7 +4,6 @@ import android.util.Xml
 import com.infinum.sentinel.data.sources.raw.DataSource
 import java.io.StringWriter
 
-
 class XmlStringBuilder : AbstractFormattedStringBuilder() {
 
     companion object {

@@ -67,7 +67,11 @@ internal class SampleQueue {
 
     /** Purges samples with timestamps older than cutoff.  */
     private fun purge(cutoff: Long) {
-        while (sampleCount >= MIN_QUEUE_SIZE && oldest != null && (cutoff - (oldest?.timestamp ?: 0)) > 0) { // Remove sample.
+        while (
+            sampleCount >= MIN_QUEUE_SIZE &&
+            oldest != null &&
+            (cutoff - (oldest?.timestamp ?: 0)) > 0
+        ) { // Remove sample.
             val removed: Sample = oldest as Sample
             if (removed.accelerating) {
                 acceleratingCount--
@@ -81,24 +85,13 @@ internal class SampleQueue {
         }
     }
 
-    /** Copies the samples into a list, with the oldest entry at index 0.  */
-    fun asList(): List<Sample> {
-        val list: MutableList<Sample> = mutableListOf()
-        var sample = oldest
-        while (sample != null) {
-            list.add(sample)
-            sample = sample.next
-        }
-        return list
-    }
-
     /**
      * Returns true if we have enough samples and more than 3/4 of those samples
      * are accelerating.
      */
     val isShaking: Boolean
-        get() = newest != null
-                && oldest != null
-                && ((newest?.timestamp ?: 0) - (oldest?.timestamp ?: 0)) >= MIN_WINDOW_SIZE
-                && acceleratingCount >= (sampleCount shr 1) + (sampleCount shr 2)
+        get() = newest != null &&
+                oldest != null &&
+                ((newest?.timestamp ?: 0) - (oldest?.timestamp ?: 0)) >= MIN_WINDOW_SIZE &&
+                acceleratingCount >= (sampleCount shr 1) + (sampleCount shr 2)
 }

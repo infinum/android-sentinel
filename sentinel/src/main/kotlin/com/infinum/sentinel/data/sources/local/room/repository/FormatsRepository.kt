@@ -1,9 +1,7 @@
 package com.infinum.sentinel.data.sources.local.room.repository
 
 import com.infinum.sentinel.data.models.local.FormatEntity
-import com.infinum.sentinel.data.models.local.TriggerEntity
 import com.infinum.sentinel.data.models.memory.formats.FormatType
-import com.infinum.sentinel.data.models.memory.triggers.TriggerType
 import com.infinum.sentinel.data.sources.local.room.SentinelDatabase
 import com.infinum.sentinel.data.sources.local.room.dao.FormatsDao
 import java.util.concurrent.Executor

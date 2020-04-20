@@ -20,7 +20,7 @@ class BroadcastReceiver(
         }
     }
 
-    val broadcastReceiver = object : AndroidBroadcastReceiver() {
+    val receiver = object : AndroidBroadcastReceiver() {
         override fun onReceive(
             context: Context,
             intent: Intent

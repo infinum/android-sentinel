@@ -27,14 +27,14 @@ class AirplaneModeOnTrigger(
 
     override fun start() {
         context.registerReceiver(
-            broadcastReceiverBuilder.broadcastReceiver,
+            broadcastReceiverBuilder.receiver,
             broadcastReceiverBuilder.filter
         )
         this.active = true
     }
 
     override fun stop() {
-        context.unregisterReceiver(broadcastReceiverBuilder.broadcastReceiver)
+        context.unregisterReceiver(broadcastReceiverBuilder.receiver)
         this.active = false
     }
 

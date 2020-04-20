@@ -5,20 +5,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ShareCompat
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.infinum.sentinel.R
 import com.infinum.sentinel.data.models.memory.formats.FormatType
 import com.infinum.sentinel.data.models.raw.AppInfo
 import com.infinum.sentinel.data.sources.local.room.repository.FormatsRepository
-import com.infinum.sentinel.data.sources.memory.*
+import com.infinum.sentinel.data.sources.memory.FormattedStringBuilder
+import com.infinum.sentinel.data.sources.memory.HtmlStringBuilder
+import com.infinum.sentinel.data.sources.memory.JsonStringBuilder
+import com.infinum.sentinel.data.sources.memory.MarkdownStringBuilder
+import com.infinum.sentinel.data.sources.memory.PlainStringBuilder
+import com.infinum.sentinel.data.sources.memory.XmlStringBuilder
 import com.infinum.sentinel.data.sources.raw.DataSource
 import com.infinum.sentinel.databinding.SentinelFragmentBinding
 import com.infinum.sentinel.extensions.toScissorsDrawable
-import com.infinum.sentinel.ui.children.*
+import com.infinum.sentinel.ui.children.ApplicationFragment
+import com.infinum.sentinel.ui.children.DeviceFragment
+import com.infinum.sentinel.ui.children.PermissionsFragment
+import com.infinum.sentinel.ui.children.SettingsFragment
+import com.infinum.sentinel.ui.children.ToolsFragment
+import com.infinum.sentinel.ui.shared.BaseFragment
 
-class SentinelFragment : BottomSheetDialogFragment() {
+class SentinelFragment : BaseFragment() {
 
     companion object {
         val TAG: String = SentinelFragment::class.java.simpleName
@@ -29,11 +37,6 @@ class SentinelFragment : BottomSheetDialogFragment() {
     private var viewBinding: SentinelFragmentBinding? = null
 
     private var formatter: FormattedStringBuilder? = null
-
-    override fun getTheme(): Int = R.style.Sentinel_Theme_BottomSheet
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): BottomSheetDialog =
-        BottomSheetDialog(requireContext(), theme)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -200,14 +203,11 @@ class SentinelFragment : BottomSheetDialogFragment() {
     }
 
     private fun showShare() =
-        buildText()?.let {
+        formatter?.format()?.let {
             ShareCompat.IntentBuilder.from(requireActivity())
                 .setChooserTitle(R.string.sentinel_name)
                 .setType(SHARE_MIME_TYPE)
                 .setText(it)
                 .startChooser()
         }
-
-    private fun buildText(): String? = formatter?.format()
-
 }

@@ -8,19 +8,53 @@ buildscript {
         maven { url "http://dl.bintray.com/infinum/android" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.3'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72"
-        classpath "com.github.dcendents:android-maven-gradle-plugin:2.0"
-        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5"
+        classpath packages.gradle
+        classpath packages.maven.plugin
+        classpath packages.bintray
+        classpath packages.kotlin.plugin
+        classpath packages.detekt.plugin
+        classpath packages.dokka.plugin
     }
 }
 
 allprojects {
+    tasks.withType(Javadoc).all {
+        enabled = false
+    }
+
     repositories {
         google()
         jcenter()
         maven { url "https://jitpack.io" }
         maven { url "http://dl.bintray.com/infinum/android" }
+    }
+
+    configurations.all {
+        resolutionStrategy {
+            dependencySubstitution {
+                substitute module(packages.sentinel.sentinel) with project(':sentinel')
+                substitute module(packages.sentinel.sentinel_no_op) with project(':sentinel-no-op')
+            }
+        }
+    }
+}
+
+subprojects {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        maven { url "http://dl.bintray.com/infinum/android" }
+    }
+
+    apply plugin: "io.gitlab.arturbosch.detekt"
+
+    detekt {
+        toolVersion = versions.detekt
+    }
+
+    dependencies {
+        detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:${versions.detekt}"
     }
 }
 
@@ -32,8 +66,71 @@ tasks.withType(JavaCompile) {
     options.compilerArgs += ["--release", "8"]
 }
 
-allprojects {
-    tasks.withType(Javadoc).all {
-        enabled = false
+task detektAll(dependsOn: [
+        ':sentinel:detekt',
+        ':sentinel-no-op:detekt'
+]) {
+    group = "Verification"
+    description = "Run detekt on all modules"
+}
+
+task deployAll(dependsOn: [
+        'deploySentinel',
+        'deploySentinelNoOp'
+]) {
+    group = "Deploy"
+    description = "Deploy all modules to Bintray"
+}
+
+task deploySentinel(dependsOn: [
+        ':sentinel:build',
+        ':sentinel:install',
+        ':sentinel:bintrayUpload'
+]) {
+    group = "Deploy"
+    description = "Deploy module to Bintray"
+}
+
+task deploySentinelNoOp(dependsOn: [
+        ':sentinel-no-op:build',
+        ':sentinel-no-op:install',
+        ':sentinel-no-op:bintrayUpload'
+]) {
+    group = "Deploy"
+    description = "Deploy module to Bintray"
+}
+
+apply plugin: "org.jetbrains.dokka"
+
+dokka {
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/docs"
+    subProjects = ["sentinel", "sentinel-no-op"]
+    disableAutoconfiguration = false
+    cacheRoot = 'default'
+    configuration {
+        moduleName = 'data'
+        includeNonPublic = false
+        skipDeprecated = true
+        reportUndocumented = true
+        skipEmptyPackages = true
+        // Specifies the location of the project source code on the Web.
+        // If provided, Dokka generates "source" links for each declaration.
+        // Repeat for multiple mappings
+        sourceLink {
+            // Unix based directory relative path to the root of the project (where you execute gradle respectively).
+            path = "src/main/kotlin" // or simply "./"
+
+            // URL showing where the source code can be accessed through the web browser
+            url = "https://github.com/infinum/android-sentinel/" //remove src/main/kotlin if you use "./" above
+
+            // Suffix which is used to append the line number to the URL. Use #L for GitHub
+            lineSuffix = "#L"
+        }
+        jdkVersion = 8
+        noStdlibLink = false
+        noJdkLink = false
+        noAndroidSdkLink = false
+        androidVariants = ["debug"]
     }
 }

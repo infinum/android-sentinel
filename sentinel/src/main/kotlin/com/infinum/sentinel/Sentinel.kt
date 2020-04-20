@@ -22,19 +22,22 @@ class Sentinel(
     tools: List<Tool>
 ) {
 
+    companion object {
+        private var INSTANCE: Sentinel? = null
+
+        fun watch(context: Context, tools: List<Tool>): Sentinel {
+            if (INSTANCE == null) {
+                INSTANCE = Sentinel(context, tools)
+            }
+            return INSTANCE as Sentinel
+        }
+    }
+
     private val manual = ManualTrigger()
-    private val shake = ShakeTrigger(context) {
-        showNow()
-    }
-    private val foreground = ForegroundTrigger() {
-        showNow()
-    }
-    private val usb = UsbConnectedTrigger(context) {
-        showNow()
-    }
-    private val airplane = AirplaneModeOnTrigger(context) {
-        showNow()
-    }
+    private val foreground = ForegroundTrigger() { showNow() }
+    private val shake = ShakeTrigger(context) { showNow() }
+    private val usb = UsbConnectedTrigger(context) { showNow() }
+    private val airplane = AirplaneModeOnTrigger(context) { showNow() }
 
     init {
 //        val d = SentinelDatabase.create(context)
@@ -113,5 +116,4 @@ class Sentinel(
 
         override fun name(): Int = R.string.sentinel_bluetooth
     }
-
 }
