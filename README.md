@@ -16,6 +16,8 @@ The project is organized in the following modules:
 - `tool-googleplay` - contains a class wrapper for Google Play
 - `sample` - a sample app for testing and developing
 
+[UI](ui.jpg)
+
 ## Usage
 
 To include _Sentinel_ in your project, you have to add buildscript dependencies in your project level `build.gradle` or `build.gradle.kts`:
