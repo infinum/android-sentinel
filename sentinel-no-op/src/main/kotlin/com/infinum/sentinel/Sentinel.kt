@@ -30,29 +30,4 @@ class Sentinel(
 
         fun listener(): View.OnClickListener
     }
-
-    interface NetworkTool : Tool {
-
-        override fun name(): Int = R.string.sentinel_network
-    }
-
-    interface AnalyticsTool : Tool {
-
-        override fun name(): Int = R.string.sentinel_analytics
-    }
-
-    interface DatabaseTool : Tool {
-
-        override fun name(): Int = R.string.sentinel_database
-    }
-
-    interface ReportTool : Tool {
-
-        override fun name(): Int = R.string.sentinel_report
-    }
-
-    interface BluetoothTool : Tool {
-
-        override fun name(): Int = R.string.sentinel_bluetooth
-    }
 }

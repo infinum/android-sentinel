@@ -28,6 +28,7 @@ allprojects {
         maven { url "https://jitpack.io" }
         maven { url "http://dl.bintray.com/infinum/android" }
     }
+
 //    configurations.all {
 //        resolutionStrategy {
 //            dependencySubstitution {

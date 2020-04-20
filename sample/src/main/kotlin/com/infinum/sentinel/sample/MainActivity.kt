@@ -4,10 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.sample.databinding.ActivityMainBinding
-import com.infinum.sentinel.ui.tools.ChuckerTool
-import com.infinum.sentinel.ui.tools.CollarTool
-import com.infinum.sentinel.ui.tools.DbInspectorTool
-import com.infinum.sentinel.ui.tools.GooglePlayTool
+import com.infinum.sentinel.sample.tools.SentinelTools
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,15 +17,7 @@ class MainActivity : AppCompatActivity() {
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
-        sentinel = Sentinel.watch(
-            this,
-            listOf(
-                ChuckerTool(),
-                CollarTool(),
-                DbInspectorTool(),
-                GooglePlayTool()
-            )
-        )
+        sentinel = Sentinel.watch(this, SentinelTools.get())
 
         viewBinding.button.setOnClickListener {
             sentinel?.show()
