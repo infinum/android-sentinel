@@ -50,11 +50,11 @@ dependencies {
     debugImplementation packages.sentinel.sentinel
     releaseImplementation packages.sentinel.sentinel_no_op
 
-    implementation "com.github.ChuckerTeam.Chucker:library:3.2.0"
-    implementation "co.infinum.collar:collar-ui:1.1.4"
-    implementation 'im.dino:dbinspector:4.0.0'
+    debugImplementation packages.sentinel.tool_chucker
+    debugImplementation packages.sentinel.tool_collar
+    debugImplementation packages.sentinel.tool_dbinspector
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }

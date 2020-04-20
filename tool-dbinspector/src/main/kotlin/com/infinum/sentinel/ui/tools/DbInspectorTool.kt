@@ -1,9 +1,7 @@
-package com.infinum.sentinel.sample
+package com.infinum.sentinel.ui.tools
 
 import android.content.Intent
 import android.view.View
-import co.infinum.collar.ui.CollarUi
-import com.chuckerteam.chucker.api.Chucker
 import com.infinum.sentinel.Sentinel
 import im.dino.dbinspector.activities.DbInspectorActivity
 

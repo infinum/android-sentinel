@@ -17,21 +17,27 @@ ext.versions = [
         "design"          : "1.2.0-alpha06",
         "maven"           : "2.0",
         "detekt"          : "1.7.4",
-        "dokka"           : "0.10.1"
+        "dokka"           : "0.10.1",
+        "chucker"         : "3.2.0",
+        "collar"          : "1.1.4",
+        "dbinspector"     : "4.0.0"
 ]
 
 ext.packages = [
-        "gradle"  : "com.android.tools.build:gradle:${versions.gradle}",
-        "kotlin"  : [
+        "gradle"     : "com.android.tools.build:gradle:${versions.gradle}",
+        "kotlin"     : [
                 "plugin": "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
                 "core"  : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin}",
         ],
-        "bintray" : "com.jfrog.bintray.gradle:gradle-bintray-plugin:${versions.bintray}",
-        "sentinel": [
-                "sentinel"      : "com.infinum.sentinel:sentinel:${versions.collar}",
-                "sentinel_no_op": "com.infinum.sentinel:sentinel-no-op:${versions.collar}"
+        "bintray"    : "com.jfrog.bintray.gradle:gradle-bintray-plugin:${versions.bintray}",
+        "sentinel"   : [
+                "sentinel"        : "com.infinum.sentinel:sentinel:${versions.sentinel}",
+                "sentinel_no_op"  : "com.infinum.sentinel:sentinel-no-op:${versions.sentinel}",
+                "tool_chucker"    : "com.infinum.sentinel:tool-chucker:${versions.sentinel}",
+                "tool_collar"     : "com.infinum.sentinel:tool-collar:${versions.sentinel}",
+                "tool_dbinspector": "com.infinum.sentinel:tool-dbinspector:${versions.sentinel}"
         ],
-        "androidx": [
+        "androidx"   : [
                 "core"            : "androidx.core:core-ktx:${versions.core}",
                 "fragment"        : "androidx.fragment:fragment-ktx:${versions.fragment}",
                 "lifecycle"       : [
@@ -43,16 +49,19 @@ ext.packages = [
                         "runtime" : "androidx.room:room-runtime:${versions.room}"
                 ]
         ],
-        "google"  : [
+        "google"     : [
                 "design": "com.google.android.material:material:${versions.design}"
         ],
-        "maven"   : [
+        "maven"      : [
                 "plugin": "com.github.dcendents:android-maven-gradle-plugin:${versions.maven}"
         ],
-        "detekt"  : [
+        "detekt"     : [
                 "plugin": "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${versions.detekt}"
         ],
-        "dokka"   : [
+        "dokka"      : [
                 "plugin": "org.jetbrains.dokka:dokka-gradle-plugin:${versions.dokka}"
-        ]
+        ],
+        "chucker"    : "com.github.ChuckerTeam.Chucker:library:${versions.chucker}",
+        "collar"     : "co.infinum.collar:collar-ui:${versions.collar}",
+        "dbinspector": "im.dino:dbinspector:${versions.dbinspector}"
 ]

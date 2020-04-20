@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.sample.databinding.ActivityMainBinding
+import com.infinum.sentinel.ui.tools.ChuckerTool
+import com.infinum.sentinel.ui.tools.CollarTool
+import com.infinum.sentinel.ui.tools.DbInspectorTool
 import com.infinum.sentinel.ui.tools.GooglePlayTool
 
 class MainActivity : AppCompatActivity() {

@@ -34,6 +34,9 @@ allprojects {
             dependencySubstitution {
                 substitute module(packages.sentinel.sentinel) with project(':sentinel')
                 substitute module(packages.sentinel.sentinel_no_op) with project(':sentinel-no-op')
+                substitute module(packages.sentinel.tool_chucker) with project(':tool-chucker')
+                substitute module(packages.sentinel.tool_collar) with project(':tool-collar')
+                substitute module(packages.sentinel.tool_dbinspector) with project(':tool-dbinspector')
             }
         }
     }
@@ -68,7 +71,10 @@ tasks.withType(JavaCompile) {
 
 task detektAll(dependsOn: [
         ':sentinel:detekt',
-        ':sentinel-no-op:detekt'
+        ':sentinel-no-op:detekt',
+        ':tool-chucker:detekt',
+        ':tool-collar:detekt',
+        ':tool-dbinspector:detekt'
 ]) {
     group = "Verification"
     description = "Run detekt on all modules"
@@ -76,7 +82,10 @@ task detektAll(dependsOn: [
 
 task deployAll(dependsOn: [
         'deploySentinel',
-        'deploySentinelNoOp'
+        'deploySentinelNoOp',
+        'deployToolChucker',
+        'deployToolCollar',
+        'deployToolDbInspector'
 ]) {
     group = "Deploy"
     description = "Deploy all modules to Bintray"
@@ -95,6 +104,33 @@ task deploySentinelNoOp(dependsOn: [
         ':sentinel-no-op:build',
         ':sentinel-no-op:install',
         ':sentinel-no-op:bintrayUpload'
+]) {
+    group = "Deploy"
+    description = "Deploy module to Bintray"
+}
+
+task deployToolChucker(dependsOn: [
+        ':tool-chucker:build',
+        ':tool-chucker:install',
+        ':tool-chucker:bintrayUpload'
+]) {
+    group = "Deploy"
+    description = "Deploy module to Bintray"
+}
+
+task deployToolCollar(dependsOn: [
+        ':tool-collar:build',
+        ':tool-collar:install',
+        ':tool-collar:bintrayUpload'
+]) {
+    group = "Deploy"
+    description = "Deploy module to Bintray"
+}
+
+task deployToolDbInspector(dependsOn: [
+        ':tool-dbinspector:build',
+        ':tool-dbinspector:install',
+        ':tool-dbinspector:bintrayUpload'
 ]) {
     group = "Deploy"
     description = "Deploy module to Bintray"
@@ -122,7 +158,8 @@ dokka {
             path = "src/main/kotlin" // or simply "./"
 
             // URL showing where the source code can be accessed through the web browser
-            url = "https://github.com/infinum/android-sentinel/" //remove src/main/kotlin if you use "./" above
+            url = "https://github.com/infinum/android-sentinel/"
+            //remove src/main/kotlin if you use "./" above
 
             // Suffix which is used to append the line number to the URL. Use #L for GitHub
             lineSuffix = "#L"

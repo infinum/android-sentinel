@@ -1,4 +1,4 @@
-package com.infinum.sentinel.sample
+package com.infinum.sentinel.ui.tools
 
 import android.content.Intent
 import android.view.View
