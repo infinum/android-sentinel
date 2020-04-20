@@ -2,6 +2,8 @@
 
 # Sentinel
 
+![UI](ui.jpg)
+
 _Sentinel_ is a simple one screen UI that provides standardised entry point for tools used in development and QA alongside device, application and permissions data.  
 It is designed to be easily configured and expanded depending on needs and requirements of developers and QA testers.  
 This plugin has been written in Kotlin but works both inside Kotlin and Java projects.
@@ -15,8 +17,6 @@ The project is organized in the following modules:
 - `tool-dbinspector` - contains a class wrapper for DbInspector
 - `tool-googleplay` - contains a class wrapper for Google Play
 - `sample` - a sample app for testing and developing
-
-![UI](ui.jpg)
 
 ## Usage
 
