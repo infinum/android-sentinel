@@ -4,10 +4,9 @@ import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
 import android.view.View
-import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
 
-class GooglePlayTool : Sentinel.Tool {
+class GooglePlayTool : Sentinel.Distribution {
 
     companion object {
         private const val SCHEME_MARKET = "market"
@@ -20,8 +19,6 @@ class GooglePlayTool : Sentinel.Tool {
 
         private const val VENDING_PACKAGE_NAME = "com.android.vending"
     }
-
-    override fun name(): Int = R.string.sentinel_google_play
 
     override fun listener(): View.OnClickListener = View.OnClickListener { view ->
         val intent = Intent(

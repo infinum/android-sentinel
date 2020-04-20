@@ -22,7 +22,12 @@ class MainActivity : AppCompatActivity() {
 
         sentinel = Sentinel.watch(
             this,
-            listOf(ChuckerTool(), CollarTool(), DbInspectorTool(), GooglePlayTool())
+            listOf(
+                ChuckerTool(),
+                CollarTool(),
+                DbInspectorTool(),
+                GooglePlayTool()
+            )
         )
 
         viewBinding.button.setOnClickListener {

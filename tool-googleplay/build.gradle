@@ -40,7 +40,6 @@ android {
 dependencies {
     implementation packages.kotlin.core
     api packages.sentinel.sentinel
-    api packages.chucker
 }
 
 apply from: "bintray.gradle"

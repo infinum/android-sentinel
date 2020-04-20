@@ -28,18 +28,18 @@ allprojects {
         maven { url "https://jitpack.io" }
         maven { url "http://dl.bintray.com/infinum/android" }
     }
-
-    configurations.all {
-        resolutionStrategy {
-            dependencySubstitution {
-                substitute module(packages.sentinel.sentinel) with project(':sentinel')
-                substitute module(packages.sentinel.sentinel_no_op) with project(':sentinel-no-op')
-                substitute module(packages.sentinel.tool_chucker) with project(':tool-chucker')
-                substitute module(packages.sentinel.tool_collar) with project(':tool-collar')
-                substitute module(packages.sentinel.tool_dbinspector) with project(':tool-dbinspector')
-            }
-        }
-    }
+//    configurations.all {
+//        resolutionStrategy {
+//            dependencySubstitution {
+//                substitute module(packages.sentinel.sentinel) with project(':sentinel')
+//                substitute module(packages.sentinel.sentinel_no_op) with project(':sentinel-no-op')
+//                substitute module(packages.sentinel.tool_chucker) with project(':tool-chucker')
+//                substitute module(packages.sentinel.tool_collar) with project(':tool-collar')
+//                substitute module(packages.sentinel.tool_dbinspector) with project(':tool-dbinspector')
+//                substitute module(packages.sentinel.tool_googleplay) with project(':tool-googleplay')
+//            }
+//        }
+//    }
 }
 
 subprojects {
@@ -74,7 +74,8 @@ task detektAll(dependsOn: [
         ':sentinel-no-op:detekt',
         ':tool-chucker:detekt',
         ':tool-collar:detekt',
-        ':tool-dbinspector:detekt'
+        ':tool-dbinspector:detekt',
+        ':tool-googleplay:detekt'
 ]) {
     group = "Verification"
     description = "Run detekt on all modules"
@@ -85,7 +86,8 @@ task deployAll(dependsOn: [
         'deploySentinelNoOp',
         'deployToolChucker',
         'deployToolCollar',
-        'deployToolDbInspector'
+        'deployToolDbInspector',
+        'deployToolGooglePlay'
 ]) {
     group = "Deploy"
     description = "Deploy all modules to Bintray"
@@ -131,6 +133,15 @@ task deployToolDbInspector(dependsOn: [
         ':tool-dbinspector:build',
         ':tool-dbinspector:install',
         ':tool-dbinspector:bintrayUpload'
+]) {
+    group = "Deploy"
+    description = "Deploy module to Bintray"
+}
+
+task deployToolGooglePlay(dependsOn: [
+        ':tool-googleplay:build',
+        ':tool-googleplay:install',
+        ':tool-googleplay:bintrayUpload'
 ]) {
     group = "Deploy"
     description = "Deploy module to Bintray"

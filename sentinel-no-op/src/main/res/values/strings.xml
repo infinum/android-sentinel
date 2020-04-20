@@ -5,5 +5,4 @@
     <string name="sentinel_database">Database</string>
     <string name="sentinel_report">Report</string>
     <string name="sentinel_bluetooth">Bluetooth</string>
-    <string name="sentinel_google_play">Google Play</string>
 </resources>

@@ -35,7 +35,8 @@ ext.packages = [
                 "sentinel_no_op"  : "com.infinum.sentinel:sentinel-no-op:${versions.sentinel}",
                 "tool_chucker"    : "com.infinum.sentinel:tool-chucker:${versions.sentinel}",
                 "tool_collar"     : "com.infinum.sentinel:tool-collar:${versions.sentinel}",
-                "tool_dbinspector": "com.infinum.sentinel:tool-dbinspector:${versions.sentinel}"
+                "tool_dbinspector": "com.infinum.sentinel:tool-dbinspector:${versions.sentinel}",
+                "tool_googleplay" : "com.infinum.sentinel:tool-googleplay:${versions.sentinel}"
         ],
         "androidx"   : [
                 "core"            : "androidx.core:core-ktx:${versions.core}",

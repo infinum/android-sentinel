@@ -116,4 +116,9 @@ class Sentinel(
 
         override fun name(): Int = R.string.sentinel_bluetooth
     }
+
+    interface Distribution : Tool {
+
+        override fun name(): Int = R.string.sentinel_google_play
+    }
 }

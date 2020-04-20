@@ -53,6 +53,7 @@ dependencies {
     debugImplementation packages.sentinel.tool_chucker
     debugImplementation packages.sentinel.tool_collar
     debugImplementation packages.sentinel.tool_dbinspector
+    debugImplementation packages.sentinel.tool_googleplay
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

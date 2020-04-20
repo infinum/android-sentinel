@@ -15,6 +15,7 @@
     <string name="sentinel_report">Report</string>
     <string name="sentinel_bluetooth">Bluetooth</string>
     <string name="sentinel_google_play">Google Play</string>
+
     <string name="sentinel_triggers">Triggers</string>
     <string name="sentinel_plain">Plain</string>
     <string name="sentinel_json">JSON</string>
