@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,91 +7,75 @@
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
     tools:context=".ui.SentinelActivity">
 
-    <FrameLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/contentLayout"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/sentinel_icon_half_size"
-        android:paddingTop="@dimen/sentinel_icon_half_size"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:paddingTop="@dimen/sentinel_icon_half_size">
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:paddingEnd="8dp"
+                android:paddingRight="8dp"
+                app:menu="@menu/sentinel_menu"
+                app:navigationIcon="@drawable/sentinel_ic_close"
+                tools:ignore="RtlSymmetry" />
 
-                <com.google.android.material.appbar.MaterialToolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingEnd="8dp"
-                    android:paddingRight="8dp"
-                    app:menu="@menu/sentinel_menu"
-                    app:navigationIcon="@drawable/sentinel_ic_close"
-                    tools:ignore="RtlSymmetry" />
-
-                <androidx.fragment.app.FragmentContainerView
-                    android:id="@+id/fragmentContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="320dp" />
-
-            </LinearLayout>
-
-            <com.google.android.material.bottomappbar.BottomAppBar
-                android:id="@+id/bottomAppBar"
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                app:buttonGravity="center_vertical"
-                app:fabAlignmentMode="end"
-                app:menu="@menu/sentinel_bottom_navigation"
-                app:navigationIcon="@drawable/sentinel_ic_settings" />
+                android:layout_height="320dp" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/sentinel_ic_tools"
-                app:layout_anchor="@id/bottomAppBar" />
+        </LinearLayout>
 
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottomAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:buttonGravity="center_vertical"
+            app:fabAlignmentMode="end"
+            app:menu="@menu/sentinel_bottom_navigation"
+            app:navigationIcon="@drawable/sentinel_ic_settings" />
 
-    </FrameLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/sentinel_ic_tools"
+            app:layout_anchor="@id/bottomAppBar" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <ImageView
         android:id="@+id/applicationIconView"
         android:layout_width="@dimen/sentinel_icon_size"
         android:layout_height="@dimen/sentinel_icon_size"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="center_horizontal|top"
         android:elevation="2dp"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="UnusedAttribute" />
 
     <com.google.android.material.textview.MaterialTextView
         style="@style/TextAppearance.MaterialComponents.Caption"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="start"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:gravity="center_vertical|start"
+        android:gravity="start"
         android:text="@string/sentinel_name"
-        app:layout_constraintVertical_bias="0.25"
         android:textAllCaps="true"
-        android:textColor="@color/sentinel_color_primary"
-        app:layout_constraintBottom_toBottomOf="@id/applicationIconView"
-        app:layout_constraintEnd_toStartOf="@id/applicationIconView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/applicationIconView" />
+        android:textColor="@color/sentinel_color_primary" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

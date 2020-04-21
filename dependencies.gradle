@@ -44,7 +44,6 @@ ext.packages = [
                 "lifecycle"       : [
                         "process": "androidx.lifecycle:lifecycle-process:${versions.lifecycle}",
                 ],
-                "constraintlayout": "androidx.constraintlayout:constraintlayout:${versions.constraintlayout}",
                 "room"            : [
                         "compiler": "androidx.room:room-compiler:${versions.room}",
                         "runtime" : "androidx.room:room-runtime:${versions.room}"

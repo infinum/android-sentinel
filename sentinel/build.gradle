@@ -54,12 +54,11 @@ dependencies {
     implementation packages.androidx.core
     implementation packages.androidx.fragment
     implementation packages.androidx.lifecycle.process
-    implementation packages.androidx.constraintlayout
     implementation packages.google.design
     implementation packages.androidx.room.runtime
     kapt packages.androidx.room.compiler
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
