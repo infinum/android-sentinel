@@ -27,7 +27,7 @@ To include _Sentinel_ in your project, you have to add buildscript dependencies 
 buildscript {
     repositories {
         jcenter()
-        maven { url "http://dl.bintray.com/infinum/android" }
+        maven { url "https://dl.bintray.com/infinum/android" }
     }
 }
 ```
@@ -36,7 +36,7 @@ buildscript {
 buildscript {
     repositories {
         jcenter()
-        maven(url = "http://dl.bintray.com/infinum/android")
+        maven(url = "https://dl.bintray.com/infinum/android")
     }
 }
 ```

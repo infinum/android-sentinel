@@ -1,6 +1,7 @@
 ext.sentinel = [
         "group"  : "com.infinum.sentinel",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "versionCode": 1*100*100 + 0*100 + 0
 ]
 
 ext.versions = [

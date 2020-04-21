@@ -5,13 +5,13 @@ android {
     // TODO replace with https://issuetracker.google.com/issues/72050365 once released.
     packageBuildConfig false
 
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion buildConfig.compileSdk
+    buildToolsVersion buildConfig.buildTools
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 29
-        versionCode 1
+        minSdkVersion buildConfig.minSdk
+        targetSdkVersion buildConfig.targetSdk
+        versionCode sentinel.versionCode
         versionName sentinel.version
 
         consumerProguardFiles 'consumer-rules.pro'

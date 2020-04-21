@@ -1,5 +1,13 @@
 buildscript {
 
+    ext.buildConfig = [
+            "minSdk"    : 16,
+            "compileSdk": 29,
+            "targetSdk" : 29,
+
+            "buildTools": "29.0.3"
+    ]
+
     apply from: "dependencies.gradle"
 
     repositories {
