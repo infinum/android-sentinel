@@ -10,12 +10,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        versionName sentinel.version
     }
-
-
 
     signingConfigs {
         dummy {
@@ -47,7 +43,7 @@ android {
 
 dependencies {
     implementation packages.kotlin.core
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation packages.androidx.appcompat
 
     debugImplementation packages.sentinel.sentinel
     releaseImplementation packages.sentinel.sentinel_no_op
@@ -56,8 +52,4 @@ dependencies {
     debugImplementation packages.sentinel.tool_collar
     debugImplementation packages.sentinel.tool_dbinspector
     debugImplementation packages.sentinel.tool_googleplay
-
-    testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }

@@ -13,13 +13,9 @@ task sourcesJar(type: Jar, dependsOn: assemble) {
     from android.sourceSets.main.kotlin.srcDirs
 }
 
-task javadocs(type: Javadoc) {
-    source = android.sourceSets.main.kotlin.srcDirs
-}
-
-task javadocsJar(type: Jar, dependsOn: javadocs) {
+task javadocsJar(type: Jar, dependsOn: rootProject.dokka) {
     archiveClassifier.set('javadoc')
-    from javadocs.destinationDir
+    from rootProject.dokka.outputDirectory
 }
 
 publishing {

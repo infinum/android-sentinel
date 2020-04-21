@@ -18,9 +18,6 @@ buildscript {
 }
 
 allprojects {
-    tasks.withType(Javadoc).all {
-        enabled = false
-    }
 
     repositories {
         google()
@@ -29,18 +26,18 @@ allprojects {
         maven { url "https://dl.bintray.com/infinum/android" }
     }
 
-    configurations.all {
-        resolutionStrategy {
-            dependencySubstitution {
-                substitute module(packages.sentinel.sentinel) with project(':sentinel')
-                substitute module(packages.sentinel.sentinel_no_op) with project(':sentinel-no-op')
-                substitute module(packages.sentinel.tool_chucker) with project(':tool-chucker')
-                substitute module(packages.sentinel.tool_collar) with project(':tool-collar')
-                substitute module(packages.sentinel.tool_dbinspector) with project(':tool-dbinspector')
-                substitute module(packages.sentinel.tool_googleplay) with project(':tool-googleplay')
-            }
-        }
-    }
+//    configurations.all {
+//        resolutionStrategy {
+//            dependencySubstitution {
+//                substitute module(packages.sentinel.sentinel) with project(':sentinel')
+//                substitute module(packages.sentinel.sentinel_no_op) with project(':sentinel-no-op')
+//                substitute module(packages.sentinel.tool_chucker) with project(':tool-chucker')
+//                substitute module(packages.sentinel.tool_collar) with project(':tool-collar')
+//                substitute module(packages.sentinel.tool_dbinspector) with project(':tool-dbinspector')
+//                substitute module(packages.sentinel.tool_googleplay) with project(':tool-googleplay')
+//            }
+//        }
+//    }
 }
 
 subprojects {
@@ -48,26 +45,18 @@ subprojects {
         google()
         jcenter()
         mavenCentral()
-        maven { url "http://dl.bintray.com/infinum/android" }
+        maven { url "https://dl.bintray.com/infinum/android" }
     }
 
-    apply plugin: "io.gitlab.arturbosch.detekt"
-
-    detekt {
-        toolVersion = versions.detekt
-    }
-
-    dependencies {
-        detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:${versions.detekt}"
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
+    apply from: "../detekt.gradle"
 }
 
 tasks.withType(JavaCompile) {
     options.compilerArgs += ["--release", "8"]
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }
 
 task detektAll(dependsOn: [
@@ -82,104 +71,6 @@ task detektAll(dependsOn: [
     description = "Run detekt on all modules"
 }
 
-task deployAll(dependsOn: [
-        'deploySentinel',
-        'deploySentinelNoOp',
-        'deployToolChucker',
-        'deployToolCollar',
-        'deployToolDbInspector',
-        'deployToolGooglePlay'
-]) {
-    group = "Deploy"
-    description = "Deploy all modules to Bintray"
-}
+apply from: "deploy.gradle"
 
-task deploySentinel(dependsOn: [
-        ':sentinel:build',
-        ':sentinel:install',
-        ':sentinel:bintrayUpload'
-]) {
-    group = "Deploy"
-    description = "Deploy module to Bintray"
-}
-
-task deploySentinelNoOp(dependsOn: [
-        ':sentinel-no-op:build',
-        ':sentinel-no-op:install',
-        ':sentinel-no-op:bintrayUpload'
-]) {
-    group = "Deploy"
-    description = "Deploy module to Bintray"
-}
-
-task deployToolChucker(dependsOn: [
-        ':tool-chucker:build',
-        ':tool-chucker:install',
-        ':tool-chucker:bintrayUpload'
-]) {
-    group = "Deploy"
-    description = "Deploy module to Bintray"
-}
-
-task deployToolCollar(dependsOn: [
-        ':tool-collar:build',
-        ':tool-collar:install',
-        ':tool-collar:bintrayUpload'
-]) {
-    group = "Deploy"
-    description = "Deploy module to Bintray"
-}
-
-task deployToolDbInspector(dependsOn: [
-        ':tool-dbinspector:build',
-        ':tool-dbinspector:install',
-        ':tool-dbinspector:bintrayUpload'
-]) {
-    group = "Deploy"
-    description = "Deploy module to Bintray"
-}
-
-task deployToolGooglePlay(dependsOn: [
-        ':tool-googleplay:build',
-        ':tool-googleplay:install',
-        ':tool-googleplay:bintrayUpload'
-]) {
-    group = "Deploy"
-    description = "Deploy module to Bintray"
-}
-
-apply plugin: "org.jetbrains.dokka"
-
-dokka {
-    outputFormat = 'html'
-    outputDirectory = "$buildDir/docs"
-    subProjects = ["sentinel", "sentinel-no-op"]
-    disableAutoconfiguration = false
-    cacheRoot = 'default'
-    configuration {
-        moduleName = 'data'
-        includeNonPublic = false
-        skipDeprecated = true
-        reportUndocumented = true
-        skipEmptyPackages = true
-        // Specifies the location of the project source code on the Web.
-        // If provided, Dokka generates "source" links for each declaration.
-        // Repeat for multiple mappings
-        sourceLink {
-            // Unix based directory relative path to the root of the project (where you execute gradle respectively).
-            path = "src/main/kotlin" // or simply "./"
-
-            // URL showing where the source code can be accessed through the web browser
-            url = "https://github.com/infinum/android-sentinel/"
-            //remove src/main/kotlin if you use "./" above
-
-            // Suffix which is used to append the line number to the URL. Use #L for GitHub
-            lineSuffix = "#L"
-        }
-        jdkVersion = 8
-        noStdlibLink = false
-        noJdkLink = false
-        noAndroidSdkLink = false
-        androidVariants = ["debug"]
-    }
-}
+apply from: "dokka.gradle"
