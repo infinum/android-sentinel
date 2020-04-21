@@ -3,7 +3,7 @@ apply plugin: "org.jetbrains.dokka"
 dokka {
     outputFormat = 'html'
     outputDirectory = "$buildDir/javadoc"
-    subProjects = ["sentinel", "sentinel-no-op", "test-chucker",  "test-collar",  "test-dbinspector",  "test-googleplay"]
+    subProjects = ["sentinel", "sentinel-no-op", "tool-chucker", "tool-collar", "tool-dbinspector", "tool-googleplay"]
     disableAutoconfiguration = false
     cacheRoot = 'default'
     configuration {

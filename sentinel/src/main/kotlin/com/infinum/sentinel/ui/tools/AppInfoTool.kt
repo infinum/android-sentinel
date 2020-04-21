@@ -7,6 +7,9 @@ import android.view.View
 import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
 
+/**
+ * Specific wrapper tool around Android OS Settings page for the application which implemented Sentinel.
+ */
 class AppInfoTool : Sentinel.Tool {
 
     companion object {

@@ -6,6 +6,12 @@ import android.net.Uri
 import android.view.View
 import com.infinum.sentinel.Sentinel
 
+/**
+ * Specific wrapper tool around Google Play.
+ *
+ * Tool Activity will launch with FLAG_ACTIVITY_RESET_TASK_IF_NEEDED, FLAG_ACTIVITY_CLEAR_TOP and FLAG_ACTIVITY_NEW_TASK flags.
+ * If no appropriate application is found, this tool will open a website on play.google.com.
+ */
 class GooglePlayTool : Sentinel.DistributionTool {
 
     companion object {

@@ -5,6 +5,11 @@ import android.view.View
 import com.chuckerteam.chucker.api.Chucker
 import com.infinum.sentinel.Sentinel
 
+/**
+ * Specific wrapper tool around Chucker.
+ *
+ * Tool Activity will launch with FLAG_ACTIVITY_SINGLE_TOP and FLAG_ACTIVITY_NEW_TASK flags.
+ */
 class ChuckerTool : Sentinel.NetworkTool {
 
     override fun listener(): View.OnClickListener = View.OnClickListener {
