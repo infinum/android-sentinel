@@ -57,6 +57,7 @@ dependencies {
     implementation packages.google.design
     implementation packages.androidx.room.runtime
     kapt packages.androidx.room.compiler
+    implementation "androidx.preference:preference-ktx:1.1.1"
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

@@ -23,6 +23,7 @@ import com.infinum.sentinel.extensions.toScissorsDrawable
 import com.infinum.sentinel.ui.children.ApplicationFragment
 import com.infinum.sentinel.ui.children.DeviceFragment
 import com.infinum.sentinel.ui.children.PermissionsFragment
+import com.infinum.sentinel.ui.children.PreferencesFragment
 import com.infinum.sentinel.ui.children.SettingsFragment
 import com.infinum.sentinel.ui.children.ToolsFragment
 import com.infinum.sentinel.ui.shared.BaseFragment
@@ -79,6 +80,7 @@ internal class SentinelFragment : BaseFragment() {
                     R.id.device -> showDevice()
                     R.id.application -> showApplication()
                     R.id.permissions -> showPermissions()
+                    R.id.preferences -> showPreferences()
                 }
                 true
             }
@@ -102,11 +104,6 @@ internal class SentinelFragment : BaseFragment() {
     override fun onDestroy() =
         super.onDestroy().run {
             viewBinding = null
-        }
-
-    override fun onDetach() =
-        super.onDetach().run {
-            requireActivity().finish()
         }
 
     private fun showSettings() {
@@ -180,6 +177,25 @@ internal class SentinelFragment : BaseFragment() {
                             PermissionsFragment.TAG
                         )
                         this.addToBackStack(PermissionsFragment.TAG)
+                    }
+                }.commit()
+        }
+    }
+
+    private fun showPreferences() {
+        viewBinding?.let { binding ->
+            binding.toolbar.subtitle = getString(R.string.sentinel_preferences)
+            childFragmentManager.beginTransaction()
+                .apply {
+                    childFragmentManager.findFragmentByTag(PreferencesFragment.TAG)?.let {
+                        this.replace(binding.fragmentContainer.id, it)
+                    } ?: run {
+                        this.replace(
+                            binding.fragmentContainer.id,
+                            PreferencesFragment.newInstance(),
+                            PreferencesFragment.TAG
+                        )
+                        this.addToBackStack(PreferencesFragment.TAG)
                     }
                 }.commit()
         }

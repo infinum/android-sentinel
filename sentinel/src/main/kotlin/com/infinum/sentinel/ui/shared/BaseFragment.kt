@@ -13,4 +13,9 @@ internal abstract class BaseFragment : BottomSheetDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): BottomSheetDialog =
         BottomSheetDialog(requireContext(), theme)
+
+    override fun onDetach() =
+        super.onDetach().run {
+            requireActivity().finish()
+        }
 }

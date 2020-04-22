@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="sentinel_name" translatable="false">Sentinel</string>
+    <string name="sentinel_preferences">Preferences</string>
     <string name="sentinel_application">Application</string>
     <string name="sentinel_device">Device</string>
     <string name="sentinel_tools">Tools</string>

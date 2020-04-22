@@ -34,18 +34,18 @@ allprojects {
         maven { url "https://dl.bintray.com/infinum/android" }
     }
 
-//    configurations.all {
-//        resolutionStrategy {
-//            dependencySubstitution {
-//                substitute module(packages.sentinel.sentinel) with project(':sentinel')
-//                substitute module(packages.sentinel.sentinel_no_op) with project(':sentinel-no-op')
-//                substitute module(packages.sentinel.tool_chucker) with project(':tool-chucker')
-//                substitute module(packages.sentinel.tool_collar) with project(':tool-collar')
-//                substitute module(packages.sentinel.tool_dbinspector) with project(':tool-dbinspector')
-//                substitute module(packages.sentinel.tool_googleplay) with project(':tool-googleplay')
-//            }
-//        }
-//    }
+    configurations.all {
+        resolutionStrategy {
+            dependencySubstitution {
+                substitute module(packages.sentinel.sentinel) with project(':sentinel')
+                substitute module(packages.sentinel.sentinel_no_op) with project(':sentinel-no-op')
+                substitute module(packages.sentinel.tool_chucker) with project(':tool-chucker')
+                substitute module(packages.sentinel.tool_collar) with project(':tool-collar')
+                substitute module(packages.sentinel.tool_dbinspector) with project(':tool-dbinspector')
+                substitute module(packages.sentinel.tool_googleplay) with project(':tool-googleplay')
+            }
+        }
+    }
 }
 
 subprojects {
