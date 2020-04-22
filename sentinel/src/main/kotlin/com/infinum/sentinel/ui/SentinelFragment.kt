@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RestrictTo
 import androidx.core.app.ShareCompat
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.infinum.sentinel.R
@@ -26,6 +27,7 @@ import com.infinum.sentinel.ui.children.SettingsFragment
 import com.infinum.sentinel.ui.children.ToolsFragment
 import com.infinum.sentinel.ui.shared.BaseFragment
 
+@RestrictTo(RestrictTo.Scope.LIBRARY)
 class SentinelFragment : BaseFragment() {
 
     companion object {

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import androidx.annotation.RestrictTo
 import androidx.core.os.ConfigurationCompat
 import androidx.fragment.app.FragmentActivity
 import com.infinum.sentinel.data.models.raw.AppInfo
@@ -12,6 +13,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.Date
 
+@RestrictTo(RestrictTo.Scope.LIBRARY)
 class SentinelActivity : FragmentActivity() {
 
     companion object {
