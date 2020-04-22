@@ -2,7 +2,7 @@ package com.infinum.sentinel.data.sources.memory
 
 import com.infinum.sentinel.data.sources.raw.DataSource
 
-class PlainStringBuilder : AbstractFormattedStringBuilder() {
+internal class PlainStringBuilder : AbstractFormattedStringBuilder() {
 
     companion object {
         private const val SEPARATOR = "-"

@@ -2,7 +2,7 @@ package com.infinum.sentinel.data.models.memory.triggers.shared.receiver
 
 import android.content.IntentFilter
 
-class Builder internal constructor() {
+internal class Builder internal constructor() {
 
     private val filter = IntentFilter()
     private val instructions = mutableListOf<Instructions>()

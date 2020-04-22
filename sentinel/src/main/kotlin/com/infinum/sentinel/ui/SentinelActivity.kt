@@ -14,7 +14,7 @@ import java.util.Locale
 import java.util.Date
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-class SentinelActivity : FragmentActivity() {
+internal class SentinelActivity : FragmentActivity() {
 
     companion object {
         private const val FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss"

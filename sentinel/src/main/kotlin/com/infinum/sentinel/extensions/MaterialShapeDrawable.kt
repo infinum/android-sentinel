@@ -9,7 +9,7 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.infinum.sentinel.ui.edgetreatment.ScissorsEdgeTreatment
 
-fun MaterialShapeDrawable.toScissorsDrawable(
+internal fun MaterialShapeDrawable.toScissorsDrawable(
     context: Context,
     @ColorRes color: Int,
     count: Int = 1,

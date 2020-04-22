@@ -15,7 +15,7 @@ import com.infinum.sentinel.data.models.memory.triggers.shake.samples.SampleQueu
  * 1/2*g*t^2*3/4).
  *
  */
-class ShakeTrigger(
+internal class ShakeTrigger(
     private val context: Context,
     private val trigger: () -> Unit
 ) : AbstractTrigger(), SensorEventListener {

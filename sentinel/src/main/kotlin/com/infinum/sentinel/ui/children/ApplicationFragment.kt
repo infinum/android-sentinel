@@ -4,13 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RestrictTo
 import androidx.fragment.app.Fragment
 import com.infinum.sentinel.data.models.raw.AppInfo
 import com.infinum.sentinel.data.sources.raw.DataSource
 import com.infinum.sentinel.databinding.SentinelFragmentChildBinding
 import com.infinum.sentinel.databinding.SentinelItemInfoBinding
 
-class ApplicationFragment : Fragment() {
+@RestrictTo(RestrictTo.Scope.LIBRARY)
+internal class ApplicationFragment : Fragment() {
 
     companion object {
         fun newInstance() = ApplicationFragment()

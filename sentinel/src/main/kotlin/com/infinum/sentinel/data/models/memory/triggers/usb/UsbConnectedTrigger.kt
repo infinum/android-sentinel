@@ -5,7 +5,7 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import com.infinum.sentinel.data.models.memory.triggers.AbstractTrigger
 import com.infinum.sentinel.data.models.memory.triggers.shared.receiver.BroadcastReceiver
 
-class UsbConnectedTrigger(
+internal class UsbConnectedTrigger(
     private val context: Context,
     private val trigger: () -> Unit
 ) : AbstractTrigger() {

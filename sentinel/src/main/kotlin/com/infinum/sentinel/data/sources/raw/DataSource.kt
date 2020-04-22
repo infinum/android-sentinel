@@ -8,7 +8,7 @@ import com.infinum.sentinel.data.models.raw.AppInfo
 import com.infinum.sentinel.data.models.raw.DeviceInfo
 
 @SuppressLint("DefaultLocale")
-object DataSource {
+internal object DataSource {
 
     lateinit var applicationIcon: Drawable
 

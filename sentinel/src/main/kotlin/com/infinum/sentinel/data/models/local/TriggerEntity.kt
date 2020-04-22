@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.infinum.sentinel.data.models.memory.triggers.TriggerType
 
 @Entity(tableName = "triggers")
-data class TriggerEntity(
+internal data class TriggerEntity(
 
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")

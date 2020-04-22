@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RestrictTo
 import androidx.fragment.app.Fragment
 import com.infinum.sentinel.R
 import com.infinum.sentinel.data.models.local.FormatEntity
@@ -13,7 +14,8 @@ import com.infinum.sentinel.data.sources.local.room.repository.TriggersRepositor
 import com.infinum.sentinel.databinding.SentinelFragmentChildSettingsBinding
 import com.infinum.sentinel.databinding.SentinelItemTriggerBinding
 
-class SettingsFragment : Fragment() {
+@RestrictTo(RestrictTo.Scope.LIBRARY)
+internal class SettingsFragment : Fragment() {
 
     companion object {
         fun newInstance() = SettingsFragment()

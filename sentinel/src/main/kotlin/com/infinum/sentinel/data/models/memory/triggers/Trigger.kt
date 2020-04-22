@@ -1,6 +1,6 @@
 package com.infinum.sentinel.data.models.memory.triggers
 
-interface Trigger {
+internal interface Trigger {
 
     fun start()
 

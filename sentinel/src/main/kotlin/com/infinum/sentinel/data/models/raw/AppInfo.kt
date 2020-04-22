@@ -1,6 +1,6 @@
 package com.infinum.sentinel.data.models.raw
 
-enum class AppInfo {
+internal enum class AppInfo {
     NAME,
     VERSION_CODE,
     VERSION_NAME,

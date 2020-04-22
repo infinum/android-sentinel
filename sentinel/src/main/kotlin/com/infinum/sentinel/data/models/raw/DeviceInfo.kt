@@ -1,6 +1,6 @@
 package com.infinum.sentinel.data.models.raw
 
-enum class DeviceInfo {
+internal enum class DeviceInfo {
     MANUFACTURER,
     MODEL,
     ID,

@@ -7,7 +7,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.infinum.sentinel.R
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-abstract class BaseFragment : BottomSheetDialogFragment() {
+internal abstract class BaseFragment : BottomSheetDialogFragment() {
 
     override fun getTheme(): Int = R.style.Sentinel_Theme_BottomSheet
 

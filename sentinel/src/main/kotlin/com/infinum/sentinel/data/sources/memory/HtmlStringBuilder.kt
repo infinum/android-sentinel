@@ -2,7 +2,7 @@ package com.infinum.sentinel.data.sources.memory
 
 import com.infinum.sentinel.data.sources.raw.DataSource
 
-class HtmlStringBuilder : AbstractFormattedStringBuilder() {
+internal class HtmlStringBuilder : AbstractFormattedStringBuilder() {
 
     companion object {
         private const val HTML_START = "<html>"

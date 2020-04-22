@@ -4,7 +4,7 @@ import android.content.Intent
 
 typealias Execution = (Intent) -> Unit
 
-sealed class Instructions {
+internal sealed class Instructions {
 
     abstract fun matches(intent: Intent): Boolean
 

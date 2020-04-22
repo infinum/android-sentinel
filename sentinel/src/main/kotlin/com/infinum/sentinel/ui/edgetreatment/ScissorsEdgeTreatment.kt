@@ -11,7 +11,7 @@ import com.google.android.material.shape.ShapePath
  * @property height Height of each triangle. Value needs to be provided in pixels
  * @property centerOrigin Determines if the array of triangles starts at base or at height. Can be true or false.
  */
-class ScissorsEdgeTreatment(
+internal class ScissorsEdgeTreatment(
     private val count: Int,
     @Px var height: Float,
     private val centerOrigin: Boolean

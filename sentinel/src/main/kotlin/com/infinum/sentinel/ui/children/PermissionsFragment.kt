@@ -4,13 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RestrictTo
 import androidx.fragment.app.Fragment
 import com.infinum.sentinel.R
 import com.infinum.sentinel.data.sources.raw.DataSource
 import com.infinum.sentinel.databinding.SentinelFragmentChildBinding
 import com.infinum.sentinel.databinding.SentinelItemPermissionBinding
 
-class PermissionsFragment : Fragment() {
+@RestrictTo(RestrictTo.Scope.LIBRARY)
+internal class PermissionsFragment : Fragment() {
 
     companion object {
         fun newInstance() = PermissionsFragment()

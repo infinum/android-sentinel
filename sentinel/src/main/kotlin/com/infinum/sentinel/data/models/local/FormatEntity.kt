@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.infinum.sentinel.data.models.memory.formats.FormatType
 
 @Entity(tableName = "formats")
-data class FormatEntity(
+internal data class FormatEntity(
 
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")

@@ -2,7 +2,7 @@ package com.infinum.sentinel.data.sources.memory
 
 import com.infinum.sentinel.data.sources.raw.DataSource
 
-class MarkdownStringBuilder : AbstractFormattedStringBuilder() {
+internal class MarkdownStringBuilder : AbstractFormattedStringBuilder() {
 
     companion object {
         private const val HEADER = "# "

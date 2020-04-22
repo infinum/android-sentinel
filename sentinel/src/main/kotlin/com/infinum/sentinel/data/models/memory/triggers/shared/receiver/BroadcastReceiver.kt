@@ -5,7 +5,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.BroadcastReceiver as AndroidBroadcastReceiver
 
-class BroadcastReceiver(
+internal class BroadcastReceiver(
     builder: Builder.() -> Unit
 ) {
     private val instructions: List<Instructions>

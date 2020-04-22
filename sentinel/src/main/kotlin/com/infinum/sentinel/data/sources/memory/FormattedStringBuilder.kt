@@ -1,6 +1,6 @@
 package com.infinum.sentinel.data.sources.memory
 
-interface FormattedStringBuilder {
+internal interface FormattedStringBuilder {
 
     fun format(): String
 }

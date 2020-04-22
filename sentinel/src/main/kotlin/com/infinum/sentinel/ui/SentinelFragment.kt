@@ -28,7 +28,7 @@ import com.infinum.sentinel.ui.children.ToolsFragment
 import com.infinum.sentinel.ui.shared.BaseFragment
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-class SentinelFragment : BaseFragment() {
+internal class SentinelFragment : BaseFragment() {
 
     companion object {
         val TAG: String = SentinelFragment::class.java.simpleName

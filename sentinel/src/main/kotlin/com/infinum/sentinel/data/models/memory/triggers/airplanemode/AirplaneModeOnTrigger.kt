@@ -6,7 +6,7 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import com.infinum.sentinel.data.models.memory.triggers.AbstractTrigger
 import com.infinum.sentinel.data.models.memory.triggers.shared.receiver.BroadcastReceiver
 
-class AirplaneModeOnTrigger(
+internal class AirplaneModeOnTrigger(
     private val context: Context,
     private val trigger: () -> Unit
 ) : AbstractTrigger() {

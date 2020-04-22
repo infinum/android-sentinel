@@ -4,7 +4,7 @@ import com.infinum.sentinel.data.sources.raw.DataSource
 import org.json.JSONArray
 import org.json.JSONObject
 
-class JsonStringBuilder : AbstractFormattedStringBuilder() {
+internal class JsonStringBuilder : AbstractFormattedStringBuilder() {
 
     override fun format(): String =
         JSONObject()

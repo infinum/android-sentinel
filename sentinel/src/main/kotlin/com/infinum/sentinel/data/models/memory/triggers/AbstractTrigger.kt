@@ -4,7 +4,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 
-abstract class AbstractTrigger : LifecycleObserver, Trigger {
+internal abstract class AbstractTrigger : LifecycleObserver, Trigger {
 
     internal var active: Boolean = false
 
