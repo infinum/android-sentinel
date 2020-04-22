@@ -17,7 +17,7 @@ import com.infinum.sentinel.data.sources.raw.DataSource
 import com.infinum.sentinel.ui.SentinelActivity
 import com.infinum.sentinel.ui.tools.AppInfoTool
 
-class Sentinel(
+class Sentinel private constructor(
     private val context: Context,
     tools: List<Tool>
 ) {
@@ -86,39 +86,79 @@ class Sentinel(
 
     interface Tool {
 
+        /**
+         * A dedicated name for this tool
+         *
+         * @return a String resource that will be used to generate a name for a Button in Tools UI
+         */
         @StringRes
         fun name(): Int
 
+        /**
+         * A callback to be invoked when this view is clicked.
+         *
+         * @return an assigned OnClickListener that will be used to generate a Button in Tools UI
+         */
         fun listener(): View.OnClickListener
     }
 
     interface NetworkTool : Tool {
 
+        /**
+         * A dedicated name for this tool
+         *
+         * @return a String resource that will be used to generate a name for a Button in Tools UI
+         */
         override fun name(): Int = R.string.sentinel_network
     }
 
     interface AnalyticsTool : Tool {
 
+        /**
+         * A dedicated name for this tool
+         *
+         * @return a String resource that will be used to generate a name for a Button in Tools UI
+         */
         override fun name(): Int = R.string.sentinel_analytics
     }
 
     interface DatabaseTool : Tool {
 
+        /**
+         * A dedicated name for this tool
+         *
+         * @return a String resource that will be used to generate a name for a Button in Tools UI
+         */
         override fun name(): Int = R.string.sentinel_database
     }
 
     interface ReportTool : Tool {
 
+        /**
+         * A dedicated name for this tool
+         *
+         * @return a String resource that will be used to generate a name for a Button in Tools UI
+         */
         override fun name(): Int = R.string.sentinel_report
     }
 
     interface BluetoothTool : Tool {
 
+        /**
+         * A dedicated name for this tool
+         *
+         * @return a String resource that will be used to generate a name for a Button in Tools UI
+         */
         override fun name(): Int = R.string.sentinel_bluetooth
     }
 
     interface DistributionTool : Tool {
 
+        /**
+         * A dedicated name for this tool
+         *
+         * @return a String resource that will be used to generate a name for a Button in Tools UI
+         */
         override fun name(): Int = R.string.sentinel_google_play
     }
 }

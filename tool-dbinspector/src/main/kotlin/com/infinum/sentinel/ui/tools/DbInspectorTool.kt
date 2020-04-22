@@ -11,6 +11,11 @@ import im.dino.dbinspector.activities.DbInspectorActivity
  */
 class DbInspectorTool : Sentinel.DatabaseTool {
 
+    /**
+     * A callback to be invoked when this view is clicked.
+     *
+     * @return an assigned OnClickListener that will be used to generate a Button in Tools UI
+     */
     override fun listener(): View.OnClickListener = View.OnClickListener {
         it.context.startActivity(
             Intent(it.context, DbInspectorActivity::class.java)

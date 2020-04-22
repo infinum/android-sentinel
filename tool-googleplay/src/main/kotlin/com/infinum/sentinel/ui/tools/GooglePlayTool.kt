@@ -26,6 +26,11 @@ class GooglePlayTool : Sentinel.DistributionTool {
         private const val VENDING_PACKAGE_NAME = "com.android.vending"
     }
 
+    /**
+     * A callback to be invoked when this view is clicked.
+     *
+     * @return an assigned OnClickListener that will be used to generate a Button in Tools UI
+     */
     override fun listener(): View.OnClickListener = View.OnClickListener { view ->
         val intent = Intent(
             Intent.ACTION_VIEW,

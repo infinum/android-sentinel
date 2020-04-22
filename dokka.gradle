@@ -31,5 +31,18 @@ dokka {
         noJdkLink = false
         noAndroidSdkLink = false
         androidVariants = ["debug"]
+
+        perPackageOption {
+            prefix = "com.infinum.sentinel.extensions"
+            suppress = true
+        }
+        perPackageOption {
+            prefix = "com.infinum.sentinel.ui.edgetreatment"
+            suppress = true
+        }
+        perPackageOption {
+            prefix = "com.infinum.sentinel.ui.shared"
+            suppress = true
+        }
     }
 }

@@ -12,6 +12,11 @@ import com.infinum.sentinel.Sentinel
  */
 class CollarTool : Sentinel.AnalyticsTool {
 
+    /**
+     * A callback to be invoked when this view is clicked.
+     *
+     * @return an assigned OnClickListener that will be used to generate a Button in Tools UI
+     */
     override fun listener(): View.OnClickListener = View.OnClickListener {
         it.context.startActivity(
             CollarUi.launchIntent(it.context).apply {

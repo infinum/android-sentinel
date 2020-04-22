@@ -5,7 +5,7 @@ import android.view.View
 import androidx.annotation.StringRes
 
 @Suppress("unused")
-class Sentinel(
+class Sentinel private constructor(
     @Suppress("UNUSED_PARAMETER") context: Context,
     @Suppress("UNUSED_PARAMETER") tools: List<Tool>
 ) {
