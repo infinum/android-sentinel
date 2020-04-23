@@ -33,6 +33,7 @@ import com.infinum.sentinel.ui.shared.BaseFragment
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
 
+@Suppress("TooManyFunctions")
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), SentinelFeatures {
 
@@ -59,9 +60,7 @@ internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), Senti
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupToolbar()
-        setupContent()
-        setupBottomAppBar()
+        setupUi()
 
         val basicCollector: BasicCollector = get()
         val applicationCollector: ApplicationCollector = get()
@@ -75,11 +74,9 @@ internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), Senti
         permissionsCollector.collect()
         preferencesCollector.collect()
 
-        basicCollector.present().let {
-            with(viewBinding) {
-                toolbar.title = basicCollector.data.applicationName
-                applicationIconView.background = basicCollector.data.applicationIcon
-            }
+        with(viewBinding) {
+            toolbar.title = basicCollector.data.applicationName
+            applicationIconView.background = basicCollector.data.applicationIcon
         }
 
         val formatsRepository: FormatsRepository = get()
@@ -97,7 +94,7 @@ internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), Senti
         tools()
     }
 
-    private fun setupToolbar() {
+    private fun setupUi() {
         with(viewBinding) {
             toolbar.setNavigationOnClickListener { dismiss() }
             toolbar.setOnMenuItemClickListener { menuItem ->
@@ -106,22 +103,12 @@ internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), Senti
                 }
                 true
             }
-        }
-    }
-
-    private fun setupContent() {
-        with(viewBinding) {
             contentLayout.background = MaterialShapeDrawable().toScissorsDrawable(
                 context = requireContext(),
                 color = R.color.sentinel_color_background,
                 count = 12,
                 height = R.dimen.sentinel_triangle_height
             )
-        }
-    }
-
-    private fun setupBottomAppBar() {
-        with(viewBinding) {
             bottomAppBar.setNavigationOnClickListener { settings() }
             bottomAppBar.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
@@ -180,7 +167,6 @@ internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), Senti
         childFragmentManager.findFragmentByTag(tag)?.let {
             childFragmentManager.beginTransaction()
                 .replace(viewBinding.fragmentContainer.id, it, tag)
-                .addToBackStack(null)
                 .commit()
         } ?: run {
             when (tag) {
@@ -197,7 +183,6 @@ internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), Senti
                     .addToBackStack(null)
                     .commit()
             }
-
         }
     }
 }

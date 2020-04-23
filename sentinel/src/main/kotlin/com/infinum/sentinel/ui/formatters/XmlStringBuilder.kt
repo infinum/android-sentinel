@@ -31,54 +31,60 @@ internal class XmlStringBuilder(
             with(Xml.newSerializer()) {
                 setOutput(this@apply)
                 startDocument(Charsets.UTF_8.name().toUpperCase(), true)
-
                 startTag(NAMESPACE, ROOT)
-
-                startTag(NAMESPACE, APPLICATION)
-                applicationCollector.present().let {
-                    addNode(R.string.sentinel_version_code, it.versionCode)
-                    addNode(R.string.sentinel_version_name, it.versionName)
-                    addNode(R.string.sentinel_first_install, it.firstInstall)
-                    addNode(R.string.sentinel_last_update, it.lastUpdate)
-                    addNode(R.string.sentinel_min_sdk, it.minSdk)
-                    addNode(R.string.sentinel_target_sdk, it.targetSdk)
-                    addNode(R.string.sentinel_package_name, it.packageName)
-                    addNode(R.string.sentinel_process_name, it.processName)
-                    addNode(R.string.sentinel_task_affinity, it.taskAffinity)
-                    addNode(R.string.sentinel_locale_language, it.localeLanguage)
-                    addNode(R.string.sentinel_locale_country, it.localeCountry)
-                }
-                endTag(NAMESPACE, APPLICATION)
-
-                startTag(NAMESPACE, PERMISSIONS)
-                permissionsCollector.present().let {
-                    it.forEach { entry ->
-                        addNodeWithAttribute(entry.key, entry.value.toString())
-                    }
-                }
-                endTag(NAMESPACE, PERMISSIONS)
-
-                startTag(NAMESPACE, DEVICE)
-                deviceCollector.present().let {
-                    addNode(R.string.sentinel_manufacturer, it.manufacturer)
-                    addNode(R.string.sentinel_model, it.model)
-                    addNode(R.string.sentinel_id, it.id)
-                    addNode(R.string.sentinel_bootloader, it.bootloader)
-                    addNode(R.string.sentinel_device, it.device)
-                    addNode(R.string.sentinel_board, it.board)
-                    addNode(R.string.sentinel_architectures, it.architectures)
-                    addNode(R.string.sentinel_codename, it.codename)
-                    addNode(R.string.sentinel_release, it.release)
-                    addNode(R.string.sentinel_sdk, it.sdk)
-                    addNode(R.string.sentinel_security_patch, it.securityPatch)
-                }
-                endTag(NAMESPACE, DEVICE)
-
+                addApplicationNode()
+                addPermissionsNode()
+                addDeviceNode()
                 endTag(NAMESPACE, ROOT)
-
                 endDocument()
             }
         }.toString()
+
+    private fun XmlSerializer.addApplicationNode() {
+        startTag(NAMESPACE, APPLICATION)
+        applicationCollector.present().let {
+            addNode(R.string.sentinel_version_code, it.versionCode)
+            addNode(R.string.sentinel_version_name, it.versionName)
+            addNode(R.string.sentinel_first_install, it.firstInstall)
+            addNode(R.string.sentinel_last_update, it.lastUpdate)
+            addNode(R.string.sentinel_min_sdk, it.minSdk)
+            addNode(R.string.sentinel_target_sdk, it.targetSdk)
+            addNode(R.string.sentinel_package_name, it.packageName)
+            addNode(R.string.sentinel_process_name, it.processName)
+            addNode(R.string.sentinel_task_affinity, it.taskAffinity)
+            addNode(R.string.sentinel_locale_language, it.localeLanguage)
+            addNode(R.string.sentinel_locale_country, it.localeCountry)
+        }
+        endTag(NAMESPACE, APPLICATION)
+    }
+
+    private fun XmlSerializer.addPermissionsNode() {
+        startTag(NAMESPACE, PERMISSIONS)
+        permissionsCollector.present().let {
+            it.forEach { entry ->
+                addNodeWithAttribute(entry.key, entry.value.toString())
+            }
+        }
+        endTag(NAMESPACE, PERMISSIONS)
+    }
+
+    private fun XmlSerializer.addDeviceNode() {
+        startTag(NAMESPACE, DEVICE)
+        deviceCollector.present().let {
+            addNode(R.string.sentinel_manufacturer, it.manufacturer)
+            addNode(R.string.sentinel_model, it.model)
+            addNode(R.string.sentinel_id, it.id)
+            addNode(R.string.sentinel_bootloader, it.bootloader)
+            addNode(R.string.sentinel_device, it.device)
+            addNode(R.string.sentinel_board, it.board)
+            addNode(R.string.sentinel_architectures, it.architectures)
+            addNode(R.string.sentinel_codename, it.codename)
+            addNode(R.string.sentinel_release, it.release)
+            addNode(R.string.sentinel_sdk, it.sdk)
+            addNode(R.string.sentinel_security_patch, it.securityPatch)
+        }
+        endTag(NAMESPACE, DEVICE)
+    }
 
     private fun XmlSerializer.addNode(@StringRes tag: Int, text: String) {
         context.getString(tag).sanitize().let {

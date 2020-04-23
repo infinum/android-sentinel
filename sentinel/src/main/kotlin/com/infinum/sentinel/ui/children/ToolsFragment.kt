@@ -46,6 +46,5 @@ internal class ToolsFragment : BaseChildFragment<SentinelFragmentToolsBinding>()
             .apply {
                 this.buttonView.text = getString(tool.name())
                 this.buttonView.setOnClickListener(tool.listener())
-
             }.root
 }

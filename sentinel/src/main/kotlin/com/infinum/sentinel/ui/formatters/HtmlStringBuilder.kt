@@ -30,6 +30,7 @@ internal class HtmlStringBuilder(
         private const val UL_END = "</ul>"
         private const val LI_START = "<li>"
         private const val LI_END = "</li>"
+        private const val FORMAT_BLOCK = "%s: %s"
     }
 
     override fun format(): String =
@@ -84,11 +85,11 @@ internal class HtmlStringBuilder(
 
     private fun StringBuilder.addDiv(@StringRes tag: Int, text: String) {
         context.getString(tag).sanitize().let {
-            appendln("$DIV_START${it}: ${text}$DIV_END")
+            appendln(String.format(FORMAT_BLOCK, "$DIV_START$it", "$text$DIV_END"))
         }
     }
 
     private fun StringBuilder.addLi(tag: String, text: String) {
-        appendln("$LI_START${tag}: ${text}$LI_END")
+        appendln(String.format(FORMAT_BLOCK, "$LI_START$tag", "$text$LI_END"))
     }
 }

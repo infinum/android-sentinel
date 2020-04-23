@@ -121,7 +121,7 @@ class Sentinel private constructor(
         val triggersRepository: TriggersRepository = getKoin().get()
         triggersRepository.load().observeForever { triggers ->
             triggers.forEach {
-                when(it.type) {
+                when (it.type) {
                     TriggerType.MANUAL -> {
                         val trigger: ManualTrigger = getKoin().get()
                         trigger.active = it.enabled

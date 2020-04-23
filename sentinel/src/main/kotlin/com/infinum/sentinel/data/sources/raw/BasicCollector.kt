@@ -18,4 +18,3 @@ internal class BasicCollector(
         }
     }
 }
-

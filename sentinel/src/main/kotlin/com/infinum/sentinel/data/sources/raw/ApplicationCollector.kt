@@ -7,7 +7,8 @@ import android.os.Build
 import androidx.core.os.ConfigurationCompat
 import com.infinum.sentinel.data.models.raw.ApplicationData
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
+import java.util.Date
 
 internal class ApplicationCollector(
     private val context: Context
