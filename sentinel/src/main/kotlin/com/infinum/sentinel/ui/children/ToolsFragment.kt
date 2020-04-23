@@ -1,7 +1,9 @@
 package com.infinum.sentinel.ui.children
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.RestrictTo
 import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.data.sources.raw.ToolsCollector
@@ -18,8 +20,11 @@ internal class ToolsFragment : BaseChildFragment<SentinelFragmentToolsBinding>()
         val TAG: String = ToolsFragment::class.java.simpleName
     }
 
-    override fun provideViewBinding(): SentinelFragmentToolsBinding =
-        SentinelFragmentToolsBinding.inflate(layoutInflater)
+    override fun provideViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): SentinelFragmentToolsBinding =
+        SentinelFragmentToolsBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,6 +33,7 @@ internal class ToolsFragment : BaseChildFragment<SentinelFragmentToolsBinding>()
         collector.collect()
         collector.present().let {
             with(viewBinding) {
+                contentLayout.removeAllViews()
                 it.forEach {
                     contentLayout.addView(createItemView(it))
                 }

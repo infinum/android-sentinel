@@ -1,7 +1,9 @@
 package com.infinum.sentinel.ui.children
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.RestrictTo
 import com.infinum.sentinel.data.models.raw.PreferencesData
 import com.infinum.sentinel.data.sources.raw.PreferencesCollector
@@ -19,8 +21,11 @@ internal class PreferencesFragment : BaseChildFragment<SentinelFragmentPreferenc
         val TAG: String = PreferencesFragment::class.java.simpleName
     }
 
-    override fun provideViewBinding(): SentinelFragmentPreferencesBinding =
-        SentinelFragmentPreferencesBinding.inflate(layoutInflater)
+    override fun provideViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): SentinelFragmentPreferencesBinding =
+        SentinelFragmentPreferencesBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,8 +33,9 @@ internal class PreferencesFragment : BaseChildFragment<SentinelFragmentPreferenc
         val collector: PreferencesCollector = get()
         collector.collect()
         collector.present().let {
-            it.forEach {
-                with(viewBinding) {
+            with(viewBinding) {
+                contentLayout.removeAllViews()
+                it.forEach {
                     contentLayout.addView(createItemView(it))
                 }
             }

@@ -1,7 +1,9 @@
 package com.infinum.sentinel.ui.children
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.RestrictTo
 import com.infinum.sentinel.data.sources.raw.DeviceCollector
 import com.infinum.sentinel.databinding.SentinelFragmentDeviceBinding
@@ -16,8 +18,11 @@ internal class DeviceFragment : BaseChildFragment<SentinelFragmentDeviceBinding>
         val TAG: String = DeviceFragment::class.java.simpleName
     }
 
-    override fun provideViewBinding(): SentinelFragmentDeviceBinding =
-        SentinelFragmentDeviceBinding.inflate(layoutInflater)
+    override fun provideViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): SentinelFragmentDeviceBinding =
+        SentinelFragmentDeviceBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

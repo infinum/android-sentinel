@@ -5,15 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RestrictTo
-import androidx.fragment.app.Fragment
 import com.infinum.sentinel.R
 import com.infinum.sentinel.data.models.local.FormatEntity
 import com.infinum.sentinel.data.models.memory.formats.FormatType
-import com.infinum.sentinel.data.sources.local.room.repository.FormatsRepository
-import com.infinum.sentinel.data.sources.local.room.repository.TriggersRepository
+import com.infinum.sentinel.domain.repository.FormatsRepository
+import com.infinum.sentinel.domain.repository.TriggersRepository
 import com.infinum.sentinel.databinding.SentinelFragmentSettingsBinding
 import com.infinum.sentinel.databinding.SentinelViewItemCheckboxBinding
 import com.infinum.sentinel.ui.shared.BaseChildFragment
+import org.koin.android.ext.android.get
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class SettingsFragment : BaseChildFragment<SentinelFragmentSettingsBinding>() {
@@ -23,8 +23,11 @@ internal class SettingsFragment : BaseChildFragment<SentinelFragmentSettingsBind
         val TAG: String = SettingsFragment::class.java.simpleName
     }
 
-    override fun provideViewBinding(): SentinelFragmentSettingsBinding =
-        SentinelFragmentSettingsBinding.inflate(layoutInflater)
+    override fun provideViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): SentinelFragmentSettingsBinding =
+        SentinelFragmentSettingsBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,7 +38,8 @@ internal class SettingsFragment : BaseChildFragment<SentinelFragmentSettingsBind
 
     private fun setupTriggers() {
         with(viewBinding) {
-            TriggersRepository.load().observeForever { triggers ->
+            val triggersRepository: TriggersRepository = get()
+            triggersRepository.load().observeForever { triggers ->
                 triggersLayout.removeAllViews()
                 triggers.forEach { trigger ->
                     triggersLayout.addView(
@@ -46,12 +50,16 @@ internal class SettingsFragment : BaseChildFragment<SentinelFragmentSettingsBind
                         )
                             .apply {
                                 triggerCheckBox.text =
-                                    trigger.type?.name.orEmpty().toLowerCase().capitalize()
+                                    trigger.type
+                                        ?.name
+                                        .orEmpty()
+                                        .toLowerCase()
+                                        .capitalize()
                                         .replace("_", " ")
                                 triggerCheckBox.isChecked = trigger.enabled
                                 triggerCheckBox.isEnabled = trigger.editable
                                 triggerCheckBox.setOnCheckedChangeListener { _, isChecked ->
-                                    TriggersRepository.save(trigger.copy(enabled = isChecked))
+                                    triggersRepository.save(trigger.copy(enabled = isChecked))
                                 }
                             }.root
                     )
@@ -60,10 +68,27 @@ internal class SettingsFragment : BaseChildFragment<SentinelFragmentSettingsBind
         }
     }
 
+    /*
+    //            TriggersRepository.load().observeForever { triggers ->
+//                manual.active =
+//                    triggers.firstOrNull { it.type == TriggerType.MANUAL }?.enabled ?: true
+//                shake.active =
+//                    triggers.firstOrNull { it.type == TriggerType.SHAKE }?.enabled ?: true
+//                foreground.active =
+//                    triggers.firstOrNull { it.type == TriggerType.FOREGROUND }?.enabled ?: true
+//                usb.active =
+//                    triggers.firstOrNull { it.type == TriggerType.USB_CONNECTED }?.enabled ?: true
+//                airplane.active =
+//                    triggers.firstOrNull { it.type == TriggerType.AIRPLANE_MODE_ON }?.enabled
+//                        ?: true
+//            }
+     */
+
     private fun setupFormats() {
         with(viewBinding) {
+            val formatsRepository: FormatsRepository = get()
             formatGroup.setOnCheckedChangeListener { _, checkedId ->
-                FormatsRepository.save(
+                formatsRepository.save(
                     listOf(
                         FormatEntity(
                             id = FormatType.PLAIN.ordinal.toLong(),
@@ -93,7 +118,7 @@ internal class SettingsFragment : BaseChildFragment<SentinelFragmentSettingsBind
                     )
                 )
             }
-            FormatsRepository.load().observeForever { entity ->
+            formatsRepository.load().observeForever { entity ->
                 val id = when (entity.type) {
                     FormatType.PLAIN -> R.id.plainChip
                     FormatType.MARKDOWN -> R.id.markdownChip

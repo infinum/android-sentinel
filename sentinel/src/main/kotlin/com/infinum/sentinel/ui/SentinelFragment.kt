@@ -1,25 +1,21 @@
 package com.infinum.sentinel.ui
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.RestrictTo
 import androidx.core.app.ShareCompat
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.infinum.sentinel.R
 import com.infinum.sentinel.data.models.memory.formats.FormatType
-import com.infinum.sentinel.data.sources.local.room.repository.FormatsRepository
 import com.infinum.sentinel.data.sources.raw.ApplicationCollector
-import com.infinum.sentinel.ui.formatters.FormattedStringBuilder
-import com.infinum.sentinel.ui.formatters.HtmlStringBuilder
-import com.infinum.sentinel.ui.formatters.JsonStringBuilder
-import com.infinum.sentinel.ui.formatters.MarkdownStringBuilder
-import com.infinum.sentinel.ui.formatters.PlainStringBuilder
-import com.infinum.sentinel.ui.formatters.XmlStringBuilder
 import com.infinum.sentinel.data.sources.raw.BasicCollector
 import com.infinum.sentinel.data.sources.raw.DeviceCollector
 import com.infinum.sentinel.data.sources.raw.PermissionsCollector
 import com.infinum.sentinel.data.sources.raw.PreferencesCollector
 import com.infinum.sentinel.databinding.SentinelFragmentBinding
+import com.infinum.sentinel.domain.repository.FormatsRepository
 import com.infinum.sentinel.extensions.toScissorsDrawable
 import com.infinum.sentinel.ui.children.ApplicationFragment
 import com.infinum.sentinel.ui.children.DeviceFragment
@@ -27,6 +23,12 @@ import com.infinum.sentinel.ui.children.PermissionsFragment
 import com.infinum.sentinel.ui.children.PreferencesFragment
 import com.infinum.sentinel.ui.children.SettingsFragment
 import com.infinum.sentinel.ui.children.ToolsFragment
+import com.infinum.sentinel.ui.formatters.FormattedStringBuilder
+import com.infinum.sentinel.ui.formatters.HtmlStringBuilder
+import com.infinum.sentinel.ui.formatters.JsonStringBuilder
+import com.infinum.sentinel.ui.formatters.MarkdownStringBuilder
+import com.infinum.sentinel.ui.formatters.PlainStringBuilder
+import com.infinum.sentinel.ui.formatters.XmlStringBuilder
 import com.infinum.sentinel.ui.shared.BaseFragment
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
@@ -48,8 +50,11 @@ internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), Senti
     private val xmlFormatter: XmlStringBuilder by inject()
     private val htmlFormatter: HtmlStringBuilder by inject()
 
-    override fun provideViewBinding(): SentinelFragmentBinding =
-        SentinelFragmentBinding.inflate(layoutInflater)
+    override fun provideViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): SentinelFragmentBinding =
+        SentinelFragmentBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -77,9 +82,8 @@ internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), Senti
             }
         }
 
-        tools()
-
-        FormatsRepository.load().observeForever { entity ->
+        val formatsRepository: FormatsRepository = get()
+        formatsRepository.load().observeForever { entity ->
             formatter = when (entity.type) {
                 FormatType.PLAIN -> plainFormatter
                 FormatType.MARKDOWN -> markdownFormatter
@@ -89,6 +93,8 @@ internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), Senti
                 else -> null
             }
         }
+
+        tools()
     }
 
     private fun setupToolbar() {
@@ -131,117 +137,33 @@ internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), Senti
     }
 
     override fun settings() {
-        with(viewBinding) {
-            toolbar.subtitle = getString(R.string.sentinel_settings)
-            childFragmentManager.beginTransaction()
-                .apply {
-                    childFragmentManager.findFragmentByTag(SettingsFragment.TAG)?.let {
-                        this.replace(fragmentContainer.id, it)
-                    } ?: run {
-                        this.replace(
-                            fragmentContainer.id,
-                            SettingsFragment.newInstance(),
-                            SettingsFragment.TAG
-                        )
-                        this.addToBackStack(SettingsFragment.TAG)
-                    }
-                }.commit()
-        }
+        viewBinding.toolbar.subtitle = getString(R.string.sentinel_settings)
+        showFragment(SettingsFragment.TAG)
     }
 
     override fun device() {
-        with(viewBinding) {
-            toolbar.subtitle = getString(R.string.sentinel_device)
-            childFragmentManager.beginTransaction()
-                .apply {
-                    childFragmentManager.findFragmentByTag(DeviceFragment.TAG)?.let {
-                        this.replace(fragmentContainer.id, it)
-                    } ?: run {
-                        this.replace(
-                            fragmentContainer.id,
-                            DeviceFragment.newInstance(),
-                            DeviceFragment.TAG
-                        )
-                        this.addToBackStack(DeviceFragment.TAG)
-                    }
-                }.commit()
-        }
+        viewBinding.toolbar.subtitle = getString(R.string.sentinel_device)
+        showFragment(DeviceFragment.TAG)
     }
 
     override fun application() {
-        with(viewBinding) {
-            toolbar.subtitle = getString(R.string.sentinel_application)
-            childFragmentManager.beginTransaction()
-                .apply {
-                    childFragmentManager.findFragmentByTag(ApplicationFragment.TAG)?.let {
-                        this.replace(fragmentContainer.id, it)
-                    } ?: run {
-                        this.replace(
-                            fragmentContainer.id,
-                            ApplicationFragment.newInstance(),
-                            ApplicationFragment.TAG
-                        )
-                        this.addToBackStack(ApplicationFragment.TAG)
-                    }
-                }.commit()
-        }
+        viewBinding.toolbar.subtitle = getString(R.string.sentinel_application)
+        showFragment(ApplicationFragment.TAG)
     }
 
     override fun permissions() {
-        with(viewBinding) {
-            toolbar.subtitle = getString(R.string.sentinel_permissions)
-            childFragmentManager.beginTransaction()
-                .apply {
-                    childFragmentManager.findFragmentByTag(PermissionsFragment.TAG)?.let {
-                        this.replace(fragmentContainer.id, it)
-                    } ?: run {
-                        this.replace(
-                            fragmentContainer.id,
-                            PermissionsFragment.newInstance(),
-                            PermissionsFragment.TAG
-                        )
-                        this.addToBackStack(PermissionsFragment.TAG)
-                    }
-                }.commit()
-        }
+        viewBinding.toolbar.subtitle = getString(R.string.sentinel_permissions)
+        showFragment(PermissionsFragment.TAG)
     }
 
     override fun preferences() {
-        with(viewBinding) {
-            toolbar.subtitle = getString(R.string.sentinel_preferences)
-            childFragmentManager.beginTransaction()
-                .apply {
-                    childFragmentManager.findFragmentByTag(PreferencesFragment.TAG)?.let {
-                        this.replace(fragmentContainer.id, it)
-                    } ?: run {
-                        this.replace(
-                            fragmentContainer.id,
-                            PreferencesFragment.newInstance(),
-                            PreferencesFragment.TAG
-                        )
-                        this.addToBackStack(PreferencesFragment.TAG)
-                    }
-                }.commit()
-        }
+        viewBinding.toolbar.subtitle = getString(R.string.sentinel_preferences)
+        showFragment(PreferencesFragment.TAG)
     }
 
     override fun tools() {
-        with(viewBinding) {
-            toolbar.subtitle = getString(R.string.sentinel_tools)
-            childFragmentManager.beginTransaction()
-                .apply {
-                    childFragmentManager.findFragmentByTag(ToolsFragment.TAG)?.let {
-                        this.replace(fragmentContainer.id, it)
-                    } ?: run {
-                        this.replace(
-                            fragmentContainer.id,
-                            ToolsFragment.newInstance(),
-                            ToolsFragment.TAG
-                        )
-                        this.addToBackStack(ToolsFragment.TAG)
-                    }
-                }.commit()
-        }
+        viewBinding.toolbar.subtitle = getString(R.string.sentinel_tools)
+        showFragment(ToolsFragment.TAG)
     }
 
     override fun share() {
@@ -251,6 +173,31 @@ internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), Senti
                 .setType(SHARE_MIME_TYPE)
                 .setText(it)
                 .startChooser()
+        }
+    }
+
+    private fun showFragment(tag: String) {
+        childFragmentManager.findFragmentByTag(tag)?.let {
+            childFragmentManager.beginTransaction()
+                .replace(viewBinding.fragmentContainer.id, it, tag)
+                .addToBackStack(null)
+                .commit()
+        } ?: run {
+            when (tag) {
+                SettingsFragment.TAG -> SettingsFragment.newInstance()
+                DeviceFragment.TAG -> DeviceFragment.newInstance()
+                ApplicationFragment.TAG -> ApplicationFragment.newInstance()
+                PermissionsFragment.TAG -> PermissionsFragment.newInstance()
+                PreferencesFragment.TAG -> PreferencesFragment.newInstance()
+                ToolsFragment.TAG -> ToolsFragment.newInstance()
+                else -> null
+            }?.let {
+                childFragmentManager.beginTransaction()
+                    .replace(viewBinding.fragmentContainer.id, it, tag)
+                    .addToBackStack(null)
+                    .commit()
+            }
+
         }
     }
 }

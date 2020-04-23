@@ -13,15 +13,15 @@ internal abstract class BaseChildFragment<Binding : ViewBinding> : Fragment() {
 
     private var binding: Binding? = null
 
-    internal val viewBinding get() = binding!!
+    internal val viewBinding: Binding by lazy { binding!! }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = provideViewBinding()
-        return binding?.root
+        binding = provideViewBinding(inflater, container)
+        return viewBinding.root
     }
 
     override fun onDestroy() =
@@ -29,5 +29,8 @@ internal abstract class BaseChildFragment<Binding : ViewBinding> : Fragment() {
             binding = null
         }
 
-    protected abstract fun provideViewBinding(): Binding
+    protected abstract fun provideViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): Binding
 }

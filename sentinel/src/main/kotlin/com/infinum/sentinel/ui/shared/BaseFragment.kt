@@ -9,7 +9,6 @@ import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.infinum.sentinel.R
-import com.infinum.sentinel.databinding.SentinelFragmentBinding
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal abstract class BaseFragment<Binding : ViewBinding> : BottomSheetDialogFragment() {
@@ -28,8 +27,8 @@ internal abstract class BaseFragment<Binding : ViewBinding> : BottomSheetDialogF
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = provideViewBinding()
-        return binding?.root
+        binding = provideViewBinding(inflater, container)
+        return viewBinding.root
     }
 
     override fun onDestroy() =
@@ -42,5 +41,8 @@ internal abstract class BaseFragment<Binding : ViewBinding> : BottomSheetDialogF
             requireActivity().finish()
         }
 
-    protected abstract fun provideViewBinding(): Binding
+    protected abstract fun provideViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): Binding
 }
