@@ -25,4 +25,26 @@
     <string name="sentinel_html">HTML</string>
     <string name="sentinel_table">Table</string>
     <string name="sentinel_markdown">Markdown</string>
+
+    <string name="sentinel_version_code">Version code</string>
+    <string name="sentinel_version_name">Version name</string>
+    <string name="sentinel_first_install">First install</string>
+    <string name="sentinel_last_update">Last update</string>
+    <string name="sentinel_min_sdk">Min SDK</string>
+    <string name="sentinel_target_sdk">Target SDK</string>
+    <string name="sentinel_package_name">Package name</string>
+    <string name="sentinel_process_name">Process name</string>
+    <string name="sentinel_task_affinity">Task affinity</string>
+    <string name="sentinel_locale_country">Locale country</string>
+    <string name="sentinel_locale_language">Locale language</string>
+    <string name="sentinel_manufacturer">Manufacturer</string>
+    <string name="sentinel_model">Model</string>
+    <string name="sentinel_id">id</string>
+    <string name="sentinel_bootloader">Bootloader</string>
+    <string name="sentinel_board">Board</string>
+    <string name="sentinel_architectures">Architectures</string>
+    <string name="sentinel_codename">Codename</string>
+    <string name="sentinel_release">Release</string>
+    <string name="sentinel_sdk">sdk</string>
+    <string name="sentinel_security_patch">Security patch</string>
 </resources>

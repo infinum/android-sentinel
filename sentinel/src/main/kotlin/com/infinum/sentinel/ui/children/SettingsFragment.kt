@@ -11,27 +11,20 @@ import com.infinum.sentinel.data.models.local.FormatEntity
 import com.infinum.sentinel.data.models.memory.formats.FormatType
 import com.infinum.sentinel.data.sources.local.room.repository.FormatsRepository
 import com.infinum.sentinel.data.sources.local.room.repository.TriggersRepository
-import com.infinum.sentinel.databinding.SentinelFragmentChildSettingsBinding
-import com.infinum.sentinel.databinding.SentinelItemTriggerBinding
+import com.infinum.sentinel.databinding.SentinelFragmentSettingsBinding
+import com.infinum.sentinel.databinding.SentinelViewItemCheckboxBinding
+import com.infinum.sentinel.ui.shared.BaseChildFragment
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class SettingsFragment : Fragment() {
+internal class SettingsFragment : BaseChildFragment<SentinelFragmentSettingsBinding>() {
 
     companion object {
         fun newInstance() = SettingsFragment()
         val TAG: String = SettingsFragment::class.java.simpleName
     }
 
-    private var viewBinding: SentinelFragmentChildSettingsBinding? = null
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        viewBinding = SentinelFragmentChildSettingsBinding.inflate(inflater, container, false)
-        return viewBinding?.root
-    }
+    override fun provideViewBinding(): SentinelFragmentSettingsBinding =
+        SentinelFragmentSettingsBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -40,20 +33,15 @@ internal class SettingsFragment : Fragment() {
         setupFormats()
     }
 
-    override fun onDestroy() =
-        super.onDestroy().run {
-            viewBinding = null
-        }
-
     private fun setupTriggers() {
-        viewBinding?.let {
+        with(viewBinding) {
             TriggersRepository.load().observeForever { triggers ->
-                it.triggersLayout.removeAllViews()
+                triggersLayout.removeAllViews()
                 triggers.forEach { trigger ->
-                    it.triggersLayout.addView(
-                        SentinelItemTriggerBinding.inflate(
-                            LayoutInflater.from(it.triggersLayout.context),
-                            it.triggersLayout,
+                    triggersLayout.addView(
+                        SentinelViewItemCheckboxBinding.inflate(
+                            layoutInflater,
+                            triggersLayout,
                             false
                         )
                             .apply {
@@ -73,8 +61,8 @@ internal class SettingsFragment : Fragment() {
     }
 
     private fun setupFormats() {
-        viewBinding?.let {
-            it.formatGroup.setOnCheckedChangeListener { _, checkedId ->
+        with(viewBinding) {
+            formatGroup.setOnCheckedChangeListener { _, checkedId ->
                 FormatsRepository.save(
                     listOf(
                         FormatEntity(
@@ -114,7 +102,7 @@ internal class SettingsFragment : Fragment() {
                     FormatType.HTML -> R.id.htmlChip
                     else -> R.id.plainChip
                 }
-                it.formatGroup.check(id)
+                formatGroup.check(id)
             }
         }
     }

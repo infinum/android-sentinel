@@ -1,6 +1,7 @@
-package com.infinum.sentinel.data.sources.memory
+package com.infinum.sentinel.ui.formatters
 
-internal abstract class AbstractFormattedStringBuilder : FormattedStringBuilder {
+internal abstract class AbstractFormattedStringBuilder :
+    FormattedStringBuilder {
 
     companion object {
         internal const val APPLICATION = "application"

@@ -1,4 +1,4 @@
-package com.infinum.sentinel.data.sources.memory
+package com.infinum.sentinel.ui.formatters
 
 internal interface FormattedStringBuilder {
 

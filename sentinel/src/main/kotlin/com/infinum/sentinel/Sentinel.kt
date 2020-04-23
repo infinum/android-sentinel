@@ -13,19 +13,32 @@ import com.infinum.sentinel.data.models.memory.triggers.usb.UsbConnectedTrigger
 import com.infinum.sentinel.data.sources.local.room.SentinelDatabase
 import com.infinum.sentinel.data.sources.local.room.repository.FormatsRepository
 import com.infinum.sentinel.data.sources.local.room.repository.TriggersRepository
-import com.infinum.sentinel.data.sources.raw.DataSource
+import com.infinum.sentinel.ui.formatters.HtmlStringBuilder
+import com.infinum.sentinel.ui.formatters.JsonStringBuilder
+import com.infinum.sentinel.ui.formatters.MarkdownStringBuilder
+import com.infinum.sentinel.ui.formatters.PlainStringBuilder
+import com.infinum.sentinel.ui.formatters.XmlStringBuilder
+import com.infinum.sentinel.data.sources.raw.ApplicationCollector
+import com.infinum.sentinel.data.sources.raw.BasicCollector
+import com.infinum.sentinel.data.sources.raw.DeviceCollector
+import com.infinum.sentinel.data.sources.raw.PermissionsCollector
+import com.infinum.sentinel.data.sources.raw.PreferencesCollector
+import com.infinum.sentinel.data.sources.raw.ToolsCollector
 import com.infinum.sentinel.ui.SentinelActivity
 import com.infinum.sentinel.ui.tools.AppInfoTool
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
+import org.koin.dsl.module
 
 class Sentinel private constructor(
     private val context: Context,
-    tools: List<Tool>
+    tools: Set<Tool>
 ) {
 
     companion object {
         private var INSTANCE: Sentinel? = null
 
-        fun watch(context: Context, tools: List<Tool>): Sentinel {
+        fun watch(context: Context, tools: Set<Tool>): Sentinel {
             if (INSTANCE == null) {
                 INSTANCE = Sentinel(context, tools)
             }
@@ -34,19 +47,12 @@ class Sentinel private constructor(
     }
 
     private val manual = ManualTrigger()
-    private val foreground = ForegroundTrigger() { showNow() }
+    private val foreground = ForegroundTrigger { showNow() }
     private val shake = ShakeTrigger(context) { showNow() }
     private val usb = UsbConnectedTrigger(context) { showNow() }
     private val airplane = AirplaneModeOnTrigger(context) { showNow() }
 
     init {
-//        val d = SentinelDatabase.create(context)
-//        TriggersRepository.initialize(d)
-//        FormatsRepository.initialize(d)
-//        TriggersRepository.initValues()
-//        FormatsRepository.initValues()
-//        d.close()
-
         SentinelDatabase.create(context).run {
             TriggersRepository.initialize(this)
             FormatsRepository.initialize(this)
@@ -66,9 +72,35 @@ class Sentinel private constructor(
             }
         }
 
-        DataSource.toolsData = tools.plus(AppInfoTool())
+        val collectors = module {
+            single { ToolsCollector(tools.plus(AppInfoTool())) }
+            single { BasicCollector(get()) }
+            single { ApplicationCollector(get()) }
+            single { PermissionsCollector(get()) }
+            single { DeviceCollector() }
+            single { PreferencesCollector(get()) }
+        }
+
+        val formatters = module {
+            single { PlainStringBuilder(get(), get(), get(), get()) }
+            single { MarkdownStringBuilder(get(), get(), get(), get()) }
+            single { JsonStringBuilder(get(), get(), get(), get()) }
+            single { XmlStringBuilder(get(), get(), get(), get()) }
+            single { HtmlStringBuilder(get(), get(), get(), get()) }
+        }
+
+        startKoin {
+            androidContext(context)
+            modules(
+                collectors,
+                formatters
+            )
+        }
     }
 
+    /**
+     * Used for manually showing Sentinel UI
+     */
     fun show() {
         if (manual.active) {
             showNow()
@@ -84,6 +116,7 @@ class Sentinel private constructor(
         )
     }
 
+    @Suppress("unused")
     interface Tool {
 
         /**
@@ -102,6 +135,7 @@ class Sentinel private constructor(
         fun listener(): View.OnClickListener
     }
 
+    @Suppress("unused")
     interface NetworkTool : Tool {
 
         /**
@@ -112,6 +146,7 @@ class Sentinel private constructor(
         override fun name(): Int = R.string.sentinel_network
     }
 
+    @Suppress("unused")
     interface AnalyticsTool : Tool {
 
         /**
@@ -122,6 +157,7 @@ class Sentinel private constructor(
         override fun name(): Int = R.string.sentinel_analytics
     }
 
+    @Suppress("unused")
     interface DatabaseTool : Tool {
 
         /**
@@ -132,6 +168,7 @@ class Sentinel private constructor(
         override fun name(): Int = R.string.sentinel_database
     }
 
+    @Suppress("unused")
     interface ReportTool : Tool {
 
         /**
@@ -142,6 +179,7 @@ class Sentinel private constructor(
         override fun name(): Int = R.string.sentinel_report
     }
 
+    @Suppress("unused")
     interface BluetoothTool : Tool {
 
         /**
@@ -152,6 +190,7 @@ class Sentinel private constructor(
         override fun name(): Int = R.string.sentinel_bluetooth
     }
 
+    @Suppress("unused")
     interface DistributionTool : Tool {
 
         /**

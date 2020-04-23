@@ -7,7 +7,7 @@ import com.infinum.sentinel.ui.tools.GooglePlayTool
 
 object SentinelTools {
 
-    fun get() = listOf(
+    fun get() = setOf(
         ChuckerTool(),
         CollarTool(),
         DbInspectorTool(),
