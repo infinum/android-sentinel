@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import androidx.annotation.StringRes
+import com.infinum.sentinel.data.models.memory.triggers.TriggerType
 import com.infinum.sentinel.data.models.memory.triggers.airplanemode.AirplaneModeOnTrigger
 import com.infinum.sentinel.data.models.memory.triggers.foreground.ForegroundTrigger
 import com.infinum.sentinel.data.models.memory.triggers.manual.ManualTrigger
@@ -48,20 +49,6 @@ class Sentinel private constructor(
     }
 
     init {
-//            TriggersRepository.load().observeForever { triggers ->
-//                manual.active =
-//                    triggers.firstOrNull { it.type == TriggerType.MANUAL }?.enabled ?: true
-//                shake.active =
-//                    triggers.firstOrNull { it.type == TriggerType.SHAKE }?.enabled ?: true
-//                foreground.active =
-//                    triggers.firstOrNull { it.type == TriggerType.FOREGROUND }?.enabled ?: true
-//                usb.active =
-//                    triggers.firstOrNull { it.type == TriggerType.USB_CONNECTED }?.enabled ?: true
-//                airplane.active =
-//                    triggers.firstOrNull { it.type == TriggerType.AIRPLANE_MODE_ON }?.enabled
-//                        ?: true
-//            }
-
         val database = module {
             single { SentinelDatabase.create(get()) }
             single { Executors.newSingleThreadExecutor() }
@@ -107,6 +94,8 @@ class Sentinel private constructor(
                 formatters
             )
         }
+
+        observeTriggers()
     }
 
     /**
@@ -126,6 +115,36 @@ class Sentinel private constructor(
                 addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
             }
         )
+    }
+
+    private fun observeTriggers() {
+        val triggersRepository: TriggersRepository = getKoin().get()
+        triggersRepository.load().observeForever { triggers ->
+            triggers.forEach {
+                when(it.type) {
+                    TriggerType.MANUAL -> {
+                        val trigger: ManualTrigger = getKoin().get()
+                        trigger.active = it.enabled
+                    }
+                    TriggerType.FOREGROUND -> {
+                        val trigger: ForegroundTrigger = getKoin().get()
+                        trigger.active = it.enabled
+                    }
+                    TriggerType.SHAKE -> {
+                        val trigger: ShakeTrigger = getKoin().get()
+                        trigger.active = it.enabled
+                    }
+                    TriggerType.USB_CONNECTED -> {
+                        val trigger: UsbConnectedTrigger = getKoin().get()
+                        trigger.active = it.enabled
+                    }
+                    TriggerType.AIRPLANE_MODE_ON -> {
+                        val trigger: AirplaneModeOnTrigger = getKoin().get()
+                        trigger.active = it.enabled
+                    }
+                }
+            }
+        }
     }
 
     @Suppress("unused")

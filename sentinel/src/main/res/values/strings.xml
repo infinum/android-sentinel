@@ -47,4 +47,9 @@
     <string name="sentinel_release">Release</string>
     <string name="sentinel_sdk">sdk</string>
     <string name="sentinel_security_patch">Security patch</string>
+    <string name="sentinel_manual">Manual</string>
+    <string name="sentinel_foreground">Foreground</string>
+    <string name="sentinel_shake">Shake</string>
+    <string name="sentinel_usb_connected">USB connected</string>
+    <string name="sentinel_airplane_mode_on">Airplane mode on</string>
 </resources>

@@ -30,7 +30,41 @@
             android:id="@+id/triggersLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:orientation="vertical">
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/manualTriggerView"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:text="@string/sentinel_manual" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/shakeTriggerView"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:text="@string/sentinel_shake" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/foregroundTriggerView"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:text="@string/sentinel_foreground" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/usbTriggerView"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:text="@string/sentinel_usb_connected" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/airplaneModeTriggerView"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:text="@string/sentinel_airplane_mode_on" />
+
+        </LinearLayout>
 
         <com.google.android.material.textview.MaterialTextView
             style="@style/TextAppearance.MaterialComponents.Caption"

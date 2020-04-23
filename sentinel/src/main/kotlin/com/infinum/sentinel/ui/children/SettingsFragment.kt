@@ -8,10 +8,10 @@ import androidx.annotation.RestrictTo
 import com.infinum.sentinel.R
 import com.infinum.sentinel.data.models.local.FormatEntity
 import com.infinum.sentinel.data.models.memory.formats.FormatType
+import com.infinum.sentinel.data.models.memory.triggers.TriggerType
+import com.infinum.sentinel.databinding.SentinelFragmentSettingsBinding
 import com.infinum.sentinel.domain.repository.FormatsRepository
 import com.infinum.sentinel.domain.repository.TriggersRepository
-import com.infinum.sentinel.databinding.SentinelFragmentSettingsBinding
-import com.infinum.sentinel.databinding.SentinelViewItemCheckboxBinding
 import com.infinum.sentinel.ui.shared.BaseChildFragment
 import org.koin.android.ext.android.get
 
@@ -40,49 +40,58 @@ internal class SettingsFragment : BaseChildFragment<SentinelFragmentSettingsBind
         with(viewBinding) {
             val triggersRepository: TriggersRepository = get()
             triggersRepository.load().observeForever { triggers ->
-                triggersLayout.removeAllViews()
                 triggers.forEach { trigger ->
-                    triggersLayout.addView(
-                        SentinelViewItemCheckboxBinding.inflate(
-                            layoutInflater,
-                            triggersLayout,
-                            false
-                        )
-                            .apply {
-                                triggerCheckBox.text =
-                                    trigger.type
-                                        ?.name
-                                        .orEmpty()
-                                        .toLowerCase()
-                                        .capitalize()
-                                        .replace("_", " ")
-                                triggerCheckBox.isChecked = trigger.enabled
-                                triggerCheckBox.isEnabled = trigger.editable
-                                triggerCheckBox.setOnCheckedChangeListener { _, isChecked ->
+                    when (trigger.type) {
+                        TriggerType.MANUAL -> {
+                            with(manualTriggerView) {
+                                isChecked = trigger.enabled
+                                isEnabled = trigger.editable
+                                setOnCheckedChangeListener { _, isChecked ->
                                     triggersRepository.save(trigger.copy(enabled = isChecked))
                                 }
-                            }.root
-                    )
+                            }
+                        }
+                        TriggerType.SHAKE -> {
+                            with(shakeTriggerView) {
+                                isChecked = trigger.enabled
+                                isEnabled = trigger.editable
+                                setOnCheckedChangeListener { _, isChecked ->
+                                    triggersRepository.save(trigger.copy(enabled = isChecked))
+                                }
+                            }
+                        }
+                        TriggerType.FOREGROUND -> {
+                            with(foregroundTriggerView) {
+                                isChecked = trigger.enabled
+                                isEnabled = trigger.editable
+                                setOnCheckedChangeListener { _, isChecked ->
+                                    triggersRepository.save(trigger.copy(enabled = isChecked))
+                                }
+                            }
+                        }
+                        TriggerType.USB_CONNECTED -> {
+                            with(usbTriggerView) {
+                                isChecked = trigger.enabled
+                                isEnabled = trigger.editable
+                                setOnCheckedChangeListener { _, isChecked ->
+                                    triggersRepository.save(trigger.copy(enabled = isChecked))
+                                }
+                            }
+                        }
+                        TriggerType.AIRPLANE_MODE_ON -> {
+                            with(airplaneModeTriggerView) {
+                                isChecked = trigger.enabled
+                                isEnabled = trigger.editable
+                                setOnCheckedChangeListener { _, isChecked ->
+                                    triggersRepository.save(trigger.copy(enabled = isChecked))
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
     }
-
-    /*
-    //            TriggersRepository.load().observeForever { triggers ->
-//                manual.active =
-//                    triggers.firstOrNull { it.type == TriggerType.MANUAL }?.enabled ?: true
-//                shake.active =
-//                    triggers.firstOrNull { it.type == TriggerType.SHAKE }?.enabled ?: true
-//                foreground.active =
-//                    triggers.firstOrNull { it.type == TriggerType.FOREGROUND }?.enabled ?: true
-//                usb.active =
-//                    triggers.firstOrNull { it.type == TriggerType.USB_CONNECTED }?.enabled ?: true
-//                airplane.active =
-//                    triggers.firstOrNull { it.type == TriggerType.AIRPLANE_MODE_ON }?.enabled
-//                        ?: true
-//            }
-     */
 
     private fun setupFormats() {
         with(viewBinding) {
@@ -119,15 +128,16 @@ internal class SettingsFragment : BaseChildFragment<SentinelFragmentSettingsBind
                 )
             }
             formatsRepository.load().observeForever { entity ->
-                val id = when (entity.type) {
+                when (entity.type) {
                     FormatType.PLAIN -> R.id.plainChip
                     FormatType.MARKDOWN -> R.id.markdownChip
                     FormatType.JSON -> R.id.jsonChip
                     FormatType.XML -> R.id.xmlChip
                     FormatType.HTML -> R.id.htmlChip
                     else -> R.id.plainChip
+                }.let {
+                    formatGroup.check(it)
                 }
-                formatGroup.check(id)
             }
         }
     }
