@@ -13,7 +13,7 @@ internal abstract class BaseChildFragment<Binding : ViewBinding> : Fragment() {
 
     private var binding: Binding? = null
 
-    internal val viewBinding: Binding by lazy { binding!! }
+    internal val viewBinding get() = binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
