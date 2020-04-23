@@ -37,31 +37,36 @@
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/manualTriggerView"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/sentinel_item_height"
                 android:text="@string/sentinel_manual" />
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/shakeTriggerView"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/sentinel_item_height"
                 android:text="@string/sentinel_shake" />
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/foregroundTriggerView"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/sentinel_item_height"
                 android:text="@string/sentinel_foreground" />
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/usbTriggerView"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/sentinel_item_height"
                 android:text="@string/sentinel_usb_connected" />
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/airplaneModeTriggerView"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/sentinel_item_height"
                 android:text="@string/sentinel_airplane_mode_on" />
 
         </LinearLayout>
@@ -81,6 +86,7 @@
             android:id="@+id/formatGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="@dimen/sentinel_item_height"
             android:layout_marginTop="4dp"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"

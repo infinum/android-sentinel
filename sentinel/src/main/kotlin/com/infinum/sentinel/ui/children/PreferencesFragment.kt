@@ -51,7 +51,7 @@ internal class PreferencesFragment : BaseChildFragment<SentinelFragmentPreferenc
                         SentinelViewItemEditableBinding.inflate(layoutInflater, prefsLayout, false)
                             .apply {
                                 labelView.text = it.second
-                                valueView.text = it.third.toString()
+                                valueView.setText(it.third.toString())
                             }.root
                     )
                 }
