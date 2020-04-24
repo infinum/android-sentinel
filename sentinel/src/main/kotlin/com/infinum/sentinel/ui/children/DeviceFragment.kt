@@ -5,52 +5,45 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RestrictTo
-import androidx.fragment.app.Fragment
-import com.infinum.sentinel.data.sources.raw.DataSource
-import com.infinum.sentinel.databinding.SentinelFragmentChildBinding
-import com.infinum.sentinel.databinding.SentinelItemInfoBinding
+import com.infinum.sentinel.data.sources.raw.DeviceCollector
+import com.infinum.sentinel.databinding.SentinelFragmentDeviceBinding
+import com.infinum.sentinel.ui.shared.BaseChildFragment
+import org.koin.android.ext.android.get
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class DeviceFragment : Fragment() {
+internal class DeviceFragment : BaseChildFragment<SentinelFragmentDeviceBinding>() {
 
     companion object {
         fun newInstance() = DeviceFragment()
         val TAG: String = DeviceFragment::class.java.simpleName
     }
 
-    private var viewBinding: SentinelFragmentChildBinding? = null
-
-    override fun onCreateView(
+    override fun provideViewBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        viewBinding = SentinelFragmentChildBinding.inflate(inflater, container, false)
-        return viewBinding?.root
-    }
+        container: ViewGroup?
+    ): SentinelFragmentDeviceBinding =
+        SentinelFragmentDeviceBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewBinding?.let {
-            DataSource.deviceData.forEach { deviceInfo ->
-                it.contentLayout.addView(
-                    SentinelItemInfoBinding.inflate(
-                        LayoutInflater.from(it.contentLayout.context),
-                        it.contentLayout,
-                        false
-                    )
-                        .apply {
-                            labelView.text = deviceInfo.key.name.toUpperCase().capitalize().replace("_", " ")
-                            valueView.text = deviceInfo.value
-                        }.root
-                )
+        val collector: DeviceCollector = get()
+        collector.collect()
+        collector.present().let {
+            with(viewBinding) {
+                manufacturerView.data = it.manufacturer
+                modelView.data = it.model
+                idView.data = it.id
+                bootloaderView.data = it.bootloader
+                deviceView.data = it.device
+                boardView.data = it.board
+                architecturesView.data = it.architectures
+                codenameView.data = it.codename
+                releaseView.data = it.release
+                sdkView.data = it.sdk
+                securityPatchView.data = it.securityPatch
+                emulatorView.data = it.isProbablyAnEmulator.toString()
             }
         }
     }
-
-    override fun onDestroy() =
-        super.onDestroy().run {
-            viewBinding = null
-        }
 }

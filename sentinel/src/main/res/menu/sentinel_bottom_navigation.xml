@@ -22,4 +22,10 @@
         android:title="@string/sentinel_permissions"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/preferences"
+        android:icon="@drawable/sentinel_ic_preferences"
+        android:title="@string/sentinel_preferences"
+        app:showAsAction="always" />
+
 </menu>

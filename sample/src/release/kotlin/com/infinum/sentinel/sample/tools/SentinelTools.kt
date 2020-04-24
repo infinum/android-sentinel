@@ -4,5 +4,5 @@ import com.infinum.sentinel.Sentinel
 
 object SentinelTools {
 
-    fun get() = listOf<Sentinel.Tool>()
+    fun get() = setOf<Sentinel.Tool>()
 }

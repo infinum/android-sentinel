@@ -7,13 +7,13 @@ import androidx.annotation.StringRes
 @Suppress("unused")
 class Sentinel private constructor(
     @Suppress("UNUSED_PARAMETER") context: Context,
-    @Suppress("UNUSED_PARAMETER") tools: List<Tool>
+    @Suppress("UNUSED_PARAMETER") tools: Set<Tool>
 ) {
 
     companion object {
         private var INSTANCE: Sentinel? = null
 
-        fun watch(context: Context, tools: List<Tool>): Sentinel {
+        fun watch(context: Context, tools: Set<Tool>): Sentinel {
             if (INSTANCE == null) {
                 INSTANCE = Sentinel(context, tools)
             }

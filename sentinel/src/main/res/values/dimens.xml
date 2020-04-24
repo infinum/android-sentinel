@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="sentinel_triangle_height">12dp</dimen>
-
     <dimen name="sentinel_icon_size">64dp</dimen>
-
     <dimen name="sentinel_icon_half_size">32dp</dimen>
+    <dimen name="sentinel_item_height">40dp</dimen>
 </resources>

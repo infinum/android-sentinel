@@ -5,59 +5,52 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RestrictTo
-import androidx.fragment.app.Fragment
 import com.infinum.sentinel.R
-import com.infinum.sentinel.data.sources.raw.DataSource
-import com.infinum.sentinel.databinding.SentinelFragmentChildBinding
-import com.infinum.sentinel.databinding.SentinelItemPermissionBinding
+import com.infinum.sentinel.data.sources.raw.PermissionsCollector
+import com.infinum.sentinel.databinding.SentinelFragmentPermissionsBinding
+import com.infinum.sentinel.databinding.SentinelViewItemCheckableBinding
+import com.infinum.sentinel.ui.shared.BaseChildFragment
+import org.koin.android.ext.android.get
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class PermissionsFragment : Fragment() {
+internal class PermissionsFragment : BaseChildFragment<SentinelFragmentPermissionsBinding>() {
 
     companion object {
         fun newInstance() = PermissionsFragment()
         val TAG: String = PermissionsFragment::class.java.simpleName
     }
 
-    private var viewBinding: SentinelFragmentChildBinding? = null
-
-    override fun onCreateView(
+    override fun provideViewBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        viewBinding = SentinelFragmentChildBinding.inflate(inflater, container, false)
-        return viewBinding?.root
-    }
+        container: ViewGroup?
+    ): SentinelFragmentPermissionsBinding =
+        SentinelFragmentPermissionsBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewBinding?.let {
-            DataSource.permissions.forEach { permission ->
-                it.contentLayout.addView(
-                    SentinelItemPermissionBinding.inflate(
-                        LayoutInflater.from(it.contentLayout.context),
-                        it.contentLayout,
-                        false
-                    )
-                        .apply {
-                            labelView.text = permission.key
-                            valueView.setImageResource(
-                                if (permission.value) {
-                                    R.drawable.sentinel_ic_checked
-                                } else {
-                                    R.drawable.sentinel_ic_unchecked
-                                }
-                            )
-                        }.root
-                )
+        val collector: PermissionsCollector = get()
+        collector.collect()
+        collector.present().let {
+            with(viewBinding) {
+                contentLayout.removeAllViews()
+                it.forEach {
+                    contentLayout.addView(createItemView(it))
+                }
             }
         }
     }
 
-    override fun onDestroy() =
-        super.onDestroy().run {
-            viewBinding = null
-        }
+    private fun createItemView(entry: Map.Entry<String, Boolean>): View =
+        SentinelViewItemCheckableBinding.inflate(layoutInflater, viewBinding.contentLayout, false)
+            .apply {
+                this.labelView.text = entry.key
+                this.valueView.setImageResource(
+                    if (entry.value) {
+                        R.drawable.sentinel_ic_checked
+                    } else {
+                        R.drawable.sentinel_ic_unchecked
+                    }
+                )
+            }.root
 }
