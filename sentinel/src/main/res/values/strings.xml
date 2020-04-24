@@ -52,4 +52,5 @@
     <string name="sentinel_shake">Shake</string>
     <string name="sentinel_usb_connected">USB connected</string>
     <string name="sentinel_airplane_mode_on">Airplane mode on</string>
+    <string name="sentinel_emulator">Emulator</string>
 </resources>

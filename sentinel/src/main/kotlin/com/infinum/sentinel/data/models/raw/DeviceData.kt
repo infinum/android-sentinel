@@ -19,5 +19,15 @@ internal data class DeviceData(
     val sdk: String = Build.VERSION.SDK_INT.toString(),
     val securityPatch: String = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         Build.VERSION.SECURITY_PATCH
-    } else ""
+    } else "",
+    val isProbablyAnEmulator: Boolean = (Build.FINGERPRINT.startsWith("generic")
+            || Build.FINGERPRINT.startsWith("unknown")
+            || Build.MODEL.contains("google_sdk")
+            || Build.MODEL.contains("Emulator")
+            || Build.MODEL.contains("Android SDK built for x86")
+            || Build.BOARD == "QC_Reference_Phone" //bluestacks
+            || Build.MANUFACTURER.contains("Genymotion")
+            || Build.HOST.startsWith("Build") //MSI App Player
+            || (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
+            || "google_sdk" == Build.PRODUCT)
 )

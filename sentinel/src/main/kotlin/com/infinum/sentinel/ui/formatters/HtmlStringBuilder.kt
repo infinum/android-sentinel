@@ -77,6 +77,7 @@ internal class HtmlStringBuilder(
                     addDiv(R.string.sentinel_release, it.release)
                     addDiv(R.string.sentinel_sdk, it.sdk)
                     addDiv(R.string.sentinel_security_patch, it.securityPatch)
+                    addDiv(R.string.sentinel_emulator, it.isProbablyAnEmulator.toString())
                 }
             }
             .appendln(BODY_END)

@@ -81,6 +81,12 @@
             android:layout_height="wrap_content"
             app:sentinel_label="@string/sentinel_security_patch" />
 
+        <com.infinum.sentinel.ui.views.SentinelItemTextView
+            android:id="@+id/emulatorView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:sentinel_label="@string/sentinel_emulator" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

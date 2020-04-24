@@ -61,6 +61,7 @@ internal class MarkdownStringBuilder(
                     addLine(R.string.sentinel_release, it.release)
                     addLine(R.string.sentinel_sdk, it.sdk)
                     addLine(R.string.sentinel_security_patch, it.securityPatch)
+                    addLine(R.string.sentinel_emulator, it.isProbablyAnEmulator.toString())
                 }
             }
             .toString()

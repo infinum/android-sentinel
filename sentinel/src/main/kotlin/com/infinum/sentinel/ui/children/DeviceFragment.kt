@@ -42,6 +42,7 @@ internal class DeviceFragment : BaseChildFragment<SentinelFragmentDeviceBinding>
                 releaseView.data = it.release
                 sdkView.data = it.sdk
                 securityPatchView.data = it.securityPatch
+                emulatorView.data = it.isProbablyAnEmulator.toString()
             }
         }
     }

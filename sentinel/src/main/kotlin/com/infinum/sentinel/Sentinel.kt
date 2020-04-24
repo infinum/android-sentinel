@@ -10,6 +10,7 @@ import com.infinum.sentinel.data.models.memory.triggers.foreground.ForegroundTri
 import com.infinum.sentinel.data.models.memory.triggers.manual.ManualTrigger
 import com.infinum.sentinel.data.models.memory.triggers.shake.ShakeTrigger
 import com.infinum.sentinel.data.models.memory.triggers.usb.UsbConnectedTrigger
+import com.infinum.sentinel.data.models.raw.DeviceData
 import com.infinum.sentinel.data.sources.local.room.SentinelDatabase
 import com.infinum.sentinel.data.sources.raw.ApplicationCollector
 import com.infinum.sentinel.data.sources.raw.BasicCollector
@@ -128,7 +129,7 @@ class Sentinel private constructor(
                     }
                     TriggerType.FOREGROUND -> {
                         val trigger: ForegroundTrigger = getKoin().get()
-                        trigger.active = it.enabled
+                        trigger.active = it.enabled || DeviceData().isProbablyAnEmulator
                     }
                     TriggerType.SHAKE -> {
                         val trigger: ShakeTrigger = getKoin().get()

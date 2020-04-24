@@ -59,11 +59,18 @@ internal class JsonStringBuilder(
                     addKey(R.string.sentinel_release, it.release)
                     addKey(R.string.sentinel_sdk, it.sdk)
                     addKey(R.string.sentinel_security_patch, it.securityPatch)
+                    addKey(R.string.sentinel_emulator, it.isProbablyAnEmulator)
                 }
             })
             .toString()
 
     private fun JSONObject.addKey(@StringRes key: Int, value: String) {
+        context.getString(key).sanitize().let {
+            put(it, value)
+        }
+    }
+
+    private fun JSONObject.addKey(@StringRes key: Int, value: Boolean) {
         context.getString(key).sanitize().let {
             put(it, value)
         }

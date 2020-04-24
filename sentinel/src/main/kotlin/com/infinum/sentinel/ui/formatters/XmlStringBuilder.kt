@@ -82,6 +82,7 @@ internal class XmlStringBuilder(
             addNode(R.string.sentinel_release, it.release)
             addNode(R.string.sentinel_sdk, it.sdk)
             addNode(R.string.sentinel_security_patch, it.securityPatch)
+            addNode(R.string.sentinel_emulator, it.isProbablyAnEmulator.toString())
         }
         endTag(NAMESPACE, DEVICE)
     }
