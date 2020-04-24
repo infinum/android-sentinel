@@ -6,13 +6,15 @@ import com.infinum.sentinel.R
 import com.infinum.sentinel.data.sources.raw.ApplicationCollector
 import com.infinum.sentinel.data.sources.raw.DeviceCollector
 import com.infinum.sentinel.data.sources.raw.PermissionsCollector
+import com.infinum.sentinel.data.sources.raw.PreferencesCollector
 import com.infinum.sentinel.extensions.sanitize
 
 internal class PlainStringBuilder(
     private val context: Context,
     private val applicationCollector: ApplicationCollector,
     private val permissionsCollector: PermissionsCollector,
-    private val deviceCollector: DeviceCollector
+    private val deviceCollector: DeviceCollector,
+    private val preferencesCollector: PreferencesCollector
 ) : AbstractFormattedStringBuilder() {
 
     companion object {
@@ -21,10 +23,16 @@ internal class PlainStringBuilder(
 
     override fun format(): String =
         StringBuilder()
+            .appendln(application())
+            .appendln(permissions())
+            .appendln(device())
+            .appendln(preferences())
+            .toString()
+
+    override fun application(): String =
+        StringBuilder()
             .appendln(APPLICATION.toUpperCase())
-            .appendln(
-                SEPARATOR.repeat(
-                    APPLICATION.length))
+            .appendln(SEPARATOR.repeat(APPLICATION.length))
             .apply {
                 applicationCollector.present().let {
                     addLine(R.string.sentinel_version_code, it.versionCode)
@@ -41,10 +49,12 @@ internal class PlainStringBuilder(
                 }
             }
             .appendln()
+            .toString()
+
+    override fun permissions(): String =
+        StringBuilder()
             .appendln(PERMISSIONS.toUpperCase())
-            .appendln(
-                SEPARATOR.repeat(
-                    PERMISSIONS.length))
+            .appendln(SEPARATOR.repeat(PERMISSIONS.length))
             .apply {
                 permissionsCollector.present().let {
                     it.forEach { entry ->
@@ -53,10 +63,12 @@ internal class PlainStringBuilder(
                 }
             }
             .appendln()
+            .toString()
+
+    override fun device(): String =
+        StringBuilder()
             .appendln(DEVICE.toUpperCase())
-            .appendln(
-                SEPARATOR.repeat(
-                    DEVICE.length))
+            .appendln(SEPARATOR.repeat(DEVICE.length))
             .apply {
                 deviceCollector.present().let {
                     addLine(R.string.sentinel_manufacturer, it.manufacturer)
@@ -73,11 +85,35 @@ internal class PlainStringBuilder(
                     addLine(R.string.sentinel_emulator, it.isProbablyAnEmulator.toString())
                 }
             }
+            .appendln()
+            .toString()
+
+    @Suppress("NestedBlockDepth")
+    override fun preferences(): String =
+        StringBuilder()
+            .appendln(PREFERENCES.toUpperCase())
+            .appendln(SEPARATOR.repeat(PREFERENCES.length))
+            .apply {
+                preferencesCollector.present().let {
+                    it.forEach { preference ->
+                        appendln()
+                        appendln(preference.name)
+                        appendln(SEPARATOR.repeat(preference.name.length))
+                        preference.values.forEach { triple ->
+                            addLine(triple.second, triple.third.toString())
+                        }
+                    }
+                }
+            }
             .toString()
 
     private fun StringBuilder.addLine(@StringRes tag: Int, text: String) {
         context.getString(tag).sanitize().let {
             appendln("$it: $text")
         }
+    }
+
+    private fun StringBuilder.addLine(tag: String, text: String) {
+        appendln("$tag: $text")
     }
 }

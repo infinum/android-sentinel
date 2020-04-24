@@ -6,13 +6,15 @@ import com.infinum.sentinel.R
 import com.infinum.sentinel.data.sources.raw.ApplicationCollector
 import com.infinum.sentinel.data.sources.raw.DeviceCollector
 import com.infinum.sentinel.data.sources.raw.PermissionsCollector
+import com.infinum.sentinel.data.sources.raw.PreferencesCollector
 import com.infinum.sentinel.extensions.sanitize
 
 internal class HtmlStringBuilder(
     private val context: Context,
     private val applicationCollector: ApplicationCollector,
     private val permissionsCollector: PermissionsCollector,
-    private val deviceCollector: DeviceCollector
+    private val deviceCollector: DeviceCollector,
+    private val preferencesCollector: PreferencesCollector
 ) : AbstractFormattedStringBuilder() {
 
     companion object {
@@ -20,6 +22,8 @@ internal class HtmlStringBuilder(
         private const val HTML_END = "</html>"
         private const val BODY_START = "<body>"
         private const val BODY_END = "</body>"
+        private const val HEADING_START = "<h1>"
+        private const val HEADING_END = "</h1>"
         private const val PARAGRAPH_START = "<p>"
         private const val PARAGRAPH_END = "</p>"
         private const val BOLD_START = "<b>"
@@ -37,7 +41,18 @@ internal class HtmlStringBuilder(
         StringBuilder()
             .appendln(HTML_START)
             .appendln(BODY_START)
-            .appendln("$PARAGRAPH_START$BOLD_START$APPLICATION$BOLD_END$PARAGRAPH_END")
+            .appendln(application())
+            .appendln(permissions())
+            .appendln(device())
+            .appendln(preferences())
+            .appendln(BODY_END)
+            .appendln(HTML_END)
+            .toString()
+
+    override fun application(): String =
+        StringBuilder()
+
+            .appendln("$HEADING_START$BOLD_START$APPLICATION$BOLD_END$HEADING_END")
             .apply {
                 applicationCollector.present().let {
                     addDiv(R.string.sentinel_version_code, it.versionCode)
@@ -53,7 +68,11 @@ internal class HtmlStringBuilder(
                     addDiv(R.string.sentinel_locale_country, it.localeCountry)
                 }
             }
-            .appendln("$PARAGRAPH_START$BOLD_START$PERMISSIONS$BOLD_END$PARAGRAPH_END")
+            .toString()
+
+    override fun permissions(): String =
+        StringBuilder()
+            .appendln("$HEADING_START$BOLD_START$PERMISSIONS$BOLD_END$HEADING_END")
             .appendln(UL_START)
             .apply {
                 permissionsCollector.present().let {
@@ -63,7 +82,11 @@ internal class HtmlStringBuilder(
                 }
             }
             .appendln(UL_END)
-            .appendln("$PARAGRAPH_START$BOLD_START$DEVICE$BOLD_END$PARAGRAPH_END")
+            .toString()
+
+    override fun device(): String =
+        StringBuilder()
+            .appendln("$HEADING_START$BOLD_START$DEVICE$BOLD_END$HEADING_END")
             .apply {
                 deviceCollector.present().let {
                     addDiv(R.string.sentinel_manufacturer, it.manufacturer)
@@ -80,8 +103,22 @@ internal class HtmlStringBuilder(
                     addDiv(R.string.sentinel_emulator, it.isProbablyAnEmulator.toString())
                 }
             }
-            .appendln(BODY_END)
-            .appendln(HTML_END)
+            .toString()
+
+    @Suppress("NestedBlockDepth")
+    override fun preferences(): String =
+        StringBuilder()
+            .appendln("$HEADING_START$BOLD_START$PREFERENCES$BOLD_END$HEADING_END")
+            .apply {
+                preferencesCollector.present().let {
+                    it.forEach { preference ->
+                        appendln("$PARAGRAPH_START${preference.name}$PARAGRAPH_END")
+                        preference.values.forEach { triple ->
+                            addLi(triple.second, triple.third.toString())
+                        }
+                    }
+                }
+            }
             .toString()
 
     private fun StringBuilder.addDiv(@StringRes tag: Int, text: String) {

@@ -8,21 +8,26 @@ import com.infinum.sentinel.R
 import com.infinum.sentinel.data.sources.raw.ApplicationCollector
 import com.infinum.sentinel.data.sources.raw.DeviceCollector
 import com.infinum.sentinel.data.sources.raw.PermissionsCollector
+import com.infinum.sentinel.data.sources.raw.PreferencesCollector
 import com.infinum.sentinel.extensions.sanitize
 import org.xmlpull.v1.XmlSerializer
 import java.io.StringWriter
 
+@Suppress("TooManyFunctions")
 internal class XmlStringBuilder(
     private val context: Context,
     private val applicationCollector: ApplicationCollector,
     private val permissionsCollector: PermissionsCollector,
-    private val deviceCollector: DeviceCollector
+    private val deviceCollector: DeviceCollector,
+    private val preferencesCollector: PreferencesCollector
 ) : AbstractFormattedStringBuilder() {
 
     companion object {
         private const val NAMESPACE = "sentinel"
         private const val ROOT = "sentinel"
         private const val PERMISSION = "permission"
+        private const val PREFERENCE = "preference"
+        private const val VALUE = "value"
     }
 
     @SuppressLint("DefaultLocale")
@@ -30,15 +35,24 @@ internal class XmlStringBuilder(
         StringWriter().apply {
             with(Xml.newSerializer()) {
                 setOutput(this@apply)
-                startDocument(Charsets.UTF_8.name().toUpperCase(), true)
+                startDocument(Xml.Encoding.UTF_8.name, true)
                 startTag(NAMESPACE, ROOT)
                 addApplicationNode()
                 addPermissionsNode()
                 addDeviceNode()
+                addPreferencesNode()
                 endTag(NAMESPACE, ROOT)
                 endDocument()
             }
         }.toString()
+
+    override fun application(): String = ""
+
+    override fun permissions(): String = ""
+
+    override fun device(): String = ""
+
+    override fun preferences(): String = ""
 
     private fun XmlSerializer.addApplicationNode() {
         startTag(NAMESPACE, APPLICATION)
@@ -62,7 +76,7 @@ internal class XmlStringBuilder(
         startTag(NAMESPACE, PERMISSIONS)
         permissionsCollector.present().let {
             it.forEach { entry ->
-                addNodeWithAttribute(entry.key, entry.value.toString())
+                addNodeWithPermissionAttributes(entry.key, entry.value.toString())
             }
         }
         endTag(NAMESPACE, PERMISSIONS)
@@ -87,6 +101,21 @@ internal class XmlStringBuilder(
         endTag(NAMESPACE, DEVICE)
     }
 
+    private fun XmlSerializer.addPreferencesNode() {
+        startTag(NAMESPACE, PREFERENCES)
+        preferencesCollector.present().let {
+            it.forEach { preference ->
+                startTag(NAMESPACE, PREFERENCE)
+                attribute(NAMESPACE, NAME, preference.name)
+                preference.values.forEach { triple ->
+                    addNodeWithPreferenceAttributes(triple.second, triple.third.toString())
+                }
+                endTag(NAMESPACE, PREFERENCE)
+            }
+        }
+        endTag(NAMESPACE, PREFERENCES)
+    }
+
     private fun XmlSerializer.addNode(@StringRes tag: Int, text: String) {
         context.getString(tag).sanitize().let {
             startTag(NAMESPACE, it)
@@ -95,10 +124,17 @@ internal class XmlStringBuilder(
         }
     }
 
-    private fun XmlSerializer.addNodeWithAttribute(name: String, status: String) {
+    private fun XmlSerializer.addNodeWithPermissionAttributes(name: String, status: String) {
         startTag(NAMESPACE, PERMISSION)
         attribute(NAMESPACE, NAME, name)
         attribute(NAMESPACE, STATUS, status)
         endTag(NAMESPACE, PERMISSION)
+    }
+
+    private fun XmlSerializer.addNodeWithPreferenceAttributes(name: String, value: String) {
+        startTag(NAMESPACE, VALUE)
+        attribute(NAMESPACE, NAME, name)
+        attribute(NAMESPACE, VALUE, value)
+        endTag(NAMESPACE, VALUE)
     }
 }

@@ -78,11 +78,11 @@ class Sentinel private constructor(
         }
 
         val formatters = module {
-            single { PlainStringBuilder(get(), get(), get(), get()) }
-            single { MarkdownStringBuilder(get(), get(), get(), get()) }
-            single { JsonStringBuilder(get(), get(), get(), get()) }
-            single { XmlStringBuilder(get(), get(), get(), get()) }
-            single { HtmlStringBuilder(get(), get(), get(), get()) }
+            single { PlainStringBuilder(get(), get(), get(), get(), get()) }
+            single { MarkdownStringBuilder(get(), get(), get(), get(), get()) }
+            single { JsonStringBuilder(get(), get(), get(), get(), get()) }
+            single { XmlStringBuilder(get(), get(), get(), get(), get()) }
+            single { HtmlStringBuilder(get(), get(), get(), get(), get()) }
         }
 
         startKoin {
