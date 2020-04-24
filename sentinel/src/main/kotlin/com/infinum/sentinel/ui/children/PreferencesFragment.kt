@@ -8,8 +8,8 @@ import androidx.annotation.RestrictTo
 import com.infinum.sentinel.data.models.raw.PreferencesData
 import com.infinum.sentinel.data.sources.raw.PreferencesCollector
 import com.infinum.sentinel.databinding.SentinelFragmentPreferencesBinding
-import com.infinum.sentinel.databinding.SentinelViewItemEditableBinding
 import com.infinum.sentinel.databinding.SentinelViewItemPreferenceBinding
+import com.infinum.sentinel.databinding.SentinelViewItemTextBinding
 import com.infinum.sentinel.ui.shared.BaseChildFragment
 import org.koin.android.ext.android.get
 
@@ -48,10 +48,11 @@ internal class PreferencesFragment : BaseChildFragment<SentinelFragmentPreferenc
                 nameView.text = data.name
                 data.values.forEach {
                     prefsLayout.addView(
-                        SentinelViewItemEditableBinding.inflate(layoutInflater, prefsLayout, false)
+                        SentinelViewItemTextBinding.inflate(layoutInflater, prefsLayout, false)
                             .apply {
+                                labelView.isAllCaps = false
                                 labelView.text = it.second
-                                valueView.setText(it.third.toString())
+                                valueView.text = it.third.toString()
                             }.root
                     )
                 }
