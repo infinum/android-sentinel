@@ -39,14 +39,9 @@ class Sentinel private constructor(
 ) {
 
     companion object {
-        private var INSTANCE: Sentinel? = null
 
-        fun watch(context: Context, tools: Set<Tool>): Sentinel {
-            if (INSTANCE == null) {
-                INSTANCE = Sentinel(context, tools)
-            }
-            return INSTANCE as Sentinel
-        }
+        fun watch(context: Context, tools: Set<Tool>): Sentinel =
+            lazyOf(Sentinel(context, tools)).value
     }
 
     init {
