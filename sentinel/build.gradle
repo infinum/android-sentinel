@@ -43,12 +43,6 @@ android {
         jvmTarget = "1.8"
     }
 
-//    testOptions {
-//        unitTests {
-//            includeAndroidResources = true
-//        }
-//    }
-
     sourceSets.each {
         it.java.srcDirs += "src/$it.name/kotlin"
     }
@@ -72,12 +66,10 @@ dependencies {
     androidTestImplementation "junit:junit:4.13"
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation "org.robolectric:shadowapi:4.3.1"
 
     testImplementation "junit:junit:4.13"
     testImplementation 'androidx.test.ext:junit:1.1.1'
-    //androidTestImplementation 'org.robolectric:robolectric:4.3.1'
-
-    //testImplementation 'org.robolectric:robolectric:4.3.1'
 
 //    testImplementation 'org.koin:koin-test:2.1.5'
 //
