@@ -13,6 +13,7 @@ android {
         versionName sentinel.version
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
         consumerProguardFiles 'consumer-rules.pro'
 
         javaCompileOptions {
@@ -41,9 +42,8 @@ android {
         jvmTarget = "1.8"
     }
 
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-        test.java.srcDirs += 'src/test/kotlin'
+    sourceSets.each {
+        it.java.srcDirs += "src/$it.name/kotlin"
     }
 
     viewBinding.enabled = true
@@ -58,11 +58,27 @@ dependencies {
     implementation packages.androidx.room.runtime
     kapt packages.androidx.room.compiler
     implementation "androidx.preference:preference-ktx:1.1.1"
+
     implementation "org.koin:koin-android:2.1.5"
     implementation "org.koin:koin-androidx-scope:2.1.5"
 
-    testImplementation 'junit:junit:4.13'
+    testImplementation 'org.koin:koin-test:2.1.5'
+
+    testImplementation "junit:junit:4.13"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.6.0"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.6.0"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:5.6.0"
+
+//    androidTestImplementation "junit:junit:4.13"
+//    //androidTestImplementation 'org.robolectric:robolectric:4.3'
+//    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    androidTestImplementation 'androidx.test:core:1.2.0'
+    androidTestImplementation 'androidx.test:core-ktx:1.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.ext:junit-ktx:1.1.1'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
 

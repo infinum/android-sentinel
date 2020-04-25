@@ -6,7 +6,7 @@ android {
     buildToolsVersion buildConfig.buildTools
 
     defaultConfig {
-        minSdkVersion 19 // Should be 16 but bumped because of DbInspector
+        minSdkVersion 23 // Should be 16 but bumped because of DbInspector
         targetSdkVersion buildConfig.targetSdk
         versionCode sentinel.versionCode
         versionName sentinel.version
@@ -45,6 +45,7 @@ dependencies {
     implementation packages.kotlin.core
     implementation packages.androidx.appcompat
     implementation "androidx.preference:preference-ktx:1.1.1"
+    implementation "androidx.security:security-crypto:1.0.0-rc01"
 
     debugImplementation packages.sentinel.sentinel
     releaseImplementation packages.sentinel.sentinel_no_op

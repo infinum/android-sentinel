@@ -13,26 +13,8 @@ import com.infinum.sentinel.Sentinel
  * and FLAG_ACTIVITY_NEW_TASK flags.
  * If no appropriate application is found, this tool will open a website on play.google.com.
  */
-class GooglePlayTool : Sentinel.DistributionTool {
-
-    companion object {
-        private const val SCHEME_MARKET = "market"
-        private const val SCHEME_HTTPS = "https"
-        private const val AUTHORITY_GOOGLE_PLAY = "play.google.com"
-        private const val PATH_STORE = "store"
-        private const val PATH_APPS = "apps"
-        private const val PATH_DETAILS = "details"
-        private const val QUERY_ID = "id"
-
-        private const val VENDING_PACKAGE_NAME = "com.android.vending"
-    }
-
-    /**
-     * A callback to be invoked when this view is clicked.
-     *
-     * @return an assigned OnClickListener that will be used to generate a Button in Tools UI
-     */
-    override fun listener(): View.OnClickListener = View.OnClickListener { view ->
+data class GooglePlayTool(
+    private val listener: View.OnClickListener = View.OnClickListener { view ->
         val intent = Intent(
             Intent.ACTION_VIEW,
             Uri.Builder()
@@ -76,4 +58,24 @@ class GooglePlayTool : Sentinel.DistributionTool {
             )
         }
     }
+) : Sentinel.DistributionTool {
+
+    companion object {
+        private const val SCHEME_MARKET = "market"
+        private const val SCHEME_HTTPS = "https"
+        private const val AUTHORITY_GOOGLE_PLAY = "play.google.com"
+        private const val PATH_STORE = "store"
+        private const val PATH_APPS = "apps"
+        private const val PATH_DETAILS = "details"
+        private const val QUERY_ID = "id"
+
+        private const val VENDING_PACKAGE_NAME = "com.android.vending"
+    }
+
+    /**
+     * A callback to be invoked when this view is clicked.
+     *
+     * @return an assigned OnClickListener that will be used to generate a Button in Tools UI
+     */
+    override fun listener(): View.OnClickListener = listener
 }

@@ -26,7 +26,6 @@ import com.infinum.sentinel.ui.formatters.JsonStringBuilder
 import com.infinum.sentinel.ui.formatters.MarkdownStringBuilder
 import com.infinum.sentinel.ui.formatters.PlainStringBuilder
 import com.infinum.sentinel.ui.formatters.XmlStringBuilder
-import com.infinum.sentinel.ui.tools.AppInfoTool
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
@@ -56,7 +55,7 @@ class Sentinel private constructor(
         }
 
         val triggers = module {
-            single { ManualTrigger().apply { active = true } }
+            single { ManualTrigger() }
             single { ForegroundTrigger { showNow() } }
             single { ShakeTrigger(get()) { showNow() } }
             single { UsbConnectedTrigger(get()) { showNow() } }
@@ -64,7 +63,7 @@ class Sentinel private constructor(
         }
 
         val collectors = module {
-            single { ToolsCollector(tools.plus(AppInfoTool())) }
+            single { ToolsCollector(tools) }
             single { BasicCollector(get()) }
             single { ApplicationCollector(get()) }
             single { PermissionsCollector(get()) }
@@ -80,15 +79,17 @@ class Sentinel private constructor(
             single { HtmlStringBuilder(get(), get(), get(), get(), get()) }
         }
 
+        val modules = listOf(
+            database,
+            repositories,
+            triggers,
+            collectors,
+            formatters
+        )
+
         startKoin {
             androidContext(context)
-            modules(
-                database,
-                repositories,
-                triggers,
-                collectors,
-                formatters
-            )
+            modules(modules)
         }
 
         observeTriggers()
