@@ -6,7 +6,7 @@ android {
     buildToolsVersion buildConfig.buildTools
 
     defaultConfig {
-        minSdkVersion 23 // Should be 16 but bumped because of DbInspector
+        minSdkVersion 23 // Should be 16 but bumped because of DbInspector (19)
         targetSdkVersion buildConfig.targetSdk
         versionCode sentinel.versionCode
         versionName sentinel.version

@@ -1,14 +1,17 @@
 package com.infinum.sentinel.data.sources.raw
 
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
+import com.infinum.sentinel.ui.tools.AppInfoTool
 import com.infinum.sentinel.ui.tools.DummyTool
 import com.infinum.sentinel.ui.tools.NoNameTool
-import com.infinum.sentinel.ui.tools.AppInfoTool
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.BeforeClass
 import org.junit.Test
+import org.junit.runner.RunWith
 
+@RunWith(AndroidJUnit4::class)
 internal class ToolsCollectorTests {
 
     companion object {
@@ -19,10 +22,8 @@ internal class ToolsCollectorTests {
         @BeforeClass
         @JvmStatic
         fun setupCollector() {
-            dummyTool =
-                DummyTool()
-            noNameTool =
-                NoNameTool()
+            dummyTool = DummyTool()
+            noNameTool = NoNameTool()
         }
     }
 

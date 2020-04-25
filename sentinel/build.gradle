@@ -38,9 +38,16 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+//    testOptions {
+//        unitTests {
+//            includeAndroidResources = true
+//        }
+//    }
 
     sourceSets.each {
         it.java.srcDirs += "src/$it.name/kotlin"
@@ -62,24 +69,31 @@ dependencies {
     implementation "org.koin:koin-android:2.1.5"
     implementation "org.koin:koin-androidx-scope:2.1.5"
 
-    testImplementation 'org.koin:koin-test:2.1.5'
+    androidTestImplementation "junit:junit:4.13"
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
 
     testImplementation "junit:junit:4.13"
-    testImplementation "org.junit.jupiter:junit-jupiter-api:5.6.0"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.6.0"
-    testImplementation "org.junit.jupiter:junit-jupiter-params:5.6.0"
+    testImplementation 'androidx.test.ext:junit:1.1.1'
+    //androidTestImplementation 'org.robolectric:robolectric:4.3.1'
 
-//    androidTestImplementation "junit:junit:4.13"
-//    //androidTestImplementation 'org.robolectric:robolectric:4.3'
-//    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    //testImplementation 'org.robolectric:robolectric:4.3.1'
+
+//    testImplementation 'org.koin:koin-test:2.1.5'
+//
+//
+//    testImplementation 'androidx.test.ext:junit:1.1.1'
+//    testImplementation 'androidx.test:core-ktx:1.2.0'
+//    testImplementation 'androidx.test:runner:1.2.0'
+
 //    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-
-    androidTestImplementation 'androidx.test:core:1.2.0'
-    androidTestImplementation 'androidx.test:core-ktx:1.2.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.ext:junit-ktx:1.1.1'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+//    androidTestImplementation "junit:junit:4.13"
+//    androidTestImplementation 'androidx.test:core:1.2.0'
+//    androidTestImplementation 'androidx.test:core-ktx:1.2.0'
+//    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+//    androidTestImplementation 'androidx.test.ext:junit-ktx:1.1.1'
+//    androidTestImplementation 'androidx.test:runner:1.2.0'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
 
 apply from: "bintray.gradle"

@@ -1,28 +1,31 @@
 package com.infinum.sentinel.data.sources.raw
 
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
-import androidx.test.platform.app.InstrumentationRegistry
 import com.infinum.sentinel.data.models.raw.BasicData
+import com.infinum.sentinel.ui.SentinelTestApplication
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNotNull
 import org.junit.BeforeClass
 import org.junit.Test
+import org.junit.runner.RunWith
 
+@RunWith(AndroidJUnit4::class)
 internal class BasicCollectorTests {
 
     companion object {
 
-        private const val EXPECTED_APPLICATION_NAME = "com.infinum.sentinel.test"
+        private const val EXPECTED_APPLICATION_LABEL = "Sentinel"
 
-        private lateinit var actualBasicData: BasicData
+        lateinit var actualBasicData: BasicData
 
         @BeforeClass
         @JvmStatic
         fun setupCollector() {
-            val application = InstrumentationRegistry.getInstrumentation()
-                .targetContext
-                .applicationContext
+            val application =
+                ApplicationProvider.getApplicationContext<SentinelTestApplication>().applicationContext
 
             val collector = BasicCollector(application)
             collector.collect()
@@ -39,15 +42,15 @@ internal class BasicCollectorTests {
 
     @Test
     @SmallTest
-    fun application_hasName() {
+    fun application_hasLabel() {
         assertNotNull(actualBasicData.applicationName)
-        assertEquals(EXPECTED_APPLICATION_NAME, actualBasicData.applicationName)
+        assertEquals(EXPECTED_APPLICATION_LABEL, actualBasicData.applicationName)
     }
 
     @Test
     @SmallTest
-    fun application_hasNoBlankName() {
+    fun application_hasNoBlankLabel() {
         assertNotEquals("", actualBasicData.applicationName)
-        assertEquals(EXPECTED_APPLICATION_NAME, actualBasicData.applicationName)
+        assertEquals(EXPECTED_APPLICATION_LABEL, actualBasicData.applicationName)
     }
 }
