@@ -1,0 +1,75 @@
+apply plugin: 'jacoco'
+
+android {
+    testOptions {
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.5"
+    reportsDir = file("$buildDir/reports/jacoco")
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports for both unit and instrumented unit tests"
+
+    reports {
+        csv.enabled false
+        xml.enabled = true
+        html.enabled = true
+
+        xml.setDestination(file("${jacoco.reportsDir}/jacocoTestReport.xml"))
+        html.setDestination(file("${jacoco.reportsDir}/html"))
+    }
+
+    def includesFilter = [
+            '**/*Mapper*.*',
+            '**/*Presenter*.*',
+            '**/*ViewModel*.*'
+    ]
+
+    def excludesFilter = [
+            '**/*Test*.*',
+            '**/AutoValue_*.*',
+            '**/*JavascriptBridge.class',
+            '**/R.class',
+            '**/R$*.class',
+            '**/Manifest*.*',
+            'android/**/*.*',
+            '**/BuildConfig.*',
+            '**/*$ViewBinder*.*',
+            '**/*$ViewInjector*.*',
+            '**/Lambda$*.class',
+            '**/Lambda.class',
+            '**/*Lambda.class',
+            '**/*Lambda*.class',
+            '**/*$InjectAdapter.class',
+            '**/*$ModuleAdapter.class',
+            '**/*$ViewInjector*.class',
+            '**/*_MembersInjector.class', //Dagger2 generated code
+            '*/*_MembersInjector*.*', //Dagger2 generated code
+            '**/*_*Factory*.*', //Dagger2 generated code
+            '*/*Component*.*', //Dagger2 generated code
+            '**/*Module*.*' //Dagger2 generated code
+    ]
+
+    //can be other build type and flavor for test coverage
+    def debugTree = fileTree(
+            dir: "${buildDir}/intermediates/classes/debug", excludes: excludesFilter) + fileTree(
+            dir: "${buildDir}/tmp/kotlin-classes/debug", excludes: excludesFilter) // , includes: includesFilter
+
+    getSourceDirectories().setFrom(files(["${project.projectDir}/src/main/kotlin"]))
+    getClassDirectories().setFrom(files([debugTree]))
+    getExecutionData().setFrom(
+            fileTree(dir: "$buildDir", includes: [
+                    "jacoco/testDebugUnitTest.exec",
+                    "outputs/code_coverage/debugAndroidTest/connected/*coverage.ec"
+            ])
+    )
+}
