@@ -9,6 +9,7 @@ import org.junit.runners.Suite.SuiteClasses
     BasicCollectorTests::class,
     ToolsCollectorTests::class,
     DeviceCollectorTestSuite::class,
-    ApplicationCollectorTests::class
+    ApplicationCollectorTests::class,
+    PermissionsCollectorTests::class
 )
 class CollectorsTestSuite

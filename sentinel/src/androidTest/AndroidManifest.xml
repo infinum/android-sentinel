@@ -1,9 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.infinum.sentinel"
     android:versionCode="100000"
-    android:versionName="1.0.0"
-    package="com.infinum.sentinel">
+    android:versionName="1.0.0">
 
-    <application android:name=".ui.SentinelTestApplication"
+    <application
+        android:name=".ui.SentinelTestApplication"
         android:label="@string/sentinel_name">
         <activity
             android:name="com.infinum.sentinel.ui.SentinelActivity"
