@@ -13,6 +13,7 @@ internal class PreferencesCollector(
     companion object {
         @VisibleForTesting
         const val PREFS_DIRECTORY = "shared_prefs"
+
         @VisibleForTesting
         const val PREFS_SUFFIX = ".xml"
     }
