@@ -36,7 +36,7 @@ internal class PermissionsCollectorTests {
 
     @Test
     @SmallTest
-    fun application_hasNoDeclaredPermissions() {
+    fun permissions_notDeclared() {
         assertTrue(actualPermissions.isNotEmpty())
         assertEquals(APPENDED_PERMISSIONS.size, actualPermissions.size)
         assertEquals(

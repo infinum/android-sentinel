@@ -1,7 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.infinum.sentinel"
     android:versionCode="100000"
     android:versionName="1.0.0">
+
+    <uses-sdk tools:overrideLibrary="androidx.security"/>
 
     <application
         android:name=".ui.SentinelTestApplication"
