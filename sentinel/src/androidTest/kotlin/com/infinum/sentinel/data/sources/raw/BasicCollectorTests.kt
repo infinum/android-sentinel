@@ -24,10 +24,10 @@ internal class BasicCollectorTests {
         @BeforeClass
         @JvmStatic
         fun setupCollector() {
-            val application =
+            val context =
                 ApplicationProvider.getApplicationContext<SentinelTestApplication>().applicationContext
 
-            val collector = BasicCollector(application)
+            val collector = BasicCollector(context)
             collector.collect()
 
             actualBasicData = collector.present()
