@@ -55,6 +55,7 @@ releaseImplementation("com.infinum.sentinel:sentinel-no-op:1.0.0")
 ```
 
 Basic tools are provided inside the main package but depending on requirements you might want to add specific tools:
+
 **Groovy**
 ```gradle
 debugImplementation "com.infinum.sentinel:tool-chucker:1.0.0"
