@@ -1,7 +1,9 @@
 package com.infinum.sentinel.data.sources.raw
 
+import android.os.Build
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.SdkSuppress
 import androidx.test.filters.SmallTest
 import com.infinum.sentinel.data.models.raw.ApplicationData
 import com.infinum.sentinel.ui.SentinelTestApplication
@@ -75,21 +77,20 @@ internal class ApplicationCollectorTests {
 
     @Test
     @SmallTest
-    @Config(sdk = [Config.NEWEST_SDK], minSdk = Config.TARGET_SDK)
+    @SdkSuppress(minSdkVersion = Build.VERSION_CODES.O)
     fun application_hasMinSdk_Oreo() {
         assertNotNull(actualApplicationData.minSdk)
         assertTrue(actualApplicationData.minSdk.isNotBlank())
         assertEquals(MIN_SDK, actualApplicationData.minSdk)
     }
 
-//    // TODO: Why is this not working?
-//    @Test
-//    @SmallTest
-//    @Config(sdk = [Config.OLDEST_SDK], maxSdk = Config.OLDEST_SDK)
-//    fun application_hasMinSdk_Before_Oreo() {
-//        assertNotNull(actualApplicationData.minSdk)
-//        assertTrue(actualApplicationData.minSdk.isBlank())
-//    }
+    @Test
+    @SmallTest
+    @SdkSuppress(minSdkVersion = Build.VERSION_CODES.JELLY_BEAN, maxSdkVersion = Build.VERSION_CODES.O)
+    fun application_hasMinSdk_Before_Oreo() {
+        assertNotNull(actualApplicationData.minSdk)
+        assertTrue(actualApplicationData.minSdk.isBlank())
+    }
 
     @Test
     @SmallTest

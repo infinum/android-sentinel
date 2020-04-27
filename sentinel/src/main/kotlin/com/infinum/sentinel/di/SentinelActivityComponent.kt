@@ -1,12 +1,5 @@
 package com.infinum.sentinel.di
 
-import com.infinum.sentinel.Sentinel
-import com.infinum.sentinel.data.sources.raw.ApplicationCollector
-import com.infinum.sentinel.data.sources.raw.BasicCollector
-import com.infinum.sentinel.data.sources.raw.DeviceCollector
-import com.infinum.sentinel.data.sources.raw.PermissionsCollector
-import com.infinum.sentinel.data.sources.raw.PreferencesCollector
-import com.infinum.sentinel.data.sources.raw.ToolsCollector
 import com.infinum.sentinel.domain.repository.FormatsRepository
 import com.infinum.sentinel.ui.formatters.HtmlStringBuilder
 import com.infinum.sentinel.ui.formatters.JsonStringBuilder
@@ -32,19 +25,19 @@ object SentinelActivityComponent {
     private fun formatters() =
         module {
             single {
-                PlainStringBuilder(get(), get(), get(), get(), get())
+                PlainStringBuilder(get())
             }
             single {
-                MarkdownStringBuilder(get(), get(), get(), get(), get())
+                MarkdownStringBuilder(get())
             }
             single {
-                JsonStringBuilder(get(), get(), get(), get(), get())
+                JsonStringBuilder(get())
             }
             single {
-                XmlStringBuilder(get(), get(), get(), get(), get())
+                XmlStringBuilder(get())
             }
             single {
-                HtmlStringBuilder(get(), get(), get(), get(), get())
+                HtmlStringBuilder(get())
             }
         }
 }

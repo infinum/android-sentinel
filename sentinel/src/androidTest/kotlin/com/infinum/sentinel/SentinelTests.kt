@@ -9,6 +9,7 @@ import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.Intents.times
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.RequiresDevice
 import androidx.test.filters.SmallTest
 import com.infinum.sentinel.ui.SentinelActivity
 import com.infinum.sentinel.ui.SentinelTestApplication
@@ -74,7 +75,18 @@ internal class SentinelTests {
         val instance = Sentinel.watch(context, TOOLS_EMPTY)
 
         instance.show()
-        
+
         intended(hasComponent(ComponentName(context, SentinelActivity::class.java)), times(3))
     }
+
+//    @Test
+//    @SmallTest
+//    @RequiresDevice
+//    fun sentinel_Show_Device() {
+//        val instance = Sentinel.watch(context, TOOLS_EMPTY)
+//
+//        instance.show()
+//
+//        intended(hasComponent(ComponentName(context, SentinelActivity::class.java)), times(1))
+//    }
 }

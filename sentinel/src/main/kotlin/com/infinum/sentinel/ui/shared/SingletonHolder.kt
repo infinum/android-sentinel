@@ -6,7 +6,7 @@ open class SingletonHolder<out T : Any, in A, in B>(creator: (A, B) -> T) {
     @Volatile
     private var instance: T? = null
 
-    fun watch(argFirst: A, argSecond: B): T {
+    fun watch(context: A, tools: B): T {
         val i = instance
         if (i != null) {
             return i
@@ -17,7 +17,7 @@ open class SingletonHolder<out T : Any, in A, in B>(creator: (A, B) -> T) {
             if (i2 != null) {
                 i2
             } else {
-                val created = creator!!(argFirst, argSecond)
+                val created = creator!!(context, tools)
                 instance = created
                 creator = null
                 created

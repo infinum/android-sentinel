@@ -3,19 +3,11 @@ package com.infinum.sentinel.ui.formatters
 import android.content.Context
 import androidx.annotation.StringRes
 import com.infinum.sentinel.R
-import com.infinum.sentinel.data.sources.raw.ApplicationCollector
-import com.infinum.sentinel.data.sources.raw.DeviceCollector
-import com.infinum.sentinel.data.sources.raw.PermissionsCollector
-import com.infinum.sentinel.data.sources.raw.PreferencesCollector
 import com.infinum.sentinel.extensions.sanitize
 
 internal class HtmlStringBuilder(
-    private val context: Context,
-    private val applicationCollector: ApplicationCollector,
-    private val permissionsCollector: PermissionsCollector,
-    private val deviceCollector: DeviceCollector,
-    private val preferencesCollector: PreferencesCollector
-) : AbstractFormattedStringBuilder() {
+    private val context: Context
+) : AbstractFormattedStringBuilder(context) {
 
     companion object {
         private const val HTML_START = "<html>"
