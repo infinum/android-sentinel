@@ -51,7 +51,6 @@ internal class PlainStringBuilderTests {
         private val VALUE_STRING_SET = setOf("Bojan", "likes", "Infinum")
 
         lateinit var context: Context
-        lateinit var actualData: String
 
         @BeforeClass
         @JvmStatic
@@ -94,11 +93,6 @@ internal class PlainStringBuilderTests {
 
             context = ApplicationProvider.getApplicationContext<SentinelTestApplication>()
                 .applicationContext
-
-            val stringBuilder = PlainStringBuilder(context)
-
-            actualData = stringBuilder.format()
-                .replace(Regex("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"), "yyyy-MM-dd HH:mm:ss")
         }
     }
 
@@ -141,6 +135,10 @@ internal class PlainStringBuilderTests {
     @Test
     @SmallTest
     fun formatter_hasDataWithoutPreferences() {
+        val stringBuilder = PlainStringBuilder(context)
+
+        val actualData = stringBuilder.format()
+            .replace(Regex("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"), "yyyy-MM-dd HH:mm:ss")
         assertNotNull(actualData)
         assertTrue(actualData.isNotBlank())
         assertEquals(EXPECTED_DATA_NO_PREFERENCES, actualData)
@@ -158,6 +156,11 @@ internal class PlainStringBuilderTests {
             .putString(KEY_STRING, VALUE_STRING)
             .putStringSet(KEY_STRING_SET, VALUE_STRING_SET)
             .commit()
+
+        val stringBuilder = PlainStringBuilder(context)
+
+        val actualData = stringBuilder.format()
+            .replace(Regex("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"), "yyyy-MM-dd HH:mm:ss")
 
         assertNotNull(actualData)
         assertTrue(actualData.isNotBlank())

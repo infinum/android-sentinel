@@ -7,6 +7,9 @@ import org.junit.runners.Suite.SuiteClasses
 @RunWith(Suite::class)
 @SuiteClasses(
     PlainStringBuilderTests::class,
-    MarkdownStringBuilderTests::class
+    MarkdownStringBuilderTests::class,
+    JsonStringBuilderTests::class,
+    XmlStringBuilderTests::class,
+    HtmlStringBuilderTests::class
 )
 class FormattersTestSuite

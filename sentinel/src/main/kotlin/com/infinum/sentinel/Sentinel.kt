@@ -23,7 +23,7 @@ import org.koin.java.KoinJavaComponent.getKoin
 
 class Sentinel private constructor(
     private val context: Context,
-    private val tools: Set<Tool>
+    private val tools: Set<Tool> = setOf()
 ) {
 
     companion object : SingletonHolder<Sentinel, Context, Set<Tool>>(::Sentinel)

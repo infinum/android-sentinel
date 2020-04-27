@@ -19,7 +19,7 @@ import org.robolectric.util.ReflectionHelpers
 import java.io.File
 
 @RunWith(AndroidJUnit4::class)
-internal class MarkdownStringBuilderTests {
+internal class XmlStringBuilderTests {
 
     companion object {
 
@@ -97,21 +97,22 @@ internal class MarkdownStringBuilderTests {
 
     private val EXPECTED_DATA_NO_PREFERENCES: String = this.javaClass
         .classLoader
-        ?.getResourceAsStream("expected_markdown_no_preferences.md")
+        ?.getResourceAsStream("expected_xml_no_preferences.xml")
         ?.bufferedReader()
         ?.use { it.readText() }
         .orEmpty()
 
     private val EXPECTED_DATA: String = this.javaClass
         .classLoader
-        ?.getResourceAsStream("expected_markdown.md")
+        ?.getResourceAsStream("expected_xml.xml")
         ?.bufferedReader()
         ?.use { it.readText() }
         .orEmpty()
 
     @Before
     fun preferences_deleteDir() {
-        val prefsDirectory = File(context.applicationInfo.dataDir, PreferencesCollector.PREFS_DIRECTORY)
+        val prefsDirectory =
+            File(context.applicationInfo.dataDir, PreferencesCollector.PREFS_DIRECTORY)
         val success = (prefsDirectory.exists() && prefsDirectory.isDirectory).let {
             prefsDirectory.deleteRecursively()
         }
@@ -122,7 +123,7 @@ internal class MarkdownStringBuilderTests {
     @Test
     @SmallTest
     fun formatter_hasDataWithoutPreferences() {
-        val stringBuilder = MarkdownStringBuilder(context)
+        val stringBuilder = XmlStringBuilder(context)
 
         val actualData = stringBuilder.format()
             .replace(Regex("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"), "yyyy-MM-dd HH:mm:ss")
@@ -145,7 +146,7 @@ internal class MarkdownStringBuilderTests {
             .putStringSet(KEY_STRING_SET, VALUE_STRING_SET)
             .commit()
 
-        val stringBuilder = MarkdownStringBuilder(context)
+        val stringBuilder = XmlStringBuilder(context)
 
         val actualData = stringBuilder.format()
             .replace(Regex("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"), "yyyy-MM-dd HH:mm:ss")
