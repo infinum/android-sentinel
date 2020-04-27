@@ -11,85 +11,29 @@ import com.infinum.sentinel.data.models.memory.triggers.manual.ManualTrigger
 import com.infinum.sentinel.data.models.memory.triggers.shake.ShakeTrigger
 import com.infinum.sentinel.data.models.memory.triggers.usb.UsbConnectedTrigger
 import com.infinum.sentinel.data.models.raw.DeviceData
-import com.infinum.sentinel.data.sources.local.room.SentinelDatabase
-import com.infinum.sentinel.data.sources.raw.ApplicationCollector
-import com.infinum.sentinel.data.sources.raw.BasicCollector
-import com.infinum.sentinel.data.sources.raw.DeviceCollector
-import com.infinum.sentinel.data.sources.raw.PermissionsCollector
-import com.infinum.sentinel.data.sources.raw.PreferencesCollector
-import com.infinum.sentinel.data.sources.raw.ToolsCollector
-import com.infinum.sentinel.domain.repository.FormatsRepository
+import com.infinum.sentinel.di.SentinelComponent
 import com.infinum.sentinel.domain.repository.TriggersRepository
 import com.infinum.sentinel.ui.SentinelActivity
-import com.infinum.sentinel.ui.formatters.HtmlStringBuilder
-import com.infinum.sentinel.ui.formatters.JsonStringBuilder
-import com.infinum.sentinel.ui.formatters.MarkdownStringBuilder
-import com.infinum.sentinel.ui.formatters.PlainStringBuilder
-import com.infinum.sentinel.ui.formatters.XmlStringBuilder
+import com.infinum.sentinel.ui.shared.SingletonHolder
 import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
-import org.koin.dsl.module
+import org.koin.core.context.stopKoin
 import org.koin.java.KoinJavaComponent.getKoin
-import java.util.concurrent.Executors
 
 class Sentinel private constructor(
     private val context: Context,
-    tools: Set<Tool>
+    private val tools: Set<Tool>
 ) {
 
-    companion object {
-
-        fun watch(context: Context, tools: Set<Tool>): Sentinel =
-            lazyOf(Sentinel(context, tools)).value
-    }
+    companion object : SingletonHolder<Sentinel, Context, Set<Tool>>(::Sentinel)
 
     init {
-        val database = module {
-            single { SentinelDatabase.create(get()) }
-            single { Executors.newSingleThreadExecutor() }
-        }
-
-        val repositories = module {
-            single { TriggersRepository(get(), get()) }
-            single { FormatsRepository(get(), get()) }
-        }
-
-        val triggers = module {
-            single { ManualTrigger() }
-            single { ForegroundTrigger { showNow() } }
-            single { ShakeTrigger(get()) { showNow() } }
-            single { UsbConnectedTrigger(get()) { showNow() } }
-            single { AirplaneModeOnTrigger(get()) { showNow() } }
-        }
-
-        val collectors = module {
-            single { ToolsCollector(tools) }
-            single { BasicCollector(get()) }
-            single { ApplicationCollector(get()) }
-            single { PermissionsCollector(get()) }
-            single { DeviceCollector() }
-            single { PreferencesCollector(get()) }
-        }
-
-        val formatters = module {
-            single { PlainStringBuilder(get(), get(), get(), get(), get()) }
-            single { MarkdownStringBuilder(get(), get(), get(), get(), get()) }
-            single { JsonStringBuilder(get(), get(), get(), get(), get()) }
-            single { XmlStringBuilder(get(), get(), get(), get(), get()) }
-            single { HtmlStringBuilder(get(), get(), get(), get(), get()) }
-        }
-
-        val modules = listOf(
-            database,
-            repositories,
-            triggers,
-            collectors,
-            formatters
-        )
-
+        stopKoin()
         startKoin {
-            androidContext(context)
-            modules(modules)
+            androidLogger()
+            androidContext(context.applicationContext)
+            modules(SentinelComponent.modules(tools) { showNow() })
         }
 
         observeTriggers()
@@ -107,10 +51,11 @@ class Sentinel private constructor(
 
     private fun showNow() {
         context.startActivity(
-            Intent(context, SentinelActivity::class.java).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            }
+            Intent(context, SentinelActivity::class.java)
+                .apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                }
         )
     }
 

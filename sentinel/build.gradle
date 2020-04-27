@@ -8,7 +8,7 @@ android {
     buildToolsVersion buildConfig.buildTools
 
     defaultConfig {
-        minSdkVersion buildConfig.minSdk
+        minSdkVersion 21 //buildConfig.minSdk
         targetSdkVersion buildConfig.targetSdk
         versionCode sentinel.versionCode
         versionName sentinel.version
@@ -68,10 +68,15 @@ dependencies {
     implementation "org.koin:koin-androidx-scope:2.1.5"
 
     androidTestImplementation "junit:junit:4.13"
-    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.arch.core:core-testing:2.1.0'
+//    androidTestImplementation 'androidx.test:rules:1.2.0'
+//    androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation "androidx.security:security-crypto:1.0.0-rc01"
     androidTestImplementation "org.robolectric:shadowapi:4.3.1"
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
+    androidTestImplementation "androidx.room:room-testing:2.2.5"
 
     testImplementation "junit:junit:4.13"
     testImplementation 'androidx.test.ext:junit:1.1.1'
@@ -82,15 +87,6 @@ dependencies {
 //    testImplementation 'androidx.test.ext:junit:1.1.1'
 //    testImplementation 'androidx.test:core-ktx:1.2.0'
 //    testImplementation 'androidx.test:runner:1.2.0'
-
-//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-//    androidTestImplementation "junit:junit:4.13"
-//    androidTestImplementation 'androidx.test:core:1.2.0'
-//    androidTestImplementation 'androidx.test:core-ktx:1.2.0'
-//    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-//    androidTestImplementation 'androidx.test.ext:junit-ktx:1.1.1'
-//    androidTestImplementation 'androidx.test:runner:1.2.0'
-//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
 
 apply from: "bintray.gradle"

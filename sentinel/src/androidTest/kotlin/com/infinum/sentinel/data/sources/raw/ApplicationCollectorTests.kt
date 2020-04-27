@@ -11,6 +11,7 @@ import org.junit.Assert.assertTrue
 import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 
 @RunWith(AndroidJUnit4::class)
 internal class ApplicationCollectorTests {
@@ -19,7 +20,7 @@ internal class ApplicationCollectorTests {
 
         private const val VERSION_CODE = "100000"
         private const val VERSION_NAME = "1.0.0"
-        private const val MIN_SDK = "16"
+        private const val MIN_SDK = "21"
         private const val PACKAGE_NAME = "com.infinum.sentinel.test"
         private const val PROCESS_NAME = "com.infinum.sentinel.test"
         private const val TASK_AFFINITY = "com.infinum.sentinel.test"
@@ -74,11 +75,21 @@ internal class ApplicationCollectorTests {
 
     @Test
     @SmallTest
-    fun application_hasMinSdk() {
+    @Config(sdk = [Config.NEWEST_SDK], minSdk = Config.TARGET_SDK)
+    fun application_hasMinSdk_Oreo() {
         assertNotNull(actualApplicationData.minSdk)
         assertTrue(actualApplicationData.minSdk.isNotBlank())
         assertEquals(MIN_SDK, actualApplicationData.minSdk)
     }
+
+//    // TODO: Why is this not working?
+//    @Test
+//    @SmallTest
+//    @Config(sdk = [Config.OLDEST_SDK], maxSdk = Config.OLDEST_SDK)
+//    fun application_hasMinSdk_Before_Oreo() {
+//        assertNotNull(actualApplicationData.minSdk)
+//        assertTrue(actualApplicationData.minSdk.isBlank())
+//    }
 
     @Test
     @SmallTest

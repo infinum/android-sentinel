@@ -24,6 +24,7 @@ internal abstract class SentinelDatabase : RoomDatabase() {
                 SentinelDatabase::class.java,
                 databaseName(context)
             )
+                .allowMainThreadQueries()
                 .createFromAsset("databases/sentinel_default.db")
                 .setJournalMode(JournalMode.TRUNCATE)
                 .fallbackToDestructiveMigration()
