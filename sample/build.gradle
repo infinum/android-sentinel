@@ -44,7 +44,7 @@ android {
 dependencies {
     implementation packages.kotlin.core
     implementation packages.androidx.appcompat
-    implementation "androidx.preference:preference-ktx:1.1.1"
+    implementation packages.androidx.preference
     implementation "androidx.security:security-crypto:1.0.0-rc01"
 
     debugImplementation packages.sentinel.sentinel
