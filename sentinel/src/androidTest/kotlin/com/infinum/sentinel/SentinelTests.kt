@@ -9,12 +9,13 @@ import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.Intents.times
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.RequiresDevice
 import androidx.test.filters.SmallTest
 import com.infinum.sentinel.ui.SentinelActivity
 import com.infinum.sentinel.ui.SentinelTestApplication
+import com.infinum.sentinel.ui.tools.DummyTool
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Rule
@@ -55,6 +56,15 @@ internal class SentinelTests {
     fun sentinel_IsMemoizedSingleton() {
         val instance1 = Sentinel.watch(context)
         val instance2 = Sentinel.watch(context)
+
+        assertEquals(instance1, instance2)
+    }
+
+    @Test
+    @SmallTest
+    fun sentinel_IsMemoizedSingleton_WithDifferentTools() {
+        val instance1 = Sentinel.watch(context)
+        val instance2 = Sentinel.watch(context, setOf(DummyTool()))
 
         assertEquals(instance1, instance2)
     }

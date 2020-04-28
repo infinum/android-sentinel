@@ -14,7 +14,6 @@ import com.infinum.sentinel.data.models.raw.DeviceData
 import com.infinum.sentinel.di.SentinelComponent
 import com.infinum.sentinel.domain.repository.TriggersRepository
 import com.infinum.sentinel.ui.SentinelActivity
-import com.infinum.sentinel.ui.shared.MemoizedSingleton
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -28,10 +27,16 @@ class Sentinel private constructor(
 
     companion object {
 
+        private var INSTANCE: Sentinel? = null
+
         @JvmStatic
         @JvmOverloads
-        fun watch(context: Context, tools: Set<Tool> = setOf()) =
-            MemoizedSingleton(::Sentinel).memoized(context, tools)
+        fun watch(context: Context, tools: Set<Tool> = setOf()): Sentinel {
+            if (INSTANCE == null) {
+                INSTANCE = Sentinel(context, tools)
+            }
+            return INSTANCE as Sentinel
+        }
     }
 
     init {
