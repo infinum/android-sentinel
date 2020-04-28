@@ -22,4 +22,11 @@
         android:layout_gravity="center"
         android:text="Randomize preferences" />
 
+    <Button
+        android:id="@+id/showJavaScreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Show Java screen" />
+
 </LinearLayout>

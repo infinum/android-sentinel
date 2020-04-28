@@ -27,8 +27,6 @@ internal class SentinelTests {
 
     companion object {
 
-        private val TOOLS_EMPTY = setOf<Sentinel.Tool>()
-
         lateinit var context: Context
 
         @BeforeClass
@@ -54,9 +52,9 @@ internal class SentinelTests {
 
     @Test
     @SmallTest
-    fun sentinel_isSingleton() {
-        val instance1 = Sentinel.watch(context, TOOLS_EMPTY)
-        val instance2 = Sentinel.watch(context, TOOLS_EMPTY)
+    fun sentinel_IsMemoizedSingleton() {
+        val instance1 = Sentinel.watch(context)
+        val instance2 = Sentinel.watch(context)
 
         assertEquals(instance1, instance2)
     }
@@ -64,7 +62,7 @@ internal class SentinelTests {
     @Test
     @SmallTest
     fun sentinel_Watch() {
-        Sentinel.watch(context, TOOLS_EMPTY)
+        Sentinel.watch(context)
 
         intended(hasComponent(SentinelActivity::class.java.name), times(0))
     }
@@ -72,7 +70,7 @@ internal class SentinelTests {
     @Test
     @SmallTest
     fun sentinel_Show() {
-        val instance = Sentinel.watch(context, TOOLS_EMPTY)
+        val instance = Sentinel.watch(context)
 
         instance.show()
 
@@ -83,7 +81,7 @@ internal class SentinelTests {
 //    @SmallTest
 //    @RequiresDevice
 //    fun sentinel_Show_Device() {
-//        val instance = Sentinel.watch(context, TOOLS_EMPTY)
+//        val instance = Sentinel.watch(context)
 //
 //        instance.show()
 //

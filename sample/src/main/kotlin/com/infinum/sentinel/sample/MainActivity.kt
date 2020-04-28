@@ -1,6 +1,7 @@
 package com.infinum.sentinel.sample
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -53,6 +54,9 @@ class MainActivity : AppCompatActivity() {
         viewBinding.randomizePrefs.setOnClickListener {
             allPrefs.forEach { putRandomIntoPreferences(it) }
         }
+        viewBinding.showJavaScreen.setOnClickListener {
+            startActivity(Intent(this, JavaMainActivity::class.java))
+        }
     }
 
     private fun putRandomIntoPreferences(sharedPreferences: SharedPreferences) =
@@ -77,5 +81,6 @@ class MainActivity : AppCompatActivity() {
             )
             .apply()
 
-    private fun randomizeName(base: String?) = "my_${base.orEmpty().toLowerCase()}_${Random.nextInt(0,10)}"
+    private fun randomizeName(base: String?) =
+        "my_${base.orEmpty().toLowerCase()}_${Random.nextInt(0, 10)}"
 }
