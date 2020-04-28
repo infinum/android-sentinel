@@ -43,11 +43,12 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
-//        sentinel = Sentinel.watch(this, SentinelTools.get())
+//        Sentinel.watch(this, SentinelTools.get()).show()
+
+        sentinel = Sentinel.watch(this, SentinelTools.get())
 
         viewBinding.showSentinel.setOnClickListener {
-//            sentinel?.show()
-            Sentinel.watch(it.context, SentinelTools.get()).show()
+            sentinel?.show()
         }
         viewBinding.randomizePrefs.setOnClickListener {
             allPrefs.forEach { putRandomIntoPreferences(it) }
