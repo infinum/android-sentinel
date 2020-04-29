@@ -1,10 +1,13 @@
 package com.infinum.sentinel.sample
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKeys
 import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.sample.databinding.ActivityMainBinding
 import com.infinum.sentinel.sample.tools.SentinelTools
@@ -31,8 +34,17 @@ class MainActivity : AppCompatActivity() {
             applicationContext.getSharedPreferences(
                 "PERSISTED_SHARED_PREFERENCES",
                 Context.MODE_PRIVATE
+            ),
+            EncryptedSharedPreferences.create(
+                "ENCRYPTED_SHARED_PREFERENCES",
+                MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
+                this,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             )
         )
+
+//        Sentinel.watch(this, SentinelTools.get()).show()
 
         sentinel = Sentinel.watch(this, SentinelTools.get())
 
@@ -41,6 +53,9 @@ class MainActivity : AppCompatActivity() {
         }
         viewBinding.randomizePrefs.setOnClickListener {
             allPrefs.forEach { putRandomIntoPreferences(it) }
+        }
+        viewBinding.showJavaScreen.setOnClickListener {
+            startActivity(Intent(this, JavaMainActivity::class.java))
         }
     }
 
@@ -66,5 +81,6 @@ class MainActivity : AppCompatActivity() {
             )
             .apply()
 
-    private fun randomizeName(base: String?) = "my_${base.orEmpty().toLowerCase()}_${Random.nextInt(0,10)}"
+    private fun randomizeName(base: String?) =
+        "my_${base.orEmpty().toLowerCase()}_${Random.nextInt(0, 10)}"
 }

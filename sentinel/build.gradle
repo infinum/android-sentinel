@@ -1,18 +1,20 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply from: 'jacoco.gradle'
 
 android {
     compileSdkVersion buildConfig.compileSdk
     buildToolsVersion buildConfig.buildTools
 
     defaultConfig {
-        minSdkVersion buildConfig.minSdk
+        minSdkVersion 21 //buildConfig.minSdk
         targetSdkVersion buildConfig.targetSdk
         versionCode sentinel.versionCode
         versionName sentinel.version
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
         consumerProguardFiles 'consumer-rules.pro'
 
         javaCompileOptions {
@@ -29,6 +31,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            testCoverageEnabled true
+        }
     }
 
     resourcePrefix 'sentinel_'
@@ -37,13 +42,17 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
 
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-        test.java.srcDirs += 'src/test/kotlin'
+    testOptions {
+        animationsDisabled = true
+    }
+
+    sourceSets.each {
+        it.java.srcDirs += "src/$it.name/kotlin"
     }
 
     viewBinding.enabled = true
@@ -57,13 +66,37 @@ dependencies {
     implementation packages.google.design
     implementation packages.androidx.room.runtime
     kapt packages.androidx.room.compiler
-    implementation "androidx.preference:preference-ktx:1.1.1"
-    implementation "org.koin:koin-android:2.1.5"
-    implementation "org.koin:koin-androidx-scope:2.1.5"
+    implementation packages.androidx.preference
 
-    testImplementation 'junit:junit:4.13'
+    androidTestImplementation "junit:junit:4.13"
+    androidTestImplementation 'androidx.arch.core:core-testing:2.1.0'
+    androidTestImplementation 'androidx.test:core-ktx:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation "androidx.security:security-crypto:1.0.0-rc01"
+    androidTestImplementation "org.robolectric:shadowapi:4.3.1"
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
+    androidTestImplementation "androidx.room:room-testing:2.2.5"
+    androidTestImplementation 'androidx.fragment:fragment:1.2.4'
+    androidTestImplementation 'androidx.fragment:fragment-testing:1.2.4'
+
+    testImplementation "junit:junit:4.13"
+    testImplementation 'androidx.test.ext:junit:1.1.1'
+
+//    testImplementation 'org.koin:koin-test:2.1.5'
+//
+//
+//    testImplementation 'androidx.test.ext:junit:1.1.1'
+//    testImplementation 'androidx.test:core-ktx:1.2.0'
+//    testImplementation 'androidx.test:runner:1.2.0'
 }
 
 apply from: "bintray.gradle"
+
+project.gradle.taskGraph.whenReady {
+    connectedDebugAndroidTest {
+        ignoreFailures = true
+    }
+}

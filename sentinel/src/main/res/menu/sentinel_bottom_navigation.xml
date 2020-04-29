@@ -5,6 +5,12 @@
     tools:ignore="AlwaysShowAction">
 
     <item
+        android:id="@+id/settings"
+        android:icon="@drawable/sentinel_ic_settings"
+        android:title="@string/sentinel_settings"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/device"
         android:icon="@drawable/sentinel_ic_device"
         android:title="@string/sentinel_device"

@@ -7,9 +7,8 @@ import com.infinum.sentinel.ui.shared.BaseActivity
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class SentinelActivity : BaseActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) =
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-            .run {
-                SentinelFragment().show(supportFragmentManager, SentinelFragment.TAG)
-            }
+        SentinelFragment().show(supportFragmentManager, SentinelFragment.TAG)
+    }
 }

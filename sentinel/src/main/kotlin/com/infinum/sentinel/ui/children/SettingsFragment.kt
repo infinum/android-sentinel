@@ -13,7 +13,6 @@ import com.infinum.sentinel.databinding.SentinelFragmentSettingsBinding
 import com.infinum.sentinel.domain.repository.FormatsRepository
 import com.infinum.sentinel.domain.repository.TriggersRepository
 import com.infinum.sentinel.ui.shared.BaseChildFragment
-import org.koin.android.ext.android.get
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class SettingsFragment : BaseChildFragment<SentinelFragmentSettingsBinding>() {
@@ -38,8 +37,7 @@ internal class SettingsFragment : BaseChildFragment<SentinelFragmentSettingsBind
 
     private fun setupTriggers() {
         with(viewBinding) {
-            val triggersRepository: TriggersRepository = get()
-            triggersRepository.load().observeForever { triggers ->
+            TriggersRepository.load().observeForever { triggers ->
                 triggers.forEach { trigger ->
                     when (trigger.type) {
                         TriggerType.MANUAL -> {
@@ -47,7 +45,7 @@ internal class SettingsFragment : BaseChildFragment<SentinelFragmentSettingsBind
                                 isChecked = trigger.enabled
                                 isEnabled = trigger.editable
                                 setOnCheckedChangeListener { _, isChecked ->
-                                    triggersRepository.save(trigger.copy(enabled = isChecked))
+                                    TriggersRepository.save(trigger.copy(enabled = isChecked))
                                 }
                             }
                         }
@@ -56,7 +54,7 @@ internal class SettingsFragment : BaseChildFragment<SentinelFragmentSettingsBind
                                 isChecked = trigger.enabled
                                 isEnabled = trigger.editable
                                 setOnCheckedChangeListener { _, isChecked ->
-                                    triggersRepository.save(trigger.copy(enabled = isChecked))
+                                    TriggersRepository.save(trigger.copy(enabled = isChecked))
                                 }
                             }
                         }
@@ -65,7 +63,7 @@ internal class SettingsFragment : BaseChildFragment<SentinelFragmentSettingsBind
                                 isChecked = trigger.enabled
                                 isEnabled = trigger.editable
                                 setOnCheckedChangeListener { _, isChecked ->
-                                    triggersRepository.save(trigger.copy(enabled = isChecked))
+                                    TriggersRepository.save(trigger.copy(enabled = isChecked))
                                 }
                             }
                         }
@@ -74,7 +72,7 @@ internal class SettingsFragment : BaseChildFragment<SentinelFragmentSettingsBind
                                 isChecked = trigger.enabled
                                 isEnabled = trigger.editable
                                 setOnCheckedChangeListener { _, isChecked ->
-                                    triggersRepository.save(trigger.copy(enabled = isChecked))
+                                    TriggersRepository.save(trigger.copy(enabled = isChecked))
                                 }
                             }
                         }
@@ -83,7 +81,7 @@ internal class SettingsFragment : BaseChildFragment<SentinelFragmentSettingsBind
                                 isChecked = trigger.enabled
                                 isEnabled = trigger.editable
                                 setOnCheckedChangeListener { _, isChecked ->
-                                    triggersRepository.save(trigger.copy(enabled = isChecked))
+                                    TriggersRepository.save(trigger.copy(enabled = isChecked))
                                 }
                             }
                         }
@@ -95,9 +93,8 @@ internal class SettingsFragment : BaseChildFragment<SentinelFragmentSettingsBind
 
     private fun setupFormats() {
         with(viewBinding) {
-            val formatsRepository: FormatsRepository = get()
             formatGroup.setOnCheckedChangeListener { _, checkedId ->
-                formatsRepository.save(
+                FormatsRepository.save(
                     listOf(
                         FormatEntity(
                             id = FormatType.PLAIN.ordinal.toLong(),
@@ -127,7 +124,7 @@ internal class SettingsFragment : BaseChildFragment<SentinelFragmentSettingsBind
                     )
                 )
             }
-            formatsRepository.load().observeForever { entity ->
+            FormatsRepository.load().observeForever { entity ->
                 when (entity.type) {
                     FormatType.PLAIN -> R.id.plainChip
                     FormatType.MARKDOWN -> R.id.markdownChip

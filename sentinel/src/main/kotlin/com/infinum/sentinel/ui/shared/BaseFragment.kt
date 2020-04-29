@@ -31,10 +31,10 @@ internal abstract class BaseFragment<Binding : ViewBinding> : BottomSheetDialogF
         return viewBinding.root
     }
 
-    override fun onDestroy() =
-        super.onDestroy().run {
-            binding = null
-        }
+    override fun onDestroy() {
+        binding = null
+        super.onDestroy()
+    }
 
     override fun onDetach() =
         super.onDetach().run {

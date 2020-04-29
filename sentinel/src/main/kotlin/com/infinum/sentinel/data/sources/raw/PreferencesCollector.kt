@@ -2,6 +2,7 @@ package com.infinum.sentinel.data.sources.raw
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import androidx.annotation.VisibleForTesting
 import com.infinum.sentinel.data.models.raw.PreferencesData
 import java.io.File
 
@@ -9,16 +10,21 @@ internal class PreferencesCollector(
     private val context: Context
 ) : AbstractCollector<List<PreferencesData>>() {
 
+    companion object {
+        @VisibleForTesting
+        const val PREFS_DIRECTORY = "shared_prefs"
+
+        @VisibleForTesting
+        const val PREFS_SUFFIX = ".xml"
+    }
+
     override lateinit var data: List<PreferencesData>
 
     override fun collect() {
         data = with(context) {
-            val prefsDirectory = File(
-                    applicationContext.applicationInfo.dataDir,
-                    "shared_prefs"
-                )
+            val prefsDirectory = File(applicationContext.applicationInfo.dataDir, PREFS_DIRECTORY)
             if (prefsDirectory.exists() && prefsDirectory.isDirectory) {
-                prefsDirectory.list().orEmpty().toList().map { it.removeSuffix(".xml") }
+                prefsDirectory.list().orEmpty().toList().map { it.removeSuffix(PREFS_SUFFIX) }
             } else {
                 listOf()
             }.map { name ->

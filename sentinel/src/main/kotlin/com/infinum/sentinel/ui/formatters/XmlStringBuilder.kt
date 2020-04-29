@@ -5,22 +5,14 @@ import android.content.Context
 import android.util.Xml
 import androidx.annotation.StringRes
 import com.infinum.sentinel.R
-import com.infinum.sentinel.data.sources.raw.ApplicationCollector
-import com.infinum.sentinel.data.sources.raw.DeviceCollector
-import com.infinum.sentinel.data.sources.raw.PermissionsCollector
-import com.infinum.sentinel.data.sources.raw.PreferencesCollector
 import com.infinum.sentinel.extensions.sanitize
 import org.xmlpull.v1.XmlSerializer
 import java.io.StringWriter
 
 @Suppress("TooManyFunctions")
 internal class XmlStringBuilder(
-    private val context: Context,
-    private val applicationCollector: ApplicationCollector,
-    private val permissionsCollector: PermissionsCollector,
-    private val deviceCollector: DeviceCollector,
-    private val preferencesCollector: PreferencesCollector
-) : AbstractFormattedStringBuilder() {
+    private val context: Context
+) : AbstractFormattedStringBuilder(context) {
 
     companion object {
         private const val NAMESPACE = "sentinel"

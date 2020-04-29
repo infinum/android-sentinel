@@ -1,6 +1,7 @@
 package com.infinum.sentinel.data.sources.raw
 
 import com.infinum.sentinel.Sentinel
+import com.infinum.sentinel.ui.tools.AppInfoTool
 
 internal class ToolsCollector(
     private val tools: Set<Sentinel.Tool>
@@ -9,6 +10,6 @@ internal class ToolsCollector(
     override lateinit var data: Set<Sentinel.Tool>
 
     override fun collect() {
-        data = tools
+        data = tools.plus(AppInfoTool()).filterNot { it.name() == 0 }.toSet()
     }
 }

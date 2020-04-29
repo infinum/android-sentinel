@@ -43,8 +43,7 @@
             android:layout_gravity="bottom"
             app:buttonGravity="center_vertical"
             app:fabAlignmentMode="end"
-            app:menu="@menu/sentinel_bottom_navigation"
-            app:navigationIcon="@drawable/sentinel_ic_settings" />
+            app:menu="@menu/sentinel_bottom_navigation" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
@@ -64,6 +63,7 @@
         tools:ignore="UnusedAttribute" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/sentinelTitle"
         style="@style/TextAppearance.MaterialComponents.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -15,7 +15,9 @@ import com.infinum.sentinel.data.sources.raw.DeviceCollector
 import com.infinum.sentinel.data.sources.raw.PermissionsCollector
 import com.infinum.sentinel.data.sources.raw.PreferencesCollector
 import com.infinum.sentinel.databinding.SentinelFragmentBinding
+import com.infinum.sentinel.domain.repository.CollectorRepository
 import com.infinum.sentinel.domain.repository.FormatsRepository
+import com.infinum.sentinel.domain.repository.FormatterRepository
 import com.infinum.sentinel.extensions.toScissorsDrawable
 import com.infinum.sentinel.ui.children.ApplicationFragment
 import com.infinum.sentinel.ui.children.DeviceFragment
@@ -24,14 +26,7 @@ import com.infinum.sentinel.ui.children.PreferencesFragment
 import com.infinum.sentinel.ui.children.SettingsFragment
 import com.infinum.sentinel.ui.children.ToolsFragment
 import com.infinum.sentinel.ui.formatters.FormattedStringBuilder
-import com.infinum.sentinel.ui.formatters.HtmlStringBuilder
-import com.infinum.sentinel.ui.formatters.JsonStringBuilder
-import com.infinum.sentinel.ui.formatters.MarkdownStringBuilder
-import com.infinum.sentinel.ui.formatters.PlainStringBuilder
-import com.infinum.sentinel.ui.formatters.XmlStringBuilder
 import com.infinum.sentinel.ui.shared.BaseFragment
-import org.koin.android.ext.android.get
-import org.koin.android.ext.android.inject
 
 @Suppress("TooManyFunctions")
 @RestrictTo(RestrictTo.Scope.LIBRARY)
@@ -45,12 +40,6 @@ internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), Senti
 
     private var formatter: FormattedStringBuilder? = null
 
-    private val plainFormatter: PlainStringBuilder by inject()
-    private val markdownFormatter: MarkdownStringBuilder by inject()
-    private val jsonFormatter: JsonStringBuilder by inject()
-    private val xmlFormatter: XmlStringBuilder by inject()
-    private val htmlFormatter: HtmlStringBuilder by inject()
-
     override fun provideViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -62,11 +51,11 @@ internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), Senti
 
         setupUi()
 
-        val basicCollector: BasicCollector = get()
-        val applicationCollector: ApplicationCollector = get()
-        val deviceCollector: DeviceCollector = get()
-        val permissionsCollector: PermissionsCollector = get()
-        val preferencesCollector: PreferencesCollector = get()
+        val basicCollector: BasicCollector = CollectorRepository.basic()
+        val applicationCollector: ApplicationCollector = CollectorRepository.application()
+        val deviceCollector: DeviceCollector = CollectorRepository.device()
+        val permissionsCollector: PermissionsCollector = CollectorRepository.permissions()
+        val preferencesCollector: PreferencesCollector = CollectorRepository.preferences()
 
         basicCollector.collect()
         applicationCollector.collect()
@@ -79,14 +68,13 @@ internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), Senti
             applicationIconView.background = basicCollector.data.applicationIcon
         }
 
-        val formatsRepository: FormatsRepository = get()
-        formatsRepository.load().observeForever { entity ->
+        FormatsRepository.load().observeForever { entity ->
             formatter = when (entity.type) {
-                FormatType.PLAIN -> plainFormatter
-                FormatType.MARKDOWN -> markdownFormatter
-                FormatType.JSON -> jsonFormatter
-                FormatType.XML -> xmlFormatter
-                FormatType.HTML -> htmlFormatter
+                FormatType.PLAIN -> FormatterRepository.plain()
+                FormatType.MARKDOWN -> FormatterRepository.markdown()
+                FormatType.JSON -> FormatterRepository.json()
+                FormatType.XML -> FormatterRepository.xml()
+                FormatType.HTML -> FormatterRepository.html()
                 else -> null
             }
         }
@@ -109,9 +97,9 @@ internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), Senti
                 count = 12,
                 height = R.dimen.sentinel_triangle_height
             )
-            bottomAppBar.setNavigationOnClickListener { settings() }
             bottomAppBar.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
+                    R.id.settings -> settings()
                     R.id.device -> device()
                     R.id.application -> application()
                     R.id.permissions -> permissions()

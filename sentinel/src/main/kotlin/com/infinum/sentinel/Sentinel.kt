@@ -4,101 +4,38 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import androidx.annotation.StringRes
-import com.infinum.sentinel.data.models.memory.triggers.TriggerType
-import com.infinum.sentinel.data.models.memory.triggers.airplanemode.AirplaneModeOnTrigger
-import com.infinum.sentinel.data.models.memory.triggers.foreground.ForegroundTrigger
 import com.infinum.sentinel.data.models.memory.triggers.manual.ManualTrigger
-import com.infinum.sentinel.data.models.memory.triggers.shake.ShakeTrigger
-import com.infinum.sentinel.data.models.memory.triggers.usb.UsbConnectedTrigger
-import com.infinum.sentinel.data.models.raw.DeviceData
-import com.infinum.sentinel.data.sources.local.room.SentinelDatabase
-import com.infinum.sentinel.data.sources.raw.ApplicationCollector
-import com.infinum.sentinel.data.sources.raw.BasicCollector
-import com.infinum.sentinel.data.sources.raw.DeviceCollector
-import com.infinum.sentinel.data.sources.raw.PermissionsCollector
-import com.infinum.sentinel.data.sources.raw.PreferencesCollector
-import com.infinum.sentinel.data.sources.raw.ToolsCollector
-import com.infinum.sentinel.domain.repository.FormatsRepository
-import com.infinum.sentinel.domain.repository.TriggersRepository
+import com.infinum.sentinel.domain.Domain
 import com.infinum.sentinel.ui.SentinelActivity
-import com.infinum.sentinel.ui.formatters.HtmlStringBuilder
-import com.infinum.sentinel.ui.formatters.JsonStringBuilder
-import com.infinum.sentinel.ui.formatters.MarkdownStringBuilder
-import com.infinum.sentinel.ui.formatters.PlainStringBuilder
-import com.infinum.sentinel.ui.formatters.XmlStringBuilder
-import com.infinum.sentinel.ui.tools.AppInfoTool
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
-import org.koin.dsl.module
-import org.koin.java.KoinJavaComponent.getKoin
-import java.util.concurrent.Executors
 
 class Sentinel private constructor(
     private val context: Context,
-    tools: Set<Tool>
+    tools: Set<Tool> = setOf()
 ) {
 
     companion object {
 
-        fun watch(context: Context, tools: Set<Tool>): Sentinel =
-            lazyOf(Sentinel(context, tools)).value
+        private var INSTANCE: Sentinel? = null
+
+        @JvmStatic
+        @JvmOverloads
+        fun watch(context: Context, tools: Set<Tool> = setOf()): Sentinel {
+            if (INSTANCE == null) {
+                INSTANCE = Sentinel(context, tools)
+            }
+            return INSTANCE as Sentinel
+        }
     }
 
     init {
-        val database = module {
-            single { SentinelDatabase.create(get()) }
-            single { Executors.newSingleThreadExecutor() }
-        }
-
-        val repositories = module {
-            single { TriggersRepository(get(), get()) }
-            single { FormatsRepository(get(), get()) }
-        }
-
-        val triggers = module {
-            single { ManualTrigger().apply { active = true } }
-            single { ForegroundTrigger { showNow() } }
-            single { ShakeTrigger(get()) { showNow() } }
-            single { UsbConnectedTrigger(get()) { showNow() } }
-            single { AirplaneModeOnTrigger(get()) { showNow() } }
-        }
-
-        val collectors = module {
-            single { ToolsCollector(tools.plus(AppInfoTool())) }
-            single { BasicCollector(get()) }
-            single { ApplicationCollector(get()) }
-            single { PermissionsCollector(get()) }
-            single { DeviceCollector() }
-            single { PreferencesCollector(get()) }
-        }
-
-        val formatters = module {
-            single { PlainStringBuilder(get(), get(), get(), get(), get()) }
-            single { MarkdownStringBuilder(get(), get(), get(), get(), get()) }
-            single { JsonStringBuilder(get(), get(), get(), get(), get()) }
-            single { XmlStringBuilder(get(), get(), get(), get(), get()) }
-            single { HtmlStringBuilder(get(), get(), get(), get(), get()) }
-        }
-
-        startKoin {
-            androidContext(context)
-            modules(
-                database,
-                repositories,
-                triggers,
-                collectors,
-                formatters
-            )
-        }
-
-        observeTriggers()
+        Domain.initialise(context, tools) { showNow() }
     }
 
     /**
      * Used for manually showing Sentinel UI
      */
     fun show() {
-        val manualTrigger: ManualTrigger = getKoin().get()
+        val manualTrigger = ManualTrigger()
         if (manualTrigger.active) {
             showNow()
         }
@@ -106,41 +43,12 @@ class Sentinel private constructor(
 
     private fun showNow() {
         context.startActivity(
-            Intent(context, SentinelActivity::class.java).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            }
-        )
-    }
-
-    private fun observeTriggers() {
-        val triggersRepository: TriggersRepository = getKoin().get()
-        triggersRepository.load().observeForever { triggers ->
-            triggers.forEach {
-                when (it.type) {
-                    TriggerType.MANUAL -> {
-                        val trigger: ManualTrigger = getKoin().get()
-                        trigger.active = it.enabled
-                    }
-                    TriggerType.FOREGROUND -> {
-                        val trigger: ForegroundTrigger = getKoin().get()
-                        trigger.active = it.enabled || DeviceData().isProbablyAnEmulator
-                    }
-                    TriggerType.SHAKE -> {
-                        val trigger: ShakeTrigger = getKoin().get()
-                        trigger.active = it.enabled
-                    }
-                    TriggerType.USB_CONNECTED -> {
-                        val trigger: UsbConnectedTrigger = getKoin().get()
-                        trigger.active = it.enabled
-                    }
-                    TriggerType.AIRPLANE_MODE_ON -> {
-                        val trigger: AirplaneModeOnTrigger = getKoin().get()
-                        trigger.active = it.enabled
-                    }
+            Intent(context, SentinelActivity::class.java)
+                .apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 }
-            }
-        }
+        )
     }
 
     @Suppress("unused")
