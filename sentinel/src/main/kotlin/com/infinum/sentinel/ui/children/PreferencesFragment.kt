@@ -6,12 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RestrictTo
 import com.infinum.sentinel.data.models.raw.PreferencesData
-import com.infinum.sentinel.data.sources.raw.PreferencesCollector
 import com.infinum.sentinel.databinding.SentinelFragmentPreferencesBinding
 import com.infinum.sentinel.databinding.SentinelViewItemPreferenceBinding
 import com.infinum.sentinel.databinding.SentinelViewItemTextBinding
+import com.infinum.sentinel.domain.repository.CollectorRepository
 import com.infinum.sentinel.ui.shared.BaseChildFragment
-import org.koin.android.ext.android.get
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class PreferencesFragment : BaseChildFragment<SentinelFragmentPreferencesBinding>() {
@@ -30,13 +29,14 @@ internal class PreferencesFragment : BaseChildFragment<SentinelFragmentPreferenc
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val collector: PreferencesCollector = get()
-        collector.collect()
-        collector.present().let {
-            with(viewBinding) {
-                contentLayout.removeAllViews()
-                it.forEach {
-                    contentLayout.addView(createItemView(it))
+        with(CollectorRepository.preferences()) {
+            collect()
+            present().let {
+                with(viewBinding) {
+                    contentLayout.removeAllViews()
+                    it.forEach {
+                        contentLayout.addView(createItemView(it))
+                    }
                 }
             }
         }

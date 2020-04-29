@@ -5,10 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RestrictTo
-import com.infinum.sentinel.data.sources.raw.ApplicationCollector
 import com.infinum.sentinel.databinding.SentinelFragmentApplicationBinding
+import com.infinum.sentinel.domain.repository.CollectorRepository
 import com.infinum.sentinel.ui.shared.BaseChildFragment
-import org.koin.android.ext.android.get
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class ApplicationFragment : BaseChildFragment<SentinelFragmentApplicationBinding>() {
@@ -27,21 +26,22 @@ internal class ApplicationFragment : BaseChildFragment<SentinelFragmentApplicati
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val collector: ApplicationCollector = get()
-        collector.collect()
-        collector.present().let {
-            with(viewBinding) {
-                versionCodeView.data = it.versionCode
-                versionNameView.data = it.versionName
-                firstInstallView.data = it.firstInstall
-                lastUpdateView.data = it.lastUpdate
-                minSdkView.data = it.minSdk
-                targetSdkView.data = it.targetSdk
-                packageNameView.data = it.packageName
-                processNameView.data = it.processName
-                taskAffinityView.data = it.taskAffinity
-                localeLanguageView.data = it.localeLanguage
-                localeCountryView.data = it.localeCountry
+        with(CollectorRepository.application()) {
+            collect()
+            present().let {
+                with(viewBinding) {
+                    versionCodeView.data = it.versionCode
+                    versionNameView.data = it.versionName
+                    firstInstallView.data = it.firstInstall
+                    lastUpdateView.data = it.lastUpdate
+                    minSdkView.data = it.minSdk
+                    targetSdkView.data = it.targetSdk
+                    packageNameView.data = it.packageName
+                    processNameView.data = it.processName
+                    taskAffinityView.data = it.taskAffinity
+                    localeLanguageView.data = it.localeLanguage
+                    localeCountryView.data = it.localeCountry
+                }
             }
         }
     }

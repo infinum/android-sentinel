@@ -15,26 +15,24 @@ import com.infinum.sentinel.ui.SentinelTestApplication
 import com.infinum.sentinel.ui.tools.DummyTool
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-
 @RunWith(AndroidJUnit4::class)
 internal class SentinelTests {
 
     companion object {
 
-        lateinit var context: Context
+        private lateinit var context: Context
 
         @BeforeClass
         @JvmStatic
-        fun setupCollector() {
-            context = ApplicationProvider.getApplicationContext<SentinelTestApplication>()
-                .applicationContext
+        fun setupBeforeClass() {
+            context =
+                ApplicationProvider.getApplicationContext<SentinelTestApplication>().applicationContext
         }
     }
 
@@ -42,12 +40,12 @@ internal class SentinelTests {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Before
-    fun startIntentRecorder() {
+    fun setup() {
         Intents.init()
     }
 
     @After
-    fun stopIntentRecorder() {
+    fun tearDown() {
         Intents.release()
     }
 

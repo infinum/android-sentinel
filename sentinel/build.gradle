@@ -68,10 +68,6 @@ dependencies {
     kapt packages.androidx.room.compiler
     implementation packages.androidx.preference
 
-    implementation "org.koin:koin-android:2.1.5"
-    implementation "org.koin:koin-androidx-scope:2.1.5"
-
-    androidTestImplementation 'org.koin:koin-test:2.1.5'
     androidTestImplementation "junit:junit:4.13"
     androidTestImplementation 'androidx.arch.core:core-testing:2.1.0'
     androidTestImplementation 'androidx.test:core-ktx:1.2.0'

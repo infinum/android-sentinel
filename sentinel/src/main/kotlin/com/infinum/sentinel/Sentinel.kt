@@ -4,25 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import androidx.annotation.StringRes
-import com.infinum.sentinel.data.models.memory.triggers.TriggerType
-import com.infinum.sentinel.data.models.memory.triggers.airplanemode.AirplaneModeOnTrigger
-import com.infinum.sentinel.data.models.memory.triggers.foreground.ForegroundTrigger
 import com.infinum.sentinel.data.models.memory.triggers.manual.ManualTrigger
-import com.infinum.sentinel.data.models.memory.triggers.shake.ShakeTrigger
-import com.infinum.sentinel.data.models.memory.triggers.usb.UsbConnectedTrigger
-import com.infinum.sentinel.data.models.raw.DeviceData
-import com.infinum.sentinel.di.SentinelComponent
-import com.infinum.sentinel.domain.repository.TriggersRepository
+import com.infinum.sentinel.domain.Domain
 import com.infinum.sentinel.ui.SentinelActivity
-import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
-import org.koin.core.context.startKoin
-import org.koin.core.context.stopKoin
-import org.koin.java.KoinJavaComponent.getKoin
 
 class Sentinel private constructor(
     private val context: Context,
-    private val tools: Set<Tool> = setOf()
+    tools: Set<Tool> = setOf()
 ) {
 
     companion object {
@@ -40,21 +28,14 @@ class Sentinel private constructor(
     }
 
     init {
-        stopKoin()
-        startKoin {
-            androidLogger()
-            androidContext(context.applicationContext)
-            modules(SentinelComponent.modules(tools) { showNow() })
-        }
-
-        observeTriggers()
+        Domain.initialise(context, tools) { showNow() }
     }
 
     /**
      * Used for manually showing Sentinel UI
      */
     fun show() {
-        val manualTrigger: ManualTrigger = getKoin().get()
+        val manualTrigger = ManualTrigger()
         if (manualTrigger.active) {
             showNow()
         }
@@ -68,36 +49,6 @@ class Sentinel private constructor(
                     addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 }
         )
-    }
-
-    private fun observeTriggers() {
-        val triggersRepository: TriggersRepository = getKoin().get()
-        triggersRepository.load().observeForever { triggers ->
-            triggers.forEach {
-                when (it.type) {
-                    TriggerType.MANUAL -> {
-                        val trigger: ManualTrigger = getKoin().get()
-                        trigger.active = it.enabled
-                    }
-                    TriggerType.FOREGROUND -> {
-                        val trigger: ForegroundTrigger = getKoin().get()
-                        trigger.active = it.enabled || DeviceData().isProbablyAnEmulator
-                    }
-                    TriggerType.SHAKE -> {
-                        val trigger: ShakeTrigger = getKoin().get()
-                        trigger.active = it.enabled
-                    }
-                    TriggerType.USB_CONNECTED -> {
-                        val trigger: UsbConnectedTrigger = getKoin().get()
-                        trigger.active = it.enabled
-                    }
-                    TriggerType.AIRPLANE_MODE_ON -> {
-                        val trigger: AirplaneModeOnTrigger = getKoin().get()
-                        trigger.active = it.enabled
-                    }
-                }
-            }
-        }
     }
 
     @Suppress("unused")

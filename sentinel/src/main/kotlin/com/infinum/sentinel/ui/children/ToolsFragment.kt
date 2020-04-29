@@ -6,11 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RestrictTo
 import com.infinum.sentinel.Sentinel
-import com.infinum.sentinel.data.sources.raw.ToolsCollector
 import com.infinum.sentinel.databinding.SentinelFragmentToolsBinding
 import com.infinum.sentinel.databinding.SentinelViewItemButtonBinding
+import com.infinum.sentinel.domain.repository.CollectorRepository
 import com.infinum.sentinel.ui.shared.BaseChildFragment
-import org.koin.android.ext.android.get
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class ToolsFragment : BaseChildFragment<SentinelFragmentToolsBinding>() {
@@ -29,13 +28,14 @@ internal class ToolsFragment : BaseChildFragment<SentinelFragmentToolsBinding>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val collector: ToolsCollector = get()
-        collector.collect()
-        collector.present().let {
-            with(viewBinding) {
-                contentLayout.removeAllViews()
-                it.forEach {
-                    contentLayout.addView(createItemView(it))
+        with(CollectorRepository.tools()) {
+            collect()
+            present().let {
+                with(viewBinding) {
+                    contentLayout.removeAllViews()
+                    it.forEach {
+                        contentLayout.addView(createItemView(it))
+                    }
                 }
             }
         }

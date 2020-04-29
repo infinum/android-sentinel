@@ -13,9 +13,6 @@
             android:name=".ui.SentinelActivity"
             android:label="@string/sentinel_name"
             android:theme="@style/Sentinel.Theme" />
-        <activity
-            android:theme="@style/Sentinel.Theme"
-            android:name=".ui.FragmentTestActivity"/>
     </application>
 
 </manifest>

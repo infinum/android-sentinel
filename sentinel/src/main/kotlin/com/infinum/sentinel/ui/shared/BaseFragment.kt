@@ -9,9 +9,6 @@ import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.infinum.sentinel.R
-import com.infinum.sentinel.di.SentinelFragmentComponent
-import org.koin.core.context.loadKoinModules
-import org.koin.core.context.unloadKoinModules
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal abstract class BaseFragment<Binding : ViewBinding> : BottomSheetDialogFragment() {
@@ -20,19 +17,10 @@ internal abstract class BaseFragment<Binding : ViewBinding> : BottomSheetDialogF
 
     internal val viewBinding get() = binding!!
 
-    private val lazyLoadModules by lazy {
-        loadKoinModules(SentinelFragmentComponent.modules())
-    }
-
     override fun getTheme(): Int = R.style.Sentinel_Theme_BottomSheet
 
     override fun onCreateDialog(savedInstanceState: Bundle?): BottomSheetDialog =
         BottomSheetDialog(requireContext(), theme)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        loadModules()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,7 +32,6 @@ internal abstract class BaseFragment<Binding : ViewBinding> : BottomSheetDialogF
     }
 
     override fun onDestroy() {
-        unloadKoinModules(SentinelFragmentComponent.modules())
         binding = null
         super.onDestroy()
     }
@@ -58,6 +45,4 @@ internal abstract class BaseFragment<Binding : ViewBinding> : BottomSheetDialogF
         inflater: LayoutInflater,
         container: ViewGroup?
     ): Binding
-
-    private fun loadModules() = lazyLoadModules
 }
