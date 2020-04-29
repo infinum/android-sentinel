@@ -11,7 +11,6 @@ object Domain {
     fun initialise(context: Context, tools: Set<Sentinel.Tool>, onTriggered: () -> Unit) {
         Data.initialise(context, onTriggered)
 
-
         CollectorRepository.initialise(context, tools)
         FormatterRepository.initialise(context)
     }

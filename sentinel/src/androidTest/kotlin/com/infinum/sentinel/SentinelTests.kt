@@ -82,7 +82,7 @@ internal class SentinelTests {
 
         instance.show()
 
-        intended(hasComponent(ComponentName(context, SentinelActivity::class.java)), times(3))
+        intended(hasComponent(ComponentName(context, SentinelActivity::class.java)), times(2))
     }
 
 //    @Test

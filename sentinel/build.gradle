@@ -79,6 +79,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
     androidTestImplementation "androidx.room:room-testing:2.2.5"
+    androidTestImplementation 'androidx.fragment:fragment:1.2.4'
     androidTestImplementation 'androidx.fragment:fragment-testing:1.2.4'
 
     testImplementation "junit:junit:4.13"
@@ -93,3 +94,9 @@ dependencies {
 }
 
 apply from: "bintray.gradle"
+
+project.gradle.taskGraph.whenReady {
+    connectedDebugAndroidTest {
+        ignoreFailures = true
+    }
+}

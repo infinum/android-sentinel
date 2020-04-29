@@ -31,16 +31,17 @@ internal class PreferencesFragment : BaseChildFragment<SentinelFragmentPreferenc
 
         with(CollectorRepository.preferences()) {
             collect()
-            present().let {
-                with(viewBinding) {
-                    contentLayout.removeAllViews()
-                    it.forEach {
-                        contentLayout.addView(createItemView(it))
-                    }
-                }
-            }
+            bind(present())
         }
     }
+
+    private fun bind(preferences: List<PreferencesData>) =
+        with(viewBinding) {
+            contentLayout.removeAllViews()
+            preferences.forEach {
+                contentLayout.addView(createItemView(it))
+            }
+        }
 
     private fun createItemView(data: PreferencesData): View =
         SentinelViewItemPreferenceBinding.inflate(layoutInflater, viewBinding.contentLayout, false)

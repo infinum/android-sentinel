@@ -30,16 +30,17 @@ internal class PermissionsFragment : BaseChildFragment<SentinelFragmentPermissio
 
         with(CollectorRepository.permissions()) {
             collect()
-            present().let {
-                with(viewBinding) {
-                    contentLayout.removeAllViews()
-                    it.forEach {
-                        contentLayout.addView(createItemView(it))
-                    }
-                }
-            }
+            bind(present())
         }
     }
+
+    private fun bind(permissions: Map<String, Boolean>) =
+        with(viewBinding) {
+            contentLayout.removeAllViews()
+            permissions.forEach {
+                contentLayout.addView(createItemView(it))
+            }
+        }
 
     private fun createItemView(entry: Map.Entry<String, Boolean>): View =
         SentinelViewItemCheckableBinding.inflate(layoutInflater, viewBinding.contentLayout, false)

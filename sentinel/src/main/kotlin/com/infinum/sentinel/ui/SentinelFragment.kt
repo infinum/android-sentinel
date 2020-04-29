@@ -97,9 +97,9 @@ internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), Senti
                 count = 12,
                 height = R.dimen.sentinel_triangle_height
             )
-            bottomAppBar.setNavigationOnClickListener { settings() }
             bottomAppBar.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
+                    R.id.settings -> settings()
                     R.id.device -> device()
                     R.id.application -> application()
                     R.id.permissions -> permissions()

@@ -30,16 +30,17 @@ internal class ToolsFragment : BaseChildFragment<SentinelFragmentToolsBinding>()
 
         with(CollectorRepository.tools()) {
             collect()
-            present().let {
-                with(viewBinding) {
-                    contentLayout.removeAllViews()
-                    it.forEach {
-                        contentLayout.addView(createItemView(it))
-                    }
-                }
-            }
+            bind(present())
         }
     }
+
+    private fun bind(tools: Set<Sentinel.Tool>) =
+        with(viewBinding) {
+            contentLayout.removeAllViews()
+            tools.forEach {
+                contentLayout.addView(createItemView(it))
+            }
+        }
 
     private fun createItemView(tool: Sentinel.Tool): View =
         SentinelViewItemButtonBinding.inflate(layoutInflater, viewBinding.contentLayout, false)
