@@ -15,6 +15,8 @@ internal class UsbConnectedTrigger(
         private const val USB_CONNECTED = "connected"
     }
 
+    private var skippedFirst: Boolean = false
+
     private val broadcastReceiverBuilder = BroadcastReceiver {
         onAction(USB_STATE) {
             isConnected(it.extras?.getBoolean(USB_CONNECTED, false) ?: false)
@@ -39,8 +41,12 @@ internal class UsbConnectedTrigger(
     }
 
     private fun isConnected(connected: Boolean) {
-        if (active && connected) {
-            trigger()
+        if (skippedFirst) {
+            if (active && connected) {
+                trigger()
+            }
+        } else {
+            skippedFirst = true
         }
     }
 }

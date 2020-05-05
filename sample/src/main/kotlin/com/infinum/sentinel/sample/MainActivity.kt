@@ -16,8 +16,6 @@ import kotlin.random.nextULong
 
 class MainActivity : AppCompatActivity() {
 
-    private var sentinel: Sentinel? = null
-
     private lateinit var viewBinding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,12 +42,8 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
-//        Sentinel.watch(this, SentinelTools.get()).show()
-
-        sentinel = Sentinel.watch(this, SentinelTools.get())
-
         viewBinding.showSentinel.setOnClickListener {
-            sentinel?.show()
+            Sentinel.watch(this, SentinelTools.get()).show()
         }
         viewBinding.randomizePrefs.setOnClickListener {
             allPrefs.forEach { putRandomIntoPreferences(it) }
