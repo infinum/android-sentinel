@@ -153,9 +153,6 @@ _Plain_ formatter is selected by default, but selecting any other is persisted b
 - `XML`
 - `HTML`
 
-## TODO
-- Write tests before public release milestone
-
 ## Contributing
 
 Feedback and code contributions are very much welcome. Just make a pull request with a short description of your changes. By making contributions to this project you give permission for your code to be used under the same [license](LICENSE).  
