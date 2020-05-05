@@ -6,9 +6,9 @@ import com.infinum.sentinel.data.sources.raw.DeviceCollector
 import com.infinum.sentinel.data.sources.raw.PermissionsCollector
 import com.infinum.sentinel.data.sources.raw.PreferencesCollector
 
-internal abstract class AbstractFormattedStringBuilder(
+internal abstract class AbstractFormattedStringBuilder<T, K>(
     context: Context
-) : FormattedStringBuilder {
+) : FormattedStringBuilder<T, K> {
 
     companion object {
         internal const val APPLICATION = "application"

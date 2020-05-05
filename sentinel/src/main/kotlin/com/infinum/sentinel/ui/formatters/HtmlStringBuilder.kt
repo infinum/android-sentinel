@@ -7,7 +7,7 @@ import com.infinum.sentinel.extensions.sanitize
 
 internal class HtmlStringBuilder(
     private val context: Context
-) : AbstractFormattedStringBuilder(context) {
+) : AbstractFormattedStringBuilder<String, String>(context) {
 
     companion object {
         private const val HTML_START = "<html>"

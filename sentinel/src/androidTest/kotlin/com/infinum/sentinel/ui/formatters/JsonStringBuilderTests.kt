@@ -101,6 +101,7 @@ internal class JsonStringBuilderTests {
         ?.bufferedReader()
         ?.use { it.readText() }
         .orEmpty()
+        .replace(Regex("\\s"), "")
 
     private val EXPECTED_DATA: String = this.javaClass
         .classLoader
@@ -108,6 +109,7 @@ internal class JsonStringBuilderTests {
         ?.bufferedReader()
         ?.use { it.readText() }
         .orEmpty()
+        .replace(Regex("\\s"), "")
 
     @Before
     fun preferences_deleteDir() {
@@ -127,6 +129,7 @@ internal class JsonStringBuilderTests {
 
         val actualData = stringBuilder.format()
             .replace(Regex("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"), "yyyy-MM-dd HH:mm:ss")
+            .replace(Regex("\\s"), "")
 
         assertNotNull(actualData)
         assertTrue(actualData.isNotBlank())
@@ -150,6 +153,7 @@ internal class JsonStringBuilderTests {
 
         val actualData = stringBuilder.format()
             .replace(Regex("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"), "yyyy-MM-dd HH:mm:ss")
+            .replace(Regex("\\s"), "")
 
         assertNotNull(actualData)
         assertTrue(actualData.isNotBlank())

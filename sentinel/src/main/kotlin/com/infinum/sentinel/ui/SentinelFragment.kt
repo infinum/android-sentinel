@@ -38,7 +38,7 @@ internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), Senti
         private const val SHARE_MIME_TYPE = "text/plain"
     }
 
-    private var formatter: FormattedStringBuilder? = null
+    private var formatter: FormattedStringBuilder<*, *>? = null
 
     override fun provideViewBinding(
         inflater: LayoutInflater,

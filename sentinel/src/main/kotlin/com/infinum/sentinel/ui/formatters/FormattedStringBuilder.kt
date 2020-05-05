@@ -1,14 +1,14 @@
 package com.infinum.sentinel.ui.formatters
 
-internal interface FormattedStringBuilder {
+internal interface FormattedStringBuilder<T, K> {
 
     fun format(): String
 
-    fun application(): String
+    fun application(): T
 
-    fun permissions(): String
+    fun permissions(): K
 
-    fun device(): String
+    fun device(): T
 
-    fun preferences(): String
+    fun preferences(): K
 }

@@ -12,7 +12,7 @@ import java.io.StringWriter
 @Suppress("TooManyFunctions")
 internal class XmlStringBuilder(
     private val context: Context
-) : AbstractFormattedStringBuilder(context) {
+) : AbstractFormattedStringBuilder<String, String>(context) {
 
     companion object {
         private const val NAMESPACE = "sentinel"
@@ -20,12 +20,14 @@ internal class XmlStringBuilder(
         private const val PERMISSION = "permission"
         private const val PREFERENCE = "preference"
         private const val VALUE = "value"
+        private const val FEATURE_INDENT = "http://xmlpull.org/v1/doc/features.html#indent-output"
     }
 
     @SuppressLint("DefaultLocale")
     override fun format(): String =
         StringWriter().apply {
             with(Xml.newSerializer()) {
+                setFeature(FEATURE_INDENT, true)
                 setOutput(this@apply)
                 startDocument(Xml.Encoding.UTF_8.name, true)
                 startTag(NAMESPACE, ROOT)

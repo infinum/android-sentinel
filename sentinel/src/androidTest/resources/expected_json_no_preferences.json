@@ -1,1 +1,36 @@
-{"application":"{\"version_code\":\"100000\",\"version_name\":\"1.0.0\",\"first_install\":\"yyyy-MM-dd HH:mm:ss\",\"last_update\":\"yyyy-MM-dd HH:mm:ss\",\"min_sdk\":\"21\",\"target_sdk\":\"29\",\"package_name\":\"com.infinum.sentinel.test\",\"process_name\":\"com.infinum.sentinel.test\",\"task_affinity\":\"com.infinum.sentinel.test\",\"locale_language\":\"en\",\"locale_country\":\"US\"}","permissions":"[{\"name\":\"android.permission.REORDER_TASKS\",\"status\":\"true\"}]","device":"{\"manufacturer\":\"Google\",\"model\":\"Android SDK built for x86\",\"id\":\"QSR1.190920.001\",\"bootloader\":\"unknown\",\"device\":\"generic_x86\",\"board\":\"goldfish_x86\",\"architectures\":\"x86\",\"codename\":\"REL\",\"release\":\"10\",\"sdk\":\"29\",\"security_patch\":\"2019-09-05\",\"emulator\":true}","preferences":"[]"}
+{
+  "application": {
+    "version_code": "100000",
+    "version_name": "1.0.0",
+    "first_install": "yyyy-MM-dd HH:mm:ss",
+    "last_update": "yyyy-MM-dd HH:mm:ss",
+    "min_sdk": "21",
+    "target_sdk": "29",
+    "package_name": "com.infinum.sentinel.test",
+    "process_name": "com.infinum.sentinel.test",
+    "task_affinity": "com.infinum.sentinel.test",
+    "locale_language": "en",
+    "locale_country": "US"
+  },
+  "permissions": [
+    {
+      "name": "android.permission.REORDER_TASKS",
+      "status": "true"
+    }
+  ],
+  "device": {
+    "manufacturer": "Google",
+    "model": "Android SDK built for x86",
+    "id": "QSR1.190920.001",
+    "bootloader": "unknown",
+    "device": "generic_x86",
+    "board": "goldfish_x86",
+    "architectures": "x86",
+    "codename": "REL",
+    "release": "10",
+    "sdk": "29",
+    "security_patch": "2019-09-05",
+    "emulator": true
+  },
+  "preferences": []
+}

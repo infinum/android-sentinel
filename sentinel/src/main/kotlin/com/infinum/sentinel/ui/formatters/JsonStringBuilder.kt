@@ -9,7 +9,11 @@ import org.json.JSONObject
 
 internal class JsonStringBuilder(
     private val context: Context
-) : AbstractFormattedStringBuilder(context) {
+) : AbstractFormattedStringBuilder<JSONObject, JSONArray>(context) {
+
+    companion object {
+        private const val INDENT_SPACES = 4
+    }
 
     override fun format(): String =
         JSONObject()
@@ -17,9 +21,9 @@ internal class JsonStringBuilder(
             .put(PERMISSIONS, permissions())
             .put(DEVICE, device())
             .put(PREFERENCES, preferences())
-            .toString()
+            .toString(INDENT_SPACES)
 
-    override fun application(): String =
+    override fun application(): JSONObject =
         JSONObject().apply {
             applicationCollector.present().let {
                 addKey(R.string.sentinel_version_code, it.versionCode)
@@ -34,9 +38,9 @@ internal class JsonStringBuilder(
                 addKey(R.string.sentinel_locale_language, it.localeLanguage)
                 addKey(R.string.sentinel_locale_country, it.localeCountry)
             }
-        }.toString()
+        }
 
-    override fun permissions(): String =
+    override fun permissions(): JSONArray =
         JSONArray().apply {
             permissionsCollector.present().let {
                 it.forEach { entry ->
@@ -48,9 +52,9 @@ internal class JsonStringBuilder(
                     )
                 }
             }
-        }.toString()
+        }
 
-    override fun device(): String =
+    override fun device(): JSONObject =
         JSONObject().apply {
             deviceCollector.present().let {
                 addKey(R.string.sentinel_manufacturer, it.manufacturer)
@@ -66,9 +70,9 @@ internal class JsonStringBuilder(
                 addKey(R.string.sentinel_security_patch, it.securityPatch)
                 addKey(R.string.sentinel_emulator, it.isProbablyAnEmulator)
             }
-        }.toString()
+        }
 
-    override fun preferences(): String =
+    override fun preferences(): JSONArray =
         JSONArray().apply {
             preferencesCollector.present().let {
                 it.forEach { preference ->
@@ -84,7 +88,7 @@ internal class JsonStringBuilder(
                     )
                 }
             }
-        }.toString()
+        }
 
     private fun JSONObject.addKey(@StringRes key: Int, value: String) {
         context.getString(key).sanitize().let {

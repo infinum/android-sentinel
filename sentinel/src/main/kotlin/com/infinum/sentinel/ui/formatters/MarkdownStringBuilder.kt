@@ -7,7 +7,7 @@ import com.infinum.sentinel.extensions.sanitize
 
 internal class MarkdownStringBuilder(
     private val context: Context
-) : AbstractFormattedStringBuilder(context) {
+) : AbstractFormattedStringBuilder<String, String>(context) {
 
     companion object {
         private const val HEADER_1 = "# "
