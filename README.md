@@ -79,8 +79,7 @@ Create or inject an instance of _Sentinel_ in your Application class and start w
 
 ```kotlin
     Sentinel.watch(
-        context,
-        listOf(
+        setOf(
             ChuckerTool(),
             CollarTool(),
             DbInspectorTool(),
@@ -89,7 +88,7 @@ Create or inject an instance of _Sentinel_ in your Application class and start w
     )
 ```
 
-Besides Context, a list of tools should be provided as a _watch_ parameter. The tools list can be empty.
+A set of tools should be provided as a _watch_ parameter. This set of tools can be empty.
 
 ### Tools
 
@@ -134,7 +133,7 @@ Implementing this interface enables any class to be provided as a tool in _Senti
 ### Triggers
 
 _Sentinel_ observes several different trigger events, determining when to show up.  
-*Manual* and *Shake* triggers cannot be turned off but rest are configurable through _Sentinel_ settings.  
+*Manual* and *Shake* triggers cannot be turned off but rest are configurable through _Sentinel_ settings except *Foreground* trigger when running on emulators.  
 Trigger states will be persisted between sessions. Upon first run, all triggers are enabled.
 - `Manual` - used for manually triggering UI with _show()_
 - `Shake` - default trigger to show UI, shake device to invoke
