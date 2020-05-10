@@ -9,7 +9,9 @@
 
         <provider
             android:name=".SentinelContentProvider"
-            android:authorities="com.infinum.sentinel.SentinelContentProvider" />
+            android:authorities="${applicationId}.SentinelContentProvider"
+            android:enabled="true"
+            android:exported="false" />
     </application>
 
 </manifest>

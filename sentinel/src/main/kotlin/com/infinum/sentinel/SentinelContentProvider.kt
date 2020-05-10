@@ -2,11 +2,30 @@ package com.infinum.sentinel
 
 import android.content.ContentProvider
 import android.content.ContentValues
+import android.content.Context
+import android.content.pm.ProviderInfo
 import android.database.Cursor
 import android.net.Uri
 import com.infinum.sentinel.ui.DependencyGraph
 
 class SentinelContentProvider : ContentProvider() {
+
+    companion object {
+        private const val DEFAULT_PACKAGE = "com.infinum.sentinel"
+    }
+
+    override fun attachInfo(context: Context?, info: ProviderInfo?) {
+        info?.let {
+            if ("$DEFAULT_PACKAGE.${SentinelContentProvider::class.java.simpleName}" == it.authority) {
+                throw IllegalStateException(
+                    "Incorrect provider authority. " +
+                            "Most likely due to missing applicationId variable in module build.gradle."
+                )
+            }
+        } ?: throw IllegalStateException("This component cannot work with null ProviderInfo.")
+
+        super.attachInfo(context, info)
+    }
 
     override fun onCreate(): Boolean =
         context?.let {
