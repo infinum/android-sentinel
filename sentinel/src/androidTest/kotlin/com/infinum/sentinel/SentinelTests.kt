@@ -31,8 +31,7 @@ internal class SentinelTests {
         @BeforeClass
         @JvmStatic
         fun setupBeforeClass() {
-            context =
-                ApplicationProvider.getApplicationContext<SentinelTestApplication>().applicationContext
+            context = ApplicationProvider.getApplicationContext<SentinelTestApplication>()
         }
     }
 
@@ -52,8 +51,8 @@ internal class SentinelTests {
     @Test
     @SmallTest
     fun sentinel_isMemoizedSingleton() {
-        val instance1 = Sentinel.watch(context)
-        val instance2 = Sentinel.watch(context)
+        val instance1 = Sentinel.watch()
+        val instance2 = Sentinel.watch()
 
         assertEquals(instance1, instance2)
     }
@@ -61,8 +60,8 @@ internal class SentinelTests {
     @Test
     @SmallTest
     fun sentinel_isMemoizedSingleton_WithDifferentTools() {
-        val instance1 = Sentinel.watch(context)
-        val instance2 = Sentinel.watch(context, setOf(DummyTool()))
+        val instance1 = Sentinel.watch()
+        val instance2 = Sentinel.watch(setOf(DummyTool()))
 
         assertEquals(instance1, instance2)
     }
@@ -70,7 +69,7 @@ internal class SentinelTests {
     @Test
     @SmallTest
     fun sentinel_watch() {
-        Sentinel.watch(context)
+        Sentinel.watch()
 
         intended(hasComponent(SentinelActivity::class.java.name), times(0))
     }
@@ -78,7 +77,7 @@ internal class SentinelTests {
     @Test
     @SmallTest
     fun sentinel_show() {
-        val instance = Sentinel.watch(context)
+        val instance = Sentinel.watch()
 
         instance.show()
 

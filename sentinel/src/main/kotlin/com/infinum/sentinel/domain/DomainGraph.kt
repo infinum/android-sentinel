@@ -16,12 +16,16 @@ internal class DomainGraph(context: Context) {
 
     private val formatters = FormatterRepository(context)
 
-    private val formats = FormatsRepository(data.database())
+    private lateinit var formats: FormatsRepository
 
-    private val triggers = TriggersRepository(data.database(), data.cache())
+    private lateinit var triggers: TriggersRepository
 
     fun setup(tools: Set<Sentinel.Tool>, onTriggered: () -> Unit) {
         data.setup(onTriggered)
+
+        formats = FormatsRepository(data.database())
+
+        triggers = TriggersRepository(data.database(), data.cache())
 
         collectors.setup(tools)
     }

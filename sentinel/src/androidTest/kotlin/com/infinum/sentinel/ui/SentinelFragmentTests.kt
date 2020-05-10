@@ -33,6 +33,7 @@ import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.instanceOf
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
@@ -49,8 +50,7 @@ class SentinelFragmentTests {
         @BeforeClass
         @JvmStatic
         fun setupBeforeClass() {
-            context =
-                ApplicationProvider.getApplicationContext<SentinelTestApplication>().applicationContext
+            context = ApplicationProvider.getApplicationContext<SentinelTestApplication>()
 
             DependencyGraph.initialise(context)
         }
@@ -58,6 +58,11 @@ class SentinelFragmentTests {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
+
+    @Before
+    fun setupGraph() {
+        DependencyGraph.setup(setOf()) {}
+    }
 
     @Test
     fun sentinelFragment_show() {

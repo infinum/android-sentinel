@@ -12,7 +12,7 @@ internal class DatabaseProvider(context: Context) {
         SentinelDatabase::class.java,
         databaseName(context)
     )
-        //.allowMainThreadQueries()
+        .allowMainThreadQueries()
         .createFromAsset("databases/sentinel_default.db")
         .setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
         .fallbackToDestructiveMigration()

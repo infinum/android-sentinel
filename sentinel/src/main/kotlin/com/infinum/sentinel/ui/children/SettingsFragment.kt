@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RestrictTo
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.infinum.sentinel.R
 import com.infinum.sentinel.data.models.local.FormatEntity
+import com.infinum.sentinel.data.models.local.TriggerEntity
 import com.infinum.sentinel.data.models.memory.formats.FormatType
 import com.infinum.sentinel.data.models.memory.triggers.TriggerType
 import com.infinum.sentinel.databinding.SentinelFragmentSettingsBinding
@@ -39,56 +41,14 @@ internal class SettingsFragment : BaseChildFragment<SentinelFragmentSettingsBind
             DependencyGraph.triggers().load().observeForever { triggers ->
                 triggers.forEach { trigger ->
                     when (trigger.type) {
-                        TriggerType.MANUAL -> {
-                            with(manualTriggerView) {
-                                isChecked = trigger.enabled
-                                isEnabled = trigger.editable
-                                setOnCheckedChangeListener { _, isChecked ->
-                                    DependencyGraph.triggers()
-                                        .save(trigger.copy(enabled = isChecked))
-                                }
-                            }
-                        }
-                        TriggerType.SHAKE -> {
-                            with(shakeTriggerView) {
-                                isChecked = trigger.enabled
-                                isEnabled = trigger.editable
-                                setOnCheckedChangeListener { _, isChecked ->
-                                    DependencyGraph.triggers()
-                                        .save(trigger.copy(enabled = isChecked))
-                                }
-                            }
-                        }
-                        TriggerType.FOREGROUND -> {
-                            with(foregroundTriggerView) {
-                                isChecked = trigger.enabled
-                                isEnabled = trigger.editable
-                                setOnCheckedChangeListener { _, isChecked ->
-                                    DependencyGraph.triggers()
-                                        .save(trigger.copy(enabled = isChecked))
-                                }
-                            }
-                        }
-                        TriggerType.USB_CONNECTED -> {
-                            with(usbTriggerView) {
-                                isChecked = trigger.enabled
-                                isEnabled = trigger.editable
-                                setOnCheckedChangeListener { _, isChecked ->
-                                    DependencyGraph.triggers()
-                                        .save(trigger.copy(enabled = isChecked))
-                                }
-                            }
-                        }
-                        TriggerType.AIRPLANE_MODE_ON -> {
-                            with(airplaneModeTriggerView) {
-                                isChecked = trigger.enabled
-                                isEnabled = trigger.editable
-                                setOnCheckedChangeListener { _, isChecked ->
-                                    DependencyGraph.triggers()
-                                        .save(trigger.copy(enabled = isChecked))
-                                }
-                            }
-                        }
+                        TriggerType.MANUAL -> setupSwitch(manualTriggerView, trigger)
+                        TriggerType.SHAKE -> setupSwitch(shakeTriggerView, trigger)
+                        TriggerType.FOREGROUND -> setupSwitch(foregroundTriggerView, trigger)
+                        TriggerType.USB_CONNECTED -> setupSwitch(usbTriggerView, trigger)
+                        TriggerType.AIRPLANE_MODE_ON -> setupSwitch(
+                            airplaneModeTriggerView,
+                            trigger
+                        )
                     }
                 }
             }
@@ -139,6 +99,16 @@ internal class SettingsFragment : BaseChildFragment<SentinelFragmentSettingsBind
                 }.let {
                     formatGroup.check(it)
                 }
+            }
+        }
+    }
+
+    private fun setupSwitch(switchView: SwitchMaterial, trigger: TriggerEntity) {
+        with(switchView) {
+            isChecked = trigger.enabled
+            isEnabled = trigger.editable
+            setOnCheckedChangeListener { _, isChecked ->
+                DependencyGraph.triggers().save(trigger.copy(enabled = isChecked))
             }
         }
     }
