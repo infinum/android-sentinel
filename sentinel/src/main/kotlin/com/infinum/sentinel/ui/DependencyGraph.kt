@@ -3,20 +3,21 @@ package com.infinum.sentinel.ui
 import android.content.Context
 import android.content.Intent
 import com.infinum.sentinel.Sentinel
-import com.infinum.sentinel.domain.Domain
+import com.infinum.sentinel.domain.DomainGraph
 
-object Ui {
+internal object DependencyGraph {
 
     private lateinit var context: Context
 
-    fun initialise(context: Context) {
-        this.context = context.applicationContext
+    private lateinit var domain: DomainGraph
 
-        Domain.initialise(this.context)
+    fun initialise(context: Context) {
+        this.context = context
+        this.domain = DomainGraph(context)
     }
 
     fun setup(tools: Set<Sentinel.Tool>, onTriggered: () -> Unit) {
-        Domain.setup(tools, onTriggered)
+        domain.setup(tools, onTriggered)
     }
 
     fun show() =
@@ -27,4 +28,12 @@ object Ui {
                     addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 }
         )
+
+    fun collectors() = domain.collectors()
+
+    fun formatters() = domain.formatters()
+
+    fun formats() = domain.formats()
+
+    fun triggers() = domain.triggers()
 }

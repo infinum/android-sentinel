@@ -9,24 +9,19 @@ import com.infinum.sentinel.data.sources.raw.PermissionsCollector
 import com.infinum.sentinel.data.sources.raw.PreferencesCollector
 import com.infinum.sentinel.data.sources.raw.ToolsCollector
 
-internal object CollectorRepository {
+internal class CollectorRepository(context: Context) {
 
-    private lateinit var basicCollector: BasicCollector
-    private lateinit var deviceCollector: DeviceCollector
-    private lateinit var applicationCollector: ApplicationCollector
-    private lateinit var permissionsCollector: PermissionsCollector
-    private lateinit var preferencesCollector: PreferencesCollector
+    private val basicCollector: BasicCollector = BasicCollector(context)
+
+    private val deviceCollector: DeviceCollector = DeviceCollector()
+
+    private val applicationCollector: ApplicationCollector = ApplicationCollector(context)
+
+    private val permissionsCollector: PermissionsCollector = PermissionsCollector(context)
+
+    private val preferencesCollector: PreferencesCollector = PreferencesCollector(context)
+
     private lateinit var toolsCollector: ToolsCollector
-
-    fun initialise(
-        context: Context
-    ) {
-        basicCollector = BasicCollector(context)
-        deviceCollector = DeviceCollector()
-        applicationCollector = ApplicationCollector(context)
-        permissionsCollector = PermissionsCollector(context)
-        preferencesCollector = PreferencesCollector(context)
-    }
 
     fun setup(tools: Set<Sentinel.Tool>) {
         toolsCollector = ToolsCollector(tools)

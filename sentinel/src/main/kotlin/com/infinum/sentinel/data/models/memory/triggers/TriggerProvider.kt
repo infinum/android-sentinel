@@ -7,9 +7,9 @@ import com.infinum.sentinel.data.models.memory.triggers.manual.ManualTrigger
 import com.infinum.sentinel.data.models.memory.triggers.shake.ShakeTrigger
 import com.infinum.sentinel.data.models.memory.triggers.usb.UsbConnectedTrigger
 
-internal object TriggerProvider {
-
-    private lateinit var context: Context
+internal class TriggerProvider(
+    private val context: Context
+) {
 
     private lateinit var manual: ManualTrigger
 
@@ -21,17 +21,12 @@ internal object TriggerProvider {
 
     private lateinit var airplaneModeOn: AirplaneModeOnTrigger
 
-    fun initialise(context: Context): TriggerProvider {
-        this.context = context
-        return this
-    }
-
     fun setup(onTriggered: () -> Unit) {
-            manual = ManualTrigger()
-            foreground = ForegroundTrigger(onTriggered)
-            shake = ShakeTrigger(context, onTriggered)
-            usbConnected = UsbConnectedTrigger(context, onTriggered)
-            airplaneModeOn = AirplaneModeOnTrigger(context, onTriggered)
+        manual = ManualTrigger()
+        foreground = ForegroundTrigger(onTriggered)
+        shake = ShakeTrigger(context, onTriggered)
+        usbConnected = UsbConnectedTrigger(context, onTriggered)
+        airplaneModeOn = AirplaneModeOnTrigger(context, onTriggered)
     }
 
     fun manual() = manual

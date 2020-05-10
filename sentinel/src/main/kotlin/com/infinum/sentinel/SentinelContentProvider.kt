@@ -4,13 +4,13 @@ import android.content.ContentProvider
 import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
-import com.infinum.sentinel.ui.Ui
+import com.infinum.sentinel.ui.DependencyGraph
 
 class SentinelContentProvider : ContentProvider() {
 
     override fun onCreate(): Boolean =
         context?.let {
-            Ui.initialise(it.applicationContext)
+            DependencyGraph.initialise(it.applicationContext)
             true
         } ?: false
 

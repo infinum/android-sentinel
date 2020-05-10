@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RestrictTo
 import com.infinum.sentinel.databinding.SentinelFragmentDeviceBinding
-import com.infinum.sentinel.domain.repository.CollectorRepository
+import com.infinum.sentinel.ui.DependencyGraph
 import com.infinum.sentinel.ui.shared.BaseChildFragment
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
@@ -26,7 +26,7 @@ internal class DeviceFragment : BaseChildFragment<SentinelFragmentDeviceBinding>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(CollectorRepository.device()) {
+        with(DependencyGraph.collectors().device()) {
             collect()
             present().let {
                 with(viewBinding) {
