@@ -8,7 +8,7 @@ import androidx.annotation.RestrictTo
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentPermissionsBinding
 import com.infinum.sentinel.databinding.SentinelViewItemCheckableBinding
-import com.infinum.sentinel.domain.repository.CollectorRepository
+import com.infinum.sentinel.ui.DependencyGraph
 import com.infinum.sentinel.ui.shared.BaseChildFragment
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
@@ -28,7 +28,7 @@ internal class PermissionsFragment : BaseChildFragment<SentinelFragmentPermissio
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(CollectorRepository.permissions()) {
+        with(DependencyGraph.collectors().permissions()) {
             collect()
             bind(present())
         }

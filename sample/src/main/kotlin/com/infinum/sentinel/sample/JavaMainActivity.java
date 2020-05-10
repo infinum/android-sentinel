@@ -21,7 +21,7 @@ public class JavaMainActivity extends AppCompatActivity {
         final ActivityJavaMainBinding viewBinding = ActivityJavaMainBinding.inflate(getLayoutInflater());
         setContentView(viewBinding.getRoot());
 
-        sentinel = Sentinel.watch(this, SentinelTools.INSTANCE.get());
+        sentinel = Sentinel.watch(SentinelTools.INSTANCE.get());
 
         viewBinding.showSentinel.setOnClickListener(new View.OnClickListener() {
             @Override

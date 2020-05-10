@@ -6,6 +6,12 @@
             android:name="com.infinum.sentinel.ui.SentinelActivity"
             android:label="@string/sentinel_name"
             android:theme="@style/Sentinel.Theme" />
+
+        <provider
+            android:name=".SentinelContentProvider"
+            android:authorities="${applicationId}.SentinelContentProvider"
+            android:enabled="true"
+            android:exported="false" />
     </application>
 
 </manifest>

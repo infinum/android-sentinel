@@ -1,17 +1,11 @@
 package com.infinum.sentinel
 
-import android.content.Context
-import android.content.Intent
 import android.view.View
 import androidx.annotation.StringRes
 import com.infinum.sentinel.data.models.memory.triggers.manual.ManualTrigger
-import com.infinum.sentinel.domain.Domain
-import com.infinum.sentinel.ui.SentinelActivity
+import com.infinum.sentinel.ui.DependencyGraph
 
-class Sentinel private constructor(
-    private val context: Context,
-    tools: Set<Tool> = setOf()
-) {
+class Sentinel private constructor(tools: Set<Tool> = setOf()) {
 
     companion object {
 
@@ -19,16 +13,16 @@ class Sentinel private constructor(
 
         @JvmStatic
         @JvmOverloads
-        fun watch(context: Context, tools: Set<Tool> = setOf()): Sentinel {
+        fun watch(tools: Set<Tool> = setOf()): Sentinel {
             if (INSTANCE == null) {
-                INSTANCE = Sentinel(context, tools)
+                INSTANCE = Sentinel(tools)
             }
             return INSTANCE as Sentinel
         }
     }
 
     init {
-        Domain.initialise(context, tools) { showNow() }
+        DependencyGraph.setup(tools) { DependencyGraph.show() }
     }
 
     /**
@@ -37,18 +31,8 @@ class Sentinel private constructor(
     fun show() {
         val manualTrigger = ManualTrigger()
         if (manualTrigger.active) {
-            showNow()
+            DependencyGraph.show()
         }
-    }
-
-    private fun showNow() {
-        context.startActivity(
-            Intent(context, SentinelActivity::class.java)
-                .apply {
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                }
-        )
     }
 
     @Suppress("unused")

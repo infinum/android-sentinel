@@ -8,7 +8,7 @@ import androidx.annotation.RestrictTo
 import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.databinding.SentinelFragmentToolsBinding
 import com.infinum.sentinel.databinding.SentinelViewItemButtonBinding
-import com.infinum.sentinel.domain.repository.CollectorRepository
+import com.infinum.sentinel.ui.DependencyGraph
 import com.infinum.sentinel.ui.shared.BaseChildFragment
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
@@ -28,7 +28,7 @@ internal class ToolsFragment : BaseChildFragment<SentinelFragmentToolsBinding>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(CollectorRepository.tools()) {
+        with(DependencyGraph.collectors().tools()) {
             collect()
             bind(present())
         }

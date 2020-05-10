@@ -7,7 +7,6 @@ import androidx.appcompat.widget.ActionMenuView
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
@@ -15,7 +14,6 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -24,7 +22,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.android.material.appbar.MaterialToolbar
 import com.infinum.sentinel.R
-import com.infinum.sentinel.domain.Domain
 import com.infinum.sentinel.ui.children.ApplicationFragment
 import com.infinum.sentinel.ui.children.DeviceFragment
 import com.infinum.sentinel.ui.children.PermissionsFragment
@@ -36,6 +33,7 @@ import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.instanceOf
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
@@ -52,15 +50,19 @@ class SentinelFragmentTests {
         @BeforeClass
         @JvmStatic
         fun setupBeforeClass() {
-            context =
-                ApplicationProvider.getApplicationContext<SentinelTestApplication>().applicationContext
+            context = ApplicationProvider.getApplicationContext<SentinelTestApplication>()
 
-            Domain.initialise(context, setOf()) {}
+            DependencyGraph.initialise(context)
         }
     }
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
+
+    @Before
+    fun setupGraph() {
+        DependencyGraph.setup(setOf()) {}
+    }
 
     @Test
     fun sentinelFragment_show() {
