@@ -8,10 +8,16 @@ import com.infinum.sentinel.domain.repository.FormatterRepository
 
 object Domain {
 
-    fun initialise(context: Context, tools: Set<Sentinel.Tool>, onTriggered: () -> Unit) {
-        Data.initialise(context, onTriggered)
+    fun initialise(context: Context) {
+        Data.initialise(context)
 
-        CollectorRepository.initialise(context, tools)
+        CollectorRepository.initialise(context)
         FormatterRepository.initialise(context)
+    }
+
+    fun setup(tools: Set<Sentinel.Tool>, onTriggered: () -> Unit) {
+        Data.setup(onTriggered)
+
+        CollectorRepository.setup(tools)
     }
 }

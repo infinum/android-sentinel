@@ -7,10 +7,14 @@ internal object CacheProvider {
 
     private lateinit var triggers: TriggerProvider
 
-    fun initialise(context: Context, onTriggered: () -> Unit): CacheProvider {
-        triggers = TriggerProvider.initialise(context, onTriggered)
+    fun initialise(context: Context): CacheProvider {
+        triggers = TriggerProvider.initialise(context)
 
         return this
+    }
+
+    fun setup(onTriggered: () -> Unit) {
+        TriggerProvider.setup(onTriggered)
     }
 
     fun triggers() = triggers

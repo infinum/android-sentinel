@@ -19,14 +19,16 @@ internal object CollectorRepository {
     private lateinit var toolsCollector: ToolsCollector
 
     fun initialise(
-        context: Context,
-        tools: Set<Sentinel.Tool>
+        context: Context
     ) {
         basicCollector = BasicCollector(context)
         deviceCollector = DeviceCollector()
         applicationCollector = ApplicationCollector(context)
         permissionsCollector = PermissionsCollector(context)
         preferencesCollector = PreferencesCollector(context)
+    }
+
+    fun setup(tools: Set<Sentinel.Tool>) {
         toolsCollector = ToolsCollector(tools)
     }
 
