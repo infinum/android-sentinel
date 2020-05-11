@@ -1,3 +1,13 @@
+name: Run instrumentation checks
+on:
+  push:
+    branches:
+      - master
+      - dev
+  pull_request:
+    branches:
+      - '*'
+
 jobs:
   test:
     runs-on: macOS-latest
