@@ -27,8 +27,8 @@ jobs:
           path: ~/.gradle/wrapper/
           key: cache-clean-wrapper-${{ matrix.os }}-${{ matrix.jdk }}
 
-      - name: Run detekt
-        run: ./gradlew detektAll
+#      - name: Run detekt
+#        run: ./gradlew detektAll
 
       - name: Run all the tests
         run: ./gradlew test
