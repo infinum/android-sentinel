@@ -1,4 +1,4 @@
-name: Run instrumentation checks
+name: Run instrumentation tests
 on:
   push:
     branches:
@@ -8,20 +8,30 @@ on:
     branches:
       - '*'
 
+env:
+  GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
+
 jobs:
-  test:
-    runs-on: macOS-latest
+  android:
+    runs-on: macos-latest
+
     strategy:
+      fail-fast: false
       matrix:
-        api-level: [21, 23, 28, 29]
-        arch: [x86_64]
+        api-level:
+          - 21
+          - 23
+          - 28
+          - 29
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Run instrumentation tests
+      - name: Run tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ matrix.api-level }}
-          arch: ${{ matrix.arch }}
           script: ./gradlew connectedCheck
+        env:
+          API_LEVEL: ${{ matrix.api-level }}
