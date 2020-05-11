@@ -2,9 +2,6 @@ apply plugin: 'maven-publish'
 apply plugin: "com.jfrog.bintray"
 apply plugin: 'com.github.dcendents.android-maven'
 
-Properties properties = new Properties()
-properties.load(new FileInputStream(file(rootProject.file('bintray.properties'))))
-
 group = sentinel.group
 version = sentinel.version
 
@@ -55,6 +52,9 @@ publishing {
 }
 
 bintray {
+    Properties properties = new Properties()
+    properties.load(new FileInputStream(file(rootProject.file('bintray.properties'))))
+
     user = properties.getProperty("bintray.user")
     key = properties.getProperty("bintray.apikey")
 

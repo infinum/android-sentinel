@@ -1,4 +1,4 @@
-[ ![Download](https://api.bintray.com/packages/infinum/android/sentinel/images/download.svg) ](https://bintray.com/infinum/android/sentinel/_latestVersion)
+[ ![Download](https://api.bintray.com/packages/infinum/android/sentinel/images/download.svg) ](https://bintray.com/infinum/android/sentinel/_latestVersion) ![Validate Gradle Wrapper](https://github.com/infinum/android-sentinel/workflows/Validate%20Gradle%20Wrapper/badge.svg)
 
 # Sentinel
 
