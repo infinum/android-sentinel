@@ -9,6 +9,6 @@ class SampleApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        Sentinel.watch(this, SentinelTools.get())
+        Sentinel.watch( SentinelTools.get())
     }
 }

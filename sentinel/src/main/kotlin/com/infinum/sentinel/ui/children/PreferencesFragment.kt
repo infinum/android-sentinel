@@ -9,7 +9,7 @@ import com.infinum.sentinel.data.models.raw.PreferencesData
 import com.infinum.sentinel.databinding.SentinelFragmentPreferencesBinding
 import com.infinum.sentinel.databinding.SentinelViewItemPreferenceBinding
 import com.infinum.sentinel.databinding.SentinelViewItemTextBinding
-import com.infinum.sentinel.domain.repository.CollectorRepository
+import com.infinum.sentinel.ui.DependencyGraph
 import com.infinum.sentinel.ui.shared.BaseChildFragment
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
@@ -29,7 +29,7 @@ internal class PreferencesFragment : BaseChildFragment<SentinelFragmentPreferenc
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(CollectorRepository.preferences()) {
+        with(DependencyGraph.collectors().preferences()) {
             collect()
             bind(present())
         }

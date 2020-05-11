@@ -7,21 +7,17 @@ import com.infinum.sentinel.ui.formatters.MarkdownStringBuilder
 import com.infinum.sentinel.ui.formatters.PlainStringBuilder
 import com.infinum.sentinel.ui.formatters.XmlStringBuilder
 
-internal object FormatterRepository {
+internal class FormatterRepository(context: Context) {
 
-    private lateinit var plainFormatter: PlainStringBuilder
-    private lateinit var markdownFormatter: MarkdownStringBuilder
-    private lateinit var jsonFormatter: JsonStringBuilder
-    private lateinit var xmlFormatter: XmlStringBuilder
-    private lateinit var htmlFormatter: HtmlStringBuilder
+    private val plainFormatter: PlainStringBuilder = PlainStringBuilder(context)
 
-    fun initialise(context: Context) {
-        plainFormatter = PlainStringBuilder(context)
-        markdownFormatter = MarkdownStringBuilder(context)
-        jsonFormatter = JsonStringBuilder(context)
-        xmlFormatter = XmlStringBuilder(context)
-        htmlFormatter = HtmlStringBuilder(context)
-    }
+    private val markdownFormatter: MarkdownStringBuilder = MarkdownStringBuilder(context)
+
+    private val jsonFormatter: JsonStringBuilder = JsonStringBuilder(context)
+
+    private val xmlFormatter: XmlStringBuilder = XmlStringBuilder(context)
+
+    private val htmlFormatter: HtmlStringBuilder = HtmlStringBuilder(context)
 
     fun plain() = plainFormatter
 

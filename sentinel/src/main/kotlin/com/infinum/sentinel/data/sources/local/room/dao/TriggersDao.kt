@@ -15,4 +15,7 @@ internal interface TriggersDao {
 
     @Query("SELECT * FROM triggers")
     fun load(): LiveData<List<TriggerEntity>>
+
+    @Query("SELECT * FROM triggers WHERE type = 'FOREGROUND'")
+    fun foreground(): TriggerEntity
 }

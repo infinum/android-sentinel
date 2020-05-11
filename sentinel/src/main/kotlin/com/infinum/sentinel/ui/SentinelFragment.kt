@@ -15,9 +15,6 @@ import com.infinum.sentinel.data.sources.raw.DeviceCollector
 import com.infinum.sentinel.data.sources.raw.PermissionsCollector
 import com.infinum.sentinel.data.sources.raw.PreferencesCollector
 import com.infinum.sentinel.databinding.SentinelFragmentBinding
-import com.infinum.sentinel.domain.repository.CollectorRepository
-import com.infinum.sentinel.domain.repository.FormatsRepository
-import com.infinum.sentinel.domain.repository.FormatterRepository
 import com.infinum.sentinel.extensions.toScissorsDrawable
 import com.infinum.sentinel.ui.children.ApplicationFragment
 import com.infinum.sentinel.ui.children.DeviceFragment
@@ -51,11 +48,11 @@ internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), Senti
 
         setupUi()
 
-        val basicCollector: BasicCollector = CollectorRepository.basic()
-        val applicationCollector: ApplicationCollector = CollectorRepository.application()
-        val deviceCollector: DeviceCollector = CollectorRepository.device()
-        val permissionsCollector: PermissionsCollector = CollectorRepository.permissions()
-        val preferencesCollector: PreferencesCollector = CollectorRepository.preferences()
+        val basicCollector: BasicCollector = DependencyGraph.collectors().basic()
+        val applicationCollector: ApplicationCollector = DependencyGraph.collectors().application()
+        val deviceCollector: DeviceCollector = DependencyGraph.collectors().device()
+        val permissionsCollector: PermissionsCollector = DependencyGraph.collectors().permissions()
+        val preferencesCollector: PreferencesCollector = DependencyGraph.collectors().preferences()
 
         basicCollector.collect()
         applicationCollector.collect()
@@ -68,13 +65,13 @@ internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), Senti
             applicationIconView.background = basicCollector.data.applicationIcon
         }
 
-        FormatsRepository.load().observeForever { entity ->
+        DependencyGraph.formats().load().observeForever { entity ->
             formatter = when (entity.type) {
-                FormatType.PLAIN -> FormatterRepository.plain()
-                FormatType.MARKDOWN -> FormatterRepository.markdown()
-                FormatType.JSON -> FormatterRepository.json()
-                FormatType.XML -> FormatterRepository.xml()
-                FormatType.HTML -> FormatterRepository.html()
+                FormatType.PLAIN -> DependencyGraph.formatters().plain()
+                FormatType.MARKDOWN -> DependencyGraph.formatters().markdown()
+                FormatType.JSON -> DependencyGraph.formatters().json()
+                FormatType.XML -> DependencyGraph.formatters().xml()
+                FormatType.HTML -> DependencyGraph.formatters().html()
                 else -> null
             }
         }
