@@ -13,8 +13,6 @@ env:
 
 jobs:
   gradle:
-    name: Checks
-
     runs-on: macOS-latest
 
     steps:
