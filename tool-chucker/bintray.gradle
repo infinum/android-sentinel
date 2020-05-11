@@ -8,7 +8,7 @@ properties.load(new FileInputStream(file(rootProject.file('bintray.properties'))
 group = sentinel.group
 version = sentinel.version
 
-task sourcesJar(type: Jar, dependsOn: assemble) {
+task sourcesJar(type: Jar) {
     archiveClassifier.set('sources')
     from android.sourceSets.main.kotlin.srcDirs
 }
@@ -18,14 +18,17 @@ task javadocsJar(type: Jar, dependsOn: rootProject.dokka) {
     from rootProject.dokka.outputDirectory
 }
 
+artifacts {
+    archives javadocsJar
+    archives sourcesJar
+}
+
 publishing {
     publications {
         infinum(MavenPublication) {
             groupId = group
             artifactId = 'tool-chucker'
 
-            artifact sourcesJar
-            artifact javadocsJar
             pom {
                 name = 'Sentinel Tool for Chucker'
                 description = 'Sentinel Tool wrapping Chucker'
