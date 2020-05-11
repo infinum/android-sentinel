@@ -53,7 +53,14 @@ publishing {
 
 bintray {
     Properties properties = new Properties()
-    properties.load(new FileInputStream(file(rootProject.file('bintray.properties'))))
+    def bintrayProperties = rootProject.file('bintray.properties')
+    if (bintrayProperties.exists()) {
+        properties.load(new FileInputStream(bintrayProperties))
+    } else {
+        properties.setProperty("bintray.user", "")
+        properties.setProperty("bintray.apikey", "")
+        properties.setProperty("bintray.gpg_passphrase", "")
+    }
 
     user = properties.getProperty("bintray.user")
     key = properties.getProperty("bintray.apikey")

@@ -8,27 +8,33 @@ on:
     branches:
       - '*'
 
+env:
+  GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
+
 jobs:
   gradle:
+    name: Checks
+
     runs-on: macOS-latest
+
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
-
 
       - name: Cache Gradle Caches
         uses: actions/cache@v1
         with:
           path: ~/.gradle/caches/
           key: cache-clean-gradle-${{ matrix.os }}-${{ matrix.jdk }}
+
       - name: Cache Gradle Wrapper
         uses: actions/cache@v1
         with:
           path: ~/.gradle/wrapper/
           key: cache-clean-wrapper-${{ matrix.os }}-${{ matrix.jdk }}
 
-#      - name: Run detekt
-#        run: ./gradlew detektAll
+      - name: Run detekt
+        run: ./gradlew detektAll
 
       - name: Run all the tests
         run: ./gradlew test
