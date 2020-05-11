@@ -8,7 +8,7 @@ import android.database.Cursor
 import android.net.Uri
 import com.infinum.sentinel.ui.DependencyGraph
 
-class SentinelContentProvider : ContentProvider() {
+internal class SentinelContentProvider : ContentProvider() {
 
     companion object {
         private const val DEFAULT_PACKAGE = "com.infinum.sentinel"
