@@ -11,6 +11,7 @@
     <string name="sentinel_share">Share</string>
 
     <string name="sentinel_network">Network</string>
+    <string name="sentinel_memory">Memory</string>
     <string name="sentinel_analytics">Analytics</string>
     <string name="sentinel_database">Database</string>
     <string name="sentinel_report">Report</string>

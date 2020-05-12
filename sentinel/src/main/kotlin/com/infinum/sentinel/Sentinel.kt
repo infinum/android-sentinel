@@ -66,6 +66,17 @@ class Sentinel private constructor(tools: Set<Tool> = setOf()) {
     }
 
     @Suppress("unused")
+    interface MemoryTool : Tool {
+
+        /**
+         * A dedicated name for this tool
+         *
+         * @return a String resource that will be used to generate a name for a Button in Tools UI
+         */
+        override fun name(): Int = R.string.sentinel_memory
+    }
+
+    @Suppress("unused")
     interface AnalyticsTool : Tool {
 
         /**

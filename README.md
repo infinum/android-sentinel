@@ -112,6 +112,7 @@ Depending of what you include as module dependencies, very specific tools are pr
 
 If you want to implement a different tool other than already packaged with a predefined type and name, several are available.
 - `NetworkTool` - a wrapper interface with a name *Network* for any network interceptors
+- `MemoryTool` - a wrapper interface with a name *Memory* for any memory management tools
 - `AnalyticsTool` - a wrapper interface with a name *Analytics* for any analytics collectors
 - `DatabaseTool` - a wrapper interface with a name *Database* for any database viewers
 - `ReportTool` - a wrapper interface with a name *Report* for any crash reporting tools
