@@ -13,7 +13,7 @@ import com.infinum.sentinel.Sentinel
 data class CollarTool(
     private val listener: View.OnClickListener = View.OnClickListener {
         it.context.startActivity(
-            CollarUi.launchIntent(it.context).apply {
+            CollarUi.launchIntent().apply {
                 addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
             }
         )
