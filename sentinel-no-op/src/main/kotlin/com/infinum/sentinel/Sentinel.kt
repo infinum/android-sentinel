@@ -10,11 +10,14 @@ class Sentinel private constructor(
 
     companion object {
 
+        @JvmStatic
+        @JvmOverloads
         fun watch(tools: Set<Tool>): Sentinel =
             lazyOf(Sentinel(tools)).value
-    }
 
-    fun show() = Unit
+        @JvmStatic
+        fun show() = Unit
+    }
 
     interface Tool {
 

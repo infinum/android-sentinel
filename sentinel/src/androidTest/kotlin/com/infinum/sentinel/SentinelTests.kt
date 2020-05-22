@@ -77,9 +77,7 @@ internal class SentinelTests {
     @Test
     @SmallTest
     fun sentinel_show() {
-        val instance = Sentinel.watch()
-
-        instance.show()
+        Sentinel.show()
 
         intended(hasComponent(ComponentName(context, SentinelActivity::class.java)), times(2))
     }

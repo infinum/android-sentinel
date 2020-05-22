@@ -19,6 +19,16 @@ class Sentinel private constructor(tools: Set<Tool> = setOf()) {
             }
             return INSTANCE as Sentinel
         }
+
+        @JvmStatic
+        fun show() {
+            if (INSTANCE == null) {
+                INSTANCE = Sentinel()
+                INSTANCE?.showInternal()
+            } else {
+                INSTANCE?.showInternal()
+            }
+        }
     }
 
     init {
@@ -28,7 +38,7 @@ class Sentinel private constructor(tools: Set<Tool> = setOf()) {
     /**
      * Used for manually showing Sentinel UI
      */
-    fun show() {
+    private fun showInternal() {
         val manualTrigger = ManualTrigger()
         if (manualTrigger.active) {
             DependencyGraph.show()
