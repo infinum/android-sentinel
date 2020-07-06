@@ -1,9 +1,7 @@
 package com.infinum.sentinel.ui.children
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.RestrictTo
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.infinum.sentinel.R
@@ -14,20 +12,19 @@ import com.infinum.sentinel.data.models.memory.triggers.TriggerType
 import com.infinum.sentinel.databinding.SentinelFragmentSettingsBinding
 import com.infinum.sentinel.ui.DependencyGraph
 import com.infinum.sentinel.ui.shared.BaseChildFragment
+import com.infinum.sentinel.ui.shared.viewBinding
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class SettingsFragment : BaseChildFragment<SentinelFragmentSettingsBinding>() {
+internal class SettingsFragment : BaseChildFragment(R.layout.sentinel_fragment_settings) {
 
     companion object {
         fun newInstance() = SettingsFragment()
         val TAG: String = SettingsFragment::class.java.simpleName
     }
 
-    override fun provideViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ): SentinelFragmentSettingsBinding =
-        SentinelFragmentSettingsBinding.inflate(inflater, container, false)
+    override val binding: SentinelFragmentSettingsBinding by viewBinding(
+        SentinelFragmentSettingsBinding::bind
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,7 +34,7 @@ internal class SettingsFragment : BaseChildFragment<SentinelFragmentSettingsBind
     }
 
     private fun setupTriggers() {
-        with(viewBinding) {
+        with(binding) {
             DependencyGraph.triggers().load().observeForever { triggers ->
                 triggers.forEach { trigger ->
                     when (trigger.type) {
@@ -56,7 +53,7 @@ internal class SettingsFragment : BaseChildFragment<SentinelFragmentSettingsBind
     }
 
     private fun setupFormats() {
-        with(viewBinding) {
+        with(binding) {
             formatGroup.setOnCheckedChangeListener { _, checkedId ->
                 DependencyGraph.formats().save(
                     listOf(

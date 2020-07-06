@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.annotation.RestrictTo
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -11,11 +12,11 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.infinum.sentinel.R
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal abstract class BaseFragment<Binding : ViewBinding> : BottomSheetDialogFragment() {
+internal abstract class BaseFragment(
+    @LayoutRes private val contentLayoutId: Int
+) : BottomSheetDialogFragment() {
 
-    private var binding: Binding? = null
-
-    internal val viewBinding get() = binding!!
+    abstract val binding: ViewBinding
 
     override fun getTheme(): Int = R.style.Sentinel_Theme_BottomSheet
 
@@ -26,23 +27,14 @@ internal abstract class BaseFragment<Binding : ViewBinding> : BottomSheetDialogF
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = provideViewBinding(inflater, container)
-        return viewBinding.root
-    }
-
-    override fun onDestroy() {
-        binding = null
-        super.onDestroy()
-    }
+    ): View? =
+        when (contentLayoutId != 0) {
+            true -> inflater.inflate(contentLayoutId, container, false)
+            false -> null
+        }
 
     override fun onDetach() =
         super.onDetach().run {
             requireActivity().finish()
         }
-
-    protected abstract fun provideViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ): Binding
 }

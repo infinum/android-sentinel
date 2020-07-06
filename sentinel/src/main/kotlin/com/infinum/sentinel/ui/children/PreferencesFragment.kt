@@ -1,30 +1,28 @@
 package com.infinum.sentinel.ui.children
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.RestrictTo
+import com.infinum.sentinel.R
 import com.infinum.sentinel.data.models.raw.PreferencesData
 import com.infinum.sentinel.databinding.SentinelFragmentPreferencesBinding
 import com.infinum.sentinel.databinding.SentinelViewItemPreferenceBinding
 import com.infinum.sentinel.databinding.SentinelViewItemTextBinding
 import com.infinum.sentinel.ui.DependencyGraph
 import com.infinum.sentinel.ui.shared.BaseChildFragment
+import com.infinum.sentinel.ui.shared.viewBinding
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class PreferencesFragment : BaseChildFragment<SentinelFragmentPreferencesBinding>() {
+internal class PreferencesFragment : BaseChildFragment(R.layout.sentinel_fragment_preferences) {
 
     companion object {
         fun newInstance() = PreferencesFragment()
         val TAG: String = PreferencesFragment::class.java.simpleName
     }
 
-    override fun provideViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ): SentinelFragmentPreferencesBinding =
-        SentinelFragmentPreferencesBinding.inflate(inflater, container, false)
+    override val binding: SentinelFragmentPreferencesBinding by viewBinding(
+        SentinelFragmentPreferencesBinding::bind
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,7 +34,7 @@ internal class PreferencesFragment : BaseChildFragment<SentinelFragmentPreferenc
     }
 
     private fun bind(preferences: List<PreferencesData>) =
-        with(viewBinding) {
+        with(binding) {
             contentLayout.removeAllViews()
             preferences.forEach {
                 contentLayout.addView(createItemView(it))
@@ -44,7 +42,7 @@ internal class PreferencesFragment : BaseChildFragment<SentinelFragmentPreferenc
         }
 
     private fun createItemView(data: PreferencesData): View =
-        SentinelViewItemPreferenceBinding.inflate(layoutInflater, viewBinding.contentLayout, false)
+        SentinelViewItemPreferenceBinding.inflate(layoutInflater, binding.contentLayout, false)
             .apply {
                 nameView.text = data.name
                 data.values.forEach {

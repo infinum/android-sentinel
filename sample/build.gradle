@@ -6,7 +6,7 @@ android {
     buildToolsVersion buildConfig.buildTools
 
     defaultConfig {
-        minSdkVersion 23 // Should be 16 but bumped because of DbInspector (19)
+        minSdkVersion 21 // Should be 16 but bumped because of DbInspector (19) and AndroidX Crypto to (21)
         targetSdkVersion buildConfig.targetSdk
         versionCode sentinel.versionCode
         versionName sentinel.version
@@ -45,7 +45,7 @@ dependencies {
     implementation packages.kotlin.core
     implementation packages.androidx.appcompat
     implementation packages.androidx.preference
-    implementation "androidx.security:security-crypto:1.0.0-rc01"
+    implementation "androidx.security:security-crypto:1.1.0-alpha01"
 
     debugImplementation packages.sentinel.sentinel
     releaseImplementation packages.sentinel.sentinel_no_op

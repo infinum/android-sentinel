@@ -14,6 +14,7 @@ import com.infinum.sentinel.data.sources.raw.BasicCollector
 import com.infinum.sentinel.data.sources.raw.DeviceCollector
 import com.infinum.sentinel.data.sources.raw.PermissionsCollector
 import com.infinum.sentinel.data.sources.raw.PreferencesCollector
+import com.infinum.sentinel.databinding.SentinelFragmentApplicationBinding
 import com.infinum.sentinel.databinding.SentinelFragmentBinding
 import com.infinum.sentinel.extensions.toScissorsDrawable
 import com.infinum.sentinel.ui.children.ApplicationFragment
@@ -24,10 +25,11 @@ import com.infinum.sentinel.ui.children.SettingsFragment
 import com.infinum.sentinel.ui.children.ToolsFragment
 import com.infinum.sentinel.ui.formatters.FormattedStringBuilder
 import com.infinum.sentinel.ui.shared.BaseFragment
+import com.infinum.sentinel.ui.shared.viewBinding
 
 @Suppress("TooManyFunctions")
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), SentinelFeatures {
+internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment), SentinelFeatures {
 
     companion object {
         val TAG: String = SentinelFragment::class.java.simpleName
@@ -35,13 +37,11 @@ internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), Senti
         private const val SHARE_MIME_TYPE = "text/plain"
     }
 
-    private var formatter: FormattedStringBuilder<*, *>? = null
+    override val binding: SentinelFragmentBinding by viewBinding(
+        SentinelFragmentBinding::bind
+    )
 
-    override fun provideViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ): SentinelFragmentBinding =
-        SentinelFragmentBinding.inflate(inflater, container, false)
+    private var formatter: FormattedStringBuilder<*, *>? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,7 +60,7 @@ internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), Senti
         permissionsCollector.collect()
         preferencesCollector.collect()
 
-        with(viewBinding) {
+        with(binding) {
             toolbar.title = basicCollector.data.applicationName
             applicationIconView.background = basicCollector.data.applicationIcon
         }
@@ -80,7 +80,7 @@ internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), Senti
     }
 
     private fun setupUi() {
-        with(viewBinding) {
+        with(binding) {
             toolbar.setNavigationOnClickListener { dismiss() }
             toolbar.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
@@ -109,32 +109,32 @@ internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), Senti
     }
 
     override fun settings() {
-        viewBinding.toolbar.subtitle = getString(R.string.sentinel_settings)
+        binding.toolbar.subtitle = getString(R.string.sentinel_settings)
         showFragment(SettingsFragment.TAG)
     }
 
     override fun device() {
-        viewBinding.toolbar.subtitle = getString(R.string.sentinel_device)
+        binding.toolbar.subtitle = getString(R.string.sentinel_device)
         showFragment(DeviceFragment.TAG)
     }
 
     override fun application() {
-        viewBinding.toolbar.subtitle = getString(R.string.sentinel_application)
+        binding.toolbar.subtitle = getString(R.string.sentinel_application)
         showFragment(ApplicationFragment.TAG)
     }
 
     override fun permissions() {
-        viewBinding.toolbar.subtitle = getString(R.string.sentinel_permissions)
+        binding.toolbar.subtitle = getString(R.string.sentinel_permissions)
         showFragment(PermissionsFragment.TAG)
     }
 
     override fun preferences() {
-        viewBinding.toolbar.subtitle = getString(R.string.sentinel_preferences)
+        binding.toolbar.subtitle = getString(R.string.sentinel_preferences)
         showFragment(PreferencesFragment.TAG)
     }
 
     override fun tools() {
-        viewBinding.toolbar.subtitle = getString(R.string.sentinel_tools)
+        binding.toolbar.subtitle = getString(R.string.sentinel_tools)
         showFragment(ToolsFragment.TAG)
     }
 
@@ -151,7 +151,7 @@ internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), Senti
     private fun showFragment(tag: String) {
         childFragmentManager.findFragmentByTag(tag)?.let {
             childFragmentManager.beginTransaction()
-                .replace(viewBinding.fragmentContainer.id, it, tag)
+                .replace(binding.fragmentContainer.id, it, tag)
                 .commit()
         } ?: run {
             when (tag) {
@@ -164,7 +164,7 @@ internal class SentinelFragment : BaseFragment<SentinelFragmentBinding>(), Senti
                 else -> null
             }?.let {
                 childFragmentManager.beginTransaction()
-                    .replace(viewBinding.fragmentContainer.id, it, tag)
+                    .replace(binding.fragmentContainer.id, it, tag)
                     .addToBackStack(null)
                     .commit()
             }
