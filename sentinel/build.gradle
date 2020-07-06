@@ -55,7 +55,9 @@ android {
         it.java.srcDirs += "src/$it.name/kotlin"
     }
 
-    viewBinding.enabled = true
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -79,8 +81,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
     androidTestImplementation "androidx.room:room-testing:2.2.5"
-    androidTestImplementation 'androidx.fragment:fragment:1.2.4'
-    androidTestImplementation 'androidx.fragment:fragment-testing:1.2.4'
+    androidTestImplementation 'androidx.fragment:fragment:1.2.5'
+    androidTestImplementation 'androidx.fragment:fragment-testing:1.2.5'
 
     testImplementation "junit:junit:4.13"
     testImplementation 'androidx.test.ext:junit:1.1.1'
