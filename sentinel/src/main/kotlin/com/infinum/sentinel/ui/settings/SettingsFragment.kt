@@ -1,4 +1,4 @@
-package com.infinum.sentinel.ui.children
+package com.infinum.sentinel.ui.settings
 
 import android.os.Bundle
 import android.view.View
@@ -29,8 +29,13 @@ internal class SettingsFragment : BaseChildFragment(R.layout.sentinel_fragment_s
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupToolbar()
         setupTriggers()
         setupFormats()
+    }
+
+    private fun setupToolbar() {
+        binding.toolbar.setNavigationOnClickListener { requireActivity().finish() }
     }
 
     private fun setupTriggers() {

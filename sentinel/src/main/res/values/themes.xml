@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Sentinel.BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/sentinel_color_primary</item>
@@ -13,6 +13,9 @@
         <item name="colorOnSurface">@color/sentinel_color_on_surface</item>
         <item name="colorOnError">@color/sentinel_color_on_error</item>
         <item name="colorControlNormal">@color/sentinel_color_on_secondary</item>
+    </style>
+
+    <style name="Sentinel.Theme" parent="Sentinel.BaseTheme">
         <item name="android:background">@android:color/transparent</item>
         <item name="android:colorBackground">@color/sentinel_color_background</item>
         <item name="android:windowNoTitle">true</item>
@@ -22,7 +25,10 @@
         <item name="android:windowAnimationStyle">@style/Sentinel.Animation</item>
     </style>
 
-    <style name="Sentinel.Theme" parent="Sentinel.BaseTheme" />
+    <style name="Sentinel.Theme.Settings" parent="Sentinel.BaseTheme">
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Activity</item>
+    </style>
 
     <style name="Sentinel.Theme.BottomSheet" parent="@style/Theme.MaterialComponents.DayNight.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/Sentinel.Widget.BottomSheet.Modal</item>
@@ -33,8 +39,12 @@
     </style>
 
     <style name="Sentinel.Widget.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
-        <item name="itemTextAppearanceActive">@style/Sentinel.TextAppearance.Item.BottomNavigationView.Active</item>
-        <item name="itemTextAppearanceInactive">@style/Sentinel.TextAppearance.Item.BottomNavigationView.Inactive</item>
+        <item name="itemTextAppearanceActive">
+            @style/Sentinel.TextAppearance.Item.BottomNavigationView.Active
+        </item>
+        <item name="itemTextAppearanceInactive">
+            @style/Sentinel.TextAppearance.Item.BottomNavigationView.Inactive
+        </item>
         <item name="labelVisibilityMode">labeled</item>
         <item name="itemRippleColor">@color/sentinel_color_button_ripple</item>
         <item name="itemIconTint">@color/sentinel_selector_bottomnavigation_icon_tint</item>

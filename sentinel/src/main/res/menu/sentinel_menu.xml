@@ -4,12 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="AlwaysShowAction">
 
-<!--    <item-->
-<!--        android:id="@+id/settings"-->
-<!--        android:icon="@drawable/sentinel_ic_settings"-->
-<!--        android:title="@string/sentinel_settings"-->
-<!--        app:showAsAction="always" />-->
-
     <item
         android:id="@+id/share"
         android:icon="@drawable/sentinel_ic_share"

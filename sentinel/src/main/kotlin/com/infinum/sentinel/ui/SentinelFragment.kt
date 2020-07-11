@@ -1,9 +1,8 @@
 package com.infinum.sentinel.ui
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.RestrictTo
 import androidx.core.app.ShareCompat
 import com.google.android.material.shape.MaterialShapeDrawable
@@ -14,16 +13,17 @@ import com.infinum.sentinel.data.sources.raw.BasicCollector
 import com.infinum.sentinel.data.sources.raw.DeviceCollector
 import com.infinum.sentinel.data.sources.raw.PermissionsCollector
 import com.infinum.sentinel.data.sources.raw.PreferencesCollector
-import com.infinum.sentinel.databinding.SentinelFragmentApplicationBinding
 import com.infinum.sentinel.databinding.SentinelFragmentBinding
+import com.infinum.sentinel.extensions.toCradleDrawable
 import com.infinum.sentinel.extensions.toScissorsDrawable
 import com.infinum.sentinel.ui.children.ApplicationFragment
 import com.infinum.sentinel.ui.children.DeviceFragment
 import com.infinum.sentinel.ui.children.PermissionsFragment
 import com.infinum.sentinel.ui.children.PreferencesFragment
-import com.infinum.sentinel.ui.children.SettingsFragment
+import com.infinum.sentinel.ui.settings.SettingsFragment
 import com.infinum.sentinel.ui.children.ToolsFragment
 import com.infinum.sentinel.ui.formatters.FormattedStringBuilder
+import com.infinum.sentinel.ui.settings.SettingsActivity
 import com.infinum.sentinel.ui.shared.BaseFragment
 import com.infinum.sentinel.ui.shared.viewBinding
 
@@ -62,7 +62,8 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment), Sent
 
         with(binding) {
             toolbar.subtitle = basicCollector.data.applicationName
-            applicationIconView.background = basicCollector.data.applicationIcon
+            applicationIconView.setImageDrawable(basicCollector.data.applicationIcon)
+            applicationIconView.setOnClickListener { dismiss() }
         }
 
         DependencyGraph.formats().load().observeForever { entity ->
@@ -81,10 +82,9 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment), Sent
 
     private fun setupUi() {
         with(binding) {
-            toolbar.setNavigationOnClickListener { dismiss() }
+            toolbar.setNavigationOnClickListener { settings() }
             toolbar.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
-//                    R.id.settings -> settings()
                     R.id.share -> share()
                 }
                 true
@@ -95,6 +95,20 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment), Sent
                 count = 12,
                 height = R.dimen.sentinel_triangle_height
             )
+            bottomNavigation.background = MaterialShapeDrawable().toCradleDrawable(
+                context = requireContext(),
+                color = R.color.sentinel_color_background,
+                fabDiameter = resources.getDimensionPixelSize(R.dimen.sentinel_cradle_diameter)
+                    .toFloat(),
+                fabCradleMargin = resources.getDimensionPixelSize(R.dimen.sentinel_cradle_margin)
+                    .toFloat(),
+                fabCornerRadius = resources.getDimensionPixelSize(R.dimen.sentinel_cradle_corner_radius)
+                    .toFloat(),
+                fabVerticalOffset = resources.getDimensionPixelSize(R.dimen.sentinel_cradle_vertical_offset)
+                    .toFloat()
+            )
+            bottomNavigation.elevation =
+                resources.getDimensionPixelSize(R.dimen.sentinel_cradle_margin).toFloat() * 2
             bottomNavigation.setOnNavigationItemSelectedListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.device -> device()
@@ -110,7 +124,7 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment), Sent
     }
 
     override fun settings() {
-        showFragment(SettingsFragment.TAG)
+        startActivity(Intent(requireContext(), SettingsActivity::class.java))
     }
 
     override fun device() {

@@ -4,4 +4,8 @@
     <dimen name="sentinel_icon_size">64dp</dimen>
     <dimen name="sentinel_icon_half_size">32dp</dimen>
     <dimen name="sentinel_item_height">40dp</dimen>
+    <dimen name="sentinel_cradle_diameter">56dp</dimen>
+    <dimen name="sentinel_cradle_margin">4dp</dimen>
+    <dimen name="sentinel_cradle_corner_radius">8dp</dimen>
+    <dimen name="sentinel_cradle_vertical_offset">0dp</dimen>
 </resources>
