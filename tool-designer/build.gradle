@@ -45,8 +45,9 @@ dependencies {
     implementation packages.kotlin.core
     implementation packages.androidx.core
     implementation packages.androidx.fragment
-    implementation packages.androidx.lifecycle.common
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta8'
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
+    implementation packages.androidx.lifecycle.common
     implementation packages.google.design
     api packages.sentinel.sentinel
 }
