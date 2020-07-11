@@ -23,11 +23,6 @@ import kotlin.math.roundToInt
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class DesignerActivity : FragmentActivity() {
 
-    companion object {
-        private const val REQUEST_CODE_IMAGE_PICKER_PORTRAIT = 222
-        private const val REQUEST_CODE_IMAGE_PICKER_LANDSCAPE = 333
-    }
-
     private lateinit var binding: DesignerActivityDesignerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,8 +40,8 @@ internal class DesignerActivity : FragmentActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        when (requestCode) {
-            REQUEST_CODE_IMAGE_PICKER_PORTRAIT -> {
+        when (MockupOrientation(requestCode)) {
+            MockupOrientation.PORTRAIT -> {
                 if (resultCode == Activity.RESULT_OK) {
                     data?.data?.let { setMockupPortrait(it) }
                         ?: showMessage("Cannot set portrait mockup")
@@ -54,7 +49,7 @@ internal class DesignerActivity : FragmentActivity() {
                     showMessage("Cannot set portrait mockup")
                 }
             }
-            REQUEST_CODE_IMAGE_PICKER_LANDSCAPE -> {
+            MockupOrientation.LANDSCAPE -> {
                 if (resultCode == Activity.RESULT_OK) {
                     data?.data?.let { setMockupLandscape(it) }
                         ?: showMessage("Cannot set landscape mockup")
@@ -62,6 +57,7 @@ internal class DesignerActivity : FragmentActivity() {
                     showMessage("Cannot set landscape mockup")
                 }
             }
+            else -> Unit
         }
     }
 
@@ -113,14 +109,14 @@ internal class DesignerActivity : FragmentActivity() {
                     "${resources.displayMetrics.heightPixels}:${resources.displayMetrics.widthPixels}"
             }
             portraitMockup.setOnClickListener {
-                openImagePicker(REQUEST_CODE_IMAGE_PICKER_PORTRAIT)
+                openImagePicker(MockupOrientation.PORTRAIT)
             }
             portraitMockup.setOnLongClickListener {
                 clearPortraitMockup()
                 true
             }
             landscapeMockup.setOnClickListener {
-                openImagePicker(REQUEST_CODE_IMAGE_PICKER_LANDSCAPE)
+                openImagePicker(MockupOrientation.LANDSCAPE)
             }
             landscapeMockup.setOnLongClickListener {
                 clearLandscapeMockup()
@@ -148,8 +144,8 @@ internal class DesignerActivity : FragmentActivity() {
                     override fun onColorSelected(envelope: ColorEnvelope?, fromUser: Boolean) {
                         envelope?.let {
                             when (orientation) {
-                                LineOrientation.HORIZONTAL -> setHorizontalGridLineColor(it.color)
-                                LineOrientation.VERTICAL -> setVerticalGridLineColor(it.color)
+                                LineOrientation.HORIZONTAL -> setHorizontalGridLineColor(it.color, it.hexCode)
+                                LineOrientation.VERTICAL -> setVerticalGridLineColor(it.color, it.hexCode)
                             }
                         }
                     }
@@ -167,7 +163,7 @@ internal class DesignerActivity : FragmentActivity() {
             }
     }
 
-    private fun openImagePicker(requestCode: Int) =
+    private fun openImagePicker(orientation: MockupOrientation) =
         startActivityForResult(
             Intent.createChooser(
                 Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
@@ -175,22 +171,20 @@ internal class DesignerActivity : FragmentActivity() {
                 },
                 "Select image"
             ),
-            requestCode
+            orientation.requestCode
         )
 
-    @Suppress("MagicNumber")
-    private fun setHorizontalGridLineColor(color: Int) {
+    private fun setHorizontalGridLineColor(color: Int, code: String) {
         with(binding) {
             horizontalLineColorButton.backgroundTintList = ColorStateList.valueOf(color)
-            horizontalLineColorValueLabel.text = String.format("#%06X", (0xFFFFFF and color))
+            horizontalLineColorValueLabel.text = "#${code.drop(2)}"
         }
     }
 
-    @Suppress("MagicNumber")
-    private fun setVerticalGridLineColor(color: Int) {
+    private fun setVerticalGridLineColor(color: Int, code: String) {
         with(binding) {
             verticalLineColorButton.backgroundTintList = ColorStateList.valueOf(color)
-            vertialLineColorValueLabel.text = String.format("#%06X", (0xFFFFFF and color))
+            vertialLineColorValueLabel.text = "#${code.drop(2)}"
         }
     }
 
