@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -45,6 +46,7 @@
                     android:orientation="vertical">
 
                     <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/gridOverlaySwitch"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/listPreferredItemHeightSmall"
                         android:layout_marginStart="16dp"
@@ -80,6 +82,7 @@
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/horizontalLineColorButton"
                         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -98,6 +101,7 @@
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/verticalLineColorButton"
                         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -115,40 +119,82 @@
                         android:text="Size"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
-                    <com.google.android.material.textview.MaterialTextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
-                        android:text="Horizontal"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="Horizontal"
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/horizontalGridSizeValueLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:gravity="center_vertical"
+                            android:text="8dp"
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+
+                    </LinearLayout>
 
                     <com.google.android.material.slider.Slider
+                        android:id="@+id/horizontalGridSizeSlider"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
                         android:stepSize="8"
+                        android:value="8"
                         android:valueFrom="8"
                         android:valueTo="64" />
 
-                    <com.google.android.material.textview.MaterialTextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
-                        android:text="Vertical"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="Vertical"
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/verticalGridSizeValueLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:gravity="center_vertical"
+                            android:text="8dp"
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+
+                    </LinearLayout>
 
                     <com.google.android.material.slider.Slider
+                        android:id="@+id/verticalGridSizeSlider"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
                         android:stepSize="8"
+                        android:value="8"
                         android:valueFrom="8"
                         android:valueTo="64" />
 
@@ -170,6 +216,7 @@
                     android:orientation="vertical">
 
                     <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/mockupOverlaySwitch"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/listPreferredItemHeightSmall"
                         android:layout_marginStart="16dp"
@@ -186,21 +233,42 @@
                         android:text="Overlaying a mockup gives you a live preview of the screen layout as you're working."
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
 
-                    <com.google.android.material.textview.MaterialTextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="24dp"
                         android:layout_marginEnd="16dp"
-                        android:text="Opacity"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="Opacity"
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/mockupOpacityValueLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:gravity="center_vertical"
+                            android:text="100%"
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+
+                    </LinearLayout>
 
                     <com.google.android.material.slider.Slider
+                        android:id="@+id/mockupOpacitySlider"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
                         android:stepSize="1"
+                        android:value="100"
                         android:valueFrom="0"
                         android:valueTo="100" />
 
@@ -209,7 +277,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="24dp"
-                        android:layout_marginEnd="16dp">
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp">
 
                         <FrameLayout
                             android:id="@+id/portraitMockupLayout"
@@ -234,7 +303,8 @@
                                 android:layout_height="match_parent"
                                 android:clickable="true"
                                 android:focusable="true"
-                                android:foreground="?attr/selectableItemBackground" />
+                                android:foreground="?attr/selectableItemBackground"
+                                android:scaleType="fitCenter" />
 
                         </FrameLayout>
 
@@ -261,7 +331,8 @@
                                 android:layout_height="match_parent"
                                 android:clickable="true"
                                 android:focusable="true"
-                                android:foreground="?attr/selectableItemBackground" />
+                                android:foreground="?attr/selectableItemBackground"
+                                android:scaleType="fitCenter" />
 
                         </FrameLayout>
 
@@ -289,21 +360,49 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintVertical_bias="0.0" />
 
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/clearPortraitMockupButton"
+                            style="@style/Widget.MaterialComponents.Button"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:insetLeft="0dp"
+                            android:insetTop="0dp"
+                            android:insetRight="0dp"
+                            android:insetBottom="0dp"
+                            android:textColor="#ff0000"
+                            app:backgroundTint="#ff0000"
+                            app:cornerRadius="16dp"
+                            app:icon="@drawable/designer_ic_remove"
+                            app:iconGravity="textStart"
+                            app:iconPadding="0dp"
+                            android:visibility="gone"
+                            app:layout_constraintCircle="@id/portraitMockupLayout"
+                            app:layout_constraintCircleRadius="92dp"
+                            app:layout_constraintCircleAngle="29"
+                            tools:ignore="MissingConstraints" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/resetMockupsButton"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="24dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:text="Reset mockups"
-                        android:textColor="#ff0000"
-                        app:cornerRadius="16dp"
-                        app:rippleColor="#ff0000" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/clearLandscapeMockupButton"
+                            style="@style/Widget.MaterialComponents.Button"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:insetLeft="0dp"
+                            android:insetTop="0dp"
+                            android:insetRight="0dp"
+                            android:insetBottom="0dp"
+                            android:textColor="#ff0000"
+                            app:backgroundTint="#ff0000"
+                            app:cornerRadius="16dp"
+                            app:icon="@drawable/designer_ic_remove"
+                            app:iconGravity="textStart"
+                            app:iconPadding="0dp"
+                            android:visibility="gone"
+                            app:layout_constraintCircle="@id/landscapeMockupLayout"
+                            app:layout_constraintCircleRadius="92dp"
+                            app:layout_constraintCircleAngle="60"
+                            tools:ignore="MissingConstraints" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </LinearLayout>
 
@@ -321,6 +420,7 @@
                     android:orientation="vertical">
 
                     <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/colorPickerSwitch"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/listPreferredItemHeightSmall"
                         android:layout_marginStart="16dp"
