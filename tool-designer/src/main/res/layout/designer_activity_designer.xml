@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -72,14 +71,32 @@
                         android:text="Colors"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
-                    <com.google.android.material.textview.MaterialTextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
-                        android:text="Horizontal"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:text="Horizontal"
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/horizontalLineColorValueLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:gravity="center_vertical"
+                            android:text="#ffffff"
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+
+                    </LinearLayout>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/horizontalLineColorButton"
@@ -88,17 +105,37 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
-                        app:backgroundTint="@android:color/holo_purple"
-                        app:cornerRadius="16dp" />
+                        app:cornerRadius="16dp"
+                        app:icon="@drawable/designer_ic_pick"
+                        app:iconGravity="textStart"
+                        app:iconPadding="0dp" />
 
-                    <com.google.android.material.textview.MaterialTextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="4dp"
                         android:layout_marginEnd="16dp"
-                        android:text="Vertical"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:text="Vertical"
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/vertialLineColorValueLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:gravity="center_vertical"
+                            android:text="#ffffff"
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+
+                    </LinearLayout>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/verticalLineColorButton"
@@ -107,8 +144,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
-                        app:backgroundTint="@android:color/holo_red_dark"
-                        app:cornerRadius="16dp" />
+                        app:cornerRadius="16dp"
+                        app:icon="@drawable/designer_ic_pick"
+                        app:iconGravity="textStart"
+                        app:iconPadding="0dp" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
@@ -286,7 +325,6 @@
                             android:layout_height="160dp"
                             android:background="?attr/colorButtonNormal"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintDimensionRatio="9:16"
                             app:layout_constraintEnd_toStartOf="@id/landscapeMockupLayout"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/portraitLabel">
@@ -314,7 +352,6 @@
                             android:layout_height="0dp"
                             android:background="?attr/colorButtonNormal"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintDimensionRatio="16:9"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@id/portraitMockupLayout"
                             app:layout_constraintTop_toBottomOf="@id/landscapeLabel">
@@ -365,42 +402,40 @@
                             style="@style/Widget.MaterialComponents.Button"
                             android:layout_width="32dp"
                             android:layout_height="32dp"
+                            android:layout_marginBottom="2dp"
                             android:insetLeft="0dp"
                             android:insetTop="0dp"
                             android:insetRight="0dp"
                             android:insetBottom="0dp"
-                            android:textColor="#ff0000"
+                            android:visibility="gone"
                             app:backgroundTint="#ff0000"
                             app:cornerRadius="16dp"
                             app:icon="@drawable/designer_ic_remove"
                             app:iconGravity="textStart"
                             app:iconPadding="0dp"
-                            android:visibility="gone"
-                            app:layout_constraintCircle="@id/portraitMockupLayout"
-                            app:layout_constraintCircleRadius="92dp"
-                            app:layout_constraintCircleAngle="29"
-                            tools:ignore="MissingConstraints" />
+                            app:layout_constraintBottom_toBottomOf="@id/portraitMockupLayout"
+                            app:layout_constraintEnd_toEndOf="@id/portraitMockupLayout"
+                            app:layout_constraintStart_toStartOf="@id/portraitMockupLayout" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/clearLandscapeMockupButton"
                             style="@style/Widget.MaterialComponents.Button"
                             android:layout_width="32dp"
                             android:layout_height="32dp"
+                            android:layout_marginEnd="2dp"
                             android:insetLeft="0dp"
                             android:insetTop="0dp"
                             android:insetRight="0dp"
                             android:insetBottom="0dp"
-                            android:textColor="#ff0000"
+                            android:visibility="gone"
                             app:backgroundTint="#ff0000"
                             app:cornerRadius="16dp"
                             app:icon="@drawable/designer_ic_remove"
                             app:iconGravity="textStart"
                             app:iconPadding="0dp"
-                            android:visibility="gone"
-                            app:layout_constraintCircle="@id/landscapeMockupLayout"
-                            app:layout_constraintCircleRadius="92dp"
-                            app:layout_constraintCircleAngle="60"
-                            tools:ignore="MissingConstraints" />
+                            app:layout_constraintBottom_toBottomOf="@id/landscapeMockupLayout"
+                            app:layout_constraintEnd_toEndOf="@id/landscapeMockupLayout"
+                            app:layout_constraintTop_toTopOf="@id/landscapeMockupLayout" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

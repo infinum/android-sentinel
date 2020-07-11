@@ -49,6 +49,7 @@ dependencies {
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
     implementation packages.androidx.lifecycle.common
     implementation packages.google.design
+    implementation "com.github.skydoves:colorpickerpreference:2.0.0"
     api packages.sentinel.sentinel
 }
 
