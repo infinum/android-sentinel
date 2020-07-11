@@ -140,4 +140,15 @@ class Sentinel private constructor(tools: Set<Tool> = setOf()) {
          */
         override fun name(): Int = R.string.sentinel_google_play
     }
+
+    @Suppress("unused")
+    interface DesignTool : Tool {
+
+        /**
+         * A dedicated name for this tool
+         *
+         * @return a String resource that will be used to generate a name for a Button in Tools UI
+         */
+        override fun name(): Int = R.string.sentinel_design
+    }
 }

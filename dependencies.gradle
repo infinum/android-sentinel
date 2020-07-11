@@ -9,7 +9,7 @@ ext.versions = [
         "gradle"     : '4.0.0',
         "kotlin"     : "1.3.72",
         "bintray"    : "1.8.5",
-        "core"       : "1.2.0",
+        "core"       : "1.3.0",
         "appcompat"  : "1.1.0",
         "fragment"   : "1.2.5",
         "lifecycle"  : "2.2.0",
@@ -18,7 +18,7 @@ ext.versions = [
         "room"       : "2.2.5",
         "design"     : "1.1.0",
         "maven"      : "2.0",
-        "detekt"     : "1.7.4",
+        "detekt"     : "1.10.0",
         "dokka"      : "0.10.1",
         "chucker"    : "3.2.0",
         "collar"     : "1.1.5",
@@ -38,7 +38,8 @@ ext.packages = [
                 "tool_chucker"    : "com.infinum.sentinel:tool-chucker:${versions.sentinel}",
                 "tool_collar"     : "com.infinum.sentinel:tool-collar:${versions.sentinel}",
                 "tool_dbinspector": "com.infinum.sentinel:tool-dbinspector:${versions.sentinel}",
-                "tool_googleplay" : "com.infinum.sentinel:tool-googleplay:${versions.sentinel}"
+                "tool_googleplay" : "com.infinum.sentinel:tool-googleplay:${versions.sentinel}",
+                "tool_designer" : "com.infinum.sentinel:tool-designer:${versions.sentinel}"
         ],
         "androidx"   : [
                 "core"      : "androidx.core:core-ktx:${versions.core}",

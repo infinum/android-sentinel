@@ -63,3 +63,12 @@ task deployToolGooglePlay(dependsOn: [
     group = "Deploy"
     description = "Deploy module to Bintray"
 }
+
+task deployToolDesigner(dependsOn: [
+        ':tool-designer:build',
+        ':tool-designer:install',
+        ':tool-designer:bintrayUpload'
+]) {
+    group = "Deploy"
+    description = "Deploy module to Bintray"
+}

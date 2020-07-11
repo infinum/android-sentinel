@@ -1,5 +1,8 @@
 buildscript {
 
+    ext {
+        kotlin_version = '1.3.72'
+    }
     ext.buildConfig = [
             "minSdk"    : 21,
             "compileSdk": 29,
@@ -43,6 +46,7 @@ allprojects {
                 substitute module(packages.sentinel.tool_collar) with project(':tool-collar')
                 substitute module(packages.sentinel.tool_dbinspector) with project(':tool-dbinspector')
                 substitute module(packages.sentinel.tool_googleplay) with project(':tool-googleplay')
+                substitute module(packages.sentinel.tool_designer) with project(':tool-designer')
             }
         }
     }
@@ -73,7 +77,8 @@ task detektAll(dependsOn: [
         ':tool-chucker:detekt',
         ':tool-collar:detekt',
         ':tool-dbinspector:detekt',
-        ':tool-googleplay:detekt'
+        ':tool-googleplay:detekt',
+        ':tool-designer:detekt'
 ]) {
     group = "Verification"
     description = "Run detekt on all modules"
