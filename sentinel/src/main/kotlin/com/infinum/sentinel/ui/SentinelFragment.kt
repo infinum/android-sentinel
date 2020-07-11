@@ -61,7 +61,7 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment), Sent
         preferencesCollector.collect()
 
         with(binding) {
-            toolbar.title = basicCollector.data.applicationName
+            toolbar.subtitle = basicCollector.data.applicationName
             applicationIconView.background = basicCollector.data.applicationIcon
         }
 
@@ -84,6 +84,7 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment), Sent
             toolbar.setNavigationOnClickListener { dismiss() }
             toolbar.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
+//                    R.id.settings -> settings()
                     R.id.share -> share()
                 }
                 true
@@ -94,9 +95,8 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment), Sent
                 count = 12,
                 height = R.dimen.sentinel_triangle_height
             )
-            bottomAppBar.setOnMenuItemClickListener { menuItem ->
+            bottomNavigation.setOnNavigationItemSelectedListener { menuItem ->
                 when (menuItem.itemId) {
-                    R.id.settings -> settings()
                     R.id.device -> device()
                     R.id.application -> application()
                     R.id.permissions -> permissions()
@@ -104,37 +104,33 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment), Sent
                 }
                 true
             }
+            bottomNavigation.setOnNavigationItemReselectedListener { Unit }
             fab.setOnClickListener { tools() }
         }
     }
 
     override fun settings() {
-        binding.toolbar.subtitle = getString(R.string.sentinel_settings)
         showFragment(SettingsFragment.TAG)
     }
 
     override fun device() {
-        binding.toolbar.subtitle = getString(R.string.sentinel_device)
         showFragment(DeviceFragment.TAG)
     }
 
     override fun application() {
-        binding.toolbar.subtitle = getString(R.string.sentinel_application)
         showFragment(ApplicationFragment.TAG)
     }
 
     override fun permissions() {
-        binding.toolbar.subtitle = getString(R.string.sentinel_permissions)
         showFragment(PermissionsFragment.TAG)
     }
 
     override fun preferences() {
-        binding.toolbar.subtitle = getString(R.string.sentinel_preferences)
         showFragment(PreferencesFragment.TAG)
     }
 
     override fun tools() {
-        binding.toolbar.subtitle = getString(R.string.sentinel_tools)
+        binding.bottomNavigation.selectedItemId = R.id.blank
         showFragment(ToolsFragment.TAG)
     }
 

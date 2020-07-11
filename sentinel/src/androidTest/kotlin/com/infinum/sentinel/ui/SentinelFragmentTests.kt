@@ -23,10 +23,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.android.material.appbar.MaterialToolbar
 import com.infinum.sentinel.R
 import com.infinum.sentinel.ui.children.ApplicationFragment
-import com.infinum.sentinel.ui.children.DeviceFragment
 import com.infinum.sentinel.ui.children.PermissionsFragment
 import com.infinum.sentinel.ui.children.PreferencesFragment
-import com.infinum.sentinel.ui.children.SettingsFragment
 import com.infinum.sentinel.ui.children.ToolsFragment
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
@@ -81,7 +79,7 @@ class SentinelFragmentTests {
         onView(withId(R.id.sentinelTitle)).check(matches(withText(R.string.sentinel_name)))
         onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
-        onView(withId(R.id.bottomAppBar)).check(matches(isDisplayed()))
+        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
         onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
         onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
         onView(withId(R.id.share)).check(matches(isDisplayed()))
@@ -161,7 +159,7 @@ class SentinelFragmentTests {
         onView(withId(R.id.sentinelTitle)).check(matches(withText(R.string.sentinel_name)))
         onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
-        onView(withId(R.id.bottomAppBar)).check(matches(isDisplayed()))
+        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
         onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
         onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
 
@@ -195,7 +193,7 @@ class SentinelFragmentTests {
         onView(withId(R.id.sentinelTitle)).check(matches(withText(R.string.sentinel_name)))
         onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
-        onView(withId(R.id.bottomAppBar)).check(matches(isDisplayed()))
+        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
         onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
         onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
 
@@ -229,7 +227,7 @@ class SentinelFragmentTests {
         onView(withId(R.id.sentinelTitle)).check(matches(withText(R.string.sentinel_name)))
         onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
-        onView(withId(R.id.bottomAppBar)).check(matches(isDisplayed()))
+        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
         onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
         onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
 
@@ -263,7 +261,7 @@ class SentinelFragmentTests {
         onView(withId(R.id.sentinelTitle)).check(matches(withText(R.string.sentinel_name)))
         onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
-        onView(withId(R.id.bottomAppBar)).check(matches(isDisplayed()))
+        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
         onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
         onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
 
@@ -306,7 +304,7 @@ class SentinelFragmentTests {
         onView(withId(R.id.sentinelTitle)).check(matches(withText(R.string.sentinel_name)))
         onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
-        onView(withId(R.id.bottomAppBar)).check(matches(isDisplayed()))
+        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
         onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
         onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
         onView(withId(R.id.share)).check(matches(isDisplayed()))

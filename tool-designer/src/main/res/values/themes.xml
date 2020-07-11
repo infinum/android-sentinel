@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Designer.BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/sentinel_color_primary</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
+        <item name="colorSecondary">@color/sentinel_color_secondary</item>
+        <item name="colorSurface">@color/sentinel_color_surface</item>
+        <item name="colorError">@color/sentinel_color_error</item>
+        <item name="colorOnPrimary">@color/sentinel_color_on_primary</item>
+        <item name="colorOnSecondary">@color/sentinel_color_on_secondary</item>
+        <item name="colorOnBackground">@color/sentinel_color_on_background</item>
+        <item name="colorOnSurface">@color/sentinel_color_on_surface</item>
+        <item name="colorOnError">@color/sentinel_color_on_error</item>
+        <item name="colorControlNormal">@color/sentinel_color_on_secondary</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:colorBackground">@color/sentinel_color_background</item>
+    </style>
+
+</resources>

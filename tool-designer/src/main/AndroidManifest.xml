@@ -1,1 +1,11 @@
-<manifest package="com.infinum.sentinel" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.infinum.designer">
+
+    <application>
+        <activity
+            android:name="com.infinum.designer.ui.DesignerActivity"
+            android:label="@string/sentinel_design"
+            android:theme="@style/Designer.BaseTheme" />
+    </application>
+
+</manifest>

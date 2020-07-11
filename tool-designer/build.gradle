@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android'
 android {
     buildFeatures {
         buildConfig = false
+        viewBinding = true
     }
 
     compileSdkVersion buildConfig.compileSdk
@@ -25,6 +26,8 @@ android {
         }
     }
 
+    resourcePrefix 'designer_'
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -40,6 +43,11 @@ android {
 
 dependencies {
     implementation packages.kotlin.core
+    implementation packages.androidx.core
+    implementation packages.androidx.fragment
+    implementation packages.androidx.lifecycle.common
+    implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
+    implementation packages.google.design
     api packages.sentinel.sentinel
 }
 
