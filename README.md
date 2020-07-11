@@ -15,7 +15,7 @@ This plugin has been written in Kotlin but works both inside Kotlin and Java pro
 The project is organized in the following modules:
 
 - `sentinel` - contains a single screen UI that provides visual information about device, application, permissions and tools
-- `sentinel-no-op` - contains a stub for easy release implementation of UI package
+- `sentinel-no-op` - contains stubs for easy release implementation of UI package and any Tools included
 - `tool-chucker` - contains a class wrapper for Chucker
 - `tool-collar` - contains a class wrapper for Collar
 - `tool-dbinspector` - contains a class wrapper for DbInspector
