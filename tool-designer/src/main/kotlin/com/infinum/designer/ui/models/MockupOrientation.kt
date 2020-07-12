@@ -1,4 +1,4 @@
-package com.infinum.designer.ui
+package com.infinum.designer.ui.models
 
 enum class MockupOrientation(val requestCode: Int) {
     PORTRAIT(requestCode = 222),

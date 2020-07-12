@@ -1,11 +1,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.infinum.designer">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
     <application>
         <activity
-            android:name="com.infinum.designer.ui.DesignerActivity"
+            android:name=".ui.DesignerActivity"
             android:label="@string/sentinel_design"
             android:theme="@style/Designer.BaseTheme" />
+        <service
+            android:name=".ui.DesignerService"
+            android:enabled="true"
+            android:exported="true"/>
     </application>
 
 </manifest>
