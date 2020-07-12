@@ -1,6 +1,7 @@
 package com.infinum.designer.ui
 
 import android.app.Notification
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -21,6 +22,7 @@ import com.infinum.designer.R
 import com.infinum.designer.databinding.DesignerOverlayBinding
 import com.infinum.designer.ui.commander.DesignerCommand
 import com.infinum.designer.ui.commander.DesignerCommandType
+import com.infinum.designer.ui.models.ServiceAction
 
 
 class DesignerService : Service() {
@@ -59,14 +61,20 @@ class DesignerService : Service() {
             null,
             false
         )
+        showNotification()
     }
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        if (isRunning.not()) {
-            isRunning = true
-            showNotification()
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        intent?.action?.let {
+            ServiceAction(it)?.let { action ->
+                when (action) {
+                    ServiceAction.START -> startService()
+                    ServiceAction.STOP -> stopService()
+                }
+            }
         }
-        return START_NOT_STICKY
+
+        return START_STICKY
     }
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -81,15 +89,60 @@ class DesignerService : Service() {
         }
     }
 
+    private fun startService() {
+        if (isRunning) {
+            return
+        }
+        isRunning = true
+    }
+
+    private fun stopService() {
+        removeOverlay()
+        try {
+            stopForeground(true)
+            stopSelf()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        isRunning = false
+    }
+
     private fun showNotification() {
         val builder = NotificationCompat.Builder(this, CHANNEL_ID)
         builder.setSmallIcon(R.drawable.designer_ic_pick)
             .setOngoing(false)
             .setAutoCancel(true)
-            .setContentTitle(getString(R.string.app_name))
+            .setContentTitle(getString(R.string.designer_title))
+            .setContentIntent(buildSettingsIntent())
+            .setDeleteIntent(buildStopIntent())
+            .addAction(
+                NotificationCompat.Action(
+                    R.drawable.designer_ic_remove,
+                    "Stop",
+                    buildStopIntent()
+                )
+            )
         val notification: Notification = builder.build()
         startForeground(NOTIFICATION_ID, notification)
     }
+
+    private fun buildSettingsIntent(): PendingIntent =
+        PendingIntent.getActivity(
+            this,
+            0,
+            Intent(this, DesignerActivity::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+    private fun buildStopIntent(): PendingIntent =
+        PendingIntent.getService(
+            this,
+            0,
+            Intent(this, DesignerService::class.java).apply {
+                action = ServiceAction.STOP.code
+            },
+            PendingIntent.FLAG_CANCEL_CURRENT
+        )
 
     private fun restartOverlay() {
         removeOverlay()

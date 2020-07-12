@@ -17,15 +17,19 @@ import android.provider.Settings
 import android.util.TypedValue
 import androidx.annotation.RestrictTo
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.switchmaterial.SwitchMaterial
+import com.infinum.designer.R
 import com.infinum.designer.databinding.DesignerActivityDesignerBinding
 import com.infinum.designer.databinding.DesignerViewColorPickerBinding
 import com.infinum.designer.ui.commander.DesignerCommander
+import com.infinum.designer.ui.models.ServiceAction
 import com.infinum.designer.ui.models.GridConfiguration
 import com.infinum.designer.ui.models.LineOrientation
 import com.infinum.designer.ui.models.MockupConfiguration
@@ -55,13 +59,13 @@ internal class DesignerActivity : FragmentActivity() {
                         service
                     )
                 )
-            commander?.bound = true
             bound = true
+            commander?.bound = bound
         }
 
         override fun onServiceDisconnected(className: ComponentName) {
             bound = false
-            commander?.bound = false
+            commander?.bound = bound
             commander = null
         }
     }
@@ -80,13 +84,7 @@ internal class DesignerActivity : FragmentActivity() {
                 setupMockupOverlay()
                 setupColorPicker()
                 setupPermission()
-                startService()
             }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        stopService()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -130,7 +128,18 @@ internal class DesignerActivity : FragmentActivity() {
     }
 
     private fun setupToolbar() {
-        binding.toolbar.setNavigationOnClickListener { finish() }
+        with(binding) {
+            toolbar.setNavigationOnClickListener { finish() }
+            (toolbar.menu.findItem(R.id.status).actionView as? SwitchMaterial)?.let {
+                it.setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) {
+                        startService()
+                    } else {
+                        stopService()
+                    }
+                }
+            }
+        }
     }
 
     private fun setupGridOverlay() =
@@ -370,6 +379,12 @@ internal class DesignerActivity : FragmentActivity() {
         Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
 
     private fun startService() {
+        ContextCompat.startForegroundService(
+            this,
+            Intent(this, DesignerService::class.java).apply {
+                action = ServiceAction.START.code
+            }
+        )
         bindService(
             Intent(this, DesignerService::class.java),
             serviceConnection,
@@ -382,6 +397,12 @@ internal class DesignerActivity : FragmentActivity() {
             unbindService(serviceConnection)
             bound = false
         }
+        ContextCompat.startForegroundService(
+            this,
+            Intent(this, DesignerService::class.java).apply {
+                action = ServiceAction.STOP.code
+            }
+        )
     }
 }
 

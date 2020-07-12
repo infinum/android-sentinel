@@ -16,6 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?android:colorBackground"
+            android:paddingEnd="12dp"
+            app:menu="@menu/designer_menu"
             app:navigationIcon="@drawable/designer_ic_close"
             app:title="@string/designer_title" />
 
