@@ -8,11 +8,12 @@
         <activity
             android:name=".ui.DesignerActivity"
             android:label="@string/sentinel_design"
+            android:launchMode="singleTop"
             android:theme="@style/Designer.BaseTheme" />
         <service
             android:name=".ui.DesignerService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
     </application>
 
 </manifest>

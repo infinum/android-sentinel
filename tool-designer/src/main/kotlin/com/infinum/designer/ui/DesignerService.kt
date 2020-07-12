@@ -1,11 +1,11 @@
 package com.infinum.designer.ui
 
-import android.app.Notification
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.Color
 import android.graphics.PixelFormat
 import android.net.Uri
 import android.os.Bundle
@@ -20,6 +20,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.view.isVisible
 import com.infinum.designer.R
 import com.infinum.designer.databinding.DesignerOverlayBinding
+import com.infinum.designer.extensions.dpToPx
 import com.infinum.designer.ui.commander.DesignerCommand
 import com.infinum.designer.ui.commander.DesignerCommandType
 import com.infinum.designer.ui.models.ServiceAction
@@ -70,6 +71,7 @@ class DesignerService : Service() {
                 when (action) {
                     ServiceAction.START -> startService()
                     ServiceAction.STOP -> stopService()
+                    ServiceAction.RESET -> resetOverlay()
                 }
             }
         }
@@ -108,8 +110,8 @@ class DesignerService : Service() {
     }
 
     private fun showNotification() {
-        val builder = NotificationCompat.Builder(this, CHANNEL_ID)
-        builder.setSmallIcon(R.drawable.designer_ic_pick)
+        NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.designer_ic_pick)
             .setOngoing(false)
             .setAutoCancel(true)
             .setContentTitle(getString(R.string.designer_title))
@@ -117,13 +119,29 @@ class DesignerService : Service() {
             .setDeleteIntent(buildStopIntent())
             .addAction(
                 NotificationCompat.Action(
-                    R.drawable.designer_ic_remove,
+                    0,
+                    "Settings",
+                    buildSettingsIntent()
+                )
+            )
+            .addAction(
+                NotificationCompat.Action(
+                    0,
+                    "Reset",
+                    buildResetIntent()
+                )
+            )
+            .addAction(
+                NotificationCompat.Action(
+                    0,
                     "Stop",
                     buildStopIntent()
                 )
             )
-        val notification: Notification = builder.build()
-        startForeground(NOTIFICATION_ID, notification)
+            .build()
+            .also {
+                startForeground(NOTIFICATION_ID, it)
+            }
     }
 
     private fun buildSettingsIntent(): PendingIntent =
@@ -131,6 +149,16 @@ class DesignerService : Service() {
             this,
             0,
             Intent(this, DesignerActivity::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+    private fun buildResetIntent(): PendingIntent =
+        PendingIntent.getService(
+            this,
+            0,
+            Intent(this, DesignerService::class.java).apply {
+                action = ServiceAction.RESET.code
+            },
             PendingIntent.FLAG_UPDATE_CURRENT
         )
 
@@ -143,6 +171,28 @@ class DesignerService : Service() {
             },
             PendingIntent.FLAG_CANCEL_CURRENT
         )
+
+    private fun resetOverlay() {
+        with(viewBinding.gridView) {
+            isVisible = isGridShown
+            updateHorizontalColor(horizontalGridLineColor)
+            updateVerticalColor(verticalGridLineColor)
+            updateHorizontalSize(horizontalGridSize)
+            updateVerticalSize(verticalGridSize)
+        }
+
+        horizontalGridLineColor = Color.RED
+        verticalGridLineColor = Color.BLUE
+        horizontalGridSize = 8.0f.dpToPx(this)
+        verticalGridSize = 8.0f.dpToPx(this)
+
+        mockupOpacity = 0.2f
+        mockupPortraitUri = null
+        mockupLandscapeUri = null
+
+
+        restartOverlay()
+    }
 
     private fun restartOverlay() {
         removeOverlay()

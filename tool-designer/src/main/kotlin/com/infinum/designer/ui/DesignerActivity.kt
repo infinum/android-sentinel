@@ -14,7 +14,6 @@ import android.os.Bundle
 import android.os.IBinder
 import android.os.Messenger
 import android.provider.Settings
-import android.util.TypedValue
 import androidx.annotation.RestrictTo
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -28,6 +27,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 import com.infinum.designer.R
 import com.infinum.designer.databinding.DesignerActivityDesignerBinding
 import com.infinum.designer.databinding.DesignerViewColorPickerBinding
+import com.infinum.designer.extensions.dpToPx
 import com.infinum.designer.ui.commander.DesignerCommander
 import com.infinum.designer.ui.models.ServiceAction
 import com.infinum.designer.ui.models.GridConfiguration
@@ -39,7 +39,6 @@ import com.skydoves.colorpickerview.ColorEnvelope
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 import java.util.*
 import kotlin.math.roundToInt
-
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class DesignerActivity : FragmentActivity() {
@@ -405,12 +404,6 @@ internal class DesignerActivity : FragmentActivity() {
         )
     }
 }
-
-
-fun Float.dpToPx(context: Context): Int =
-    TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP, this, context.resources.displayMetrics
-    ).toInt()
 
 fun Int.getHexCode(): String {
     val r = Color.red(this)
