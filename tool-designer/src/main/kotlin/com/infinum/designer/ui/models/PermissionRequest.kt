@@ -1,7 +1,8 @@
 package com.infinum.designer.ui.models
 
 enum class PermissionRequest(val requestCode: Int) {
-    OVERLAY(requestCode = 444);
+    OVERLAY(requestCode = 444),
+    MEDIA_PROJECTION(requestCode = 999);
 
     companion object {
 

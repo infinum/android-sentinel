@@ -19,4 +19,10 @@
         android:focusableInTouchMode="false"
         android:visibility="gone" />
 
+    <ImageView
+        android:id="@+id/loupeView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:visibility="gone" />
+
 </FrameLayout>

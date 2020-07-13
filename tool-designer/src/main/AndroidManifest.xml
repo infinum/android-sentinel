@@ -13,7 +13,8 @@
         <service
             android:name=".ui.DesignerService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="false"
+            android:foregroundServiceType="mediaProjection" />
     </application>
 
 </manifest>

@@ -8,6 +8,8 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.media.projection.MediaProjection
+import android.media.projection.MediaProjectionManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -117,9 +119,19 @@ internal class DesignerActivity : FragmentActivity() {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             if (Settings.canDrawOverlays(this).not()) {
                                 showMessage("Overlay permission denied")
+                            } else {
+
                             }
                         } else {
                             // TODO: What about this?
+                        }
+                    }
+                    PermissionRequest.MEDIA_PROJECTION -> {
+                        if (resultCode == Activity.RESULT_OK) {
+                            DesignerProjectionHelper.data = data
+                            commander?.toggleColorPicker(true)
+                        } else {
+
                         }
                     }
                 }
@@ -240,7 +252,11 @@ internal class DesignerActivity : FragmentActivity() {
     private fun setupColorPicker() =
         with(binding) {
             colorPickerSwitch.setOnCheckedChangeListener { _, isChecked ->
-                commander?.toggleColorPicker(isChecked)
+                if (isChecked) {
+                    startProjection()
+                } else {
+                    commander?.toggleColorPicker(isChecked)
+                }
             }
         }
 
@@ -401,6 +417,13 @@ internal class DesignerActivity : FragmentActivity() {
             Intent(this, DesignerService::class.java).apply {
                 action = ServiceAction.STOP.code
             }
+        )
+    }
+
+    private fun startProjection() {
+        startActivityForResult(
+            (getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager).createScreenCaptureIntent(),
+            PermissionRequest.MEDIA_PROJECTION.requestCode
         )
     }
 }

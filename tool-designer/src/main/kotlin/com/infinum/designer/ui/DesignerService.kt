@@ -1,16 +1,24 @@
 package com.infinum.designer.ui
 
+import android.app.Activity
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.PixelFormat
+import android.graphics.Point
+import android.hardware.display.DisplayManager
+import android.media.ImageReader
+import android.media.projection.MediaProjection
+import android.media.projection.MediaProjectionManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import android.os.Message
 import android.os.Messenger
 import android.view.LayoutInflater
@@ -24,7 +32,7 @@ import com.infinum.designer.extensions.dpToPx
 import com.infinum.designer.ui.commander.DesignerCommand
 import com.infinum.designer.ui.commander.DesignerCommandType
 import com.infinum.designer.ui.models.ServiceAction
-
+import kotlin.concurrent.thread
 
 class DesignerService : Service() {
 
@@ -34,6 +42,7 @@ class DesignerService : Service() {
     }
 
     private lateinit var windowManager: WindowManager
+    private lateinit var mProjectionManager: MediaProjectionManager
     private lateinit var viewBinding: DesignerOverlayBinding
     private lateinit var incomingMessenger: Messenger
     private var overlayView: View? = null
@@ -54,9 +63,15 @@ class DesignerService : Service() {
     private var mockupPortraitUri: Uri? = null
     private var mockupLandscapeUri: Uri? = null
 
+    private var mediaProjectionHandler = Handler()
+    private var mediaProjection: MediaProjection? = null
+
     override fun onCreate() {
         super.onCreate()
         windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        mProjectionManager =
+            getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
+
         viewBinding = DesignerOverlayBinding.inflate(
             LayoutInflater.from(this),
             null,
@@ -173,14 +188,6 @@ class DesignerService : Service() {
         )
 
     private fun resetOverlay() {
-        with(viewBinding.gridView) {
-            isVisible = isGridShown
-            updateHorizontalColor(horizontalGridLineColor)
-            updateVerticalColor(verticalGridLineColor)
-            updateHorizontalSize(horizontalGridSize)
-            updateVerticalSize(verticalGridSize)
-        }
-
         horizontalGridLineColor = Color.RED
         verticalGridLineColor = Color.BLUE
         horizontalGridSize = 8.0f.dpToPx(this)
@@ -220,6 +227,10 @@ class DesignerService : Service() {
                     mockupLandscapeUri
                 }
             )
+        }
+
+        with(viewBinding.loupeView) {
+            isVisible = isColorPickerShown
         }
 
         windowManager.addView(
@@ -280,8 +291,7 @@ class DesignerService : Service() {
                 when (command) {
                     DesignerCommand.SHOW -> showColorPickerOverlay()
                     DesignerCommand.HIDE -> hideColorPickerOverlay()
-                    DesignerCommand.UPDATE -> {
-                    }
+                    DesignerCommand.UPDATE -> Unit
                 }
             }
     }
@@ -337,11 +347,32 @@ class DesignerService : Service() {
 
     private fun showColorPickerOverlay() {
         isColorPickerShown = true
+
+//        thread {
+//            Looper.prepare()
+            mediaProjectionHandler = Handler()
+//            Looper.loop()
+//        }.start()
+
+        mediaProjection = DesignerProjectionHelper.data?.let {
+            mProjectionManager.getMediaProjection(
+                Activity.RESULT_OK,
+                it
+            )
+        }
+
+        createVirtualDisplay()
+
         restartOverlay()
     }
 
     private fun hideColorPickerOverlay() {
         isColorPickerShown = false
+
+        mediaProjectionHandler.post {
+            mediaProjection?.stop()
+        }
+
         restartOverlay()
     }
 
@@ -357,5 +388,56 @@ class DesignerService : Service() {
                     }
                 } ?: super.handleMessage(message)
         }
+    }
+
+    private fun createVirtualDisplay() {
+        val size = displaySize()
+        /* The call to create a virtual display takes width and height of the virtual display and a surface
+         object which will be used to save the device's screen. To the capture
+         the screen as an image or a series of images we use surface of an ImageReader object. Create an
+         ImageReader object as follows: */
+        val mImageReader = ImageReader.newInstance(size.x, size.y, PixelFormat.RGBA_8888, 2)
+
+/*        Once we have the MediaProjection and ImageReader objects, we can start
+          capturing screen by creating a virtual display using following code:   */
+        val mVirtualDisplay = mediaProjection?.createVirtualDisplay(
+            "SCREENCAP_NAME",
+            size.x,
+            size.y,
+            resources.displayMetrics.densityDpi,
+            DisplayManager.VIRTUAL_DISPLAY_FLAG_OWN_CONTENT_ONLY or DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC,
+//            DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
+            mImageReader.surface,
+            null /*call backs*/,
+            mediaProjectionHandler /*Handler*/
+        )
+        mImageReader.setOnImageAvailableListener(
+            ImageAvailableListener(
+                size.x,
+                size.y,
+                this::onNewBitmap
+            ),
+            mediaProjectionHandler
+        )
+
+        mediaProjection?.registerCallback(
+            MediaProjectionStopCallback(
+                mediaProjectionHandler,
+                mVirtualDisplay,
+                mImageReader,
+                mediaProjection
+            ),
+            mediaProjectionHandler
+        )
+    }
+
+    private fun onNewBitmap(bitmap: Bitmap) {
+        viewBinding.loupeView.setImageBitmap(bitmap)
+    }
+
+    private fun displaySize(): Point {
+        val size = Point()
+        windowManager.defaultDisplay.getSize(size)
+        return size
     }
 }
