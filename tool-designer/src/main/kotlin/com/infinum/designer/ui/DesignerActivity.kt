@@ -8,7 +8,6 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
 import android.net.Uri
 import android.os.Build
@@ -30,6 +29,7 @@ import com.infinum.designer.R
 import com.infinum.designer.databinding.DesignerActivityDesignerBinding
 import com.infinum.designer.databinding.DesignerViewColorPickerBinding
 import com.infinum.designer.extensions.dpToPx
+import com.infinum.designer.extensions.getHexCode
 import com.infinum.designer.ui.commander.DesignerCommander
 import com.infinum.designer.ui.models.ServiceAction
 import com.infinum.designer.ui.models.GridConfiguration
@@ -37,9 +37,9 @@ import com.infinum.designer.ui.models.LineOrientation
 import com.infinum.designer.ui.models.MockupConfiguration
 import com.infinum.designer.ui.models.MockupOrientation
 import com.infinum.designer.ui.models.PermissionRequest
+import com.infinum.designer.ui.utils.MediaProjectionHelper
 import com.skydoves.colorpickerview.ColorEnvelope
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
-import java.util.*
 import kotlin.math.roundToInt
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
@@ -128,7 +128,7 @@ internal class DesignerActivity : FragmentActivity() {
                     }
                     PermissionRequest.MEDIA_PROJECTION -> {
                         if (resultCode == Activity.RESULT_OK) {
-                            DesignerProjectionHelper.data = data
+                            MediaProjectionHelper.data = data
                             commander?.toggleColorPicker(true)
                         } else {
 
@@ -148,6 +148,18 @@ internal class DesignerActivity : FragmentActivity() {
                     } else {
                         stopService()
                     }
+                    gridOverlaySwitch.isEnabled = isChecked
+                    horizontalLineColorButton.isEnabled = isChecked
+                    verticalLineColorButton.isEnabled = isChecked
+                    horizontalGridSizeSlider.isEnabled = isChecked
+                    verticalGridSizeSlider.isEnabled = isChecked
+
+                    mockupOverlaySwitch.isEnabled = isChecked
+                    mockupOpacitySlider.isEnabled = isChecked
+                    portraitMockup.isClickable = isChecked
+                    landscapeMockup.isClickable = isChecked
+
+                    colorPickerSwitch.isEnabled = isChecked
                 }
             }
         }
@@ -426,11 +438,4 @@ internal class DesignerActivity : FragmentActivity() {
             PermissionRequest.MEDIA_PROJECTION.requestCode
         )
     }
-}
-
-fun Int.getHexCode(): String {
-    val r = Color.red(this)
-    val g = Color.green(this)
-    val b = Color.blue(this)
-    return String.format(Locale.getDefault(), "%02X%02X%02X", r, g, b)
 }

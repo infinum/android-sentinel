@@ -1,4 +1,4 @@
-package com.infinum.designer.ui.views
+package com.infinum.designer.ui.views.grid
 
 import android.content.Context
 import android.graphics.Canvas

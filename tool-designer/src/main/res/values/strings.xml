@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="designer_title">Designer tools</string>
+    <string name="designer_color_copied_to_clipboard">Color value copied to clipboard</string>
 </resources>
