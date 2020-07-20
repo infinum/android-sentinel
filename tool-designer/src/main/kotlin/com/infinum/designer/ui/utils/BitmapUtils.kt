@@ -8,7 +8,7 @@ import java.nio.ByteBuffer
 
 object BitmapUtils {
 
-    fun screenBitmapRegion(image: Image, region: Rect): Bitmap? {
+    fun screenBitmapRegion(image: Image, region: Rect): Bitmap {
         val maxX: Int = image.width - 1
         val maxY: Int = image.height - 1
 

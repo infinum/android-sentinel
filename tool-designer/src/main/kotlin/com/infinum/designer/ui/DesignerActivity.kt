@@ -40,6 +40,7 @@ import com.infinum.designer.ui.models.PermissionRequest
 import com.infinum.designer.ui.utils.MediaProjectionHelper
 import com.skydoves.colorpickerview.ColorEnvelope
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
+import kotlin.math.floor
 import kotlin.math.roundToInt
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
@@ -80,6 +81,13 @@ internal class DesignerActivity : FragmentActivity() {
             .also { setContentView(it.root) }
             .also { binding = it }
             .also {
+                with(binding) {
+                    horizontalGridSizeSlider.isEnabled = false
+                    verticalGridSizeSlider.isEnabled = false
+                    mockupOpacitySlider.isEnabled = false
+                    portraitMockup.isEnabled = false
+                    landscapeMockup.isEnabled = false
+                }
                 setupToolbar()
                 setupGridOverlay()
                 setupMockupOverlay()
@@ -95,19 +103,19 @@ internal class DesignerActivity : FragmentActivity() {
             ?.let { orientation ->
                 when (orientation) {
                     MockupOrientation.PORTRAIT -> {
-                        if (resultCode == Activity.RESULT_OK) {
-                            data?.data?.let { setMockupPortrait(it) }
+                        when (resultCode) {
+                            Activity.RESULT_OK -> data?.data?.let { setMockupPortrait(it) }
                                 ?: showMessage("Cannot set portrait mockup")
-                        } else {
-                            showMessage("Cannot set portrait mockup")
+                            Activity.RESULT_CANCELED -> Unit
+                            else -> showMessage("Cannot set portrait mockup")
                         }
                     }
                     MockupOrientation.LANDSCAPE -> {
-                        if (resultCode == Activity.RESULT_OK) {
-                            data?.data?.let { setMockupLandscape(it) }
+                        when (resultCode) {
+                            Activity.RESULT_OK -> data?.data?.let { setMockupLandscape(it) }
                                 ?: showMessage("Cannot set landscape mockup")
-                        } else {
-                            showMessage("Cannot set landscape mockup")
+                            Activity.RESULT_CANCELED -> Unit
+                            else -> showMessage("Cannot set landscape mockup")
                         }
                     }
                 }
@@ -127,12 +135,23 @@ internal class DesignerActivity : FragmentActivity() {
                         }
                     }
                     PermissionRequest.MEDIA_PROJECTION -> {
-                        if (resultCode == Activity.RESULT_OK) {
-                            MediaProjectionHelper.data = data
-                            commander?.toggleColorPicker(true)
-                        } else {
-
+                        val unit = when (resultCode) {
+                            Activity.RESULT_OK -> {
+                                MediaProjectionHelper.data = data
+                                commander?.toggleColorPicker(true)
+                            }
+                            Activity.RESULT_CANCELED -> {
+                                with(binding) {
+                                    if (colorPickerSwitch.isChecked) {
+                                        colorPickerSwitch.isChecked = false
+                                    }
+                                }
+                            }
+                            else -> {
+                                // TODO: What about this?
+                            }
                         }
+                        unit
                     }
                 }
             }
@@ -147,17 +166,42 @@ internal class DesignerActivity : FragmentActivity() {
                         startService()
                     } else {
                         stopService()
+                        if (gridOverlaySwitch.isChecked) {
+                            gridOverlaySwitch.isChecked = false
+                        }
+                        if (mockupOverlaySwitch.isChecked) {
+                            mockupOverlaySwitch.isChecked = false
+                        }
+                        if (colorPickerSwitch.isChecked) {
+                            colorPickerSwitch.isChecked = false
+                        }
                     }
                     gridOverlaySwitch.isEnabled = isChecked
+
                     horizontalLineColorButton.isEnabled = isChecked
                     verticalLineColorButton.isEnabled = isChecked
+
+                    decreaseHorizontalGridSizeButton.isEnabled = isChecked
+                    increaseHorizontalGridSizeButton.isEnabled = isChecked
                     horizontalGridSizeSlider.isEnabled = isChecked
+
+                    decreaseVerticalGridSizeButton.isEnabled = isChecked
+                    increaseVerticalGridSizeButton.isEnabled = isChecked
                     verticalGridSizeSlider.isEnabled = isChecked
 
                     mockupOverlaySwitch.isEnabled = isChecked
+
+                    decreaseMockupOpacityButton.isEnabled = isChecked
+                    increaseMockupOpacityButton.isEnabled = isChecked
                     mockupOpacitySlider.isEnabled = isChecked
-                    portraitMockup.isClickable = isChecked
-                    landscapeMockup.isClickable = isChecked
+
+                    portraitMockup.isEnabled = isChecked
+                    landscapeMockup.isEnabled = isChecked
+//                    portraitMockup.isClickable = isChecked
+//                    landscapeMockup.isClickable = isChecked
+
+                    clearPortraitMockupButton.isEnabled = isChecked
+                    clearLandscapeMockupButton.isEnabled = isChecked
 
                     colorPickerSwitch.isEnabled = isChecked
                 }
@@ -171,27 +215,59 @@ internal class DesignerActivity : FragmentActivity() {
                 commander?.updateGrid(gridConfiguration.toBundle())
                 commander?.toggleGrid(isChecked)
             }
+
             horizontalLineColorButton.setOnClickListener {
                 openGridColorPicker(LineOrientation.HORIZONTAL)
             }
             verticalLineColorButton.setOnClickListener {
                 openGridColorPicker(LineOrientation.VERTICAL)
             }
-            horizontalGridSizeSlider.addOnChangeListener { _, value, fromUser ->
-                if (fromUser) {
-                    gridConfiguration =
-                        gridConfiguration.copy(horizontalGridSize = value.dpToPx(this@DesignerActivity))
-                    commander?.updateGrid(gridConfiguration.toBundle())
-                }
+
+            horizontalGridSizeSlider.valueTo =
+                floor(resources.displayMetrics.heightPixels / resources.displayMetrics.density / 2.0f).roundToInt()
+                    .toFloat()
+            decreaseHorizontalGridSizeButton.setOnClickListener {
+                horizontalGridSizeSlider.value =
+                    (horizontalGridSizeSlider.value - horizontalGridSizeSlider.stepSize).coerceAtLeast(
+                        horizontalGridSizeSlider.valueFrom
+                    )
+            }
+            increaseHorizontalGridSizeButton.setOnClickListener {
+                horizontalGridSizeSlider.value =
+                    (horizontalGridSizeSlider.value + horizontalGridSizeSlider.stepSize).coerceAtMost(
+                        horizontalGridSizeSlider.valueTo
+                    )
+            }
+            horizontalGridSizeSlider.addOnChangeListener { _, value, _ ->
+                gridConfiguration = gridConfiguration.copy(
+                    horizontalGridSize = value.dpToPx(this@DesignerActivity)
+                )
+                commander?.updateGrid(gridConfiguration.toBundle())
 
                 horizontalGridSizeValueLabel.text = "${value.roundToInt()}dp"
             }
-            verticalGridSizeSlider.addOnChangeListener { _, value, fromUser ->
-                if (fromUser) {
-                    gridConfiguration =
-                        gridConfiguration.copy(verticalGridSize = value.dpToPx(this@DesignerActivity))
-                    commander?.updateGrid(gridConfiguration.toBundle())
-                }
+
+
+            verticalGridSizeSlider.valueTo =
+                floor(resources.displayMetrics.widthPixels / resources.displayMetrics.density / 2.0f).roundToInt()
+                    .toFloat()
+            decreaseVerticalGridSizeButton.setOnClickListener {
+                verticalGridSizeSlider.value =
+                    (verticalGridSizeSlider.value - verticalGridSizeSlider.stepSize).coerceAtLeast(
+                        verticalGridSizeSlider.valueFrom
+                    )
+            }
+            increaseVerticalGridSizeButton.setOnClickListener {
+                verticalGridSizeSlider.value =
+                    (verticalGridSizeSlider.value + verticalGridSizeSlider.stepSize).coerceAtMost(
+                        verticalGridSizeSlider.valueTo
+                    )
+            }
+            verticalGridSizeSlider.addOnChangeListener { _, value, _ ->
+                gridConfiguration = gridConfiguration.copy(
+                    verticalGridSize = value.dpToPx(this@DesignerActivity)
+                )
+                commander?.updateGrid(gridConfiguration.toBundle())
 
                 verticalGridSizeValueLabel.text = "${value.roundToInt()}dp"
             }
@@ -205,8 +281,8 @@ internal class DesignerActivity : FragmentActivity() {
             horizontalLineColorButton.setBackgroundColor(gridConfiguration.horizontalLineColor)
             verticalLineColorButton.setBackgroundColor(gridConfiguration.verticalLineColor)
             horizontalLineColorValueLabel.text =
-                "#${gridConfiguration.horizontalLineColor.getHexCode()}"
-            vertialLineColorValueLabel.text = "#${gridConfiguration.verticalLineColor.getHexCode()}"
+                "${gridConfiguration.horizontalLineColor.getHexCode()}"
+            vertialLineColorValueLabel.text = "${gridConfiguration.verticalLineColor.getHexCode()}"
             horizontalGridSizeValueLabel.text = "${horizontalGridSizeSlider.value.roundToInt()}dp"
             verticalGridSizeValueLabel.text = "${verticalGridSizeSlider.value.roundToInt()}dp"
             commander?.updateGrid(gridConfiguration.toBundle())
@@ -218,11 +294,20 @@ internal class DesignerActivity : FragmentActivity() {
                 commander?.updateMockup(mockupConfiguration.toBundle())
                 commander?.toggleMockup(isChecked)
             }
-            mockupOpacitySlider.addOnChangeListener { _, value, fromUser ->
-                if (fromUser) {
-                    mockupConfiguration = mockupConfiguration.copy(opacity = value)
-                    commander?.updateMockup(mockupConfiguration.toBundle())
-                }
+            decreaseMockupOpacityButton.setOnClickListener {
+                mockupOpacitySlider.value =
+                    (mockupOpacitySlider.value - mockupOpacitySlider.stepSize)
+                        .coerceAtLeast(mockupOpacitySlider.valueFrom)
+            }
+            increaseMockupOpacityButton.setOnClickListener {
+                mockupOpacitySlider.value =
+                    (mockupOpacitySlider.value + mockupOpacitySlider.stepSize)
+                        .coerceAtMost(mockupOpacitySlider.valueTo)
+            }
+            mockupOpacitySlider.addOnChangeListener { _, value, _ ->
+                mockupConfiguration = mockupConfiguration.copy(opacity = value)
+                commander?.updateMockup(mockupConfiguration.toBundle())
+
                 mockupOpacityValueLabel.text = "${value.roundToInt()}%"
             }
 
@@ -248,16 +333,19 @@ internal class DesignerActivity : FragmentActivity() {
                 clearLandscapeMockup()
                 true
             }
+
             clearPortraitMockupButton.setOnClickListener {
                 clearPortraitMockup()
             }
             clearLandscapeMockupButton.setOnClickListener {
                 clearLandscapeMockup()
             }
+
             mockupConfiguration = mockupConfiguration.copy(
                 opacity = mockupOpacitySlider.value
             )
             mockupOpacityValueLabel.text = "${mockupConfiguration.opacity.roundToInt()}%"
+
             commander?.updateMockup(mockupConfiguration.toBundle())
         }
 

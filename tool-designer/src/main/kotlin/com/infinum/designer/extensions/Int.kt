@@ -12,5 +12,5 @@ fun Int.getHexCode(): String {
     val r = Color.red(this)
     val g = Color.green(this)
     val b = Color.blue(this)
-    return String.format(Locale.getDefault(), "%02X%02X%02X", r, g, b)
+    return String.format(Locale.getDefault(), "#%02X%02X%02X", r, g, b)
 }

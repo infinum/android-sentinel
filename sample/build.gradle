@@ -46,6 +46,7 @@ dependencies {
     implementation packages.androidx.appcompat
     implementation packages.androidx.preference
     implementation "androidx.security:security-crypto:1.1.0-alpha01"
+    implementation packages.google.design
 
     debugImplementation packages.sentinel.sentinel
     releaseImplementation packages.sentinel.sentinel_no_op

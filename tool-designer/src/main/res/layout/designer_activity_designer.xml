@@ -53,6 +53,7 @@
                         android:layout_height="?attr/listPreferredItemHeightSmall"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
+                        android:enabled="false"
                         android:text="Grid overlay"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
@@ -107,10 +108,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
+                        android:enabled="false"
                         app:cornerRadius="16dp"
                         app:icon="@drawable/designer_ic_pick"
                         app:iconGravity="textStart"
-                        app:iconPadding="0dp" />
+                        app:iconPadding="0dp"
+                        app:strokeColor="?android:textColorSecondary"
+                        app:strokeWidth="1dp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -145,10 +149,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
+                        android:enabled="false"
                         app:cornerRadius="16dp"
                         app:icon="@drawable/designer_ic_pick"
                         app:iconGravity="textStart"
-                        app:iconPadding="0dp" />
+                        app:iconPadding="0dp"
+                        app:strokeColor="?android:textColorTertiary"
+                        app:strokeWidth="1dp" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
@@ -156,7 +163,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="24dp"
                         android:layout_marginEnd="16dp"
-                        android:text="Size"
+                        android:text="Gap"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
                     <LinearLayout
@@ -186,16 +193,62 @@
 
                     </LinearLayout>
 
-                    <com.google.android.material.slider.Slider
-                        android:id="@+id/horizontalGridSizeSlider"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:stepSize="1"
-                        android:value="8"
-                        android:valueFrom="1"
-                        android:valueTo="128" />
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/decreaseHorizontalGridSizeButton"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginEnd="6dp"
+                            android:enabled="false"
+                            android:insetLeft="0dp"
+                            android:insetTop="0dp"
+                            android:insetRight="0dp"
+                            android:insetBottom="0dp"
+                            app:cornerRadius="20dp"
+                            app:icon="@drawable/designer_ic_minus"
+                            app:iconGravity="textStart"
+                            app:iconPadding="0dp"
+                            app:strokeWidth="0dp" />
+
+                        <com.google.android.material.slider.Slider
+                            android:id="@+id/horizontalGridSizeSlider"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:stepSize="1"
+                            android:value="8"
+                            android:valueFrom="1"
+                            app:haloRadius="20dp"
+                            app:thumbRadius="10dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/increaseHorizontalGridSizeButton"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginEnd="6dp"
+                            android:enabled="false"
+                            android:insetLeft="0dp"
+                            android:insetTop="0dp"
+                            android:insetRight="0dp"
+                            android:insetBottom="0dp"
+                            app:cornerRadius="20dp"
+                            app:icon="@drawable/designer_ic_plus"
+                            app:iconGravity="textStart"
+                            app:iconPadding="0dp"
+                            app:strokeWidth="0dp" />
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -224,17 +277,64 @@
 
                     </LinearLayout>
 
-                    <com.google.android.material.slider.Slider
-                        android:id="@+id/verticalGridSizeSlider"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:stepSize="1"
-                        android:value="8"
-                        android:valueFrom="1"
-                        android:valueTo="128" />
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/decreaseVerticalGridSizeButton"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginEnd="6dp"
+                            android:enabled="false"
+                            android:insetLeft="0dp"
+                            android:insetTop="0dp"
+                            android:insetRight="0dp"
+                            android:insetBottom="0dp"
+                            app:cornerRadius="20dp"
+                            app:icon="@drawable/designer_ic_minus"
+                            app:iconGravity="textStart"
+                            app:iconPadding="0dp"
+                            app:strokeWidth="0dp" />
+
+                        <com.google.android.material.slider.Slider
+                            android:id="@+id/verticalGridSizeSlider"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:enabled="false"
+                            android:stepSize="1"
+                            android:value="8"
+                            android:valueFrom="1"
+                            app:haloRadius="20dp"
+                            app:thumbRadius="10dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/increaseVerticalGridSizeButton"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginEnd="6dp"
+                            android:enabled="false"
+                            android:insetLeft="0dp"
+                            android:insetTop="0dp"
+                            android:insetRight="0dp"
+                            android:insetBottom="0dp"
+                            app:cornerRadius="20dp"
+                            app:icon="@drawable/designer_ic_plus"
+                            app:iconGravity="textStart"
+                            app:iconPadding="0dp"
+                            app:strokeWidth="0dp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -259,6 +359,7 @@
                         android:layout_height="?attr/listPreferredItemHeightSmall"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
+                        android:enabled="false"
                         android:text="Mockup overlay"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
@@ -298,16 +399,63 @@
 
                     </LinearLayout>
 
-                    <com.google.android.material.slider.Slider
-                        android:id="@+id/mockupOpacitySlider"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:stepSize="1"
-                        android:value="20"
-                        android:valueFrom="0"
-                        android:valueTo="100" />
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/decreaseMockupOpacityButton"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginEnd="6dp"
+                            android:enabled="false"
+                            android:insetLeft="0dp"
+                            android:insetTop="0dp"
+                            android:insetRight="0dp"
+                            android:insetBottom="0dp"
+                            app:cornerRadius="20dp"
+                            app:icon="@drawable/designer_ic_minus"
+                            app:iconGravity="textStart"
+                            app:iconPadding="0dp"
+                            app:strokeWidth="0dp" />
+
+                        <com.google.android.material.slider.Slider
+                            android:id="@+id/mockupOpacitySlider"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:enabled="false"
+                            android:stepSize="1"
+                            android:value="20"
+                            android:valueFrom="0"
+                            android:valueTo="100"
+                            app:haloRadius="20dp"
+                            app:thumbRadius="10dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/increaseMockupOpacityButton"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginEnd="6dp"
+                            android:enabled="false"
+                            android:insetLeft="0dp"
+                            android:insetTop="0dp"
+                            android:insetRight="0dp"
+                            android:insetBottom="0dp"
+                            app:cornerRadius="20dp"
+                            app:icon="@drawable/designer_ic_plus"
+                            app:iconGravity="textStart"
+                            app:iconPadding="0dp"
+                            app:strokeWidth="0dp" />
+
+                    </LinearLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -338,6 +486,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:clickable="true"
+                                android:enabled="false"
                                 android:focusable="true"
                                 android:foreground="?attr/selectableItemBackground"
                                 android:scaleType="fitCenter" />
@@ -365,6 +514,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:clickable="true"
+                                android:enabled="false"
                                 android:focusable="true"
                                 android:foreground="?attr/selectableItemBackground"
                                 android:scaleType="fitCenter" />
@@ -401,6 +551,7 @@
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:layout_marginBottom="2dp"
+                            android:enabled="false"
                             android:insetLeft="0dp"
                             android:insetTop="0dp"
                             android:insetRight="0dp"
@@ -421,6 +572,7 @@
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:layout_marginEnd="2dp"
+                            android:enabled="false"
                             android:insetLeft="0dp"
                             android:insetTop="0dp"
                             android:insetRight="0dp"
@@ -458,6 +610,7 @@
                         android:layout_height="?attr/listPreferredItemHeightSmall"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
+                        android:enabled="false"
                         android:text="Color picker"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 

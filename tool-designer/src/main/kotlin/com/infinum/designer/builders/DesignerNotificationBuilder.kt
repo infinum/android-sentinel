@@ -1,6 +1,13 @@
 package com.infinum.designer.builders
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.Service
+import android.content.Context
+import android.graphics.Color
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.infinum.designer.R
 
@@ -9,7 +16,6 @@ class DesignerNotificationBuilder(
 ) {
 
     companion object {
-        private const val CHANNEL_ID = "12345"
         private const val NOTIFICATION_ID = 555
     }
 
@@ -17,10 +23,15 @@ class DesignerNotificationBuilder(
         DesignerIntentBuilder(service)
 
     fun show() {
-        NotificationCompat.Builder(service,
-            CHANNEL_ID
+        NotificationCompat.Builder(
+            service,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                createNotificationChannel("Designer tools", "Designer tools foreground service")
+            } else {
+                "Designer tools"
+            }
         )
-            .setSmallIcon(R.drawable.designer_ic_pick)
+            .setSmallIcon(R.drawable.designer_ic_logo)
             .setOngoing(false)
             .setAutoCancel(true)
             .setContentTitle(service.getString(R.string.designer_title))
@@ -51,6 +62,23 @@ class DesignerNotificationBuilder(
             .also {
                 service.startForeground(NOTIFICATION_ID, it)
             }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createNotificationChannel(channelId: String, channelName: String): String {
+        (service.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager)?.let {
+            it.createNotificationChannel(
+                NotificationChannel(
+                    channelId,
+                    channelName,
+                    NotificationManager.IMPORTANCE_DEFAULT
+                ).apply {
+                    lightColor = Color.BLUE
+                    lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+                }
+            )
+        }
+        return channelId
     }
 
 }

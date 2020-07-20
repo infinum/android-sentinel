@@ -2,6 +2,8 @@
 <resources>
 
     <style name="Designer.BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#5968A7</item>
+        <item name="colorAccent">#5968A7</item>
 <!--        <item name="colorPrimary">@color/sentinel_color_primary</item>-->
 <!--        <item name="colorPrimaryDark">@android:color/transparent</item>-->
 <!--        <item name="colorSecondary">@color/sentinel_color_secondary</item>-->

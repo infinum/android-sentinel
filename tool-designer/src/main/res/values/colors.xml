@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="designer_colorPickerNodeReticleColor">#50ffffff</color>
-    <color name="designer_colorPickerNodeOutlineColor">#80ffffff</color>
-    <color name="designer_colorPickerNodeFillColor">#80000000</color>
-    <color name="designer_colorPickerNodeClearColor">#00000000</color>
     <color name="designer_colorPickerMagnifierGridColor">#ff000000</color>
 </resources>
