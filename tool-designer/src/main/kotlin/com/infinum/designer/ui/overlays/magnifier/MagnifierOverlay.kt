@@ -55,6 +55,8 @@ class MagnifierOverlay(
     private var previewSampleHeight =
         context.resources.getInteger(R.integer.designer_color_picker_sample_height)
 
+    private var isMoving: Boolean = false
+
     @SuppressLint("ClickableViewAccessibility")
     override fun show() {
         setupMediaProjection()
@@ -81,24 +83,27 @@ class MagnifierOverlay(
                 .apply {
                     setOnTouchListener { view, event ->
                         when (event.actionMasked) {
-                            MotionEvent.ACTION_DOWN -> Unit
-                            MotionEvent.ACTION_MOVE -> updateMagnifierView(
-                                event.rawX.roundToInt(),
-                                event.rawY.roundToInt()
-                            )
-                            MotionEvent.ACTION_UP -> Unit
+                            MotionEvent.ACTION_DOWN -> {
+                                view.alpha = 0.5f
+                                isMoving = false
+                            }
+                            MotionEvent.ACTION_MOVE -> {
+                                isMoving = true
+                                updateMagnifierView(
+                                    event.rawX.roundToInt(),
+                                    event.rawY.roundToInt()
+                                )
+                            }
+                            MotionEvent.ACTION_UP -> {
+                                isMoving = false
+                                view.alpha = 1.0f
+                            }
                         }
                         true
                     }
                 }
         if (magnifierView?.isAttachedToWindow?.not() == true) {
             magnifierParams?.let { windowManager.addView(magnifierView, it) }
-        }
-        context.screenCenter().let {
-            updatePreviewArea(
-                it.x,
-                it.y
-            )
         }
 
         showing = true
@@ -125,20 +130,7 @@ class MagnifierOverlay(
             2
         )
         imageReader?.setOnImageAvailableListener(
-            { reader ->
-                synchronized(screenCaptureLock) {
-                    reader.acquireNextImage()
-                        .let { image ->
-                            magnifierView?.setPixels(
-                                BitmapUtils.screenBitmapRegion(
-                                    image,
-                                    previewArea
-                                )
-                            )
-                            image.close()
-                        }
-                }
-            },
+            this::acquireImage,
             Handler()
         )
 
@@ -165,6 +157,23 @@ class MagnifierOverlay(
     private fun teardownMediaProjection() {
         virtualDisplay?.release()
         mediaProjection?.stop()
+    }
+
+    private fun acquireImage(reader: ImageReader?) {
+        synchronized(screenCaptureLock) {
+            reader?.acquireLatestImage()
+                ?.let { image ->
+                    if (isMoving) {
+                        magnifierView?.setPixels(
+                            BitmapUtils.screenBitmapRegion(
+                                image,
+                                previewArea
+                            )
+                        )
+                    }
+                    image.close()
+                }
+        }
     }
 
     private fun closeImageReader() {

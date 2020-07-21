@@ -17,6 +17,7 @@ import android.util.AttributeSet
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.infinum.designer.R
 import com.infinum.designer.databinding.DesignerLayoutMagnifierBinding
 import com.infinum.designer.extensions.getHexCode
@@ -160,7 +161,12 @@ class MagnifierView @JvmOverloads constructor(
             }
         }
 
-        viewBinding.colorValueView.text = centerPixelColor.getHexCode()
+        with(viewBinding) {
+            colorValueView.isVisible = currentBitmap != null
+            colorValueView.text = centerPixelColor.getHexCode()
+
+            instructionsView.isVisible = currentBitmap == null
+        }
 
         invalidate()
     }

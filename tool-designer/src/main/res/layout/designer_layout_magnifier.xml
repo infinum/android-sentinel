@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.infinum.designer.ui.views.magnifier.MagnifierView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/designer_picker_magnifying_ring_width"
     android:layout_height="@dimen/designer_picker_magnifying_ring_height"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/designer_background_magnifier">
 
     <TextView
@@ -16,12 +16,20 @@
         android:gravity="center"
         android:insetLeft="0dp"
         android:insetTop="0dp"
-        tools:text="#fafafa"
         android:insetRight="0dp"
         android:insetBottom="0dp"
         android:paddingStart="@dimen/designer_magnified_image_inset"
         android:paddingEnd="@dimen/designer_magnified_image_inset"
         android:textColor="#fafafa"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:visibility="gone"
+        tools:text="#fafafa" />
+
+    <ImageView
+        android:id="@+id/instructionsView"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:src="@drawable/designer_ic_drag" />
 
 </com.infinum.designer.ui.views.magnifier.MagnifierView>
