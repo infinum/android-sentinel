@@ -11,7 +11,8 @@ class DesignerCommandListener(
     private val onHideMockupOverlay: () -> Unit,
     private val onUpdateMockupOverlay: (Bundle) -> Unit,
     private val onShowColorPickerOverlay: () -> Unit,
-    private val onHideColorPickerOverlay: () -> Unit
+    private val onHideColorPickerOverlay: () -> Unit,
+    private val onUpdateColorPickerOverlay: (Bundle) -> Unit
 ) {
 
     fun onGridCommand(message: Message) {
@@ -42,7 +43,7 @@ class DesignerCommandListener(
                 when (command) {
                     DesignerCommand.SHOW -> onShowColorPickerOverlay()
                     DesignerCommand.HIDE -> onHideColorPickerOverlay()
-                    DesignerCommand.UPDATE -> Unit
+                    DesignerCommand.UPDATE -> onUpdateColorPickerOverlay(message.obj as Bundle)
                 }
             }
     }

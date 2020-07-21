@@ -59,6 +59,18 @@ class DesignerCommander(
         )
     }
 
+    fun updateColorPicker(params: Bundle) {
+        sendMessage(
+            Message.obtain(
+                null,
+                DesignerCommandType.COLOR_PICKER.code,
+                DesignerCommand.UPDATE.code,
+                0,
+                params
+            )
+        )
+    }
+
     private fun showGrid() {
         sendMessage(
             Message.obtain(

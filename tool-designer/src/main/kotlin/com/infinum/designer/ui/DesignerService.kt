@@ -56,7 +56,8 @@ class DesignerService : Service() {
                     onHideMockupOverlay = mockupOverlay::hide,
                     onUpdateMockupOverlay = mockupOverlay::update,
                     onShowColorPickerOverlay = magnifierOverlay::show,
-                    onHideColorPickerOverlay = magnifierOverlay::hide
+                    onHideColorPickerOverlay = magnifierOverlay::hide,
+                    onUpdateColorPickerOverlay = magnifierOverlay::update
                 )
             )
         ).binder

@@ -20,9 +20,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.infinum.designer.R
 import com.infinum.designer.databinding.DesignerLayoutMagnifierBinding
+import com.infinum.designer.extensions.getHSVCode
 import com.infinum.designer.extensions.getHexCode
+import com.infinum.designer.extensions.getRGBCode
 import com.infinum.designer.extensions.half
 import com.infinum.designer.extensions.orZero
+import com.infinum.designer.ui.models.ColorModel
 
 class MagnifierView @JvmOverloads constructor(
     context: Context,
@@ -42,6 +45,8 @@ class MagnifierView @JvmOverloads constructor(
     private var lensDrawable: Drawable? = null
 
     private var currentBitmap: Bitmap? = null
+
+    private var coloValueType: ColorModel = ColorModel.HEX
 
     private val bitmapPaint: Paint = Paint().apply {
         isAntiAlias = false
@@ -134,6 +139,17 @@ class MagnifierView @JvmOverloads constructor(
         super.dispatchDraw(canvas)
     }
 
+    fun setColorValueType(type: ColorModel) {
+        this.coloValueType = type
+        with(viewBinding) {
+            colorValueView.text = when (coloValueType) {
+                ColorModel.HEX -> centerPixelColor.getHexCode()
+                ColorModel.RGB -> centerPixelColor.getRGBCode()
+                ColorModel.HSV -> centerPixelColor.getHSVCode()
+            }
+        }
+    }
+
     fun setPixels(pixelsBitmap: Bitmap) {
         if (pixelsBitmap.width == 1 || pixelsBitmap.height == 1) {
             return
@@ -163,7 +179,11 @@ class MagnifierView @JvmOverloads constructor(
 
         with(viewBinding) {
             colorValueView.isVisible = currentBitmap != null
-            colorValueView.text = centerPixelColor.getHexCode()
+            colorValueView.text = when (coloValueType) {
+                ColorModel.HEX -> centerPixelColor.getHexCode()
+                ColorModel.RGB -> centerPixelColor.getRGBCode()
+                ColorModel.HSV -> centerPixelColor.getHSVCode()
+            }
 
             instructionsView.isVisible = currentBitmap == null
         }

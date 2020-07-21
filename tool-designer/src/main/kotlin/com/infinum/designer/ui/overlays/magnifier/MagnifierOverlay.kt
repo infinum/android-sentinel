@@ -22,6 +22,7 @@ import com.infinum.designer.databinding.DesignerLayoutMagnifierBinding
 import com.infinum.designer.extensions.half
 import com.infinum.designer.extensions.screenCenter
 import com.infinum.designer.ui.DesignerService
+import com.infinum.designer.ui.models.ColorModel
 import com.infinum.designer.ui.overlays.AbstractOverlay
 import com.infinum.designer.ui.utils.BitmapUtils
 import com.infinum.designer.ui.utils.MediaProjectionHelper
@@ -117,7 +118,14 @@ class MagnifierOverlay(
         showing = false
     }
 
-    override fun update(bundle: Bundle) = Unit
+    override fun update(bundle: Bundle) =
+        ColorModel(bundle.getString("colorModel", ColorModel.HEX.type))?.let {
+            setColorValueType(it)
+        } ?: setColorValueType(ColorModel.HEX)
+
+    private fun setColorValueType(type: ColorModel) {
+        magnifierView?.setColorValueType(type)
+    }
 
     private fun setupMediaProjection() {
         val size = Point()

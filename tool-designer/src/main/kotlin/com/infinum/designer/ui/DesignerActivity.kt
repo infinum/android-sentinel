@@ -15,6 +15,7 @@ import android.os.Bundle
 import android.os.IBinder
 import android.os.Messenger
 import android.provider.Settings
+import android.view.View
 import androidx.annotation.RestrictTo
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -31,12 +32,14 @@ import com.infinum.designer.databinding.DesignerViewColorPickerBinding
 import com.infinum.designer.extensions.dpToPx
 import com.infinum.designer.extensions.getHexCode
 import com.infinum.designer.ui.commander.DesignerCommander
-import com.infinum.designer.ui.models.ServiceAction
+import com.infinum.designer.ui.models.ColorModel
+import com.infinum.designer.ui.models.ColorPickerConfiguration
 import com.infinum.designer.ui.models.GridConfiguration
 import com.infinum.designer.ui.models.LineOrientation
 import com.infinum.designer.ui.models.MockupConfiguration
 import com.infinum.designer.ui.models.MockupOrientation
 import com.infinum.designer.ui.models.PermissionRequest
+import com.infinum.designer.ui.models.ServiceAction
 import com.infinum.designer.ui.utils.MediaProjectionHelper
 import com.skydoves.colorpickerview.ColorEnvelope
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
@@ -74,6 +77,7 @@ internal class DesignerActivity : FragmentActivity() {
 
     private var gridConfiguration: GridConfiguration = GridConfiguration()
     private var mockupConfiguration: MockupConfiguration = MockupConfiguration()
+    private var colorPickerConfiguration: ColorPickerConfiguration = ColorPickerConfiguration()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -197,13 +201,25 @@ internal class DesignerActivity : FragmentActivity() {
 
                     portraitMockup.isEnabled = isChecked
                     landscapeMockup.isEnabled = isChecked
-//                    portraitMockup.isClickable = isChecked
-//                    landscapeMockup.isClickable = isChecked
 
                     clearPortraitMockupButton.isEnabled = isChecked
                     clearLandscapeMockupButton.isEnabled = isChecked
 
                     colorPickerSwitch.isEnabled = isChecked
+                    hexButton.isEnabled = isChecked
+                    rgbButton.isEnabled = isChecked
+                    hsvButton.isEnabled = isChecked
+                    if (isChecked) {
+                        hexButton.isChecked = true
+                        rgbButton.isChecked = false
+                        hsvButton.isChecked = false
+                        colorModelToggleGroup.check(R.id.hexButton)
+                    } else {
+                        hexButton.isChecked = isChecked
+                        rgbButton.isChecked = isChecked
+                        hsvButton.isChecked = isChecked
+                        colorModelToggleGroup.check(View.NO_ID)
+                    }
                 }
             }
         }
@@ -358,6 +374,31 @@ internal class DesignerActivity : FragmentActivity() {
                     commander?.toggleColorPicker(isChecked)
                 }
             }
+            colorModelToggleGroup.addOnButtonCheckedListener { _, checkedId, _ ->
+                when (checkedId) {
+                    R.id.hexButton -> {
+                        colorPickerConfiguration = colorPickerConfiguration.copy(
+                            colorModel = ColorModel.HEX.type
+                        )
+                    }
+                    R.id.rgbButton -> {
+                        colorPickerConfiguration = colorPickerConfiguration.copy(
+                            colorModel = ColorModel.RGB.type
+                        )
+                    }
+                    R.id.hsvButton -> {
+                        colorPickerConfiguration = colorPickerConfiguration.copy(
+                            colorModel = ColorModel.HSV.type
+                        )
+                    }
+                }
+                commander?.updateColorPicker(colorPickerConfiguration.toBundle())
+            }
+
+            colorPickerConfiguration = colorPickerConfiguration.copy(
+                colorModel = ColorModel.HEX.type
+            )
+            commander?.updateColorPicker(colorPickerConfiguration.toBundle())
         }
 
     private fun setupPermission() {
