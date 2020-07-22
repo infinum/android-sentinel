@@ -1,6 +1,6 @@
-package com.infinum.designer.ui.commander
+package com.infinum.designer.ui.commander.service
 
-enum class DesignerCommandParameter(val code: Int) {
+enum class OverlayCommandParameter(val code: Int) {
     COLOR_HORIZONTAL(code = 1),
     COLOR_VERTICAL(code = 2),
     GAP_HORIZONTAL(code = 3),

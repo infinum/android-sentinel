@@ -1,8 +1,9 @@
-package com.infinum.designer.ui.commander
+package com.infinum.designer.ui.commander.service
 
 import android.os.Bundle
 import android.os.Message
 import android.os.Messenger
+import com.infinum.designer.ui.commander.DesignerCommand
 
 class ServiceCommandListener(
     private val onRegister: (Messenger) -> Unit,
@@ -40,15 +41,17 @@ class ServiceCommandListener(
                     DesignerCommand.SHOW -> onShowGridOverlay()
                     DesignerCommand.HIDE -> onHideGridOverlay()
                     DesignerCommand.UPDATE -> {
-                        DesignerCommandParameter(message.arg2)?.let { parameter ->
+                        OverlayCommandParameter(
+                            message.arg2
+                        )?.let { parameter ->
                             when (parameter) {
-                                DesignerCommandParameter.COLOR_HORIZONTAL ->
+                                OverlayCommandParameter.COLOR_HORIZONTAL ->
                                     onUpdateGridOverlayHorizontalColor(message.obj as Bundle)
-                                DesignerCommandParameter.COLOR_VERTICAL ->
+                                OverlayCommandParameter.COLOR_VERTICAL ->
                                     onUpdateGridOverlayVerticalColor(message.obj as Bundle)
-                                DesignerCommandParameter.GAP_HORIZONTAL ->
+                                OverlayCommandParameter.GAP_HORIZONTAL ->
                                     onUpdateGridOverlayHorizontalGap(message.obj as Bundle)
-                                DesignerCommandParameter.GAP_VERTICAL ->
+                                OverlayCommandParameter.GAP_VERTICAL ->
                                     onUpdateGridOverlayVerticalGap(message.obj as Bundle)
                                 else -> throw NotImplementedError()
                             }
@@ -65,13 +68,15 @@ class ServiceCommandListener(
                     DesignerCommand.SHOW -> onShowMockupOverlay()
                     DesignerCommand.HIDE -> onHideMockupOverlay()
                     DesignerCommand.UPDATE -> {
-                        DesignerCommandParameter(message.arg2)?.let { parameter ->
+                        OverlayCommandParameter(
+                            message.arg2
+                        )?.let { parameter ->
                             when (parameter) {
-                                DesignerCommandParameter.OPACITY ->
+                                OverlayCommandParameter.OPACITY ->
                                     onUpdateMockupOverlayOpacity(message.obj as Bundle)
-                                DesignerCommandParameter.URI_PORTRAIT ->
+                                OverlayCommandParameter.URI_PORTRAIT ->
                                     onUpdateMockupOverlayPortraitUri(message.obj as Bundle)
-                                DesignerCommandParameter.URI_LANDSCAPE ->
+                                OverlayCommandParameter.URI_LANDSCAPE ->
                                     onUpdateMockupOverlayLandscapeUri(message.obj as Bundle)
                                 else -> throw NotImplementedError()
                             }
@@ -88,9 +93,11 @@ class ServiceCommandListener(
                     DesignerCommand.SHOW -> onShowColorPickerOverlay()
                     DesignerCommand.HIDE -> onHideColorPickerOverlay()
                     DesignerCommand.UPDATE -> {
-                        DesignerCommandParameter(message.arg2)?.let { parameter ->
+                        OverlayCommandParameter(
+                            message.arg2
+                        )?.let { parameter ->
                             when (parameter) {
-                                DesignerCommandParameter.COLOR_MODE ->
+                                OverlayCommandParameter.COLOR_MODE ->
                                     onUpdateColorPickerOverlayColorMode(message.obj as Bundle)
                                 else -> throw NotImplementedError()
                             }

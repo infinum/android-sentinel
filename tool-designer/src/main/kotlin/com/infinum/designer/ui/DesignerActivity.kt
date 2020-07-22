@@ -31,9 +31,9 @@ import com.infinum.designer.databinding.DesignerActivityDesignerBinding
 import com.infinum.designer.databinding.DesignerViewColorPickerBinding
 import com.infinum.designer.extensions.dpToPx
 import com.infinum.designer.extensions.getHexCode
-import com.infinum.designer.ui.commander.DesignerCommander
-import com.infinum.designer.ui.commander.UiCommandHandler
-import com.infinum.designer.ui.commander.UiCommandListener
+import com.infinum.designer.ui.commander.service.ServiceCommander
+import com.infinum.designer.ui.commander.ui.UiCommandHandler
+import com.infinum.designer.ui.commander.ui.UiCommandListener
 import com.infinum.designer.ui.models.ColorModel
 import com.infinum.designer.ui.models.LineOrientation
 import com.infinum.designer.ui.models.MockupOrientation
@@ -54,39 +54,25 @@ internal class DesignerActivity : FragmentActivity() {
 
     private lateinit var binding: DesignerActivityDesignerBinding
 
-    private var commander: DesignerCommander? = null
+    private var commander: ServiceCommander? = null
 
     private var bound: Boolean = false
-
-    private fun onRegister(bundle: Bundle) {
-        setupUi(bundle.getParcelable("configuration") ?: DesignerConfiguration())
-    }
-
-    private fun onUpdate(bundle: Bundle) {
-        setupUi(bundle.getParcelable("configuration") ?: DesignerConfiguration())
-    }
-
-    private fun onUnregister(bundle: Bundle) {
-        setupUi(bundle.getParcelable("configuration") ?: DesignerConfiguration())
-        unbindService()
-        stopService()
-    }
 
     private val serviceConnection = object : ServiceConnection {
 
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
-            commander = DesignerCommander(
-                Messenger(service),
-                Messenger(
-                    UiCommandHandler(
-                        UiCommandListener(
-                            onRegister = this@DesignerActivity::onRegister,
-                            onUpdate = this@DesignerActivity::onUpdate,
-                            onUnregister = this@DesignerActivity::onUnregister
+            commander =
+                ServiceCommander(
+                    Messenger(service),
+                    Messenger(
+                        UiCommandHandler(
+                            UiCommandListener(
+                                onRegister = this@DesignerActivity::onRegister,
+                                onUnregister = this@DesignerActivity::onUnregister
+                            )
                         )
                     )
                 )
-            )
             bound = true
             commander?.bound = bound
 
@@ -428,6 +414,16 @@ internal class DesignerActivity : FragmentActivity() {
         }
     }
 
+    private fun onRegister(bundle: Bundle) {
+        setupUi(bundle.getParcelable("configuration") ?: DesignerConfiguration())
+    }
+
+    private fun onUnregister(bundle: Bundle) {
+        setupUi(bundle.getParcelable("configuration") ?: DesignerConfiguration())
+        unbindService()
+        stopService()
+    }
+
     private fun openGridColorPicker(
         orientation: LineOrientation,
         configuration: GridConfiguration
@@ -517,7 +513,7 @@ internal class DesignerActivity : FragmentActivity() {
             portraitMockup.setImageURI(uri)
             clearPortraitMockupButton.isVisible = true
         }
-        commander?.updateMockupLandscapeUri(
+        commander?.updateMockupPortraitUri(
             bundleOf("portraitUri" to uri.toString())
         )
     }
@@ -540,7 +536,7 @@ internal class DesignerActivity : FragmentActivity() {
                 showMessage("Portrait mockup cleared")
             }
         }
-        commander?.updateMockupLandscapeUri(
+        commander?.updateMockupPortraitUri(
             bundleOf("portraitUri" to null)
         )
     }

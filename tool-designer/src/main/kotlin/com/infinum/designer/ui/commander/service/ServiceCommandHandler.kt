@@ -1,7 +1,8 @@
-package com.infinum.designer.ui.commander
+package com.infinum.designer.ui.commander.service
 
 import android.os.Handler
 import android.os.Message
+import com.infinum.designer.ui.commander.DesignerCommandType
 
 class ServiceCommandHandler(
     private val commandListener: ServiceCommandListener

@@ -12,8 +12,9 @@ import com.infinum.designer.builders.DesignerNotificationBuilder
 import com.infinum.designer.extensions.dpToPx
 import com.infinum.designer.ui.commander.DesignerCommand
 import com.infinum.designer.ui.commander.DesignerCommandType
-import com.infinum.designer.ui.commander.ServiceCommandHandler
-import com.infinum.designer.ui.commander.ServiceCommandListener
+import com.infinum.designer.ui.commander.service.ServiceCommandHandler
+import com.infinum.designer.ui.commander.service.ServiceCommandListener
+import com.infinum.designer.ui.commander.ui.UiCommander
 import com.infinum.designer.ui.models.ColorModel
 import com.infinum.designer.ui.models.ServiceAction
 import com.infinum.designer.ui.models.configuration.DesignerConfiguration
@@ -23,7 +24,7 @@ import com.infinum.designer.ui.overlays.mockup.MockupOverlay
 
 class DesignerService : Service() {
 
-    private var client: Messenger? = null
+    private var commander: UiCommander? = null
 
     private var configuration = DesignerConfiguration()
 
@@ -270,15 +271,10 @@ class DesignerService : Service() {
     }
 
     private fun register(client: Messenger) {
-        this.client = client
-        client.send(
-            Message.obtain(
-                null,
-                DesignerCommandType.CLIENT.code,
-                DesignerCommand.REGISTER.code,
-                0,
-                bundleOf("configuration" to configuration)
-            )
+        this.commander = UiCommander(client)
+        commander?.bound = true
+        commander?.notifyRegister(
+            bundleOf("configuration" to configuration)
         )
     }
 
@@ -290,15 +286,10 @@ class DesignerService : Service() {
             magnifier = configuration.magnifier.copy(enabled = false)
         )
 
-        client?.send(
-            Message.obtain(
-                null,
-                DesignerCommandType.CLIENT.code,
-                DesignerCommand.UNREGISTER.code,
-                0,
-                bundleOf("configuration" to configuration)
-            )
+        commander?.notifyUnregister(
+            bundleOf("configuration" to configuration)
         )
-        client = null
+        commander?.bound = false
+        commander = null
     }
 }
