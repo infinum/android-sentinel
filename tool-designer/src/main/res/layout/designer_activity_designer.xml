@@ -224,8 +224,6 @@
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:stepSize="1"
-                            android:value="8"
-                            android:valueFrom="1"
                             app:haloRadius="20dp"
                             app:thumbRadius="10dp" />
 
@@ -310,8 +308,6 @@
                             android:layout_weight="1"
                             android:enabled="false"
                             android:stepSize="1"
-                            android:value="8"
-                            android:valueFrom="1"
                             app:haloRadius="20dp"
                             app:thumbRadius="10dp" />
 

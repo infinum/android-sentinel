@@ -3,30 +3,38 @@ package com.infinum.designer.ui.overlays.mockup
 import android.content.Context
 import android.graphics.PixelFormat
 import android.net.Uri
-import android.os.Bundle
 import android.view.ViewGroup
 import android.view.WindowManager
+import com.infinum.designer.ui.models.configuration.MockupConfiguration
 import com.infinum.designer.ui.overlays.AbstractOverlay
 import com.infinum.designer.ui.utils.ViewUtils
 import com.infinum.designer.ui.views.mockup.MockupView
 
 class MockupOverlay(
     private val context: Context
-) : AbstractOverlay(context) {
+) : AbstractOverlay<MockupConfiguration>(context) {
 
-    private var mockOverlayView: MockupView? = null
+    private var configuration: MockupConfiguration = MockupConfiguration()
 
-    private var mockupOpacity: Float = 0.0f
-    private var mockupPortraitUri: Uri? = null
-    private var mockupLandscapeUri: Uri? = null
+    private var view: MockupView? = null
 
     override fun show() {
-        mockOverlayView = MockupView(context)
-
-        mockOverlayView?.let {
-            it.updateOpacity(mockupOpacity)
-            it.updatePortraitUri(mockupPortraitUri)
-            it.updateLandscapeUri(mockupLandscapeUri)
+        view = MockupView(context).also {
+            it.updateOpacity(configuration.opacity)
+            it.updatePortraitUri(
+                if (configuration.portraitUri.isNullOrBlank().not()) {
+                    Uri.parse(configuration.portraitUri)
+                } else {
+                    null
+                }
+            )
+            it.updateLandscapeUri(
+                if (configuration.landscapeUri.isNullOrBlank().not()) {
+                    Uri.parse(configuration.landscapeUri)
+                } else {
+                    null
+                }
+            )
 
             windowManager.addView(
                 it,
@@ -47,42 +55,37 @@ class MockupOverlay(
     }
 
     override fun hide() {
-        mockOverlayView?.let { removeViewIfAttached(it) }
-        mockOverlayView = null
+        view?.let { removeViewIfAttached(it) }
+        view = null
 
         showing = false
     }
 
-    override fun update(bundle: Bundle) {
-        mockupOpacity = bundle.getFloat("opacity", 0.0f)
-        mockupPortraitUri = run {
-            val uri = bundle.getString("portraitUri", "")
-            if (uri.isNullOrBlank().not()) {
-                Uri.parse(uri)
-            } else {
-                null
-            }
-        }
-        mockupLandscapeUri = run {
-            val uri = bundle.getString("landscapeUri", "")
-            if (uri.isNullOrBlank().not()) {
-                Uri.parse(uri)
-            } else {
-                null
-            }
-        }
+    override fun update(configuration: MockupConfiguration) {
+        this.configuration = configuration
 
-        mockOverlayView?.let {
-            it.updateOpacity(mockupOpacity)
-            it.updatePortraitUri(mockupPortraitUri)
-            it.updateLandscapeUri(mockupLandscapeUri)
+        view?.let {
+            it.updateOpacity(configuration.opacity)
+            it.updatePortraitUri(
+                if (configuration.portraitUri.isNullOrBlank().not()) {
+                    Uri.parse(configuration.portraitUri)
+                } else {
+                    null
+                }
+            )
+            it.updateLandscapeUri(
+                if (configuration.landscapeUri.isNullOrBlank().not()) {
+                    Uri.parse(configuration.landscapeUri)
+                } else {
+                    null
+                }
+            )
         }
     }
 
-    override fun reset() {
-        mockupOpacity = 0.2f
-        mockupPortraitUri = null
-        mockupLandscapeUri = null
-        super.reset()
+    override fun reset(configuration: MockupConfiguration) {
+        this.configuration = configuration
+        hide()
+        show()
     }
 }

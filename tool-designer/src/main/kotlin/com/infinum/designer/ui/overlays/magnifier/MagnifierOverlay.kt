@@ -11,7 +11,6 @@ import android.hardware.display.VirtualDisplay
 import android.media.ImageReader
 import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
-import android.os.Bundle
 import android.os.Handler
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -22,7 +21,7 @@ import com.infinum.designer.databinding.DesignerLayoutMagnifierBinding
 import com.infinum.designer.extensions.half
 import com.infinum.designer.extensions.screenCenter
 import com.infinum.designer.ui.DesignerService
-import com.infinum.designer.ui.models.ColorModel
+import com.infinum.designer.ui.models.configuration.MagnifierConfiguration
 import com.infinum.designer.ui.overlays.AbstractOverlay
 import com.infinum.designer.ui.utils.BitmapUtils
 import com.infinum.designer.ui.utils.MediaProjectionHelper
@@ -32,9 +31,11 @@ import kotlin.math.roundToInt
 
 class MagnifierOverlay(
     private val context: Context
-) : AbstractOverlay(context) {
+) : AbstractOverlay<MagnifierConfiguration>(context) {
 
-    private var magnifierView: MagnifierView? = null
+    private var configuration: MagnifierConfiguration = MagnifierConfiguration()
+
+    private var view: MagnifierView? = null
 
     private var mediaProjection: MediaProjection? = null
     private var virtualDisplay: VirtualDisplay? = null
@@ -79,52 +80,54 @@ class MagnifierOverlay(
             }
         }
 
-        magnifierView =
-            DesignerLayoutMagnifierBinding.inflate(LayoutInflater.from(context)).root
-                .apply {
-                    setOnTouchListener { view, event ->
-                        when (event.actionMasked) {
-                            MotionEvent.ACTION_DOWN -> {
-                                view.alpha = 0.5f
-                                isMoving = false
-                            }
-                            MotionEvent.ACTION_MOVE -> {
-                                isMoving = true
-                                updateMagnifierView(
-                                    event.rawX.roundToInt(),
-                                    event.rawY.roundToInt()
-                                )
-                            }
-                            MotionEvent.ACTION_UP -> {
-                                isMoving = false
-                                view.alpha = 1.0f
-                            }
+        view = DesignerLayoutMagnifierBinding.inflate(LayoutInflater.from(context)).root
+            .apply {
+                setOnTouchListener { view, event ->
+                    when (event.actionMasked) {
+                        MotionEvent.ACTION_DOWN -> {
+                            view.alpha = 0.5f
+                            isMoving = false
                         }
-                        true
+                        MotionEvent.ACTION_MOVE -> {
+                            isMoving = true
+                            updateMagnifierView(
+                                event.rawX.roundToInt(),
+                                event.rawY.roundToInt()
+                            )
+                        }
+                        MotionEvent.ACTION_UP -> {
+                            isMoving = false
+                            view.alpha = 1.0f
+                        }
                     }
+                    true
                 }
-        if (magnifierView?.isAttachedToWindow?.not() == true) {
-            magnifierParams?.let { windowManager.addView(magnifierView, it) }
+            }
+        if (view?.isAttachedToWindow?.not() == true) {
+            magnifierParams?.let { windowManager.addView(view, it) }
         }
 
         showing = true
     }
 
     override fun hide() {
-        magnifierView?.let { removeViewIfAttached(it) }
+        view?.let { removeViewIfAttached(it) }
         closeImageReader()
         teardownMediaProjection()
 
         showing = false
     }
 
-    override fun update(bundle: Bundle) =
-        ColorModel(bundle.getString("colorModel", ColorModel.HEX.type))?.let {
-            setColorValueType(it)
-        } ?: setColorValueType(ColorModel.HEX)
+    override fun update(configuration: MagnifierConfiguration) {
+        this.configuration = configuration
 
-    private fun setColorValueType(type: ColorModel) {
-        magnifierView?.setColorValueType(type)
+        view?.setColorValueType(configuration.colorModel)
+    }
+
+    override fun reset(configuration: MagnifierConfiguration) {
+        this.configuration = configuration
+        hide()
+        show()
     }
 
     private fun setupMediaProjection() {
@@ -172,7 +175,7 @@ class MagnifierOverlay(
             reader?.acquireLatestImage()
                 ?.let { image ->
                     if (isMoving) {
-                        magnifierView?.setPixels(
+                        view?.setPixels(
                             BitmapUtils.screenBitmapRegion(
                                 image,
                                 previewArea
@@ -195,7 +198,7 @@ class MagnifierOverlay(
         magnifierParams?.let {
             it.x = x - magnifierWidth.half()
             it.y = y - magnifierHeight.half()
-            windowManager.updateViewLayout(magnifierView, it)
+            windowManager.updateViewLayout(view, it)
         }
     }
 

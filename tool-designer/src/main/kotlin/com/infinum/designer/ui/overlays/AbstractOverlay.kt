@@ -1,10 +1,14 @@
 package com.infinum.designer.ui.overlays
 
 import android.content.Context
+import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
 import android.view.WindowManager
+import com.infinum.designer.ui.models.configuration.Configuration
+import com.infinum.designer.ui.models.configuration.GridConfiguration
 
-abstract class AbstractOverlay(context: Context) : Overlay {
+abstract class AbstractOverlay<T: Configuration>(context: Context) : Overlay<T> {
 
     protected var showing: Boolean = false
 
@@ -17,9 +21,4 @@ abstract class AbstractOverlay(context: Context) : Overlay {
     }
 
     override fun isShowing() = showing
-
-    override fun reset() {
-        hide()
-        show()
-    }
 }

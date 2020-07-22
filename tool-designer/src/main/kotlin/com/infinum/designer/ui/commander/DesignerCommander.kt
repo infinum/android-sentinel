@@ -6,10 +6,23 @@ import android.os.Messenger
 import android.os.RemoteException
 
 class DesignerCommander(
-    private val outgoingMessenger: Messenger
+    private val outgoingMessenger: Messenger,
+    private val replyToMessenger: Messenger
 ) {
 
     var bound: Boolean = false
+
+    fun register() {
+        sendMessage(
+            Message.obtain(
+                null,
+                DesignerCommandType.CLIENT.code,
+                DesignerCommand.REGISTER.code,
+                0,
+                0
+            ).apply { replyTo = replyToMessenger }
+        )
+    }
 
     fun toggleGrid(shouldShow: Boolean) {
         if (shouldShow) {
@@ -35,39 +48,39 @@ class DesignerCommander(
         }
     }
 
-    fun updateGrid(params: Bundle) {
-        sendMessage(
-            Message.obtain(
-                null,
-                DesignerCommandType.GRID.code,
-                DesignerCommand.UPDATE.code,
-                0,
-                params
-            )
-        )
-    }
+    fun updateGridHorizontalColor(params: Bundle) =
+        updateGrid(DesignerCommandParameter.COLOR_HORIZONTAL, params)
 
-    fun updateMockup(params: Bundle) {
-        sendMessage(
-            Message.obtain(
-                null,
-                DesignerCommandType.MOCKUP.code,
-                DesignerCommand.UPDATE.code,
-                0,
-                params
-            )
-        )
-    }
+    fun updateGridVerticalColor(params: Bundle) =
+        updateGrid(DesignerCommandParameter.COLOR_VERTICAL, params)
 
-    fun updateColorPicker(params: Bundle) {
+    fun updateGridHorizontalGap(params: Bundle) =
+        updateGrid(DesignerCommandParameter.GAP_HORIZONTAL, params)
+
+    fun updateGridVerticalGap(params: Bundle) =
+        updateGrid(DesignerCommandParameter.GAP_VERTICAL, params)
+
+    fun updateMockupOpacity(params: Bundle) =
+        updateMockup(DesignerCommandParameter.OPACITY, params)
+
+    fun updateMockupPortraitUri(params: Bundle) =
+        updateMockup(DesignerCommandParameter.URI_PORTRAIT, params)
+
+    fun updateMockupLandscapeUri(params: Bundle) =
+        updateMockup(DesignerCommandParameter.URI_LANDSCAPE, params)
+
+    fun updateColorPickerColorMode(params: Bundle) =
+        updateColorPicker(DesignerCommandParameter.COLOR_MODE, params)
+
+    fun unregister() {
         sendMessage(
             Message.obtain(
                 null,
-                DesignerCommandType.COLOR_PICKER.code,
-                DesignerCommand.UPDATE.code,
+                DesignerCommandType.CLIENT.code,
+                DesignerCommand.UNREGISTER.code,
                 0,
-                params
-            )
+                0
+            ).apply { replyTo = replyToMessenger }
         )
     }
 
@@ -89,6 +102,18 @@ class DesignerCommander(
                 DesignerCommandType.GRID.code,
                 DesignerCommand.HIDE.code,
                 0
+            )
+        )
+    }
+
+    private fun updateGrid(parameter: DesignerCommandParameter, params: Bundle) {
+        sendMessage(
+            Message.obtain(
+                null,
+                DesignerCommandType.GRID.code,
+                DesignerCommand.UPDATE.code,
+                parameter.code,
+                params
             )
         )
     }
@@ -115,6 +140,18 @@ class DesignerCommander(
         )
     }
 
+    private fun updateMockup(parameter: DesignerCommandParameter, params: Bundle) {
+        sendMessage(
+            Message.obtain(
+                null,
+                DesignerCommandType.MOCKUP.code,
+                DesignerCommand.UPDATE.code,
+                parameter.code,
+                params
+            )
+        )
+    }
+
     private fun showColorPicker() {
         sendMessage(
             Message.obtain(
@@ -133,6 +170,18 @@ class DesignerCommander(
                 DesignerCommandType.COLOR_PICKER.code,
                 DesignerCommand.HIDE.code,
                 0
+            )
+        )
+    }
+
+    private fun updateColorPicker(parameter: DesignerCommandParameter, params: Bundle) {
+        sendMessage(
+            Message.obtain(
+                null,
+                DesignerCommandType.COLOR_PICKER.code,
+                DesignerCommand.UPDATE.code,
+                parameter.code,
+                params
             )
         )
     }

@@ -1,8 +1,8 @@
 package com.infinum.designer.ui.overlays
 
-import android.os.Bundle
+import com.infinum.designer.ui.models.configuration.Configuration
 
-interface Overlay {
+interface Overlay<T: Configuration> {
 
     fun show()
 
@@ -10,7 +10,7 @@ interface Overlay {
 
     fun isShowing(): Boolean
 
-    fun update(bundle: Bundle)
+    fun update(configuration: T)
 
-    fun reset()
+    fun reset(configuration: T)
 }

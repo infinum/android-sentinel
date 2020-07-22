@@ -1,9 +1,11 @@
 package com.infinum.designer.ui.commander
 
 enum class DesignerCommand(val code: Int) {
-    SHOW(code = 1),
-    HIDE(code = 2),
-    UPDATE(code = 3);
+    REGISTER(code = 1),
+    SHOW(code = 2),
+    HIDE(code = 3),
+    UPDATE(code = 4),
+    UNREGISTER(code = 5);
 
     companion object {
 
