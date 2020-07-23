@@ -50,11 +50,11 @@ internal class DesignerActivity : ServiceActivity() {
             .also { binding = it }
             .also {
                 with(binding) {
-                    horizontalGridSizeSlider.isEnabled = false
-                    verticalGridSizeSlider.isEnabled = false
-                    mockupOpacitySlider.isEnabled = false
-                    portraitMockup.isEnabled = false
-                    landscapeMockup.isEnabled = false
+                    overlayGridView.horizontalGridSizeSlider.isEnabled = false
+                    overlayGridView.verticalGridSizeSlider.isEnabled = false
+                    overlayMockupView.mockupOpacitySlider.isEnabled = false
+                    overlayMockupView.portraitMockup.isEnabled = false
+                    overlayMockupView.landscapeMockup.isEnabled = false
                 }
                 setupToolbar()
                 setupUi(DesignerConfiguration())
@@ -107,7 +107,7 @@ internal class DesignerActivity : ServiceActivity() {
                                 toggleColorPicker(true)
                             }
                             Activity.RESULT_CANCELED -> {
-                                with(binding) {
+                                with(binding.overlayMagnifierView) {
                                     if (colorPickerSwitch.isChecked) {
                                         colorPickerSwitch.isChecked = false
                                     }
@@ -148,53 +148,60 @@ internal class DesignerActivity : ServiceActivity() {
 
     private fun toggleUi(enabled: Boolean) {
         with(binding) {
-            gridOverlaySwitch.isEnabled = enabled
 
-            horizontalLineColorButton.isEnabled = enabled
-            verticalLineColorButton.isEnabled = enabled
-            horizontalLineColorButton.alpha = if (enabled) 1.0f else 0.5f
-            verticalLineColorButton.alpha = if (enabled) 1.0f else 0.5f
+            with(overlayGridView) {
+                gridOverlaySwitch.isEnabled = enabled
 
-            decreaseHorizontalGridSizeButton.isEnabled = enabled
-            increaseHorizontalGridSizeButton.isEnabled = enabled
-            horizontalGridSizeSlider.isEnabled = enabled
+                horizontalLineColorButton.isEnabled = enabled
+                verticalLineColorButton.isEnabled = enabled
+                horizontalLineColorButton.alpha = if (enabled) 1.0f else 0.5f
+                verticalLineColorButton.alpha = if (enabled) 1.0f else 0.5f
 
-            decreaseVerticalGridSizeButton.isEnabled = enabled
-            increaseVerticalGridSizeButton.isEnabled = enabled
-            verticalGridSizeSlider.isEnabled = enabled
+                decreaseHorizontalGridSizeButton.isEnabled = enabled
+                increaseHorizontalGridSizeButton.isEnabled = enabled
+                horizontalGridSizeSlider.isEnabled = enabled
 
-            mockupOverlaySwitch.isEnabled = enabled
+                decreaseVerticalGridSizeButton.isEnabled = enabled
+                increaseVerticalGridSizeButton.isEnabled = enabled
+                verticalGridSizeSlider.isEnabled = enabled
+            }
 
-            decreaseMockupOpacityButton.isEnabled = enabled
-            increaseMockupOpacityButton.isEnabled = enabled
-            mockupOpacitySlider.isEnabled = enabled
+            with(overlayMockupView) {
+                mockupOverlaySwitch.isEnabled = enabled
 
-            portraitMockup.isEnabled = enabled
-            landscapeMockup.isEnabled = enabled
+                decreaseMockupOpacityButton.isEnabled = enabled
+                increaseMockupOpacityButton.isEnabled = enabled
+                mockupOpacitySlider.isEnabled = enabled
 
-            clearPortraitMockupButton.isEnabled = enabled
-            clearLandscapeMockupButton.isEnabled = enabled
+                portraitMockup.isEnabled = enabled
+                landscapeMockup.isEnabled = enabled
 
-            colorPickerSwitch.isEnabled = enabled
-            hexButton.isEnabled = enabled
-            rgbButton.isEnabled = enabled
-            hsvButton.isEnabled = enabled
-            if (enabled) {
-                hexButton.isChecked = true
-                rgbButton.isChecked = false
-                hsvButton.isChecked = false
-                colorModelToggleGroup.check(R.id.hexButton)
-            } else {
-                hexButton.isChecked = enabled
-                rgbButton.isChecked = enabled
-                hsvButton.isChecked = enabled
-                colorModelToggleGroup.check(View.NO_ID)
+                clearPortraitMockupButton.isEnabled = enabled
+                clearLandscapeMockupButton.isEnabled = enabled
+            }
+
+            with(overlayMagnifierView) {
+                colorPickerSwitch.isEnabled = enabled
+                hexButton.isEnabled = enabled
+                rgbButton.isEnabled = enabled
+                hsvButton.isEnabled = enabled
+                if (enabled) {
+                    hexButton.isChecked = true
+                    rgbButton.isChecked = false
+                    hsvButton.isChecked = false
+                    colorModelToggleGroup.check(R.id.hexButton)
+                } else {
+                    hexButton.isChecked = enabled
+                    rgbButton.isChecked = enabled
+                    hsvButton.isChecked = enabled
+                    colorModelToggleGroup.check(View.NO_ID)
+                }
             }
         }
     }
 
     private fun setupGridOverlay(configuration: GridConfiguration) =
-        with(binding) {
+        with(binding.overlayGridView) {
             gridOverlaySwitch.setOnCheckedChangeListener(null)
             gridOverlaySwitch.isChecked = configuration.enabled
             gridOverlaySwitch.setOnCheckedChangeListener { _, isChecked ->
@@ -265,7 +272,7 @@ internal class DesignerActivity : ServiceActivity() {
         }
 
     private fun setupMockupOverlay(configuration: MockupConfiguration) =
-        with(binding) {
+        with(binding.overlayMockupView) {
             mockupOverlaySwitch.setOnCheckedChangeListener(null)
             mockupOverlaySwitch.isChecked = configuration.enabled
             mockupOverlaySwitch.setOnCheckedChangeListener { _, isChecked ->
@@ -321,7 +328,7 @@ internal class DesignerActivity : ServiceActivity() {
         }
 
     private fun setupColorPicker(configuration: MagnifierConfiguration) =
-        with(binding) {
+        with(binding.overlayMagnifierView) {
             colorPickerSwitch.setOnCheckedChangeListener(null)
             colorPickerSwitch.isChecked = configuration.enabled
             colorPickerSwitch.setOnCheckedChangeListener { _, isChecked ->
@@ -421,7 +428,7 @@ internal class DesignerActivity : ServiceActivity() {
         color: Int,
         code: String
     ) {
-        with(binding) {
+        with(binding.overlayGridView) {
             horizontalLineColorButton.backgroundTintList = ColorStateList.valueOf(color)
             horizontalLineColorValueLabel.text = "#${code.drop(2)}"
         }
@@ -433,7 +440,7 @@ internal class DesignerActivity : ServiceActivity() {
         color: Int,
         code: String
     ) {
-        with(binding) {
+        with(binding.overlayGridView) {
             verticalLineColorButton.backgroundTintList = ColorStateList.valueOf(color)
             vertialLineColorValueLabel.text = "#${code.drop(2)}"
         }
@@ -442,7 +449,7 @@ internal class DesignerActivity : ServiceActivity() {
     }
 
     private fun setMockupPortrait(uri: Uri) {
-        with(binding) {
+        with(binding.overlayMockupView) {
             portraitMockup.setImageURI(uri)
             clearPortraitMockupButton.isVisible = true
         }
@@ -450,7 +457,7 @@ internal class DesignerActivity : ServiceActivity() {
     }
 
     private fun setMockupLandscape(uri: Uri) {
-        with(binding) {
+        with(binding.overlayMockupView) {
             landscapeMockup.setImageURI(uri)
             clearLandscapeMockupButton.isVisible = true
         }
@@ -458,7 +465,7 @@ internal class DesignerActivity : ServiceActivity() {
     }
 
     private fun clearPortraitMockup() {
-        with(binding) {
+        with(binding.overlayMockupView) {
             if (portraitMockup.drawable != null) {
                 portraitMockup.setImageDrawable(null)
                 clearPortraitMockupButton.isGone = true
@@ -469,7 +476,7 @@ internal class DesignerActivity : ServiceActivity() {
     }
 
     private fun clearLandscapeMockup() {
-        with(binding) {
+        with(binding.overlayMockupView) {
             if (landscapeMockup.drawable != null) {
                 landscapeMockup.setImageDrawable(null)
                 clearLandscapeMockupButton.isGone = true

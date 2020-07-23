@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginEnd="16dp"
+    app:cardCornerRadius="16dp"
+    tools:showIn="@layout/designer_activity_designer">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/mockupOverlaySwitch"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/listPreferredItemHeightSmall"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:enabled="false"
+            android:text="Mockup overlay"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="Overlaying a mockup gives you a live preview of the screen layout as you're working."
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="Opacity"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/mockupOpacityValueLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="center_vertical"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/decreaseMockupOpacityButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:enabled="false"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:cornerRadius="20dp"
+                app:icon="@drawable/designer_ic_minus"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:strokeWidth="0dp" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/mockupOpacitySlider"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:stepSize="1"
+                android:value="20"
+                android:valueFrom="0"
+                android:valueTo="100"
+                app:haloRadius="20dp"
+                app:thumbRadius="10dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/increaseMockupOpacityButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:enabled="false"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:cornerRadius="20dp"
+                app:icon="@drawable/designer_ic_plus"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:strokeWidth="0dp" />
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp">
+
+            <FrameLayout
+                android:id="@+id/portraitMockupLayout"
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:background="?attr/colorButtonNormal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/landscapeMockupLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/portraitLabel">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/designer_ic_add" />
+
+                <ImageView
+                    android:id="@+id/portraitMockup"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:enabled="false"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:scaleType="fitCenter" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/landscapeMockupLayout"
+                android:layout_width="160dp"
+                android:layout_height="0dp"
+                android:background="?attr/colorButtonNormal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/portraitMockupLayout"
+                app:layout_constraintTop_toBottomOf="@id/landscapeLabel">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/designer_ic_add" />
+
+                <ImageView
+                    android:id="@+id/landscapeMockup"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:enabled="false"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:scaleType="fitCenter" />
+
+            </FrameLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/portraitLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Portrait"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                app:layout_constraintBottom_toTopOf="@id/portraitMockupLayout"
+                app:layout_constraintEnd_toEndOf="@id/portraitMockupLayout"
+                app:layout_constraintStart_toStartOf="@id/portraitMockupLayout"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/landscapeLabel"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:text="Landscape"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                app:layout_constraintBottom_toTopOf="@id/landscapeMockupLayout"
+                app:layout_constraintEnd_toEndOf="@id/landscapeMockupLayout"
+                app:layout_constraintStart_toStartOf="@id/landscapeMockupLayout"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/clearPortraitMockupButton"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginBottom="2dp"
+                android:enabled="false"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                android:visibility="gone"
+                app:backgroundTint="#ff0000"
+                app:cornerRadius="16dp"
+                app:icon="@drawable/designer_ic_remove"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/portraitMockupLayout"
+                app:layout_constraintEnd_toEndOf="@id/portraitMockupLayout"
+                app:layout_constraintStart_toStartOf="@id/portraitMockupLayout" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/clearLandscapeMockupButton"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="2dp"
+                android:enabled="false"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                android:visibility="gone"
+                app:backgroundTint="#ff0000"
+                app:cornerRadius="16dp"
+                app:icon="@drawable/designer_ic_remove"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/landscapeMockupLayout"
+                app:layout_constraintEnd_toEndOf="@id/landscapeMockupLayout"
+                app:layout_constraintTop_toTopOf="@id/landscapeMockupLayout" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
