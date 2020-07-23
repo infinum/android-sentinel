@@ -5,13 +5,10 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.IBinder
-import android.os.Message
 import android.os.Messenger
 import androidx.core.os.bundleOf
 import com.infinum.designer.builders.DesignerNotificationBuilder
-import com.infinum.designer.extensions.dpToPx
-import com.infinum.designer.ui.commander.DesignerCommand
-import com.infinum.designer.ui.commander.DesignerCommandType
+import com.infinum.designer.extensions.toPx
 import com.infinum.designer.ui.commander.service.ServiceCommandHandler
 import com.infinum.designer.ui.commander.service.ServiceCommandListener
 import com.infinum.designer.ui.commander.ui.UiCommander
@@ -36,15 +33,6 @@ class DesignerService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-
-        configuration = configuration.copy(
-            grid = configuration.grid.copy(
-                horizontalLineColor = Color.RED,
-                verticalLineColor = Color.BLUE,
-                horizontalGridSize = 8.0f.dpToPx(this),
-                verticalGridSize = 8.0f.dpToPx(this)
-            )
-        )
 
         gridOverlay = GridOverlay(this)
         mockupOverlay =
@@ -217,13 +205,13 @@ class DesignerService : Service() {
     }
 
     private fun startService() {
+        configuration = configuration.copy(enabled = true)
+
         if (isRunning) {
             return
         }
 
         DesignerNotificationBuilder(this).also { it.show() }
-
-        configuration = configuration.copy(enabled = true)
 
         isRunning = true
     }
@@ -247,8 +235,8 @@ class DesignerService : Service() {
             grid = configuration.grid.copy(
                 horizontalLineColor = Color.RED,
                 verticalLineColor = Color.BLUE,
-                horizontalGridSize = 8.0f.dpToPx(this),
-                verticalGridSize = 8.0f.dpToPx(this)
+                horizontalGridSize = 8.0f.toPx(),
+                verticalGridSize = 8.0f.toPx()
             ),
             mockup = configuration.mockup.copy(
                 opacity = 0.2f,
@@ -273,6 +261,7 @@ class DesignerService : Service() {
     private fun register(client: Messenger) {
         this.commander = UiCommander(client)
         commander?.bound = true
+
         commander?.notifyRegister(
             bundleOf("configuration" to configuration)
         )

@@ -29,7 +29,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 import com.infinum.designer.R
 import com.infinum.designer.databinding.DesignerActivityDesignerBinding
 import com.infinum.designer.databinding.DesignerViewColorPickerBinding
-import com.infinum.designer.extensions.dpToPx
+import com.infinum.designer.extensions.toPx
 import com.infinum.designer.extensions.getHexCode
 import com.infinum.designer.ui.commander.service.ServiceCommander
 import com.infinum.designer.ui.commander.ui.UiCommandHandler
@@ -100,14 +100,19 @@ internal class DesignerActivity : FragmentActivity() {
                     landscapeMockup.isEnabled = false
                 }
                 setupToolbar()
+                setupUi(DesignerConfiguration())
                 setupPermission()
             }
     }
 
     override fun onStart() {
         super.onStart()
-
         bindService()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unbindService()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -174,22 +179,21 @@ internal class DesignerActivity : FragmentActivity() {
     private fun setupToolbar() {
         with(binding) {
             toolbar.setNavigationOnClickListener { finish() }
-            (toolbar.menu.findItem(R.id.status).actionView as? SwitchMaterial)?.let {
-                it.setOnCheckedChangeListener { _, isChecked ->
-                    if (isChecked) {
-                        startService()
-                        commander?.register()
-                    } else {
-                        commander?.unregister()
-                    }
-                }
-            }
         }
     }
 
     private fun setupUi(configuration: DesignerConfiguration) {
         (binding.toolbar.menu.findItem(R.id.status).actionView as? SwitchMaterial)?.let {
+            it.setOnCheckedChangeListener(null)
             it.isChecked = configuration.enabled
+            it.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    startService()
+                    bindService()
+                } else {
+                    commander?.unregister()
+                }
+            }
         }
         setupGridOverlay(configuration.grid)
         setupMockupOverlay(configuration.mockup)
@@ -278,9 +282,9 @@ internal class DesignerActivity : FragmentActivity() {
                     )
             }
             horizontalGridSizeSlider.clearOnChangeListeners()
-            horizontalGridSizeSlider.addOnChangeListener { slider, value, _ ->
+            horizontalGridSizeSlider.addOnChangeListener { _, value, _ ->
                 commander?.updateGridHorizontalGap(
-                    bundleOf("horizontalGridSize" to value.dpToPx(slider.context))
+                    bundleOf("horizontalGridSize" to value.toPx())
                 )
                 horizontalGridSizeValueLabel.text = "${value.roundToInt()}dp"
             }
@@ -304,9 +308,9 @@ internal class DesignerActivity : FragmentActivity() {
                     )
             }
             verticalGridSizeSlider.clearOnChangeListeners()
-            verticalGridSizeSlider.addOnChangeListener { slider, value, _ ->
+            verticalGridSizeSlider.addOnChangeListener { _, value, _ ->
                 commander?.updateGridVerticalGap(
-                    bundleOf("verticalGridSize" to value.dpToPx(slider.context))
+                    bundleOf("verticalGridSize" to value.toPx())
                 )
                 verticalGridSizeValueLabel.text = "${value.roundToInt()}dp"
             }
@@ -374,7 +378,7 @@ internal class DesignerActivity : FragmentActivity() {
                 clearLandscapeMockup()
             }
 
-            mockupOpacityValueLabel.text = "${configuration.opacity.roundToInt()}%"
+            mockupOpacityValueLabel.text = "${(configuration.opacity * 100).roundToInt()}%"
         }
 
     private fun setupColorPicker(configuration: MagnifierConfiguration) =
@@ -585,8 +589,10 @@ internal class DesignerActivity : FragmentActivity() {
             bindService(
                 Intent(this, DesignerService::class.java),
                 serviceConnection,
-                Context.BIND_AUTO_CREATE
+                0
             )
+        } else {
+            commander?.register()
         }
     }
 

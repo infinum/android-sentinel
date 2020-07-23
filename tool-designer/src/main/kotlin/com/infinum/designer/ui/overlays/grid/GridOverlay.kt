@@ -1,11 +1,9 @@
 package com.infinum.designer.ui.overlays.grid
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.PixelFormat
 import android.view.ViewGroup
 import android.view.WindowManager
-import com.infinum.designer.extensions.dpToPx
 import com.infinum.designer.ui.models.configuration.GridConfiguration
 import com.infinum.designer.ui.overlays.AbstractOverlay
 import com.infinum.designer.ui.utils.ViewUtils
@@ -15,12 +13,7 @@ class GridOverlay(
     private val context: Context
 ) : AbstractOverlay<GridConfiguration>(context) {
 
-    private var configuration: GridConfiguration = GridConfiguration(
-        horizontalLineColor = Color.RED,
-        verticalLineColor = Color.BLUE,
-        horizontalGridSize = 8.0f.dpToPx(context),
-        verticalGridSize = 8.0f.dpToPx(context)
-    )
+    private var configuration: GridConfiguration = GridConfiguration()
 
     private var view: GridView? = null
 
