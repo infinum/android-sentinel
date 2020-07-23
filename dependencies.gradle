@@ -15,13 +15,14 @@ ext.versions = [
         "lifecycle"  : "2.2.0",
         "preference" : "1.1.1",
         "room"       : "2.2.5",
-        "design"     : "1.2.0-rc01",
+        "design"     : "1.2.0",
         "maven"      : "2.0",
         "detekt"     : "1.10.0",
         "dokka"      : "0.10.1",
         "chucker"    : "3.2.0",
         "collar"     : "1.1.5",
-        "dbinspector": "4.0.0"
+        "dbinspector": "4.0.0",
+        "thimble"    : "1.0.0"
 ]
 
 ext.packages = [
@@ -38,14 +39,14 @@ ext.packages = [
                 "tool_collar"     : "com.infinum.sentinel:tool-collar:${versions.sentinel}",
                 "tool_dbinspector": "com.infinum.sentinel:tool-dbinspector:${versions.sentinel}",
                 "tool_googleplay" : "com.infinum.sentinel:tool-googleplay:${versions.sentinel}",
-                "tool_designer" : "com.infinum.sentinel:tool-designer:${versions.sentinel}"
+                "tool_thimble"    : "com.infinum.sentinel:tool-thimble:${versions.sentinel}"
         ],
         "androidx"   : [
                 "core"      : "androidx.core:core-ktx:${versions.core}",
                 "appcompat" : "androidx.appcompat:appcompat:${versions.appcompat}",
                 "fragment"  : "androidx.fragment:fragment-ktx:${versions.fragment}",
                 "lifecycle" : [
-                        "common": "androidx.lifecycle:lifecycle-common-java8:${versions.lifecycle}",
+                        "common" : "androidx.lifecycle:lifecycle-common-java8:${versions.lifecycle}",
                         "process": "androidx.lifecycle:lifecycle-process:${versions.lifecycle}",
                 ],
                 "room"      : [
@@ -69,5 +70,6 @@ ext.packages = [
         ],
         "chucker"    : "com.github.ChuckerTeam.Chucker:library:${versions.chucker}",
         "collar"     : "co.infinum.collar:collar-ui:${versions.collar}",
-        "dbinspector": "im.dino:dbinspector:${versions.dbinspector}"
+        "dbinspector": "im.dino:dbinspector:${versions.dbinspector}",
+        "thimble"    : "com.infinum.thimble:thimble:${versions.thimble}"
 ]

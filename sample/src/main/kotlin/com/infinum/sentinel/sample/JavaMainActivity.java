@@ -11,8 +11,8 @@ import com.infinum.sentinel.sample.databinding.ActivityJavaMainBinding;
 import com.infinum.sentinel.ui.tools.ChuckerTool;
 import com.infinum.sentinel.ui.tools.CollarTool;
 import com.infinum.sentinel.ui.tools.DbInspectorTool;
-import com.infinum.designer.ui.tools.DesignerTool;
 import com.infinum.sentinel.ui.tools.GooglePlayTool;
+import com.infinum.sentinel.ui.tools.ThimbleTool;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -33,7 +33,7 @@ public class JavaMainActivity extends AppCompatActivity {
         tools.add(new CollarTool());
         tools.add(new DbInspectorTool());
         tools.add(new GooglePlayTool());
-        tools.add(new DesignerTool());
+        tools.add(new ThimbleTool());
         sentinel = Sentinel.watch(tools);
 
         viewBinding.showSentinel.setOnClickListener(new View.OnClickListener() {

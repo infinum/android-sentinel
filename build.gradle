@@ -46,7 +46,7 @@ allprojects {
                 substitute module(packages.sentinel.tool_collar) with project(':tool-collar')
                 substitute module(packages.sentinel.tool_dbinspector) with project(':tool-dbinspector')
                 substitute module(packages.sentinel.tool_googleplay) with project(':tool-googleplay')
-                substitute module(packages.sentinel.tool_designer) with project(':tool-designer')
+                substitute module(packages.sentinel.tool_thimble) with project(':tool-thimble')
             }
         }
     }
@@ -78,7 +78,7 @@ task detektAll(dependsOn: [
         ':tool-collar:detekt',
         ':tool-dbinspector:detekt',
         ':tool-googleplay:detekt',
-        ':tool-designer:detekt'
+        ':tool-thimble:detekt'
 ]) {
     group = "Verification"
     description = "Run detekt on all modules"

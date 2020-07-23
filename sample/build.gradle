@@ -55,5 +55,5 @@ dependencies {
     debugImplementation packages.sentinel.tool_collar
     debugImplementation packages.sentinel.tool_dbinspector
     debugImplementation packages.sentinel.tool_googleplay
-    debugImplementation packages.sentinel.tool_designer
+    debugImplementation packages.sentinel.tool_thimble
 }

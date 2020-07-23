@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="designer_magnifier_content_inset">8dp</dimen>
-    <dimen name="designer_magnifier_content_size">158dp</dimen>
-    <dimen name="designer_magnifier_size">174dp</dimen>
-</resources>
