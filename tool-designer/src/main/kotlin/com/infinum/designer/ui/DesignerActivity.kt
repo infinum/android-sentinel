@@ -100,9 +100,14 @@ internal class DesignerActivity : FragmentActivity() {
                     landscapeMockup.isEnabled = false
                 }
                 setupToolbar()
-                bindService()
                 setupPermission()
             }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        bindService()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -173,7 +178,7 @@ internal class DesignerActivity : FragmentActivity() {
                 it.setOnCheckedChangeListener { _, isChecked ->
                     if (isChecked) {
                         startService()
-                        bindService()
+                        commander?.register()
                     } else {
                         commander?.unregister()
                     }
@@ -576,11 +581,13 @@ internal class DesignerActivity : FragmentActivity() {
     }
 
     private fun bindService() {
-        bindService(
-            Intent(this, DesignerService::class.java),
-            serviceConnection,
-            Context.BIND_AUTO_CREATE
-        )
+        if (bound.not()) {
+            bindService(
+                Intent(this, DesignerService::class.java),
+                serviceConnection,
+                Context.BIND_AUTO_CREATE
+            )
+        }
     }
 
     private fun unbindService() {
