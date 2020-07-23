@@ -173,7 +173,7 @@ class DesignerService : Service() {
                         )
                         magnifierOverlay.hide()
                     },
-                    onUpdateColorPickerOverlayColorMode = {
+                    onUpdateColorPickerOverlayColorModel = {
                         configuration = configuration.copy(
                             magnifier = configuration.magnifier.copy(
                                 colorModel = ColorModel(

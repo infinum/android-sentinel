@@ -1,28 +1,21 @@
 package com.infinum.designer.ui
 
 import android.app.Activity
-import android.content.ComponentName
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.ServiceConnection
 import android.content.res.ColorStateList
 import android.media.projection.MediaProjectionManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.IBinder
-import android.os.Messenger
 import android.provider.Settings
 import android.view.View
 import androidx.annotation.RestrictTo
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
-import androidx.fragment.app.FragmentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.switchmaterial.SwitchMaterial
@@ -31,14 +24,10 @@ import com.infinum.designer.databinding.DesignerActivityDesignerBinding
 import com.infinum.designer.databinding.DesignerViewColorPickerBinding
 import com.infinum.designer.extensions.toPx
 import com.infinum.designer.extensions.getHexCode
-import com.infinum.designer.ui.commander.service.ServiceCommander
-import com.infinum.designer.ui.commander.ui.UiCommandHandler
-import com.infinum.designer.ui.commander.ui.UiCommandListener
 import com.infinum.designer.ui.models.ColorModel
 import com.infinum.designer.ui.models.LineOrientation
 import com.infinum.designer.ui.models.MockupOrientation
 import com.infinum.designer.ui.models.PermissionRequest
-import com.infinum.designer.ui.models.ServiceAction
 import com.infinum.designer.ui.models.configuration.MagnifierConfiguration
 import com.infinum.designer.ui.models.configuration.DesignerConfiguration
 import com.infinum.designer.ui.models.configuration.GridConfiguration
@@ -50,41 +39,9 @@ import kotlin.math.floor
 import kotlin.math.roundToInt
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class DesignerActivity : FragmentActivity() {
+internal class DesignerActivity : ServiceActivity() {
 
     private lateinit var binding: DesignerActivityDesignerBinding
-
-    private var commander: ServiceCommander? = null
-
-    private var bound: Boolean = false
-
-    private val serviceConnection = object : ServiceConnection {
-
-        override fun onServiceConnected(className: ComponentName, service: IBinder) {
-            commander =
-                ServiceCommander(
-                    Messenger(service),
-                    Messenger(
-                        UiCommandHandler(
-                            UiCommandListener(
-                                onRegister = this@DesignerActivity::onRegister,
-                                onUnregister = this@DesignerActivity::onUnregister
-                            )
-                        )
-                    )
-                )
-            bound = true
-            commander?.bound = bound
-
-            commander?.register()
-        }
-
-        override fun onServiceDisconnected(className: ComponentName) {
-            bound = false
-            commander?.bound = bound
-            commander = null
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,16 +60,6 @@ internal class DesignerActivity : FragmentActivity() {
                 setupUi(DesignerConfiguration())
                 setupPermission()
             }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        bindService()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        unbindService()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -157,7 +104,7 @@ internal class DesignerActivity : FragmentActivity() {
                         val unit = when (resultCode) {
                             Activity.RESULT_OK -> {
                                 MediaProjectionHelper.data = data
-                                commander?.toggleColorPicker(true)
+                                toggleColorPicker(true)
                             }
                             Activity.RESULT_CANCELED -> {
                                 with(binding) {
@@ -176,22 +123,14 @@ internal class DesignerActivity : FragmentActivity() {
             }
     }
 
-    private fun setupToolbar() {
-        with(binding) {
-            toolbar.setNavigationOnClickListener { finish() }
-        }
-    }
-
-    private fun setupUi(configuration: DesignerConfiguration) {
+    override fun setupUi(configuration: DesignerConfiguration) {
         (binding.toolbar.menu.findItem(R.id.status).actionView as? SwitchMaterial)?.let {
             it.setOnCheckedChangeListener(null)
             it.isChecked = configuration.enabled
             it.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    startService()
-                    bindService()
-                } else {
-                    commander?.unregister()
+                when (isChecked) {
+                    true -> createService()
+                    false -> destroyService()
                 }
             }
         }
@@ -199,6 +138,12 @@ internal class DesignerActivity : FragmentActivity() {
         setupMockupOverlay(configuration.mockup)
         setupColorPicker(configuration.magnifier)
         toggleUi(configuration.enabled)
+    }
+
+    private fun setupToolbar() {
+        with(binding) {
+            toolbar.setNavigationOnClickListener { finish() }
+        }
     }
 
     private fun toggleUi(enabled: Boolean) {
@@ -253,7 +198,7 @@ internal class DesignerActivity : FragmentActivity() {
             gridOverlaySwitch.setOnCheckedChangeListener(null)
             gridOverlaySwitch.isChecked = configuration.enabled
             gridOverlaySwitch.setOnCheckedChangeListener { _, isChecked ->
-                commander?.toggleGrid(isChecked)
+                toggleGrid(isChecked)
             }
 
             horizontalLineColorButton.setOnClickListener {
@@ -283,9 +228,7 @@ internal class DesignerActivity : FragmentActivity() {
             }
             horizontalGridSizeSlider.clearOnChangeListeners()
             horizontalGridSizeSlider.addOnChangeListener { _, value, _ ->
-                commander?.updateGridHorizontalGap(
-                    bundleOf("horizontalGridSize" to value.toPx())
-                )
+                updateGridHorizontalGap(value.toPx())
                 horizontalGridSizeValueLabel.text = "${value.roundToInt()}dp"
             }
 
@@ -309,9 +252,7 @@ internal class DesignerActivity : FragmentActivity() {
             }
             verticalGridSizeSlider.clearOnChangeListeners()
             verticalGridSizeSlider.addOnChangeListener { _, value, _ ->
-                commander?.updateGridVerticalGap(
-                    bundleOf("verticalGridSize" to value.toPx())
-                )
+                updateGridVerticalGap(value.toPx())
                 verticalGridSizeValueLabel.text = "${value.roundToInt()}dp"
             }
             horizontalLineColorButton.setBackgroundColor(configuration.horizontalLineColor)
@@ -328,7 +269,7 @@ internal class DesignerActivity : FragmentActivity() {
             mockupOverlaySwitch.setOnCheckedChangeListener(null)
             mockupOverlaySwitch.isChecked = configuration.enabled
             mockupOverlaySwitch.setOnCheckedChangeListener { _, isChecked ->
-                commander?.toggleMockup(isChecked)
+                toggleMockup(isChecked)
             }
             decreaseMockupOpacityButton.setOnClickListener {
                 mockupOpacitySlider.value =
@@ -342,9 +283,7 @@ internal class DesignerActivity : FragmentActivity() {
             }
             mockupOpacitySlider.clearOnChangeListeners()
             mockupOpacitySlider.addOnChangeListener { _, value, _ ->
-                commander?.updateMockupOpacity(
-                    bundleOf("opacity" to (value / 100.0f))
-                )
+                updateMockupOpacity(value / 100.0f)
                 mockupOpacityValueLabel.text = "${value.roundToInt()}%"
             }
 
@@ -389,20 +328,18 @@ internal class DesignerActivity : FragmentActivity() {
                 if (isChecked) {
                     startProjection()
                 } else {
-                    commander?.toggleColorPicker(isChecked)
+                    toggleColorPicker(isChecked)
                 }
             }
             colorModelToggleGroup.clearOnButtonCheckedListeners()
             colorModelToggleGroup.addOnButtonCheckedListener { _, checkedId, _ ->
-                commander?.updateColorPickerColorMode(
-                    bundleOf(
-                        "colorModel" to when (checkedId) {
-                            R.id.hexButton -> ColorModel.HEX
-                            R.id.rgbButton -> ColorModel.RGB
-                            R.id.hsvButton -> ColorModel.HSV
-                            else -> ColorModel.HEX
-                        }.type
-                    )
+                updateColorPickerColorModel(
+                    when (checkedId) {
+                        R.id.hexButton -> ColorModel.HEX
+                        R.id.rgbButton -> ColorModel.RGB
+                        R.id.hsvButton -> ColorModel.HSV
+                        else -> ColorModel.HEX
+                    }
                 )
             }
         }
@@ -421,16 +358,6 @@ internal class DesignerActivity : FragmentActivity() {
         } else {
             // TODO: what about this?
         }
-    }
-
-    private fun onRegister(bundle: Bundle) {
-        setupUi(bundle.getParcelable("configuration") ?: DesignerConfiguration())
-    }
-
-    private fun onUnregister(bundle: Bundle) {
-        setupUi(bundle.getParcelable("configuration") ?: DesignerConfiguration())
-        unbindService()
-        stopService()
     }
 
     private fun openGridColorPicker(
@@ -499,9 +426,7 @@ internal class DesignerActivity : FragmentActivity() {
             horizontalLineColorValueLabel.text = "#${code.drop(2)}"
         }
 
-        commander?.updateGridHorizontalColor(
-            bundleOf("horizontalLineColor" to color)
-        )
+        updateGridHorizontalColor(color)
     }
 
     private fun setVerticalGridLineColor(
@@ -512,9 +437,8 @@ internal class DesignerActivity : FragmentActivity() {
             verticalLineColorButton.backgroundTintList = ColorStateList.valueOf(color)
             vertialLineColorValueLabel.text = "#${code.drop(2)}"
         }
-        commander?.updateGridVerticalColor(
-            bundleOf("verticalLineColor" to color)
-        )
+
+        updateGridVerticalColor(color)
     }
 
     private fun setMockupPortrait(uri: Uri) {
@@ -522,9 +446,7 @@ internal class DesignerActivity : FragmentActivity() {
             portraitMockup.setImageURI(uri)
             clearPortraitMockupButton.isVisible = true
         }
-        commander?.updateMockupPortraitUri(
-            bundleOf("portraitUri" to uri.toString())
-        )
+        updateMockupPortraitUri(uri.toString())
     }
 
     private fun setMockupLandscape(uri: Uri) {
@@ -532,9 +454,7 @@ internal class DesignerActivity : FragmentActivity() {
             landscapeMockup.setImageURI(uri)
             clearLandscapeMockupButton.isVisible = true
         }
-        commander?.updateMockupLandscapeUri(
-            bundleOf("landscapeUri" to uri.toString())
-        )
+        updateMockupLandscapeUri(uri.toString())
     }
 
     private fun clearPortraitMockup() {
@@ -545,9 +465,7 @@ internal class DesignerActivity : FragmentActivity() {
                 showMessage("Portrait mockup cleared")
             }
         }
-        commander?.updateMockupPortraitUri(
-            bundleOf("portraitUri" to null)
-        )
+        updateMockupPortraitUri(null)
     }
 
     private fun clearLandscapeMockup() {
@@ -558,50 +476,11 @@ internal class DesignerActivity : FragmentActivity() {
                 showMessage("Landscape mockup cleared")
             }
         }
-        commander?.updateMockupLandscapeUri(
-            bundleOf("landscapeUri" to null)
-        )
+        updateMockupLandscapeUri(null)
     }
 
     private fun showMessage(text: String) =
         Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
-
-    private fun startService() {
-        ContextCompat.startForegroundService(
-            this,
-            Intent(this, DesignerService::class.java).apply {
-                action = ServiceAction.START.code
-            }
-        )
-    }
-
-    private fun stopService() {
-        ContextCompat.startForegroundService(
-            this,
-            Intent(this, DesignerService::class.java).apply {
-                action = ServiceAction.STOP.code
-            }
-        )
-    }
-
-    private fun bindService() {
-        if (bound.not()) {
-            bindService(
-                Intent(this, DesignerService::class.java),
-                serviceConnection,
-                0
-            )
-        } else {
-            commander?.register()
-        }
-    }
-
-    private fun unbindService() {
-        if (bound) {
-            unbindService(serviceConnection)
-            bound = false
-        }
-    }
 
     private fun startProjection() {
         startActivityForResult(

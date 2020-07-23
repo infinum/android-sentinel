@@ -20,7 +20,7 @@ class ServiceCommandListener(
     private val onUpdateMockupOverlayLandscapeUri: (Bundle) -> Unit,
     private val onShowColorPickerOverlay: () -> Unit,
     private val onHideColorPickerOverlay: () -> Unit,
-    private val onUpdateColorPickerOverlayColorMode: (Bundle) -> Unit,
+    private val onUpdateColorPickerOverlayColorModel: (Bundle) -> Unit,
     private val onUnregister: () -> Unit
 ) {
 
@@ -97,8 +97,8 @@ class ServiceCommandListener(
                             message.arg2
                         )?.let { parameter ->
                             when (parameter) {
-                                OverlayCommandParameter.COLOR_MODE ->
-                                    onUpdateColorPickerOverlayColorMode(message.obj as Bundle)
+                                OverlayCommandParameter.COLOR_MODEL ->
+                                    onUpdateColorPickerOverlayColorModel(message.obj as Bundle)
                                 else -> throw NotImplementedError()
                             }
                         }

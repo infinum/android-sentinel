@@ -53,6 +53,6 @@ class ServiceCommander(
     fun updateMockupLandscapeUri(params: Bundle) =
         updateMockup(OverlayCommandParameter.URI_LANDSCAPE, params)
 
-    fun updateColorPickerColorMode(params: Bundle) =
-        updateColorPicker(OverlayCommandParameter.COLOR_MODE, params)
+    fun updateColorPickerColorModel(params: Bundle) =
+        updateColorPicker(OverlayCommandParameter.COLOR_MODEL, params)
 }
