@@ -36,17 +36,26 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include
-                android:id="@+id/overlayGridView"
-                layout="@layout/designer_view_overlay_grid" />
+            <fragment
+                android:id="@+id/gridOverlayFragment"
+                android:name="com.infinum.designer.ui.fragments.GridOverlayFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:layout="@layout/designer_fragment_overlay_grid" />
 
-            <include
-                android:id="@+id/overlayMockupView"
-                layout="@layout/designer_view_overlay_mockup" />
+            <fragment
+                android:id="@+id/mockupOverlayFragment"
+                android:name="com.infinum.designer.ui.fragments.MockupOverlayFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:layout="@layout/designer_fragment_overlay_mockup" />
 
-            <include
-                android:id="@+id/overlayMagnifierView"
-                layout="@layout/designer_view_overlay_magnifier" />
+            <fragment
+                android:id="@+id/magnifierOverlayFragment"
+                android:name="com.infinum.designer.ui.fragments.MagnifierOverlayFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:layout="@layout/designer_fragment_overlay_magnifier" />
 
         </LinearLayout>
 

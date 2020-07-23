@@ -74,61 +74,61 @@ abstract class ServiceActivity : FragmentActivity() {
         unregister()
     }
 
-    protected fun toggleGrid(shouldShow: Boolean) {
+    fun toggleGrid(shouldShow: Boolean) {
         commander?.toggleGrid(shouldShow)
     }
 
-    protected fun updateGridHorizontalColor(color: Int) {
+    fun updateGridHorizontalColor(color: Int) {
         commander?.updateGridHorizontalColor(
             bundleOf("horizontalLineColor" to color)
         )
     }
 
-    protected fun updateGridVerticalColor(color: Int) {
+    fun updateGridVerticalColor(color: Int) {
         commander?.updateGridVerticalColor(
             bundleOf("verticalLineColor" to color)
         )
     }
 
-    protected fun updateGridHorizontalGap(@Px gap: Int) {
+    fun updateGridHorizontalGap(@Px gap: Int) {
         commander?.updateGridHorizontalGap(
             bundleOf("horizontalGridSize" to gap)
         )
     }
 
-    protected fun updateGridVerticalGap(@Px gap: Int) {
+    fun updateGridVerticalGap(@Px gap: Int) {
         commander?.updateGridVerticalGap(
             bundleOf("verticalGridSize" to gap)
         )
     }
 
-    protected fun toggleMockup(shouldShow: Boolean) {
+    fun toggleMockup(shouldShow: Boolean) {
         commander?.toggleMockup(shouldShow)
     }
 
-    protected fun updateMockupOpacity(opacity: Float)  {
+    fun updateMockupOpacity(opacity: Float)  {
         commander?.updateMockupOpacity(
             bundleOf("opacity" to opacity)
         )
     }
 
-    protected fun updateMockupPortraitUri(uri: String?) {
+    fun updateMockupPortraitUri(uri: String?) {
         commander?.updateMockupPortraitUri(
             bundleOf("portraitUri" to uri)
         )
     }
 
-    protected fun updateMockupLandscapeUri(uri: String?) {
+    fun updateMockupLandscapeUri(uri: String?) {
         commander?.updateMockupLandscapeUri(
             bundleOf("landscapeUri" to uri)
         )
     }
 
-    protected fun toggleMagnifier(shouldShow: Boolean) {
+    fun toggleMagnifier(shouldShow: Boolean) {
         commander?.toggleMagnifier(shouldShow)
     }
 
-    protected fun updateMagnifierColorModel(colorModel: ColorModel) {
+    fun updateMagnifierColorModel(colorModel: ColorModel) {
         commander?.updateMagnifierColorModel(
             bundleOf(
                 "colorModel" to colorModel.type
