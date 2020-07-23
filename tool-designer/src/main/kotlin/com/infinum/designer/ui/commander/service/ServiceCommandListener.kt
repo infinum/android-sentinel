@@ -18,9 +18,9 @@ class ServiceCommandListener(
     private val onUpdateMockupOverlayOpacity: (Bundle) -> Unit,
     private val onUpdateMockupOverlayPortraitUri: (Bundle) -> Unit,
     private val onUpdateMockupOverlayLandscapeUri: (Bundle) -> Unit,
-    private val onShowColorPickerOverlay: () -> Unit,
-    private val onHideColorPickerOverlay: () -> Unit,
-    private val onUpdateColorPickerOverlayColorModel: (Bundle) -> Unit,
+    private val onShowMagnifierOverlay: () -> Unit,
+    private val onHideMagnifierOverlay: () -> Unit,
+    private val onUpdateMagnifierOverlayColorModel: (Bundle) -> Unit,
     private val onUnregister: () -> Unit
 ) {
 
@@ -86,19 +86,19 @@ class ServiceCommandListener(
                 }
             }
 
-    fun onColorPickerCommand(message: Message) =
+    fun onMagnifierCommand(message: Message) =
         DesignerCommand(message.arg1)
             ?.let { command ->
                 when (command) {
-                    DesignerCommand.SHOW -> onShowColorPickerOverlay()
-                    DesignerCommand.HIDE -> onHideColorPickerOverlay()
+                    DesignerCommand.SHOW -> onShowMagnifierOverlay()
+                    DesignerCommand.HIDE -> onHideMagnifierOverlay()
                     DesignerCommand.UPDATE -> {
                         OverlayCommandParameter(
                             message.arg2
                         )?.let { parameter ->
                             when (parameter) {
                                 OverlayCommandParameter.COLOR_MODEL ->
-                                    onUpdateColorPickerOverlayColorModel(message.obj as Bundle)
+                                    onUpdateMagnifierOverlayColorModel(message.obj as Bundle)
                                 else -> throw NotImplementedError()
                             }
                         }

@@ -5,7 +5,7 @@ import android.os.Message
 import android.os.Messenger
 import com.infinum.designer.ui.commander.AbstractCommander
 import com.infinum.designer.ui.commander.DesignerCommand
-import com.infinum.designer.ui.commander.DesignerCommandType
+import com.infinum.designer.ui.commander.DesignerCommandTarget
 
 class UiCommander(
     clientMessenger: Messenger
@@ -15,7 +15,7 @@ class UiCommander(
         sendMessage(
             Message.obtain(
                 null,
-                DesignerCommandType.CLIENT.code,
+                DesignerCommandTarget.CLIENT.code,
                 DesignerCommand.REGISTER.code,
                 0,
                 params
@@ -27,7 +27,7 @@ class UiCommander(
         sendMessage(
             Message.obtain(
                 null,
-                DesignerCommandType.CLIENT.code,
+                DesignerCommandTarget.CLIENT.code,
                 DesignerCommand.UNREGISTER.code,
                 0,
                 params

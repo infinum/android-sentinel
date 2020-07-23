@@ -24,11 +24,11 @@ class ServiceCommander(
         }
     }
 
-    fun toggleColorPicker(shouldShow: Boolean) {
+    fun toggleMagnifier(shouldShow: Boolean) {
         if (shouldShow) {
-            showColorPicker()
+            showMagnifier()
         } else {
-            hideColorPicker()
+            hideMagnifier()
         }
     }
 
@@ -53,6 +53,6 @@ class ServiceCommander(
     fun updateMockupLandscapeUri(params: Bundle) =
         updateMockup(OverlayCommandParameter.URI_LANDSCAPE, params)
 
-    fun updateColorPickerColorModel(params: Bundle) =
-        updateColorPicker(OverlayCommandParameter.COLOR_MODEL, params)
+    fun updateMagnifierColorModel(params: Bundle) =
+        updateMagnifier(OverlayCommandParameter.COLOR_MODEL, params)
 }

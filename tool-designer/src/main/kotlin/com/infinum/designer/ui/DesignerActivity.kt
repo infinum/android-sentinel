@@ -104,12 +104,12 @@ internal class DesignerActivity : ServiceActivity() {
                         val unit = when (resultCode) {
                             Activity.RESULT_OK -> {
                                 MediaProjectionHelper.data = data
-                                toggleColorPicker(true)
+                                toggleMagnifier(true)
                             }
                             Activity.RESULT_CANCELED -> {
                                 with(binding.overlayMagnifierView) {
-                                    if (colorPickerSwitch.isChecked) {
-                                        colorPickerSwitch.isChecked = false
+                                    if (magnifierSwitch.isChecked) {
+                                        magnifierSwitch.isChecked = false
                                     }
                                 }
                             }
@@ -136,7 +136,7 @@ internal class DesignerActivity : ServiceActivity() {
         }
         setupGridOverlay(configuration.grid)
         setupMockupOverlay(configuration.mockup)
-        setupColorPicker(configuration.magnifier)
+        setupMagnifierOverlay(configuration.magnifier)
         toggleUi(configuration.enabled)
     }
 
@@ -181,7 +181,7 @@ internal class DesignerActivity : ServiceActivity() {
             }
 
             with(overlayMagnifierView) {
-                colorPickerSwitch.isEnabled = enabled
+                magnifierSwitch.isEnabled = enabled
                 hexButton.isEnabled = enabled
                 rgbButton.isEnabled = enabled
                 hsvButton.isEnabled = enabled
@@ -327,20 +327,20 @@ internal class DesignerActivity : ServiceActivity() {
             mockupOpacityValueLabel.text = "${(configuration.opacity * 100).roundToInt()}%"
         }
 
-    private fun setupColorPicker(configuration: MagnifierConfiguration) =
+    private fun setupMagnifierOverlay(configuration: MagnifierConfiguration) =
         with(binding.overlayMagnifierView) {
-            colorPickerSwitch.setOnCheckedChangeListener(null)
-            colorPickerSwitch.isChecked = configuration.enabled
-            colorPickerSwitch.setOnCheckedChangeListener { _, isChecked ->
+            magnifierSwitch.setOnCheckedChangeListener(null)
+            magnifierSwitch.isChecked = configuration.enabled
+            magnifierSwitch.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     startProjection()
                 } else {
-                    toggleColorPicker(isChecked)
+                    toggleMagnifier(isChecked)
                 }
             }
             colorModelToggleGroup.clearOnButtonCheckedListeners()
             colorModelToggleGroup.addOnButtonCheckedListener { _, checkedId, _ ->
-                updateColorPickerColorModel(
+                updateMagnifierColorModel(
                     when (checkedId) {
                         R.id.hexButton -> ColorModel.HEX
                         R.id.rgbButton -> ColorModel.RGB

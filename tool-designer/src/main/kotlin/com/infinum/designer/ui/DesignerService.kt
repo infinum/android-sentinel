@@ -161,19 +161,19 @@ class DesignerService : Service() {
                         )
                         mockupOverlay.update(configuration.mockup)
                     },
-                    onShowColorPickerOverlay = {
+                    onShowMagnifierOverlay = {
                         configuration = configuration.copy(
                             magnifier = configuration.magnifier.copy(enabled = true)
                         )
                         magnifierOverlay.show()
                     },
-                    onHideColorPickerOverlay = {
+                    onHideMagnifierOverlay = {
                         configuration = configuration.copy(
                             magnifier = configuration.magnifier.copy(enabled = false)
                         )
                         magnifierOverlay.hide()
                     },
-                    onUpdateColorPickerOverlayColorModel = {
+                    onUpdateMagnifierOverlayColorModel = {
                         configuration = configuration.copy(
                             magnifier = configuration.magnifier.copy(
                                 colorModel = ColorModel(

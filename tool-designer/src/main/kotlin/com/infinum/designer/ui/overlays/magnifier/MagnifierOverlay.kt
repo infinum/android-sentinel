@@ -48,14 +48,14 @@ class MagnifierOverlay(
     private val screenCaptureLock = Any()
 
     private val magnifierWidth: Int =
-        context.resources.getDimensionPixelSize(R.dimen.designer_picker_magnifying_ring_width)
+        context.resources.getDimensionPixelSize(R.dimen.designer_magnifier_size)
     private val magnifierHeight: Int =
-        context.resources.getDimensionPixelSize(R.dimen.designer_picker_magnifying_ring_height)
+        context.resources.getDimensionPixelSize(R.dimen.designer_magnifier_size)
 
     private var previewSampleWidth =
-        context.resources.getInteger(R.integer.designer_color_picker_sample_width)
+        context.resources.getInteger(R.integer.designer_magnifier_sample_size)
     private var previewSampleHeight =
-        context.resources.getInteger(R.integer.designer_color_picker_sample_height)
+        context.resources.getInteger(R.integer.designer_magnifier_sample_size)
 
     private var isMoving: Boolean = false
 

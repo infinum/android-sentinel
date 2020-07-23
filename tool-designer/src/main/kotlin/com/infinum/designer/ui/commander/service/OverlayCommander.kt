@@ -5,7 +5,7 @@ import android.os.Message
 import android.os.Messenger
 import com.infinum.designer.ui.commander.AbstractCommander
 import com.infinum.designer.ui.commander.DesignerCommand
-import com.infinum.designer.ui.commander.DesignerCommandType
+import com.infinum.designer.ui.commander.DesignerCommandTarget
 
 abstract class OverlayCommander(
     outgoingMessenger: Messenger,
@@ -16,7 +16,7 @@ abstract class OverlayCommander(
         sendMessage(
             Message.obtain(
                 null,
-                DesignerCommandType.CLIENT.code,
+                DesignerCommandTarget.CLIENT.code,
                 DesignerCommand.REGISTER.code,
                 0,
                 0
@@ -28,7 +28,7 @@ abstract class OverlayCommander(
         sendMessage(
             Message.obtain(
                 null,
-                DesignerCommandType.GRID.code,
+                DesignerCommandTarget.GRID.code,
                 DesignerCommand.SHOW.code,
                 0
             )
@@ -39,7 +39,7 @@ abstract class OverlayCommander(
         sendMessage(
             Message.obtain(
                 null,
-                DesignerCommandType.GRID.code,
+                DesignerCommandTarget.GRID.code,
                 DesignerCommand.HIDE.code,
                 0
             )
@@ -50,7 +50,7 @@ abstract class OverlayCommander(
         sendMessage(
             Message.obtain(
                 null,
-                DesignerCommandType.GRID.code,
+                DesignerCommandTarget.GRID.code,
                 DesignerCommand.UPDATE.code,
                 parameter.code,
                 params
@@ -62,7 +62,7 @@ abstract class OverlayCommander(
         sendMessage(
             Message.obtain(
                 null,
-                DesignerCommandType.MOCKUP.code,
+                DesignerCommandTarget.MOCKUP.code,
                 DesignerCommand.SHOW.code,
                 0
             )
@@ -73,7 +73,7 @@ abstract class OverlayCommander(
         sendMessage(
             Message.obtain(
                 null,
-                DesignerCommandType.MOCKUP.code,
+                DesignerCommandTarget.MOCKUP.code,
                 DesignerCommand.HIDE.code,
                 0
             )
@@ -84,7 +84,7 @@ abstract class OverlayCommander(
         sendMessage(
             Message.obtain(
                 null,
-                DesignerCommandType.MOCKUP.code,
+                DesignerCommandTarget.MOCKUP.code,
                 DesignerCommand.UPDATE.code,
                 parameter.code,
                 params
@@ -92,33 +92,33 @@ abstract class OverlayCommander(
         )
     }
 
-    protected fun showColorPicker() {
+    protected fun showMagnifier() {
         sendMessage(
             Message.obtain(
                 null,
-                DesignerCommandType.COLOR_PICKER.code,
+                DesignerCommandTarget.MAGNIFIER.code,
                 DesignerCommand.SHOW.code,
                 0
             )
         )
     }
 
-    protected fun hideColorPicker() {
+    protected fun hideMagnifier() {
         sendMessage(
             Message.obtain(
                 null,
-                DesignerCommandType.COLOR_PICKER.code,
+                DesignerCommandTarget.MAGNIFIER.code,
                 DesignerCommand.HIDE.code,
                 0
             )
         )
     }
 
-    protected fun updateColorPicker(parameter: OverlayCommandParameter, params: Bundle) {
+    protected fun updateMagnifier(parameter: OverlayCommandParameter, params: Bundle) {
         sendMessage(
             Message.obtain(
                 null,
-                DesignerCommandType.COLOR_PICKER.code,
+                DesignerCommandTarget.MAGNIFIER.code,
                 DesignerCommand.UPDATE.code,
                 parameter.code,
                 params
@@ -130,7 +130,7 @@ abstract class OverlayCommander(
         sendMessage(
             Message.obtain(
                 null,
-                DesignerCommandType.CLIENT.code,
+                DesignerCommandTarget.CLIENT.code,
                 DesignerCommand.UNREGISTER.code,
                 0,
                 0

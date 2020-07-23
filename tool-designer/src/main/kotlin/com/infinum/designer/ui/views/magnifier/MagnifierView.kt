@@ -40,7 +40,7 @@ class MagnifierView @JvmOverloads constructor(
 
     private var centerPixelColor = 0
 
-    private val previewSize = resources.getDimensionPixelSize(R.dimen.designer_magnified_image_size)
+    private val previewSize = resources.getDimensionPixelSize(R.dimen.designer_magnifier_content_size)
 
     private var lensDrawable: Drawable? = null
 
@@ -57,7 +57,7 @@ class MagnifierView @JvmOverloads constructor(
     private val gridPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = ContextCompat.getColor(
             context,
-            R.color.designer_colorPickerMagnifierGridColor
+            R.color.designer_magnifier_content
         )
         alpha = 128
         style = Paint.Style.STROKE
@@ -68,7 +68,7 @@ class MagnifierView @JvmOverloads constructor(
     private val outlinePaint: Paint = Paint().apply {
         color = ContextCompat.getColor(
             context,
-            R.color.designer_colorPickerMagnifierGridColor
+            R.color.designer_magnifier_content
         )
         style = Paint.Style.STROKE
         strokeWidth = 2f * resources.displayMetrics.density
@@ -76,8 +76,8 @@ class MagnifierView @JvmOverloads constructor(
     }
 
     private val insets: Point = Point(
-        resources.getDimensionPixelSize(R.dimen.designer_magnified_image_inset),
-        resources.getDimensionPixelSize(R.dimen.designer_magnified_image_inset)
+        resources.getDimensionPixelSize(R.dimen.designer_magnifier_content_inset),
+        resources.getDimensionPixelSize(R.dimen.designer_magnifier_content_inset)
     )
 
     private val previewRect: Rect = Rect(

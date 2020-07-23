@@ -124,12 +124,12 @@ abstract class ServiceActivity : FragmentActivity() {
         )
     }
 
-    protected fun toggleColorPicker(shouldShow: Boolean) {
-        commander?.toggleColorPicker(shouldShow)
+    protected fun toggleMagnifier(shouldShow: Boolean) {
+        commander?.toggleMagnifier(shouldShow)
     }
 
-    protected fun updateColorPickerColorModel(colorModel: ColorModel) {
-        commander?.updateColorPickerColorModel(
+    protected fun updateMagnifierColorModel(colorModel: ColorModel) {
+        commander?.updateMagnifierColorModel(
             bundleOf(
                 "colorModel" to colorModel.type
             )
