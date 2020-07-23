@@ -343,7 +343,7 @@ internal class DesignerActivity : FragmentActivity() {
             mockupOpacitySlider.clearOnChangeListeners()
             mockupOpacitySlider.addOnChangeListener { _, value, _ ->
                 commander?.updateMockupOpacity(
-                    bundleOf("opacity" to value)
+                    bundleOf("opacity" to (value / 100.0f))
                 )
                 mockupOpacityValueLabel.text = "${value.roundToInt()}%"
             }

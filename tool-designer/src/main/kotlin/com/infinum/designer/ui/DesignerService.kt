@@ -144,7 +144,7 @@ class DesignerService : Service() {
                             mockup = configuration.mockup.copy(
                                 portraitUri = it.getString(
                                     "portraitUri",
-                                    configuration.mockup.portraitUri
+                                    null
                                 )
                             )
                         )
@@ -155,7 +155,7 @@ class DesignerService : Service() {
                             mockup = configuration.mockup.copy(
                                 landscapeUri = it.getString(
                                     "landscapeUri",
-                                    configuration.mockup.landscapeUri
+                                    null
                                 )
                             )
                         )
