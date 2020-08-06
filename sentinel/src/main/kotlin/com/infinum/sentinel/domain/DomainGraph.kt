@@ -20,12 +20,13 @@ internal class DomainGraph(context: Context) {
 
     private lateinit var triggers: TriggersRepository
 
-    fun setup(tools: Set<Sentinel.Tool>, onTriggered: () -> Unit) {
+    suspend fun setup(tools: Set<Sentinel.Tool>, onTriggered: () -> Unit) {
         data.setup(onTriggered)
 
         formats = FormatsRepository(data.database())
 
         triggers = TriggersRepository(data.database(), data.cache())
+        triggers.initialise()
 
         collectors.setup(tools)
     }

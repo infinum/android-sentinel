@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.RestrictTo
 import androidx.core.app.ShareCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.infinum.sentinel.R
 import com.infinum.sentinel.data.models.memory.formats.FormatType
@@ -20,16 +21,15 @@ import com.infinum.sentinel.ui.children.ApplicationFragment
 import com.infinum.sentinel.ui.children.DeviceFragment
 import com.infinum.sentinel.ui.children.PermissionsFragment
 import com.infinum.sentinel.ui.children.PreferencesFragment
-import com.infinum.sentinel.ui.settings.SettingsFragment
 import com.infinum.sentinel.ui.children.ToolsFragment
-import com.infinum.sentinel.ui.formatters.FormattedStringBuilder
 import com.infinum.sentinel.ui.settings.SettingsActivity
 import com.infinum.sentinel.ui.shared.BaseFragment
 import com.infinum.sentinel.ui.shared.viewBinding
+import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment), SentinelFeatures {
+internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment) {
 
     companion object {
         val TAG: String = SentinelFragment::class.java.simpleName
@@ -41,12 +41,11 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment), Sent
         SentinelFragmentBinding::bind
     )
 
-    private var formatter: FormattedStringBuilder<*, *>? = null
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupUi()
+        setupToolbar()
+        setupContent()
 
         val basicCollector: BasicCollector = DependencyGraph.collectors().basic()
         val applicationCollector: ApplicationCollector = DependencyGraph.collectors().application()
@@ -66,29 +65,42 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment), Sent
             applicationIconView.setOnClickListener { dismiss() }
         }
 
-        DependencyGraph.formats().load().observeForever { entity ->
-            formatter = when (entity.type) {
-                FormatType.PLAIN -> DependencyGraph.formatters().plain()
-                FormatType.MARKDOWN -> DependencyGraph.formatters().markdown()
-                FormatType.JSON -> DependencyGraph.formatters().json()
-                FormatType.XML -> DependencyGraph.formatters().xml()
-                FormatType.HTML -> DependencyGraph.formatters().html()
-                else -> null
-            }
-        }
-
-        tools()
+        showTools()
     }
 
-    private fun setupUi() {
+    private fun setupToolbar() {
         with(binding) {
-            toolbar.setNavigationOnClickListener { settings() }
+            toolbar.setNavigationOnClickListener {
+                startActivity(Intent(requireContext(), SettingsActivity::class.java))
+            }
             toolbar.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
-                    R.id.share -> share()
+                    R.id.share -> {
+                        lifecycleScope.launch {
+                            when (DependencyGraph.formats().load().type) {
+                                FormatType.PLAIN -> DependencyGraph.formatters().plain()
+                                FormatType.MARKDOWN -> DependencyGraph.formatters().markdown()
+                                FormatType.JSON -> DependencyGraph.formatters().json()
+                                FormatType.XML -> DependencyGraph.formatters().xml()
+                                FormatType.HTML -> DependencyGraph.formatters().html()
+                                else -> null
+                            }?.format().let { formattedText ->
+                                ShareCompat.IntentBuilder.from(requireActivity())
+                                    .setChooserTitle(R.string.sentinel_name)
+                                    .setType(SHARE_MIME_TYPE)
+                                    .setText(formattedText)
+                                    .startChooser()
+                            }
+                        }
+                    }
                 }
                 true
             }
+        }
+    }
+
+    private fun setupContent() {
+        with(binding) {
             contentLayout.background = MaterialShapeDrawable().toScissorsDrawable(
                 context = requireContext(),
                 color = R.color.sentinel_color_background,
@@ -111,51 +123,21 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment), Sent
                 resources.getDimensionPixelSize(R.dimen.sentinel_cradle_margin).toFloat() * 2
             bottomNavigation.setOnNavigationItemSelectedListener { menuItem ->
                 when (menuItem.itemId) {
-                    R.id.device -> device()
-                    R.id.application -> application()
-                    R.id.permissions -> permissions()
-                    R.id.preferences -> preferences()
+                    R.id.device -> showFragment(DeviceFragment.TAG)
+                    R.id.application -> showFragment(ApplicationFragment.TAG)
+                    R.id.permissions -> showFragment(PermissionsFragment.TAG)
+                    R.id.preferences -> showFragment(PreferencesFragment.TAG)
                 }
                 true
             }
             bottomNavigation.setOnNavigationItemReselectedListener { Unit }
-            fab.setOnClickListener { tools() }
+            fab.setOnClickListener { showTools() }
         }
     }
 
-    override fun settings() {
-        startActivity(Intent(requireContext(), SettingsActivity::class.java))
-    }
-
-    override fun device() {
-        showFragment(DeviceFragment.TAG)
-    }
-
-    override fun application() {
-        showFragment(ApplicationFragment.TAG)
-    }
-
-    override fun permissions() {
-        showFragment(PermissionsFragment.TAG)
-    }
-
-    override fun preferences() {
-        showFragment(PreferencesFragment.TAG)
-    }
-
-    override fun tools() {
+    private fun showTools() {
         binding.bottomNavigation.selectedItemId = R.id.blank
         showFragment(ToolsFragment.TAG)
-    }
-
-    override fun share() {
-        formatter?.format()?.let {
-            ShareCompat.IntentBuilder.from(requireActivity())
-                .setChooserTitle(R.string.sentinel_name)
-                .setType(SHARE_MIME_TYPE)
-                .setText(it)
-                .startChooser()
-        }
     }
 
     private fun showFragment(tag: String) {
@@ -165,7 +147,6 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment), Sent
                 .commit()
         } ?: run {
             when (tag) {
-                SettingsFragment.TAG -> SettingsFragment.newInstance()
                 DeviceFragment.TAG -> DeviceFragment.newInstance()
                 ApplicationFragment.TAG -> ApplicationFragment.newInstance()
                 PermissionsFragment.TAG -> PermissionsFragment.newInstance()

@@ -18,15 +18,15 @@ internal class MarkdownStringBuilder(
 
     override fun format(): String =
         StringBuilder()
-            .appendln(application())
-            .appendln(permissions())
-            .appendln(device())
-            .appendln(preferences())
+            .appendLine(application())
+            .appendLine(permissions())
+            .appendLine(device())
+            .appendLine(preferences())
             .toString()
 
     override fun application(): String =
         StringBuilder()
-            .appendln("$HEADER_1$APPLICATION")
+            .appendLine("$HEADER_1$APPLICATION")
             .apply {
                 applicationCollector.present().let {
                     addLine(R.string.sentinel_version_code, it.versionCode)
@@ -46,7 +46,7 @@ internal class MarkdownStringBuilder(
 
     override fun permissions(): String =
         StringBuilder()
-            .appendln("$HEADER_1$PERMISSIONS")
+            .appendLine("$HEADER_1$PERMISSIONS")
             .apply {
                 permissionsCollector.present().let {
                     it.forEach { entry ->
@@ -58,7 +58,7 @@ internal class MarkdownStringBuilder(
 
     override fun device(): String =
         StringBuilder()
-            .appendln("$HEADER_1$DEVICE")
+            .appendLine("$HEADER_1$DEVICE")
             .apply {
                 deviceCollector.present().let {
                     addLine(R.string.sentinel_manufacturer, it.manufacturer)
@@ -80,7 +80,7 @@ internal class MarkdownStringBuilder(
     @Suppress("NestedBlockDepth")
     override fun preferences(): String =
         StringBuilder()
-            .appendln("$HEADER_1$PREFERENCES")
+            .appendLine("$HEADER_1$PREFERENCES")
             .apply {
                 preferencesCollector.present().let {
                     it.forEach { preference ->
@@ -94,16 +94,16 @@ internal class MarkdownStringBuilder(
             .toString()
 
     private fun StringBuilder.addHeader2(name: String) {
-        appendln("$HEADER_2$name")
+        appendLine("$HEADER_2$name")
     }
 
     private fun StringBuilder.addLine(@StringRes tag: Int, text: String) {
         context.getString(tag).sanitize().let {
-            appendln("$ITALIC${it}$ITALIC: $text")
+            appendLine("$ITALIC${it}$ITALIC: $text")
         }
     }
 
     private fun StringBuilder.addListItem(name: String, text: String) {
-        appendln("$BULLET$ITALIC${name}$ITALIC: $text")
+        appendLine("$BULLET$ITALIC${name}$ITALIC: $text")
     }
 }

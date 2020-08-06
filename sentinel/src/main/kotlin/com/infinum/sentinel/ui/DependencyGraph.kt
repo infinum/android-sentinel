@@ -16,7 +16,7 @@ internal object DependencyGraph {
         this.domain = DomainGraph(context)
     }
 
-    fun setup(tools: Set<Sentinel.Tool>, onTriggered: () -> Unit) {
+    suspend fun setup(tools: Set<Sentinel.Tool>, onTriggered: () -> Unit) {
         domain.setup(tools, onTriggered)
     }
 

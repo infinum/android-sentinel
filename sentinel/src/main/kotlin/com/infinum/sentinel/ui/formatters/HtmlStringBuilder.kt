@@ -31,20 +31,19 @@ internal class HtmlStringBuilder(
 
     override fun format(): String =
         StringBuilder()
-            .appendln(HTML_START)
-            .appendln(BODY_START)
-            .appendln(application())
-            .appendln(permissions())
-            .appendln(device())
-            .appendln(preferences())
-            .appendln(BODY_END)
-            .appendln(HTML_END)
+            .appendLine(HTML_START)
+            .appendLine(BODY_START)
+            .appendLine(application())
+            .appendLine(permissions())
+            .appendLine(device())
+            .appendLine(preferences())
+            .appendLine(BODY_END)
+            .appendLine(HTML_END)
             .toString()
 
     override fun application(): String =
         StringBuilder()
-
-            .appendln("$HEADING_START$BOLD_START$APPLICATION$BOLD_END$HEADING_END")
+            .appendLine("$HEADING_START$BOLD_START$APPLICATION$BOLD_END$HEADING_END")
             .apply {
                 applicationCollector.present().let {
                     addDiv(R.string.sentinel_version_code, it.versionCode)
@@ -64,8 +63,8 @@ internal class HtmlStringBuilder(
 
     override fun permissions(): String =
         StringBuilder()
-            .appendln("$HEADING_START$BOLD_START$PERMISSIONS$BOLD_END$HEADING_END")
-            .appendln(UL_START)
+            .appendLine("$HEADING_START$BOLD_START$PERMISSIONS$BOLD_END$HEADING_END")
+            .appendLine(UL_START)
             .apply {
                 permissionsCollector.present().let {
                     it.forEach { entry ->
@@ -73,12 +72,12 @@ internal class HtmlStringBuilder(
                     }
                 }
             }
-            .appendln(UL_END)
+            .appendLine(UL_END)
             .toString()
 
     override fun device(): String =
         StringBuilder()
-            .appendln("$HEADING_START$BOLD_START$DEVICE$BOLD_END$HEADING_END")
+            .appendLine("$HEADING_START$BOLD_START$DEVICE$BOLD_END$HEADING_END")
             .apply {
                 deviceCollector.present().let {
                     addDiv(R.string.sentinel_manufacturer, it.manufacturer)
@@ -100,11 +99,11 @@ internal class HtmlStringBuilder(
     @Suppress("NestedBlockDepth")
     override fun preferences(): String =
         StringBuilder()
-            .appendln("$HEADING_START$BOLD_START$PREFERENCES$BOLD_END$HEADING_END")
+            .appendLine("$HEADING_START$BOLD_START$PREFERENCES$BOLD_END$HEADING_END")
             .apply {
                 preferencesCollector.present().let {
                     it.forEach { preference ->
-                        appendln("$PARAGRAPH_START${preference.name}$PARAGRAPH_END")
+                        appendLine("$PARAGRAPH_START${preference.name}$PARAGRAPH_END")
                         preference.values.forEach { triple ->
                             addLi(triple.second, triple.third.toString())
                         }
@@ -115,11 +114,11 @@ internal class HtmlStringBuilder(
 
     private fun StringBuilder.addDiv(@StringRes tag: Int, text: String) {
         context.getString(tag).sanitize().let {
-            appendln(String.format(FORMAT_BLOCK, "$DIV_START$it", "$text$DIV_END"))
+            appendLine(String.format(FORMAT_BLOCK, "$DIV_START$it", "$text$DIV_END"))
         }
     }
 
     private fun StringBuilder.addLi(tag: String, text: String) {
-        appendln(String.format(FORMAT_BLOCK, "$LI_START$tag", "$text$LI_END"))
+        appendLine(String.format(FORMAT_BLOCK, "$LI_START$tag", "$text$LI_END"))
     }
 }
