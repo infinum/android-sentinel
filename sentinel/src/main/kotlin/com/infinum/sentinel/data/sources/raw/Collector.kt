@@ -2,7 +2,5 @@ package com.infinum.sentinel.data.sources.raw
 
 interface Collector<T> {
 
-    fun collect()
-
-    fun present(): T
+    operator fun invoke(): T
 }

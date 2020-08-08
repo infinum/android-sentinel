@@ -3,6 +3,7 @@ package com.infinum.sentinel.ui.children
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.RestrictTo
+import androidx.core.content.ContextCompat
 import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.databinding.SentinelFragmentToolsBinding
@@ -26,10 +27,7 @@ internal class ToolsFragment : BaseChildFragment(R.layout.sentinel_fragment_tool
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(DependencyGraph.collectors().tools()) {
-            collect()
-            bind(present())
-        }
+        bind(DependencyGraph.collectors().tools())
     }
 
     private fun bind(tools: Set<Sentinel.Tool>) =
@@ -43,6 +41,8 @@ internal class ToolsFragment : BaseChildFragment(R.layout.sentinel_fragment_tool
     private fun createItemView(tool: Sentinel.Tool): View =
         SentinelViewItemButtonBinding.inflate(layoutInflater, binding.contentLayout, false)
             .apply {
+                this.buttonView.icon =
+                    tool.icon()?.let { ContextCompat.getDrawable(this.buttonView.context, it) }
                 this.buttonView.text = getString(tool.name())
                 this.buttonView.setOnClickListener(tool.listener())
             }.root

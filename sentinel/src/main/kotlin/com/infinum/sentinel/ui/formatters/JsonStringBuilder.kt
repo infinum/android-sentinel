@@ -15,7 +15,7 @@ internal class JsonStringBuilder(
         private const val INDENT_SPACES = 4
     }
 
-    override fun format(): String =
+    override fun invoke(): String =
         JSONObject()
             .put(APPLICATION, application())
             .put(PERMISSIONS, permissions())
@@ -25,7 +25,7 @@ internal class JsonStringBuilder(
 
     override fun application(): JSONObject =
         JSONObject().apply {
-            applicationCollector.present().let {
+            applicationCollector().let {
                 addKey(R.string.sentinel_version_code, it.versionCode)
                 addKey(R.string.sentinel_version_name, it.versionName)
                 addKey(R.string.sentinel_first_install, it.firstInstall)
@@ -42,7 +42,7 @@ internal class JsonStringBuilder(
 
     override fun permissions(): JSONArray =
         JSONArray().apply {
-            permissionsCollector.present().let {
+            permissionsCollector().let {
                 it.forEach { entry ->
                     put(
                         JSONObject().apply {
@@ -56,7 +56,7 @@ internal class JsonStringBuilder(
 
     override fun device(): JSONObject =
         JSONObject().apply {
-            deviceCollector.present().let {
+            deviceCollector().let {
                 addKey(R.string.sentinel_manufacturer, it.manufacturer)
                 addKey(R.string.sentinel_model, it.model)
                 addKey(R.string.sentinel_id, it.id)
@@ -74,7 +74,7 @@ internal class JsonStringBuilder(
 
     override fun preferences(): JSONArray =
         JSONArray().apply {
-            preferencesCollector.present().let {
+            preferencesCollector().let {
                 it.forEach { preference ->
                     put(
                         JSONObject().apply {

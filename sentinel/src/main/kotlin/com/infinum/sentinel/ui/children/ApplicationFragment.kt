@@ -24,22 +24,19 @@ internal class ApplicationFragment : BaseChildFragment(R.layout.sentinel_fragmen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(DependencyGraph.collectors().application()) {
-            collect()
-            present().let {
-                with(binding) {
-                    versionCodeView.data = it.versionCode
-                    versionNameView.data = it.versionName
-                    firstInstallView.data = it.firstInstall
-                    lastUpdateView.data = it.lastUpdate
-                    minSdkView.data = it.minSdk
-                    targetSdkView.data = it.targetSdk
-                    packageNameView.data = it.packageName
-                    processNameView.data = it.processName
-                    taskAffinityView.data = it.taskAffinity
-                    localeLanguageView.data = it.localeLanguage
-                    localeCountryView.data = it.localeCountry
-                }
+        DependencyGraph.collectors().application().let {
+            with(binding) {
+                versionCodeView.data = it.versionCode
+                versionNameView.data = it.versionName
+                firstInstallView.data = it.firstInstall
+                lastUpdateView.data = it.lastUpdate
+                minSdkView.data = it.minSdk
+                targetSdkView.data = it.targetSdk
+                packageNameView.data = it.packageName
+                processNameView.data = it.processName
+                taskAffinityView.data = it.taskAffinity
+                localeLanguageView.data = it.localeLanguage
+                localeCountryView.data = it.localeCountry
             }
         }
     }

@@ -2,7 +2,7 @@ package com.infinum.sentinel.ui.formatters
 
 internal interface FormattedStringBuilder<T, K> {
 
-    fun format(): String
+    operator fun invoke(): String
 
     fun application(): T
 

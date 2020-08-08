@@ -1,6 +1,7 @@
 package com.infinum.sentinel
 
 import android.view.View
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.infinum.sentinel.data.models.memory.triggers.manual.ManualTrigger
 import com.infinum.sentinel.ui.DependencyGraph
@@ -51,6 +52,14 @@ class Sentinel private constructor(tools: Set<Tool> = setOf()) {
 
     @Suppress("unused")
     interface Tool {
+
+        /**
+         * An optional icon for this tool
+         *
+         * @return a Drawable resource that will be used to generate an icon in a Button in Tools UI
+         */
+        @DrawableRes
+        fun icon(): Int? = null
 
         /**
          * A dedicated name for this tool

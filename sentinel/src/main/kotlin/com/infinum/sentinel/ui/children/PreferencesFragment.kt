@@ -27,10 +27,7 @@ internal class PreferencesFragment : BaseChildFragment(R.layout.sentinel_fragmen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(DependencyGraph.collectors().preferences()) {
-            collect()
-            bind(present())
-        }
+        bind(DependencyGraph.collectors().preferences())
     }
 
     private fun bind(preferences: List<PreferencesData>) =

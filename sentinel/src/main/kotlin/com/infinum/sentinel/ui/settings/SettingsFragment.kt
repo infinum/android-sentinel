@@ -101,8 +101,8 @@ internal class SettingsFragment : BaseChildFragment(R.layout.sentinel_fragment_s
                     FormatType.JSON -> R.id.jsonChip
                     FormatType.XML -> R.id.xmlChip
                     FormatType.HTML -> R.id.htmlChip
-                    else -> null
-                }?.let {
+                    else -> throw NotImplementedError()
+                }.let {
                     formatGroup.check(it)
                 }
             }

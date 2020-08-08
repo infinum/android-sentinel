@@ -5,17 +5,16 @@ import android.content.pm.PackageManager
 
 internal class PermissionsCollector(
     private val context: Context
-) : AbstractCollector<Map<String, Boolean>>() {
+) : Collector<Map<String, Boolean>> {
 
-    override lateinit var data: Map<String, Boolean>
-
-    override fun collect() {
+    override fun invoke(): Map<String, Boolean> {
         with(context) {
             val packageInfo = packageManager.getPackageInfo(
                 packageName,
                 PackageManager.GET_PERMISSIONS
             )
-            data = with(packageInfo) {
+
+            return with(packageInfo) {
                 requestedPermissions?.toList().orEmpty()
                     .map {
                         it to (packageManager.checkPermission(

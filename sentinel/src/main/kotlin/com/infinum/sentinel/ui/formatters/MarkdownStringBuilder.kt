@@ -16,7 +16,7 @@ internal class MarkdownStringBuilder(
         private const val BULLET = "- "
     }
 
-    override fun format(): String =
+    override fun invoke(): String =
         StringBuilder()
             .appendLine(application())
             .appendLine(permissions())
@@ -28,7 +28,7 @@ internal class MarkdownStringBuilder(
         StringBuilder()
             .appendLine("$HEADER_1$APPLICATION")
             .apply {
-                applicationCollector.present().let {
+                applicationCollector().let {
                     addLine(R.string.sentinel_version_code, it.versionCode)
                     addLine(R.string.sentinel_version_name, it.versionName)
                     addLine(R.string.sentinel_first_install, it.firstInstall)
@@ -48,7 +48,7 @@ internal class MarkdownStringBuilder(
         StringBuilder()
             .appendLine("$HEADER_1$PERMISSIONS")
             .apply {
-                permissionsCollector.present().let {
+                permissionsCollector().let {
                     it.forEach { entry ->
                         addListItem(entry.key, entry.value.toString())
                     }
@@ -60,7 +60,7 @@ internal class MarkdownStringBuilder(
         StringBuilder()
             .appendLine("$HEADER_1$DEVICE")
             .apply {
-                deviceCollector.present().let {
+                deviceCollector().let {
                     addLine(R.string.sentinel_manufacturer, it.manufacturer)
                     addLine(R.string.sentinel_model, it.model)
                     addLine(R.string.sentinel_id, it.id)
@@ -82,7 +82,7 @@ internal class MarkdownStringBuilder(
         StringBuilder()
             .appendLine("$HEADER_1$PREFERENCES")
             .apply {
-                preferencesCollector.present().let {
+                preferencesCollector().let {
                     it.forEach { preference ->
                         addHeader2(preference.name)
                         preference.values.forEach { triple ->

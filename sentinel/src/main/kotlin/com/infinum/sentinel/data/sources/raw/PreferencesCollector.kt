@@ -8,7 +8,7 @@ import java.io.File
 
 internal class PreferencesCollector(
     private val context: Context
-) : AbstractCollector<List<PreferencesData>>() {
+) : Collector<List<PreferencesData>> {
 
     companion object {
         @VisibleForTesting
@@ -18,10 +18,8 @@ internal class PreferencesCollector(
         const val PREFS_SUFFIX = ".xml"
     }
 
-    override lateinit var data: List<PreferencesData>
-
-    override fun collect() {
-        data = with(context) {
+    override fun invoke() =
+        with(context) {
             val prefsDirectory = File(applicationContext.applicationInfo.dataDir, PREFS_DIRECTORY)
             if (prefsDirectory.exists() && prefsDirectory.isDirectory) {
                 prefsDirectory.list().orEmpty().toList().map { it.removeSuffix(PREFS_SUFFIX) }
@@ -47,5 +45,4 @@ internal class PreferencesCollector(
                 )
             }
         }
-    }
 }

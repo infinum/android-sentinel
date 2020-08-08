@@ -29,7 +29,7 @@ internal class HtmlStringBuilder(
         private const val FORMAT_BLOCK = "%s: %s"
     }
 
-    override fun format(): String =
+    override fun invoke(): String =
         StringBuilder()
             .appendLine(HTML_START)
             .appendLine(BODY_START)
@@ -45,7 +45,7 @@ internal class HtmlStringBuilder(
         StringBuilder()
             .appendLine("$HEADING_START$BOLD_START$APPLICATION$BOLD_END$HEADING_END")
             .apply {
-                applicationCollector.present().let {
+                applicationCollector().let {
                     addDiv(R.string.sentinel_version_code, it.versionCode)
                     addDiv(R.string.sentinel_version_name, it.versionName)
                     addDiv(R.string.sentinel_first_install, it.firstInstall)
@@ -66,7 +66,7 @@ internal class HtmlStringBuilder(
             .appendLine("$HEADING_START$BOLD_START$PERMISSIONS$BOLD_END$HEADING_END")
             .appendLine(UL_START)
             .apply {
-                permissionsCollector.present().let {
+                permissionsCollector().let {
                     it.forEach { entry ->
                         addLi(entry.key, entry.value.toString())
                     }
@@ -79,7 +79,7 @@ internal class HtmlStringBuilder(
         StringBuilder()
             .appendLine("$HEADING_START$BOLD_START$DEVICE$BOLD_END$HEADING_END")
             .apply {
-                deviceCollector.present().let {
+                deviceCollector().let {
                     addDiv(R.string.sentinel_manufacturer, it.manufacturer)
                     addDiv(R.string.sentinel_model, it.model)
                     addDiv(R.string.sentinel_id, it.id)
@@ -101,7 +101,7 @@ internal class HtmlStringBuilder(
         StringBuilder()
             .appendLine("$HEADING_START$BOLD_START$PREFERENCES$BOLD_END$HEADING_END")
             .apply {
-                preferencesCollector.present().let {
+                preferencesCollector().let {
                     it.forEach { preference ->
                         appendLine("$PARAGRAPH_START${preference.name}$PARAGRAPH_END")
                         preference.values.forEach { triple ->

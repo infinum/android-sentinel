@@ -13,7 +13,7 @@ internal class PlainStringBuilder(
         private const val SEPARATOR = "-"
     }
 
-    override fun format(): String =
+    override fun invoke(): String =
         StringBuilder()
             .appendLine(application())
             .appendLine(permissions())
@@ -26,7 +26,7 @@ internal class PlainStringBuilder(
             .appendLine(APPLICATION.toUpperCase())
             .appendLine(SEPARATOR.repeat(APPLICATION.length))
             .apply {
-                applicationCollector.present().let {
+                applicationCollector().let {
                     addLine(R.string.sentinel_version_code, it.versionCode)
                     addLine(R.string.sentinel_version_name, it.versionName)
                     addLine(R.string.sentinel_first_install, it.firstInstall)
@@ -48,7 +48,7 @@ internal class PlainStringBuilder(
             .appendLine(PERMISSIONS.toUpperCase())
             .appendLine(SEPARATOR.repeat(PERMISSIONS.length))
             .apply {
-                permissionsCollector.present().let {
+                permissionsCollector().let {
                     it.forEach { entry ->
                         appendLine("${entry.key}: ${entry.value}")
                     }
@@ -62,7 +62,7 @@ internal class PlainStringBuilder(
             .appendLine(DEVICE.toUpperCase())
             .appendLine(SEPARATOR.repeat(DEVICE.length))
             .apply {
-                deviceCollector.present().let {
+                deviceCollector().let {
                     addLine(R.string.sentinel_manufacturer, it.manufacturer)
                     addLine(R.string.sentinel_model, it.model)
                     addLine(R.string.sentinel_id, it.id)
@@ -86,7 +86,7 @@ internal class PlainStringBuilder(
             .appendLine(PREFERENCES.toUpperCase())
             .appendLine(SEPARATOR.repeat(PREFERENCES.length))
             .apply {
-                preferencesCollector.present().let {
+                preferencesCollector().let {
                     it.forEach { preference ->
                         appendLine()
                         appendLine(preference.name)

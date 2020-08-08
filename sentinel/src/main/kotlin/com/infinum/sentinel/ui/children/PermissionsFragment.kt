@@ -25,10 +25,7 @@ internal class PermissionsFragment : BaseChildFragment(R.layout.sentinel_fragmen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(DependencyGraph.collectors().permissions()) {
-            collect()
-            bind(present())
-        }
+        bind(DependencyGraph.collectors().permissions())
     }
 
     private fun bind(permissions: Map<String, Boolean>) =

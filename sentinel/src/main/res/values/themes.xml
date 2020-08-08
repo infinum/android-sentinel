@@ -1,23 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <style name="Sentinel.BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/sentinel_color_primary</item>
         <item name="colorPrimaryDark">@android:color/transparent</item>
-        <item name="colorSecondary">@color/sentinel_color_secondary</item>
-        <item name="colorSurface">@color/sentinel_color_surface</item>
-        <item name="colorError">@color/sentinel_color_error</item>
-        <item name="colorOnPrimary">@color/sentinel_color_on_primary</item>
-        <item name="colorOnSecondary">@color/sentinel_color_on_secondary</item>
-        <item name="colorOnBackground">@color/sentinel_color_on_background</item>
-        <item name="colorOnSurface">@color/sentinel_color_on_surface</item>
-        <item name="colorOnError">@color/sentinel_color_on_error</item>
-        <item name="colorControlNormal">@color/sentinel_color_on_secondary</item>
+        <item name="colorControlActivated">@color/sentinel_color_primary</item>
     </style>
 
     <style name="Sentinel.Theme" parent="Sentinel.BaseTheme">
         <item name="android:background">@android:color/transparent</item>
-        <item name="android:colorBackground">@color/sentinel_color_background</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
@@ -26,7 +17,7 @@
     </style>
 
     <style name="Sentinel.Theme.Settings" parent="Sentinel.BaseTheme">
-        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+        <item name="android:statusBarColor">?colorSurface</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Activity</item>
     </style>
 
@@ -46,7 +37,7 @@
             @style/Sentinel.TextAppearance.Item.BottomNavigationView.Inactive
         </item>
         <item name="labelVisibilityMode">labeled</item>
-        <item name="itemRippleColor">@color/sentinel_color_button_ripple</item>
+        <item name="itemRippleColor">@color/sentinel_color_ripple</item>
         <item name="itemIconTint">@color/sentinel_selector_bottomnavigation_icon_tint</item>
         <item name="itemTextColor">@color/sentinel_selector_bottomnavigation_text_color</item>
     </style>

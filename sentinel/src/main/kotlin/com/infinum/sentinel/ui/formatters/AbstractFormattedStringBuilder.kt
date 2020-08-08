@@ -24,11 +24,4 @@ internal abstract class AbstractFormattedStringBuilder<T, K>(
     internal val permissionsCollector: PermissionsCollector = PermissionsCollector(context)
     internal val deviceCollector: DeviceCollector = DeviceCollector()
     internal val preferencesCollector: PreferencesCollector = PreferencesCollector(context)
-
-    init {
-        applicationCollector.collect()
-        permissionsCollector.collect()
-        deviceCollector.collect()
-        preferencesCollector.collect()
-    }
 }

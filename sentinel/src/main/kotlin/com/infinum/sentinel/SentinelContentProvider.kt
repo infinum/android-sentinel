@@ -36,7 +36,7 @@ internal class SentinelContentProvider : ContentProvider() {
     override fun insert(
         uri: Uri,
         values: ContentValues?
-    ): Uri? = null
+    ): Uri? = throw NotImplementedError()
 
     override fun query(
         uri: Uri,
@@ -44,20 +44,20 @@ internal class SentinelContentProvider : ContentProvider() {
         selection: String?,
         selectionArgs: Array<out String>?,
         sortOrder: String?
-    ): Cursor? = null
+    ): Cursor? = throw NotImplementedError()
 
     override fun update(
         uri: Uri,
         values: ContentValues?,
         selection: String?,
         selectionArgs: Array<out String>?
-    ): Int = 0
+    ): Int = throw NotImplementedError()
 
     override fun delete(
         uri: Uri,
         selection: String?,
         selectionArgs: Array<out String>?
-    ): Int = 0
+    ): Int = throw NotImplementedError()
 
-    override fun getType(uri: Uri): String? = null
+    override fun getType(uri: Uri): String? = throw NotImplementedError()
 }

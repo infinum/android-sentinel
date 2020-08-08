@@ -7,21 +7,17 @@ import androidx.annotation.RestrictTo
 import androidx.core.app.ShareCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.ShapeAppearanceModel
 import com.infinum.sentinel.R
 import com.infinum.sentinel.data.models.memory.formats.FormatType
-import com.infinum.sentinel.data.sources.raw.ApplicationCollector
-import com.infinum.sentinel.data.sources.raw.BasicCollector
-import com.infinum.sentinel.data.sources.raw.DeviceCollector
-import com.infinum.sentinel.data.sources.raw.PermissionsCollector
-import com.infinum.sentinel.data.sources.raw.PreferencesCollector
 import com.infinum.sentinel.databinding.SentinelFragmentBinding
 import com.infinum.sentinel.extensions.toCradleDrawable
-import com.infinum.sentinel.extensions.toScissorsDrawable
 import com.infinum.sentinel.ui.children.ApplicationFragment
 import com.infinum.sentinel.ui.children.DeviceFragment
 import com.infinum.sentinel.ui.children.PermissionsFragment
 import com.infinum.sentinel.ui.children.PreferencesFragment
 import com.infinum.sentinel.ui.children.ToolsFragment
+import com.infinum.sentinel.ui.edgetreatment.ScissorsEdgeTreatment
 import com.infinum.sentinel.ui.settings.SettingsActivity
 import com.infinum.sentinel.ui.shared.BaseFragment
 import com.infinum.sentinel.ui.shared.viewBinding
@@ -47,21 +43,11 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment) {
         setupToolbar()
         setupContent()
 
-        val basicCollector: BasicCollector = DependencyGraph.collectors().basic()
-        val applicationCollector: ApplicationCollector = DependencyGraph.collectors().application()
-        val deviceCollector: DeviceCollector = DependencyGraph.collectors().device()
-        val permissionsCollector: PermissionsCollector = DependencyGraph.collectors().permissions()
-        val preferencesCollector: PreferencesCollector = DependencyGraph.collectors().preferences()
-
-        basicCollector.collect()
-        applicationCollector.collect()
-        deviceCollector.collect()
-        permissionsCollector.collect()
-        preferencesCollector.collect()
-
         with(binding) {
-            toolbar.subtitle = basicCollector.data.applicationName
-            applicationIconView.setImageDrawable(basicCollector.data.applicationIcon)
+            DependencyGraph.collectors().application().let {
+                toolbar.subtitle = it.applicationName
+                applicationIconView.setImageDrawable(it.applicationIcon)
+            }
             applicationIconView.setOnClickListener { dismiss() }
         }
 
@@ -77,20 +63,24 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment) {
                 when (menuItem.itemId) {
                     R.id.share -> {
                         lifecycleScope.launch {
-                            when (DependencyGraph.formats().load().type) {
-                                FormatType.PLAIN -> DependencyGraph.formatters().plain()
-                                FormatType.MARKDOWN -> DependencyGraph.formatters().markdown()
-                                FormatType.JSON -> DependencyGraph.formatters().json()
-                                FormatType.XML -> DependencyGraph.formatters().xml()
-                                FormatType.HTML -> DependencyGraph.formatters().html()
-                                else -> null
-                            }?.format().let { formattedText ->
-                                ShareCompat.IntentBuilder.from(requireActivity())
-                                    .setChooserTitle(R.string.sentinel_name)
-                                    .setType(SHARE_MIME_TYPE)
-                                    .setText(formattedText)
-                                    .startChooser()
-                            }
+                            DependencyGraph.formats().load().type
+                                ?.let {
+                                    when (it) {
+                                        FormatType.PLAIN -> DependencyGraph.formatters().plain()
+                                        FormatType.MARKDOWN -> DependencyGraph.formatters()
+                                            .markdown()
+                                        FormatType.JSON -> DependencyGraph.formatters().json()
+                                        FormatType.XML -> DependencyGraph.formatters().xml()
+                                        FormatType.HTML -> DependencyGraph.formatters().html()
+                                    }
+                                }
+                                ?.run {
+                                    ShareCompat.IntentBuilder.from(requireActivity())
+                                        .setChooserTitle(R.string.sentinel_name)
+                                        .setType(SHARE_MIME_TYPE)
+                                        .setText(this)
+                                        .startChooser()
+                                }
                         }
                     }
                 }
@@ -101,12 +91,16 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment) {
 
     private fun setupContent() {
         with(binding) {
-            contentLayout.background = MaterialShapeDrawable().toScissorsDrawable(
-                context = requireContext(),
-                color = R.color.sentinel_color_background,
-                count = 12,
-                height = R.dimen.sentinel_triangle_height
-            )
+            contentLayout.shapeAppearanceModel = ShapeAppearanceModel.Builder()
+                .setTopEdge(
+                    ScissorsEdgeTreatment(
+                        resources.getInteger(R.integer.sentinel_scissors_top_count),
+                        contentLayout.context.resources.getDimensionPixelSize(R.dimen.sentinel_triangle_height)
+                            .toFloat(),
+                        true
+                    )
+                )
+                .build()
             bottomNavigation.background = MaterialShapeDrawable().toCradleDrawable(
                 context = requireContext(),
                 color = R.color.sentinel_color_background,
@@ -130,7 +124,6 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment) {
                 }
                 true
             }
-            bottomNavigation.setOnNavigationItemReselectedListener { Unit }
             fab.setOnClickListener { showTools() }
         }
     }
