@@ -124,7 +124,7 @@ internal class MarkdownStringBuilderTests {
     fun formatter_hasDataWithoutPreferences() {
         val stringBuilder = MarkdownStringBuilder(context)
 
-        val actualData = stringBuilder.format()
+        val actualData = stringBuilder()
             .replace(Regex("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"), "yyyy-MM-dd HH:mm:ss")
 
         assertNotNull(actualData)
@@ -147,7 +147,7 @@ internal class MarkdownStringBuilderTests {
 
         val stringBuilder = MarkdownStringBuilder(context)
 
-        val actualData = stringBuilder.format()
+        val actualData = stringBuilder()
             .replace(Regex("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"), "yyyy-MM-dd HH:mm:ss")
 
         assertNotNull(actualData)

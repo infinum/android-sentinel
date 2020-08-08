@@ -41,9 +41,8 @@ internal class ApplicationCollectorTests {
                 ApplicationProvider.getApplicationContext<SentinelTestApplication>().applicationContext
 
             val collector = ApplicationCollector(context)
-            collector.collect()
 
-            actualApplicationData = collector.present()
+            actualApplicationData = collector()
         }
     }
 

@@ -74,8 +74,7 @@ internal class PreferencesCollectorTests {
     @Test
     @SmallTest
     fun preferences_notUsed() {
-        collector.collect()
-        val preferences = collector.present()
+        val preferences = collector()
 
         assertNotNull(preferences)
         assertTrue(preferences.isEmpty())
@@ -94,8 +93,7 @@ internal class PreferencesCollectorTests {
             .putStringSet(KEY_STRING_SET, VALUE_STRING_SET)
             .commit()
 
-        collector.collect()
-        val preferences = collector.present()
+        val preferences = collector()
 
         assertNotNull(preferences)
         assertTrue(preferences.isNotEmpty())
@@ -132,8 +130,7 @@ internal class PreferencesCollectorTests {
             .putStringSet(KEY_STRING_SET, VALUE_STRING_SET)
             .commit()
 
-        collector.collect()
-        val preferences = collector.present()
+        val preferences = collector()
 
         assertNotNull(preferences)
         assertTrue(preferences.isNotEmpty())
@@ -179,8 +176,7 @@ internal class PreferencesCollectorTests {
             .putStringSet(KEY_STRING_SET, VALUE_STRING_SET)
             .commit()
 
-        collector.collect()
-        val preferences = collector.present()
+        val preferences = collector()
 
         assertNotNull(preferences)
         assertTrue(preferences.isNotEmpty())
@@ -242,8 +238,7 @@ internal class PreferencesCollectorTests {
             .putStringSet(KEY_STRING_SET, VALUE_STRING_SET)
             .commit()
 
-        collector.collect()
-        val preferences = collector.present()
+        val preferences = collector()
 
         assertNotNull(preferences)
         assertTrue(preferences.isNotEmpty())
