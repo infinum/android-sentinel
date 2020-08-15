@@ -23,11 +23,11 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.android.material.appbar.MaterialToolbar
 import com.infinum.sentinel.R
 import com.infinum.sentinel.ui.children.ApplicationFragment
-import com.infinum.sentinel.ui.children.DeviceFragment
 import com.infinum.sentinel.ui.children.PermissionsFragment
 import com.infinum.sentinel.ui.children.PreferencesFragment
-import com.infinum.sentinel.ui.children.SettingsFragment
 import com.infinum.sentinel.ui.children.ToolsFragment
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.instanceOf
@@ -61,7 +61,9 @@ class SentinelFragmentTests {
 
     @Before
     fun setupGraph() {
-        DependencyGraph.setup(setOf()) {}
+        GlobalScope.launch {
+            DependencyGraph.setup(setOf()) {}
+        }
     }
 
     @Test
@@ -71,17 +73,11 @@ class SentinelFragmentTests {
         scenario.onFragment {
             val childFragment = it.childFragmentManager.findFragmentByTag(ToolsFragment.TAG)
             assertNotNull(childFragment)
-
-            assertEquals(
-                it.viewBinding.toolbar.subtitle,
-                context.getString(R.string.sentinel_tools)
-            )
         }
 
-        onView(withId(R.id.sentinelTitle)).check(matches(withText(R.string.sentinel_name)))
         onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
-        onView(withId(R.id.bottomAppBar)).check(matches(isDisplayed()))
+        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
         onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
         onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
         onView(withId(R.id.share)).check(matches(isDisplayed()))
@@ -158,10 +154,9 @@ class SentinelFragmentTests {
         val scenario =
             launchFragmentInContainer<SentinelFragment>(themeResId = R.style.Sentinel_Theme_BottomSheet)
 
-        onView(withId(R.id.sentinelTitle)).check(matches(withText(R.string.sentinel_name)))
         onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
-        onView(withId(R.id.bottomAppBar)).check(matches(isDisplayed()))
+        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
         onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
         onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
 
@@ -192,10 +187,9 @@ class SentinelFragmentTests {
         val scenario =
             launchFragmentInContainer<SentinelFragment>(themeResId = R.style.Sentinel_Theme_BottomSheet)
 
-        onView(withId(R.id.sentinelTitle)).check(matches(withText(R.string.sentinel_name)))
         onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
-        onView(withId(R.id.bottomAppBar)).check(matches(isDisplayed()))
+        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
         onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
         onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
 
@@ -226,10 +220,9 @@ class SentinelFragmentTests {
         val scenario =
             launchFragmentInContainer<SentinelFragment>(themeResId = R.style.Sentinel_Theme_BottomSheet)
 
-        onView(withId(R.id.sentinelTitle)).check(matches(withText(R.string.sentinel_name)))
         onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
-        onView(withId(R.id.bottomAppBar)).check(matches(isDisplayed()))
+        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
         onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
         onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
 
@@ -260,10 +253,9 @@ class SentinelFragmentTests {
         val scenario =
             launchFragmentInContainer<SentinelFragment>(themeResId = R.style.Sentinel_Theme_BottomSheet)
 
-        onView(withId(R.id.sentinelTitle)).check(matches(withText(R.string.sentinel_name)))
         onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
-        onView(withId(R.id.bottomAppBar)).check(matches(isDisplayed()))
+        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
         onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
         onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
 
@@ -296,17 +288,11 @@ class SentinelFragmentTests {
         scenario.onFragment {
             val childFragment = it.childFragmentManager.findFragmentByTag(ToolsFragment.TAG)
             assertNotNull(childFragment)
-
-            assertEquals(
-                it.viewBinding.toolbar.subtitle,
-                context.getString(R.string.sentinel_tools)
-            )
         }
 
-        onView(withId(R.id.sentinelTitle)).check(matches(withText(R.string.sentinel_name)))
         onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
-        onView(withId(R.id.bottomAppBar)).check(matches(isDisplayed()))
+        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
         onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
         onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
         onView(withId(R.id.share)).check(matches(isDisplayed()))

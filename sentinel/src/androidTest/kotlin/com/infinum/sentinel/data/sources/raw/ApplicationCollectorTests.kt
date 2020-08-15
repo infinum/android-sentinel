@@ -7,6 +7,7 @@ import androidx.test.filters.SdkSuppress
 import androidx.test.filters.SmallTest
 import com.infinum.sentinel.data.models.raw.ApplicationData
 import com.infinum.sentinel.ui.SentinelTestApplication
+import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
@@ -20,6 +21,7 @@ internal class ApplicationCollectorTests {
 
     companion object {
 
+        private const val EXPECTED_APPLICATION_LABEL = "Sentinel"
         private const val VERSION_CODE = "100000"
         private const val VERSION_NAME = "1.0.0"
         private const val MIN_SDK = "21"
@@ -39,10 +41,29 @@ internal class ApplicationCollectorTests {
                 ApplicationProvider.getApplicationContext<SentinelTestApplication>().applicationContext
 
             val collector = ApplicationCollector(context)
-            collector.collect()
 
-            actualApplicationData = collector.present()
+            actualApplicationData = collector()
         }
+    }
+
+    @Test
+    @SmallTest
+    fun application_hasIcon() {
+        assertNotNull(actualApplicationData.applicationIcon)
+    }
+
+    @Test
+    @SmallTest
+    fun application_hasLabel() {
+        assertNotNull(actualApplicationData.applicationName)
+        assertEquals(EXPECTED_APPLICATION_LABEL, actualApplicationData.applicationName)
+    }
+
+    @Test
+    @SmallTest
+    fun application_hasNoBlankLabel() {
+        Assert.assertNotEquals("", actualApplicationData.applicationName)
+        assertEquals(EXPECTED_APPLICATION_LABEL, actualApplicationData.applicationName)
     }
 
     @Test

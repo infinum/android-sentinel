@@ -9,23 +9,13 @@ import com.infinum.sentinel.ui.formatters.XmlStringBuilder
 
 internal class FormatterRepository(context: Context) {
 
-    private val plainFormatter: PlainStringBuilder = PlainStringBuilder(context)
+    val plain: PlainStringBuilder = PlainStringBuilder(context)
 
-    private val markdownFormatter: MarkdownStringBuilder = MarkdownStringBuilder(context)
+    val markdown: MarkdownStringBuilder = MarkdownStringBuilder(context)
 
-    private val jsonFormatter: JsonStringBuilder = JsonStringBuilder(context)
+    val json: JsonStringBuilder = JsonStringBuilder(context)
 
-    private val xmlFormatter: XmlStringBuilder = XmlStringBuilder(context)
+    val xml: XmlStringBuilder = XmlStringBuilder(context)
 
-    private val htmlFormatter: HtmlStringBuilder = HtmlStringBuilder(context)
-
-    fun plain() = plainFormatter
-
-    fun markdown() = markdownFormatter
-
-    fun json() = jsonFormatter
-
-    fun xml() = xmlFormatter
-
-    fun html() = htmlFormatter
+    val html: HtmlStringBuilder = HtmlStringBuilder(context)
 }

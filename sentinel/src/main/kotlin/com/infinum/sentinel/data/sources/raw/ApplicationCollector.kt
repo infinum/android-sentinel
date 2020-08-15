@@ -12,7 +12,7 @@ import java.util.Date
 
 internal class ApplicationCollector(
     private val context: Context
-) : AbstractCollector<ApplicationData>() {
+) : Collector<ApplicationData> {
 
     companion object {
         private const val FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss"
@@ -21,16 +21,16 @@ internal class ApplicationCollector(
         private val dateFormatter = SimpleDateFormat(FORMAT_DATETIME, Locale.getDefault())
     }
 
-    override lateinit var data: ApplicationData
-
     @Suppress("DEPRECATION")
-    override fun collect() {
+    override fun invoke(): ApplicationData {
         with(context) {
             val packageInfo =
                 packageManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS)
             val currentLocale = ConfigurationCompat.getLocales(resources.configuration)[0]
 
-            data = ApplicationData(
+            return ApplicationData(
+                applicationIcon = applicationInfo.loadIcon(packageManager),
+                applicationName = applicationInfo.loadLabel(packageManager).toString(),
                 versionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                     packageInfo.longVersionCode.toString()
                 } else {

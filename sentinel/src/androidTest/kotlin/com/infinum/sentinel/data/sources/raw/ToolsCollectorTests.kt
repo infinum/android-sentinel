@@ -31,10 +31,9 @@ internal class ToolsCollectorTests {
     @SmallTest
     fun tools_AreEmpty() {
         val collector = ToolsCollector(setOf())
-        collector.collect()
         val expectedTools = setOf(AppInfoTool())
 
-        val actualTools = collector.present()
+        val actualTools = collector()
 
         assertEquals(expectedTools.size, actualTools.size)
         assertTrue(actualTools.isNotEmpty())
@@ -45,10 +44,9 @@ internal class ToolsCollectorTests {
     @SmallTest
     fun tools_AreUnique() {
         val collector = ToolsCollector(setOf(dummyTool, dummyTool))
-        collector.collect()
         val expectedTools = setOf(dummyTool, AppInfoTool())
 
-        val actualTools = collector.present()
+        val actualTools = collector()
 
         assertEquals(expectedTools.size, actualTools.size)
         assertTrue(actualTools.isNotEmpty())
@@ -59,10 +57,9 @@ internal class ToolsCollectorTests {
     @SmallTest
     fun tools_AreValid() {
         val collector = ToolsCollector(setOf(dummyTool, noNameTool))
-        collector.collect()
         val expectedTools = setOf(dummyTool, AppInfoTool())
 
-        val actualTools = collector.present()
+        val actualTools = collector()
 
         assertEquals(expectedTools.size, actualTools.size)
         assertTrue(actualTools.isNotEmpty())

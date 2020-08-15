@@ -125,7 +125,7 @@ internal class HtmlStringBuilderTests {
     fun formatter_hasDataWithoutPreferences() {
         val stringBuilder = HtmlStringBuilder(context)
 
-        val actualData = stringBuilder.format()
+        val actualData = stringBuilder()
             .replace(Regex("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"), "yyyy-MM-dd HH:mm:ss")
 
         assertNotNull(actualData)
@@ -148,7 +148,7 @@ internal class HtmlStringBuilderTests {
 
         val stringBuilder = HtmlStringBuilder(context)
 
-        val actualData = stringBuilder.format()
+        val actualData = stringBuilder()
             .replace(Regex("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"), "yyyy-MM-dd HH:mm:ss")
 
         assertNotNull(actualData)

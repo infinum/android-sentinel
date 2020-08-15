@@ -8,7 +8,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.infinum.sentinel.Sentinel;
 import com.infinum.sentinel.sample.databinding.ActivityJavaMainBinding;
-import com.infinum.sentinel.sample.tools.SentinelTools;
+import com.infinum.sentinel.ui.tools.ChuckerTool;
+import com.infinum.sentinel.ui.tools.CollarTool;
+import com.infinum.sentinel.ui.tools.DbInspectorTool;
+import com.infinum.sentinel.ui.tools.GooglePlayTool;
+import com.infinum.sentinel.ui.tools.ThimbleTool;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class JavaMainActivity extends AppCompatActivity {
 
@@ -21,7 +28,13 @@ public class JavaMainActivity extends AppCompatActivity {
         final ActivityJavaMainBinding viewBinding = ActivityJavaMainBinding.inflate(getLayoutInflater());
         setContentView(viewBinding.getRoot());
 
-        sentinel = Sentinel.watch(SentinelTools.INSTANCE.get());
+        final Set<Sentinel.Tool> tools = new HashSet<>();
+        tools.add(new ChuckerTool());
+        tools.add(new CollarTool());
+        tools.add(new DbInspectorTool());
+        tools.add(new GooglePlayTool());
+        tools.add(new ThimbleTool());
+        sentinel = Sentinel.watch(tools);
 
         viewBinding.showSentinel.setOnClickListener(new View.OnClickListener() {
             @Override

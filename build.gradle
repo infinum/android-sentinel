@@ -5,7 +5,7 @@ buildscript {
             "compileSdk": 29,
             "targetSdk" : 29,
 
-            "buildTools": "29.0.3"
+            "buildTools": "30.0.1"
     ]
 
     apply from: "dependencies.gradle"
@@ -34,18 +34,23 @@ allprojects {
         maven { url "https://dl.bintray.com/infinum/android" }
     }
 
-//    configurations.all {
-//        resolutionStrategy {
-//            dependencySubstitution {
-//                substitute module(packages.sentinel.sentinel) with project(':sentinel')
-//                substitute module(packages.sentinel.sentinel_no_op) with project(':sentinel-no-op')
-//                substitute module(packages.sentinel.tool_chucker) with project(':tool-chucker')
-//                substitute module(packages.sentinel.tool_collar) with project(':tool-collar')
-//                substitute module(packages.sentinel.tool_dbinspector) with project(':tool-dbinspector')
-//                substitute module(packages.sentinel.tool_googleplay) with project(':tool-googleplay')
-//            }
-//        }
-//    }
+    def buildProperties = new Properties()
+    file(rootDir.absolutePath+"/build.properties").withInputStream { buildProperties.load(it) }
+    if (buildProperties.getProperty("build.debug").toBoolean()) {
+        configurations.all {
+            resolutionStrategy {
+                dependencySubstitution {
+                    substitute module(packages.sentinel.sentinel) with project(':sentinel')
+                    substitute module(packages.sentinel.sentinel_no_op) with project(':sentinel-no-op')
+                    substitute module(packages.sentinel.tool_chucker) with project(':tool-chucker')
+                    substitute module(packages.sentinel.tool_collar) with project(':tool-collar')
+                    substitute module(packages.sentinel.tool_dbinspector) with project(':tool-dbinspector')
+                    substitute module(packages.sentinel.tool_googleplay) with project(':tool-googleplay')
+                    substitute module(packages.sentinel.tool_thimble) with project(':tool-thimble')
+                }
+            }
+        }
+    }
 }
 
 subprojects {
@@ -73,7 +78,8 @@ task detektAll(dependsOn: [
         ':tool-chucker:detekt',
         ':tool-collar:detekt',
         ':tool-dbinspector:detekt',
-        ':tool-googleplay:detekt'
+        ':tool-googleplay:detekt',
+        ':tool-thimble:detekt'
 ]) {
     group = "Verification"
     description = "Run detekt on all modules"

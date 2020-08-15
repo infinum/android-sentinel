@@ -28,9 +28,8 @@ internal class PermissionsCollectorTests {
                 ApplicationProvider.getApplicationContext<SentinelTestApplication>().applicationContext
 
             val collector = PermissionsCollector(context)
-            collector.collect()
 
-            actualPermissions = collector.present()
+            actualPermissions = collector()
         }
     }
 

@@ -1,9 +1,12 @@
 package com.infinum.sentinel
 
 import android.view.View
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.infinum.sentinel.data.models.memory.triggers.manual.ManualTrigger
 import com.infinum.sentinel.ui.DependencyGraph
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class Sentinel private constructor(tools: Set<Tool> = setOf()) {
 
@@ -32,7 +35,9 @@ class Sentinel private constructor(tools: Set<Tool> = setOf()) {
     }
 
     init {
-        DependencyGraph.setup(tools) { DependencyGraph.show() }
+        GlobalScope.launch {
+            DependencyGraph.setup(tools) { DependencyGraph.show() }
+        }
     }
 
     /**
@@ -47,6 +52,14 @@ class Sentinel private constructor(tools: Set<Tool> = setOf()) {
 
     @Suppress("unused")
     interface Tool {
+
+        /**
+         * An optional icon for this tool
+         *
+         * @return a Drawable resource that will be used to generate an icon in a Button in Tools UI
+         */
+        @DrawableRes
+        fun icon(): Int? = null
 
         /**
          * A dedicated name for this tool
@@ -139,5 +152,16 @@ class Sentinel private constructor(tools: Set<Tool> = setOf()) {
          * @return a String resource that will be used to generate a name for a Button in Tools UI
          */
         override fun name(): Int = R.string.sentinel_google_play
+    }
+
+    @Suppress("unused")
+    interface DesignTool : Tool {
+
+        /**
+         * A dedicated name for this tool
+         *
+         * @return a String resource that will be used to generate a name for a Button in Tools UI
+         */
+        override fun name(): Int = R.string.sentinel_design
     }
 }

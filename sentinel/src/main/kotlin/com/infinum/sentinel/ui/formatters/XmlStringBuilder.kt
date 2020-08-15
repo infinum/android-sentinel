@@ -24,7 +24,7 @@ internal class XmlStringBuilder(
     }
 
     @SuppressLint("DefaultLocale")
-    override fun format(): String =
+    override fun invoke(): String =
         StringWriter().apply {
             with(Xml.newSerializer()) {
                 setFeature(FEATURE_INDENT, true)
@@ -50,7 +50,7 @@ internal class XmlStringBuilder(
 
     private fun XmlSerializer.addApplicationNode() {
         startTag(NAMESPACE, APPLICATION)
-        applicationCollector.present().let {
+        applicationCollector().let {
             addNode(R.string.sentinel_version_code, it.versionCode)
             addNode(R.string.sentinel_version_name, it.versionName)
             addNode(R.string.sentinel_first_install, it.firstInstall)
@@ -68,7 +68,7 @@ internal class XmlStringBuilder(
 
     private fun XmlSerializer.addPermissionsNode() {
         startTag(NAMESPACE, PERMISSIONS)
-        permissionsCollector.present().let {
+        permissionsCollector().let {
             it.forEach { entry ->
                 addNodeWithPermissionAttributes(entry.key, entry.value.toString())
             }
@@ -78,7 +78,7 @@ internal class XmlStringBuilder(
 
     private fun XmlSerializer.addDeviceNode() {
         startTag(NAMESPACE, DEVICE)
-        deviceCollector.present().let {
+        deviceCollector().let {
             addNode(R.string.sentinel_manufacturer, it.manufacturer)
             addNode(R.string.sentinel_model, it.model)
             addNode(R.string.sentinel_id, it.id)
@@ -97,7 +97,7 @@ internal class XmlStringBuilder(
 
     private fun XmlSerializer.addPreferencesNode() {
         startTag(NAMESPACE, PREFERENCES)
-        preferencesCollector.present().let {
+        preferencesCollector().let {
             it.forEach { preference ->
                 startTag(NAMESPACE, PREFERENCE)
                 attribute(NAMESPACE, NAME, preference.name)

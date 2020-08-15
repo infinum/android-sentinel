@@ -1,41 +1,35 @@
 package com.infinum.sentinel.ui.children
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.RestrictTo
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentPermissionsBinding
 import com.infinum.sentinel.databinding.SentinelViewItemCheckableBinding
 import com.infinum.sentinel.ui.DependencyGraph
 import com.infinum.sentinel.ui.shared.BaseChildFragment
+import com.infinum.sentinel.ui.shared.viewBinding
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class PermissionsFragment : BaseChildFragment<SentinelFragmentPermissionsBinding>() {
+internal class PermissionsFragment : BaseChildFragment(R.layout.sentinel_fragment_preferences) {
 
     companion object {
         fun newInstance() = PermissionsFragment()
         val TAG: String = PermissionsFragment::class.java.simpleName
     }
 
-    override fun provideViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ): SentinelFragmentPermissionsBinding =
-        SentinelFragmentPermissionsBinding.inflate(inflater, container, false)
+    override val binding: SentinelFragmentPermissionsBinding by viewBinding(
+        SentinelFragmentPermissionsBinding::bind
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(DependencyGraph.collectors().permissions()) {
-            collect()
-            bind(present())
-        }
+        bind(DependencyGraph.collectors().permissions())
     }
 
     private fun bind(permissions: Map<String, Boolean>) =
-        with(viewBinding) {
+        with(binding) {
             contentLayout.removeAllViews()
             permissions.forEach {
                 contentLayout.addView(createItemView(it))
@@ -43,7 +37,7 @@ internal class PermissionsFragment : BaseChildFragment<SentinelFragmentPermissio
         }
 
     private fun createItemView(entry: Map.Entry<String, Boolean>): View =
-        SentinelViewItemCheckableBinding.inflate(layoutInflater, viewBinding.contentLayout, false)
+        SentinelViewItemCheckableBinding.inflate(layoutInflater, binding.contentLayout, false)
             .apply {
                 this.labelView.text = entry.key
                 this.valueView.setImageResource(

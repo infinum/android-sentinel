@@ -7,12 +7,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKeys
+import androidx.security.crypto.MasterKey
 import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.sample.databinding.ActivityMainBinding
-import com.infinum.sentinel.sample.tools.SentinelTools
 import kotlin.random.Random
-import kotlin.random.nextULong
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,22 +32,26 @@ class MainActivity : AppCompatActivity() {
                 Context.MODE_PRIVATE
             ),
             EncryptedSharedPreferences.create(
-                "ENCRYPTED_SHARED_PREFERENCES",
-                MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
                 this,
+                "ENCRYPTED_SHARED_PREFERENCES",
+                MasterKey.Builder(this)
+                    .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                    .build(),
                 EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
                 EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             )
         )
 
-        viewBinding.showSentinel.setOnClickListener {
-            Sentinel.show()
-        }
-        viewBinding.randomizePrefs.setOnClickListener {
-            allPrefs.forEach { putRandomIntoPreferences(it) }
-        }
-        viewBinding.showJavaScreen.setOnClickListener {
-            startActivity(Intent(this, JavaMainActivity::class.java))
+        with(viewBinding) {
+            showSentinel.setOnClickListener {
+                Sentinel.show()
+            }
+            randomizePrefs.setOnClickListener {
+                allPrefs.forEach { putRandomIntoPreferences(it) }
+            }
+            showJavaScreen.setOnClickListener {
+                startActivity(Intent(this@MainActivity, JavaMainActivity::class.java))
+            }
         }
     }
 

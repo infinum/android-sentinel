@@ -3,9 +3,14 @@
 
     <application>
         <activity
-            android:name="com.infinum.sentinel.ui.SentinelActivity"
+            android:name=".ui.SentinelActivity"
             android:label="@string/sentinel_name"
             android:theme="@style/Sentinel.Theme" />
+
+        <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:label="@string/sentinel_name"
+            android:theme="@style/Sentinel.Theme.Settings" />
 
         <provider
             android:name=".SentinelContentProvider"

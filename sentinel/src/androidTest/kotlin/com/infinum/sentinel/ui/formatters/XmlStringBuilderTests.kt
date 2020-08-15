@@ -127,7 +127,7 @@ internal class XmlStringBuilderTests {
     fun formatter_hasDataWithoutPreferences() {
         val stringBuilder = XmlStringBuilder(context)
 
-        val actualData = stringBuilder.format()
+        val actualData = stringBuilder()
             .replace(Regex("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"), "yyyy-MM-dd HH:mm:ss")
             .replace(Regex("\\s"), "")
 
@@ -151,7 +151,7 @@ internal class XmlStringBuilderTests {
 
         val stringBuilder = XmlStringBuilder(context)
 
-        val actualData = stringBuilder.format()
+        val actualData = stringBuilder()
             .replace(Regex("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"), "yyyy-MM-dd HH:mm:ss")
             .replace(Regex("\\s"), "")
 

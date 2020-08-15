@@ -70,9 +70,8 @@ internal class DeviceCollectorDeviceTests {
             )
 
             val collector = DeviceCollector()
-            collector.collect()
 
-            actualDeviceData = collector.present()
+            actualDeviceData = collector()
         }
     }
 

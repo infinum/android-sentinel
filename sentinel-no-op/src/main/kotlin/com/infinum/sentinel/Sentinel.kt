@@ -12,7 +12,7 @@ class Sentinel private constructor(
 
         @JvmStatic
         @JvmOverloads
-        fun watch(tools: Set<Tool>): Sentinel =
+        fun watch(tools: Set<Tool> = setOf()): Sentinel =
             lazyOf(Sentinel(tools)).value
 
         @JvmStatic

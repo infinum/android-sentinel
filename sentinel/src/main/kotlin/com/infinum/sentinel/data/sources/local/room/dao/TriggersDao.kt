@@ -1,6 +1,5 @@
 package com.infinum.sentinel.data.sources.local.room.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -11,11 +10,11 @@ import com.infinum.sentinel.data.models.local.TriggerEntity
 internal interface TriggersDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(entity: TriggerEntity)
+    suspend fun save(entity: TriggerEntity)
 
     @Query("SELECT * FROM triggers")
-    fun load(): LiveData<List<TriggerEntity>>
+    suspend fun load(): List<TriggerEntity>
 
     @Query("SELECT * FROM triggers WHERE type = 'FOREGROUND'")
-    fun foreground(): TriggerEntity
+    suspend fun foreground(): TriggerEntity
 }

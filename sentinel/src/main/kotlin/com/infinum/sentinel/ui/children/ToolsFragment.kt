@@ -1,41 +1,37 @@
 package com.infinum.sentinel.ui.children
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.RestrictTo
+import androidx.core.content.ContextCompat
+import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.databinding.SentinelFragmentToolsBinding
 import com.infinum.sentinel.databinding.SentinelViewItemButtonBinding
 import com.infinum.sentinel.ui.DependencyGraph
 import com.infinum.sentinel.ui.shared.BaseChildFragment
+import com.infinum.sentinel.ui.shared.viewBinding
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class ToolsFragment : BaseChildFragment<SentinelFragmentToolsBinding>() {
+internal class ToolsFragment : BaseChildFragment(R.layout.sentinel_fragment_tools) {
 
     companion object {
         fun newInstance() = ToolsFragment()
         val TAG: String = ToolsFragment::class.java.simpleName
     }
 
-    override fun provideViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ): SentinelFragmentToolsBinding =
-        SentinelFragmentToolsBinding.inflate(inflater, container, false)
+    override val binding: SentinelFragmentToolsBinding by viewBinding(
+        SentinelFragmentToolsBinding::bind
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(DependencyGraph.collectors().tools()) {
-            collect()
-            bind(present())
-        }
+        bind(DependencyGraph.collectors().tools())
     }
 
     private fun bind(tools: Set<Sentinel.Tool>) =
-        with(viewBinding) {
+        with(binding) {
             contentLayout.removeAllViews()
             tools.forEach {
                 contentLayout.addView(createItemView(it))
@@ -43,8 +39,10 @@ internal class ToolsFragment : BaseChildFragment<SentinelFragmentToolsBinding>()
         }
 
     private fun createItemView(tool: Sentinel.Tool): View =
-        SentinelViewItemButtonBinding.inflate(layoutInflater, viewBinding.contentLayout, false)
+        SentinelViewItemButtonBinding.inflate(layoutInflater, binding.contentLayout, false)
             .apply {
+                this.buttonView.icon =
+                    tool.icon()?.let { ContextCompat.getDrawable(this.buttonView.context, it) }
                 this.buttonView.text = getString(tool.name())
                 this.buttonView.setOnClickListener(tool.listener())
             }.root

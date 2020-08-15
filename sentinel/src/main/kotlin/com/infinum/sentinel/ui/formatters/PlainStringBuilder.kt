@@ -13,20 +13,20 @@ internal class PlainStringBuilder(
         private const val SEPARATOR = "-"
     }
 
-    override fun format(): String =
+    override fun invoke(): String =
         StringBuilder()
-            .appendln(application())
-            .appendln(permissions())
-            .appendln(device())
-            .appendln(preferences())
+            .appendLine(application())
+            .appendLine(permissions())
+            .appendLine(device())
+            .appendLine(preferences())
             .toString()
 
     override fun application(): String =
         StringBuilder()
-            .appendln(APPLICATION.toUpperCase())
-            .appendln(SEPARATOR.repeat(APPLICATION.length))
+            .appendLine(APPLICATION.toUpperCase())
+            .appendLine(SEPARATOR.repeat(APPLICATION.length))
             .apply {
-                applicationCollector.present().let {
+                applicationCollector().let {
                     addLine(R.string.sentinel_version_code, it.versionCode)
                     addLine(R.string.sentinel_version_name, it.versionName)
                     addLine(R.string.sentinel_first_install, it.firstInstall)
@@ -40,29 +40,29 @@ internal class PlainStringBuilder(
                     addLine(R.string.sentinel_locale_country, it.localeCountry)
                 }
             }
-            .appendln()
+            .appendLine()
             .toString()
 
     override fun permissions(): String =
         StringBuilder()
-            .appendln(PERMISSIONS.toUpperCase())
-            .appendln(SEPARATOR.repeat(PERMISSIONS.length))
+            .appendLine(PERMISSIONS.toUpperCase())
+            .appendLine(SEPARATOR.repeat(PERMISSIONS.length))
             .apply {
-                permissionsCollector.present().let {
+                permissionsCollector().let {
                     it.forEach { entry ->
-                        appendln("${entry.key}: ${entry.value}")
+                        appendLine("${entry.key}: ${entry.value}")
                     }
                 }
             }
-            .appendln()
+            .appendLine()
             .toString()
 
     override fun device(): String =
         StringBuilder()
-            .appendln(DEVICE.toUpperCase())
-            .appendln(SEPARATOR.repeat(DEVICE.length))
+            .appendLine(DEVICE.toUpperCase())
+            .appendLine(SEPARATOR.repeat(DEVICE.length))
             .apply {
-                deviceCollector.present().let {
+                deviceCollector().let {
                     addLine(R.string.sentinel_manufacturer, it.manufacturer)
                     addLine(R.string.sentinel_model, it.model)
                     addLine(R.string.sentinel_id, it.id)
@@ -77,20 +77,20 @@ internal class PlainStringBuilder(
                     addLine(R.string.sentinel_emulator, it.isProbablyAnEmulator.toString())
                 }
             }
-            .appendln()
+            .appendLine()
             .toString()
 
     @Suppress("NestedBlockDepth")
     override fun preferences(): String =
         StringBuilder()
-            .appendln(PREFERENCES.toUpperCase())
-            .appendln(SEPARATOR.repeat(PREFERENCES.length))
+            .appendLine(PREFERENCES.toUpperCase())
+            .appendLine(SEPARATOR.repeat(PREFERENCES.length))
             .apply {
-                preferencesCollector.present().let {
+                preferencesCollector().let {
                     it.forEach { preference ->
-                        appendln()
-                        appendln(preference.name)
-                        appendln(SEPARATOR.repeat(preference.name.length))
+                        appendLine()
+                        appendLine(preference.name)
+                        appendLine(SEPARATOR.repeat(preference.name.length))
                         preference.values.forEach { triple ->
                             addLine(triple.second, triple.third.toString())
                         }
@@ -101,11 +101,11 @@ internal class PlainStringBuilder(
 
     private fun StringBuilder.addLine(@StringRes tag: Int, text: String) {
         context.getString(tag).sanitize().let {
-            appendln("$it: $text")
+            appendLine("$it: $text")
         }
     }
 
     private fun StringBuilder.addLine(tag: String, text: String) {
-        appendln("$tag: $text")
+        appendLine("$tag: $text")
     }
 }

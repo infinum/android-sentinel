@@ -18,3 +18,4 @@ bintray.properties
 /tool-collar/build/
 /tool-dbinspector/build/
 /tool-googleplay/build/
+/tool-thimble/build/

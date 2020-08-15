@@ -20,6 +20,7 @@ The project is organized in the following modules:
 - `tool-collar` - contains a class wrapper for Collar
 - `tool-dbinspector` - contains a class wrapper for DbInspector
 - `tool-googleplay` - contains a class wrapper for Google Play
+- `tool-thimble` - contains a class wrapper for Thimble
 - `sample` - a sample app for testing and developing
 
 ## Usage
@@ -51,30 +52,32 @@ Then add the following dependencies in your app `build.gradle` or `build.gradle.
 
 **Groovy**
 ```gradle
-debugImplementation "com.infinum.sentinel:sentinel:1.0.1"
-releaseImplementation "com.infinum.sentinel:sentinel-no-op:1.0.1"
+debugImplementation "com.infinum.sentinel:sentinel:1.0.2"
+releaseImplementation "com.infinum.sentinel:sentinel-no-op:1.0.2"
 ```
 **KotlinDSL**
 ```kotlin
-debugImplementation("com.infinum.sentinel:sentinel:1.0.1")
-releaseImplementation("com.infinum.sentinel:sentinel-no-op:1.0.1")
+debugImplementation("com.infinum.sentinel:sentinel:1.0.2")
+releaseImplementation("com.infinum.sentinel:sentinel-no-op:1.0.2")
 ```
 
 Basic tools are provided inside the main package but depending on requirements you might want to add specific tools:
 
 **Groovy**
 ```gradle
-debugImplementation "com.infinum.sentinel:tool-chucker:1.0.1"
-debugImplementation "com.infinum.sentinel:tool-collar:1.0.1"
-debugImplementation "com.infinum.sentinel:tool-dbinspector:1.0.1"
-debugImplementation "com.infinum.sentinel:tool-googleplay:1.0.1"
+debugImplementation "com.infinum.sentinel:tool-chucker:1.0.2"
+debugImplementation "com.infinum.sentinel:tool-collar:1.0.2"
+debugImplementation "com.infinum.sentinel:tool-dbinspector:1.0.2"
+debugImplementation "com.infinum.sentinel:tool-googleplay:1.0.2"
+debugImplementation "com.infinum.sentinel:tool-thimble:1.0.2"
 ```
 **KotlinDSL**
 ```kotlin
-debugImplementation("com.infinum.sentinel:tool-chucker:1.0.1")
-debugImplementation("com.infinum.sentinel:tool-collar:1.0.1")
-debugImplementation("com.infinum.sentinel:tool-dbinspector:1.0.1")
-debugImplementation("com.infinum.sentinel:tool-googleplay:1.0.1")
+debugImplementation("com.infinum.sentinel:tool-chucker:1.0.2")
+debugImplementation("com.infinum.sentinel:tool-collar:1.0.2")
+debugImplementation("com.infinum.sentinel:tool-dbinspector:1.0.2")
+debugImplementation("com.infinum.sentinel:tool-googleplay:1.0.2")
+debugImplementation("com.infinum.sentinel:tool-thimble:1.0.2")
 ```
 
 Now you can sync your project.
@@ -89,7 +92,8 @@ Create or inject an instance of _Sentinel_ in your Application class and start w
             ChuckerTool(),
             CollarTool(),
             DbInspectorTool(),
-            GooglePlayTool()
+            GooglePlayTool(),
+            ThimbleTool()
         )
     )
 ```
@@ -110,6 +114,7 @@ Depending of what you include as module dependencies, very specific tools are pr
 - `ChuckerTool` - a wrapper class that opens [Chucker](https://github.com/ChuckerTeam/chucker)
 - `CollarTool` - a wrapper class that opens [Collar](https://github.com/infinum/android-collar)
 - `DbInspectorTool` - a wrapper class that opens [DbInspector](https://github.com/infinum/android_dbinspector)
+- `ThimbleTool` - a wrapper class that opens [Thimble](https://github.com/infinum/android-thimble)
 - `GooglePlayTool` - a wrapper class that opens a Google Play if the application is published
 
 #### Source abstractions
@@ -122,13 +127,18 @@ If you want to implement a different tool other than already packaged with a pre
 - `ReportTool` - a wrapper interface with a name *Report* for any crash reporting tools
 - `BluetoothTool` - a wrapper interface with a name *Bluetooth* for any Bluetooth loggers
 - `DistributionTool` - a wrapper interface with a name *Google Play* for any logic opening Play
+- `DesignTool` - a wrapper interface with a name *Design* for any design utilities
 
 #### Independent implementations
 
 An interface is provided named _Sentinel.Tool_ that requires implementation of a *String resource* for a name and a _View.OnClickListener_.  
+An optional icon *Drawable resources* can be supplied.  
 Implementing this interface enables any class to be provided as a tool in _Sentinel_.
 ```kotlin
     interface Tool {
+
+        @DrawableRes
+        fun icon(): Int? = null
 
         @StringRes
         fun name(): Int
@@ -163,7 +173,7 @@ _Plain_ formatter is selected by default, but selecting any other is persisted b
 
 Feedback and code contributions are very much welcome. Just make a pull request with a short description of your changes. By making contributions to this project you give permission for your code to be used under the same [license](LICENSE).  
 For easier developing a `sample` application with proper implementations is provided.  
-It is also recommended to uncomment the block of dependency substitution in project level `build.gradle`.  
+It is also recommended to change `build.debug` property in `build.properties` to toggle dependency substitution in project level `build.gradle`.  
 If you wish to add a new specific dependency wrapper tool, create a new module and set it up like the ones already provided.  
 Then create a pull request.
 

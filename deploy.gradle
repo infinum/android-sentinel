@@ -4,7 +4,8 @@ task deployAll(dependsOn: [
         'deployToolChucker',
         'deployToolCollar',
         'deployToolDbInspector',
-        'deployToolGooglePlay'
+        'deployToolGooglePlay',
+        'deployToolThimble'
 ]) {
     group = "Deploy"
     description = "Deploy all modules to Bintray"
@@ -59,6 +60,15 @@ task deployToolGooglePlay(dependsOn: [
         ':tool-googleplay:build',
         ':tool-googleplay:install',
         ':tool-googleplay:bintrayUpload'
+]) {
+    group = "Deploy"
+    description = "Deploy module to Bintray"
+}
+
+task deployToolThimble(dependsOn: [
+        ':tool-thimble:build',
+        ':tool-thimble:install',
+        ':tool-thimble:bintrayUpload'
 ]) {
     group = "Deploy"
     description = "Deploy module to Bintray"

@@ -42,7 +42,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -64,11 +63,14 @@ dependencies {
     implementation packages.kotlin.core
     implementation packages.androidx.core
     implementation packages.androidx.fragment
+    implementation packages.androidx.lifecycle.common
     implementation packages.androidx.lifecycle.process
     implementation packages.google.design
     implementation packages.androidx.room.runtime
+    implementation packages.androidx.room.kotlin
     kapt packages.androidx.room.compiler
     implementation packages.androidx.preference
+    implementation packages.kotlinx.coroutines
 
     androidTestImplementation "junit:junit:4.13"
     androidTestImplementation 'androidx.arch.core:core-testing:2.1.0'
@@ -76,7 +78,7 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.2.0'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation "androidx.security:security-crypto:1.0.0-rc01"
+    androidTestImplementation "androidx.security:security-crypto:1.1.0-alpha02"
     androidTestImplementation "org.robolectric:shadowapi:4.3.1"
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
