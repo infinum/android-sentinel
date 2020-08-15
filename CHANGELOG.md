@@ -3,9 +3,10 @@ Change Log
 
 ## Version 1.0.2
 
-_2020-08-10_
+_2020-08-15_
 
  * Update Kotlin to 1.4.0.
+ * Update Gradle to 6.6.
  * Update dependencies.
  * Add tool for Thimble.
  * Promote settings screen to full screen Activity.
