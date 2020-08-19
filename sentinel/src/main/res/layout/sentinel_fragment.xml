@@ -31,7 +31,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingEnd="8dp"
-                    android:paddingRight="8dp"
                     app:menu="@menu/sentinel_menu"
                     app:navigationIcon="@drawable/sentinel_ic_settings"
                     app:title="@string/sentinel_name"
@@ -72,9 +71,10 @@
         android:layout_width="@dimen/sentinel_icon_size"
         android:layout_height="@dimen/sentinel_icon_size"
         android:layout_gravity="center_horizontal|top"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
-        android:elevation="2dp"
+        android:elevation="8dp"
+        tools:src="@tools:sample/avatars"
         android:focusable="true"
         tools:ignore="UnusedAttribute" />
 

@@ -46,7 +46,7 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment) {
         with(binding) {
             DependencyGraph.collectors().application().let {
                 toolbar.subtitle = it.applicationName
-                applicationIconView.setImageDrawable(it.applicationIcon)
+                applicationIconView.background = it.applicationIcon
             }
             applicationIconView.setOnClickListener { dismiss() }
         }
