@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/sentinel_item_height"
+    android:orientation="horizontal">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/labelView"
+        style="@style/TextAppearance.MaterialComponents.Caption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:gravity="start|center_vertical"
+        android:minHeight="@dimen/sentinel_item_height"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:textAllCaps="true"
+        tools:text="Manufacturer" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/valueView"
+        style="@style/TextAppearance.MaterialComponents.Body2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
+        android:gravity="end|center_vertical"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        tools:text="Samsung" />
+
+</LinearLayout>

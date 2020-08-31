@@ -1,0 +1,22 @@
+name: Validate Gradle wrapper
+on:
+  push:
+    branches:
+      - dev
+      - master
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  validation:
+    name: Validation
+
+    runs-on: macOS-latest
+
+    steps:
+      - name: Checkout latest code
+        uses: actions/checkout@v2
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1

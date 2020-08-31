@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sentinel_name" translatable="false">Sentinel</string>
+    <string name="sentinel_preferences">Preferences</string>
+    <string name="sentinel_application">Application</string>
+    <string name="sentinel_device">Device</string>
+    <string name="sentinel_tools">Tools</string>
+    <string name="sentinel_permissions">Permissions</string>
+    <string name="sentinel_settings">Settings</string>
+    <string name="sentinel_app_info">App info</string>
+    <string name="sentinel_share">Share</string>
+
+    <string name="sentinel_network">Network</string>
+    <string name="sentinel_memory">Memory</string>
+    <string name="sentinel_analytics">Analytics</string>
+    <string name="sentinel_database">Database</string>
+    <string name="sentinel_report">Report</string>
+    <string name="sentinel_bluetooth">Bluetooth</string>
+    <string name="sentinel_google_play">Google Play</string>
+    <string name="sentinel_design">Design</string>
+
+    <string name="sentinel_triggers">Triggers</string>
+    <string name="sentinel_plain">Plain</string>
+    <string name="sentinel_json">JSON</string>
+    <string name="sentinel_xml">XML</string>
+    <string name="sentinel_share_format">Share format</string>
+    <string name="sentinel_html">HTML</string>
+    <string name="sentinel_table">Table</string>
+    <string name="sentinel_markdown">Markdown</string>
+
+    <string name="sentinel_version_code">Version code</string>
+    <string name="sentinel_version_name">Version name</string>
+    <string name="sentinel_first_install">First install</string>
+    <string name="sentinel_last_update">Last update</string>
+    <string name="sentinel_min_sdk">Min SDK</string>
+    <string name="sentinel_target_sdk">Target SDK</string>
+    <string name="sentinel_package_name">Package name</string>
+    <string name="sentinel_process_name">Process name</string>
+    <string name="sentinel_task_affinity">Task affinity</string>
+    <string name="sentinel_locale_country">Locale country</string>
+    <string name="sentinel_locale_language">Locale language</string>
+    <string name="sentinel_manufacturer">Manufacturer</string>
+    <string name="sentinel_model">Model</string>
+    <string name="sentinel_id">id</string>
+    <string name="sentinel_bootloader">Bootloader</string>
+    <string name="sentinel_board">Board</string>
+    <string name="sentinel_architectures">Architectures</string>
+    <string name="sentinel_codename">Codename</string>
+    <string name="sentinel_release">Release</string>
+    <string name="sentinel_sdk">sdk</string>
+    <string name="sentinel_security_patch">Security patch</string>
+    <string name="sentinel_manual">Manual</string>
+    <string name="sentinel_foreground">Foreground</string>
+    <string name="sentinel_shake">Shake</string>
+    <string name="sentinel_usb_connected">USB connected</string>
+    <string name="sentinel_airplane_mode_on">Airplane mode on</string>
+    <string name="sentinel_emulator">Emulator</string>
+</resources>

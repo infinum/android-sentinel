@@ -1,0 +1,22 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.infinum.sentinel">
+
+    <application>
+        <activity
+            android:name=".ui.SentinelActivity"
+            android:label="@string/sentinel_name"
+            android:theme="@style/Sentinel.Theme" />
+
+        <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:label="@string/sentinel_name"
+            android:theme="@style/Sentinel.Theme.Settings" />
+
+        <provider
+            android:name=".SentinelContentProvider"
+            android:authorities="${applicationId}.SentinelContentProvider"
+            android:enabled="true"
+            android:exported="false" />
+    </application>
+
+</manifest>

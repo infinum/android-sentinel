@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nestedScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/contentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/sentinel_icon_size"
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="32dp">
+
+        <com.infinum.sentinel.ui.views.SentinelItemTextView
+            android:id="@+id/versionCodeView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:sentinel_label="@string/sentinel_version_code" />
+
+        <com.infinum.sentinel.ui.views.SentinelItemTextView
+            android:id="@+id/versionNameView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:sentinel_label="@string/sentinel_version_name" />
+
+        <com.infinum.sentinel.ui.views.SentinelItemTextView
+            android:id="@+id/firstInstallView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:sentinel_label="@string/sentinel_first_install" />
+
+        <com.infinum.sentinel.ui.views.SentinelItemTextView
+            android:id="@+id/lastUpdateView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:sentinel_label="@string/sentinel_last_update" />
+
+        <com.infinum.sentinel.ui.views.SentinelItemTextView
+            android:id="@+id/minSdkView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:sentinel_label="@string/sentinel_min_sdk" />
+
+        <com.infinum.sentinel.ui.views.SentinelItemTextView
+            android:id="@+id/targetSdkView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:sentinel_label="@string/sentinel_target_sdk" />
+
+        <com.infinum.sentinel.ui.views.SentinelItemTextView
+            android:id="@+id/packageNameView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:sentinel_label="@string/sentinel_package_name" />
+
+        <com.infinum.sentinel.ui.views.SentinelItemTextView
+            android:id="@+id/processNameView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:sentinel_label="@string/sentinel_process_name" />
+
+        <com.infinum.sentinel.ui.views.SentinelItemTextView
+            android:id="@+id/taskAffinityView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:sentinel_label="@string/sentinel_task_affinity" />
+
+        <com.infinum.sentinel.ui.views.SentinelItemTextView
+            android:id="@+id/localeLanguageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:sentinel_label="@string/sentinel_locale_language" />
+
+        <com.infinum.sentinel.ui.views.SentinelItemTextView
+            android:id="@+id/localeCountryView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:sentinel_label="@string/sentinel_locale_country" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

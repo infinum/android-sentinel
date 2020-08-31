@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="sentinel_color_background">#424242</color>
+    <color name="sentinel_color_ripple">#33ffffff</color>
+</resources>

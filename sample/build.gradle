@@ -1,0 +1,65 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion buildConfig.compileSdk
+    buildToolsVersion buildConfig.buildTools
+
+    defaultConfig {
+        minSdkVersion buildConfig.minSdk
+        targetSdkVersion buildConfig.targetSdk
+        versionCode sentinel.versionCode
+        versionName sentinel.version
+        applicationId "com.infinum.sentinel.sample"
+    }
+
+    signingConfigs {
+        dummy {
+            storeFile file("dummy.jks")
+            storePassword "dummydummy"
+            keyAlias "dummy"
+            keyPassword "dummydummy"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.dummy
+        }
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    sourceSets {
+        main.java.srcDirs += "src/main/kotlin"
+        debug.java.srcDirs += "src/debug/kotlin"
+        release.java.srcDirs += "src/release/kotlin"
+    }
+}
+
+dependencies {
+    implementation packages.kotlin.core
+    implementation packages.androidx.appcompat
+    implementation packages.androidx.preference
+    implementation "androidx.security:security-crypto:1.1.0-alpha02"
+    implementation packages.google.design
+
+    debugImplementation packages.sentinel.sentinel
+    releaseImplementation packages.sentinel.sentinel_no_op
+
+    debugImplementation packages.sentinel.tool_chucker
+    debugImplementation packages.sentinel.tool_dbinspector
+    debugImplementation packages.sentinel.tool_googleplay
+}

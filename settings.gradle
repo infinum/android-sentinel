@@ -1,0 +1,8 @@
+rootProject.name='Sentinel'
+
+include ':sample'
+include ':sentinel'
+include ':sentinel-no-op'
+include ':tool-chucker'
+include ':tool-dbinspector'
+include ':tool-googleplay'
