@@ -6,7 +6,7 @@
 
 # Sentinel
 
-![UI](ui.jpg)
+![UI](ui.png)
 
 _Sentinel_ is a simple one screen UI that provides standardised entry point for tools used in development and QA alongside device, application and permissions data.  
 It is designed to be easily configured and expanded depending on needs and requirements of developers and QA testers.  
