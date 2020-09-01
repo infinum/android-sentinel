@@ -84,10 +84,8 @@ Create or inject an instance of _Sentinel_ in your Application class and start w
     Sentinel.watch(
         setOf(
             ChuckerTool(),
-            CollarTool(),
             DbInspectorTool(),
-            GooglePlayTool(),
-            ThimbleTool()
+            GooglePlayTool()
         )
     )
 ```
