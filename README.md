@@ -9,8 +9,9 @@
 ![UI](ui.png)
 
 _Sentinel_ is a simple one screen UI that provides standardised entry point for tools used in development and QA alongside device, application and permissions data.  
-It is designed to be easily configured and expanded depending on needs and requirements of developers and QA testers.  
-This plugin has been written in Kotlin but works both inside Kotlin and Java projects.
+It's designed to be easily configured and expanded depending on needs and requirements of developers and QA testers.  
+This plugin has been written in Kotlin but works both inside Kotlin and Java projects.  
+Minimum required API level to use _Sentinel_ is *21* known as [Android 5.0, Lollipop](https://www.android.com/versions/lollipop-5-0/).
 
 The project is organized in the following modules:
 
@@ -122,7 +123,7 @@ If you want to implement a different tool other than already packaged with a pre
 #### Independent implementations
 
 An interface is provided named _Sentinel.Tool_ that requires implementation of a *String resource* for a name and a _View.OnClickListener_.  
-An optional icon *Drawable resources* can be supplied.  
+An optional icon *Drawable resource* can be supplied.  
 Implementing this interface enables any class to be provided as a tool in _Sentinel_.
 ```kotlin
     interface Tool {
@@ -141,7 +142,8 @@ Implementing this interface enables any class to be provided as a tool in _Senti
 
 _Sentinel_ observes several different trigger events, determining when to show up.  
 *Manual* and *Shake* triggers cannot be turned off but rest are configurable through _Sentinel_ settings except *Foreground* trigger when running on emulators.  
-Trigger states will be persisted between sessions. Upon first run, all triggers are enabled.
+Trigger states will be persisted between sessions.  
+*Upon first run, all triggers are enabled.*
 - `Manual` - used for manually triggering UI with _show()_
 - `Shake` - default trigger to show UI, shake device to invoke
 - `Foreground` - shows UI every time application goes into foreground
