@@ -1,7 +1,7 @@
 ext.sentinel = [
         "group"      : "com.infinum.sentinel",
-        "version"    : "1.0.2",
-        "versionCode": 1 * 100 * 100 + 0 * 100 + 2
+        "version"    : "1.0.3",
+        "versionCode": 1 * 100 * 100 + 0 * 100 + 3
 ]
 
 ext.versions = [
@@ -16,6 +16,7 @@ ext.versions = [
         "lifecycle"  : "2.2.0",
         "preference" : "1.1.1",
         "room"       : "2.2.5",
+        "startup"    : "1.0.0-alpha03",
         "design"     : "1.2.0",
         "maven"      : "2.0",
         "detekt"     : "1.10.0",
@@ -54,7 +55,8 @@ ext.packages = [
                         "runtime" : "androidx.room:room-runtime:${versions.room}",
                         "kotlin"  : "androidx.room:room-ktx:${versions.room}"
                 ],
-                "preference": "androidx.preference:preference-ktx:${versions.preference}"
+                "preference": "androidx.preference:preference-ktx:${versions.preference}",
+                "startup"   : "androidx.startup:startup-runtime:${versions.startup}"
         ],
         "google"     : [
                 "design": "com.google.android.material:material:${versions.design}"
