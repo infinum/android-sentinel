@@ -8,6 +8,7 @@ _2020-09-04_
  * Replace ContentProvider with AndroidX Startup Initializer.
  * Update Build tools 30.0.2.
  * Update Gradle to 6.6.1.
+ * Update compile and target SDK to 30.
 
 ## Version 1.0.2
 
