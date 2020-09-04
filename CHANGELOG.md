@@ -1,6 +1,15 @@
 Change Log
 ==========
 
+## Version 1.0.3
+
+_2020-09-04_
+
+ * Replace ContentProvider with AndroidX Startup Initializer.
+ * Update Build tools 30.0.2.
+ * Update Gradle to 6.6.1.
+ * Update compile and target SDK to 30.
+
 ## Version 1.0.2
 
 _2020-08-15_
@@ -8,7 +17,6 @@ _2020-08-15_
  * Update Kotlin to 1.4.0.
  * Update Gradle to 6.6.
  * Update dependencies.
- * Add tool for Thimble.
  * Promote settings screen to full screen Activity.
  * Replace BottomAppBar with BottomNavigationView.
  * Replace Executors with Coroutines.
