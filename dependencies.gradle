@@ -17,7 +17,7 @@ ext.versions = [
         "preference" : "1.1.1",
         "room"       : "2.2.5",
         "startup"    : "1.0.0-alpha03",
-        "design"     : "1.2.0",
+        "design"     : "1.2.1",
         "maven"      : "2.0",
         "detekt"     : "1.10.0",
         "dokka"      : "0.10.1",
