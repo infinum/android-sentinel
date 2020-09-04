@@ -70,6 +70,7 @@ dependencies {
     implementation packages.androidx.room.kotlin
     kapt packages.androidx.room.compiler
     implementation packages.androidx.preference
+    implementation packages.androidx.startup
     implementation packages.kotlinx.coroutines
 
     androidTestImplementation "junit:junit:4.13"
