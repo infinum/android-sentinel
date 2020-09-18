@@ -79,11 +79,18 @@ internal class JsonStringBuilder(
                     put(
                         JSONObject().apply {
                             addKey(NAME, preference.name.sanitize())
-                            addKey(VALUES, JSONArray().apply {
-                                preference.values.forEach {
-                                    put(JSONObject().apply { addKey(it.second, it.third) })
+                            addKey(
+                                VALUES,
+                                JSONArray().apply {
+                                    preference.values.forEach {
+                                        put(
+                                            JSONObject().apply {
+                                                addKey(it.second, it.third)
+                                            }
+                                        )
+                                    }
                                 }
-                            })
+                            )
                         }
                     )
                 }

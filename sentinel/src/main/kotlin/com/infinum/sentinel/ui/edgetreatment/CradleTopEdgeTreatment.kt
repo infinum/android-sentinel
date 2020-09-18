@@ -103,11 +103,12 @@ internal class CradleTopEdgeTreatment(
 
         // Draw an arc for the right rounded corner circle. The bounding box is the area around the
         // circle's center which is at `(rightRoundedCornerCircleX, roundedCornerOffset)`.
-        shapePath.addArc( /* left= */
-            rightRoundedCornerCircleX - roundedCornerOffset, 0f,  /* right= */
-            rightRoundedCornerCircleX + roundedCornerOffset,  /* bottom= */
-            roundedCornerOffset * 2,  /* startAngle= */
-            ANGLE_UP - cornerRadiusArcLength,  /* sweepAngle= */
+        shapePath.addArc(
+            rightRoundedCornerCircleX - roundedCornerOffset,
+            0f,
+            rightRoundedCornerCircleX + roundedCornerOffset,
+            roundedCornerOffset * 2,
+            ANGLE_UP - cornerRadiusArcLength,
             cornerRadiusArcLength
         )
 

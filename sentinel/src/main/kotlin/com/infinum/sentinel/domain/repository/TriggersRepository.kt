@@ -31,10 +31,12 @@ internal class TriggersRepository(
     suspend fun load() = triggersLocal.load()
 
     private suspend fun foreground() =
-        save(triggersLocal.foreground().apply {
-            this.editable = false
-            this.enabled = true
-        })
+        save(
+            triggersLocal.foreground().apply {
+                this.editable = false
+                this.enabled = true
+            }
+        )
 
     private suspend fun observe() {
         load()
