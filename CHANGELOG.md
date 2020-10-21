@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+## Version 1.0.4
+
+_2020-09-04_
+
+ * Add no op tool stubs.
+ * Update Chucker.
+
 ## Version 1.0.3
 
 _2020-09-04_
