@@ -1,14 +1,14 @@
 ext.sentinel = [
         "group"      : "com.infinum.sentinel",
-        "version"    : "1.0.3",
-        "versionCode": 1 * 100 * 100 + 0 * 100 + 3
+        "version"    : "1.0.4",
+        "versionCode": 1 * 100 * 100 + 0 * 100 + 4
 ]
 
 ext.versions = [
-        "sentinel"   : "1.0.3",
-        "gradle"     : '4.0.1',
+        "sentinel"   : "1.0.4",
+        "gradle"     : '4.1.0',
         "kotlin"     : "1.4.10",
-        "coroutines" : "1.3.8",
+        "coroutines" : "1.3.9",
         "bintray"    : "1.8.5",
         "core"       : "1.3.1",
         "appcompat"  : "1.2.0",
@@ -21,8 +21,8 @@ ext.versions = [
         "maven"      : "2.0",
         "detekt"     : "1.13.1",
         "dokka"      : "0.10.1",
-        "chucker"    : "3.2.0",
-        "collar"     : "1.1.7",
+        "chucker"    : "3.3.0",
+        "collar"     : "1.1.8",
         "dbinspector": "4.0.0",
         "thimble"    : "1.0.0"
 ]
