@@ -21,12 +21,11 @@
         <item name="android:windowAnimationStyle">@android:style/Animation.Activity</item>
     </style>
 
-    <style name="Sentinel.Theme.BottomSheet" parent="@style/Theme.MaterialComponents.DayNight.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/Sentinel.Widget.BottomSheet.Modal</item>
-    </style>
-
-    <style name="Sentinel.Widget.BottomSheet.Modal" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@null</item>
+    <style name="Sentinel.Theme.Dialog" parent="@style/Theme.MaterialComponents.DayNight.Dialog">
+        <item name="android:windowMinWidthMajor">100%</item>
+        <item name="android:windowMinWidthMinor">100%</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
     </style>
 
     <style name="Sentinel.Widget.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
