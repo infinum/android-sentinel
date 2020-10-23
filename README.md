@@ -10,8 +10,6 @@
 
 _Sentinel_ is a simple one screen UI that provides standardised entry point for tools used in development and QA alongside device, application and permissions data.  
 It's designed to be easily configured and expanded depending on needs and requirements of developers and QA testers.  
-This plugin has been written in Kotlin but works both inside Kotlin and Java projects.  
-Minimum required API level to use _Sentinel_ is *21* known as [Android 5.0, Lollipop](https://www.android.com/versions/lollipop-5-0/).
 
 The project is organized in the following modules:
 
@@ -29,7 +27,7 @@ The project is organized in the following modules:
 To include _Sentinel_ in your project, you have to add buildscript dependencies in your project level `build.gradle` or `build.gradle.kts`:
 
 **Groovy**
-```gradle
+```groovy
 buildscript {
     repositories {
         jcenter()
@@ -52,7 +50,7 @@ buildscript {
 Then add the following dependencies in your app `build.gradle` or `build.gradle.kts` :
 
 **Groovy**
-```gradle
+```groovy
 debugImplementation "com.infinum.sentinel:sentinel:1.0.4"
 releaseImplementation "com.infinum.sentinel:sentinel-no-op:1.0.4"
 ```
@@ -65,7 +63,7 @@ releaseImplementation("com.infinum.sentinel:sentinel-no-op:1.0.4")
 Basic tools are provided inside the main package but depending on requirements you might want to add specific tools:
 
 **Groovy**
-```gradle
+```groovy
 debugImplementation "com.infinum.sentinel:tool-chucker:1.0.4"
 debugImplementation "com.infinum.sentinel:tool-collar:1.0.4"
 debugImplementation "com.infinum.sentinel:tool-dbinspector:1.0.4"
@@ -132,8 +130,8 @@ If you want to implement a different tool other than already packaged with a pre
 
 #### Independent implementations
 
-An interface is provided named _Sentinel.Tool_ that requires implementation of a *String resource* for a name and a _View.OnClickListener_.  
-An optional icon *Drawable resource* can be supplied.  
+An interface is provided named _Sentinel.Tool_ that requires implementation of a *String resource* for a name and a _View.OnClickListener_.
+An optional icon *Drawable resource* can be supplied.
 Implementing this interface enables any class to be provided as a tool in _Sentinel_.
 ```kotlin
     interface Tool {
@@ -150,9 +148,9 @@ Implementing this interface enables any class to be provided as a tool in _Senti
 
 ### Triggers
 
-_Sentinel_ observes several different trigger events, determining when to show up.  
-*Manual* and *Shake* triggers cannot be turned off but rest are configurable through _Sentinel_ settings except *Foreground* trigger when running on emulators.  
-Trigger states will be persisted between sessions.  
+_Sentinel_ observes several different trigger events, determining when to show up.
+*Manual* and *Shake* triggers cannot be turned off but rest are configurable through _Sentinel_ settings except *Foreground* trigger when running on emulators.
+Trigger states will be persisted between sessions.
 *Upon first run, all triggers are enabled.*
 - `Manual` - used for manually triggering UI with _show()_
 - `Shake` - default trigger to show UI, shake device to invoke
@@ -162,8 +160,8 @@ Trigger states will be persisted between sessions.
 
 ### Formatters
 
-Data gathered and presented by _Sentinel_ can be shared to any text compliant recipient applications.  
-_Sentinel_ provides a few simple text formatters for easy integrations into other systems.  
+Data gathered and presented by _Sentinel_ can be shared to any text compliant recipient applications.
+_Sentinel_ provides a few simple text formatters for easy integrations into other systems.
 _Plain_ formatter is selected by default, but selecting any other is persisted between sessions.
 - `Plain`
 - `Markdown`
@@ -171,12 +169,18 @@ _Plain_ formatter is selected by default, but selecting any other is persisted b
 - `XML`
 - `HTML`
 
+## Requirements
+
+This plugin has been written in Kotlin but works both inside Kotlin and Java projects.
+Minimum required API level to use _Sentinel_ is *21* known as [Android 5.0, Lollipop](https://www.android.com/versions/lollipop-5-0/).
+_Sentinel_ is built with and for AndroidX projects.
+
 ## Contributing
 
-Feedback and code contributions are very much welcome. Just make a pull request with a short description of your changes. By making contributions to this project you give permission for your code to be used under the same [license](LICENSE).  
-For easier developing a `sample` application with proper implementations is provided.  
-It is also recommended to change `build.debug` property in `build.properties` to toggle dependency substitution in project level `build.gradle`.  
-If you wish to add a new specific dependency wrapper tool, create a new module and set it up like the ones already provided.  
+Feedback and code contributions are very much welcome. Just make a pull request with a short description of your changes. By making contributions to this project you give permission for your code to be used under the same [license](LICENSE).
+For easier developing a `sample` application with proper implementations is provided.
+It is also recommended to change `build.debug` property in `build.properties` to toggle dependency substitution in project level `build.gradle`.
+If you wish to add a new specific dependency wrapper tool, create a new module and set it up like the ones already provided.
 Then create a pull request.
 
 ## License
@@ -201,6 +205,6 @@ limitations under the License.
 
 Maintained and sponsored by [Infinum](http://www.infinum.com).
 
-<a href='https://infinum.co'>
-  <img src='https://infinum.co/infinum.png' href='https://infinum.com' width='264'>
+<a href='https://infinum.com'>
+  <img src='https://infinum.com/infinum.png' href='https://infinum.com' width='264'>
 </a>
