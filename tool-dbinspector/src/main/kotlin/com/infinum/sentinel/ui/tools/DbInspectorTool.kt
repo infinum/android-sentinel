@@ -1,9 +1,8 @@
 package com.infinum.sentinel.ui.tools
 
-import android.content.Intent
 import android.view.View
+import com.infinum.dbinspector.DbInspector
 import com.infinum.sentinel.Sentinel
-import im.dino.dbinspector.activities.DbInspectorActivity
 
 /**
  * Specific wrapper tool around DbInspector.
@@ -12,9 +11,7 @@ import im.dino.dbinspector.activities.DbInspectorActivity
  */
 data class DbInspectorTool(
     private val listener: View.OnClickListener = View.OnClickListener {
-        it.context.startActivity(
-            Intent(it.context, DbInspectorActivity::class.java)
-        )
+        DbInspector.show()
     }
 ) : Sentinel.DatabaseTool {
 

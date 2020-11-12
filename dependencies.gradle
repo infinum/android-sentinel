@@ -23,7 +23,7 @@ ext.versions = [
         "dokka"      : "0.10.1",
         "chucker"    : "3.3.0",
         "collar"     : "1.1.8",
-        "dbinspector": "4.0.0",
+        "dbinspector": "5.0.0",
         "thimble"    : "1.0.0"
 ]
 
@@ -77,6 +77,6 @@ ext.packages = [
         ],
         "chucker"    : "com.github.ChuckerTeam.Chucker:library:${versions.chucker}",
         "collar"     : "co.infinum.collar:collar-ui:${versions.collar}",
-        "dbinspector": "im.dino:dbinspector:${versions.dbinspector}",
+        "dbinspector": "com.infinum.dbinspector:dbinspector:${versions.dbinspector}",
         "thimble"    : "com.infinum.thimble:thimble:${versions.thimble}"
 ]

@@ -8,6 +8,9 @@ import android.hardware.SensorManager
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.infinum.sentinel.data.models.memory.triggers.AbstractTrigger
 import com.infinum.sentinel.data.models.memory.triggers.shake.samples.SampleQueue
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /**
  * Detects phone shaking. If more than 75% of the samples taken in the past 0.5s are
@@ -25,7 +28,9 @@ internal class ShakeTrigger(
     }
 
     init {
-        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
+        GlobalScope.launch(Dispatchers.Main) {
+            ProcessLifecycleOwner.get().lifecycle.addObserver(this@ShakeTrigger)
+        }
     }
 
     private val queue = SampleQueue()

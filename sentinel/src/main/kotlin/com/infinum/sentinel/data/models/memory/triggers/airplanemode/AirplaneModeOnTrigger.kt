@@ -5,6 +5,9 @@ import android.content.Intent
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.infinum.sentinel.data.models.memory.triggers.AbstractTrigger
 import com.infinum.sentinel.data.models.memory.triggers.shared.receiver.BroadcastReceiver
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 internal class AirplaneModeOnTrigger(
     private val context: Context,
@@ -22,7 +25,9 @@ internal class AirplaneModeOnTrigger(
     }
 
     init {
-        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
+        GlobalScope.launch(Dispatchers.Main) {
+            ProcessLifecycleOwner.get().lifecycle.addObserver(this@AirplaneModeOnTrigger)
+        }
     }
 
     override fun start() {
