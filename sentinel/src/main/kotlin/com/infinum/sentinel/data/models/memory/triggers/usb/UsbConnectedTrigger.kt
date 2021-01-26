@@ -1,12 +1,8 @@
 package com.infinum.sentinel.data.models.memory.triggers.usb
 
 import android.content.Context
-import androidx.lifecycle.ProcessLifecycleOwner
 import com.infinum.sentinel.data.models.memory.triggers.AbstractTrigger
 import com.infinum.sentinel.data.models.memory.triggers.shared.receiver.BroadcastReceiver
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 internal class UsbConnectedTrigger(
     private val context: Context,
@@ -23,12 +19,6 @@ internal class UsbConnectedTrigger(
     private val broadcastReceiverBuilder = BroadcastReceiver {
         onAction(USB_STATE) {
             isConnected(it.extras?.getBoolean(USB_CONNECTED, false) ?: false)
-        }
-    }
-
-    init {
-        GlobalScope.launch(Dispatchers.Main) {
-            ProcessLifecycleOwner.get().lifecycle.addObserver(this@UsbConnectedTrigger)
         }
     }
 

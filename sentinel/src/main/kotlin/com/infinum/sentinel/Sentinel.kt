@@ -5,6 +5,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.infinum.sentinel.data.models.memory.triggers.manual.ManualTrigger
 import com.infinum.sentinel.ui.DependencyGraph
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -35,7 +36,7 @@ class Sentinel private constructor(tools: Set<Tool> = setOf()) {
     }
 
     init {
-        GlobalScope.launch {
+        GlobalScope.launch(Dispatchers.Main) {
             DependencyGraph.setup(tools) { DependencyGraph.show() }
         }
     }

@@ -63,7 +63,7 @@ dependencies {
     implementation packages.kotlin.core
     implementation packages.androidx.core
     implementation packages.androidx.fragment
-    implementation packages.androidx.lifecycle.common
+    implementation packages.androidx.lifecycle.livedata
     implementation packages.androidx.lifecycle.process
     implementation packages.google.design
     implementation packages.androidx.room.runtime

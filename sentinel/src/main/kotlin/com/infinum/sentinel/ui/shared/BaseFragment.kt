@@ -14,7 +14,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.viewbinding.ViewBinding
 import com.infinum.sentinel.R
 
-
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal abstract class BaseFragment(
     @LayoutRes private val contentLayoutId: Int
