@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 android {
     buildFeatures {
@@ -29,9 +28,6 @@ android {
 
     resourcePrefix 'designer_'
 
-    androidExtensions {
-        features = ["parcelize"]
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

@@ -1,6 +1,5 @@
 apply plugin: 'maven-publish'
 apply plugin: "com.jfrog.bintray"
-apply plugin: 'com.github.dcendents.android-maven'
 
 group = sentinel.group
 version = sentinel.version
@@ -91,37 +90,37 @@ bintray {
     configurations = ['archives']
 }
 
-install {
-    repositories.mavenInstaller {
-        pom {
-            project {
-                packaging 'jar'
-                groupId 'com.infinum.sentinel'
-                artifactId 'tool-dbinspector'
-
-                name 'tool-dbinspector'
-                description 'Sentinel Tool for DbInspector'
-                url 'https://github.com/infinum/android-sentinel'
-
-                licenses {
-                    license {
-                        name 'Apache'
-                        url 'https://github.com/infinum/android-sentinel/LICENSE'
-                    }
-                }
-                developers {
-                    developer {
-                        id 'knobtviker'
-                        name 'Bojan Komljenović'
-                        email 'bojan.komljenovic@infinum.com'
-                    }
-                }
-                scm {
-                    connection 'https://github.com/infinum/android-sentinel.git'
-                    developerConnection 'https://github.com/infinum/android-sentinel.git'
-                    url 'https://github.com/infinum/android-sentinel'
-                }
-            }
-        }
-    }
-}
+//install {
+//    repositories.mavenInstaller {
+//        pom {
+//            project {
+//                packaging 'jar'
+//                groupId 'com.infinum.sentinel'
+//                artifactId 'tool-dbinspector'
+//
+//                name 'tool-dbinspector'
+//                description 'Sentinel Tool for DbInspector'
+//                url 'https://github.com/infinum/android-sentinel'
+//
+//                licenses {
+//                    license {
+//                        name 'Apache'
+//                        url 'https://github.com/infinum/android-sentinel/LICENSE'
+//                    }
+//                }
+//                developers {
+//                    developer {
+//                        id 'knobtviker'
+//                        name 'Bojan Komljenović'
+//                        email 'bojan.komljenovic@infinum.com'
+//                    }
+//                }
+//                scm {
+//                    connection 'https://github.com/infinum/android-sentinel.git'
+//                    developerConnection 'https://github.com/infinum/android-sentinel.git'
+//                    url 'https://github.com/infinum/android-sentinel'
+//                }
+//            }
+//        }
+//    }
+//}

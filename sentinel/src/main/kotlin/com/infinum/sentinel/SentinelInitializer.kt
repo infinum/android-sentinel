@@ -11,6 +11,6 @@ class SentinelInitializer : Initializer<Class<SentinelInitializer>> {
         return SentinelInitializer::class.java
     }
 
-    override fun dependencies(): MutableList<Class<out Initializer<*>>> =
-        mutableListOf()
+    override fun dependencies(): List<Class<out Initializer<*>>> =
+        listOf()
 }
