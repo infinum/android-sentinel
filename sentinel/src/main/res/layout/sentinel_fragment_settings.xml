@@ -7,6 +7,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?android:colorBackground"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior"
         app:liftOnScroll="true"
         app:liftOnScrollTargetViewId="@id/nestedScrollView">
@@ -15,7 +16,6 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?android:colorBackground"
             app:navigationIcon="@drawable/sentinel_ic_close"
             app:subtitle="@string/sentinel_settings"
             app:title="@string/sentinel_name" />
@@ -26,7 +26,7 @@
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:id="@+id/contentLayout"
