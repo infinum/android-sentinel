@@ -43,9 +43,12 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        freeCompilerArgs += [
+                '-Xopt-in=org.koin.core.component.KoinApiExtension'
+//                '-Xexplicit-api=strict'
+        ]
     }
-
     testOptions {
         animationsDisabled = true
     }
@@ -61,17 +64,21 @@ android {
 
 dependencies {
     implementation packages.kotlin.core
+    implementation packages.kotlinx.coroutines
     implementation packages.androidx.core
     implementation packages.androidx.fragment
     implementation packages.androidx.lifecycle.livedata
     implementation packages.androidx.lifecycle.process
-    implementation packages.google.design
-    implementation packages.androidx.room.runtime
-    implementation packages.androidx.room.kotlin
-    kapt packages.androidx.room.compiler
     implementation packages.androidx.preference
     implementation packages.androidx.startup
-    implementation packages.kotlinx.coroutines
+    implementation packages.androidx.room.runtime
+    implementation packages.androidx.room.ktx
+    kapt packages.androidx.room.compiler
+    implementation packages.google.design
+    implementation packages.koin.android
+    implementation packages.koin.scope
+    implementation packages.koin.viewmodel
+    implementation packages.timber.core
 
     androidTestImplementation "junit:junit:4.13"
     androidTestImplementation 'androidx.arch.core:core-testing:2.1.0'

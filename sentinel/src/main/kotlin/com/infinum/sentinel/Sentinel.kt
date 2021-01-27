@@ -4,10 +4,7 @@ import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.infinum.sentinel.data.models.memory.triggers.manual.ManualTrigger
-import com.infinum.sentinel.ui.DependencyGraph
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.infinum.sentinel.ui.Presentation
 
 class Sentinel private constructor(tools: Set<Tool> = setOf()) {
 
@@ -36,9 +33,7 @@ class Sentinel private constructor(tools: Set<Tool> = setOf()) {
     }
 
     init {
-        GlobalScope.launch(Dispatchers.Main) {
-            DependencyGraph.setup(tools) { DependencyGraph.show() }
-        }
+        Presentation.setup(tools) { Presentation.show() }
     }
 
     /**
@@ -47,7 +42,7 @@ class Sentinel private constructor(tools: Set<Tool> = setOf()) {
     private fun showInternal() {
         val manualTrigger = ManualTrigger()
         if (manualTrigger.active) {
-            DependencyGraph.show()
+            Presentation.show()
         }
     }
 

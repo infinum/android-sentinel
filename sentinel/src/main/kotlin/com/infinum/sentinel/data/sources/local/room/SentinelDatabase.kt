@@ -14,7 +14,7 @@ import com.infinum.sentinel.data.sources.local.room.typeconverters.TriggerTypeCo
 @TypeConverters(value = [TriggerTypeConverter::class, FormatTypeConverter::class])
 internal abstract class SentinelDatabase : RoomDatabase() {
 
-    abstract fun triggersDao(): TriggersDao
+    abstract fun triggers(): TriggersDao
 
-    abstract fun formatsDao(): FormatsDao
+    abstract fun formats(): FormatsDao
 }

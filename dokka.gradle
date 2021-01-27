@@ -39,7 +39,7 @@ dokka {
             suppress = true
         }
         perPackageOption {
-            prefix = "com.infinum.sentinel.ui.edgetreatment"
+            prefix = "com.infinum.sentinel.ui.shared.edgetreatment"
             suppress = true
         }
         perPackageOption {

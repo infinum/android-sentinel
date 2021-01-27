@@ -18,6 +18,8 @@ ext.versions = [
         "room"       : "2.2.6",
         "startup"    : "1.0.0",
         "design"     : "1.2.1",
+        "koin"       : "2.2.2",
+        "timber"     : "4.7.1",
         "detekt"     : "1.15.0",
         "dokka"      : "0.10.1",
         "chucker"    : "3.4.0",
@@ -50,19 +52,27 @@ ext.packages = [
                 "appcompat" : "androidx.appcompat:appcompat:${versions.appcompat}",
                 "fragment"  : "androidx.fragment:fragment-ktx:${versions.fragment}",
                 "lifecycle" : [
-                        "livedata" : "androidx.lifecycle:lifecycle-livedata-ktx:${versions.lifecycle}",
-                        "process": "androidx.lifecycle:lifecycle-process:${versions.lifecycle}",
+                        "livedata": "androidx.lifecycle:lifecycle-livedata-ktx:${versions.lifecycle}",
+                        "process" : "androidx.lifecycle:lifecycle-process:${versions.lifecycle}",
                 ],
                 "room"      : [
                         "compiler": "androidx.room:room-compiler:${versions.room}",
                         "runtime" : "androidx.room:room-runtime:${versions.room}",
-                        "kotlin"  : "androidx.room:room-ktx:${versions.room}"
+                        "ktx"  : "androidx.room:room-ktx:${versions.room}"
                 ],
                 "preference": "androidx.preference:preference-ktx:${versions.preference}",
                 "startup"   : "androidx.startup:startup-runtime:${versions.startup}"
         ],
         "google"     : [
                 "design": "com.google.android.material:material:${versions.design}"
+        ],
+        "koin"       : [
+                "android"  : "org.koin:koin-android:${versions.koin}",
+                "scope"    : "org.koin:koin-androidx-scope:${versions.koin}",
+                "viewmodel": "org.koin:koin-androidx-viewmodel:${versions.koin}"
+        ],
+        "timber"     : [
+                "core": "com.jakewharton.timber:timber:${versions.timber}"
         ],
         "detekt"     : [
                 "plugin"    : "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${versions.detekt}",
