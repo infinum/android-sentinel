@@ -21,7 +21,7 @@ ext.versions = [
         "koin"       : "2.2.2",
         "timber"     : "4.7.1",
         "detekt"     : "1.15.0",
-        "dokka"      : "0.10.1",
+        "dokka"      : "1.4.20",
         "chucker"    : "3.4.0",
         "collar"     : "1.2.2",
         "dbinspector": "5.2.1",
@@ -58,7 +58,7 @@ ext.packages = [
                 "room"      : [
                         "compiler": "androidx.room:room-compiler:${versions.room}",
                         "runtime" : "androidx.room:room-runtime:${versions.room}",
-                        "ktx"  : "androidx.room:room-ktx:${versions.room}"
+                        "ktx"     : "androidx.room:room-ktx:${versions.room}"
                 ],
                 "preference": "androidx.preference:preference-ktx:${versions.preference}",
                 "startup"   : "androidx.startup:startup-runtime:${versions.startup}"
