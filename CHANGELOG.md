@@ -1,6 +1,16 @@
 Change Log
 ==========
 
+## Version 1.0.5
+
+_2021-01-27_
+
+ * Enable Kotlin explicit mode.
+ * Fix crash on Lifecycle 2.3.0
+ * Update Chucker.
+ * Update DbInspector.
+ * Update Collar.
+
 ## Version 1.0.4
 
 _2020-09-04_

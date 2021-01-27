@@ -9,7 +9,7 @@ import com.infinum.thimble.Thimble
  *
  * Tool Activity will launch with no additional flags.
  */
-data class ThimbleTool(
+public data class ThimbleTool(
     private val listener: View.OnClickListener = View.OnClickListener {
         Thimble.show()
     }

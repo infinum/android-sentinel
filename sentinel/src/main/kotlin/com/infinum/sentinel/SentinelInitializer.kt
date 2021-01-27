@@ -5,7 +5,7 @@ import androidx.startup.Initializer
 import com.infinum.sentinel.di.LibraryKoin
 import com.infinum.sentinel.ui.Presentation
 
-class SentinelInitializer : Initializer<Class<SentinelInitializer>> {
+internal class SentinelInitializer : Initializer<Class<SentinelInitializer>> {
 
     override fun create(context: Context): Class<SentinelInitializer> {
 

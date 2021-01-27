@@ -9,7 +9,7 @@ import com.infinum.sentinel.Sentinel
  *
  * Tool Activity will launch with no additional flags.
  */
-data class DbInspectorTool(
+public data class DbInspectorTool(
     private val listener: View.OnClickListener = View.OnClickListener {
         DbInspector.show()
     }

@@ -7,7 +7,7 @@ import com.infinum.sentinel.Sentinel
  * Specific wrapper tool for Thimble in no - op.
  *
  */
-class ThimbleTool : Sentinel.Tool {
+public class ThimbleTool : Sentinel.Tool {
 
     override fun name(): Int = 0
 

@@ -6,15 +6,15 @@ import androidx.annotation.StringRes
 import com.infinum.sentinel.data.models.memory.triggers.manual.ManualTrigger
 import com.infinum.sentinel.ui.Presentation
 
-class Sentinel private constructor(tools: Set<Tool> = setOf()) {
+public class Sentinel private constructor(tools: Set<Tool> = setOf()) {
 
-    companion object {
+    public companion object {
 
         private var INSTANCE: Sentinel? = null
 
         @JvmStatic
         @JvmOverloads
-        fun watch(tools: Set<Tool> = setOf()): Sentinel {
+        public fun watch(tools: Set<Tool> = setOf()): Sentinel {
             if (INSTANCE == null) {
                 INSTANCE = Sentinel(tools)
             }
@@ -22,7 +22,7 @@ class Sentinel private constructor(tools: Set<Tool> = setOf()) {
         }
 
         @JvmStatic
-        fun show() {
+        public fun show() {
             if (INSTANCE == null) {
                 INSTANCE = Sentinel()
                 INSTANCE?.showInternal()
@@ -47,7 +47,7 @@ class Sentinel private constructor(tools: Set<Tool> = setOf()) {
     }
 
     @Suppress("unused")
-    interface Tool {
+    public interface Tool {
 
         /**
          * An optional icon for this tool
@@ -55,7 +55,7 @@ class Sentinel private constructor(tools: Set<Tool> = setOf()) {
          * @return a Drawable resource that will be used to generate an icon in a Button in Tools UI
          */
         @DrawableRes
-        fun icon(): Int? = null
+        public fun icon(): Int? = null
 
         /**
          * A dedicated name for this tool
@@ -63,18 +63,18 @@ class Sentinel private constructor(tools: Set<Tool> = setOf()) {
          * @return a String resource that will be used to generate a name for a Button in Tools UI
          */
         @StringRes
-        fun name(): Int
+        public fun name(): Int
 
         /**
          * A callback to be invoked when this view is clicked.
          *
          * @return an assigned OnClickListener that will be used to generate a Button in Tools UI
          */
-        fun listener(): View.OnClickListener
+        public fun listener(): View.OnClickListener
     }
 
     @Suppress("unused")
-    interface NetworkTool : Tool {
+    public interface NetworkTool : Tool {
 
         /**
          * A dedicated name for this tool
@@ -85,7 +85,7 @@ class Sentinel private constructor(tools: Set<Tool> = setOf()) {
     }
 
     @Suppress("unused")
-    interface MemoryTool : Tool {
+    public interface MemoryTool : Tool {
 
         /**
          * A dedicated name for this tool
@@ -96,7 +96,7 @@ class Sentinel private constructor(tools: Set<Tool> = setOf()) {
     }
 
     @Suppress("unused")
-    interface AnalyticsTool : Tool {
+    public interface AnalyticsTool : Tool {
 
         /**
          * A dedicated name for this tool
@@ -107,7 +107,7 @@ class Sentinel private constructor(tools: Set<Tool> = setOf()) {
     }
 
     @Suppress("unused")
-    interface DatabaseTool : Tool {
+    public interface DatabaseTool : Tool {
 
         /**
          * A dedicated name for this tool
@@ -118,7 +118,7 @@ class Sentinel private constructor(tools: Set<Tool> = setOf()) {
     }
 
     @Suppress("unused")
-    interface ReportTool : Tool {
+    public interface ReportTool : Tool {
 
         /**
          * A dedicated name for this tool
@@ -129,7 +129,7 @@ class Sentinel private constructor(tools: Set<Tool> = setOf()) {
     }
 
     @Suppress("unused")
-    interface BluetoothTool : Tool {
+    public interface BluetoothTool : Tool {
 
         /**
          * A dedicated name for this tool
@@ -140,7 +140,7 @@ class Sentinel private constructor(tools: Set<Tool> = setOf()) {
     }
 
     @Suppress("unused")
-    interface DistributionTool : Tool {
+    public interface DistributionTool : Tool {
 
         /**
          * A dedicated name for this tool
@@ -151,7 +151,7 @@ class Sentinel private constructor(tools: Set<Tool> = setOf()) {
     }
 
     @Suppress("unused")
-    interface DesignTool : Tool {
+    public interface DesignTool : Tool {
 
         /**
          * A dedicated name for this tool

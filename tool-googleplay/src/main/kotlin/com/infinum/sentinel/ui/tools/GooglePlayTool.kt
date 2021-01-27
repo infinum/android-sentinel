@@ -13,7 +13,7 @@ import com.infinum.sentinel.Sentinel
  * and FLAG_ACTIVITY_NEW_TASK flags.
  * If no appropriate application is found, this tool will open a website on play.google.com.
  */
-data class GooglePlayTool(
+public data class GooglePlayTool(
     private val listener: View.OnClickListener = View.OnClickListener { view ->
         val intent = Intent(
             Intent.ACTION_VIEW,
@@ -60,7 +60,7 @@ data class GooglePlayTool(
     }
 ) : Sentinel.DistributionTool {
 
-    companion object {
+    internal companion object {
         private const val SCHEME_MARKET = "market"
         private const val SCHEME_HTTPS = "https"
         private const val AUTHORITY_GOOGLE_PLAY = "play.google.com"
