@@ -37,7 +37,6 @@ internal object Presentation {
             )
         )
 
-
     private fun viewModels() = module {
         viewModel { SentinelViewModel(get(), get(), get(), get()) }
         viewModel { DeviceViewModel(get()) }

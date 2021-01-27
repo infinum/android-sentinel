@@ -12,7 +12,7 @@ class SentinelInitializer : Initializer<Class<SentinelInitializer>> {
         LibraryKoin.init(context)
 
         Presentation.init(context)
-        
+
         return SentinelInitializer::class.java
     }
 

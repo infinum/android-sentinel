@@ -12,14 +12,22 @@ import com.infinum.sentinel.data.models.memory.triggers.usb.UsbConnectedTrigger
 import com.infinum.sentinel.data.sources.local.room.SentinelDatabase
 import com.infinum.sentinel.data.sources.memory.triggers.TriggersCache
 import com.infinum.sentinel.data.sources.memory.triggers.TriggersCacheFactory
-import com.infinum.sentinel.data.sources.raw.collectors.*
-import com.infinum.sentinel.data.sources.raw.formatters.*
+import com.infinum.sentinel.data.sources.raw.collectors.ApplicationCollector
+import com.infinum.sentinel.data.sources.raw.collectors.DeviceCollector
+import com.infinum.sentinel.data.sources.raw.collectors.PermissionsCollector
+import com.infinum.sentinel.data.sources.raw.collectors.PreferencesCollector
+import com.infinum.sentinel.data.sources.raw.collectors.ToolsCollector
+import com.infinum.sentinel.data.sources.raw.formatters.HtmlFormatter
+import com.infinum.sentinel.data.sources.raw.formatters.JsonFormatter
+import com.infinum.sentinel.data.sources.raw.formatters.MarkdownFormatter
+import com.infinum.sentinel.data.sources.raw.formatters.PlainFormatter
+import com.infinum.sentinel.data.sources.raw.formatters.XmlFormatter
 import com.infinum.sentinel.domain.collectors.Collectors
 import com.infinum.sentinel.domain.formatters.Formatters
+import java.util.Locale
 import org.koin.core.module.Module
 import org.koin.core.qualifier.StringQualifier
 import org.koin.dsl.module
-import java.util.*
 
 internal object Data {
 
