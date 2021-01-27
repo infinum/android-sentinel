@@ -73,3 +73,11 @@ task deployToolThimble(dependsOn: [
     group = "Deploy"
     description = "Deploy module to Bintray"
 }
+
+def ordered(String... taskPaths) {
+    def allTasks = taskPaths.collect { tasks.getByPath(it) }
+    for (int i = 0; i < allTasks.size() - 1; i++) {
+        allTasks[i + 1].mustRunAfter(allTasks[i])
+    }
+    return allTasks
+}
