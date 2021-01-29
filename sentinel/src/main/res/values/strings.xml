@@ -55,4 +55,6 @@
     <string name="sentinel_usb_connected">USB connected</string>
     <string name="sentinel_airplane_mode_on">Airplane mode on</string>
     <string name="sentinel_emulator">Emulator</string>
+    <string name="sentinel_auto_time">Automatic time</string>
+    <string name="sentinel_auto_timezone">Automatic timezone</string>
 </resources>

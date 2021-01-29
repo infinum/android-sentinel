@@ -40,6 +40,8 @@ internal class DeviceFragment : BaseChildFragment(R.layout.sentinel_fragment_dev
                 sdkView.data = it.sdk
                 securityPatchView.data = it.securityPatch
                 emulatorView.data = it.isProbablyAnEmulator.toString()
+                autoTimeView.data = it.autoTime.toString()
+                autoTimezoneView.data = it.autoTimezone.toString()
             }
         }
     }

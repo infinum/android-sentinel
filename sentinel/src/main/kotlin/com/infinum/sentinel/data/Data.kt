@@ -87,7 +87,7 @@ internal object Data {
     }
 
     private fun raw() = module {
-        single<Collectors.Device> { DeviceCollector() }
+        single<Collectors.Device> { DeviceCollector(get()) }
         single<Collectors.Application> { ApplicationCollector(get()) }
         single<Collectors.Permissions> { PermissionsCollector(get()) }
         single<Collectors.Preferences> { PreferencesCollector(get()) }

@@ -3,26 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/labelView"
         style="@style/TextAppearance.MaterialComponents.Caption"
         android:layout_width="0dp"
         android:layout_height="40dp"
-        android:minHeight="@dimen/sentinel_item_height"
         android:layout_gravity="start|center_vertical"
         android:layout_weight="0.4"
         android:gravity="start|center_vertical"
+        android:minHeight="@dimen/sentinel_item_height"
         tools:text="android.permission.READ_EXTERNAL_STORAGE" />
 
     <ImageView
         android:id="@+id/valueView"
-        android:layout_marginStart="8dp"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        tools:src="@drawable/sentinel_ic_checked"
         android:layout_gravity="end|center_vertical"
-        android:layout_marginLeft="8dp" />
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        tools:src="@drawable/sentinel_ic_checked" />
 
 </LinearLayout>

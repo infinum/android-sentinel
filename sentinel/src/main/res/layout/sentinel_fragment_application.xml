@@ -11,10 +11,10 @@
         android:id="@+id/contentLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:divider="?android:listDivider"
         android:orientation="vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="80dp">
+        android:paddingBottom="80dp"
+        android:showDividers="middle">
 
         <com.infinum.sentinel.ui.views.SentinelItemTextView
             android:id="@+id/versionCodeView"
