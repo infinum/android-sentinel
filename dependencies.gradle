@@ -5,7 +5,7 @@ ext.sentinel = [
 ]
 
 ext.versions = [
-        "sentinel"   : "1.0.4",
+        "sentinel"   : "1.0.5",
         "gradle"     : '4.1.2',
         "kotlin"     : "1.4.21",
         "coroutines" : "1.4.2",
@@ -17,9 +17,12 @@ ext.versions = [
         "preference" : "1.1.1",
         "room"       : "2.2.6",
         "startup"    : "1.0.0",
+        "crypto"     : "1.1.0-alpha03",
         "design"     : "1.2.1",
+        "koin"       : "2.2.2",
+        "timber"     : "4.7.1",
         "detekt"     : "1.15.0",
-        "dokka"      : "0.10.1",
+        "dokka"      : "1.4.20",
         "chucker"    : "3.4.0",
         "collar"     : "1.2.2",
         "dbinspector": "5.2.1",
@@ -50,19 +53,28 @@ ext.packages = [
                 "appcompat" : "androidx.appcompat:appcompat:${versions.appcompat}",
                 "fragment"  : "androidx.fragment:fragment-ktx:${versions.fragment}",
                 "lifecycle" : [
-                        "livedata" : "androidx.lifecycle:lifecycle-livedata-ktx:${versions.lifecycle}",
-                        "process": "androidx.lifecycle:lifecycle-process:${versions.lifecycle}",
+                        "livedata": "androidx.lifecycle:lifecycle-livedata-ktx:${versions.lifecycle}",
+                        "process" : "androidx.lifecycle:lifecycle-process:${versions.lifecycle}",
                 ],
                 "room"      : [
                         "compiler": "androidx.room:room-compiler:${versions.room}",
                         "runtime" : "androidx.room:room-runtime:${versions.room}",
-                        "kotlin"  : "androidx.room:room-ktx:${versions.room}"
+                        "ktx"     : "androidx.room:room-ktx:${versions.room}"
                 ],
                 "preference": "androidx.preference:preference-ktx:${versions.preference}",
-                "startup"   : "androidx.startup:startup-runtime:${versions.startup}"
+                "startup"   : "androidx.startup:startup-runtime:${versions.startup}",
+                "crypto"    : "androidx.security:security-crypto:${versions.crypto}"
         ],
         "google"     : [
                 "design": "com.google.android.material:material:${versions.design}"
+        ],
+        "koin"       : [
+                "android"  : "org.koin:koin-android:${versions.koin}",
+                "scope"    : "org.koin:koin-androidx-scope:${versions.koin}",
+                "viewmodel": "org.koin:koin-androidx-viewmodel:${versions.koin}"
+        ],
+        "timber"     : [
+                "core": "com.jakewharton.timber:timber:${versions.timber}"
         ],
         "detekt"     : [
                 "plugin"    : "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${versions.detekt}",

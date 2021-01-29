@@ -22,16 +22,15 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.android.material.appbar.MaterialToolbar
 import com.infinum.sentinel.R
-import com.infinum.sentinel.ui.children.ApplicationFragment
-import com.infinum.sentinel.ui.children.PermissionsFragment
-import com.infinum.sentinel.ui.children.PreferencesFragment
-import com.infinum.sentinel.ui.children.ToolsFragment
+import com.infinum.sentinel.ui.application.ApplicationFragment
+import com.infinum.sentinel.ui.permissions.PermissionsFragment
+import com.infinum.sentinel.ui.preferences.PreferencesFragment
+import com.infinum.sentinel.ui.tools.ToolsFragment
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.instanceOf
-import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.BeforeClass
@@ -52,7 +51,7 @@ class SentinelFragmentTests {
         fun setupBeforeClass() {
             context = ApplicationProvider.getApplicationContext<SentinelTestApplication>()
 
-            DependencyGraph.initialise(context)
+            Presentation.initialise(context)
         }
     }
 
@@ -62,7 +61,7 @@ class SentinelFragmentTests {
     @Before
     fun setupGraph() {
         GlobalScope.launch {
-            DependencyGraph.setup(setOf()) {}
+            Presentation.setup(setOf()) {}
         }
     }
 

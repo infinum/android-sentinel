@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.infinum.sentinel.data.models.local.FormatEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 internal interface FormatsDao {
@@ -13,5 +14,5 @@ internal interface FormatsDao {
     suspend fun save(entities: List<FormatEntity>)
 
     @Query("SELECT * FROM formats WHERE selected = 1")
-    suspend fun load(): FormatEntity
+    fun load(): Flow<FormatEntity>
 }

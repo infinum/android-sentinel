@@ -4,31 +4,26 @@ import android.view.View
 import androidx.annotation.StringRes
 
 @Suppress("unused")
-class Sentinel private constructor(
-    @Suppress("UNUSED_PARAMETER") tools: Set<Tool> = setOf()
-) {
+public object Sentinel {
 
-    companion object {
+    @Suppress("unused")
+    @JvmStatic
+    @JvmOverloads
+    public fun watch(tools: Set<Tool> = setOf()): Sentinel = this
 
-        @JvmStatic
-        @JvmOverloads
-        fun watch(tools: Set<Tool> = setOf()): Sentinel =
-            lazyOf(Sentinel(tools)).value
+    @JvmStatic
+    public fun show(): Unit = Unit
 
-        @JvmStatic
-        fun show() = Unit
-    }
-
-    interface Tool {
+    public interface Tool {
 
         @StringRes
-        fun name(): Int
+        public fun name(): Int
 
-        fun listener(): View.OnClickListener
+        public fun listener(): View.OnClickListener
     }
 
     @Suppress("unused")
-    interface NetworkTool : Tool {
+    public interface NetworkTool : Tool {
 
         /**
          * A stub for this tool
@@ -39,7 +34,7 @@ class Sentinel private constructor(
     }
 
     @Suppress("unused")
-    interface MemoryTool : Tool {
+    public interface MemoryTool : Tool {
 
         /**
          * A stub for this tool
@@ -50,7 +45,7 @@ class Sentinel private constructor(
     }
 
     @Suppress("unused")
-    interface AnalyticsTool : Tool {
+    public interface AnalyticsTool : Tool {
 
         /**
          * A stub for this tool
@@ -61,7 +56,7 @@ class Sentinel private constructor(
     }
 
     @Suppress("unused")
-    interface DatabaseTool : Tool {
+    public interface DatabaseTool : Tool {
 
         /**
          * A stub for this tool
@@ -72,7 +67,7 @@ class Sentinel private constructor(
     }
 
     @Suppress("unused")
-    interface ReportTool : Tool {
+    public interface ReportTool : Tool {
 
         /**
          * A stub for this tool
@@ -83,7 +78,7 @@ class Sentinel private constructor(
     }
 
     @Suppress("unused")
-    interface BluetoothTool : Tool {
+    public interface BluetoothTool : Tool {
 
         /**
          * A stub for this tool
@@ -94,7 +89,7 @@ class Sentinel private constructor(
     }
 
     @Suppress("unused")
-    interface DistributionTool : Tool {
+    public interface DistributionTool : Tool {
 
         /**
          * A stub for this tool
@@ -105,7 +100,7 @@ class Sentinel private constructor(
     }
 
     @Suppress("unused")
-    interface DesignTool : Tool {
+    public interface DesignTool : Tool {
 
         /**
          * A stub for this tool

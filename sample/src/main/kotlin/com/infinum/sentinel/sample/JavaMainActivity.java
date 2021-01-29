@@ -1,7 +1,7 @@
 package com.infinum.sentinel.sample;
 
 import android.os.Bundle;
-import android.view.View;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,8 +18,6 @@ import java.util.Set;
 
 public class JavaMainActivity extends AppCompatActivity {
 
-    private Sentinel sentinel = null;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,15 +31,8 @@ public class JavaMainActivity extends AppCompatActivity {
         tools.add(new DbInspectorTool());
         tools.add(new GooglePlayTool());
         tools.add(new ThimbleTool());
-        sentinel = Sentinel.watch(tools);
+        Sentinel.watch(tools);
 
-        viewBinding.showSentinel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (sentinel != null) {
-                    sentinel.show();
-                }
-            }
-        });
+        viewBinding.showSentinel.setOnClickListener(v -> Sentinel.show());
     }
 }

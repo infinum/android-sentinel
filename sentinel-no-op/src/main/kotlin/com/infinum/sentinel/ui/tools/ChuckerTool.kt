@@ -7,7 +7,7 @@ import com.infinum.sentinel.Sentinel
  * Specific wrapper tool around Chucker in no-op.
  *
  */
-class ChuckerTool : Sentinel.Tool {
+public class ChuckerTool : Sentinel.Tool {
 
     override fun name(): Int = 0
 

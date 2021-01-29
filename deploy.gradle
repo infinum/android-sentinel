@@ -1,4 +1,60 @@
-task deployAll(dependsOn: [
+task deploySentinel(dependsOn: ordered(
+        ':sentinel:clean',
+        ':sentinel:bintrayUpload'
+)) {
+    group = "Deploy"
+    description = "Deploy module to Bintray"
+}
+
+task deploySentinelNoOp(dependsOn: ordered(
+        ':sentinel-no-op:clean',
+        ':sentinel-no-op:bintrayUpload'
+)) {
+    group = "Deploy"
+    description = "Deploy module to Bintray"
+}
+
+task deployToolChucker(dependsOn: ordered(
+        ':tool-chucker:clean',
+        ':tool-chucker:bintrayUpload'
+)) {
+    group = "Deploy"
+    description = "Deploy module to Bintray"
+}
+
+task deployToolCollar(dependsOn: ordered(
+        ':tool-collar:clean',
+        ':tool-collar:bintrayUpload'
+)) {
+    group = "Deploy"
+    description = "Deploy module to Bintray"
+}
+
+task deployToolDbInspector(dependsOn: ordered(
+        ':tool-dbinspector:clean',
+        ':tool-dbinspector:bintrayUpload'
+)) {
+    group = "Deploy"
+    description = "Deploy module to Bintray"
+}
+
+task deployToolGooglePlay(dependsOn: ordered(
+        ':tool-googleplay:clean',
+        ':tool-googleplay:bintrayUpload'
+)) {
+    group = "Deploy"
+    description = "Deploy module to Bintray"
+}
+
+task deployToolThimble(dependsOn: ordered(
+        ':tool-thimble:clean',
+        ':tool-thimble:bintrayUpload'
+)) {
+    group = "Deploy"
+    description = "Deploy module to Bintray"
+}
+
+task deployAll(dependsOn: ordered(
         'deploySentinel',
         'deploySentinelNoOp',
         'deployToolChucker',
@@ -6,70 +62,15 @@ task deployAll(dependsOn: [
         'deployToolDbInspector',
         'deployToolGooglePlay',
         'deployToolThimble'
-]) {
+)) {
     group = "Deploy"
     description = "Deploy all modules to Bintray"
 }
 
-task deploySentinel(dependsOn: [
-        ':sentinel:build',
-        ':sentinel:install',
-        ':sentinel:bintrayUpload'
-]) {
-    group = "Deploy"
-    description = "Deploy module to Bintray"
-}
-
-task deploySentinelNoOp(dependsOn: [
-        ':sentinel-no-op:build',
-        ':sentinel-no-op:install',
-        ':sentinel-no-op:bintrayUpload'
-]) {
-    group = "Deploy"
-    description = "Deploy module to Bintray"
-}
-
-task deployToolChucker(dependsOn: [
-        ':tool-chucker:build',
-        ':tool-chucker:install',
-        ':tool-chucker:bintrayUpload'
-]) {
-    group = "Deploy"
-    description = "Deploy module to Bintray"
-}
-
-task deployToolCollar(dependsOn: [
-        ':tool-collar:build',
-        ':tool-collar:install',
-        ':tool-collar:bintrayUpload'
-]) {
-    group = "Deploy"
-    description = "Deploy module to Bintray"
-}
-
-task deployToolDbInspector(dependsOn: [
-        ':tool-dbinspector:build',
-        ':tool-dbinspector:install',
-        ':tool-dbinspector:bintrayUpload'
-]) {
-    group = "Deploy"
-    description = "Deploy module to Bintray"
-}
-
-task deployToolGooglePlay(dependsOn: [
-        ':tool-googleplay:build',
-        ':tool-googleplay:install',
-        ':tool-googleplay:bintrayUpload'
-]) {
-    group = "Deploy"
-    description = "Deploy module to Bintray"
-}
-
-task deployToolThimble(dependsOn: [
-        ':tool-thimble:build',
-        ':tool-thimble:install',
-        ':tool-thimble:bintrayUpload'
-]) {
-    group = "Deploy"
-    description = "Deploy module to Bintray"
+def ordered(String... taskPaths) {
+    def allTasks = taskPaths.collect { tasks.getByPath(it) }
+    for (int i = 0; i < allTasks.size() - 1; i++) {
+        allTasks[i + 1].mustRunAfter(allTasks[i])
+    }
+    return allTasks
 }

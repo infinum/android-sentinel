@@ -5,23 +5,21 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.RestrictTo
 import androidx.core.app.ShareCompat
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.infinum.sentinel.R
-import com.infinum.sentinel.data.models.memory.formats.FormatType
 import com.infinum.sentinel.databinding.SentinelFragmentBinding
 import com.infinum.sentinel.extensions.toCradleDrawable
-import com.infinum.sentinel.ui.children.ApplicationFragment
-import com.infinum.sentinel.ui.children.DeviceFragment
-import com.infinum.sentinel.ui.children.PermissionsFragment
-import com.infinum.sentinel.ui.children.PreferencesFragment
-import com.infinum.sentinel.ui.children.ToolsFragment
-import com.infinum.sentinel.ui.edgetreatment.ScissorsEdgeTreatment
+import com.infinum.sentinel.ui.application.ApplicationFragment
+import com.infinum.sentinel.ui.device.DeviceFragment
+import com.infinum.sentinel.ui.permissions.PermissionsFragment
+import com.infinum.sentinel.ui.preferences.PreferencesFragment
 import com.infinum.sentinel.ui.settings.SettingsActivity
-import com.infinum.sentinel.ui.shared.BaseFragment
-import com.infinum.sentinel.ui.shared.viewBinding
-import kotlinx.coroutines.launch
+import com.infinum.sentinel.ui.shared.base.BaseFragment
+import com.infinum.sentinel.ui.shared.delegates.viewBinding
+import com.infinum.sentinel.ui.shared.edgetreatment.ScissorsEdgeTreatment
+import com.infinum.sentinel.ui.tools.ToolsFragment
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @Suppress("TooManyFunctions")
 @RestrictTo(RestrictTo.Scope.LIBRARY)
@@ -33,6 +31,8 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment) {
         private const val SHARE_MIME_TYPE = "text/plain"
     }
 
+    override val viewModel: SentinelViewModel by viewModel()
+
     override val binding: SentinelFragmentBinding by viewBinding(
         SentinelFragmentBinding::bind
     )
@@ -43,12 +43,13 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment) {
         setupToolbar()
         setupContent()
 
-        with(binding) {
-            DependencyGraph.collectors().application().let {
-                toolbar.subtitle = it.applicationName
-                applicationIconView.background = it.applicationIcon
+        viewModel.checkIfEmulator()
+
+        viewModel.applicationIconAndName {
+            with(binding) {
+                applicationIconView.background = it.first
+                toolbar.subtitle = it.second
             }
-            applicationIconView.setOnClickListener { dismiss() }
         }
 
         showTools()
@@ -56,31 +57,19 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment) {
 
     private fun setupToolbar() {
         with(binding) {
+            applicationIconView.setOnClickListener { dismiss() }
             toolbar.setNavigationOnClickListener {
                 startActivity(Intent(requireContext(), SettingsActivity::class.java))
             }
             toolbar.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.share -> {
-                        lifecycleScope.launch {
-                            DependencyGraph.formats().load().type
-                                ?.let {
-                                    when (it) {
-                                        FormatType.PLAIN -> DependencyGraph.formatters().plain()
-                                        FormatType.MARKDOWN -> DependencyGraph.formatters()
-                                            .markdown()
-                                        FormatType.JSON -> DependencyGraph.formatters().json()
-                                        FormatType.XML -> DependencyGraph.formatters().xml()
-                                        FormatType.HTML -> DependencyGraph.formatters().html()
-                                    }
-                                }
-                                ?.run {
-                                    ShareCompat.IntentBuilder.from(requireActivity())
-                                        .setChooserTitle(R.string.sentinel_name)
-                                        .setType(SHARE_MIME_TYPE)
-                                        .setText(this)
-                                        .startChooser()
-                                }
+                        viewModel.formatData {
+                            ShareCompat.IntentBuilder.from(requireActivity())
+                                .setChooserTitle(R.string.sentinel_name)
+                                .setType(SHARE_MIME_TYPE)
+                                .setText(it)
+                                .startChooser()
                         }
                     }
                 }

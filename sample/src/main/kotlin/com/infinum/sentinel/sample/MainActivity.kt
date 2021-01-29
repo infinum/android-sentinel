@@ -10,6 +10,7 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.sample.databinding.ActivityMainBinding
+import java.util.Locale
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
@@ -77,6 +78,7 @@ class MainActivity : AppCompatActivity() {
             )
             .apply()
 
+    @Suppress("MagicNumber")
     private fun randomizeName(base: String?) =
-        "my_${base.orEmpty().toLowerCase()}_${Random.nextInt(0, 10)}"
+        "my_${base.orEmpty().toLowerCase(Locale.getDefault())}_${Random.nextInt(0, 10)}"
 }

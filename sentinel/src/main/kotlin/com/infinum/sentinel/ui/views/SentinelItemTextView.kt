@@ -8,7 +8,7 @@ import androidx.core.content.withStyledAttributes
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelViewItemTextBinding
 
-class SentinelItemTextView @JvmOverloads constructor(
+internal class SentinelItemTextView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0

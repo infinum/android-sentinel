@@ -6,7 +6,7 @@ import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
-import com.infinum.sentinel.ui.edgetreatment.CradleTopEdgeTreatment
+import com.infinum.sentinel.ui.shared.edgetreatment.CradleTopEdgeTreatment
 
 @Suppress("LongParameterList")
 internal fun MaterialShapeDrawable.toCradleDrawable(
