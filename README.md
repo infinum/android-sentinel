@@ -51,32 +51,32 @@ Then add the following dependencies in your app `build.gradle` or `build.gradle.
 
 **Groovy**
 ```groovy
-debugImplementation "com.infinum.sentinel:sentinel:1.0.4"
-releaseImplementation "com.infinum.sentinel:sentinel-no-op:1.0.4"
+debugImplementation "com.infinum.sentinel:sentinel:1.0.5"
+releaseImplementation "com.infinum.sentinel:sentinel-no-op:1.0.5"
 ```
 **KotlinDSL**
 ```kotlin
-debugImplementation("com.infinum.sentinel:sentinel:1.0.4")
-releaseImplementation("com.infinum.sentinel:sentinel-no-op:1.0.4")
+debugImplementation("com.infinum.sentinel:sentinel:1.0.5")
+releaseImplementation("com.infinum.sentinel:sentinel-no-op:1.0.5")
 ```
 
 Basic tools are provided inside the main package but depending on requirements you might want to add specific tools:
 
 **Groovy**
 ```groovy
-debugImplementation "com.infinum.sentinel:tool-chucker:1.0.4"
-debugImplementation "com.infinum.sentinel:tool-collar:1.0.4"
-debugImplementation "com.infinum.sentinel:tool-dbinspector:1.0.4"
-debugImplementation "com.infinum.sentinel:tool-googleplay:1.0.4"
-debugImplementation "com.infinum.sentinel:tool-thimble:1.0.4"
+debugImplementation "com.infinum.sentinel:tool-chucker:1.0.5"
+debugImplementation "com.infinum.sentinel:tool-collar:1.0.5"
+debugImplementation "com.infinum.sentinel:tool-dbinspector:1.0.5"
+debugImplementation "com.infinum.sentinel:tool-googleplay:1.0.5"
+debugImplementation "com.infinum.sentinel:tool-thimble:1.0.5"
 ```
 **KotlinDSL**
 ```kotlin
-debugImplementation("com.infinum.sentinel:tool-chucker:1.0.4")
-debugImplementation("com.infinum.sentinel:tool-collar:1.0.4")
-debugImplementation("com.infinum.sentinel:tool-dbinspector:1.0.4")
-debugImplementation("com.infinum.sentinel:tool-googleplay:1.0.4")
-debugImplementation("com.infinum.sentinel:tool-thimble:1.0.4")
+debugImplementation("com.infinum.sentinel:tool-chucker:1.0.5")
+debugImplementation("com.infinum.sentinel:tool-collar:1.0.5")
+debugImplementation("com.infinum.sentinel:tool-dbinspector:1.0.5")
+debugImplementation("com.infinum.sentinel:tool-googleplay:1.0.5")
+debugImplementation("com.infinum.sentinel:tool-thimble:1.0.5")
 ```
 
 Now you can sync your project.
