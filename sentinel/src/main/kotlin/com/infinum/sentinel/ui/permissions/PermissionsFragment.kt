@@ -15,7 +15,7 @@ internal class PermissionsFragment : BaseChildFragment(R.layout.sentinel_fragmen
 
     companion object {
         fun newInstance() = PermissionsFragment()
-        val TAG: String = PermissionsFragment::class.java.simpleName
+        val TAG: String = PermissionsFragment::class.java.name
     }
 
     override val binding: SentinelFragmentPermissionsBinding by viewBinding(

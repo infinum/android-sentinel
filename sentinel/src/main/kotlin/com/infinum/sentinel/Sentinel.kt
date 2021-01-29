@@ -6,35 +6,17 @@ import androidx.annotation.StringRes
 import com.infinum.sentinel.data.models.memory.triggers.manual.ManualTrigger
 import com.infinum.sentinel.ui.Presentation
 
-public class Sentinel private constructor(tools: Set<Tool> = setOf()) {
+public object Sentinel {
 
-    public companion object {
-
-        private var INSTANCE: Sentinel? = null
-
-        @JvmStatic
-        @JvmOverloads
-        public fun watch(tools: Set<Tool> = setOf()): Sentinel {
-            if (INSTANCE == null) {
-                INSTANCE = Sentinel(tools)
-            }
-            return INSTANCE as Sentinel
-        }
-
-        @JvmStatic
-        public fun show() {
-            if (INSTANCE == null) {
-                INSTANCE = Sentinel()
-                INSTANCE?.showInternal()
-            } else {
-                INSTANCE?.showInternal()
-            }
-        }
-    }
-
-    init {
+    @JvmStatic
+    @JvmOverloads
+    public fun watch(tools: Set<Tool> = setOf()): Sentinel {
         Presentation.setup(tools) { Presentation.show() }
+        return this
     }
+
+    @JvmStatic
+    public fun show(): Unit = showInternal()
 
     /**
      * Used for manually showing Sentinel UI

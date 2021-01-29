@@ -14,14 +14,17 @@ android {
         targetSdkVersion buildConfig.targetSdk
         versionCode sentinel.versionCode
         versionName sentinel.version
-
-        consumerProguardFiles 'consumer-rules.pro'
     }
 
     buildTypes {
-        release {
+        debug {
+            debuggable true
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            debuggable false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt"
         }
     }
 

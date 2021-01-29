@@ -4,20 +4,15 @@ import android.view.View
 import androidx.annotation.StringRes
 
 @Suppress("unused")
-public class Sentinel private constructor(
-    @Suppress("UNUSED_PARAMETER") tools: Set<Tool> = setOf()
-) {
+public object Sentinel {
 
-    public companion object {
+    @Suppress("unused")
+    @JvmStatic
+    @JvmOverloads
+    public fun watch(tools: Set<Tool> = setOf()): Sentinel = this
 
-        @JvmStatic
-        @JvmOverloads
-        public fun watch(tools: Set<Tool> = setOf()): Sentinel =
-            lazyOf(Sentinel(tools)).value
-
-        @JvmStatic
-        public fun show(): Unit = Unit
-    }
+    @JvmStatic
+    public fun show(): Unit = Unit
 
     public interface Tool {
 

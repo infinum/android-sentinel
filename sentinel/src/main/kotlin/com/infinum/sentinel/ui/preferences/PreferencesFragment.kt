@@ -17,7 +17,7 @@ internal class PreferencesFragment : BaseChildFragment(R.layout.sentinel_fragmen
 
     companion object {
         fun newInstance() = PreferencesFragment()
-        val TAG: String = PreferencesFragment::class.java.simpleName
+        val TAG: String = PreferencesFragment::class.java.name
     }
 
     override val binding: SentinelFragmentPreferencesBinding by viewBinding(

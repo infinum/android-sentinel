@@ -11,9 +11,9 @@ buildscript {
     apply from: "dependencies.gradle"
 
     repositories {
+        maven { url "https://dl.bintray.com/infinum/android" }
         google()
         jcenter()
-        maven { url "https://dl.bintray.com/infinum/android" }
     }
     dependencies {
         classpath packages.gradle
@@ -27,10 +27,10 @@ buildscript {
 allprojects {
 
     repositories {
+        maven { url "https://dl.bintray.com/infinum/android" }
         google()
         jcenter()
         maven { url "https://jitpack.io" }
-        maven { url "https://dl.bintray.com/infinum/android" }
     }
 
     def buildProperties = new Properties()
@@ -54,10 +54,10 @@ allprojects {
 
 subprojects {
     repositories {
+        maven { url "https://dl.bintray.com/infinum/android" }
         google()
         jcenter()
         mavenCentral()
-        maven { url "https://dl.bintray.com/infinum/android" }
     }
 
     apply from: "../detekt.gradle"

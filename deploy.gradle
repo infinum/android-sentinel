@@ -1,6 +1,5 @@
 task deploySentinel(dependsOn: ordered(
         ':sentinel:clean',
-        ':sentinel:build',
         ':sentinel:bintrayUpload'
 )) {
     group = "Deploy"
@@ -9,7 +8,6 @@ task deploySentinel(dependsOn: ordered(
 
 task deploySentinelNoOp(dependsOn: ordered(
         ':sentinel-no-op:clean',
-        ':sentinel-no-op:build',
         ':sentinel-no-op:bintrayUpload'
 )) {
     group = "Deploy"
@@ -18,7 +16,6 @@ task deploySentinelNoOp(dependsOn: ordered(
 
 task deployToolChucker(dependsOn: ordered(
         ':tool-chucker:clean',
-        ':tool-chucker:build',
         ':tool-chucker:bintrayUpload'
 )) {
     group = "Deploy"
@@ -27,7 +24,6 @@ task deployToolChucker(dependsOn: ordered(
 
 task deployToolCollar(dependsOn: ordered(
         ':tool-collar:clean',
-        ':tool-collar:build',
         ':tool-collar:bintrayUpload'
 )) {
     group = "Deploy"
@@ -36,7 +32,6 @@ task deployToolCollar(dependsOn: ordered(
 
 task deployToolDbInspector(dependsOn: ordered(
         ':tool-dbinspector:clean',
-        ':tool-dbinspector:build',
         ':tool-dbinspector:bintrayUpload'
 )) {
     group = "Deploy"
@@ -45,7 +40,6 @@ task deployToolDbInspector(dependsOn: ordered(
 
 task deployToolGooglePlay(dependsOn: ordered(
         ':tool-googleplay:clean',
-        ':tool-googleplay:build',
         ':tool-googleplay:bintrayUpload'
 )) {
     group = "Deploy"
@@ -54,7 +48,6 @@ task deployToolGooglePlay(dependsOn: ordered(
 
 task deployToolThimble(dependsOn: ordered(
         ':tool-thimble:clean',
-        ':tool-thimble:build',
         ':tool-thimble:bintrayUpload'
 )) {
     group = "Deploy"

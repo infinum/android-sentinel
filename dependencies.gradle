@@ -5,7 +5,7 @@ ext.sentinel = [
 ]
 
 ext.versions = [
-        "sentinel"   : "1.0.4",
+        "sentinel"   : "1.0.5",
         "gradle"     : '4.1.2',
         "kotlin"     : "1.4.21",
         "coroutines" : "1.4.2",
@@ -17,6 +17,7 @@ ext.versions = [
         "preference" : "1.1.1",
         "room"       : "2.2.6",
         "startup"    : "1.0.0",
+        "crypto"     : "1.1.0-alpha03",
         "design"     : "1.2.1",
         "koin"       : "2.2.2",
         "timber"     : "4.7.1",
@@ -61,7 +62,8 @@ ext.packages = [
                         "ktx"     : "androidx.room:room-ktx:${versions.room}"
                 ],
                 "preference": "androidx.preference:preference-ktx:${versions.preference}",
-                "startup"   : "androidx.startup:startup-runtime:${versions.startup}"
+                "startup"   : "androidx.startup:startup-runtime:${versions.startup}",
+                "crypto"    : "androidx.security:security-crypto:${versions.crypto}"
         ],
         "google"     : [
                 "design": "com.google.android.material:material:${versions.design}"
