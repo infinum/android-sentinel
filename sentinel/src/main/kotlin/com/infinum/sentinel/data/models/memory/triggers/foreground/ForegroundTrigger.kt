@@ -1,6 +1,6 @@
 package com.infinum.sentinel.data.models.memory.triggers.foreground
 
-import com.infinum.sentinel.data.models.memory.triggers.AbstractTrigger
+import com.infinum.sentinel.data.models.memory.triggers.shared.AbstractTrigger
 
 internal class ForegroundTrigger(
     private val trigger: () -> Unit

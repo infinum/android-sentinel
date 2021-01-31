@@ -5,7 +5,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import com.infinum.sentinel.data.models.memory.triggers.AbstractTrigger
+import com.infinum.sentinel.data.models.memory.triggers.shared.AbstractTrigger
 import com.infinum.sentinel.data.models.memory.triggers.shake.samples.SampleQueue
 
 /**
