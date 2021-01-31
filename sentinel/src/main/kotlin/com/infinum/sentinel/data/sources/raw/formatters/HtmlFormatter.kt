@@ -102,6 +102,8 @@ internal class HtmlFormatter(
                     addDiv(R.string.sentinel_sdk, it.sdk)
                     addDiv(R.string.sentinel_security_patch, it.securityPatch)
                     addDiv(R.string.sentinel_emulator, it.isProbablyAnEmulator.toString())
+                    addDiv(R.string.sentinel_auto_time, it.autoTime.toString())
+                    addDiv(R.string.sentinel_auto_timezone, it.autoTimezone.toString())
                 }
             }
             .toString()

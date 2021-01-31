@@ -1,15 +1,15 @@
 package com.infinum.sentinel.data.sources.raw.formatters
 
 import android.content.Context
-import androidx.annotation.StringRes
-import com.infinum.sentinel.R
 import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.APPLICATION
 import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.DEVICE
 import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.PERMISSIONS
 import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.PREFERENCES
+import com.infinum.sentinel.data.sources.raw.formatters.shared.StringBuilderFormatter
 import com.infinum.sentinel.domain.collectors.Collectors
 import com.infinum.sentinel.domain.formatters.Formatters
 import com.infinum.sentinel.extensions.sanitize
+import java.util.Locale
 
 internal class PlainFormatter(
     private val context: Context,
@@ -17,45 +17,42 @@ internal class PlainFormatter(
     private val permissionsCollector: Collectors.Permissions,
     private val deviceCollector: Collectors.Device,
     private val preferencesCollector: Collectors.Preferences
-) : Formatters.Plain {
+) : StringBuilderFormatter(), Formatters.Plain {
 
     companion object {
         private const val SEPARATOR = "-"
     }
 
+    override fun addLine(builder: StringBuilder, tag: String, text: String) {
+        builder.appendLine("$tag: $text")
+    }
+
+    override fun addLine(builder: StringBuilder, tag: Int, text: String) {
+        context.getString(tag).sanitize().let {
+            builder.appendLine("$it: $text")
+        }
+    }
+
     override fun invoke(): String =
-        StringBuilder()
-            .appendLine(application())
-            .appendLine(permissions())
-            .appendLine(device())
-            .appendLine(preferences())
-            .toString()
+        addAllData(
+            StringBuilder(),
+            application(),
+            permissions(),
+            device(),
+            preferences()
+        )
 
     override fun application(): String =
         StringBuilder()
-            .appendLine(APPLICATION.toUpperCase())
+            .appendLine(APPLICATION.toUpperCase(Locale.getDefault()))
             .appendLine(SEPARATOR.repeat(APPLICATION.length))
-            .apply {
-                applicationCollector().let {
-                    addLine(R.string.sentinel_version_code, it.versionCode)
-                    addLine(R.string.sentinel_version_name, it.versionName)
-                    addLine(R.string.sentinel_first_install, it.firstInstall)
-                    addLine(R.string.sentinel_last_update, it.lastUpdate)
-                    addLine(R.string.sentinel_min_sdk, it.minSdk)
-                    addLine(R.string.sentinel_target_sdk, it.targetSdk)
-                    addLine(R.string.sentinel_package_name, it.packageName)
-                    addLine(R.string.sentinel_process_name, it.processName)
-                    addLine(R.string.sentinel_task_affinity, it.taskAffinity)
-                    addLine(R.string.sentinel_locale_language, it.localeLanguage)
-                    addLine(R.string.sentinel_locale_country, it.localeCountry)
-                }
-            }
+            .apply { addApplicationData(this, applicationCollector()) }
             .appendLine()
             .toString()
 
     override fun permissions(): String =
         StringBuilder()
-            .appendLine(PERMISSIONS.toUpperCase())
+            .appendLine(PERMISSIONS.toUpperCase(Locale.getDefault()))
             .appendLine(SEPARATOR.repeat(PERMISSIONS.length))
             .apply {
                 permissionsCollector().let {
@@ -69,24 +66,9 @@ internal class PlainFormatter(
 
     override fun device(): String =
         StringBuilder()
-            .appendLine(DEVICE.toUpperCase())
+            .appendLine(DEVICE.toUpperCase(Locale.getDefault()))
             .appendLine(SEPARATOR.repeat(DEVICE.length))
-            .apply {
-                deviceCollector().let {
-                    addLine(R.string.sentinel_manufacturer, it.manufacturer)
-                    addLine(R.string.sentinel_model, it.model)
-                    addLine(R.string.sentinel_id, it.id)
-                    addLine(R.string.sentinel_bootloader, it.bootloader)
-                    addLine(R.string.sentinel_device, it.device)
-                    addLine(R.string.sentinel_board, it.board)
-                    addLine(R.string.sentinel_architectures, it.architectures)
-                    addLine(R.string.sentinel_codename, it.codename)
-                    addLine(R.string.sentinel_release, it.release)
-                    addLine(R.string.sentinel_sdk, it.sdk)
-                    addLine(R.string.sentinel_security_patch, it.securityPatch)
-                    addLine(R.string.sentinel_emulator, it.isProbablyAnEmulator.toString())
-                }
-            }
+            .apply { addDeviceData(this, deviceCollector()) }
             .appendLine()
             .toString()
 
@@ -102,20 +84,10 @@ internal class PlainFormatter(
                         appendLine(preference.name)
                         appendLine(SEPARATOR.repeat(preference.name.length))
                         preference.values.forEach { triple ->
-                            addLine(triple.second, triple.third.toString())
+                            addLine(this, triple.second, triple.third.toString())
                         }
                     }
                 }
             }
             .toString()
-
-    private fun StringBuilder.addLine(@StringRes tag: Int, text: String) {
-        context.getString(tag).sanitize().let {
-            appendLine("$it: $text")
-        }
-    }
-
-    private fun StringBuilder.addLine(tag: String, text: String) {
-        appendLine("$tag: $text")
-    }
 }

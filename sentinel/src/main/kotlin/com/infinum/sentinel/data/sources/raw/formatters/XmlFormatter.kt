@@ -14,8 +14,8 @@ import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.STAT
 import com.infinum.sentinel.domain.collectors.Collectors
 import com.infinum.sentinel.domain.formatters.Formatters
 import com.infinum.sentinel.extensions.sanitize
-import org.xmlpull.v1.XmlSerializer
 import java.io.StringWriter
+import org.xmlpull.v1.XmlSerializer
 
 @Suppress("TooManyFunctions")
 internal class XmlFormatter(
@@ -103,6 +103,8 @@ internal class XmlFormatter(
             addNode(R.string.sentinel_sdk, it.sdk)
             addNode(R.string.sentinel_security_patch, it.securityPatch)
             addNode(R.string.sentinel_emulator, it.isProbablyAnEmulator.toString())
+            addNode(R.string.sentinel_auto_time, it.autoTime.toString())
+            addNode(R.string.sentinel_auto_timezone, it.autoTimezone.toString())
         }
         endTag(NAMESPACE, DEVICE)
     }
