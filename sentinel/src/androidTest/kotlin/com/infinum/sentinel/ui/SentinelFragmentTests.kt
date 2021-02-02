@@ -38,7 +38,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-
 @RunWith(AndroidJUnit4::class)
 class SentinelFragmentTests {
 
@@ -67,8 +66,9 @@ class SentinelFragmentTests {
 
     @Test
     fun sentinelFragment_show() {
-        val scenario =
-            launchFragmentInContainer<SentinelFragment>(themeResId = R.style.Sentinel_Theme_BottomSheet)
+        val scenario = launchFragmentInContainer<SentinelFragment>(
+            themeResId = R.style.Sentinel_Theme_BottomSheet
+        )
         scenario.onFragment {
             val childFragment = it.childFragmentManager.findFragmentByTag(ToolsFragment.TAG)
             assertNotNull(childFragment)
@@ -150,8 +150,9 @@ class SentinelFragmentTests {
 
     @Test
     fun sentinelFragment_showChild_Application() {
-        val scenario =
-            launchFragmentInContainer<SentinelFragment>(themeResId = R.style.Sentinel_Theme_BottomSheet)
+        val scenario = launchFragmentInContainer<SentinelFragment>(
+            themeResId = R.style.Sentinel_Theme_BottomSheet
+        )
 
         onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
@@ -183,8 +184,9 @@ class SentinelFragmentTests {
 
     @Test
     fun sentinelFragment_showChild_Permissions() {
-        val scenario =
-            launchFragmentInContainer<SentinelFragment>(themeResId = R.style.Sentinel_Theme_BottomSheet)
+        val scenario = launchFragmentInContainer<SentinelFragment>(
+            themeResId = R.style.Sentinel_Theme_BottomSheet
+        )
 
         onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
@@ -216,8 +218,9 @@ class SentinelFragmentTests {
 
     @Test
     fun sentinelFragment_showChild_Preferences() {
-        val scenario =
-            launchFragmentInContainer<SentinelFragment>(themeResId = R.style.Sentinel_Theme_BottomSheet)
+        val scenario = launchFragmentInContainer<SentinelFragment>(
+            themeResId = R.style.Sentinel_Theme_BottomSheet
+        )
 
         onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
@@ -249,8 +252,9 @@ class SentinelFragmentTests {
 
     @Test
     fun sentinelFragment_showChild_Tools() {
-        val scenario =
-            launchFragmentInContainer<SentinelFragment>(themeResId = R.style.Sentinel_Theme_BottomSheet)
+        val scenario = launchFragmentInContainer<SentinelFragment>(
+            themeResId = R.style.Sentinel_Theme_BottomSheet
+        )
 
         onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
@@ -281,9 +285,9 @@ class SentinelFragmentTests {
 
     @Test
     fun sentinelFragment_share() {
-
-        val scenario =
-            launchFragmentInContainer<SentinelFragment>(themeResId = R.style.Sentinel_Theme_BottomSheet)
+        val scenario = launchFragmentInContainer<SentinelFragment>(
+            themeResId = R.style.Sentinel_Theme_BottomSheet
+        )
         scenario.onFragment {
             val childFragment = it.childFragmentManager.findFragmentByTag(ToolsFragment.TAG)
             assertNotNull(childFragment)

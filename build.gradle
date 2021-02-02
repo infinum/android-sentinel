@@ -14,13 +14,15 @@ buildscript {
         maven { url "https://dl.bintray.com/infinum/android" }
         google()
         jcenter()
+        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath packages.gradle
         classpath packages.bintray
         classpath packages.kotlin.plugin
-        classpath 'de.aaschmid:gradle-cpd-plugin:3.1'
+        classpath packages.cpd.plugin
         classpath packages.detekt.plugin
+        classpath packages.ktlint.plugin
         classpath packages.dokka.plugin
     }
 }
@@ -63,6 +65,7 @@ subprojects {
 
     apply from: "../cpd.gradle"
     apply from: "../detekt.gradle"
+    apply from: "../ktlint.gradle"
     apply from: "../dokka.gradle"
 }
 
@@ -85,6 +88,29 @@ task detektAll(dependsOn: [
 ]) {
     group = "Verification"
     description = "Run detekt on all modules"
+}
+
+apply from: "shared.gradle"
+
+task runStaticChecks(dependsOn: ordered(
+        ':detektAll',
+        ':sentinel:ktlintCheck',
+        ':sentinel-no-op:ktlintCheck',
+        ':tool-chucker:ktlintCheck',
+        ':tool-collar:ktlintCheck',
+        ':tool-dbinspector:ktlintCheck',
+        ':tool-googleplay:ktlintCheck',
+        ':tool-thimble:ktlintCheck',
+        ':sentinel:cpdCheck',
+        ':sentinel-no-op:cpdCheck',
+        ':tool-chucker:cpdCheck',
+        ':tool-collar:cpdCheck',
+        ':tool-dbinspector:cpdCheck',
+        ':tool-googleplay:cpdCheck',
+        ':tool-thimble:cpdCheck'
+)) {
+    group = "Verification"
+    description = "Run static checks on all modules"
 }
 
 apply from: "deploy.gradle"

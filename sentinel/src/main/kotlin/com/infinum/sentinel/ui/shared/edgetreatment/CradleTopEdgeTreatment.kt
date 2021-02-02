@@ -52,7 +52,7 @@ internal class CradleTopEdgeTreatment(
             // Vertical offset is so high that there's no curve to draw in the edge, i.e., the fab is
             // actually above the edge so just draw a straight line.
             shapePath.lineTo(length, 0f)
-            return  // Early exit.
+            return // Early exit.
         }
 
         // Calculate the path of the cutout by calculating the location of two adjacent circles. One
@@ -84,20 +84,20 @@ internal class CradleTopEdgeTreatment(
         // circle's center which is at `(leftRoundedCornerCircleX, roundedCornerOffset)`.
         shapePath.addArc(
             leftRoundedCornerCircleX - roundedCornerOffset, /* left= */
-            0f,  /* right= */
-            leftRoundedCornerCircleX + roundedCornerOffset,  /* bottom= */
-            roundedCornerOffset * 2,  /* startAngle= */
-            ANGLE_UP.toFloat(),  /* sweepAngle= */
+            0f, /* right= */
+            leftRoundedCornerCircleX + roundedCornerOffset, /* bottom= */
+            roundedCornerOffset * 2, /* startAngle= */
+            ANGLE_UP.toFloat(), /* sweepAngle= */
             cornerRadiusArcLength
         )
 
         // Draw the cutout circle.
         shapePath.addArc( /* left= */
-            middle - cradleRadius,  /* top= */
-            -cradleRadius - verticalOffset,  /* right= */
-            middle + cradleRadius,  /* bottom= */
-            cradleRadius - verticalOffset,  /* startAngle= */
-            ANGLE_LEFT - cutoutArcOffset,  /* sweepAngle= */
+            middle - cradleRadius, /* top= */
+            -cradleRadius - verticalOffset, /* right= */
+            middle + cradleRadius, /* bottom= */
+            cradleRadius - verticalOffset, /* startAngle= */
+            ANGLE_LEFT - cutoutArcOffset, /* sweepAngle= */
             cutoutArcOffset * 2 - ARC_HALF
         )
 
@@ -113,6 +113,6 @@ internal class CradleTopEdgeTreatment(
         )
 
         // Draw the ending line after the right rounded corner.
-        shapePath.lineTo( /* x= */length, 0f)
+        shapePath.lineTo(length, 0f)
     }
 }

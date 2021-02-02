@@ -3,6 +3,7 @@ package com.infinum.sentinel.data.sources.raw.collectors
 import android.content.Context
 import android.content.pm.PackageManager
 import com.infinum.sentinel.domain.collectors.Collectors
+import com.infinum.sentinel.extensions.isPermissionGranted
 
 internal class PermissionsCollector(
     private val context: Context
@@ -16,13 +17,11 @@ internal class PermissionsCollector(
             )
 
             return with(packageInfo) {
-                requestedPermissions?.toList().orEmpty()
-                    .map {
-                        it to (packageManager.checkPermission(
-                            it,
-                            packageName
-                        ) == PackageManager.PERMISSION_GRANTED)
-                    }.toMap()
+                requestedPermissions
+                    ?.toList()
+                    .orEmpty()
+                    .map { it to isPermissionGranted(it) }
+                    .toMap()
             }
         }
     }

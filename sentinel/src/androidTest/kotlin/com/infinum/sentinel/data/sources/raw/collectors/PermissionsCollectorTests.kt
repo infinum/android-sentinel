@@ -23,8 +23,9 @@ internal class PermissionsCollectorTests {
         @BeforeClass
         @JvmStatic
         fun setupCollector() {
-            val context =
-                ApplicationProvider.getApplicationContext<SentinelTestApplication>().applicationContext
+            val context = ApplicationProvider
+                .getApplicationContext<SentinelTestApplication>()
+                .applicationContext
 
             val collector = PermissionsCollector(context)
 

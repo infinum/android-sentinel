@@ -5,8 +5,8 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import com.infinum.sentinel.data.models.memory.triggers.shared.AbstractTrigger
 import com.infinum.sentinel.data.models.memory.triggers.shake.samples.SampleQueue
+import com.infinum.sentinel.data.models.memory.triggers.shared.AbstractTrigger
 
 /**
  * Detects phone shaking. If more than 75% of the samples taken in the past 0.5s are

@@ -84,7 +84,10 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment) {
                 .setTopEdge(
                     ScissorsEdgeTreatment(
                         resources.getInteger(R.integer.sentinel_scissors_top_count),
-                        contentLayout.context.resources.getDimensionPixelSize(R.dimen.sentinel_triangle_height)
+                        contentLayout
+                            .context
+                            .resources
+                            .getDimensionPixelSize(R.dimen.sentinel_triangle_height)
                             .toFloat(),
                         true
                     )
@@ -93,13 +96,17 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment) {
             bottomNavigation.background = MaterialShapeDrawable().toCradleDrawable(
                 context = requireContext(),
                 color = R.color.sentinel_color_background,
-                fabDiameter = resources.getDimensionPixelSize(R.dimen.sentinel_cradle_diameter)
+                fabDiameter = resources
+                    .getDimensionPixelSize(R.dimen.sentinel_cradle_diameter)
                     .toFloat(),
-                fabCradleMargin = resources.getDimensionPixelSize(R.dimen.sentinel_cradle_margin)
+                fabCradleMargin = resources
+                    .getDimensionPixelSize(R.dimen.sentinel_cradle_margin)
                     .toFloat(),
-                fabCornerRadius = resources.getDimensionPixelSize(R.dimen.sentinel_cradle_corner_radius)
+                fabCornerRadius = resources
+                    .getDimensionPixelSize(R.dimen.sentinel_cradle_corner_radius)
                     .toFloat(),
-                fabVerticalOffset = resources.getDimensionPixelSize(R.dimen.sentinel_cradle_vertical_offset)
+                fabVerticalOffset = resources
+                    .getDimensionPixelSize(R.dimen.sentinel_cradle_vertical_offset)
                     .toFloat()
             )
             bottomNavigation.elevation =

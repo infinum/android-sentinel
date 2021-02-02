@@ -8,8 +8,8 @@ import androidx.core.os.ConfigurationCompat
 import com.infinum.sentinel.data.models.raw.ApplicationData
 import com.infinum.sentinel.domain.collectors.Collectors
 import java.text.SimpleDateFormat
-import java.util.Locale
 import java.util.Date
+import java.util.Locale
 
 internal class ApplicationCollector(
     private val context: Context

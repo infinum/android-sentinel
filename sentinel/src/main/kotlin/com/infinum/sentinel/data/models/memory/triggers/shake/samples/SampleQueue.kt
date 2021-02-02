@@ -7,6 +7,7 @@ internal class SampleQueue {
         /** Window size in ns. Used to compute the average.  */
         private const val MAX_WINDOW_SIZE: Long = 500000000 // 0.5s
         private const val MIN_WINDOW_SIZE = MAX_WINDOW_SIZE shr 1 // 0.25s
+
         /**
          * Ensure the queue size never falls below this size, even if the device
          * fails to deliver this many events during the time window. The LG Ally
@@ -90,8 +91,15 @@ internal class SampleQueue {
      * are accelerating.
      */
     val isShaking: Boolean
-        get() = newest != null &&
-                oldest != null &&
-                ((newest?.timestamp ?: 0) - (oldest?.timestamp ?: 0)) >= MIN_WINDOW_SIZE &&
-                acceleratingCount >= (sampleCount shr 1) + (sampleCount shr 2)
+        get() = if (newest != null && oldest != null) {
+            hasWindowPassed(newest!!.timestamp, oldest!!.timestamp) && hasCountPassed()
+        } else {
+            false
+        }
+
+    private fun hasWindowPassed(newest: Long, oldest: Long) =
+        newest - oldest >= MIN_WINDOW_SIZE
+
+    private fun hasCountPassed() =
+        acceleratingCount >= (sampleCount shr 1) + (sampleCount shr 2)
 }

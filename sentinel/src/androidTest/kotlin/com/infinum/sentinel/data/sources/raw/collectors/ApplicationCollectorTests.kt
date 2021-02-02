@@ -37,7 +37,9 @@ internal class ApplicationCollectorTests {
         @JvmStatic
         fun setupCollector() {
             val context =
-                ApplicationProvider.getApplicationContext<SentinelTestApplication>().applicationContext
+                ApplicationProvider
+                    .getApplicationContext<SentinelTestApplication>()
+                    .applicationContext
 
             val collector = ApplicationCollector(context)
 
@@ -106,7 +108,10 @@ internal class ApplicationCollectorTests {
 
     @Test
     @SmallTest
-    @SdkSuppress(minSdkVersion = Build.VERSION_CODES.JELLY_BEAN, maxSdkVersion = Build.VERSION_CODES.O)
+    @SdkSuppress(
+        minSdkVersion = Build.VERSION_CODES.JELLY_BEAN,
+        maxSdkVersion = Build.VERSION_CODES.O
+    )
     fun application_hasMinSdk_Before_Oreo() {
         assertNotNull(actualApplicationData.minSdk)
         assertTrue(actualApplicationData.minSdk.isBlank())

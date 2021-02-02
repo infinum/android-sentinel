@@ -20,7 +20,8 @@ internal data class DeviceData(
     val securityPatch: String = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         Build.VERSION.SECURITY_PATCH
     } else "",
-    val isProbablyAnEmulator: Boolean = (Build.FINGERPRINT.startsWith("generic") ||
+    val isProbablyAnEmulator: Boolean = (
+        Build.FINGERPRINT.startsWith("generic") ||
             Build.FINGERPRINT.startsWith("unknown") ||
             Build.MODEL.contains("google_sdk") ||
             Build.MODEL.contains("Emulator") ||
@@ -29,7 +30,8 @@ internal data class DeviceData(
             Build.MANUFACTURER.contains("Genymotion") ||
             Build.HOST.startsWith("Build") ||
             (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic")) ||
-            "google_sdk" == Build.PRODUCT),
+            "google_sdk" == Build.PRODUCT
+        ),
     val autoTime: Boolean,
     val autoTimezone: Boolean
 )
