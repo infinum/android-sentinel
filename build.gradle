@@ -90,17 +90,20 @@ task detektAll(dependsOn: [
     description = "Run detekt on all modules"
 }
 
-apply from: "shared.gradle"
-
-task runStaticChecks(dependsOn: ordered(
-        ':detektAll',
+task ktlintAll(dependsOn: [
         ':sentinel:ktlintCheck',
         ':sentinel-no-op:ktlintCheck',
         ':tool-chucker:ktlintCheck',
         ':tool-collar:ktlintCheck',
         ':tool-dbinspector:ktlintCheck',
         ':tool-googleplay:ktlintCheck',
-        ':tool-thimble:ktlintCheck',
+        ':tool-thimble:ktlintCheck'
+]) {
+    group = "Verification"
+    description = "Run ktlintCheck on all modules"
+}
+
+task cpdAll(dependsOn: [
         ':sentinel:cpdCheck',
         ':sentinel-no-op:cpdCheck',
         ':tool-chucker:cpdCheck',
@@ -108,6 +111,17 @@ task runStaticChecks(dependsOn: ordered(
         ':tool-dbinspector:cpdCheck',
         ':tool-googleplay:cpdCheck',
         ':tool-thimble:cpdCheck'
+]) {
+    group = "Verification"
+    description = "Run cpdCheck on all modules"
+}
+
+apply from: "shared.gradle"
+
+task runStaticChecks(dependsOn: ordered(
+        ':detektAll',
+        ':ktlintAll',
+        ':cpdAll'
 )) {
     group = "Verification"
     description = "Run static checks on all modules"
