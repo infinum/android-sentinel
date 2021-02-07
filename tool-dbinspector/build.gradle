@@ -50,4 +50,4 @@ dependencies {
     api packages.dbinspector
 }
 
-apply from: "bintray.gradle"
+apply from: "publish.gradle"

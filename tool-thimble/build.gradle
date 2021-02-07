@@ -53,4 +53,4 @@ dependencies {
     api packages.thimble
 }
 
-apply from: "bintray.gradle"
+apply from: "publish.gradle"

@@ -99,7 +99,7 @@ dependencies {
     testImplementation 'androidx.test.ext:junit:1.1.1'
 }
 
-apply from: "bintray.gradle"
+apply from: "publish.gradle"
 
 project.gradle.taskGraph.whenReady {
     connectedDebugAndroidTest {

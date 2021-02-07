@@ -1,5 +1,5 @@
-apply plugin: 'maven-publish'
-apply plugin: "com.jfrog.bintray"
+apply plugin: "maven-publish"
+apply plugin: "signing"
 
 task sourcesJar(type: Jar) {
     archiveClassifier.set('sources')
@@ -13,20 +13,46 @@ task javadocsJar(type: Jar, dependsOn: "dokkaJavadoc") {
 
 afterEvaluate {
     publishing {
+        repositories {
+            maven {
+                name sonatype.name()
+                url sonatype.url()
+                credentials {
+                    username sonatype.username()
+                    password sonatype.password()
+                }
+            }
+            maven {
+                name github.name()
+                url github.url()
+                credentials {
+                    username github.username()
+                    password github.password()
+                }
+            }
+            maven {
+                name bintray.name()
+                url bintray.url() + "/sentinel/;publish=1;override=1"
+                credentials {
+                    username bintray.username()
+                    password bintray.password()
+                }
+            }
+        }
         publications {
-            infinum(MavenPublication) {
+            release(MavenPublication) {
                 groupId = sentinel.group
                 version = sentinel.version
 
-                artifactId = 'tool-thimble'
+                artifactId = 'sentinel'
 
                 artifact bundleReleaseAar
                 artifact sourcesJar
                 artifact javadocsJar
 
                 pom {
-                    name = 'Sentinel Tool for Thimble'
-                    description = 'Sentinel Tool for Thimble'
+                    name = 'Sentinel'
+                    description = 'Single point of entry for all provided tools, app and device information.'
                     url = 'https://github.com/infinum/android-sentinel'
                     licenses {
                         license {
@@ -59,40 +85,5 @@ afterEvaluate {
                 }
             }
         }
-    }
-}
-
-bintray {
-    Properties properties = new Properties()
-    def bintrayProperties = rootProject.file('bintray.properties')
-    if (bintrayProperties.exists()) {
-        properties.load(new FileInputStream(bintrayProperties))
-    } else {
-        properties.setProperty("bintray.user", "")
-        properties.setProperty("bintray.apikey", "")
-    }
-
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-
-    publications = ["infinum"]
-
-    pkg {
-        repo = 'android'
-        name = 'tool-thimble'
-        userOrg = 'infinum'
-        desc = 'Sentinel Tool for Thimble'
-        websiteUrl = 'https://github.com/infinum/android-sentinel'
-        issueTrackerUrl = 'https://github.com/infinum/android-sentinel/issues'
-        vcsUrl = 'https://github.com/infinum/android-sentinel.git'
-        licenses = ['Apache-2.0']
-        version {
-            name = "${sentinel.version}"
-            released = new Date()
-            vcsTag = "${sentinel.version}"
-        }
-        publish = true
-        override = true
-        publicDownloadNumbers = true
     }
 }

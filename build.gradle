@@ -8,17 +8,17 @@ buildscript {
             "buildTools": "30.0.3"
     ]
 
+    apply from: "maven.gradle"
     apply from: "dependencies.gradle"
 
     repositories {
-        maven { url "https://dl.bintray.com/infinum/android" }
         google()
+        mavenCentral()
         jcenter()
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath packages.gradle
-        classpath packages.bintray
         classpath packages.kotlin.plugin
         classpath packages.cpd.plugin
         classpath packages.detekt.plugin
@@ -30,10 +30,28 @@ buildscript {
 allprojects {
 
     repositories {
-        maven { url "https://dl.bintray.com/infinum/android" }
         google()
-        jcenter()
-        maven { url "https://jitpack.io" }
+        mavenCentral()
+        maven {
+            url  "https://dl.bintray.com/infinum/android"
+            content {
+                includeGroup("co.infinum.collar")
+                includeGroup("com.infinum.thimble")
+            }
+        }
+        jcenter() {
+            content {
+                includeGroup("com.infinum.sentinel")
+                includeGroup("com.infinum.dbinspector")
+                includeGroup("com.github.skydoves")
+                includeModule("com.soywiz.korlibs.korte", "korte-jvm")
+                includeModule("org.jetbrains.trove4j", "trove4j")
+                includeModule("org.jetbrains.kotlinx", "kotlinx-html-jvm")
+                includeGroup("org.jetbrains.dokka")
+                includeGroup("org.jetbrains")
+                includeGroup("org.koin")
+            }
+        }
     }
 
     def buildProperties = new Properties()
@@ -56,18 +74,14 @@ allprojects {
 }
 
 subprojects {
-    repositories {
-        maven { url "https://dl.bintray.com/infinum/android" }
-        google()
-        jcenter()
-        mavenCentral()
-    }
-
-    apply from: "../cpd.gradle"
-    apply from: "../detekt.gradle"
-    apply from: "../ktlint.gradle"
-    apply from: "../dokka.gradle"
+    apply from: "$rootDir/cpd.gradle"
+    apply from: "$rootDir/detekt.gradle"
+    apply from: "$rootDir/ktlint.gradle"
+    apply from: "$rootDir/dokka.gradle"
 }
+
+apply from: "shared.gradle"
+apply from: "deploy.gradle"
 
 tasks.withType(JavaCompile) {
     options.compilerArgs += ["--release", "8"]
@@ -116,8 +130,6 @@ task cpdAll(dependsOn: [
     description = "Run cpdCheck on all modules"
 }
 
-apply from: "shared.gradle"
-
 task runStaticChecks(dependsOn: ordered(
         ':detektAll',
         ':ktlintAll',
@@ -126,5 +138,3 @@ task runStaticChecks(dependsOn: ordered(
     group = "Verification"
     description = "Run static checks on all modules"
 }
-
-apply from: "deploy.gradle"

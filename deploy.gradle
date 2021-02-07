@@ -2,58 +2,72 @@ apply from: "shared.gradle"
 
 task deploySentinel(dependsOn: ordered(
         ':sentinel:clean',
-        ':sentinel:bintrayUpload'
+        ':sentinel:publishReleasePublicationToBintrayRepository',
+        ':sentinel:publishReleasePublicationToGithubRepository',
+        ':sentinel:publishReleasePublicationToSonatypeRepository'
 )) {
     group = "Deploy"
-    description = "Deploy module to Bintray"
+    description = "Deploy module to repositories"
 }
 
 task deploySentinelNoOp(dependsOn: ordered(
         ':sentinel-no-op:clean',
-        ':sentinel-no-op:bintrayUpload'
+        ':sentinel-no-op:publishReleasePublicationToBintrayRepository',
+        ':sentinel-no-op:publishReleasePublicationToGithubRepository',
+        ':sentinel-no-op:publishReleasePublicationToSonatypeRepository'
 )) {
     group = "Deploy"
-    description = "Deploy module to Bintray"
+    description = "Deploy module to repositories"
 }
 
 task deployToolChucker(dependsOn: ordered(
         ':tool-chucker:clean',
-        ':tool-chucker:bintrayUpload'
+        ':tool-chucker:publishReleasePublicationToBintrayRepository',
+        ':tool-chucker:publishReleasePublicationToGithubRepository',
+        ':tool-chucker:publishReleasePublicationToSonatypeRepository'
 )) {
     group = "Deploy"
-    description = "Deploy module to Bintray"
+    description = "Deploy module to repositories"
 }
 
 task deployToolCollar(dependsOn: ordered(
         ':tool-collar:clean',
-        ':tool-collar:bintrayUpload'
+        ':tool-collar:publishReleasePublicationToBintrayRepository',
+        ':tool-collar:publishReleasePublicationToGithubRepository',
+        ':tool-collar:publishReleasePublicationToSonatypeRepository'
 )) {
     group = "Deploy"
-    description = "Deploy module to Bintray"
+    description = "Deploy module to repositories"
 }
 
 task deployToolDbInspector(dependsOn: ordered(
         ':tool-dbinspector:clean',
-        ':tool-dbinspector:bintrayUpload'
+        ':tool-dbinspector:publishReleasePublicationToBintrayRepository',
+        ':tool-dbinspector:publishReleasePublicationToGithubRepository',
+        ':tool-dbinspector:publishReleasePublicationToSonatypeRepository'
 )) {
     group = "Deploy"
-    description = "Deploy module to Bintray"
+    description = "Deploy module to repositories"
 }
 
 task deployToolGooglePlay(dependsOn: ordered(
         ':tool-googleplay:clean',
-        ':tool-googleplay:bintrayUpload'
+        ':tool-googleplay:publishReleasePublicationToBintrayRepository',
+        ':tool-googleplay:publishReleasePublicationToGithubRepository',
+        ':tool-googleplay:publishReleasePublicationToSonatypeRepository'
 )) {
     group = "Deploy"
-    description = "Deploy module to Bintray"
+    description = "Deploy module to repositories"
 }
 
 task deployToolThimble(dependsOn: ordered(
         ':tool-thimble:clean',
-        ':tool-thimble:bintrayUpload'
+        ':tool-thimble:publishReleasePublicationToBintrayRepository',
+        ':tool-thimble:publishReleasePublicationToGithubRepository',
+        ':tool-thimble:publishReleasePublicationToSonatypeRepository'
 )) {
     group = "Deploy"
-    description = "Deploy module to Bintray"
+    description = "Deploy module to repositories"
 }
 
 task deployAll(dependsOn: ordered(
@@ -66,5 +80,5 @@ task deployAll(dependsOn: ordered(
         'deployToolThimble'
 )) {
     group = "Deploy"
-    description = "Deploy all modules to Bintray"
+    description = "Deploy all modules to repositories"
 }

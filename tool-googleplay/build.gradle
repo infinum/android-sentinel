@@ -49,4 +49,4 @@ dependencies {
     api packages.sentinel.sentinel
 }
 
-apply from: "bintray.gradle"
+apply from: "publish.gradle"
