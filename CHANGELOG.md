@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+## Version 1.0.6
+
+_2021-02-09_
+
+* Move project to MavenCentral.
+
 ## Version 1.0.5
 
 _2021-01-29_
