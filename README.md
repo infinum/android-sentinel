@@ -1,4 +1,4 @@
-[ ![Download](https://api.bintray.com/packages/infinum/android/sentinel/images/download.svg) ](https://bintray.com/infinum/android/sentinel/_latestVersion) ![Validate Gradle Wrapper](https://github.com/infinum/android-sentinel/workflows/Validate%20Gradle%20Wrapper/badge.svg) ![Code analysis](https://github.com/infinum/android-sentinel/workflows/Code%20analysis/badge.svg)
+![Download](https://img.shields.io/maven-central/v/com.infinum.sentinel/sentinel) ![Validate Gradle Wrapper](https://github.com/infinum/android-sentinel/workflows/Validate%20Gradle%20Wrapper/badge.svg) ![Code analysis](https://github.com/infinum/android-sentinel/workflows/Code%20analysis/badge.svg)
 
 ### <img align="left" src="logo.svg" width="48">
 # Sentinel
@@ -27,9 +27,7 @@ To include _Sentinel_ in your project, you have to add buildscript dependencies 
 ```groovy
 buildscript {
     repositories {
-        jcenter()
-        // or ...
-        maven { url "https://dl.bintray.com/infinum/android" }
+        mavenCentral()
     }
 }
 ```
@@ -37,9 +35,7 @@ buildscript {
 ```kotlin
 buildscript {
     repositories {
-        jcenter()
-        // or ...
-        maven(url = "https://dl.bintray.com/infinum/android")
+        mavenCentral()
     }
 }
 ```
@@ -48,32 +44,32 @@ Then add the following dependencies in your app `build.gradle` or `build.gradle.
 
 **Groovy**
 ```groovy
-debugImplementation "com.infinum.sentinel:sentinel:1.0.5"
-releaseImplementation "com.infinum.sentinel:sentinel-no-op:1.0.5"
+debugImplementation "com.infinum.sentinel:sentinel:1.0.6"
+releaseImplementation "com.infinum.sentinel:sentinel-no-op:1.0.6"
 ```
 **KotlinDSL**
 ```kotlin
-debugImplementation("com.infinum.sentinel:sentinel:1.0.5")
-releaseImplementation("com.infinum.sentinel:sentinel-no-op:1.0.5")
+debugImplementation("com.infinum.sentinel:sentinel:1.0.6")
+releaseImplementation("com.infinum.sentinel:sentinel-no-op:1.0.6")
 ```
 
 Basic tools are provided inside the main package but depending on requirements you might want to add specific tools:
 
 **Groovy**
 ```groovy
-debugImplementation "com.infinum.sentinel:tool-chucker:1.0.5"
-debugImplementation "com.infinum.sentinel:tool-collar:1.0.5"
-debugImplementation "com.infinum.sentinel:tool-dbinspector:1.0.5"
-debugImplementation "com.infinum.sentinel:tool-googleplay:1.0.5"
-debugImplementation "com.infinum.sentinel:tool-thimble:1.0.5"
+debugImplementation "com.infinum.sentinel:tool-chucker:1.0.6"
+debugImplementation "com.infinum.sentinel:tool-collar:1.0.6"
+debugImplementation "com.infinum.sentinel:tool-dbinspector:1.0.6"
+debugImplementation "com.infinum.sentinel:tool-googleplay:1.0.6"
+debugImplementation "com.infinum.sentinel:tool-thimble:1.0.6"
 ```
 **KotlinDSL**
 ```kotlin
-debugImplementation("com.infinum.sentinel:tool-chucker:1.0.5")
-debugImplementation("com.infinum.sentinel:tool-collar:1.0.5")
-debugImplementation("com.infinum.sentinel:tool-dbinspector:1.0.5")
-debugImplementation("com.infinum.sentinel:tool-googleplay:1.0.5")
-debugImplementation("com.infinum.sentinel:tool-thimble:1.0.5")
+debugImplementation("com.infinum.sentinel:tool-chucker:1.0.6")
+debugImplementation("com.infinum.sentinel:tool-collar:1.0.6")
+debugImplementation("com.infinum.sentinel:tool-dbinspector:1.0.6")
+debugImplementation("com.infinum.sentinel:tool-googleplay:1.0.6")
+debugImplementation("com.infinum.sentinel:tool-thimble:1.0.6")
 ```
 
 Now you can sync your project.

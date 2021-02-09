@@ -15,6 +15,7 @@ buildscript {
         google()
         mavenCentral()
         jcenter()
+        maven { url "https://dl.bintray.com/infinum/android" }
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
@@ -33,16 +34,15 @@ allprojects {
         google()
         mavenCentral()
         maven {
-            url  "https://dl.bintray.com/infinum/android"
+            url "https://dl.bintray.com/infinum/android"
             content {
                 includeGroup("co.infinum.collar")
                 includeGroup("com.infinum.thimble")
+                includeGroup("com.infinum.sentinel")
             }
         }
         jcenter() {
             content {
-                includeGroup("com.infinum.sentinel")
-                includeGroup("com.infinum.dbinspector")
                 includeGroup("com.github.skydoves")
                 includeModule("com.soywiz.korlibs.korte", "korte-jvm")
                 includeModule("org.jetbrains.trove4j", "trove4j")
@@ -55,7 +55,7 @@ allprojects {
     }
 
     def buildProperties = new Properties()
-    file(rootDir.absolutePath+"/build.properties").withInputStream { buildProperties.load(it) }
+    file(rootDir.absolutePath + "/build.properties").withInputStream { buildProperties.load(it) }
     if (buildProperties.getProperty("build.debug").toBoolean()) {
         configurations.all {
             resolutionStrategy {
