@@ -14,8 +14,13 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        jcenter()
-        maven { url "https://dl.bintray.com/infinum/android" }
+        maven {
+            url "https://dl.bintray.com/infinum/android"
+            content {
+                includeGroup("co.infinum.collar")
+                includeGroup("com.infinum.thimble")
+            }
+        }
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
