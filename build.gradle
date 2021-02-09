@@ -38,7 +38,6 @@ allprojects {
             content {
                 includeGroup("co.infinum.collar")
                 includeGroup("com.infinum.thimble")
-                includeGroup("com.infinum.sentinel")
             }
         }
         jcenter() {
@@ -47,8 +46,6 @@ allprojects {
                 includeModule("com.soywiz.korlibs.korte", "korte-jvm")
                 includeModule("org.jetbrains.trove4j", "trove4j")
                 includeModule("org.jetbrains.kotlinx", "kotlinx-html-jvm")
-                includeGroup("org.jetbrains.dokka")
-                includeGroup("org.jetbrains")
                 includeGroup("org.koin")
             }
         }
