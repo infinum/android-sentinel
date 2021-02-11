@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import com.infinum.sentinel.BuildConfig
 import com.infinum.sentinel.Sentinel
+import com.infinum.sentinel.data.models.memory.triggers.shake.ShakeTrigger
+import com.infinum.sentinel.di.LibraryKoin
 import com.infinum.sentinel.domain.Domain
 import com.infinum.sentinel.ui.application.ApplicationViewModel
 import com.infinum.sentinel.ui.device.DeviceViewModel
@@ -49,6 +51,7 @@ internal object Presentation {
 
     fun setup(tools: Set<Sentinel.Tool>, onTriggered: () -> Unit) {
         Domain.setup(tools, onTriggered)
+        LibraryKoin.koin().get<ShakeTrigger>().apply { active = true }
     }
 
     fun show() =
