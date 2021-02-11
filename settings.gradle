@@ -1,10 +1,10 @@
-rootProject.name='Sentinel'
+rootProject.name="Sentinel"
 
-include ':sample'
-include ':sentinel'
-include ':sentinel-no-op'
-include ':tool-chucker'
-include ':tool-collar'
-include ':tool-dbinspector'
-include ':tool-googleplay'
-include ':tool-thimble'
+include ":sample"
+include ":sentinel"
+include ":sentinel-no-op"
+include ":tool-chucker"
+include ":tool-collar"
+include ":tool-dbinspector"
+include ":tool-googleplay"
+include ":tool-thimble"
