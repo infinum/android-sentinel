@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+## Version 1.0.8
+
+_2021-02-12_
+
+* Fix shake trigger regression bug.
+
 ## Version 1.0.7
 
 _2021-02-11_
