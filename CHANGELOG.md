@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+## Version 1.0.7
+
+_2021-02-11_
+
+* Update dependencies to stable versions.
+
 ## Version 1.0.6
 
 _2021-02-09_

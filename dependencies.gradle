@@ -5,7 +5,7 @@ ext.sentinel = [
 ]
 
 ext.versions = [
-        "sentinel"   : "1.0.6",
+        "sentinel"   : "1.0.7",
         "gradle"     : '4.1.2',
         "kotlin"     : "1.4.30",
         "coroutines" : "1.4.2",
