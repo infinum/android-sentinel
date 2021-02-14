@@ -19,7 +19,7 @@ ext.versions = [
         "cpd"        : "3.1",
         "dokka"      : "1.4.20",
         "chucker"    : "3.4.0",
-        "collar"     : "1.2.2",
+        "collar"     : "1.2.3",
         "dbinspector": "5.2.4",
         "thimble"    : "1.0.0"
 ]
@@ -84,7 +84,7 @@ ext.packages = [
                 "plugin": "org.jetbrains.dokka:dokka-gradle-plugin:${versions.dokka}"
         ],
         "chucker"    : "com.github.chuckerteam.chucker:library:${versions.chucker}",
-        "collar"     : "co.infinum.collar:collar-ui:${versions.collar}",
+        "collar"     : "com.infinum.collar:collar-ui:${versions.collar}",
         "dbinspector": "com.infinum.dbinspector:dbinspector:${versions.dbinspector}",
         "thimble"    : "com.infinum.thimble:thimble:${versions.thimble}"
 ]

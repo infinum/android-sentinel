@@ -2,7 +2,7 @@ package com.infinum.sentinel.ui.tools
 
 import android.content.Intent
 import android.view.View
-import co.infinum.collar.ui.CollarUi
+import com.infinum.collar.ui.CollarUi
 import com.infinum.sentinel.Sentinel
 
 /**
