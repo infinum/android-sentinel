@@ -8,11 +8,12 @@ android {
     buildToolsVersion buildConfig.buildTools
 
     defaultConfig {
+        applicationId releaseConfig.group
+        applicationIdSuffix ".sample"
         minSdkVersion buildConfig.minSdk
         targetSdkVersion buildConfig.targetSdk
-        versionCode sentinel.versionCode
-        versionName sentinel.version
-        applicationId "com.infinum.sentinel.sample"
+        versionCode releaseConfig.versionCode
+        versionName releaseConfig.version
     }
 
     signingConfigs {

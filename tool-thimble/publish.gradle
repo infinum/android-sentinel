@@ -41,8 +41,8 @@ afterEvaluate {
         }
         publications {
             release(MavenPublication) {
-                groupId = sentinel.group
-                version = sentinel.version
+                groupId = releaseConfig.group
+                version = releaseConfig.version
 
                 artifactId = 'tool-thimble'
 

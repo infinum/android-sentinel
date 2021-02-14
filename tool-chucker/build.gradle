@@ -14,8 +14,8 @@ android {
     defaultConfig {
         minSdkVersion buildConfig.minSdk
         targetSdkVersion buildConfig.targetSdk
-        versionCode sentinel.versionCode
-        versionName sentinel.version
+        versionCode releaseConfig.versionCode
+        versionName releaseConfig.version
     }
 
     buildTypes {
