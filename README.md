@@ -1,4 +1,4 @@
-![Download](https://img.shields.io/maven-central/v/com.infinum.sentinel/sentinel) ![Validate Gradle Wrapper](https://github.com/infinum/android-sentinel/workflows/Validate%20Gradle%20Wrapper/badge.svg) ![Code analysis](https://github.com/infinum/android-sentinel/workflows/Code%20analysis/badge.svg)
+![Download](https://img.shields.io/maven-central/v/com.infinum.sentinel/sentinel) ![Validate Gradle Wrapper](https://github.com/infinum/android-sentinel/workflows/Validate%20Gradle%20Wrapper/badge.svg) ![Code analysis](https://github.com/infinum/android-sentinel/workflows/Code%20analysis/badge.svg) [![CodeFactor](https://www.codefactor.io/repository/github/infinum/android-sentinel/badge/master)](https://www.codefactor.io/repository/github/infinum/android-sentinel/overview/master)
 
 ### <img align="left" src="logo.svg" width="48">
 # Sentinel
