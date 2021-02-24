@@ -75,7 +75,6 @@ subprojects {
     apply from: "$rootDir/dokka.gradle"
 }
 
-apply from: "shared.gradle"
 apply from: "deploy.gradle"
 
 tasks.withType(JavaCompile) {
@@ -84,6 +83,19 @@ tasks.withType(JavaCompile) {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+task lintAll(dependsOn: [
+        ':sentinel:lintRelease',
+        ':sentinel-no-op:lintRelease',
+        ':tool-chucker:lintRelease',
+        ':tool-collar:lintRelease',
+        ':tool-dbinspector:lintRelease',
+        ':tool-googleplay:lintRelease',
+        ':tool-thimble:lintRelease'
+]) {
+    group = "Verification"
+    description = "Run Detekt on all modules"
 }
 
 task detektAll(dependsOn: [
@@ -96,7 +108,7 @@ task detektAll(dependsOn: [
         ':tool-thimble:detekt'
 ]) {
     group = "Verification"
-    description = "Run detekt on all modules"
+    description = "Run Detekt on all modules"
 }
 
 task ktlintAll(dependsOn: [
@@ -109,7 +121,7 @@ task ktlintAll(dependsOn: [
         ':tool-thimble:ktlintCheck'
 ]) {
     group = "Verification"
-    description = "Run ktlintCheck on all modules"
+    description = "Run ktLint on all modules"
 }
 
 task cpdAll(dependsOn: [
@@ -122,14 +134,15 @@ task cpdAll(dependsOn: [
         ':tool-thimble:cpdCheck'
 ]) {
     group = "Verification"
-    description = "Run cpdCheck on all modules"
+    description = "Run CPD on all modules"
 }
 
-task runStaticChecks(dependsOn: ordered(
+task runStaticChecks(dependsOn: [
+        ':lintAll',
         ':detektAll',
         ':ktlintAll',
         ':cpdAll'
-)) {
+]) {
     group = "Verification"
     description = "Run static checks on all modules"
 }
