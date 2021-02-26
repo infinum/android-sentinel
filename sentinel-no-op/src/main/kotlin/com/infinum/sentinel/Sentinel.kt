@@ -6,9 +6,9 @@ import androidx.annotation.StringRes
 @Suppress("unused")
 public object Sentinel {
 
-    @Suppress("unused")
     @JvmStatic
     @JvmOverloads
+    @Suppress("UNUSED_PARAMETER")
     public fun watch(tools: Set<Tool> = setOf()): Sentinel = this
 
     @JvmStatic

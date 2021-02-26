@@ -42,6 +42,7 @@ android {
         freeCompilerArgs += [
                 '-Xexplicit-api=strict'
         ]
+        useIR = true
     }
 
     sourceSets {

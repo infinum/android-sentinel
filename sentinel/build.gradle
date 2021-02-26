@@ -52,6 +52,7 @@ android {
                 '-Xopt-in=org.koin.core.component.KoinApiExtension',
                 '-Xexplicit-api=strict'
         ]
+        useIR = true
     }
     testOptions {
         animationsDisabled = true

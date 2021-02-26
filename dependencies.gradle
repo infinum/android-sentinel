@@ -1,7 +1,7 @@
 ext.versions = [
         "sentinel"   : "1.0.8",
         "gradle"     : '4.1.2',
-        "kotlin"     : "1.4.30",
+        "kotlin"     : "1.4.31",
         "coroutines" : "1.4.2",
         "core"       : "1.3.2",
         "appcompat"  : "1.2.0",
@@ -15,7 +15,7 @@ ext.versions = [
         "koin"       : "2.2.2",
         "timber"     : "4.7.1",
         "detekt"     : "1.15.0",
-        "ktlint"     : "9.4.1",
+        "ktlint"     : "10.0.0",
         "cpd"        : "3.1",
         "dokka"      : "1.4.20",
         "chucker"    : "3.4.0",
