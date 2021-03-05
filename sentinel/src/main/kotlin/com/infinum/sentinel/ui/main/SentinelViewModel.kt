@@ -1,4 +1,4 @@
-package com.infinum.sentinel.ui
+package com.infinum.sentinel.ui.main
 
 import android.graphics.drawable.Drawable
 import com.infinum.sentinel.data.models.memory.formats.FormatType

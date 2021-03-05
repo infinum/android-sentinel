@@ -1,4 +1,4 @@
-package com.infinum.sentinel.ui.device
+package com.infinum.sentinel.ui.main.device
 
 import android.os.Bundle
 import android.view.View

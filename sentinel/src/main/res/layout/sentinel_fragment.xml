@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
-    tools:context=".ui.SentinelActivity">
+    tools:context=".ui.main.SentinelActivity">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/contentLayout"

@@ -1,4 +1,4 @@
-package com.infinum.sentinel.ui.permissions
+package com.infinum.sentinel.ui.main.permissions
 
 import com.infinum.sentinel.domain.Factories
 import com.infinum.sentinel.ui.shared.base.BaseChildViewModel

@@ -22,10 +22,11 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.android.material.appbar.MaterialToolbar
 import com.infinum.sentinel.R
-import com.infinum.sentinel.ui.application.ApplicationFragment
-import com.infinum.sentinel.ui.permissions.PermissionsFragment
-import com.infinum.sentinel.ui.preferences.PreferencesFragment
-import com.infinum.sentinel.ui.tools.ToolsFragment
+import com.infinum.sentinel.ui.main.SentinelFragment
+import com.infinum.sentinel.ui.main.application.ApplicationFragment
+import com.infinum.sentinel.ui.main.permissions.PermissionsFragment
+import com.infinum.sentinel.ui.main.preferences.PreferencesFragment
+import com.infinum.sentinel.ui.main.tools.ToolsFragment
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.hamcrest.Matcher

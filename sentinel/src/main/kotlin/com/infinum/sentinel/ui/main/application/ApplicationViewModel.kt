@@ -1,4 +1,4 @@
-package com.infinum.sentinel.ui.application
+package com.infinum.sentinel.ui.main.application
 
 import com.infinum.sentinel.data.models.raw.ApplicationData
 import com.infinum.sentinel.domain.Factories

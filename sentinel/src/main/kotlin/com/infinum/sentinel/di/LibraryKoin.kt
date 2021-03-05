@@ -15,7 +15,7 @@ internal object LibraryKoin {
 
     fun koin(): Koin = koinApplication.koin
 
-    fun init(context: Context) {
+    fun initialize(context: Context) {
         koinApplication.apply {
             androidLogger(if (BuildConfig.DEBUG) Level.DEBUG else Level.NONE)
             androidContext(context)

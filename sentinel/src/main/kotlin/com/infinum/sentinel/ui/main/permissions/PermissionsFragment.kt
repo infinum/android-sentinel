@@ -1,4 +1,4 @@
-package com.infinum.sentinel.ui.permissions
+package com.infinum.sentinel.ui.main.permissions
 
 import android.os.Bundle
 import android.view.View

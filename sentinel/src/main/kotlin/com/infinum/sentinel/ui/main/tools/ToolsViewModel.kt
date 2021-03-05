@@ -1,17 +1,17 @@
-package com.infinum.sentinel.ui.device
+package com.infinum.sentinel.ui.main.tools
 
-import com.infinum.sentinel.data.models.raw.DeviceData
+import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.domain.Factories
 import com.infinum.sentinel.ui.shared.base.BaseChildViewModel
 
-internal class DeviceViewModel(
+internal class ToolsViewModel(
     private val collectors: Factories.Collector
-) : BaseChildViewModel<DeviceData>() {
+) : BaseChildViewModel<Set<Sentinel.Tool>>() {
 
-    override fun data(action: (DeviceData) -> Unit) =
+    override fun data(action: (Set<Sentinel.Tool>) -> Unit) =
         launch {
             val result = io {
-                collectors.device()()
+                collectors.tools()()
             }
             action(result)
         }

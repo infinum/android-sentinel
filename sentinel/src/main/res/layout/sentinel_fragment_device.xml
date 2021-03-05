@@ -16,85 +16,85 @@
         android:paddingBottom="80dp"
         android:showDividers="middle">
 
-        <com.infinum.sentinel.ui.views.SentinelItemTextView
+        <com.infinum.sentinel.ui.shared.views.SentinelItemTextView
             android:id="@+id/manufacturerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:sentinel_label="@string/sentinel_manufacturer" />
 
-        <com.infinum.sentinel.ui.views.SentinelItemTextView
+        <com.infinum.sentinel.ui.shared.views.SentinelItemTextView
             android:id="@+id/modelView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:sentinel_label="@string/sentinel_model" />
 
-        <com.infinum.sentinel.ui.views.SentinelItemTextView
+        <com.infinum.sentinel.ui.shared.views.SentinelItemTextView
             android:id="@+id/idView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:sentinel_label="@string/sentinel_id" />
 
-        <com.infinum.sentinel.ui.views.SentinelItemTextView
+        <com.infinum.sentinel.ui.shared.views.SentinelItemTextView
             android:id="@+id/bootloaderView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:sentinel_label="@string/sentinel_bootloader" />
 
-        <com.infinum.sentinel.ui.views.SentinelItemTextView
+        <com.infinum.sentinel.ui.shared.views.SentinelItemTextView
             android:id="@+id/deviceView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:sentinel_label="@string/sentinel_device" />
 
-        <com.infinum.sentinel.ui.views.SentinelItemTextView
+        <com.infinum.sentinel.ui.shared.views.SentinelItemTextView
             android:id="@+id/boardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:sentinel_label="@string/sentinel_board" />
 
-        <com.infinum.sentinel.ui.views.SentinelItemTextView
+        <com.infinum.sentinel.ui.shared.views.SentinelItemTextView
             android:id="@+id/architecturesView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:sentinel_label="@string/sentinel_architectures" />
 
-        <com.infinum.sentinel.ui.views.SentinelItemTextView
+        <com.infinum.sentinel.ui.shared.views.SentinelItemTextView
             android:id="@+id/codenameView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:sentinel_label="@string/sentinel_codename" />
 
-        <com.infinum.sentinel.ui.views.SentinelItemTextView
+        <com.infinum.sentinel.ui.shared.views.SentinelItemTextView
             android:id="@+id/releaseView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:sentinel_label="@string/sentinel_release" />
 
-        <com.infinum.sentinel.ui.views.SentinelItemTextView
+        <com.infinum.sentinel.ui.shared.views.SentinelItemTextView
             android:id="@+id/sdkView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:sentinel_label="@string/sentinel_sdk" />
 
-        <com.infinum.sentinel.ui.views.SentinelItemTextView
+        <com.infinum.sentinel.ui.shared.views.SentinelItemTextView
             android:id="@+id/securityPatchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:sentinel_label="@string/sentinel_security_patch" />
 
-        <com.infinum.sentinel.ui.views.SentinelItemTextView
+        <com.infinum.sentinel.ui.shared.views.SentinelItemTextView
             android:id="@+id/emulatorView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:sentinel_label="@string/sentinel_emulator" />
 
-        <com.infinum.sentinel.ui.views.SentinelItemTextView
+        <com.infinum.sentinel.ui.shared.views.SentinelItemTextView
             android:id="@+id/autoTimeView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:sentinel_label="@string/sentinel_auto_time" />
 
-        <com.infinum.sentinel.ui.views.SentinelItemTextView
+        <com.infinum.sentinel.ui.shared.views.SentinelItemTextView
             android:id="@+id/autoTimezoneView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package com.infinum.sentinel.ui.preferences
+package com.infinum.sentinel.ui.main.preferences
 
 import com.infinum.sentinel.data.models.raw.PreferencesData
 import com.infinum.sentinel.domain.Factories

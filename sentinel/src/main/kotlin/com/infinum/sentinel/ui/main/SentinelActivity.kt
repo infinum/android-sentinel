@@ -1,4 +1,4 @@
-package com.infinum.sentinel.ui
+package com.infinum.sentinel.ui.main
 
 import android.os.Bundle
 import androidx.annotation.RestrictTo

@@ -1,4 +1,4 @@
-package com.infinum.sentinel.ui.preferences
+package com.infinum.sentinel.ui.main.preferences
 
 import android.os.Bundle
 import android.view.View

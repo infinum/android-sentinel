@@ -1,4 +1,4 @@
-package com.infinum.sentinel.ui.views
+package com.infinum.sentinel.ui.shared.views
 
 import android.content.Context
 import android.util.AttributeSet

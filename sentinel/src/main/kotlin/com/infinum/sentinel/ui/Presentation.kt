@@ -1,5 +1,6 @@
 package com.infinum.sentinel.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import com.infinum.sentinel.BuildConfig
@@ -7,18 +8,31 @@ import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.data.models.memory.triggers.shake.ShakeTrigger
 import com.infinum.sentinel.di.LibraryKoin
 import com.infinum.sentinel.domain.Domain
-import com.infinum.sentinel.ui.application.ApplicationViewModel
-import com.infinum.sentinel.ui.device.DeviceViewModel
-import com.infinum.sentinel.ui.permissions.PermissionsViewModel
-import com.infinum.sentinel.ui.preferences.PreferencesViewModel
+import com.infinum.sentinel.ui.bundleinfo.BundleInfoViewModel
+import com.infinum.sentinel.ui.main.SentinelActivity
+import com.infinum.sentinel.ui.main.SentinelViewModel
+import com.infinum.sentinel.ui.main.application.ApplicationViewModel
+import com.infinum.sentinel.ui.main.device.DeviceViewModel
+import com.infinum.sentinel.ui.main.permissions.PermissionsViewModel
+import com.infinum.sentinel.ui.main.preferences.PreferencesViewModel
+import com.infinum.sentinel.ui.main.tools.ToolsViewModel
 import com.infinum.sentinel.ui.settings.SettingsViewModel
-import com.infinum.sentinel.ui.tools.ToolsViewModel
+import com.infinum.sentinel.ui.tools.AppInfoTool
+import com.infinum.sentinel.ui.tools.BundleInfoTool
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import timber.log.Timber
 
+@SuppressLint("StaticFieldLeak")
 internal object Presentation {
+
+    private val DEFAULT_TOOLS = setOf(
+        BundleInfoTool(),
+        AppInfoTool()
+    )
+
+    private lateinit var context: Context
 
     init {
         if (BuildConfig.DEBUG) {
@@ -26,9 +40,7 @@ internal object Presentation {
         }
     }
 
-    private lateinit var context: Context
-
-    fun init(context: Context) {
+    fun initialize(context: Context) {
         this.context = context
     }
 
@@ -47,10 +59,11 @@ internal object Presentation {
         viewModel { PreferencesViewModel(get()) }
         viewModel { ToolsViewModel(get()) }
         viewModel { SettingsViewModel(get(), get()) }
+        viewModel { BundleInfoViewModel() }
     }
 
     fun setup(tools: Set<Sentinel.Tool>, onTriggered: () -> Unit) {
-        Domain.setup(tools, onTriggered)
+        Domain.setup(tools.plus(DEFAULT_TOOLS), onTriggered)
         LibraryKoin.koin().get<ShakeTrigger>().apply { active = true }
     }
 

@@ -4,14 +4,19 @@
 
     <application>
         <activity
-            android:name=".ui.SentinelActivity"
+            android:name=".ui.main.SentinelActivity"
             android:label="@string/sentinel_name"
             android:theme="@style/Sentinel.Theme" />
 
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/sentinel_name"
-            android:theme="@style/Sentinel.Theme.Settings" />
+            android:theme="@style/Sentinel.Theme.Leaf" />
+
+        <activity
+            android:name=".ui.bundleinfo.BundleInfoActivity"
+            android:label="@string/sentinel_bundle_info"
+            android:theme="@style/Sentinel.Theme.Leaf" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
