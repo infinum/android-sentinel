@@ -12,6 +12,7 @@ import com.infinum.sentinel.data.models.memory.triggers.TriggerType
 import com.infinum.sentinel.databinding.SentinelFragmentSettingsBinding
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
+import kotlin.math.roundToInt
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
@@ -20,6 +21,8 @@ internal class SettingsFragment : BaseChildFragment(R.layout.sentinel_fragment_s
     companion object {
         fun newInstance() = SettingsFragment()
         val TAG: String = SettingsFragment::class.java.simpleName
+
+        private const val FORMAT_BUNDLE_SIZE = "%s kB"
     }
 
     override val binding: SentinelFragmentSettingsBinding by viewBinding(
@@ -34,6 +37,7 @@ internal class SettingsFragment : BaseChildFragment(R.layout.sentinel_fragment_s
         setupToolbar()
         setupTriggers()
         setupFormats()
+        setupBundleMonitor()
     }
 
     private fun setupToolbar() {
@@ -101,6 +105,33 @@ internal class SettingsFragment : BaseChildFragment(R.layout.sentinel_fragment_s
                     )
                 )
             )
+        }
+    }
+
+    private fun setupBundleMonitor() {
+        viewModel.bundleMonitor {
+            binding.bundleMonitorSwitch.setOnCheckedChangeListener(null)
+            binding.bundleMonitorSwitch.isChecked = it.notify
+            binding.bundleMonitorSwitch.setOnCheckedChangeListener { _, isChecked ->
+                viewModel.toggleBundleMonitorNotify(it.copy(notify = isChecked))
+            }
+
+            binding.limitSlider.clearOnChangeListeners()
+            binding.limitSlider.value = it.limit.toFloat()
+            binding.limitSlider.addOnChangeListener { _, value, _ ->
+                binding.limitValueView.text = String.format(FORMAT_BUNDLE_SIZE, value.roundToInt())
+                viewModel.saveBundleMonitorLimit(it.copy(limit = value.roundToInt()))
+            }
+            binding.limitValueView.text = String.format(FORMAT_BUNDLE_SIZE, it.limit)
+        }
+
+        with(binding) {
+            decreaseLimitButton.setOnClickListener {
+                limitSlider.value = (limitSlider.value - limitSlider.stepSize).coerceAtLeast(limitSlider.valueFrom)
+            }
+            increaseLimitButton.setOnClickListener {
+                limitSlider.value = (limitSlider.value + limitSlider.stepSize).coerceAtMost(limitSlider.valueTo)
+            }
         }
     }
 

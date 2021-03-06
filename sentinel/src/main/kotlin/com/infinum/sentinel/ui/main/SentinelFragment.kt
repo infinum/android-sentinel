@@ -14,10 +14,10 @@ import com.infinum.sentinel.ui.main.application.ApplicationFragment
 import com.infinum.sentinel.ui.main.device.DeviceFragment
 import com.infinum.sentinel.ui.main.permissions.PermissionsFragment
 import com.infinum.sentinel.ui.main.preferences.PreferencesFragment
-import com.infinum.sentinel.ui.shared.base.BaseFragment
-import com.infinum.sentinel.ui.shared.delegates.viewBinding
 import com.infinum.sentinel.ui.main.tools.ToolsFragment
 import com.infinum.sentinel.ui.settings.SettingsActivity
+import com.infinum.sentinel.ui.shared.base.BaseFragment
+import com.infinum.sentinel.ui.shared.delegates.viewBinding
 import com.infinum.sentinel.ui.shared.edgetreatment.ScissorsEdgeTreatment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

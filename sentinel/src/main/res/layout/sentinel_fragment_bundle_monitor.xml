@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/sentinel_ic_close"
-            app:title="@string/sentinel_bundle_info" />
+            app:title="@string/sentinel_bundle_monitor" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -2,6 +2,7 @@ package com.infinum.sentinel.domain
 
 import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.data.Data
+import com.infinum.sentinel.domain.bundlemonitor.BundleMonitorRepository
 import com.infinum.sentinel.domain.collectors.CollectorFactory
 import com.infinum.sentinel.domain.formats.FormatsRepository
 import com.infinum.sentinel.domain.formatters.FormatterFactory
@@ -25,7 +26,8 @@ internal object Domain {
                 collectors(),
                 formatters(),
                 triggers(),
-                formats()
+                formats(),
+                bundleMonitor()
             )
         )
 
@@ -45,5 +47,9 @@ internal object Domain {
 
     private fun formats() = module {
         single<Repositories.Formats> { FormatsRepository(get()) }
+    }
+
+    private fun bundleMonitor() = module {
+        single<Repositories.BundleMonitor> { BundleMonitorRepository(get()) }
     }
 }

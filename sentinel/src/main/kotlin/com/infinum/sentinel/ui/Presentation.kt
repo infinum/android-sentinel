@@ -8,7 +8,7 @@ import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.data.models.memory.triggers.shake.ShakeTrigger
 import com.infinum.sentinel.di.LibraryKoin
 import com.infinum.sentinel.domain.Domain
-import com.infinum.sentinel.ui.bundleinfo.BundleInfoViewModel
+import com.infinum.sentinel.ui.bundlemonitor.BundleMonitorViewModel
 import com.infinum.sentinel.ui.main.SentinelActivity
 import com.infinum.sentinel.ui.main.SentinelViewModel
 import com.infinum.sentinel.ui.main.application.ApplicationViewModel
@@ -18,7 +18,7 @@ import com.infinum.sentinel.ui.main.preferences.PreferencesViewModel
 import com.infinum.sentinel.ui.main.tools.ToolsViewModel
 import com.infinum.sentinel.ui.settings.SettingsViewModel
 import com.infinum.sentinel.ui.tools.AppInfoTool
-import com.infinum.sentinel.ui.tools.BundleInfoTool
+import com.infinum.sentinel.ui.tools.BundleMonitorTool
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -28,7 +28,7 @@ import timber.log.Timber
 internal object Presentation {
 
     private val DEFAULT_TOOLS = setOf(
-        BundleInfoTool(),
+        BundleMonitorTool(),
         AppInfoTool()
     )
 
@@ -58,8 +58,8 @@ internal object Presentation {
         viewModel { PermissionsViewModel(get()) }
         viewModel { PreferencesViewModel(get()) }
         viewModel { ToolsViewModel(get()) }
-        viewModel { SettingsViewModel(get(), get()) }
-        viewModel { BundleInfoViewModel() }
+        viewModel { SettingsViewModel(get(), get(), get()) }
+        viewModel { BundleMonitorViewModel(get()) }
     }
 
     fun setup(tools: Set<Sentinel.Tool>, onTriggered: () -> Unit) {

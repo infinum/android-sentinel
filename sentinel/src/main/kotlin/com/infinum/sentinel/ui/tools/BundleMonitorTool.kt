@@ -5,18 +5,18 @@ import android.view.View
 import androidx.annotation.StringRes
 import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
-import com.infinum.sentinel.ui.bundleinfo.BundleInfoActivity
+import com.infinum.sentinel.ui.bundlemonitor.BundleMonitorActivity
 
 /**
  * Specific wrapper tool that monitors Bundle sizes for the application which implemented Sentinel.
  */
-internal data class BundleInfoTool(
-    @StringRes private val name: Int = R.string.sentinel_bundle_info,
+internal data class BundleMonitorTool(
+    @StringRes private val name: Int = R.string.sentinel_bundle_monitor,
     private val listener: View.OnClickListener = View.OnClickListener {
         it.context.startActivity(
             Intent(
                 it.context,
-                BundleInfoActivity::class.java
+                BundleMonitorActivity::class.java
             )
         )
     }
