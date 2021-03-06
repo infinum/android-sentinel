@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
                         .apply {
                             // 12000 breaks 500 kB limit
                             // 3000 strings in bundle takes 25s to measure
-                            (1..3000).map { Random.nextLong() }
+                            (1..3).map { Random.nextLong() }
                                 .forEachIndexed { index, value ->
                                     putExtra("random_$index", "$value")
                                 }

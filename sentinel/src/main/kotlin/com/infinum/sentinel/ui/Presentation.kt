@@ -46,8 +46,8 @@ internal object Presentation {
         this.context = context
         (this.context.applicationContext as? Application)
             ?.registerActivityLifecycleCallbacks(
-                BundleMonitorActivityCallbacks {
-                    Timber.tag("_BOJAN_1").i(it.toString())
+                BundleMonitorActivityCallbacks { className, callSite, bundle ->
+                    Timber.tag("_BOJAN_1").i("className: $className -> callSite: $callSite -> bundle: $bundle")
                 }
             )
     }

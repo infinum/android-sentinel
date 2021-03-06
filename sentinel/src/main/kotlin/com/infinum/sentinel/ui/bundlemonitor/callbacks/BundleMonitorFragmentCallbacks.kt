@@ -5,16 +5,23 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 
 internal class BundleMonitorFragmentCallbacks(
-    private val onBundleLogged: (Bundle) -> Unit
+    private val onBundleLogged: (String?, BundleCallSite, Bundle) -> Unit
 ) : FragmentManager.FragmentLifecycleCallbacks() {
 
     override fun onFragmentCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
-        super.onFragmentCreated(fm, f, savedInstanceState)
-
-        f.arguments?.let { onBundleLogged(it) }
+        f.arguments?.let {
+            onBundleLogged(
+                f::class.simpleName,
+                BundleCallSite.FRAGMENT_ARGUMENTS,
+                it
+            )
+        }
     }
 
-    override fun onFragmentSaveInstanceState(fm: FragmentManager, f: Fragment, outState: Bundle) {
-        onBundleLogged(outState)
-    }
+    override fun onFragmentSaveInstanceState(fm: FragmentManager, f: Fragment, outState: Bundle) =
+        onBundleLogged(
+            f::class.simpleName,
+            BundleCallSite.FRAGMENT_SAVED_STATE,
+            outState
+        )
 }
