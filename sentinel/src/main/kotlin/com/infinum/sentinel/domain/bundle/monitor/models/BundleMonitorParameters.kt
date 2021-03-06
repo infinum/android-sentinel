@@ -1,4 +1,4 @@
-package com.infinum.sentinel.domain.bundlemonitor.models
+package com.infinum.sentinel.domain.bundle.monitor.models
 
 import com.infinum.sentinel.data.models.local.BundleMonitorEntity
 import com.infinum.sentinel.domain.shared.base.BaseParameters

@@ -17,7 +17,10 @@ internal data class BundleMonitorTool(
             Intent(
                 it.context,
                 BundleMonitorActivity::class.java
-            )
+            ).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            }
         )
     }
 ) : Sentinel.Tool {

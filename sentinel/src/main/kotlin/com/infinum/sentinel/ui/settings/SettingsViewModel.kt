@@ -4,11 +4,10 @@ import com.infinum.sentinel.data.models.local.BundleMonitorEntity
 import com.infinum.sentinel.data.models.local.FormatEntity
 import com.infinum.sentinel.data.models.local.TriggerEntity
 import com.infinum.sentinel.domain.Repositories
-import com.infinum.sentinel.domain.bundlemonitor.models.BundleMonitorParameters
+import com.infinum.sentinel.domain.bundle.monitor.models.BundleMonitorParameters
 import com.infinum.sentinel.domain.formats.models.FormatsParameters
 import com.infinum.sentinel.domain.triggers.models.TriggerParameters
 import com.infinum.sentinel.ui.shared.base.BaseChildViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOn
 

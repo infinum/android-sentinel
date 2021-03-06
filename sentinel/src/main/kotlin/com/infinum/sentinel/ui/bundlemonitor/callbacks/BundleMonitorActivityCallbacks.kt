@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 
 internal class BundleMonitorActivityCallbacks(
-    private val onBundleLogged: (String?, BundleCallSite, Bundle) -> Unit
+    private val onBundleLogged: (Long, String?, BundleCallSite, Bundle) -> Unit
 ) : Application.ActivityLifecycleCallbacks {
 
     private val fragmentCallbacks = BundleMonitorFragmentCallbacks(onBundleLogged)
@@ -17,6 +17,7 @@ internal class BundleMonitorActivityCallbacks(
         }
         activity.intent.extras?.let {
             onBundleLogged(
+                System.currentTimeMillis(),
                 activity::class.simpleName,
                 BundleCallSite.ACTIVITY_INTENT_EXTRAS,
                 it
@@ -26,6 +27,7 @@ internal class BundleMonitorActivityCallbacks(
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) =
         onBundleLogged(
+            System.currentTimeMillis(),
             activity::class.simpleName,
             BundleCallSite.ACTIVITY_SAVED_STATE,
             outState

@@ -8,6 +8,7 @@ import com.infinum.sentinel.databinding.SentinelFragmentBundleMonitorBinding
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class BundleMonitorFragment : BaseChildFragment(R.layout.sentinel_fragment_bundle_monitor) {
@@ -27,6 +28,10 @@ internal class BundleMonitorFragment : BaseChildFragment(R.layout.sentinel_fragm
         super.onViewCreated(view, savedInstanceState)
 
         setupToolbar()
+
+        viewModel.bundles {
+            Timber.tag("_BOJAN_3").i(it.toString())
+        }
     }
 
     private fun setupToolbar() {

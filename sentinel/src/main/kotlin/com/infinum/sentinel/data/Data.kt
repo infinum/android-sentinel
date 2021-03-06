@@ -11,6 +11,8 @@ import com.infinum.sentinel.data.models.memory.triggers.shake.ShakeTrigger
 import com.infinum.sentinel.data.models.memory.triggers.usb.UsbConnectedTrigger
 import com.infinum.sentinel.data.sources.local.room.SentinelDatabase
 import com.infinum.sentinel.data.sources.local.room.callbacks.SentinelDefaultValuesCallback
+import com.infinum.sentinel.data.sources.memory.bundles.BundlesCache
+import com.infinum.sentinel.data.sources.memory.bundles.InMemoryBundlesCache
 import com.infinum.sentinel.data.sources.memory.triggers.TriggersCache
 import com.infinum.sentinel.data.sources.memory.triggers.TriggersCacheFactory
 import com.infinum.sentinel.data.sources.raw.collectors.ApplicationCollector
@@ -116,5 +118,7 @@ internal object Data {
                 get()
             )
         }
+
+        single<BundlesCache> { InMemoryBundlesCache() }
     }
 }

@@ -7,8 +7,13 @@ import android.content.Intent
 import com.infinum.sentinel.BuildConfig
 import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.data.models.memory.triggers.shake.ShakeTrigger
+import com.infinum.sentinel.data.sources.memory.bundles.BundlesCache
 import com.infinum.sentinel.di.LibraryKoin
 import com.infinum.sentinel.domain.Domain
+import com.infinum.sentinel.domain.Repositories
+import com.infinum.sentinel.domain.bundle.descriptor.models.BundleDescriptor
+import com.infinum.sentinel.domain.bundle.descriptor.models.BundleParameters
+import com.infinum.sentinel.extensions.toSizeTree
 import com.infinum.sentinel.ui.bundlemonitor.BundleMonitorViewModel
 import com.infinum.sentinel.ui.bundlemonitor.callbacks.BundleMonitorActivityCallbacks
 import com.infinum.sentinel.ui.main.SentinelActivity
@@ -21,6 +26,9 @@ import com.infinum.sentinel.ui.main.tools.ToolsViewModel
 import com.infinum.sentinel.ui.settings.SettingsViewModel
 import com.infinum.sentinel.ui.tools.AppInfoTool
 import com.infinum.sentinel.ui.tools.BundleMonitorTool
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -44,10 +52,23 @@ internal object Presentation {
 
     fun initialize(context: Context) {
         this.context = context
+
+        val bundles = LibraryKoin.koin().get<Repositories.Bundles>()
         (this.context.applicationContext as? Application)
             ?.registerActivityLifecycleCallbacks(
-                BundleMonitorActivityCallbacks { className, callSite, bundle ->
-                    Timber.tag("_BOJAN_1").i("className: $className -> callSite: $callSite -> bundle: $bundle")
+                BundleMonitorActivityCallbacks { timestamp, className, callSite, bundle ->
+                    GlobalScope.launch(Dispatchers.IO) {
+                        bundles.save(
+                            BundleParameters(
+                                descriptor = BundleDescriptor(
+                                    timestamp = timestamp,
+                                    className = className,
+                                    callSite = callSite,
+                                    bundleTree = bundle.toSizeTree()
+                                )
+                            )
+                        )
+                    }
                 }
             )
     }
@@ -67,7 +88,7 @@ internal object Presentation {
         viewModel { PreferencesViewModel(get()) }
         viewModel { ToolsViewModel(get()) }
         viewModel { SettingsViewModel(get(), get(), get()) }
-        viewModel { BundleMonitorViewModel(get()) }
+        viewModel { BundleMonitorViewModel(get(), get()) }
     }
 
     fun setup(tools: Set<Sentinel.Tool>, onTriggered: () -> Unit) {

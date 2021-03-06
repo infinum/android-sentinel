@@ -6,16 +6,19 @@
         <activity
             android:name=".ui.main.SentinelActivity"
             android:label="@string/sentinel_name"
+            android:taskAffinity="com.infinum.sentinel"
             android:theme="@style/Sentinel.Theme" />
 
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/sentinel_name"
+            android:taskAffinity="com.infinum.sentinel"
             android:theme="@style/Sentinel.Theme.Leaf" />
 
         <activity
             android:name=".ui.bundlemonitor.BundleMonitorActivity"
             android:label="@string/sentinel_bundle_monitor"
+            android:taskAffinity="com.infinum.sentinel"
             android:theme="@style/Sentinel.Theme.Leaf" />
 
         <provider
