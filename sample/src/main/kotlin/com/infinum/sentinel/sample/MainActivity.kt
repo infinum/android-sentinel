@@ -54,7 +54,17 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this@MainActivity, JavaMainActivity::class.java))
             }
             showBundleScreen.setOnClickListener {
-                startActivity(Intent(this@MainActivity, BundleActivity::class.java))
+                startActivity(
+                    Intent(this@MainActivity, BundleActivity::class.java)
+                        .apply {
+                            // 12000 breaks 500 kB limit
+                            // 3000 strings in bundle takes 25s to measure
+                            (1..3000).map { Random.nextLong() }
+                                .forEachIndexed { index, value ->
+                                    putExtra("random_$index", "$value")
+                                }
+                        }
+                )
             }
         }
     }

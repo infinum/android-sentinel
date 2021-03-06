@@ -47,7 +47,7 @@ internal object Presentation {
         (this.context.applicationContext as? Application)
             ?.registerActivityLifecycleCallbacks(
                 BundleMonitorActivityCallbacks {
-                    Timber.tag("_BOJAN_").i(it.toString())
+                    Timber.tag("_BOJAN_1").i(it.toString())
                 }
             )
     }
