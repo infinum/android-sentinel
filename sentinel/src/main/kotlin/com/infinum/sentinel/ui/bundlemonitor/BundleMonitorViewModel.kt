@@ -12,7 +12,7 @@ internal class BundleMonitorViewModel(
 //    fun triggers(action: (List<TriggerEntity>) -> Unit) =
 //        launch {
 //            triggers.load(TriggerParameters())
-//                .flowOn(Dispatchers.IO)
+//                .flowOn(dispatchersIo)
 //                .collectLatest {
 //                    action(it)
 //                }
@@ -21,7 +21,7 @@ internal class BundleMonitorViewModel(
 //    fun formats(action: (FormatEntity) -> Unit) =
 //        launch {
 //            formats.load(FormatsParameters())
-//                .flowOn(Dispatchers.IO)
+//                .flowOn(dispatchersIo)
 //                .collectLatest {
 //                    action(it)
 //                }

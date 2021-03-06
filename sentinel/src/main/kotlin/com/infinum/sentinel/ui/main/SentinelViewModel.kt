@@ -56,7 +56,7 @@ internal class SentinelViewModel(
     fun formatData(action: (String) -> Unit) =
         launch {
             formats.load(FormatsParameters())
-                .flowOn(Dispatchers.IO)
+                .flowOn(dispatchersIo)
                 .collectLatest {
                     when (it.type) {
                         FormatType.PLAIN -> formatters.plain()

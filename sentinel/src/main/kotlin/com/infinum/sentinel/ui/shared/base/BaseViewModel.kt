@@ -16,7 +16,7 @@ internal abstract class BaseViewModel : ViewModel(), LibraryKoinComponent {
 
     private val supervisorJob = SupervisorJob()
 
-    private val dispatchersIo = Dispatchers.IO
+    protected val dispatchersIo = Dispatchers.IO
 
     protected open val errorHandler = CoroutineExceptionHandler { _, throwable ->
         Timber.e(throwable)
