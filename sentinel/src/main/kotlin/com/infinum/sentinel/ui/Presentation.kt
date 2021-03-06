@@ -1,6 +1,7 @@
 package com.infinum.sentinel.ui
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.content.Context
 import android.content.Intent
 import com.infinum.sentinel.BuildConfig
@@ -9,6 +10,7 @@ import com.infinum.sentinel.data.models.memory.triggers.shake.ShakeTrigger
 import com.infinum.sentinel.di.LibraryKoin
 import com.infinum.sentinel.domain.Domain
 import com.infinum.sentinel.ui.bundlemonitor.BundleMonitorViewModel
+import com.infinum.sentinel.ui.bundlemonitor.callbacks.BundleMonitorActivityCallbacks
 import com.infinum.sentinel.ui.main.SentinelActivity
 import com.infinum.sentinel.ui.main.SentinelViewModel
 import com.infinum.sentinel.ui.main.application.ApplicationViewModel
@@ -42,6 +44,12 @@ internal object Presentation {
 
     fun initialize(context: Context) {
         this.context = context
+        (this.context.applicationContext as? Application)
+            ?.registerActivityLifecycleCallbacks(
+                BundleMonitorActivityCallbacks {
+                    Timber.tag("_BOJAN_").i(it.toString())
+                }
+            )
     }
 
     fun modules(): List<Module> =
