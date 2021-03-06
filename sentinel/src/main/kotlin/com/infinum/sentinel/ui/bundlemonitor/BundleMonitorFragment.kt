@@ -29,8 +29,8 @@ internal class BundleMonitorFragment : BaseChildFragment(R.layout.sentinel_fragm
 
         setupToolbar()
 
-        viewModel.bundles {
-            Timber.tag("_BOJAN_3").i(it.toString())
+        viewModel.data {
+            Timber.tag("_BOJAN_3").i(String.format("%2f", it.magnitude))
         }
     }
 

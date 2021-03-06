@@ -7,5 +7,6 @@ internal data class BundleDescriptor(
     val timestamp: Long,
     val className: String?,
     val callSite: BundleCallSite,
-    val bundleTree: BundleTree
+    val bundleTree: BundleTree,
+    val magnitude: Float = 0.0f
 )
