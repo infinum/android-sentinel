@@ -16,9 +16,9 @@ internal class BundleViewHolder(
         private const val BYTES_DIVIDER = 1000.0f
     }
 
-    fun bind(item: BundleDescriptor, onClick: (BundleDescriptor) -> Unit) =
+    fun bind(item: BundleDescriptor?, onClick: (BundleDescriptor) -> Unit) =
         with(binding) {
-            iconView.setImageResource(item.callSite.icon)
+            iconView.setImageResource(item!!.callSite.icon)
             timestampView.text = SimpleDateFormat.getTimeInstance().format(Date(item.timestamp))
             typeView.text = typeView.context.getString(item.callSite.text)
             callClassNameView.text = item.className

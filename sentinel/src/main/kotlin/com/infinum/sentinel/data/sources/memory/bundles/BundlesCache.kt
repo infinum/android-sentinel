@@ -1,10 +1,11 @@
 package com.infinum.sentinel.data.sources.memory.bundles
 
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleDescriptor
+import kotlinx.coroutines.flow.SharedFlow
 
 internal interface BundlesCache {
 
-    fun save(descriptor: BundleDescriptor)
+    suspend fun save(descriptor: BundleDescriptor)
 
-    fun load(): List<BundleDescriptor>
+    fun load(): SharedFlow<List<BundleDescriptor>>
 }

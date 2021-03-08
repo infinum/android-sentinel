@@ -35,7 +35,7 @@ internal class BundlesFragment : BaseChildFragment(R.layout.sentinel_fragment_bu
         setupRecyclerView()
 
         viewModel.data {
-            adapter.add(it)
+            adapter.submitList(it)
         }
     }
 

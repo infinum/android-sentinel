@@ -2,15 +2,13 @@ package com.infinum.sentinel.ui.bundles
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ListAdapter
 import com.infinum.sentinel.databinding.SentinelItemBundleBinding
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleDescriptor
 
 internal class BundlesAdapter(
     private val onClick: (BundleDescriptor) -> Unit
-) : RecyclerView.Adapter<BundleViewHolder>() {
-
-    private var items = mutableListOf<BundleDescriptor>()
+) : ListAdapter<BundleDescriptor, BundleViewHolder>(BundlesDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BundleViewHolder =
         BundleViewHolder(
@@ -22,18 +20,10 @@ internal class BundlesAdapter(
         )
 
     override fun onBindViewHolder(holder: BundleViewHolder, position: Int) =
-        holder.bind(items[position], onClick)
+        holder.bind(getItem(position), onClick)
 
     override fun onViewRecycled(holder: BundleViewHolder) {
         holder.unbind()
         super.onViewRecycled(holder)
-    }
-
-    override fun getItemCount(): Int =
-        items.size
-
-    fun add(item: BundleDescriptor) {
-        items.add(item)
-        notifyDataSetChanged()
     }
 }

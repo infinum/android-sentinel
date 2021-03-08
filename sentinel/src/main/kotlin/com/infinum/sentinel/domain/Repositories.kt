@@ -18,5 +18,5 @@ internal interface Repositories {
 
     interface BundleMonitor : BaseRepository<BundleMonitorParameters, BundleMonitorEntity>
 
-    interface Bundles : BaseRepository<BundleParameters, BundleDescriptor>
+    interface Bundles : BaseRepository<BundleParameters, List<BundleDescriptor>>
 }
