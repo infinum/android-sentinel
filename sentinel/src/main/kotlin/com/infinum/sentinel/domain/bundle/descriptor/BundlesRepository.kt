@@ -5,6 +5,7 @@ import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleDescriptor
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleParameters
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 
 internal class BundlesRepository(
     private val cache: BundlesCache
@@ -16,5 +17,5 @@ internal class BundlesRepository(
     }
 
     override suspend fun load(input: BundleParameters): Flow<BundleDescriptor> =
-        cache.load()
+        cache.load().asFlow()
 }

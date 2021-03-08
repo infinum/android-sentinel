@@ -16,7 +16,7 @@
             android:theme="@style/Sentinel.Theme.Leaf" />
 
         <activity
-            android:name=".ui.bundlemonitor.BundleMonitorActivity"
+            android:name=".ui.bundles.BundlesActivity"
             android:label="@string/sentinel_bundle_monitor"
             android:taskAffinity="com.infinum.sentinel"
             android:theme="@style/Sentinel.Theme.Leaf" />

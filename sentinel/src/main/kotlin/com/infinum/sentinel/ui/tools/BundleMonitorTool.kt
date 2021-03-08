@@ -5,7 +5,7 @@ import android.view.View
 import androidx.annotation.StringRes
 import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
-import com.infinum.sentinel.ui.bundlemonitor.BundleMonitorActivity
+import com.infinum.sentinel.ui.bundles.BundlesActivity
 
 /**
  * Specific wrapper tool that monitors Bundle sizes for the application which implemented Sentinel.
@@ -16,7 +16,7 @@ internal data class BundleMonitorTool(
         it.context.startActivity(
             Intent(
                 it.context,
-                BundleMonitorActivity::class.java
+                BundlesActivity::class.java
             ).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)

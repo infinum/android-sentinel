@@ -9,7 +9,6 @@ import com.infinum.sentinel.domain.bundle.monitor.models.BundleMonitorParameters
 import com.infinum.sentinel.domain.formats.models.FormatsParameters
 import com.infinum.sentinel.domain.shared.base.BaseRepository
 import com.infinum.sentinel.domain.triggers.models.TriggerParameters
-import kotlinx.coroutines.flow.Flow
 
 internal interface Repositories {
 

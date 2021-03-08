@@ -49,13 +49,14 @@ internal fun Bundle.toSizeTree(): BundleTree {
  *
  * @return size when written to parcel in bytes
  */
+@Suppress("TooGenericExceptionCaught")
 internal val Bundle.sizeAsParcelable: Int
     get() {
         val parcel = Parcel.obtain()
         return try {
             parcel.writeBundle(this)
             parcel.dataSize()
-        } catch (exception: Exception) {
+        } catch (exception: ArrayIndexOutOfBoundsException) {
             Timber.e(exception)
             0
         } finally {

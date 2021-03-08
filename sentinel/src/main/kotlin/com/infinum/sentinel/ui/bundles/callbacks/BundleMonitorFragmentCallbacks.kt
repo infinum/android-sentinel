@@ -1,4 +1,4 @@
-package com.infinum.sentinel.ui.bundlemonitor.callbacks
+package com.infinum.sentinel.ui.bundles.callbacks
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -19,11 +19,11 @@ internal class BundleMonitorFragmentCallbacks(
         }
     }
 
-    override fun onFragmentSaveInstanceState(fm: FragmentManager, f: Fragment, outState: Bundle) =
-        onBundleLogged(
-            System.currentTimeMillis(),
-            f::class.simpleName,
-            BundleCallSite.FRAGMENT_SAVED_STATE,
-            outState
-        )
+//    override fun onFragmentSaveInstanceState(fm: FragmentManager, f: Fragment, outState: Bundle) =
+//        onBundleLogged(
+//            System.currentTimeMillis(),
+//            f::class.simpleName,
+//            BundleCallSite.FRAGMENT_SAVED_STATE,
+//            outState
+//        )
 }

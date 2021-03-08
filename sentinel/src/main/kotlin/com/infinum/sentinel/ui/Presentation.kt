@@ -7,15 +7,14 @@ import android.content.Intent
 import com.infinum.sentinel.BuildConfig
 import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.data.models.memory.triggers.shake.ShakeTrigger
-import com.infinum.sentinel.data.sources.memory.bundles.BundlesCache
 import com.infinum.sentinel.di.LibraryKoin
 import com.infinum.sentinel.domain.Domain
 import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleDescriptor
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleParameters
 import com.infinum.sentinel.extensions.toSizeTree
-import com.infinum.sentinel.ui.bundlemonitor.BundleMonitorViewModel
-import com.infinum.sentinel.ui.bundlemonitor.callbacks.BundleMonitorActivityCallbacks
+import com.infinum.sentinel.ui.bundles.BundlesViewModel
+import com.infinum.sentinel.ui.bundles.callbacks.BundleMonitorActivityCallbacks
 import com.infinum.sentinel.ui.main.SentinelActivity
 import com.infinum.sentinel.ui.main.SentinelViewModel
 import com.infinum.sentinel.ui.main.application.ApplicationViewModel
@@ -88,7 +87,7 @@ internal object Presentation {
         viewModel { PreferencesViewModel(get()) }
         viewModel { ToolsViewModel(get()) }
         viewModel { SettingsViewModel(get(), get(), get()) }
-        viewModel { BundleMonitorViewModel(get(), get()) }
+        viewModel { BundlesViewModel(get(), get()) }
     }
 
     fun setup(tools: Set<Sentinel.Tool>, onTriggered: () -> Unit) {

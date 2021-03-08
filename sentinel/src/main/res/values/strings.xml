@@ -32,6 +32,11 @@
     <string name="sentinel_table">Table</string>
     <string name="sentinel_markdown">Markdown</string>
 
+    <string name="sentinel_bundle_activity_intent_extras">Activity Intent extras</string>
+    <string name="sentinel_bundle_activity_saved_state">Activity Saved State</string>
+    <string name="sentinel_fragment_arguments">Fragment arguments</string>
+    <string name="sentinel_fragment_saved_state">Fragment Saved State</string>
+
     <string name="sentinel_version_code">Version code</string>
     <string name="sentinel_version_name">Version name</string>
     <string name="sentinel_first_install">First install</string>
