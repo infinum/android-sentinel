@@ -26,13 +26,12 @@ internal class BundleMonitorActivityCallbacks(
     }
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) =
-        Unit
-//        onBundleLogged(
-//            System.currentTimeMillis(),
-//            activity::class.simpleName,
-//            BundleCallSite.ACTIVITY_SAVED_STATE,
-//            outState
-//        )
+        onBundleLogged(
+            System.currentTimeMillis(),
+            activity::class.simpleName,
+            BundleCallSite.ACTIVITY_SAVED_STATE,
+            outState
+        )
 
     override fun onActivityStarted(activity: Activity) = Unit
 

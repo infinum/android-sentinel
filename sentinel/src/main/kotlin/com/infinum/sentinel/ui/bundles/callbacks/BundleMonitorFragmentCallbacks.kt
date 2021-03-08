@@ -19,11 +19,11 @@ internal class BundleMonitorFragmentCallbacks(
         }
     }
 
-//    override fun onFragmentSaveInstanceState(fm: FragmentManager, f: Fragment, outState: Bundle) =
-//        onBundleLogged(
-//            System.currentTimeMillis(),
-//            f::class.simpleName,
-//            BundleCallSite.FRAGMENT_SAVED_STATE,
-//            outState
-//        )
+    override fun onFragmentSaveInstanceState(fm: FragmentManager, f: Fragment, outState: Bundle) =
+        onBundleLogged(
+            System.currentTimeMillis(),
+            f::class.simpleName,
+            BundleCallSite.FRAGMENT_SAVED_STATE,
+            outState
+        )
 }
