@@ -3,11 +3,13 @@ package com.infinum.sentinel.ui.bundles
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.RestrictTo
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentBundlesBinding
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
+import com.infinum.sentinel.ui.shared.edgefactories.bounce.BounceEdgeEffectFactory
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
@@ -47,5 +49,7 @@ internal class BundlesFragment : BaseChildFragment(R.layout.sentinel_fragment_bu
         with(binding) {
             recyclerView.layoutManager = LinearLayoutManager(recyclerView.context, LinearLayoutManager.VERTICAL, false)
             recyclerView.adapter = adapter
+            recyclerView.edgeEffectFactory = BounceEdgeEffectFactory()
+            recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, LinearLayoutManager.VERTICAL))
         }
 }

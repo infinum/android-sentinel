@@ -17,16 +17,18 @@ internal class BundleViewHolder(
     }
 
     fun bind(item: BundleDescriptor?, onClick: (BundleDescriptor) -> Unit) =
-        with(binding) {
-            iconView.setImageResource(item!!.callSite.icon)
-            timestampView.text = SimpleDateFormat.getTimeInstance().format(Date(item.timestamp))
-            typeView.text = typeView.context.getString(item.callSite.text)
-            callClassNameView.text = item.className
-            sizeView.text = Formatter.formatFileSize(sizeView.context, item.bundleTree.size.toLong())
-            magnitudeView.progress = (item.bundleTree.size / BYTES_DIVIDER).roundToInt()
-            magnitudeView.secondaryProgress = item.limit
-            root.setOnClickListener { onClick(item) }
-        }
+        item?.let { descriptor ->
+            with(binding) {
+                iconView.setImageResource(descriptor.callSite.icon)
+                timestampView.text = SimpleDateFormat.getTimeInstance().format(Date(descriptor.timestamp))
+                typeView.text = typeView.context.getString(descriptor.callSite.text)
+                callClassNameView.text = descriptor.className
+                sizeView.text = Formatter.formatFileSize(sizeView.context, descriptor.bundleTree.size.toLong())
+                magnitudeView.progress = (descriptor.bundleTree.size / BYTES_DIVIDER).roundToInt()
+                magnitudeView.secondaryProgress = descriptor.limit
+                root.setOnClickListener { onClick(descriptor) }
+            }
+        } ?: unbind()
 
     fun unbind() =
         with(binding) {
