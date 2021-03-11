@@ -11,6 +11,7 @@ import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
 import com.infinum.sentinel.ui.shared.edgefactories.bounce.BounceEdgeEffectFactory
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class BundlesFragment : BaseChildFragment(R.layout.sentinel_fragment_bundles) {
@@ -27,7 +28,7 @@ internal class BundlesFragment : BaseChildFragment(R.layout.sentinel_fragment_bu
     override val viewModel: BundlesViewModel by viewModel()
 
     private val adapter = BundlesAdapter {
-//        Timber.tag("_BOJAN_4").i(it.toString())
+        Timber.tag("_BOJAN_4").i(it.toString())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

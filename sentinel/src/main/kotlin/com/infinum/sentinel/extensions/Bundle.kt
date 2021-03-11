@@ -3,6 +3,8 @@ package com.infinum.sentinel.extensions
 import android.os.Bundle
 import android.os.Parcel
 import com.infinum.sentinel.data.models.memory.bundles.BundleTree
+import kotlin.coroutines.resume
+import kotlinx.coroutines.suspendCancellableCoroutine
 import timber.log.Timber
 
 /**
@@ -11,41 +13,30 @@ import timber.log.Timber
  *
  * @return a map from keys to value sizes in bytes
  */
-internal fun Bundle.toSizeTree(): BundleTree {
-    val results = ArrayList<BundleTree>(this.size())
-    // We measure the totalSize of each value by measuring the total totalSize of the bundle before and
-    // after removing that value and calculating the difference. We make a copy of the original
-    // bundle so we can put all the original values back at the end. It's not possible to
-    // carry out the measurements on the copy because of the way Android parcelables work
-    // under the hood where certain objects are actually stored as references.
-    val copy = Bundle(this)
-    try {
-        var bundleSize = this.sizeAsParcelable
-        // Iterate over copy's keys because we're removing those of the original bundle
-        copy.keySet().forEach { key ->
-            this.remove(key)
-            val newBundleSize = this.sizeAsParcelable
-            val valueSize = bundleSize - newBundleSize
-            results += BundleTree(
-                key,
-                valueSize,
-                emptyList()
+internal suspend fun Bundle.sizeTree(): BundleTree =
+    suspendCancellableCoroutine { continuation ->
+        val original = Bundle(this)
+        val originalSize = original.sizeAsParcelable
+
+        continuation.resume(
+            BundleTree(
+                "${System.identityHashCode(this)}",
+                originalSize,
+                original.keySet().map { key ->
+                    val withoutKey = Bundle(original)
+                    withoutKey.remove(key)
+
+                    val valueSize = originalSize - withoutKey.sizeAsParcelable
+
+                    BundleTree(
+                        key,
+                        valueSize,
+                        emptyList()
+                    )
+                }
             )
-            bundleSize = newBundleSize
-        }
-//    } catch (exception: Exception) {
-//        Timber.e(exception)
-//        0
-    } finally {
-        // Put everything back into original bundle
-        this.putAll(copy)
+        )
     }
-    return BundleTree(
-        "${System.identityHashCode(this)}",
-        this.sizeAsParcelable,
-        results
-    )
-}
 
 /**
  * Size of a [Bundle] when written to a [Parcel].
@@ -57,9 +48,9 @@ internal val Bundle.sizeAsParcelable: Int
     get() {
         val parcel = Parcel.obtain()
         return try {
-            parcel.writeBundle(this)
+            parcel.writeBundle(Bundle(this))
             parcel.dataSize()
-        } catch (exception: Exception) {
+        } catch (exception: ConcurrentModificationException) {
             Timber.e(exception)
             0
         } finally {
