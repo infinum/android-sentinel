@@ -15,7 +15,7 @@ ext.versions = [
         "design"     : "1.3.0",
         "koin"       : "2.2.2",
         "timber"     : "4.7.1",
-        "detekt"     : "1.15.0",
+        "detekt"     : "1.16.0",
         "ktlint"     : "10.0.0",
         "cpd"        : "3.1",
         "dokka"      : "1.4.20",
