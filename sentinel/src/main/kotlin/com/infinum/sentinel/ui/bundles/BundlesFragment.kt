@@ -28,7 +28,10 @@ internal class BundlesFragment : BaseChildFragment(R.layout.sentinel_fragment_bu
     override val viewModel: BundlesViewModel by viewModel()
 
     private val adapter = BundlesAdapter {
-        Timber.tag("_BOJAN_4").i(it.toString())
+        Timber.tag("_BOJAN_").i("${it.callSite.name} - ${it.className} - ${it.bundleTree.id} - ${it.bundleTree.size}")
+        it.bundleTree.subTrees.forEach { tree ->
+            Timber.tag("_BOJAN_subtree").i("${tree.id} - ${tree.size} - ${tree.subTrees}")
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

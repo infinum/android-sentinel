@@ -3,8 +3,6 @@ package com.infinum.sentinel.extensions
 import android.os.Bundle
 import android.os.Parcel
 import com.infinum.sentinel.data.models.memory.bundles.BundleTree
-import kotlin.coroutines.resume
-import kotlinx.coroutines.suspendCancellableCoroutine
 import timber.log.Timber
 
 /**
@@ -13,30 +11,34 @@ import timber.log.Timber
  *
  * @return a map from keys to value sizes in bytes
  */
-internal suspend fun Bundle.sizeTree(): BundleTree =
-    suspendCancellableCoroutine { continuation ->
-        val original = Bundle(this)
-        val originalSize = original.sizeAsParcelable
+internal fun Bundle.sizeTree(): BundleTree {
+    val original = Bundle(this)
+    val originalSize = original.sizeAsParcelable
 
-        continuation.resume(
+    return BundleTree(
+        "${System.identityHashCode(this)}",
+        originalSize,
+        original.keySet().map { key ->
+            val withoutKey = Bundle(original)
+
+            val internalTree: BundleTree? = if (withoutKey[key] is Bundle) {
+                (withoutKey[key] as? Bundle)?.sizeTree()
+            } else {
+                null
+            }
+
+            withoutKey.remove(key)
+
+            val valueSize = originalSize - withoutKey.sizeAsParcelable
+
             BundleTree(
-                "${System.identityHashCode(this)}",
-                originalSize,
-                original.keySet().map { key ->
-                    val withoutKey = Bundle(original)
-                    withoutKey.remove(key)
-
-                    val valueSize = originalSize - withoutKey.sizeAsParcelable
-
-                    BundleTree(
-                        key,
-                        valueSize,
-                        emptyList()
-                    )
-                }
+                key,
+                valueSize,
+                internalTree?.let { listOf(it) } ?: emptyList()
             )
-        )
-    }
+        }
+    )
+}
 
 /**
  * Size of a [Bundle] when written to a [Parcel].

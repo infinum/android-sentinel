@@ -57,14 +57,13 @@ internal object Presentation {
             ?.registerActivityLifecycleCallbacks(
                 BundleMonitorActivityCallbacks { timestamp, className, callSite, bundle ->
                     GlobalScope.launch(Dispatchers.IO) {
-                        val tree = bundle.sizeTree()
                         bundles.save(
                             BundleParameters(
                                 descriptor = BundleDescriptor(
                                     timestamp = timestamp,
                                     className = className,
                                     callSite = callSite,
-                                    bundleTree = tree
+                                    bundleTree = bundle.sizeTree()
                                 )
                             )
                         )
