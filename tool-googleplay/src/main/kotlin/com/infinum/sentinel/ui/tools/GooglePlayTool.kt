@@ -1,5 +1,6 @@
 package com.infinum.sentinel.ui.tools
 
+import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
@@ -13,6 +14,7 @@ import com.infinum.sentinel.Sentinel
  * and FLAG_ACTIVITY_NEW_TASK flags.
  * If no appropriate application is found, this tool will open a website on play.google.com.
  */
+@SuppressLint("QueryPermissionsNeeded")
 public data class GooglePlayTool(
     private val listener: View.OnClickListener = View.OnClickListener { view ->
         val intent = Intent(

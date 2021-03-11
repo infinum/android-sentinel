@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.infinum.sentinel">
 
-    <application>
+    <application android:supportsRtl="false">
+
         <activity
             android:name=".ui.main.SentinelActivity"
             android:label="@string/sentinel_name"

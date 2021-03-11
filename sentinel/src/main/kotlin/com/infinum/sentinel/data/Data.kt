@@ -61,6 +61,7 @@ internal object Data {
         single(qualifier = Qualifiers.Name.DATABASE) {
             val context: Context = get()
             String.format(
+                Locale.getDefault(),
                 "sentinel_%s_v%s.db",
                 context.applicationContext
                     .packageName

@@ -24,7 +24,7 @@
         android:layout_height="24dp"
         android:layout_gravity="end|center_vertical"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:importantForAccessibility="no"
         tools:src="@drawable/sentinel_ic_checked" />
 
 </LinearLayout>
