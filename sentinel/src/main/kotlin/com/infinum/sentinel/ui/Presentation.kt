@@ -15,6 +15,7 @@ import com.infinum.sentinel.domain.bundle.descriptor.models.BundleParameters
 import com.infinum.sentinel.extensions.sizeTree
 import com.infinum.sentinel.ui.bundles.BundlesViewModel
 import com.infinum.sentinel.ui.bundles.callbacks.BundleMonitorActivityCallbacks
+import com.infinum.sentinel.ui.bundles.details.BundleDetailsViewModel
 import com.infinum.sentinel.ui.main.SentinelActivity
 import com.infinum.sentinel.ui.main.SentinelViewModel
 import com.infinum.sentinel.ui.main.application.ApplicationViewModel
@@ -35,6 +36,10 @@ import timber.log.Timber
 
 @SuppressLint("StaticFieldLeak")
 internal object Presentation {
+
+    object Constants {
+        const val KEY_BUNDLE_ID = "KEY_BUNDLE_ID"
+    }
 
     private val DEFAULT_TOOLS = setOf(
         BundleMonitorTool(),
@@ -88,6 +93,7 @@ internal object Presentation {
         viewModel { ToolsViewModel(get()) }
         viewModel { SettingsViewModel(get(), get(), get()) }
         viewModel { BundlesViewModel(get(), get()) }
+        viewModel { BundleDetailsViewModel(get()) }
     }
 
     fun setup(tools: Set<Sentinel.Tool>, onTriggered: () -> Unit) {

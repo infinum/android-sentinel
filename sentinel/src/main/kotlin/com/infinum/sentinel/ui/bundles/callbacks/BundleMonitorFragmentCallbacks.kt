@@ -6,24 +6,31 @@ import androidx.fragment.app.FragmentManager
 
 internal class BundleMonitorFragmentCallbacks(
     private val onBundleLogged: (Long, String?, BundleCallSite, Bundle) -> Unit
-) : FragmentManager.FragmentLifecycleCallbacks() {
+) : FragmentManager.FragmentLifecycleCallbacks(), BundleMonitorValidator {
 
     override fun onFragmentCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
-        f.arguments?.let {
-            onBundleLogged(
-                System.currentTimeMillis(),
-                f::class.simpleName,
-                BundleCallSite.FRAGMENT_ARGUMENTS,
-                it
-            )
+        if (includeInternal(f.requireActivity())) {
+            f.arguments?.let {
+                onBundleLogged(
+                    System.currentTimeMillis(),
+                    f::class.simpleName,
+                    BundleCallSite.FRAGMENT_ARGUMENTS,
+                    it
+                )
+            }
         }
     }
 
     override fun onFragmentSaveInstanceState(fm: FragmentManager, f: Fragment, outState: Bundle) =
-        onBundleLogged(
-            System.currentTimeMillis(),
-            f::class.simpleName,
-            BundleCallSite.FRAGMENT_SAVED_STATE,
-            outState
-        )
+        if (includeInternal(f.requireActivity())) {
+            onBundleLogged(
+                System.currentTimeMillis(),
+                f::class.simpleName,
+                BundleCallSite.FRAGMENT_SAVED_STATE,
+                outState
+            )
+        } else {
+            @Suppress("RedundantUnitExpression")
+            Unit
+        }
 }

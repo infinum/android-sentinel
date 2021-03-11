@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentActivity
 
 internal class BundleMonitorActivityCallbacks(
     private val onBundleLogged: (Long, String?, BundleCallSite, Bundle) -> Unit
-) : Application.ActivityLifecycleCallbacks {
+) : Application.ActivityLifecycleCallbacks, BundleMonitorValidator {
 
     private val fragmentCallbacks = BundleMonitorFragmentCallbacks(onBundleLogged)
 
@@ -15,23 +15,30 @@ internal class BundleMonitorActivityCallbacks(
         if (activity is FragmentActivity) {
             activity.supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentCallbacks, true)
         }
-        activity.intent.extras?.let {
-            onBundleLogged(
-                System.currentTimeMillis(),
-                activity::class.simpleName,
-                BundleCallSite.ACTIVITY_INTENT_EXTRAS,
-                it
-            )
+        if (includeInternal(activity)) {
+            activity.intent.extras?.let {
+                onBundleLogged(
+                    System.currentTimeMillis(),
+                    activity::class.simpleName,
+                    BundleCallSite.ACTIVITY_INTENT_EXTRAS,
+                    it
+                )
+            }
         }
     }
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) =
-        onBundleLogged(
-            System.currentTimeMillis(),
-            activity::class.simpleName,
-            BundleCallSite.ACTIVITY_SAVED_STATE,
-            outState
-        )
+        if (includeInternal(activity)) {
+            onBundleLogged(
+                System.currentTimeMillis(),
+                activity::class.simpleName,
+                BundleCallSite.ACTIVITY_SAVED_STATE,
+                outState
+            )
+        } else {
+            @Suppress("RedundantUnitExpression")
+            Unit
+        }
 
     override fun onActivityStarted(activity: Activity) = Unit
 
