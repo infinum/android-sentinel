@@ -21,7 +21,7 @@ ext.versions = [
         "dokka"      : "1.4.20",
         "chucker"    : "3.4.0",
         "collar"     : "1.2.3",
-        "dbinspector": "5.2.7",
+        "dbinspector": "5.2.8",
         "thimble"    : "1.0.0"
 ]
 
