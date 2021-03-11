@@ -42,6 +42,9 @@ android {
 
     resourcePrefix 'sentinel_'
 
+    lintOptions {
+        disable 'InvalidFragmentVersionForActivityResult', 'VectorPath'
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -71,6 +74,7 @@ dependencies {
     implementation packages.kotlin.core
     implementation packages.kotlinx.coroutines
     implementation packages.androidx.core
+    implementation packages.androidx.activity
     implementation packages.androidx.fragment
     implementation packages.androidx.lifecycle.livedata
     implementation packages.androidx.lifecycle.process

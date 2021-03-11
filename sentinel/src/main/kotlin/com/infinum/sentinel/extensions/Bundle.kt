@@ -22,7 +22,7 @@ internal fun Bundle.toSizeTree(): BundleTree {
     try {
         var bundleSize = this.sizeAsParcelable
         // Iterate over copy's keys because we're removing those of the original bundle
-        for (key in copy.keySet()) {
+        copy.keySet().forEach { key ->
             this.remove(key)
             val newBundleSize = this.sizeAsParcelable
             val valueSize = bundleSize - newBundleSize
@@ -33,6 +33,9 @@ internal fun Bundle.toSizeTree(): BundleTree {
             )
             bundleSize = newBundleSize
         }
+//    } catch (exception: Exception) {
+//        Timber.e(exception)
+//        0
     } finally {
         // Put everything back into original bundle
         this.putAll(copy)
@@ -56,7 +59,7 @@ internal val Bundle.sizeAsParcelable: Int
         return try {
             parcel.writeBundle(this)
             parcel.dataSize()
-        } catch (exception: ArrayIndexOutOfBoundsException) {
+        } catch (exception: Exception) {
             Timber.e(exception)
             0
         } finally {

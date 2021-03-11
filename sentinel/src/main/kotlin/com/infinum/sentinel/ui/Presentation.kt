@@ -4,15 +4,17 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import com.infinum.sentinel.BuildConfig
 import com.infinum.sentinel.Sentinel
+import com.infinum.sentinel.data.models.memory.bundles.BundleTree
 import com.infinum.sentinel.data.models.memory.triggers.shake.ShakeTrigger
 import com.infinum.sentinel.di.LibraryKoin
 import com.infinum.sentinel.domain.Domain
 import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleDescriptor
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleParameters
-import com.infinum.sentinel.extensions.toSizeTree
+import com.infinum.sentinel.extensions.sizeAsParcelable
 import com.infinum.sentinel.ui.bundles.BundlesViewModel
 import com.infinum.sentinel.ui.bundles.callbacks.BundleMonitorActivityCallbacks
 import com.infinum.sentinel.ui.main.SentinelActivity
@@ -25,9 +27,11 @@ import com.infinum.sentinel.ui.main.tools.ToolsViewModel
 import com.infinum.sentinel.ui.settings.SettingsViewModel
 import com.infinum.sentinel.ui.tools.AppInfoTool
 import com.infinum.sentinel.ui.tools.BundleMonitorTool
+import kotlin.coroutines.resume
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -57,13 +61,14 @@ internal object Presentation {
             ?.registerActivityLifecycleCallbacks(
                 BundleMonitorActivityCallbacks { timestamp, className, callSite, bundle ->
                     GlobalScope.launch(Dispatchers.IO) {
+                        val tree = sizeTree(bundle)
                         bundles.save(
                             BundleParameters(
                                 descriptor = BundleDescriptor(
                                     timestamp = timestamp,
                                     className = className,
                                     callSite = callSite,
-                                    bundleTree = bundle.toSizeTree()
+                                    bundleTree = tree
                                 )
                             )
                         )
@@ -71,6 +76,41 @@ internal object Presentation {
                 }
             )
     }
+
+    private suspend fun sizeTree(bundle: Bundle): BundleTree =
+        suspendCancellableCoroutine { continuation ->
+            val results = ArrayList<BundleTree>(bundle.size())
+            val copy = Bundle(bundle)
+            try {
+                var bundleSize = bundle.sizeAsParcelable
+                // Iterate over copy's keys because we're removing those of the original bundle
+                copy.keySet().forEach { key ->
+                    bundle.remove(key)
+                    val newBundleSize = bundle.sizeAsParcelable
+                    val valueSize = bundleSize - newBundleSize
+                    results += BundleTree(
+                        key,
+                        valueSize,
+                        emptyList()
+                    )
+                    bundleSize = newBundleSize
+                }
+//            } catch (exception: Exception) {
+//                Timber.e(exception)
+//                continuation.resumeWithException(exception)
+            } finally {
+                // Put everything back into original bundle
+                bundle.putAll(copy)
+            }
+
+            continuation.resume(
+                BundleTree(
+                    "${System.identityHashCode(bundle)}",
+                    bundle.sizeAsParcelable,
+                    results
+                )
+            )
+        }
 
     fun modules(): List<Module> =
         Domain.modules().plus(
