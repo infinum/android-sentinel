@@ -12,6 +12,7 @@
     <string name="sentinel_share">Share</string>
     <string name="sentinel_notify">Notify</string>
     <string name="sentinel_limit">Limit</string>
+    <string name="sentinel_clear">Clear</string>
 
     <string name="sentinel_network">Network</string>
     <string name="sentinel_memory">Memory</string>

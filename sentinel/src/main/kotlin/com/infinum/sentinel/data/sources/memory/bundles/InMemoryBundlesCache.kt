@@ -10,6 +10,11 @@ internal class InMemoryBundlesCache : BundlesCache {
     private val descriptors = mutableListOf<BundleDescriptor>()
     private val descriptorsFlow = MutableSharedFlow<List<BundleDescriptor>>(replay = 1)
 
+    override suspend fun clear() {
+        descriptors.clear()
+        descriptorsFlow.emit(descriptors.toList())
+    }
+
     override suspend fun save(descriptor: BundleDescriptor) {
         descriptors.add(0, descriptor)
         descriptorsFlow.emit(descriptors.toList())

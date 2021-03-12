@@ -26,4 +26,12 @@ internal class BundlesViewModel(
                 .onEach { action(it) }
                 .launchIn(viewModelScope)
         }
+
+    fun clearBundles() {
+        launch {
+            io {
+                bundles.clear()
+            }
+        }
+    }
 }

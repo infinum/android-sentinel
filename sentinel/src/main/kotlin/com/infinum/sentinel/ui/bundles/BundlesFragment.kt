@@ -50,7 +50,18 @@ internal class BundlesFragment : BaseChildFragment(R.layout.sentinel_fragment_bu
     }
 
     private fun setupToolbar() {
-        binding.toolbar.setNavigationOnClickListener { requireActivity().finish() }
+        with(binding) {
+            toolbar.setNavigationOnClickListener { requireActivity().finish() }
+            toolbar.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.clear -> {
+                        viewModel.clearBundles()
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }
     }
 
     private fun setupRecyclerView() =

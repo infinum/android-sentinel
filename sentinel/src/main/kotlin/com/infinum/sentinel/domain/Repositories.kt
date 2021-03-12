@@ -18,5 +18,8 @@ internal interface Repositories {
 
     interface BundleMonitor : BaseRepository<BundleMonitorParameters, BundleMonitorEntity>
 
-    interface Bundles : BaseRepository<BundleParameters, List<BundleDescriptor>>
+    interface Bundles : BaseRepository<BundleParameters, List<BundleDescriptor>> {
+
+        suspend fun clear()
+    }
 }

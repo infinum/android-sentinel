@@ -16,6 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:menu="@menu/sentinel_bundle_monitor"
             app:navigationIcon="@drawable/sentinel_ic_close"
             app:title="@string/sentinel_bundle_monitor" />
 
