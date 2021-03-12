@@ -7,6 +7,7 @@ import com.infinum.sentinel.databinding.SentinelItemBundleBinding
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleDescriptor
 
 internal class BundlesAdapter(
+    private val onListChanged: (Boolean) -> Unit,
     private val onClick: (BundleDescriptor) -> Unit
 ) : ListAdapter<BundleDescriptor, BundleViewHolder>(BundlesDiffUtil()) {
 
@@ -24,6 +25,11 @@ internal class BundlesAdapter(
 
     override fun onViewRecycled(holder: BundleViewHolder) {
         holder.unbind()
-        super.onViewRecycled(holder)
     }
+
+    override fun onCurrentListChanged(
+        previousList: MutableList<BundleDescriptor>,
+        currentList: MutableList<BundleDescriptor>
+    ) =
+        onListChanged(currentList.isEmpty())
 }

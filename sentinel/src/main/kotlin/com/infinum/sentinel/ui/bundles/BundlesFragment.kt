@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.RestrictTo
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.infinum.sentinel.R
@@ -29,14 +31,19 @@ internal class BundlesFragment : BaseChildFragment(R.layout.sentinel_fragment_bu
 
     override val viewModel: BundlesViewModel by viewModel()
 
-    private val adapter = BundlesAdapter {
-        startActivity(
-            Intent(requireContext(), BundleDetailsActivity::class.java)
-                .apply {
-                    putExtra(Presentation.Constants.KEY_BUNDLE_ID, it.bundleTree.id)
-                }
-        )
-    }
+    private val adapter = BundlesAdapter(
+        onListChanged = { isEmpty ->
+            showEmptyState(isEmpty)
+        },
+        onClick = {
+            startActivity(
+                Intent(requireContext(), BundleDetailsActivity::class.java)
+                    .apply {
+                        putExtra(Presentation.Constants.KEY_BUNDLE_ID, it.bundleTree.id)
+                    }
+            )
+        }
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,11 +71,18 @@ internal class BundlesFragment : BaseChildFragment(R.layout.sentinel_fragment_bu
         }
     }
 
-    private fun setupRecyclerView() =
+    private fun setupRecyclerView() {
         with(binding) {
             recyclerView.layoutManager = LinearLayoutManager(recyclerView.context, LinearLayoutManager.VERTICAL, false)
             recyclerView.adapter = adapter
             recyclerView.edgeEffectFactory = BounceEdgeEffectFactory()
             recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, LinearLayoutManager.VERTICAL))
+        }
+    }
+
+    private fun showEmptyState(isEmpty: Boolean) =
+        with(binding) {
+            recyclerView.isGone = isEmpty
+            emptyStateLayout.isVisible = isEmpty
         }
 }
