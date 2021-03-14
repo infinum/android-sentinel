@@ -5,6 +5,7 @@ import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleDescriptor
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleParameters
 import com.infinum.sentinel.domain.bundle.monitor.models.BundleMonitorParameters
+import com.infinum.sentinel.ui.bundles.callbacks.BundleCallSite
 import com.infinum.sentinel.ui.shared.base.BaseChildViewModel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
@@ -21,7 +22,16 @@ internal class BundlesViewModel(
             bundleMonitor.load(BundleMonitorParameters())
                 .combine(
                     bundles.load(BundleParameters())
-                ) { monitor, descriptors -> descriptors.map { it.copy(limit = monitor.limit) } }
+                ) { monitor, descriptors ->
+                    descriptors.map { it.copy(limit = monitor.limit) }.filter {
+                        when (it.callSite) {
+                            BundleCallSite.ACTIVITY_INTENT_EXTRAS -> monitor.activityIntentExtras
+                            BundleCallSite.ACTIVITY_SAVED_STATE -> monitor.activitySavedState
+                            BundleCallSite.FRAGMENT_ARGUMENTS -> monitor.fragmentArguments
+                            BundleCallSite.FRAGMENT_SAVED_STATE -> monitor.fragmentSavedState
+                        }
+                    }
+                }
                 .flowOn(dispatchersIo)
                 .onEach { action(it) }
                 .launchIn(viewModelScope)

@@ -68,18 +68,7 @@ internal class SettingsViewModel(
             }
         }
 
-    fun toggleBundleMonitorNotify(entity: BundleMonitorEntity) =
-        launch {
-            io {
-                bundleMonitor.save(
-                    BundleMonitorParameters(
-                        entity = entity
-                    )
-                )
-            }
-        }
-
-    fun saveBundleMonitorLimit(entity: BundleMonitorEntity) =
+    fun updateBundleMonitorNotify(entity: BundleMonitorEntity) =
         launch {
             io {
                 bundleMonitor.save(

@@ -2,8 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -181,6 +180,57 @@
                     android:layout_height="wrap_content"
                     android:minHeight="@dimen/sentinel_item_height"
                     android:text="@string/sentinel_notify" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/bundleFilterGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:minHeight="@dimen/sentinel_item_height"
+                    app:selectionRequired="true"
+                    app:singleSelection="false">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/activityIntentExtrasChip"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/sentinel_bundle_activity_intent_extras"
+                        app:checkedIcon="@drawable/sentinel_ic_checked_filter"
+                        app:checkedIconTint="@color/sentinel_color_primary" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/activitySavedStateChip"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/sentinel_bundle_activity_saved_state"
+                        app:checkedIcon="@drawable/sentinel_ic_checked_filter"
+                        app:checkedIconTint="@color/sentinel_color_primary" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/fragmentArgumentsChip"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/sentinel_fragment_arguments"
+                        app:checkedIcon="@drawable/sentinel_ic_checked_filter"
+                        app:checkedIconTint="@color/sentinel_color_primary" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/fragmentSavedStateChip"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/sentinel_fragment_saved_state"
+                        app:checkedIcon="@drawable/sentinel_ic_checked_filter"
+                        app:checkedIconTint="@color/sentinel_color_primary" />
+
+                </com.google.android.material.chip.ChipGroup>
 
                 <LinearLayout
                     android:layout_width="match_parent"

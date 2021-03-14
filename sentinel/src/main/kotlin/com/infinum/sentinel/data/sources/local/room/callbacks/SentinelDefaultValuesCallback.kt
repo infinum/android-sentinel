@@ -23,7 +23,11 @@ internal class SentinelDefaultValuesCallback : RoomDatabase.Callback() {
         """.trimIndent()
 
         private val DEFAULT_BUNDLE_MONITOR = """
-        INSERT INTO "bundle_monitor" ("id","limit","notify") VALUES (0,500,1);
+        INSERT INTO "bundle_monitor" 
+        ("id","limit","notify",
+        "activity_intent_extras","activity_saved_state",
+        "fragment_arguments","fragment_saved_state") 
+        VALUES (0,500,1,1,1,1,1);
         """.trimIndent()
     }
 

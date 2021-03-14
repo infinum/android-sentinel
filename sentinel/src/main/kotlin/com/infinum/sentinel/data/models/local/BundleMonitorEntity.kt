@@ -15,5 +15,17 @@ internal data class BundleMonitorEntity(
     var limit: Int = 500,
 
     @ColumnInfo(name = "notify", defaultValue = "true")
-    var notify: Boolean = false
+    var notify: Boolean = true,
+
+    @ColumnInfo(name = "activity_intent_extras", defaultValue = "true")
+    var activityIntentExtras: Boolean = true,
+
+    @ColumnInfo(name = "activity_saved_state", defaultValue = "true")
+    var activitySavedState: Boolean = true,
+
+    @ColumnInfo(name = "fragment_arguments", defaultValue = "true")
+    var fragmentArguments: Boolean = true,
+
+    @ColumnInfo(name = "fragment_saved_state", defaultValue = "true")
+    var fragmentSavedState: Boolean = true
 )
