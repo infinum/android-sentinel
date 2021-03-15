@@ -1,6 +1,10 @@
 package com.infinum.sentinel.ui.shared.base
 
-internal abstract class BaseChildViewModel<T> : BaseViewModel() {
+import com.infinum.sentinel.domain.shared.base.BaseParameters
 
-    abstract fun data(action: (T) -> Unit)
+internal abstract class BaseChildViewModel<Parameters : BaseParameters, Data> : BaseViewModel() {
+
+    abstract var parameters: Parameters?
+
+    abstract fun data(action: (Data) -> Unit)
 }

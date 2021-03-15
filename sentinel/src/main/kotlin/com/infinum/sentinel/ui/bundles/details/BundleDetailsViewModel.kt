@@ -12,16 +12,20 @@ import kotlinx.coroutines.flow.onEach
 
 internal class BundleDetailsViewModel(
     private val bundles: Repositories.Bundles
-) : BaseChildViewModel<List<BundleDescriptor>>() {
+) : BaseChildViewModel<BundleParameters, BundleDescriptor>() {
 
-    override fun data(action: (List<BundleDescriptor>) -> Unit) = throw NotImplementedError()
+    override var parameters: BundleParameters? = BundleParameters()
 
-    fun bundleById(id: String, action: (BundleDescriptor) -> Unit) =
+    override fun data(action: (BundleDescriptor) -> Unit) =
         launch {
-            bundles.load(BundleParameters())
+            bundles.load(parameters!!)
                 .flowOn(dispatchersIo)
-                .map { it.single { descriptor -> descriptor.bundleTree.id == id } }
+                .map { it.single { descriptor -> descriptor.bundleTree.id == parameters?.bundleId } }
                 .onEach { action(it) }
                 .launchIn(viewModelScope)
         }
+
+    fun setBundleId(value: String?) {
+        parameters = parameters?.copy(bundleId = value)
+    }
 }

@@ -6,6 +6,7 @@ import com.infinum.sentinel.data.models.local.TriggerEntity
 import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.bundle.monitor.models.BundleMonitorParameters
 import com.infinum.sentinel.domain.formats.models.FormatsParameters
+import com.infinum.sentinel.domain.shared.base.BaseParameters
 import com.infinum.sentinel.domain.triggers.models.TriggerParameters
 import com.infinum.sentinel.ui.shared.base.BaseChildViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -15,7 +16,9 @@ internal class SettingsViewModel(
     private val triggers: Repositories.Triggers,
     private val formats: Repositories.Formats,
     private val bundleMonitor: Repositories.BundleMonitor
-) : BaseChildViewModel<Any>() {
+) : BaseChildViewModel<BaseParameters, Any>() {
+
+    override var parameters: BaseParameters? = null
 
     override fun data(action: (Any) -> Unit) = throw NotImplementedError()
 
@@ -68,7 +71,7 @@ internal class SettingsViewModel(
             }
         }
 
-    fun updateBundleMonitorNotify(entity: BundleMonitorEntity) =
+    fun updateBundleMonitor(entity: BundleMonitorEntity) =
         launch {
             io {
                 bundleMonitor.save(

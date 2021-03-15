@@ -5,6 +5,12 @@
     tools:ignore="AlwaysShowAction">
 
     <item
+        android:id="@+id/search"
+        android:title="@string/sentinel_search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/clear"
         android:icon="@drawable/sentinel_ic_clear"
         android:title="@string/sentinel_clear"

@@ -49,25 +49,27 @@ internal class BundleDetailsFragment : BaseChildFragment(R.layout.sentinel_fragm
         setupToolbar()
         setupRecyclerView()
 
-        bundleId?.let { id ->
-            viewModel.bundleById(id) {
-                binding.toolbar.subtitle = listOf(
-                    it.className,
-                    Formatter.formatFileSize(
-                        binding.toolbar.context,
-                        it.bundleTree.size.toLong()
-                    )
-                ).joinToString(" ~ ")
+        viewModel.setBundleId(bundleId)
 
-                adapter = BundleDetailsAdapter(it.bundleTree.size)
-                binding.recyclerView.adapter = adapter
-                adapter.submitList(it.bundleTree.subTrees)
-            }
-        } ?: throw NullPointerException()
+        viewModel.data {
+            binding.toolbar.subtitle = listOf(
+                it.className,
+                Formatter.formatFileSize(
+                    binding.toolbar.context,
+                    it.bundleTree.size.toLong()
+                )
+            ).joinToString(" ~ ")
+
+            adapter = BundleDetailsAdapter(it.bundleTree.size)
+            binding.recyclerView.adapter = adapter
+            adapter.submitList(it.bundleTree.subTrees)
+        }
     }
 
     private fun setupToolbar() {
-        binding.toolbar.setNavigationOnClickListener { requireActivity().finish() }
+        with(binding.toolbar) {
+            setNavigationOnClickListener { requireActivity().finish() }
+        }
     }
 
     private fun setupRecyclerView() =

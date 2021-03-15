@@ -113,7 +113,7 @@ internal class SettingsFragment : BaseChildFragment(R.layout.sentinel_fragment_s
             binding.bundleMonitorSwitch.setOnCheckedChangeListener(null)
             binding.bundleMonitorSwitch.isChecked = it.notify
             binding.bundleMonitorSwitch.setOnCheckedChangeListener { _, isChecked ->
-                viewModel.updateBundleMonitorNotify(it.copy(notify = isChecked))
+                viewModel.updateBundleMonitor(it.copy(notify = isChecked))
             }
 
             binding.activityIntentExtrasChip.setOnCheckedChangeListener(null)
@@ -125,22 +125,22 @@ internal class SettingsFragment : BaseChildFragment(R.layout.sentinel_fragment_s
             binding.fragmentArgumentsChip.isChecked = it.fragmentArguments
             binding.fragmentSavedStateChip.isChecked = it.fragmentSavedState
             binding.activityIntentExtrasChip.setOnCheckedChangeListener { _, _ ->
-                viewModel.updateBundleMonitorNotify(
+                viewModel.updateBundleMonitor(
                     it.copy(activityIntentExtras = binding.activityIntentExtrasChip.isChecked)
                 )
             }
             binding.activitySavedStateChip.setOnCheckedChangeListener { _, _ ->
-                viewModel.updateBundleMonitorNotify(
+                viewModel.updateBundleMonitor(
                     it.copy(activitySavedState = binding.activitySavedStateChip.isChecked)
                 )
             }
             binding.fragmentArgumentsChip.setOnCheckedChangeListener { _, _ ->
-                viewModel.updateBundleMonitorNotify(
+                viewModel.updateBundleMonitor(
                     it.copy(fragmentArguments = binding.fragmentArgumentsChip.isChecked)
                 )
             }
             binding.fragmentSavedStateChip.setOnCheckedChangeListener { _, _ ->
-                viewModel.updateBundleMonitorNotify(
+                viewModel.updateBundleMonitor(
                     it.copy(fragmentSavedState = binding.fragmentSavedStateChip.isChecked)
                 )
             }
@@ -149,7 +149,7 @@ internal class SettingsFragment : BaseChildFragment(R.layout.sentinel_fragment_s
             binding.limitSlider.value = it.limit.toFloat()
             binding.limitSlider.addOnChangeListener { _, value, _ ->
                 binding.limitValueView.text = String.format(FORMAT_BUNDLE_SIZE, value.roundToInt())
-                viewModel.updateBundleMonitorNotify(it.copy(limit = value.roundToInt()))
+                viewModel.updateBundleMonitor(it.copy(limit = value.roundToInt()))
             }
             binding.limitValueView.text = String.format(FORMAT_BUNDLE_SIZE, it.limit)
         }

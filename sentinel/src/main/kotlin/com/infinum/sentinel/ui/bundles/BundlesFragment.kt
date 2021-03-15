@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentBundlesBinding
+import com.infinum.sentinel.extensions.searchView
+import com.infinum.sentinel.extensions.setup
 import com.infinum.sentinel.ui.Presentation
 import com.infinum.sentinel.ui.bundles.details.BundleDetailsActivity
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
@@ -61,6 +63,10 @@ internal class BundlesFragment : BaseChildFragment(R.layout.sentinel_fragment_bu
             toolbar.setNavigationOnClickListener { requireActivity().finish() }
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
+                    R.id.search -> {
+                        toolbar.menu.findItem(R.id.clear).isVisible = false
+                        true
+                    }
                     R.id.clear -> {
                         viewModel.clearBundles()
                         true
@@ -68,6 +74,20 @@ internal class BundlesFragment : BaseChildFragment(R.layout.sentinel_fragment_bu
                     else -> false
                 }
             }
+            toolbar.menu.searchView?.setup(
+                hint = getString(R.string.sentinel_search),
+                onSearchClosed = {
+                    toolbar.menu.findItem(R.id.clear).isVisible = true
+                    viewModel.data {
+                        adapter.submitList(it)
+                    }
+                },
+                onQueryTextChanged = { query ->
+                    viewModel.setSearchQuery(query) {
+                        adapter.submitList(it)
+                    }
+                }
+            )
         }
     }
 
