@@ -22,7 +22,7 @@ internal class BundleDetailsViewModel(
                 .flowOn(dispatchersIo)
                 .map { it.single { descriptor -> descriptor.bundleTree.id == parameters?.bundleId } }
                 .onEach { action(it) }
-                .launchIn(viewModelScope)
+                .launchIn(this)
         }
 
     fun setBundleId(value: String?) {

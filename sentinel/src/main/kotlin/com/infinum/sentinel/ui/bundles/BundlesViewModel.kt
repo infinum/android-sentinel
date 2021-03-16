@@ -29,14 +29,15 @@ internal class BundlesViewModel(
                 .combine(
                     bundles.load(parameters?.details ?: throw NullPointerException())
                 ) { monitor, descriptors ->
-                    descriptors.map { it.copy(limit = monitor.limit) }.filter {
-                        when (it.callSite) {
-                            BundleCallSite.ACTIVITY_INTENT_EXTRAS -> monitor.activityIntentExtras
-                            BundleCallSite.ACTIVITY_SAVED_STATE -> monitor.activitySavedState
-                            BundleCallSite.FRAGMENT_ARGUMENTS -> monitor.fragmentArguments
-                            BundleCallSite.FRAGMENT_SAVED_STATE -> monitor.fragmentSavedState
+                    descriptors.map { it.copy(limit = monitor.limit) }
+                        .filter {
+                            when (it.callSite) {
+                                BundleCallSite.ACTIVITY_INTENT_EXTRAS -> monitor.activityIntentExtras
+                                BundleCallSite.ACTIVITY_SAVED_STATE -> monitor.activitySavedState
+                                BundleCallSite.FRAGMENT_ARGUMENTS -> monitor.fragmentArguments
+                                BundleCallSite.FRAGMENT_SAVED_STATE -> monitor.fragmentSavedState
+                            }
                         }
-                    }
                         .filter {
                             it.className?.lowercase()?.contains(
                                 parameters?.monitor?.query?.lowercase().orEmpty()
@@ -45,7 +46,7 @@ internal class BundlesViewModel(
                 }
                 .flowOn(dispatchersIo)
                 .onEach { action(it) }
-                .launchIn(viewModelScope)
+                .launchIn(this)
         }
 
     fun clearBundles() =
