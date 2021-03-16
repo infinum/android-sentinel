@@ -1,5 +1,6 @@
 package com.infinum.sentinel.ui.bundles.details
 
+import androidx.lifecycle.viewModelScope
 import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleDescriptor
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleParameters
@@ -21,7 +22,7 @@ internal class BundleDetailsViewModel(
                 .flowOn(dispatchersIo)
                 .map { it.single { descriptor -> descriptor.bundleTree.id == parameters?.bundleId } }
                 .onEach { action(it) }
-                .launchIn(this)
+                .launchIn(viewModelScope)
         }
 
     fun setBundleId(value: String?) {

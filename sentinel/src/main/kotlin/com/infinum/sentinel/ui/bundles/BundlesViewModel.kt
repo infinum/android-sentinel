@@ -1,5 +1,6 @@
 package com.infinum.sentinel.ui.bundles
 
+import androidx.lifecycle.viewModelScope
 import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleDescriptor
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleParameters
@@ -45,7 +46,7 @@ internal class BundlesViewModel(
                 }
                 .flowOn(dispatchersIo)
                 .onEach { action(it) }
-                .launchIn(this)
+                .launchIn(viewModelScope)
         }
 
     fun clearBundles() =
