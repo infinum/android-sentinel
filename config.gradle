@@ -7,7 +7,7 @@ ext {
     ]
     releaseConfig = [
             "group"      : "com.infinum.sentinel",
-            "version"    : "1.0.8",
-            "versionCode": 1 * 100 * 100 + 0 * 100 + 8
+            "version"    : "1.0.9",
+            "versionCode": 1 * 100 * 100 + 0 * 100 + 9
     ]
 }
