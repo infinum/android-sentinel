@@ -1,5 +1,5 @@
 ext.versions = [
-        "sentinel"   : "1.1.0",
+        "sentinel"   : "1.1.1",
         "gradle"     : '4.1.2',
         "kotlin"     : "1.4.31",
         "coroutines" : "1.4.2",
