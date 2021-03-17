@@ -94,14 +94,15 @@ internal object Presentation {
                             notificationCallbacks.currentActivity?.let {
                                 Snackbar.make(
                                     it.window.decorView,
-                                    "$className ~ ${Formatter.formatFileSize(activity, sizeTree.size.toLong())}",
+                                    "$className${System.lineSeparator()}" +
+                                        Formatter.formatFileSize(activity, sizeTree.size.toLong()),
                                     Snackbar.LENGTH_LONG
                                 )
                                     .setAction(R.string.sentinel_show) { view ->
                                         view.context.startActivity(
                                             Intent(activity, BundleDetailsActivity::class.java)
                                                 .apply {
-                                                    putExtra(Presentation.Constants.KEY_BUNDLE_ID, sizeTree.id)
+                                                    putExtra(Constants.KEY_BUNDLE_ID, sizeTree.id)
                                                 }
                                         )
                                     }
