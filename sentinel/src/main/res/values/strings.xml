@@ -14,6 +14,7 @@
     <string name="sentinel_limit">Limit</string>
     <string name="sentinel_clear">Clear</string>
     <string name="sentinel_search">Search</string>
+    <string name="sentinel_show">Show</string>
 
     <string name="sentinel_network">Network</string>
     <string name="sentinel_memory">Memory</string>
