@@ -4,10 +4,11 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
+import com.infinum.sentinel.extensions.isNotInternalScreen
 
 internal class BundleMonitorActivityCallbacks(
     private val onBundleLogged: (Long, String?, BundleCallSite, Bundle) -> Unit
-) : Application.ActivityLifecycleCallbacks, BundleMonitorValidator {
+) : Application.ActivityLifecycleCallbacks {
 
     private val fragmentCallbacks = BundleMonitorFragmentCallbacks(onBundleLogged)
 
@@ -15,7 +16,7 @@ internal class BundleMonitorActivityCallbacks(
         if (activity is FragmentActivity) {
             activity.supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentCallbacks, true)
         }
-        if (includeInternal(activity)) {
+        if (activity.isNotInternalScreen) {
             activity.intent.extras?.let {
                 onBundleLogged(
                     System.currentTimeMillis(),
@@ -28,7 +29,7 @@ internal class BundleMonitorActivityCallbacks(
     }
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) =
-        if (includeInternal(activity)) {
+        if (activity.isNotInternalScreen) {
             onBundleLogged(
                 System.currentTimeMillis(),
                 activity::class.simpleName,
