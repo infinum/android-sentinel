@@ -11,6 +11,7 @@ import androidx.security.crypto.MasterKey
 import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.sample.databinding.ActivityMainBinding
 import java.util.Locale
+import kotlin.math.roundToInt
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
@@ -59,12 +60,10 @@ class MainActivity : AppCompatActivity() {
                         .apply {
                             // 12000 breaks 500 kB limit
                             // 3000 strings in bundle takes 25s to measure
-                            (1..300).map { Random.nextLong() }
+                            (1..bundleItemSlider.value.roundToInt()).map { Random.nextLong() }
                                 .forEachIndexed { index, value ->
                                     putExtra("random_$index", "$value")
                                 }
-                            putExtra("my_bundle", Bundle().apply { putBundle("my_bundle_1",
-                            Bundle().apply { putInt("my_int", 1) }) })
                         }
                 )
             }
