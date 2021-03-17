@@ -33,7 +33,6 @@ import com.infinum.sentinel.ui.main.tools.ToolsViewModel
 import com.infinum.sentinel.ui.settings.SettingsViewModel
 import com.infinum.sentinel.ui.tools.AppInfoTool
 import com.infinum.sentinel.ui.tools.BundleMonitorTool
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -75,8 +74,8 @@ internal object Presentation {
         (this.context.applicationContext as? Application)
             ?.registerActivityLifecycleCallbacks(
                 BundleMonitorActivityCallbacks { activity, timestamp, className, callSite, bundle ->
-                    val sizeTree = bundle.sizeTree()
-                    GlobalScope.launch(Dispatchers.IO) {
+                    GlobalScope.launch {
+                        val sizeTree = bundle.sizeTree()
                         bundles.save(
                             BundleParameters(
                                 descriptor = BundleDescriptor(
@@ -87,8 +86,7 @@ internal object Presentation {
                                 )
                             )
                         )
-                    }
-                    GlobalScope.launch(Dispatchers.Main) {
+
                         val currentMonitor = bundleMonitor.load(BundleMonitorParameters()).first()
                         if (currentMonitor.notify && sizeTree.size > currentMonitor.limit * BYTE_MULTIPLIER) {
                             notificationCallbacks.currentActivity?.let {
