@@ -43,7 +43,7 @@ android {
     resourcePrefix 'sentinel_'
 
     lintOptions {
-        disable 'InvalidFragmentVersionForActivityResult', 'VectorPath'
+        disable 'RtlEnabled', 'VectorPath'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -101,8 +101,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.3.0'
     androidTestImplementation "androidx.room:room-testing:2.2.6"
-    androidTestImplementation 'androidx.fragment:fragment-ktx:1.3.1'
-    androidTestImplementation 'androidx.fragment:fragment-testing:1.3.1'
+    androidTestImplementation 'androidx.fragment:fragment-ktx:1.3.2'
+    androidTestImplementation 'androidx.fragment:fragment-testing:1.3.2'
 
     testImplementation "junit:junit:4.13.2"
     testImplementation 'androidx.test.ext:junit:1.1.2'
