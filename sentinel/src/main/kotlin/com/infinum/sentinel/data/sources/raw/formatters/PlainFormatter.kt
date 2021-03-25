@@ -75,7 +75,7 @@ internal class PlainFormatter(
     @Suppress("NestedBlockDepth")
     override fun preferences(): String =
         StringBuilder()
-            .appendLine(PREFERENCES.toUpperCase())
+            .appendLine(PREFERENCES.toUpperCase(Locale.getDefault()))
             .appendLine(SEPARATOR.repeat(PREFERENCES.length))
             .apply {
                 preferencesCollector().let {

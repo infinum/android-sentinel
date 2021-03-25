@@ -16,7 +16,8 @@ internal abstract class BaseViewModel : ViewModel(), LibraryKoinComponent {
 
     private val supervisorJob = SupervisorJob()
 
-    private val dispatchersIo = Dispatchers.IO
+    protected val dispatchersIo = Dispatchers.IO
+    protected val dispatchersMain = Dispatchers.Main
 
     protected open val errorHandler = CoroutineExceptionHandler { _, throwable ->
         Timber.e(throwable)
@@ -32,7 +33,7 @@ internal abstract class BaseViewModel : ViewModel(), LibraryKoinComponent {
         scope: CoroutineScope = viewModelScope,
         block: suspend CoroutineScope.() -> Unit
     ) {
-        scope.launch(errorHandler + Dispatchers.Main + supervisorJob) { block.invoke(this) }
+        scope.launch(errorHandler + dispatchersMain + supervisorJob) { block.invoke(this) }
     }
 
     protected suspend fun <T> io(block: suspend CoroutineScope.() -> T) =

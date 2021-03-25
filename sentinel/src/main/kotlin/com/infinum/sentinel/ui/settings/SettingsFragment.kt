@@ -12,6 +12,7 @@ import com.infinum.sentinel.data.models.memory.triggers.TriggerType
 import com.infinum.sentinel.databinding.SentinelFragmentSettingsBinding
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
+import kotlin.math.roundToInt
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
@@ -20,6 +21,8 @@ internal class SettingsFragment : BaseChildFragment(R.layout.sentinel_fragment_s
     companion object {
         fun newInstance() = SettingsFragment()
         val TAG: String = SettingsFragment::class.java.simpleName
+
+        private const val FORMAT_BUNDLE_SIZE = "%s kB"
     }
 
     override val binding: SentinelFragmentSettingsBinding by viewBinding(
@@ -34,6 +37,7 @@ internal class SettingsFragment : BaseChildFragment(R.layout.sentinel_fragment_s
         setupToolbar()
         setupTriggers()
         setupFormats()
+        setupBundleMonitor()
     }
 
     private fun setupToolbar() {
@@ -101,6 +105,62 @@ internal class SettingsFragment : BaseChildFragment(R.layout.sentinel_fragment_s
                     )
                 )
             )
+        }
+    }
+
+    private fun setupBundleMonitor() {
+        viewModel.bundleMonitor {
+            binding.bundleMonitorSwitch.setOnCheckedChangeListener(null)
+            binding.bundleMonitorSwitch.isChecked = it.notify
+            binding.bundleMonitorSwitch.setOnCheckedChangeListener { _, isChecked ->
+                viewModel.updateBundleMonitor(it.copy(notify = isChecked))
+            }
+
+            binding.activityIntentExtrasChip.setOnCheckedChangeListener(null)
+            binding.activitySavedStateChip.setOnCheckedChangeListener(null)
+            binding.fragmentArgumentsChip.setOnCheckedChangeListener(null)
+            binding.fragmentSavedStateChip.setOnCheckedChangeListener(null)
+            binding.activityIntentExtrasChip.isChecked = it.activityIntentExtras
+            binding.activitySavedStateChip.isChecked = it.activitySavedState
+            binding.fragmentArgumentsChip.isChecked = it.fragmentArguments
+            binding.fragmentSavedStateChip.isChecked = it.fragmentSavedState
+            binding.activityIntentExtrasChip.setOnCheckedChangeListener { _, _ ->
+                viewModel.updateBundleMonitor(
+                    it.copy(activityIntentExtras = binding.activityIntentExtrasChip.isChecked)
+                )
+            }
+            binding.activitySavedStateChip.setOnCheckedChangeListener { _, _ ->
+                viewModel.updateBundleMonitor(
+                    it.copy(activitySavedState = binding.activitySavedStateChip.isChecked)
+                )
+            }
+            binding.fragmentArgumentsChip.setOnCheckedChangeListener { _, _ ->
+                viewModel.updateBundleMonitor(
+                    it.copy(fragmentArguments = binding.fragmentArgumentsChip.isChecked)
+                )
+            }
+            binding.fragmentSavedStateChip.setOnCheckedChangeListener { _, _ ->
+                viewModel.updateBundleMonitor(
+                    it.copy(fragmentSavedState = binding.fragmentSavedStateChip.isChecked)
+                )
+            }
+
+            binding.limitSlider.clearOnChangeListeners()
+            binding.limitSlider.value = it.limit.toFloat()
+            binding.limitSlider.addOnChangeListener { _, value, _ ->
+                binding.limitValueView.text = String.format(FORMAT_BUNDLE_SIZE, value.roundToInt())
+                viewModel.updateBundleMonitor(it.copy(limit = value.roundToInt()))
+            }
+            binding.limitValueView.text = String.format(FORMAT_BUNDLE_SIZE, it.limit)
+        }
+
+        with(binding) {
+            decreaseLimitButton.setOnClickListener {
+                limitSlider.value = (limitSlider.value - limitSlider.stepSize).coerceAtLeast(limitSlider.valueFrom)
+            }
+            increaseLimitButton.setOnClickListener {
+                limitSlider.value = (limitSlider.value + limitSlider.stepSize).coerceAtMost(limitSlider.valueTo)
+            }
         }
     }
 

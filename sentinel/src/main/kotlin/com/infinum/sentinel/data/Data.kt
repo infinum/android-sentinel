@@ -10,6 +10,9 @@ import com.infinum.sentinel.data.models.memory.triggers.manual.ManualTrigger
 import com.infinum.sentinel.data.models.memory.triggers.shake.ShakeTrigger
 import com.infinum.sentinel.data.models.memory.triggers.usb.UsbConnectedTrigger
 import com.infinum.sentinel.data.sources.local.room.SentinelDatabase
+import com.infinum.sentinel.data.sources.local.room.callbacks.SentinelDefaultValuesCallback
+import com.infinum.sentinel.data.sources.memory.bundles.BundlesCache
+import com.infinum.sentinel.data.sources.memory.bundles.InMemoryBundlesCache
 import com.infinum.sentinel.data.sources.memory.triggers.TriggersCache
 import com.infinum.sentinel.data.sources.memory.triggers.TriggersCacheFactory
 import com.infinum.sentinel.data.sources.raw.collectors.ApplicationCollector
@@ -31,15 +34,13 @@ import org.koin.dsl.module
 
 internal object Data {
 
+    const val DATABASE_VERSION = 2
+
     object Qualifiers {
 
         object Name {
             val LAMBDA_TRIGGER = StringQualifier("data.qualifiers.name.lambda.trigger")
             val DATABASE = StringQualifier("data.qualifiers.name.database")
-        }
-
-        object Path {
-            val DATABASE_DEFAULT = StringQualifier("data.qualifiers.path.database.default")
         }
     }
 
@@ -57,17 +58,16 @@ internal object Data {
         )
 
     private fun local() = module {
-        single(qualifier = Qualifiers.Path.DATABASE_DEFAULT) {
-            "databases/sentinel_default.db"
-        }
         single(qualifier = Qualifiers.Name.DATABASE) {
             val context: Context = get()
             String.format(
-                "sentinel_%s.db",
+                Locale.getDefault(),
+                "sentinel_%s_v%s.db",
                 context.applicationContext
                     .packageName
                     .replace(".", "_")
-                    .toLowerCase(Locale.getDefault())
+                    .toLowerCase(Locale.getDefault()),
+                DATABASE_VERSION
             )
         }
         single {
@@ -77,13 +77,14 @@ internal object Data {
                 get(Qualifiers.Name.DATABASE)
             )
                 .allowMainThreadQueries()
-                .createFromAsset(get(Qualifiers.Path.DATABASE_DEFAULT))
                 .setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
                 .fallbackToDestructiveMigration()
+                .addCallback(SentinelDefaultValuesCallback())
                 .build()
         }
-        single { get<SentinelDatabase>().formats() }
         single { get<SentinelDatabase>().triggers() }
+        single { get<SentinelDatabase>().formats() }
+        single { get<SentinelDatabase>().bundleMonitor() }
     }
 
     private fun raw() = module {
@@ -118,5 +119,7 @@ internal object Data {
                 get()
             )
         }
+
+        single<BundlesCache> { InMemoryBundlesCache() }
     }
 }

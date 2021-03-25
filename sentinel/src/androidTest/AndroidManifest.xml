@@ -10,7 +10,7 @@
         android:name=".ui.SentinelTestApplication"
         android:label="@string/sentinel_name">
         <activity
-            android:name=".ui.SentinelActivity"
+            android:name=".ui.main.SentinelActivity"
             android:label="@string/sentinel_name"
             android:theme="@style/Sentinel.Theme" />
     </application>

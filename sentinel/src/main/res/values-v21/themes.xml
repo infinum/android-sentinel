@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <style name="Sentinel.Theme.Settings" parent="Sentinel.BaseTheme">
-        <item name="android:statusBarColor">@color/sentinel_color_primary</item>
-        <item name="android:windowAnimationStyle">@android:style/Animation.Activity</item>
-    </style>
-</resources>

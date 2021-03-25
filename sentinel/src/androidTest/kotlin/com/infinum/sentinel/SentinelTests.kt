@@ -10,8 +10,8 @@ import androidx.test.espresso.intent.Intents.times
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
-import com.infinum.sentinel.ui.SentinelActivity
 import com.infinum.sentinel.ui.SentinelTestApplication
+import com.infinum.sentinel.ui.main.SentinelActivity
 import com.infinum.sentinel.ui.tools.DummyTool
 import org.junit.After
 import org.junit.Assert.assertEquals

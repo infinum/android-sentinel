@@ -13,5 +13,5 @@ internal abstract class BaseChildFragment(
 
     abstract val binding: ViewBinding
 
-    abstract val viewModel: BaseChildViewModel<*>
+    abstract val viewModel: BaseChildViewModel<*, *>
 }

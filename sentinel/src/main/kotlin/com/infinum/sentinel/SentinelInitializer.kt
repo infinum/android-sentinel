@@ -9,9 +9,9 @@ internal class SentinelInitializer : Initializer<Class<SentinelInitializer>> {
 
     override fun create(context: Context): Class<SentinelInitializer> {
 
-        LibraryKoin.init(context)
+        LibraryKoin.initialize(context)
 
-        Presentation.init(context)
+        Presentation.initialize(context)
 
         return SentinelInitializer::class.java
     }

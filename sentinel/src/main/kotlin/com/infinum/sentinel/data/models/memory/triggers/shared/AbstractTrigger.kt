@@ -19,9 +19,11 @@ internal abstract class AbstractTrigger : LifecycleObserver, Trigger {
         }
     }
 
+    @Suppress("UnusedPrivateMember")
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     private fun onForeground() = start()
 
+    @Suppress("UnusedPrivateMember")
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     private fun onBackground() = stop()
 }
