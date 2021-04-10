@@ -32,6 +32,10 @@ tasks.named("dokkaJavadoc") {
                 prefix = "com.infinum.sentinel.ui.shared"
                 suppress = true
             }
+            perPackageOption {
+                prefix = "com.infinum.sentinel.sample"
+                suppress = true
+            }
         }
     }
 }

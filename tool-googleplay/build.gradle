@@ -42,14 +42,14 @@ android {
         useIR = true
     }
 
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
+    sourceSets.each {
+        it.java.srcDirs += "src/$it.name/kotlin"
     }
 }
 
 dependencies {
-    implementation packages.kotlin.core
-    api packages.sentinel.sentinel
+    implementation libs.kotlin.core
+    api libs.library
 }
 
 apply from: "publish.gradle"

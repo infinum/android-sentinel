@@ -2,26 +2,19 @@ buildscript {
 
     apply from: "config.gradle"
     apply from: "maven.gradle"
-    apply from: "dependencies.gradle"
 
     repositories {
         google()
         mavenCentral()
-        maven {
-            url "https://dl.bintray.com/infinum/android"
-            content {
-                includeGroup("com.infinum.thimble")
-            }
-        }
         gradlePluginPortal()
     }
     dependencies {
-        classpath packages.gradle
-        classpath packages.kotlin.plugin
-        classpath packages.cpd.plugin
-        classpath packages.detekt.plugin
-        classpath packages.ktlint.plugin
-        classpath packages.dokka.plugin
+        classpath libs.gradle
+        classpath libs.kotlin.plugin
+        classpath libs.cpd
+        classpath libs.detekt.plugin
+        classpath libs.ktlint
+        classpath libs.dokka
     }
 }
 
@@ -30,21 +23,9 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven {
-            url "https://dl.bintray.com/infinum/android"
-            content {
-                includeGroup("com.infinum.thimble")
-            }
-        }
         jcenter() {
             content {
-                includeGroup("com.github.skydoves")
-                includeModule("com.soywiz.korlibs.korte", "korte-jvm")
-                includeModule("org.jetbrains.trove4j", "trove4j")
                 includeModule("org.jetbrains.kotlinx", "kotlinx-html-jvm")
-                includeGroup("org.jetbrains.dokka")
-                includeGroup("org.jetbrains")
-                includeGroup("org.koin")
             }
         }
     }
@@ -55,13 +36,21 @@ allprojects {
         configurations.all {
             resolutionStrategy {
                 dependencySubstitution {
-                    substitute module(packages.sentinel.sentinel) with project(':sentinel')
-                    substitute module(packages.sentinel.sentinel_no_op) with project(':sentinel-no-op')
-                    substitute module(packages.sentinel.tool_chucker) with project(':tool-chucker')
-                    substitute module(packages.sentinel.tool_collar) with project(':tool-collar')
-                    substitute module(packages.sentinel.tool_dbinspector) with project(':tool-dbinspector')
-                    substitute module(packages.sentinel.tool_googleplay) with project(':tool-googleplay')
-                    substitute module(packages.sentinel.tool_thimble) with project(':tool-thimble')
+                    def library = libs.library.get()
+                    def librarynoop = libs.librarynoop.get()
+                    def chucker = libs.toolchucker.get()
+                    def collar = libs.toolcollar.get()
+                    def dbinspector = libs.tooldbinspector.get()
+                    def googleplay = libs.toolgoogleplay.get()
+                    def thimble = libs.toolthimble.get()
+
+                    substitute module(library.getModule().toString() + ":" + library.getVersionConstraint().toString()) with project(':sentinel')
+                    substitute module(librarynoop.getModule().toString() + ":" + librarynoop.getVersionConstraint().toString()) with project(':sentinel-no-op')
+                    substitute module(chucker.getModule().toString() + ":" + chucker.getVersionConstraint().toString()) with project(':tool-chucker')
+                    substitute module(collar.getModule().toString() + ":" + collar.getVersionConstraint().toString()) with project(':tool-collar')
+                    substitute module(dbinspector.getModule().toString() + ":" + dbinspector.getVersionConstraint().toString()) with project(':tool-dbinspector')
+                    substitute module(googleplay.getModule().toString() + ":" + googleplay.getVersionConstraint().toString()) with project(':tool-googleplay')
+                    substitute module(thimble.getModule().toString() + ":" + thimble.getVersionConstraint().toString()) with project(':tool-thimble')
                 }
             }
         }

@@ -53,7 +53,6 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs += [
                 '-Xopt-in=kotlin.ExperimentalStdlibApi',
-                '-Xopt-in=org.koin.core.component.KoinApiExtension',
                 '-Xexplicit-api=strict'
         ]
         useIR = true
@@ -72,23 +71,13 @@ android {
 }
 
 dependencies {
-    implementation packages.kotlin.core
-    implementation packages.kotlinx.coroutines
-    implementation packages.androidx.core
-    implementation packages.androidx.activity
-    implementation packages.androidx.fragment
-    implementation packages.androidx.lifecycle.livedata
-    implementation packages.androidx.lifecycle.process
-    implementation packages.androidx.preference
-    implementation packages.androidx.startup
-    implementation packages.androidx.room.runtime
-    implementation packages.androidx.room.ktx
-    kapt packages.androidx.room.compiler
-    implementation packages.google.design
-    implementation packages.koin.android
-    implementation packages.koin.scope
-    implementation packages.koin.viewmodel
-    implementation packages.timber.core
+    implementation libs.kotlin.core
+    implementation libs.coroutines
+    implementation libs.bundles.androidx
+    kapt libs.androidx.room.compiler
+    implementation libs.material
+    implementation libs.koin
+    implementation libs.timber
 
     androidTestImplementation "junit:junit:4.13.2"
     androidTestImplementation 'androidx.arch.core:core-testing:2.1.0'

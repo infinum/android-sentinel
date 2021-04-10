@@ -1,6 +1,5 @@
 task deploySentinel(dependsOn: [
         ':sentinel:clean',
-        ':sentinel:publishReleasePublicationToBintrayRepository',
         ':sentinel:publishReleasePublicationToGithubRepository',
         ':sentinel:publishReleasePublicationToSonatypeRepository'
 ]) {
@@ -10,7 +9,6 @@ task deploySentinel(dependsOn: [
 
 task deploySentinelNoOp(dependsOn: [
         ':sentinel-no-op:clean',
-        ':sentinel-no-op:publishReleasePublicationToBintrayRepository',
         ':sentinel-no-op:publishReleasePublicationToGithubRepository',
         ':sentinel-no-op:publishReleasePublicationToSonatypeRepository'
 ]) {
@@ -20,7 +18,6 @@ task deploySentinelNoOp(dependsOn: [
 
 task deployToolChucker(dependsOn: [
         ':tool-chucker:clean',
-        ':tool-chucker:publishReleasePublicationToBintrayRepository',
         ':tool-chucker:publishReleasePublicationToGithubRepository',
         ':tool-chucker:publishReleasePublicationToSonatypeRepository'
 ]) {
@@ -30,7 +27,6 @@ task deployToolChucker(dependsOn: [
 
 task deployToolCollar(dependsOn: [
         ':tool-collar:clean',
-        ':tool-collar:publishReleasePublicationToBintrayRepository',
         ':tool-collar:publishReleasePublicationToGithubRepository',
         ':tool-collar:publishReleasePublicationToSonatypeRepository'
 ]) {
@@ -40,7 +36,6 @@ task deployToolCollar(dependsOn: [
 
 task deployToolDbInspector(dependsOn: [
         ':tool-dbinspector:clean',
-        ':tool-dbinspector:publishReleasePublicationToBintrayRepository',
         ':tool-dbinspector:publishReleasePublicationToGithubRepository',
         ':tool-dbinspector:publishReleasePublicationToSonatypeRepository'
 ]) {
@@ -50,7 +45,6 @@ task deployToolDbInspector(dependsOn: [
 
 task deployToolGooglePlay(dependsOn: [
         ':tool-googleplay:clean',
-        ':tool-googleplay:publishReleasePublicationToBintrayRepository',
         ':tool-googleplay:publishReleasePublicationToGithubRepository',
         ':tool-googleplay:publishReleasePublicationToSonatypeRepository'
 ]) {
@@ -60,7 +54,6 @@ task deployToolGooglePlay(dependsOn: [
 
 task deployToolThimble(dependsOn: [
         ':tool-thimble:clean',
-        ':tool-thimble:publishReleasePublicationToBintrayRepository',
         ':tool-thimble:publishReleasePublicationToGithubRepository',
         ':tool-thimble:publishReleasePublicationToSonatypeRepository'
 ]) {
