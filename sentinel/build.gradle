@@ -53,6 +53,7 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs += [
                 '-Xopt-in=kotlin.ExperimentalStdlibApi',
+                '-Xopt-in=kotlinx.coroutines.DelicateCoroutinesApi',
                 '-Xexplicit-api=strict'
         ]
         useIR = true

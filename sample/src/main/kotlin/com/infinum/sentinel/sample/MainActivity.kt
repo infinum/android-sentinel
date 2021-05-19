@@ -94,5 +94,5 @@ class MainActivity : AppCompatActivity() {
 
     @Suppress("MagicNumber")
     private fun randomizeName(base: String?) =
-        "my_${base.orEmpty().toLowerCase(Locale.getDefault())}_${Random.nextInt(0, 10)}"
+        "my_${base.orEmpty().lowercase(Locale.getDefault())}_${Random.nextInt(0, 10)}"
 }

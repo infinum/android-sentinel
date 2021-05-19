@@ -66,7 +66,7 @@ internal object Data {
                 context.applicationContext
                     .packageName
                     .replace(".", "_")
-                    .toLowerCase(Locale.getDefault()),
+                    .lowercase(Locale.getDefault()),
                 DATABASE_VERSION
             )
         }

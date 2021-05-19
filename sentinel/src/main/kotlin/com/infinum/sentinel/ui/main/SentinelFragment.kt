@@ -65,7 +65,7 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment) {
                 when (menuItem.itemId) {
                     R.id.share -> {
                         viewModel.formatData {
-                            ShareCompat.IntentBuilder.from(requireActivity())
+                            ShareCompat.IntentBuilder(requireActivity())
                                 .setChooserTitle(R.string.sentinel_name)
                                 .setType(SHARE_MIME_TYPE)
                                 .setText(it)

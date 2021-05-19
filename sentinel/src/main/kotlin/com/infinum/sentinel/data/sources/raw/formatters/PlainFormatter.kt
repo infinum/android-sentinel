@@ -44,7 +44,7 @@ internal class PlainFormatter(
 
     override fun application(): String =
         StringBuilder()
-            .appendLine(APPLICATION.toUpperCase(Locale.getDefault()))
+            .appendLine(APPLICATION.uppercase(Locale.getDefault()))
             .appendLine(SEPARATOR.repeat(APPLICATION.length))
             .apply { addApplicationData(this, applicationCollector()) }
             .appendLine()
@@ -52,7 +52,7 @@ internal class PlainFormatter(
 
     override fun permissions(): String =
         StringBuilder()
-            .appendLine(PERMISSIONS.toUpperCase(Locale.getDefault()))
+            .appendLine(PERMISSIONS.uppercase(Locale.getDefault()))
             .appendLine(SEPARATOR.repeat(PERMISSIONS.length))
             .apply {
                 permissionsCollector().let {
@@ -66,7 +66,7 @@ internal class PlainFormatter(
 
     override fun device(): String =
         StringBuilder()
-            .appendLine(DEVICE.toUpperCase(Locale.getDefault()))
+            .appendLine(DEVICE.uppercase(Locale.getDefault()))
             .appendLine(SEPARATOR.repeat(DEVICE.length))
             .apply { addDeviceData(this, deviceCollector()) }
             .appendLine()
@@ -75,7 +75,7 @@ internal class PlainFormatter(
     @Suppress("NestedBlockDepth")
     override fun preferences(): String =
         StringBuilder()
-            .appendLine(PREFERENCES.toUpperCase(Locale.getDefault()))
+            .appendLine(PREFERENCES.uppercase(Locale.getDefault()))
             .appendLine(SEPARATOR.repeat(PREFERENCES.length))
             .apply {
                 preferencesCollector().let {

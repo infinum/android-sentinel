@@ -2,10 +2,13 @@ package com.infinum.sentinel.data.models.raw
 
 import android.annotation.SuppressLint
 import android.os.Build
+import java.util.Locale
 
 @SuppressLint("DefaultLocale")
 internal data class DeviceData(
-    val manufacturer: String = Build.MANUFACTURER.toLowerCase().capitalize(),
+    val manufacturer: String = Build.MANUFACTURER
+        .lowercase(Locale.getDefault())
+        .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() },
     val model: String = Build.MODEL,
     val id: String = Build.ID,
     val bootloader: String = Build.BOOTLOADER,
