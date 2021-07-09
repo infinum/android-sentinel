@@ -1,6 +1,19 @@
 Change Log
 ==========
 
+## Version 1.1.5
+
+_2021-07-09_
+
+* Update Kotlin to 1.5.20.
+
+## Version 1.1.4
+
+_2021-05-24_
+
+* Update Kotlin to 1.5.10.
+* Prepare for Android 12.
+
 ## Version 1.0.8
 
 _2021-02-12_

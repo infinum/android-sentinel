@@ -61,6 +61,25 @@ task deployToolThimble(dependsOn: [
     description = "Deploy module to repositories"
 }
 
+task deploySentinelAll(dependsOn: [
+        'deploySentinel',
+        'deploySentinelNoOp'
+]) {
+    group = "Deploy"
+    description = "Deploy all Sentinel modules to repositories"
+}
+
+task deployToolsAll(dependsOn: [
+        'deployToolChucker',
+        'deployToolCollar',
+        'deployToolDbInspector',
+        'deployToolGooglePlay',
+        'deployToolThimble'
+]) {
+    group = "Deploy"
+    description = "Deploy all tools modules to repositories"
+}
+
 task deployAll(dependsOn: [
         'deploySentinel',
         'deploySentinelNoOp',

@@ -6,6 +6,7 @@
 
         <activity
             android:name=".ui.main.SentinelActivity"
+            android:exported="true"
             android:label="@string/sentinel_name"
             android:taskAffinity="com.infinum.sentinel"
             android:theme="@style/Sentinel.Theme">
@@ -16,6 +17,7 @@
 
         <activity
             android:name=".ui.settings.SettingsActivity"
+            android:exported="false"
             android:label="@string/sentinel_name"
             android:taskAffinity="com.infinum.sentinel"
             android:theme="@style/Sentinel.Theme.Leaf">
@@ -26,6 +28,7 @@
 
         <activity
             android:name=".ui.bundles.BundlesActivity"
+            android:exported="false"
             android:label="@string/sentinel_bundle_monitor"
             android:taskAffinity="com.infinum.sentinel.bundles"
             android:theme="@style/Sentinel.Theme.Leaf">
@@ -36,6 +39,7 @@
 
         <activity
             android:name=".ui.bundles.details.BundleDetailsActivity"
+            android:exported="false"
             android:label="@string/sentinel_bundle_monitor"
             android:taskAffinity="com.infinum.sentinel.bundles"
             android:theme="@style/Sentinel.Theme.Leaf">

@@ -111,7 +111,7 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment) {
             )
             bottomNavigation.elevation =
                 resources.getDimensionPixelSize(R.dimen.sentinel_cradle_margin).toFloat() * 2
-            bottomNavigation.setOnNavigationItemSelectedListener { menuItem ->
+            bottomNavigation.setOnItemSelectedListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.device -> showFragment(DeviceFragment.TAG)
                     R.id.application -> showFragment(ApplicationFragment.TAG)

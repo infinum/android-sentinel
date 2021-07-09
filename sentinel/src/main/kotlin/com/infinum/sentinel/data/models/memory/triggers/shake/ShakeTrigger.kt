@@ -65,7 +65,7 @@ internal class ShakeTrigger(
 
     private fun registerSensor(sensorManager: SensorManager) {
         sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)?.let {
-            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_FASTEST)
+            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
             this.active = true
         } ?: run {
             this.active = false
