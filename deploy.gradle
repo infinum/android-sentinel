@@ -38,6 +38,14 @@ task deployToolDbInspector(dependsOn: [
     description = "Deploy module to repositories"
 }
 
+task deployToolLeakCanary(dependsOn: [
+        ':tool-leakcanary:clean',
+        ':tool-leakcanary:publishReleasePublicationToSonatypeRepository'
+]) {
+    group = "Deploy"
+    description = "Deploy module to repositories"
+}
+
 task deployToolAppGallery(dependsOn: [
         ':tool-appgallery:clean',
         ':tool-appgallery:publishReleasePublicationToSonatypeRepository'
@@ -102,6 +110,7 @@ task deployDebug(dependsOn: [
         ':tool-chucker:clean',
         ':tool-collar:clean',
         ':tool-dbinspector:clean',
+        ':tool-leakcanary:clean',
         ':tool-appgallery:clean',
         ':tool-googleplay:clean',
         ':tool-thimble:clean',
@@ -110,6 +119,7 @@ task deployDebug(dependsOn: [
         ':tool-chucker:publishReleasePublicationToMavenLocal',
         ':tool-collar:publishReleasePublicationToMavenLocal',
         ':tool-dbinspector:publishReleasePublicationToMavenLocal',
+        ':tool-leakcanary:publishReleasePublicationToMavenLocal',
         ':tool-appgallery:publishReleasePublicationToMavenLocal',
         ':tool-googleplay:publishReleasePublicationToMavenLocal',
         ':tool-thimble:publishReleasePublicationToMavenLocal'

@@ -14,6 +14,12 @@
 -keep public class com.infinum.sentinel.ui.tools.DbInspectorTool {
   public protected *;
 }
+-keep public class com.infinum.sentinel.ui.tools.LeakCanaryTool {
+  public protected *;
+}
+-keep public class com.infinum.sentinel.ui.tools.AppGalleryTool {
+  public protected *;
+}
 -keep public class com.infinum.sentinel.ui.tools.GooglePlayTool {
   public protected *;
 }

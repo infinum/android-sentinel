@@ -8,6 +8,7 @@ _2021-08-23_
 * Update Kotlin to 1.5.21.
 * Fix R8 collisions on obfuscated class names.
 * Add Huawei AppGallery tool.
+* Add LeakCanary tool.
 
 ## Version 1.1.5
 

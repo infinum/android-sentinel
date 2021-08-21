@@ -7,6 +7,7 @@ import com.infinum.sentinel.ui.tools.ChuckerTool
 import com.infinum.sentinel.ui.tools.CollarTool
 import com.infinum.sentinel.ui.tools.DbInspectorTool
 import com.infinum.sentinel.ui.tools.GooglePlayTool
+import com.infinum.sentinel.ui.tools.LeakCanaryTool
 import com.infinum.sentinel.ui.tools.ThimbleTool
 
 class SampleApplication : Application() {
@@ -19,9 +20,10 @@ class SampleApplication : Application() {
                 ChuckerTool(),
                 CollarTool(),
                 DbInspectorTool(),
+                LeakCanaryTool(),
                 AppGalleryTool(appId = "102016595"),
                 GooglePlayTool(),
-                ThimbleTool()
+                ThimbleTool(),
             )
         )
     }

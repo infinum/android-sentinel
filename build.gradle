@@ -50,6 +50,7 @@ task lintAll(dependsOn: [
         ':tool-chucker:lintRelease',
         ':tool-collar:lintRelease',
         ':tool-dbinspector:lintRelease',
+        ':tool-leakcanary:lintRelease',
         ':tool-appgallery:lintRelease',
         ':tool-googleplay:lintRelease',
         ':tool-thimble:lintRelease'
@@ -64,6 +65,7 @@ task detektAll(dependsOn: [
         ':tool-chucker:detekt',
         ':tool-collar:detekt',
         ':tool-dbinspector:detekt',
+        ':tool-leakcanary:detekt',
         ':tool-appgallery:detekt',
         ':tool-googleplay:detekt',
         ':tool-thimble:detekt'
@@ -78,6 +80,7 @@ task ktlintAll(dependsOn: [
         ':tool-chucker:ktlintCheck',
         ':tool-collar:ktlintCheck',
         ':tool-dbinspector:ktlintCheck',
+        ':tool-leakcanary:ktlintCheck',
         ':tool-appgallery:ktlintCheck',
         ':tool-googleplay:ktlintCheck',
         ':tool-thimble:ktlintCheck'
@@ -92,6 +95,7 @@ task cpdAll(dependsOn: [
         ':tool-chucker:cpdCheck',
         ':tool-collar:cpdCheck',
         ':tool-dbinspector:cpdCheck',
+        ':tool-leakcanary:cpdCheck',
         ':tool-appgallery:cpdCheck',
         ':tool-googleplay:cpdCheck',
         ':tool-thimble:cpdCheck'

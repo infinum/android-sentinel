@@ -56,7 +56,6 @@ android {
                 '-Xopt-in=kotlinx.coroutines.DelicateCoroutinesApi',
                 '-Xexplicit-api=strict'
         ]
-        useIR = true
     }
     testOptions {
         animationsDisabled = true
