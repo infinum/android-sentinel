@@ -15,6 +15,7 @@ The project is organized in the following modules:
 - `tool-chucker` - contains a class wrapper for Chucker
 - `tool-collar` - contains a class wrapper for Collar
 - `tool-dbinspector` - contains a class wrapper for DbInspector
+- `tool-appgallery` - contains a class wrapper for Huawei AppGallery  
 - `tool-googleplay` - contains a class wrapper for Google Play
 - `tool-thimble` - contains a class wrapper for Thimble
 - `sample` - a sample app for testing and developing
@@ -44,32 +45,34 @@ Then add the following dependencies in your app `build.gradle` or `build.gradle.
 
 **Groovy**
 ```groovy
-debugImplementation "com.infinum.sentinel:sentinel:1.1.5"
-releaseImplementation "com.infinum.sentinel:sentinel-no-op:1.1.5"
+debugImplementation "com.infinum.sentinel:sentinel:1.1.6"
+releaseImplementation "com.infinum.sentinel:sentinel-no-op:1.1.6"
 ```
 **KotlinDSL**
 ```kotlin
-debugImplementation("com.infinum.sentinel:sentinel:1.1.5")
-releaseImplementation("com.infinum.sentinel:sentinel-no-op:1.1.5")
+debugImplementation("com.infinum.sentinel:sentinel:1.1.6")
+releaseImplementation("com.infinum.sentinel:sentinel-no-op:1.1.6")
 ```
 
 Basic tools are provided inside the main package but depending on requirements you might want to add specific tools:
 
 **Groovy**
 ```groovy
-debugImplementation "com.infinum.sentinel:tool-chucker:1.1.5"
-debugImplementation "com.infinum.sentinel:tool-collar:1.1.5"
-debugImplementation "com.infinum.sentinel:tool-dbinspector:1.1.5"
-debugImplementation "com.infinum.sentinel:tool-googleplay:1.1.5"
-debugImplementation "com.infinum.sentinel:tool-thimble:1.1.5"
+debugImplementation "com.infinum.sentinel:tool-chucker:1.1.6"
+debugImplementation "com.infinum.sentinel:tool-collar:1.1.6"
+debugImplementation "com.infinum.sentinel:tool-dbinspector:1.1.6"
+debugImplementation "com.infinum.sentinel:tool-appgallery:1.1.6"
+debugImplementation "com.infinum.sentinel:tool-googleplay:1.1.6"
+debugImplementation "com.infinum.sentinel:tool-thimble:1.1.6"
 ```
 **KotlinDSL**
 ```kotlin
-debugImplementation("com.infinum.sentinel:tool-chucker:1.1.5")
-debugImplementation("com.infinum.sentinel:tool-collar:1.1.5")
-debugImplementation("com.infinum.sentinel:tool-dbinspector:1.1.5")
-debugImplementation("com.infinum.sentinel:tool-googleplay:1.1.5")
-debugImplementation("com.infinum.sentinel:tool-thimble:1.1.5")
+debugImplementation("com.infinum.sentinel:tool-chucker:1.1.6")
+debugImplementation("com.infinum.sentinel:tool-collar:1.1.6")
+debugImplementation("com.infinum.sentinel:tool-dbinspector:1.1.6")
+debugImplementation("com.infinum.sentinel:tool-appgallery:1.1.6")
+debugImplementation("com.infinum.sentinel:tool-googleplay:1.1.6")
+debugImplementation("com.infinum.sentinel:tool-thimble:1.1.6")
 ```
 
 Now you can sync your project.
@@ -84,6 +87,7 @@ Create or inject an instance of _Sentinel_ in your Application class and start w
             ChuckerTool(),
             CollarTool(),
             DbInspectorTool(),
+            AppGalleryTool(appId = "123456789"),
             GooglePlayTool(),
             ThimbleTool()
         )
@@ -107,7 +111,8 @@ Depending of what you include as module dependencies, very specific tools are pr
 - `CollarTool` - a wrapper class that opens [Collar](https://github.com/infinum/android-collar)
 - `DbInspectorTool` - a wrapper class that opens [DbInspector](https://github.com/infinum/android_dbinspector)
 - `ThimbleTool` - a wrapper class that opens [Thimble](https://github.com/infinum/android-thimble)
-- `GooglePlayTool` - a wrapper class that opens a Google Play if the application is published
+- `AppGalleryTool` - a wrapper class that opens Huawei AppGallery of a published application or a web page of the application if Huawei AppGallery is not found
+- `GooglePlayTool` - a wrapper class that opens Google Play of a published application or a web page of the application if Google Play is not found
 
 #### Source abstractions
 
@@ -172,7 +177,6 @@ _Sentinel_ is built with and for AndroidX projects.
 
 Feedback and code contributions are very much welcome. Just make a pull request with a short description of your changes. By making contributions to this project you give permission for your code to be used under the same [license](LICENSE).
 For easier developing a `sample` application with proper implementations is provided.
-It is also recommended to change `build.debug` property in `build.properties` to toggle dependency substitution in project level `build.gradle`.
 If you wish to add a new specific dependency wrapper tool, create a new module and set it up like the ones already provided.
 Then create a pull request.
 

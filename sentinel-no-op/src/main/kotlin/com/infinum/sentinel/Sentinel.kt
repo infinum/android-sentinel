@@ -30,6 +30,7 @@ public object Sentinel {
          *
          * @return a String resource that will be used to generate a name for a Button in Tools UI
          */
+        @StringRes
         override fun name(): Int = 0
     }
 
@@ -41,6 +42,7 @@ public object Sentinel {
          *
          * @return a String resource that will be used to generate a name for a Button in Tools UI
          */
+        @StringRes
         override fun name(): Int = 0
     }
 
@@ -52,6 +54,7 @@ public object Sentinel {
          *
          * @return a String resource that will be used to generate a name for a Button in Tools UI
          */
+        @StringRes
         override fun name(): Int = 0
     }
 
@@ -63,6 +66,7 @@ public object Sentinel {
          *
          * @return a String resource that will be used to generate a name for a Button in Tools UI
          */
+        @StringRes
         override fun name(): Int = 0
     }
 
@@ -74,6 +78,7 @@ public object Sentinel {
          *
          * @return a String resource that will be used to generate a name for a Button in Tools UI
          */
+        @StringRes
         override fun name(): Int = 0
     }
 
@@ -85,6 +90,7 @@ public object Sentinel {
          *
          * @return a String resource that will be used to generate a name for a Button in Tools UI
          */
+        @StringRes
         override fun name(): Int = 0
     }
 
@@ -96,6 +102,7 @@ public object Sentinel {
          *
          * @return a String resource that will be used to generate a name for a Button in Tools UI
          */
+        @StringRes
         override fun name(): Int = 0
     }
 
@@ -107,6 +114,7 @@ public object Sentinel {
          *
          * @return a String resource that will be used to generate a name for a Button in Tools UI
          */
+        @StringRes
         override fun name(): Int = 0
     }
 }

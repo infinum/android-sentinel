@@ -1,3 +1,4 @@
+-keeppackagenames
 -keep public class com.infinum.sentinel.ui.tools.GooglePlayTool {
   public protected *;
 }

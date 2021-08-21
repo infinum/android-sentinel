@@ -9,10 +9,10 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
-        classpath libs.gradle
-        classpath libs.kotlin.plugin
+        classpath libs.tools.gradle
+        classpath libs.kotlin.gradle
         classpath libs.cpd
-        classpath libs.detekt.plugin
+        classpath libs.detekt.gradle
         classpath libs.ktlint
         classpath libs.dokka
     }
@@ -22,33 +22,8 @@ allprojects {
 
     repositories {
         google()
+        mavenLocal()
         mavenCentral()
-    }
-
-    def buildProperties = new Properties()
-    file(rootDir.absolutePath + "/build.properties").withInputStream { buildProperties.load(it) }
-    if (buildProperties.getProperty("build.debug").toBoolean()) {
-        configurations.all {
-            resolutionStrategy {
-                dependencySubstitution {
-                    def library = libs.library.get()
-                    def librarynoop = libs.librarynoop.get()
-                    def chucker = libs.toolchucker.get()
-                    def collar = libs.toolcollar.get()
-                    def dbinspector = libs.tooldbinspector.get()
-                    def googleplay = libs.toolgoogleplay.get()
-                    def thimble = libs.toolthimble.get()
-
-                    substitute module(library.getModule().toString() + ":" + library.getVersionConstraint().toString()) with project(':sentinel')
-                    substitute module(librarynoop.getModule().toString() + ":" + librarynoop.getVersionConstraint().toString()) with project(':sentinel-no-op')
-                    substitute module(chucker.getModule().toString() + ":" + chucker.getVersionConstraint().toString()) with project(':tool-chucker')
-                    substitute module(collar.getModule().toString() + ":" + collar.getVersionConstraint().toString()) with project(':tool-collar')
-                    substitute module(dbinspector.getModule().toString() + ":" + dbinspector.getVersionConstraint().toString()) with project(':tool-dbinspector')
-                    substitute module(googleplay.getModule().toString() + ":" + googleplay.getVersionConstraint().toString()) with project(':tool-googleplay')
-                    substitute module(thimble.getModule().toString() + ":" + thimble.getVersionConstraint().toString()) with project(':tool-thimble')
-                }
-            }
-        }
     }
 }
 
@@ -75,6 +50,7 @@ task lintAll(dependsOn: [
         ':tool-chucker:lintRelease',
         ':tool-collar:lintRelease',
         ':tool-dbinspector:lintRelease',
+        ':tool-appgallery:lintRelease',
         ':tool-googleplay:lintRelease',
         ':tool-thimble:lintRelease'
 ]) {
@@ -88,6 +64,7 @@ task detektAll(dependsOn: [
         ':tool-chucker:detekt',
         ':tool-collar:detekt',
         ':tool-dbinspector:detekt',
+        ':tool-appgallery:detekt',
         ':tool-googleplay:detekt',
         ':tool-thimble:detekt'
 ]) {
@@ -101,6 +78,7 @@ task ktlintAll(dependsOn: [
         ':tool-chucker:ktlintCheck',
         ':tool-collar:ktlintCheck',
         ':tool-dbinspector:ktlintCheck',
+        ':tool-appgallery:ktlintCheck',
         ':tool-googleplay:ktlintCheck',
         ':tool-thimble:ktlintCheck'
 ]) {
@@ -114,6 +92,7 @@ task cpdAll(dependsOn: [
         ':tool-chucker:cpdCheck',
         ':tool-collar:cpdCheck',
         ':tool-dbinspector:cpdCheck',
+        ':tool-appgallery:cpdCheck',
         ':tool-googleplay:cpdCheck',
         ':tool-thimble:cpdCheck'
 ]) {

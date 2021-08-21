@@ -63,6 +63,7 @@ public object Sentinel {
          *
          * @return a String resource that will be used to generate a name for a Button in Tools UI
          */
+        @StringRes
         override fun name(): Int = R.string.sentinel_network
     }
 
@@ -74,6 +75,7 @@ public object Sentinel {
          *
          * @return a String resource that will be used to generate a name for a Button in Tools UI
          */
+        @StringRes
         override fun name(): Int = R.string.sentinel_memory
     }
 
@@ -85,6 +87,7 @@ public object Sentinel {
          *
          * @return a String resource that will be used to generate a name for a Button in Tools UI
          */
+        @StringRes
         override fun name(): Int = R.string.sentinel_analytics
     }
 
@@ -96,6 +99,7 @@ public object Sentinel {
          *
          * @return a String resource that will be used to generate a name for a Button in Tools UI
          */
+        @StringRes
         override fun name(): Int = R.string.sentinel_database
     }
 
@@ -107,6 +111,7 @@ public object Sentinel {
          *
          * @return a String resource that will be used to generate a name for a Button in Tools UI
          */
+        @StringRes
         override fun name(): Int = R.string.sentinel_report
     }
 
@@ -118,6 +123,7 @@ public object Sentinel {
          *
          * @return a String resource that will be used to generate a name for a Button in Tools UI
          */
+        @StringRes
         override fun name(): Int = R.string.sentinel_bluetooth
     }
 
@@ -129,7 +135,8 @@ public object Sentinel {
          *
          * @return a String resource that will be used to generate a name for a Button in Tools UI
          */
-        override fun name(): Int = R.string.sentinel_google_play
+        @StringRes
+        override fun name(): Int = R.string.sentinel_distribution
     }
 
     @Suppress("unused")
@@ -140,6 +147,7 @@ public object Sentinel {
          *
          * @return a String resource that will be used to generate a name for a Button in Tools UI
          */
+        @StringRes
         override fun name(): Int = R.string.sentinel_design
     }
 }

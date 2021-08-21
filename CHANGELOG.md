@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+## Version 1.1.6
+
+_2021-08-23_
+
+* Update Kotlin to 1.5.21.
+* Fix R8 collisions on obfuscated class names.
+* Add Huawei AppGallery tool.
+
 ## Version 1.1.5
 
 _2021-07-09_

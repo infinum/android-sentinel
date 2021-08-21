@@ -1,0 +1,4 @@
+-keeppackagenames
+-keep public class com.infinum.sentinel.ui.tools.AppGalleryTool {
+  public protected *;
+}

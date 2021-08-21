@@ -2,6 +2,7 @@ package com.infinum.sentinel.sample
 
 import android.app.Application
 import com.infinum.sentinel.Sentinel
+import com.infinum.sentinel.ui.tools.AppGalleryTool
 import com.infinum.sentinel.ui.tools.ChuckerTool
 import com.infinum.sentinel.ui.tools.CollarTool
 import com.infinum.sentinel.ui.tools.DbInspectorTool
@@ -18,6 +19,7 @@ class SampleApplication : Application() {
                 ChuckerTool(),
                 CollarTool(),
                 DbInspectorTool(),
+                AppGalleryTool(appId = "102016595"),
                 GooglePlayTool(),
                 ThimbleTool()
             )

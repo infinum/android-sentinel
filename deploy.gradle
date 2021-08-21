@@ -1,6 +1,5 @@
 task deploySentinel(dependsOn: [
         ':sentinel:clean',
-        ':sentinel:publishReleasePublicationToGithubRepository',
         ':sentinel:publishReleasePublicationToSonatypeRepository'
 ]) {
     group = "Deploy"
@@ -9,7 +8,6 @@ task deploySentinel(dependsOn: [
 
 task deploySentinelNoOp(dependsOn: [
         ':sentinel-no-op:clean',
-        ':sentinel-no-op:publishReleasePublicationToGithubRepository',
         ':sentinel-no-op:publishReleasePublicationToSonatypeRepository'
 ]) {
     group = "Deploy"
@@ -18,7 +16,6 @@ task deploySentinelNoOp(dependsOn: [
 
 task deployToolChucker(dependsOn: [
         ':tool-chucker:clean',
-        ':tool-chucker:publishReleasePublicationToGithubRepository',
         ':tool-chucker:publishReleasePublicationToSonatypeRepository'
 ]) {
     group = "Deploy"
@@ -27,7 +24,6 @@ task deployToolChucker(dependsOn: [
 
 task deployToolCollar(dependsOn: [
         ':tool-collar:clean',
-        ':tool-collar:publishReleasePublicationToGithubRepository',
         ':tool-collar:publishReleasePublicationToSonatypeRepository'
 ]) {
     group = "Deploy"
@@ -36,8 +32,15 @@ task deployToolCollar(dependsOn: [
 
 task deployToolDbInspector(dependsOn: [
         ':tool-dbinspector:clean',
-        ':tool-dbinspector:publishReleasePublicationToGithubRepository',
         ':tool-dbinspector:publishReleasePublicationToSonatypeRepository'
+]) {
+    group = "Deploy"
+    description = "Deploy module to repositories"
+}
+
+task deployToolAppGallery(dependsOn: [
+        ':tool-appgallery:clean',
+        ':tool-appgallery:publishReleasePublicationToSonatypeRepository'
 ]) {
     group = "Deploy"
     description = "Deploy module to repositories"
@@ -45,7 +48,6 @@ task deployToolDbInspector(dependsOn: [
 
 task deployToolGooglePlay(dependsOn: [
         ':tool-googleplay:clean',
-        ':tool-googleplay:publishReleasePublicationToGithubRepository',
         ':tool-googleplay:publishReleasePublicationToSonatypeRepository'
 ]) {
     group = "Deploy"
@@ -54,7 +56,6 @@ task deployToolGooglePlay(dependsOn: [
 
 task deployToolThimble(dependsOn: [
         ':tool-thimble:clean',
-        ':tool-thimble:publishReleasePublicationToGithubRepository',
         ':tool-thimble:publishReleasePublicationToSonatypeRepository'
 ]) {
     group = "Deploy"
@@ -73,6 +74,7 @@ task deployToolsAll(dependsOn: [
         'deployToolChucker',
         'deployToolCollar',
         'deployToolDbInspector',
+        'deployToolAppGallery',
         'deployToolGooglePlay',
         'deployToolThimble'
 ]) {
@@ -86,9 +88,32 @@ task deployAll(dependsOn: [
         'deployToolChucker',
         'deployToolCollar',
         'deployToolDbInspector',
+        'deployToolAppGallery',
         'deployToolGooglePlay',
         'deployToolThimble'
 ]) {
     group = "Deploy"
     description = "Deploy all modules to repositories"
+}
+
+task deployDebug(dependsOn: [
+        ':sentinel:clean',
+        ':sentinel-no-op:clean',
+        ':tool-chucker:clean',
+        ':tool-collar:clean',
+        ':tool-dbinspector:clean',
+        ':tool-appgallery:clean',
+        ':tool-googleplay:clean',
+        ':tool-thimble:clean',
+        ':sentinel:publishReleasePublicationToMavenLocal',
+        ':sentinel-no-op:publishReleasePublicationToMavenLocal',
+        ':tool-chucker:publishReleasePublicationToMavenLocal',
+        ':tool-collar:publishReleasePublicationToMavenLocal',
+        ':tool-dbinspector:publishReleasePublicationToMavenLocal',
+        ':tool-appgallery:publishReleasePublicationToMavenLocal',
+        ':tool-googleplay:publishReleasePublicationToMavenLocal',
+        ':tool-thimble:publishReleasePublicationToMavenLocal'
+]) {
+    group = "Deploy"
+    description = "Deploy all modules to Mavel Local repository"
 }

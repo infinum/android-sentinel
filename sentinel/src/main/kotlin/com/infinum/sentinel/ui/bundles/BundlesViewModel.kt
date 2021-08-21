@@ -25,9 +25,9 @@ internal class BundlesViewModel(
 
     override fun data(action: (List<BundleDescriptor>) -> Unit) =
         launch {
-            bundleMonitor.load(parameters?.monitor ?: throw NullPointerException())
+            bundleMonitor.load(parameters?.monitor ?: throw NullPointerException("Monitor cannot be null."))
                 .combine(
-                    bundles.load(parameters?.details ?: throw NullPointerException())
+                    bundles.load(parameters?.details ?: throw NullPointerException("Details cannot be null."))
                 ) { monitor, descriptors ->
                     descriptors.map { it.copy(limit = monitor.limit) }
                         .filter {
