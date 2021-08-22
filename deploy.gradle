@@ -81,6 +81,7 @@ task deploySentinelAll(dependsOn: [
 task deployToolsAll(dependsOn: [
         'deployToolChucker',
         'deployToolCollar',
+        'deployToolLeakCanary',
         'deployToolDbInspector',
         'deployToolAppGallery',
         'deployToolGooglePlay',
@@ -96,6 +97,7 @@ task deployAll(dependsOn: [
         'deployToolChucker',
         'deployToolCollar',
         'deployToolDbInspector',
+        'deployToolLeakCanary',
         'deployToolAppGallery',
         'deployToolGooglePlay',
         'deployToolThimble'

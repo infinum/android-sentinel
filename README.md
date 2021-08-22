@@ -15,6 +15,7 @@ The project is organized in the following modules:
 - `tool-chucker` - contains a class wrapper for Chucker
 - `tool-collar` - contains a class wrapper for Collar
 - `tool-dbinspector` - contains a class wrapper for DbInspector
+- `tool-leakcanary` - contains a class wrapper for LeakCanary
 - `tool-appgallery` - contains a class wrapper for Huawei AppGallery  
 - `tool-googleplay` - contains a class wrapper for Google Play
 - `tool-thimble` - contains a class wrapper for Thimble
@@ -61,6 +62,7 @@ Basic tools are provided inside the main package but depending on requirements y
 debugImplementation "com.infinum.sentinel:tool-chucker:1.1.6"
 debugImplementation "com.infinum.sentinel:tool-collar:1.1.6"
 debugImplementation "com.infinum.sentinel:tool-dbinspector:1.1.6"
+debugImplementation "com.infinum.sentinel:tool-leakcanary:1.1.6"
 debugImplementation "com.infinum.sentinel:tool-appgallery:1.1.6"
 debugImplementation "com.infinum.sentinel:tool-googleplay:1.1.6"
 debugImplementation "com.infinum.sentinel:tool-thimble:1.1.6"
@@ -70,6 +72,7 @@ debugImplementation "com.infinum.sentinel:tool-thimble:1.1.6"
 debugImplementation("com.infinum.sentinel:tool-chucker:1.1.6")
 debugImplementation("com.infinum.sentinel:tool-collar:1.1.6")
 debugImplementation("com.infinum.sentinel:tool-dbinspector:1.1.6")
+debugImplementation("com.infinum.sentinel:tool-leakcanary:1.1.6")
 debugImplementation("com.infinum.sentinel:tool-appgallery:1.1.6")
 debugImplementation("com.infinum.sentinel:tool-googleplay:1.1.6")
 debugImplementation("com.infinum.sentinel:tool-thimble:1.1.6")
@@ -87,6 +90,7 @@ Create or inject an instance of _Sentinel_ in your Application class and start w
             ChuckerTool(),
             CollarTool(),
             DbInspectorTool(),
+            LeakCanaryTool(),
             AppGalleryTool(appId = "123456789"),
             GooglePlayTool(),
             ThimbleTool()
@@ -110,6 +114,7 @@ Depending of what you include as module dependencies, very specific tools are pr
 - `ChuckerTool` - a wrapper class that opens [Chucker](https://github.com/ChuckerTeam/chucker)
 - `CollarTool` - a wrapper class that opens [Collar](https://github.com/infinum/android-collar)
 - `DbInspectorTool` - a wrapper class that opens [DbInspector](https://github.com/infinum/android_dbinspector)
+- `LeakCanaryTool` - a wrapper class that opens [LeakCanary](https://github.com/square/leakcanary)  
 - `ThimbleTool` - a wrapper class that opens [Thimble](https://github.com/infinum/android-thimble)
 - `AppGalleryTool` - a wrapper class that opens Huawei AppGallery of a published application or a web page of the application if Huawei AppGallery is not found
 - `GooglePlayTool` - a wrapper class that opens Google Play of a published application or a web page of the application if Google Play is not found
@@ -123,7 +128,7 @@ If you want to implement a different tool other than already packaged with a pre
 - `DatabaseTool` - a wrapper interface with a name *Database* for any database viewers
 - `ReportTool` - a wrapper interface with a name *Report* for any crash reporting tools
 - `BluetoothTool` - a wrapper interface with a name *Bluetooth* for any Bluetooth loggers
-- `DistributionTool` - a wrapper interface with a name *Google Play* for any logic opening Play
+- `DistributionTool` - a wrapper interface with a name *Distribution* for any release distribution channels
 - `DesignTool` - a wrapper interface with a name *Design* for any design utilities
 
 #### Independent implementations
