@@ -1,6 +1,6 @@
 package com.infinum.sentinel.data.models.memory.triggers.manual
 
-import com.infinum.sentinel.data.models.memory.triggers.AbstractTrigger
+import com.infinum.sentinel.data.models.memory.triggers.shared.AbstractTrigger
 
 internal class ManualTrigger : AbstractTrigger() {
 

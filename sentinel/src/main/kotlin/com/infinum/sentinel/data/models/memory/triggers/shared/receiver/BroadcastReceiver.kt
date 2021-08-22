@@ -1,9 +1,9 @@
 package com.infinum.sentinel.data.models.memory.triggers.shared.receiver
 
+import android.content.BroadcastReceiver as AndroidBroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.BroadcastReceiver as AndroidBroadcastReceiver
 
 internal class BroadcastReceiver(
     builder: Builder.() -> Unit

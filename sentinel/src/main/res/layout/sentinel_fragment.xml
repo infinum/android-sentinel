@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
-    tools:context=".ui.SentinelActivity">
+    tools:context=".ui.main.SentinelActivity">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/contentLayout"
@@ -17,14 +17,16 @@
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/sentinel_icon_half_size"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/sentinel_icon_half_size">
 
-            <LinearLayout
-                android:id="@+id/headerLayout"
+            <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:background="?android:colorBackground"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior"
+                app:liftOnScroll="true"
+                app:liftOnScrollTargetViewId="@id/nestedScrollView">
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
@@ -36,12 +38,13 @@
                     app:title="@string/sentinel_name"
                     tools:ignore="RtlSymmetry" />
 
-                <androidx.fragment.app.FragmentContainerView
-                    android:id="@+id/fragmentContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="332dp" />
+            </com.google.android.material.appbar.AppBarLayout>
 
-            </LinearLayout>
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainer"
+                android:layout_width="match_parent"
+                android:layout_height="432dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottomNavigation"
@@ -57,6 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom"
                 android:layout_marginBottom="28dp"
+                android:importantForAccessibility="no"
                 android:src="@drawable/sentinel_ic_tools"
                 app:backgroundTint="@color/sentinel_color_primary"
                 app:elevation="9dp"
@@ -71,11 +75,11 @@
         android:layout_width="@dimen/sentinel_icon_size"
         android:layout_height="@dimen/sentinel_icon_size"
         android:layout_gravity="center_horizontal|top"
-        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:elevation="8dp"
-        tools:src="@tools:sample/avatars"
         android:focusable="true"
-        tools:ignore="UnusedAttribute" />
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        tools:ignore="ContentDescription,UnusedAttribute"
+        tools:src="@tools:sample/avatars" />
 
 </FrameLayout>

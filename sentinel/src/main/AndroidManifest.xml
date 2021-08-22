@@ -3,15 +3,50 @@
     package="com.infinum.sentinel">
 
     <application>
+
         <activity
-            android:name=".ui.SentinelActivity"
+            android:name=".ui.main.SentinelActivity"
+            android:exported="true"
             android:label="@string/sentinel_name"
-            android:theme="@style/Sentinel.Theme" />
+            android:taskAffinity="com.infinum.sentinel"
+            android:theme="@style/Sentinel.Theme">
+            <meta-data
+                android:name="@string/sentinel_infinum_monitored"
+                android:value="false" />
+        </activity>
 
         <activity
             android:name=".ui.settings.SettingsActivity"
+            android:exported="false"
             android:label="@string/sentinel_name"
-            android:theme="@style/Sentinel.Theme.Settings" />
+            android:taskAffinity="com.infinum.sentinel"
+            android:theme="@style/Sentinel.Theme.Leaf">
+            <meta-data
+                android:name="@string/sentinel_infinum_monitored"
+                android:value="false" />
+        </activity>
+
+        <activity
+            android:name=".ui.bundles.BundlesActivity"
+            android:exported="false"
+            android:label="@string/sentinel_bundle_monitor"
+            android:taskAffinity="com.infinum.sentinel.bundles"
+            android:theme="@style/Sentinel.Theme.Leaf">
+            <meta-data
+                android:name="@string/sentinel_infinum_monitored"
+                android:value="false" />
+        </activity>
+
+        <activity
+            android:name=".ui.bundles.details.BundleDetailsActivity"
+            android:exported="false"
+            android:label="@string/sentinel_bundle_monitor"
+            android:taskAffinity="com.infinum.sentinel.bundles"
+            android:theme="@style/Sentinel.Theme.Leaf">
+            <meta-data
+                android:name="@string/sentinel_infinum_monitored"
+                android:value="false" />
+        </activity>
 
         <provider
             android:name="androidx.startup.InitializationProvider"

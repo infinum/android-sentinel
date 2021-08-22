@@ -8,15 +8,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.infinum.sentinel.Sentinel;
 import com.infinum.sentinel.sample.databinding.ActivityJavaMainBinding;
 import com.infinum.sentinel.ui.tools.ChuckerTool;
+import com.infinum.sentinel.ui.tools.CollarTool;
 import com.infinum.sentinel.ui.tools.DbInspectorTool;
 import com.infinum.sentinel.ui.tools.GooglePlayTool;
+import com.infinum.sentinel.ui.tools.ThimbleTool;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class JavaMainActivity extends AppCompatActivity {
-
-    private Sentinel sentinel = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,14 +27,12 @@ public class JavaMainActivity extends AppCompatActivity {
 
         final Set<Sentinel.Tool> tools = new HashSet<>();
         tools.add(new ChuckerTool());
+        tools.add(new CollarTool());
         tools.add(new DbInspectorTool());
         tools.add(new GooglePlayTool());
-        sentinel = Sentinel.watch(tools);
+        tools.add(new ThimbleTool());
+        Sentinel.watch(tools);
 
-        viewBinding.showSentinel.setOnClickListener(v -> {
-            if (sentinel != null) {
-                sentinel.show();
-            }
-        });
+        viewBinding.showSentinel.setOnClickListener(v -> Sentinel.show());
     }
 }

@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.infinum.sentinel.data.models.local.TriggerEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 internal interface TriggersDao {
@@ -13,8 +14,5 @@ internal interface TriggersDao {
     suspend fun save(entity: TriggerEntity)
 
     @Query("SELECT * FROM triggers")
-    suspend fun load(): List<TriggerEntity>
-
-    @Query("SELECT * FROM triggers WHERE type = 'FOREGROUND'")
-    suspend fun foreground(): TriggerEntity
+    fun load(): Flow<List<TriggerEntity>>
 }

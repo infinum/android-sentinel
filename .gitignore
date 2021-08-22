@@ -12,8 +12,12 @@
 /captures
 .externalNativeBuild
 .cxx
-bintray.properties
 /.idea/
 /tool-chucker/build/
+/tool-collar/build/
 /tool-dbinspector/build/
 /tool-googleplay/build/
+/tool-thimble/build/
+
+publish.properties
+*.gpg

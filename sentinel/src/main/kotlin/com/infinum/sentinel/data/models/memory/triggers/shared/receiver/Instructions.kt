@@ -2,7 +2,7 @@ package com.infinum.sentinel.data.models.memory.triggers.shared.receiver
 
 import android.content.Intent
 
-typealias Execution = (Intent) -> Unit
+internal typealias Execution = (Intent) -> Unit
 
 internal sealed class Instructions {
 

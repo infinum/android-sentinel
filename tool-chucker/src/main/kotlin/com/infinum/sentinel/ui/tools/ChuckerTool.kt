@@ -10,10 +10,10 @@ import com.infinum.sentinel.Sentinel
  *
  * Tool Activity will launch with FLAG_ACTIVITY_SINGLE_TOP and FLAG_ACTIVITY_NEW_TASK flags.
  */
-data class ChuckerTool(
+public data class ChuckerTool(
     private val listener: View.OnClickListener = View.OnClickListener {
         it.context.startActivity(
-            Chucker.getLaunchIntent(it.context, Chucker.SCREEN_HTTP).apply {
+            Chucker.getLaunchIntent(it.context).apply {
                 flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }

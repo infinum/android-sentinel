@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Sentinel.Theme.Settings" parent="Sentinel.BaseTheme">
+    <style name="Sentinel.Theme.Leaf" parent="Sentinel.BaseTheme">
         <item name="android:statusBarColor">?colorSurface</item>
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Activity</item>

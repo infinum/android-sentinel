@@ -1,57 +1,131 @@
+task deploySentinel(dependsOn: [
+        ':sentinel:clean',
+        ':sentinel:publishReleasePublicationToSonatypeRepository'
+]) {
+    group = "Deploy"
+    description = "Deploy module to repositories"
+}
+
+task deploySentinelNoOp(dependsOn: [
+        ':sentinel-no-op:clean',
+        ':sentinel-no-op:publishReleasePublicationToSonatypeRepository'
+]) {
+    group = "Deploy"
+    description = "Deploy module to repositories"
+}
+
+task deployToolChucker(dependsOn: [
+        ':tool-chucker:clean',
+        ':tool-chucker:publishReleasePublicationToSonatypeRepository'
+]) {
+    group = "Deploy"
+    description = "Deploy module to repositories"
+}
+
+task deployToolCollar(dependsOn: [
+        ':tool-collar:clean',
+        ':tool-collar:publishReleasePublicationToSonatypeRepository'
+]) {
+    group = "Deploy"
+    description = "Deploy module to repositories"
+}
+
+task deployToolDbInspector(dependsOn: [
+        ':tool-dbinspector:clean',
+        ':tool-dbinspector:publishReleasePublicationToSonatypeRepository'
+]) {
+    group = "Deploy"
+    description = "Deploy module to repositories"
+}
+
+task deployToolLeakCanary(dependsOn: [
+        ':tool-leakcanary:clean',
+        ':tool-leakcanary:publishReleasePublicationToSonatypeRepository'
+]) {
+    group = "Deploy"
+    description = "Deploy module to repositories"
+}
+
+task deployToolAppGallery(dependsOn: [
+        ':tool-appgallery:clean',
+        ':tool-appgallery:publishReleasePublicationToSonatypeRepository'
+]) {
+    group = "Deploy"
+    description = "Deploy module to repositories"
+}
+
+task deployToolGooglePlay(dependsOn: [
+        ':tool-googleplay:clean',
+        ':tool-googleplay:publishReleasePublicationToSonatypeRepository'
+]) {
+    group = "Deploy"
+    description = "Deploy module to repositories"
+}
+
+task deployToolThimble(dependsOn: [
+        ':tool-thimble:clean',
+        ':tool-thimble:publishReleasePublicationToSonatypeRepository'
+]) {
+    group = "Deploy"
+    description = "Deploy module to repositories"
+}
+
+task deploySentinelAll(dependsOn: [
+        'deploySentinel',
+        'deploySentinelNoOp'
+]) {
+    group = "Deploy"
+    description = "Deploy all Sentinel modules to repositories"
+}
+
+task deployToolsAll(dependsOn: [
+        'deployToolChucker',
+        'deployToolCollar',
+        'deployToolLeakCanary',
+        'deployToolDbInspector',
+        'deployToolAppGallery',
+        'deployToolGooglePlay',
+        'deployToolThimble'
+]) {
+    group = "Deploy"
+    description = "Deploy all tools modules to repositories"
+}
+
 task deployAll(dependsOn: [
         'deploySentinel',
         'deploySentinelNoOp',
         'deployToolChucker',
         'deployToolCollar',
         'deployToolDbInspector',
+        'deployToolLeakCanary',
+        'deployToolAppGallery',
         'deployToolGooglePlay',
         'deployToolThimble'
 ]) {
     group = "Deploy"
-    description = "Deploy all modules to Bintray"
+    description = "Deploy all modules to repositories"
 }
 
-task deploySentinel(dependsOn: [
-        ':sentinel:build',
-        ':sentinel:install',
-        ':sentinel:bintrayUpload'
+task deployDebug(dependsOn: [
+        ':sentinel:clean',
+        ':sentinel-no-op:clean',
+        ':tool-chucker:clean',
+        ':tool-collar:clean',
+        ':tool-dbinspector:clean',
+        ':tool-leakcanary:clean',
+        ':tool-appgallery:clean',
+        ':tool-googleplay:clean',
+        ':tool-thimble:clean',
+        ':sentinel:publishReleasePublicationToMavenLocal',
+        ':sentinel-no-op:publishReleasePublicationToMavenLocal',
+        ':tool-chucker:publishReleasePublicationToMavenLocal',
+        ':tool-collar:publishReleasePublicationToMavenLocal',
+        ':tool-dbinspector:publishReleasePublicationToMavenLocal',
+        ':tool-leakcanary:publishReleasePublicationToMavenLocal',
+        ':tool-appgallery:publishReleasePublicationToMavenLocal',
+        ':tool-googleplay:publishReleasePublicationToMavenLocal',
+        ':tool-thimble:publishReleasePublicationToMavenLocal'
 ]) {
     group = "Deploy"
-    description = "Deploy module to Bintray"
-}
-
-task deploySentinelNoOp(dependsOn: [
-        ':sentinel-no-op:build',
-        ':sentinel-no-op:install',
-        ':sentinel-no-op:bintrayUpload'
-]) {
-    group = "Deploy"
-    description = "Deploy module to Bintray"
-}
-
-task deployToolChucker(dependsOn: [
-        ':tool-chucker:build',
-        ':tool-chucker:install',
-        ':tool-chucker:bintrayUpload'
-]) {
-    group = "Deploy"
-    description = "Deploy module to Bintray"
-}
-
-task deployToolDbInspector(dependsOn: [
-        ':tool-dbinspector:build',
-        ':tool-dbinspector:install',
-        ':tool-dbinspector:bintrayUpload'
-]) {
-    group = "Deploy"
-    description = "Deploy module to Bintray"
-}
-
-task deployToolGooglePlay(dependsOn: [
-        ':tool-googleplay:build',
-        ':tool-googleplay:install',
-        ':tool-googleplay:bintrayUpload'
-]) {
-    group = "Deploy"
-    description = "Deploy module to Bintray"
+    description = "Deploy all modules to Mavel Local repository"
 }

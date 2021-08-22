@@ -5,9 +5,8 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import androidx.lifecycle.ProcessLifecycleOwner
-import com.infinum.sentinel.data.models.memory.triggers.AbstractTrigger
 import com.infinum.sentinel.data.models.memory.triggers.shake.samples.SampleQueue
+import com.infinum.sentinel.data.models.memory.triggers.shared.AbstractTrigger
 
 /**
  * Detects phone shaking. If more than 75% of the samples taken in the past 0.5s are
@@ -22,10 +21,6 @@ internal class ShakeTrigger(
 
     companion object {
         private const val MAGNITUDE_THRESHOLD = 169
-    }
-
-    init {
-        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }
 
     private val queue = SampleQueue()
@@ -70,7 +65,7 @@ internal class ShakeTrigger(
 
     private fun registerSensor(sensorManager: SensorManager) {
         sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)?.let {
-            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_FASTEST)
+            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
             this.active = true
         } ?: run {
             this.active = false

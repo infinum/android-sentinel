@@ -1,16 +1,19 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+}
 
 android {
     compileSdkVersion buildConfig.compileSdk
     buildToolsVersion buildConfig.buildTools
 
     defaultConfig {
+        applicationId releaseConfig.group
+        applicationIdSuffix ".sample"
         minSdkVersion buildConfig.minSdk
         targetSdkVersion buildConfig.targetSdk
-        versionCode sentinel.versionCode
-        versionName sentinel.version
-        applicationId "com.infinum.sentinel.sample"
+        versionCode releaseConfig.versionCode
+        versionName releaseConfig.version
     }
 
     signingConfigs {
@@ -44,22 +47,21 @@ android {
 
     sourceSets {
         main.java.srcDirs += "src/main/kotlin"
-        debug.java.srcDirs += "src/debug/kotlin"
         release.java.srcDirs += "src/release/kotlin"
     }
 }
 
 dependencies {
-    implementation packages.kotlin.core
-    implementation packages.androidx.appcompat
-    implementation packages.androidx.preference
-    implementation "androidx.security:security-crypto:1.1.0-alpha02"
-    implementation packages.google.design
+    implementation libs.kotlin.core
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.preference
+    implementation libs.androidx.crypto
+    implementation libs.material
 
-    debugImplementation packages.sentinel.sentinel
-    releaseImplementation packages.sentinel.sentinel_no_op
+//    implementation libs.library
+//    implementation libs.bundles.tools
 
-    debugImplementation packages.sentinel.tool_chucker
-    debugImplementation packages.sentinel.tool_dbinspector
-    debugImplementation packages.sentinel.tool_googleplay
+    debugImplementation libs.library
+    releaseImplementation libs.librarynoop
+    debugImplementation libs.bundles.tools
 }

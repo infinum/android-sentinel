@@ -1,6 +1,9 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id "com.android.library"
+    id "kotlin-android"
+    id "kotlin-kapt"
+}
+
 apply from: 'jacoco.gradle'
 
 android {
@@ -10,12 +13,10 @@ android {
     defaultConfig {
         minSdkVersion buildConfig.minSdk
         targetSdkVersion buildConfig.targetSdk
-        versionCode sentinel.versionCode
-        versionName sentinel.version
+        versionCode releaseConfig.versionCode
+        versionName releaseConfig.version
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        consumerProguardFiles 'consumer-rules.pro'
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -27,25 +28,35 @@ android {
     }
 
     buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
         debug {
             testCoverageEnabled true
+            debuggable true
+            minifyEnabled false
+        }
+        release {
+            debuggable false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt"
         }
     }
 
     resourcePrefix 'sentinel_'
 
+    lintOptions {
+        disable 'RtlEnabled', 'VectorPath'
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        freeCompilerArgs += [
+                '-Xopt-in=kotlin.ExperimentalStdlibApi',
+                '-Xopt-in=kotlinx.coroutines.DelicateCoroutinesApi',
+                '-Xexplicit-api=strict'
+        ]
     }
-
     testOptions {
         animationsDisabled = true
     }
@@ -60,38 +71,33 @@ android {
 }
 
 dependencies {
-    implementation packages.kotlin.core
-    implementation packages.androidx.core
-    implementation packages.androidx.fragment
-    implementation packages.androidx.lifecycle.common
-    implementation packages.androidx.lifecycle.process
-    implementation packages.google.design
-    implementation packages.androidx.room.runtime
-    implementation packages.androidx.room.kotlin
-    kapt packages.androidx.room.compiler
-    implementation packages.androidx.preference
-    implementation packages.androidx.startup
-    implementation packages.kotlinx.coroutines
+    implementation libs.kotlin.core
+    implementation libs.coroutines
+    implementation libs.bundles.androidx
+    kapt libs.androidx.room.compiler
+    implementation libs.material
+    implementation libs.koin
+    implementation libs.timber
 
-    androidTestImplementation "junit:junit:4.13"
+    androidTestImplementation "junit:junit:4.13.2"
     androidTestImplementation 'androidx.arch.core:core-testing:2.1.0'
-    androidTestImplementation 'androidx.test:core-ktx:1.2.0'
-    androidTestImplementation 'androidx.test:rules:1.2.0'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation "androidx.security:security-crypto:1.1.0-alpha02"
-    androidTestImplementation "org.robolectric:shadowapi:4.3.1"
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
-    androidTestImplementation "androidx.room:room-testing:2.2.5"
-    androidTestImplementation 'androidx.fragment:fragment:1.2.5'
-    androidTestImplementation 'androidx.fragment:fragment-testing:1.2.5'
+    androidTestImplementation 'androidx.test:core-ktx:1.4.0'
+    androidTestImplementation 'androidx.test:rules:1.4.0'
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation "androidx.security:security-crypto:1.1.0-alpha03"
+    androidTestImplementation "org.robolectric:shadowapi:4.5.1"
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
+    androidTestImplementation "androidx.room:room-testing:2.3.0"
+    androidTestImplementation 'androidx.fragment:fragment-ktx:1.3.5'
+    androidTestImplementation 'androidx.fragment:fragment-testing:1.3.5'
 
-    testImplementation "junit:junit:4.13"
-    testImplementation 'androidx.test.ext:junit:1.1.1'
+    testImplementation "junit:junit:4.13.2"
+    testImplementation 'androidx.test.ext:junit:1.1.3'
 }
 
-apply from: "bintray.gradle"
+apply from: "publish.gradle"
 
 project.gradle.taskGraph.whenReady {
     connectedDebugAndroidTest {

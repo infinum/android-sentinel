@@ -7,7 +7,7 @@ import com.infinum.sentinel.Sentinel
  * Specific wrapper tool around Google Play in no - op.
  *
  */
-class GooglePlayTool : Sentinel.Tool {
+public class GooglePlayTool : Sentinel.Tool {
 
     override fun name(): Int = 0
 

@@ -1,9 +1,11 @@
 package com.infinum.sentinel.ui.tools
 
+import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
 import android.view.View
+import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
 
 /**
@@ -13,7 +15,8 @@ import com.infinum.sentinel.Sentinel
  * and FLAG_ACTIVITY_NEW_TASK flags.
  * If no appropriate application is found, this tool will open a website on play.google.com.
  */
-data class GooglePlayTool(
+@SuppressLint("QueryPermissionsNeeded")
+public data class GooglePlayTool(
     private val listener: View.OnClickListener = View.OnClickListener { view ->
         val intent = Intent(
             Intent.ACTION_VIEW,
@@ -42,35 +45,40 @@ data class GooglePlayTool(
                     it.activityInfo.name
                 )
                 view.context.startActivity(intent)
-            } ?: run {
-            view.context.startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.Builder()
-                        .scheme(SCHEME_HTTPS)
-                        .authority(AUTHORITY_GOOGLE_PLAY)
-                        .appendPath(PATH_STORE)
-                        .appendPath(PATH_APPS)
-                        .appendPath(PATH_DETAILS)
-                        .appendQueryParameter(QUERY_ID, view.context.packageName)
-                        .build()
-                )
+            } ?: view.context.startActivity(
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.Builder()
+                    .scheme(SCHEME_HTTPS)
+                    .authority(AUTHORITY)
+                    .appendPath(PATH_STORE)
+                    .appendPath(PATH_APPS)
+                    .appendPath(PATH_DETAILS)
+                    .appendQueryParameter(QUERY_ID, view.context.packageName)
+                    .build()
             )
-        }
+        )
     }
 ) : Sentinel.DistributionTool {
 
-    companion object {
+    internal companion object {
         private const val SCHEME_MARKET = "market"
-        private const val SCHEME_HTTPS = "https"
-        private const val AUTHORITY_GOOGLE_PLAY = "play.google.com"
-        private const val PATH_STORE = "store"
-        private const val PATH_APPS = "apps"
         private const val PATH_DETAILS = "details"
         private const val QUERY_ID = "id"
-
         private const val VENDING_PACKAGE_NAME = "com.android.vending"
+
+        private const val SCHEME_HTTPS = "https"
+        private const val AUTHORITY = "play.google.com"
+        private const val PATH_STORE = "store"
+        private const val PATH_APPS = "apps"
     }
+
+    /**
+     * A dedicated name for this tool
+     *
+     * @return a String resource that will be used to generate a name for a Button in Tools UI
+     */
+    override fun name(): Int = R.string.sentinel_google_play
 
     /**
      * A callback to be invoked when this view is clicked.

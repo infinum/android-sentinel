@@ -2,7 +2,7 @@ package com.infinum.sentinel.ui.settings
 
 import android.os.Bundle
 import androidx.annotation.RestrictTo
-import com.infinum.sentinel.ui.shared.BaseActivity
+import com.infinum.sentinel.ui.shared.base.BaseActivity
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class SettingsActivity : BaseActivity() {

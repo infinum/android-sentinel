@@ -1,27 +1,20 @@
 buildscript {
 
-    ext.buildConfig = [
-            "minSdk"    : 21,
-            "compileSdk": 30,
-            "targetSdk" : 30,
-
-            "buildTools": "30.0.2"
-    ]
-
-    apply from: "dependencies.gradle"
+    apply from: "config.gradle"
+    apply from: "maven.gradle"
 
     repositories {
         google()
-        jcenter()
-        maven { url "https://dl.bintray.com/infinum/android" }
+        mavenCentral()
+        gradlePluginPortal()
     }
     dependencies {
-        classpath packages.gradle
-        classpath packages.maven.plugin
-        classpath packages.bintray
-        classpath packages.kotlin.plugin
-        classpath packages.detekt.plugin
-        classpath packages.dokka.plugin
+        classpath libs.tools.gradle
+        classpath libs.kotlin.gradle
+        classpath libs.cpd
+        classpath libs.detekt.gradle
+        classpath libs.ktlint
+        classpath libs.dokka
     }
 }
 
@@ -29,38 +22,19 @@ allprojects {
 
     repositories {
         google()
-        jcenter()
-        maven { url "https://jitpack.io" }
-        maven { url "https://dl.bintray.com/infinum/android" }
-    }
-
-    def buildProperties = new Properties()
-    file(rootDir.absolutePath+"/build.properties").withInputStream { buildProperties.load(it) }
-    if (buildProperties.getProperty("build.debug").toBoolean()) {
-        configurations.all {
-            resolutionStrategy {
-                dependencySubstitution {
-                    substitute module(packages.sentinel.sentinel) with project(':sentinel')
-                    substitute module(packages.sentinel.sentinel_no_op) with project(':sentinel-no-op')
-                    substitute module(packages.sentinel.tool_chucker) with project(':tool-chucker')
-                    substitute module(packages.sentinel.tool_dbinspector) with project(':tool-dbinspector')
-                    substitute module(packages.sentinel.tool_googleplay) with project(':tool-googleplay')
-                }
-            }
-        }
+        mavenLocal()
+        mavenCentral()
     }
 }
 
 subprojects {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url "https://dl.bintray.com/infinum/android" }
-    }
-
-    apply from: "../detekt.gradle"
+    apply from: "$rootDir/cpd.gradle"
+    apply from: "$rootDir/detekt.gradle"
+    apply from: "$rootDir/ktlint.gradle"
+    apply from: "$rootDir/dokka.gradle"
 }
+
+apply from: "deploy.gradle"
 
 tasks.withType(JavaCompile) {
     options.compilerArgs += ["--release", "8"]
@@ -70,17 +44,72 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+task lintAll(dependsOn: [
+        ':sentinel:lintRelease',
+        ':sentinel-no-op:lintRelease',
+        ':tool-chucker:lintRelease',
+        ':tool-collar:lintRelease',
+        ':tool-dbinspector:lintRelease',
+        ':tool-leakcanary:lintRelease',
+        ':tool-appgallery:lintRelease',
+        ':tool-googleplay:lintRelease',
+        ':tool-thimble:lintRelease'
+]) {
+    group = "Verification"
+    description = "Run Detekt on all modules"
+}
+
 task detektAll(dependsOn: [
         ':sentinel:detekt',
         ':sentinel-no-op:detekt',
         ':tool-chucker:detekt',
+        ':tool-collar:detekt',
         ':tool-dbinspector:detekt',
-        ':tool-googleplay:detekt'
+        ':tool-leakcanary:detekt',
+        ':tool-appgallery:detekt',
+        ':tool-googleplay:detekt',
+        ':tool-thimble:detekt'
 ]) {
     group = "Verification"
-    description = "Run detekt on all modules"
+    description = "Run Detekt on all modules"
 }
 
-apply from: "deploy.gradle"
+task ktlintAll(dependsOn: [
+        ':sentinel:ktlintCheck',
+        ':sentinel-no-op:ktlintCheck',
+        ':tool-chucker:ktlintCheck',
+        ':tool-collar:ktlintCheck',
+        ':tool-dbinspector:ktlintCheck',
+        ':tool-leakcanary:ktlintCheck',
+        ':tool-appgallery:ktlintCheck',
+        ':tool-googleplay:ktlintCheck',
+        ':tool-thimble:ktlintCheck'
+]) {
+    group = "Verification"
+    description = "Run ktLint on all modules"
+}
 
-apply from: "dokka.gradle"
+task cpdAll(dependsOn: [
+        ':sentinel:cpdCheck',
+        ':sentinel-no-op:cpdCheck',
+        ':tool-chucker:cpdCheck',
+        ':tool-collar:cpdCheck',
+        ':tool-dbinspector:cpdCheck',
+        ':tool-leakcanary:cpdCheck',
+        ':tool-appgallery:cpdCheck',
+        ':tool-googleplay:cpdCheck',
+        ':tool-thimble:cpdCheck'
+]) {
+    group = "Verification"
+    description = "Run CPD on all modules"
+}
+
+task runStaticChecks(dependsOn: [
+        ':lintAll',
+        ':detektAll',
+        ':ktlintAll',
+        ':cpdAll'
+]) {
+    group = "Verification"
+    description = "Run static checks on all modules"
+}

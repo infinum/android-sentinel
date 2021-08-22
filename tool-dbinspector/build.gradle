@@ -1,5 +1,7 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
+plugins {
+    id "com.android.library"
+    id "kotlin-android"
+}
 
 android {
     buildFeatures {
@@ -12,16 +14,19 @@ android {
     defaultConfig {
         minSdkVersion buildConfig.minSdk
         targetSdkVersion buildConfig.targetSdk
-        versionCode sentinel.versionCode
-        versionName sentinel.version
-
-        consumerProguardFiles 'consumer-rules.pro'
+        versionCode releaseConfig.versionCode
+        versionName releaseConfig.version
     }
 
     buildTypes {
-        release {
+        debug {
+            debuggable true
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            debuggable false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt"
         }
     }
 
@@ -30,18 +35,21 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        freeCompilerArgs += [
+                '-Xexplicit-api=strict'
+        ]
     }
 
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
+    sourceSets.each {
+        it.java.srcDirs += "src/$it.name/kotlin"
     }
 }
 
 dependencies {
-    implementation packages.kotlin.core
-    api packages.sentinel.sentinel
-    api packages.dbinspector
+    implementation libs.kotlin.core
+    api libs.library
+    api libs.dbinspector
 }
 
-apply from: "bintray.gradle"
+apply from: "publish.gradle"

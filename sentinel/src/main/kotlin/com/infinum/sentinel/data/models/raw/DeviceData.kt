@@ -2,10 +2,13 @@ package com.infinum.sentinel.data.models.raw
 
 import android.annotation.SuppressLint
 import android.os.Build
+import java.util.Locale
 
 @SuppressLint("DefaultLocale")
 internal data class DeviceData(
-    val manufacturer: String = Build.MANUFACTURER.toLowerCase().capitalize(),
+    val manufacturer: String = Build.MANUFACTURER
+        .lowercase(Locale.getDefault())
+        .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() },
     val model: String = Build.MODEL,
     val id: String = Build.ID,
     val bootloader: String = Build.BOOTLOADER,
@@ -20,7 +23,8 @@ internal data class DeviceData(
     val securityPatch: String = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         Build.VERSION.SECURITY_PATCH
     } else "",
-    val isProbablyAnEmulator: Boolean = (Build.FINGERPRINT.startsWith("generic") ||
+    val isProbablyAnEmulator: Boolean = (
+        Build.FINGERPRINT.startsWith("generic") ||
             Build.FINGERPRINT.startsWith("unknown") ||
             Build.MODEL.contains("google_sdk") ||
             Build.MODEL.contains("Emulator") ||
@@ -29,5 +33,8 @@ internal data class DeviceData(
             Build.MANUFACTURER.contains("Genymotion") ||
             Build.HOST.startsWith("Build") ||
             (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic")) ||
-            "google_sdk" == Build.PRODUCT)
+            "google_sdk" == Build.PRODUCT
+        ),
+    val autoTime: Boolean,
+    val autoTimezone: Boolean
 )

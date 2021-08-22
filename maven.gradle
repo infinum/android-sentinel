@@ -1,0 +1,21 @@
+import com.infinum.maven.GithubConfiguration
+import com.infinum.maven.SonatypeConfiguration
+
+GithubConfiguration.metaClass.constructor = { ->
+    def constructor = GithubConfiguration.class.getConstructor()
+    def instance = constructor.newInstance()
+    instance.load()
+    instance
+}
+
+SonatypeConfiguration.metaClass.constructor = { ->
+    def constructor = SonatypeConfiguration.class.getConstructor()
+    def instance = constructor.newInstance()
+    instance.load()
+    instance
+}
+
+ext {
+    github = new GithubConfiguration()
+    sonatype = new SonatypeConfiguration()
+}

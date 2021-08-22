@@ -1,6 +1,63 @@
 Change Log
 ==========
 
+## Version 1.1.6
+
+_2021-08-23_
+
+* Update Kotlin to 1.5.21.
+* Fix R8 collisions on obfuscated class names.
+* Add Huawei AppGallery tool.
+* Add LeakCanary tool.
+
+## Version 1.1.5
+
+_2021-07-09_
+
+* Update Kotlin to 1.5.20.
+
+## Version 1.1.4
+
+_2021-05-24_
+
+* Update Kotlin to 1.5.10.
+* Prepare for Android 12.
+
+## Version 1.0.8
+
+_2021-02-12_
+
+* Fix shake trigger regression bug.
+
+## Version 1.0.7
+
+_2021-02-11_
+
+* Update dependencies to stable versions.
+
+## Version 1.0.6
+
+_2021-02-09_
+
+* Move project to MavenCentral.
+
+## Version 1.0.5
+
+_2021-01-29_
+
+ * Enable Kotlin explicit mode.
+ * Fix crash on Lifecycle 2.3.0
+ * Update Chucker.
+ * Update DbInspector.
+ * Update Collar.
+
+## Version 1.0.4
+
+_2020-09-04_
+
+ * Add no op tool stubs.
+ * Update Chucker.
+
 ## Version 1.0.3
 
 _2020-09-04_

@@ -8,7 +8,13 @@
     <string name="sentinel_permissions">Permissions</string>
     <string name="sentinel_settings">Settings</string>
     <string name="sentinel_app_info">App info</string>
+    <string name="sentinel_bundle_monitor">Bundle monitor</string>
     <string name="sentinel_share">Share</string>
+    <string name="sentinel_notify">Notify</string>
+    <string name="sentinel_limit">Limit</string>
+    <string name="sentinel_clear">Clear</string>
+    <string name="sentinel_search">Search</string>
+    <string name="sentinel_show">Show</string>
 
     <string name="sentinel_network">Network</string>
     <string name="sentinel_memory">Memory</string>
@@ -16,17 +22,23 @@
     <string name="sentinel_database">Database</string>
     <string name="sentinel_report">Report</string>
     <string name="sentinel_bluetooth">Bluetooth</string>
-    <string name="sentinel_google_play">Google Play</string>
+    <string name="sentinel_distribution">Distribution</string>
     <string name="sentinel_design">Design</string>
 
     <string name="sentinel_triggers">Triggers</string>
+    <string name="sentinel_share_format">Share format</string>
+
     <string name="sentinel_plain">Plain</string>
     <string name="sentinel_json">JSON</string>
     <string name="sentinel_xml">XML</string>
-    <string name="sentinel_share_format">Share format</string>
     <string name="sentinel_html">HTML</string>
     <string name="sentinel_table">Table</string>
     <string name="sentinel_markdown">Markdown</string>
+
+    <string name="sentinel_bundle_activity_intent_extras">Activity Intent extras</string>
+    <string name="sentinel_bundle_activity_saved_state">Activity Saved State</string>
+    <string name="sentinel_fragment_arguments">Fragment arguments</string>
+    <string name="sentinel_fragment_saved_state">Fragment Saved State</string>
 
     <string name="sentinel_version_code">Version code</string>
     <string name="sentinel_version_name">Version name</string>
@@ -55,4 +67,8 @@
     <string name="sentinel_usb_connected">USB connected</string>
     <string name="sentinel_airplane_mode_on">Airplane mode on</string>
     <string name="sentinel_emulator">Emulator</string>
+    <string name="sentinel_auto_time">Automatic time</string>
+    <string name="sentinel_auto_timezone">Automatic timezone</string>
+
+    <string name="sentinel_bundle_monitor_empty">No bundles collected.</string>
 </resources>

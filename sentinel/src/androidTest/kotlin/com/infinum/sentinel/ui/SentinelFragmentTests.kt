@@ -22,23 +22,22 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.android.material.appbar.MaterialToolbar
 import com.infinum.sentinel.R
-import com.infinum.sentinel.ui.children.ApplicationFragment
-import com.infinum.sentinel.ui.children.PermissionsFragment
-import com.infinum.sentinel.ui.children.PreferencesFragment
-import com.infinum.sentinel.ui.children.ToolsFragment
+import com.infinum.sentinel.ui.main.SentinelFragment
+import com.infinum.sentinel.ui.main.application.ApplicationFragment
+import com.infinum.sentinel.ui.main.permissions.PermissionsFragment
+import com.infinum.sentinel.ui.main.preferences.PreferencesFragment
+import com.infinum.sentinel.ui.main.tools.ToolsFragment
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.instanceOf
-import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-
 
 @RunWith(AndroidJUnit4::class)
 class SentinelFragmentTests {
@@ -52,7 +51,7 @@ class SentinelFragmentTests {
         fun setupBeforeClass() {
             context = ApplicationProvider.getApplicationContext<SentinelTestApplication>()
 
-            DependencyGraph.initialise(context)
+            Presentation.initialise(context)
         }
     }
 
@@ -62,14 +61,15 @@ class SentinelFragmentTests {
     @Before
     fun setupGraph() {
         GlobalScope.launch {
-            DependencyGraph.setup(setOf()) {}
+            Presentation.setup(setOf()) {}
         }
     }
 
     @Test
     fun sentinelFragment_show() {
-        val scenario =
-            launchFragmentInContainer<SentinelFragment>(themeResId = R.style.Sentinel_Theme_BottomSheet)
+        val scenario = launchFragmentInContainer<SentinelFragment>(
+            themeResId = R.style.Sentinel_Theme_BottomSheet
+        )
         scenario.onFragment {
             val childFragment = it.childFragmentManager.findFragmentByTag(ToolsFragment.TAG)
             assertNotNull(childFragment)
@@ -151,8 +151,9 @@ class SentinelFragmentTests {
 
     @Test
     fun sentinelFragment_showChild_Application() {
-        val scenario =
-            launchFragmentInContainer<SentinelFragment>(themeResId = R.style.Sentinel_Theme_BottomSheet)
+        val scenario = launchFragmentInContainer<SentinelFragment>(
+            themeResId = R.style.Sentinel_Theme_BottomSheet
+        )
 
         onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
@@ -184,8 +185,9 @@ class SentinelFragmentTests {
 
     @Test
     fun sentinelFragment_showChild_Permissions() {
-        val scenario =
-            launchFragmentInContainer<SentinelFragment>(themeResId = R.style.Sentinel_Theme_BottomSheet)
+        val scenario = launchFragmentInContainer<SentinelFragment>(
+            themeResId = R.style.Sentinel_Theme_BottomSheet
+        )
 
         onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
@@ -217,8 +219,9 @@ class SentinelFragmentTests {
 
     @Test
     fun sentinelFragment_showChild_Preferences() {
-        val scenario =
-            launchFragmentInContainer<SentinelFragment>(themeResId = R.style.Sentinel_Theme_BottomSheet)
+        val scenario = launchFragmentInContainer<SentinelFragment>(
+            themeResId = R.style.Sentinel_Theme_BottomSheet
+        )
 
         onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
@@ -250,8 +253,9 @@ class SentinelFragmentTests {
 
     @Test
     fun sentinelFragment_showChild_Tools() {
-        val scenario =
-            launchFragmentInContainer<SentinelFragment>(themeResId = R.style.Sentinel_Theme_BottomSheet)
+        val scenario = launchFragmentInContainer<SentinelFragment>(
+            themeResId = R.style.Sentinel_Theme_BottomSheet
+        )
 
         onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
@@ -282,9 +286,9 @@ class SentinelFragmentTests {
 
     @Test
     fun sentinelFragment_share() {
-
-        val scenario =
-            launchFragmentInContainer<SentinelFragment>(themeResId = R.style.Sentinel_Theme_BottomSheet)
+        val scenario = launchFragmentInContainer<SentinelFragment>(
+            themeResId = R.style.Sentinel_Theme_BottomSheet
+        )
         scenario.onFragment {
             val childFragment = it.childFragmentManager.findFragmentByTag(ToolsFragment.TAG)
             assertNotNull(childFragment)
