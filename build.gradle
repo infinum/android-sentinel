@@ -32,19 +32,6 @@ subprojects {
     apply from: "$rootDir/detekt.gradle"
     apply from: "$rootDir/ktlint.gradle"
     apply from: "$rootDir/dokka.gradle"
-
-    afterEvaluate {
-        if (project.hasProperty('kapt')) {
-            // Reference for 'kapt' DSL: https://kotlinlang.org/docs/reference/kapt.html#java-compiler-options
-            kapt {
-                // we expect this closure to run over a org.jetbrains.kotlin.gradle.plugin.KaptExtension
-                javacOptions {
-                    option("-source", "8")
-                    option("-target", "8")
-                }
-            }
-        }
-    }
 }
 
 apply from: "deploy.gradle"
