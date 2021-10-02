@@ -1,6 +1,5 @@
 package com.infinum.sentinel.ui.main.preferences
 
-import android.os.Bundle
 import android.view.View
 import androidx.annotation.RestrictTo
 import com.infinum.sentinel.R
@@ -14,7 +13,8 @@ import com.infinum.sentinel.ui.shared.delegates.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class PreferencesFragment : BaseChildFragment(R.layout.sentinel_fragment_preferences) {
+internal class PreferencesFragment :
+    BaseChildFragment<PreferencesState, Nothing>(R.layout.sentinel_fragment_preferences) {
 
     companion object {
         fun newInstance() = PreferencesFragment()
@@ -27,19 +27,17 @@ internal class PreferencesFragment : BaseChildFragment(R.layout.sentinel_fragmen
 
     override val viewModel: PreferencesViewModel by viewModel()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        viewModel.data(this@PreferencesFragment::bind)
-    }
-
-    private fun bind(preferences: List<PreferencesData>) =
-        with(binding) {
-            contentLayout.removeAllViews()
-            preferences.forEach {
-                contentLayout.addView(createItemView(it))
+    override fun onState(state: PreferencesState) =
+        when (state) {
+            is PreferencesState.Data -> with(binding) {
+                contentLayout.removeAllViews()
+                state.value.forEach {
+                    contentLayout.addView(createItemView(it))
+                }
             }
         }
+
+    override fun onEvent(event: Nothing) = Unit
 
     private fun createItemView(data: PreferencesData): View =
         SentinelViewItemPreferenceBinding.inflate(layoutInflater, binding.contentLayout, false)

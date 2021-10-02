@@ -12,16 +12,15 @@ import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.annotation.RestrictTo
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.infinum.sentinel.R
 import com.infinum.sentinel.di.LibraryKoinComponent
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal abstract class BaseFragment(
+internal abstract class BaseFragment<State, Event>(
     @LayoutRes private val contentLayoutId: Int
-) : DialogFragment(), LibraryKoinComponent {
-
-    abstract val viewModel: BaseViewModel
+) : DialogFragment(), BaseView<State, Event>, LibraryKoinComponent {
 
     abstract val binding: ViewBinding
 
@@ -53,6 +52,11 @@ internal abstract class BaseFragment(
             true -> inflater.inflate(contentLayoutId, container, false)
             false -> null
         }
+
+    @CallSuper
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        collectFlows(viewLifecycleOwner.lifecycleScope)
+    }
 
     @CallSuper
     override fun onDetach() =

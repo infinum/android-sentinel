@@ -15,7 +15,8 @@ import com.infinum.sentinel.ui.shared.edgefactories.bounce.BounceEdgeEffectFacto
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class BundleDetailsFragment : BaseChildFragment(R.layout.sentinel_fragment_bundle_details) {
+internal class BundleDetailsFragment :
+    BaseChildFragment<BundleDetailsState, Nothing>(R.layout.sentinel_fragment_bundle_details) {
 
     companion object {
         fun newInstance(bundleId: String?) = BundleDetailsFragment().apply {
@@ -41,6 +42,7 @@ internal class BundleDetailsFragment : BaseChildFragment(R.layout.sentinel_fragm
         super.onCreate(savedInstanceState)
 
         bundleId = arguments?.getString(Presentation.Constants.KEY_BUNDLE_ID)
+        viewModel.setBundleId(bundleId)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,23 +50,26 @@ internal class BundleDetailsFragment : BaseChildFragment(R.layout.sentinel_fragm
 
         setupToolbar()
         setupRecyclerView()
-
-        viewModel.setBundleId(bundleId)
-
-        viewModel.data {
-            binding.toolbar.subtitle = listOf(
-                it.className,
-                Formatter.formatFileSize(
-                    binding.toolbar.context,
-                    it.bundleTree.size.toLong()
-                )
-            ).joinToString(" ~ ")
-
-            adapter = BundleDetailsAdapter(it.bundleTree.size)
-            binding.recyclerView.adapter = adapter
-            adapter.submitList(it.bundleTree.subTrees)
-        }
     }
+
+    override fun onState(state: BundleDetailsState) =
+        when (state) {
+            is BundleDetailsState.Data -> {
+                binding.toolbar.subtitle = listOf(
+                    state.value.className,
+                    Formatter.formatFileSize(
+                        binding.toolbar.context,
+                        state.value.bundleTree.size.toLong()
+                    )
+                ).joinToString(" ~ ")
+
+                adapter = BundleDetailsAdapter(state.value.bundleTree.size)
+                binding.recyclerView.adapter = adapter
+                adapter.submitList(state.value.bundleTree.subTrees)
+            }
+        }
+
+    override fun onEvent(event: Nothing) = Unit
 
     private fun setupToolbar() {
         with(binding.toolbar) {

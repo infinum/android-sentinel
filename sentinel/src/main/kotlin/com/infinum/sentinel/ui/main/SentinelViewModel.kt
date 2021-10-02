@@ -1,6 +1,5 @@
 package com.infinum.sentinel.ui.main
 
-import android.graphics.drawable.Drawable
 import com.infinum.sentinel.data.models.memory.formats.FormatType
 import com.infinum.sentinel.data.models.memory.triggers.TriggerType
 import com.infinum.sentinel.domain.Factories
@@ -17,7 +16,7 @@ internal class SentinelViewModel(
     private val formatters: Factories.Formatter,
     private val triggers: Repositories.Triggers,
     private val formats: Repositories.Formats
-) : BaseViewModel() {
+) : BaseViewModel<SentinelState, SentinelEvent>() {
 
     fun checkIfEmulator() {
         launch {
@@ -41,21 +40,26 @@ internal class SentinelViewModel(
         }
     }
 
-    fun applicationIconAndName(action: (Pair<Drawable, String>) -> Unit) {
+    fun applicationIconAndName() {
         launch {
             val result = io {
                 collectors.application()().let {
                     it.applicationIcon to it.applicationName
                 }
             }
-            action(result)
+            setState(
+                SentinelState.ApplicationIconAndName(
+                    icon = result.first,
+                    name = result.second
+                )
+            )
         }
     }
 
-    fun formatData(action: (String) -> Unit) =
+    fun formatData() =
         launch {
             formats.load(FormatsParameters())
-                .flowOn(dispatchersIo)
+                .flowOn(runningDispatchers)
                 .collectLatest {
                     when (it.type) {
                         FormatType.PLAIN -> formatters.plain()
@@ -64,7 +68,7 @@ internal class SentinelViewModel(
                         FormatType.XML -> formatters.xml()
                         FormatType.HTML -> formatters.html()
                         else -> null
-                    }?.invoke()?.let(action)
+                    }?.invoke()?.let { emitEvent(SentinelEvent.Formatted(it)) }
                 }
         }
 }

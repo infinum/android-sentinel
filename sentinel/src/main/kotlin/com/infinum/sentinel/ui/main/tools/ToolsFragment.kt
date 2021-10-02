@@ -1,6 +1,5 @@
 package com.infinum.sentinel.ui.main.tools
 
-import android.os.Bundle
 import android.view.View
 import androidx.annotation.RestrictTo
 import androidx.core.content.ContextCompat
@@ -13,7 +12,7 @@ import com.infinum.sentinel.ui.shared.delegates.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class ToolsFragment : BaseChildFragment(R.layout.sentinel_fragment_tools) {
+internal class ToolsFragment : BaseChildFragment<ToolsState, Nothing>(R.layout.sentinel_fragment_tools) {
 
     companion object {
         fun newInstance() = ToolsFragment()
@@ -26,19 +25,17 @@ internal class ToolsFragment : BaseChildFragment(R.layout.sentinel_fragment_tool
 
     override val viewModel: ToolsViewModel by viewModel()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        viewModel.data(this@ToolsFragment::bind)
-    }
-
-    private fun bind(tools: Set<Sentinel.Tool>) =
-        with(binding) {
-            contentLayout.removeAllViews()
-            tools.forEach {
-                contentLayout.addView(createItemView(it))
+    override fun onState(state: ToolsState) =
+        when (state) {
+            is ToolsState.Data -> with(binding) {
+                contentLayout.removeAllViews()
+                state.value.forEach {
+                    contentLayout.addView(createItemView(it))
+                }
             }
         }
+
+    override fun onEvent(event: Nothing) = Unit
 
     private fun createItemView(tool: Sentinel.Tool): View =
         SentinelViewItemButtonBinding.inflate(layoutInflater, binding.contentLayout, false)
