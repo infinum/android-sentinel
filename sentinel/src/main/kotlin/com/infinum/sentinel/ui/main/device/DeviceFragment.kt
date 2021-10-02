@@ -14,7 +14,7 @@ internal class DeviceFragment : BaseChildFragment(R.layout.sentinel_fragment_dev
 
     companion object {
         fun newInstance() = DeviceFragment()
-        val TAG: String = DeviceFragment::class.java.name
+        const val TAG: String = "DeviceFragment"
     }
 
     override val binding: SentinelFragmentDeviceBinding by viewBinding(

@@ -17,7 +17,7 @@ internal class ToolsFragment : BaseChildFragment(R.layout.sentinel_fragment_tool
 
     companion object {
         fun newInstance() = ToolsFragment()
-        val TAG: String = ToolsFragment::class.java.name
+        const val TAG: String = "ToolsFragment"
     }
 
     override val binding: SentinelFragmentToolsBinding by viewBinding(

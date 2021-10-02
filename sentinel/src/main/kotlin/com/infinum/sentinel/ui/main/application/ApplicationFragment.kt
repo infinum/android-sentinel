@@ -14,7 +14,7 @@ internal class ApplicationFragment : BaseChildFragment(R.layout.sentinel_fragmen
 
     companion object {
         fun newInstance() = ApplicationFragment()
-        val TAG: String = ApplicationFragment::class.java.name
+        const val TAG: String = "ApplicationFragment"
     }
 
     override val binding: SentinelFragmentApplicationBinding by viewBinding(

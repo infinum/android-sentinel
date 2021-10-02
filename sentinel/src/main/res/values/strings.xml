@@ -71,4 +71,7 @@
     <string name="sentinel_auto_timezone">Automatic timezone</string>
 
     <string name="sentinel_bundle_monitor_empty">No bundles collected.</string>
+
+    <string name="sentinel_text_copied">Text copied to clipboard.</string>
+    <string name="sentinel_failed_to_copy_to_clipboard">Failed to copy to clipboard</string>
 </resources>

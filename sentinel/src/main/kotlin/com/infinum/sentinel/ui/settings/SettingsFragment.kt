@@ -20,7 +20,7 @@ internal class SettingsFragment : BaseChildFragment(R.layout.sentinel_fragment_s
 
     companion object {
         fun newInstance() = SettingsFragment()
-        val TAG: String = SettingsFragment::class.java.simpleName
+        const val TAG: String = "SettingsFragment"
 
         private const val FORMAT_BUNDLE_SIZE = "%s kB"
     }

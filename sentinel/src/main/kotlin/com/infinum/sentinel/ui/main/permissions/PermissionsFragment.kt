@@ -6,6 +6,7 @@ import androidx.annotation.RestrictTo
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentPermissionsBinding
 import com.infinum.sentinel.databinding.SentinelViewItemCheckableBinding
+import com.infinum.sentinel.extensions.copyToClipboard
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -15,7 +16,7 @@ internal class PermissionsFragment : BaseChildFragment(R.layout.sentinel_fragmen
 
     companion object {
         fun newInstance() = PermissionsFragment()
-        val TAG: String = PermissionsFragment::class.java.name
+        const val TAG: String = "PermissionsFragment"
     }
 
     override val binding: SentinelFragmentPermissionsBinding by viewBinding(
@@ -42,12 +43,12 @@ internal class PermissionsFragment : BaseChildFragment(R.layout.sentinel_fragmen
         SentinelViewItemCheckableBinding.inflate(layoutInflater, binding.contentLayout, false)
             .apply {
                 this.labelView.text = entry.key
-                this.valueView.setImageResource(
-                    if (entry.value) {
-                        R.drawable.sentinel_ic_checked
-                    } else {
-                        R.drawable.sentinel_ic_unchecked
-                    }
-                )
+                this.valueView.isChecked = entry.value
+                root.setOnLongClickListener {
+                    it.context.copyToClipboard(
+                        key = entry.key,
+                        value = "${entry.key} = ${entry.value}"
+                    )
+                }
             }.root
 }

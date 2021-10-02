@@ -1,6 +1,15 @@
 Change Log
 ==========
 
+## Version 1.1.7
+
+_2021-10-05_
+
+* Update Kotlin to 1.5.31.
+* Implement Android 12 compatibility.
+* Implement copy to clipboard for all values.
+* Implement preferences editor.
+
 ## Version 1.1.6
 
 _2021-08-23_

@@ -26,7 +26,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment) {
 
     companion object {
-        val TAG: String = SentinelFragment::class.java.simpleName
+        const val TAG: String = "SentinelFragment"
 
         private const val SHARE_MIME_TYPE = "text/plain"
     }

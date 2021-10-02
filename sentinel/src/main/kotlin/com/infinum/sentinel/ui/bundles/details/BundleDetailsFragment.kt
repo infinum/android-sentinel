@@ -24,7 +24,7 @@ internal class BundleDetailsFragment : BaseChildFragment(R.layout.sentinel_fragm
             }
         }
 
-        val TAG: String = BundleDetailsFragment::class.java.simpleName
+        const val TAG: String = "BundleDetailsFragment"
     }
 
     override val binding: SentinelFragmentBundleDetailsBinding by viewBinding(
