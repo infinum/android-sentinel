@@ -2,7 +2,6 @@ package com.infinum.sentinel.ui.tools
 
 import android.content.Intent
 import android.view.View
-import androidx.annotation.DrawableRes
 import com.chuckerteam.chucker.api.Chucker
 import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel

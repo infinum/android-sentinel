@@ -4,36 +4,39 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.RestrictTo
 import com.infinum.sentinel.R
+import com.infinum.sentinel.data.models.raw.PreferenceType
 import com.infinum.sentinel.databinding.SentinelFragmentPreferenceEditorBinding
 import com.infinum.sentinel.ui.Presentation
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
-import java.io.Serializable
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class PreferenceEditorFragment : BaseChildFragment<Nothing, Nothing>(R.layout.sentinel_fragment_preference_editor) {
+internal class PreferenceEditorFragment : BaseChildFragment<Any, Any>(R.layout.sentinel_fragment_preference_editor) {
 
     @Suppress("UNCHECKED_CAST")
     companion object {
         fun newInstance(
             fileName: String?,
-            clazz: Class<out Any>?,
+            type: Int?,
             key: String?,
             value: Any?
         ) = PreferenceEditorFragment().apply {
             arguments = Bundle().apply {
                 putString(Presentation.Constants.KEY_PREFERENCE_FILE, fileName)
-                putSerializable(Presentation.Constants.KEY_PREFERENCE_CLASS, clazz)
+                type?.let { putInt(Presentation.Constants.KEY_PREFERENCE_TYPE, it) }
                 putString(Presentation.Constants.KEY_PREFERENCE_KEY, key)
-                when (clazz) {
-                    Boolean::class.java -> putBoolean(Presentation.Constants.KEY_PREFERENCE_VALUE, value as Boolean)
-                    Float::class.java -> putFloat(Presentation.Constants.KEY_PREFERENCE_VALUE, value as Float)
-                    Int::class.java -> putInt(Presentation.Constants.KEY_PREFERENCE_VALUE, value as Int)
-                    Long::class.java -> putLong(Presentation.Constants.KEY_PREFERENCE_VALUE, value as Long)
-                    String::class.java -> putString(Presentation.Constants.KEY_PREFERENCE_VALUE, value as String)
-                    Set::class.java -> putStringArray(Presentation.Constants.KEY_PREFERENCE_VALUE, value as Array<out String>)
-                    else -> throw IllegalArgumentException()
+                when (PreferenceType.values().firstOrNull { it.ordinal == type }) {
+                    PreferenceType.BOOLEAN -> putBoolean(Presentation.Constants.KEY_PREFERENCE_VALUE, value as Boolean)
+                    PreferenceType.FLOAT -> putFloat(Presentation.Constants.KEY_PREFERENCE_VALUE, value as Float)
+                    PreferenceType.INT -> putInt(Presentation.Constants.KEY_PREFERENCE_VALUE, value as Int)
+                    PreferenceType.LONG -> putLong(Presentation.Constants.KEY_PREFERENCE_VALUE, value as Long)
+                    PreferenceType.STRING -> putString(Presentation.Constants.KEY_PREFERENCE_VALUE, value as String)
+                    PreferenceType.SET -> putStringArray(
+                        Presentation.Constants.KEY_PREFERENCE_VALUE,
+                        value as Array<out String>
+                    )
+                    else -> throw IllegalArgumentException("Unknown preference type.")
                 }
             }
         }
@@ -48,7 +51,7 @@ internal class PreferenceEditorFragment : BaseChildFragment<Nothing, Nothing>(R.
     override val viewModel: PreferenceEditorViewModel by viewModel()
 
     private var fileName: String? = null
-    private var clazz: Class<out Any>? = null
+    private var typeOrdinal: Int? = null
     private var key: String? = null
     private var value: Any? = null
 
@@ -56,18 +59,18 @@ internal class PreferenceEditorFragment : BaseChildFragment<Nothing, Nothing>(R.
         super.onCreate(savedInstanceState)
 
         fileName = arguments?.getString(Presentation.Constants.KEY_PREFERENCE_FILE)
-        clazz = arguments?.getSerializable(Presentation.Constants.KEY_PREFERENCE_CLASS) as? Class<out Any>?
+        typeOrdinal = arguments?.getInt(Presentation.Constants.KEY_PREFERENCE_TYPE)
         key = arguments?.getString(Presentation.Constants.KEY_PREFERENCE_KEY)
-        value = when (clazz) {
-            Boolean::class.java -> arguments?.getBoolean(Presentation.Constants.KEY_PREFERENCE_VALUE)
-            Float::class.java -> arguments?.getFloat(Presentation.Constants.KEY_PREFERENCE_VALUE)
-            Int::class.java -> arguments?.getInt(Presentation.Constants.KEY_PREFERENCE_VALUE)
-            Long::class.java -> arguments?.getLong(Presentation.Constants.KEY_PREFERENCE_VALUE)
-            String::class.java -> arguments?.getString(Presentation.Constants.KEY_PREFERENCE_VALUE)
-            Set::class.java -> arguments?.getStringArray(Presentation.Constants.KEY_PREFERENCE_VALUE)
-            else -> throw IllegalArgumentException()
+        value = when (PreferenceType.values().firstOrNull { it.ordinal == typeOrdinal }) {
+            PreferenceType.BOOLEAN -> arguments?.getBoolean(Presentation.Constants.KEY_PREFERENCE_VALUE)
+            PreferenceType.FLOAT -> arguments?.getFloat(Presentation.Constants.KEY_PREFERENCE_VALUE)
+            PreferenceType.INT -> arguments?.getInt(Presentation.Constants.KEY_PREFERENCE_VALUE)
+            PreferenceType.LONG -> arguments?.getLong(Presentation.Constants.KEY_PREFERENCE_VALUE)
+            PreferenceType.STRING -> arguments?.getString(Presentation.Constants.KEY_PREFERENCE_VALUE)
+            PreferenceType.SET -> arguments?.getStringArray(Presentation.Constants.KEY_PREFERENCE_VALUE)
+            else -> throw IllegalArgumentException("Unknown preference type.")
         }
-//        viewModel.setBundleId(bundleId)
+        viewModel.data(fileName, key, PreferenceType.values().firstOrNull { it.ordinal == typeOrdinal }, value)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,9 +79,9 @@ internal class PreferenceEditorFragment : BaseChildFragment<Nothing, Nothing>(R.
         setupToolbar()
     }
 
-    override fun onState(state: Nothing) = Unit
+    override fun onState(state: Any) = Unit
 
-    override fun onEvent(event: Nothing) = Unit
+    override fun onEvent(event: Any) = Unit
 
     private fun setupToolbar() {
         with(binding) {

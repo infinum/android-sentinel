@@ -3,6 +3,7 @@ package com.infinum.sentinel.data.sources.raw.collectors
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import androidx.annotation.VisibleForTesting
+import com.infinum.sentinel.data.models.raw.PreferenceType
 import com.infinum.sentinel.data.models.raw.PreferencesData
 import com.infinum.sentinel.domain.collectors.Collectors
 import java.io.File
@@ -31,12 +32,12 @@ internal class PreferencesCollector(
                 val tuples = allPrefs.keys.toSet().mapNotNull {
                     @Suppress("UNCHECKED_CAST")
                     when (val value = allPrefs[it]) {
-                        is Boolean -> Triple(Boolean::class.java, it, value)
-                        is Float -> Triple(Float::class.java, it, value)
-                        is Int -> Triple(Int::class.java, it, value)
-                        is Long -> Triple(Long::class.java, it, value)
-                        is String -> Triple(String::class.java, it, value)
-                        is Set<*> -> Triple(Set::class.java, it, value as Set<String>)
+                        is Boolean -> Triple(PreferenceType.BOOLEAN, it, value)
+                        is Float -> Triple(PreferenceType.FLOAT, it, value)
+                        is Int -> Triple(PreferenceType.INT, it, value)
+                        is Long -> Triple(PreferenceType.LONG, it, value)
+                        is String -> Triple(PreferenceType.STRING, it, value)
+                        is Set<*> -> Triple(PreferenceType.SET, it, value as Set<String>)
                         else -> null
                     }
                 }

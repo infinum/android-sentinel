@@ -1,17 +1,16 @@
 package com.infinum.sentinel.ui.main.preferences
 
 import android.content.Intent
-import android.os.Parcelable
 import android.view.View
 import androidx.annotation.RestrictTo
 import com.infinum.sentinel.R
+import com.infinum.sentinel.data.models.raw.PreferenceType
 import com.infinum.sentinel.data.models.raw.PreferencesData
 import com.infinum.sentinel.databinding.SentinelFragmentPreferencesBinding
 import com.infinum.sentinel.databinding.SentinelViewItemPreferenceBinding
 import com.infinum.sentinel.databinding.SentinelViewItemTextBinding
 import com.infinum.sentinel.extensions.copyToClipboard
 import com.infinum.sentinel.ui.Presentation
-import com.infinum.sentinel.ui.bundles.details.BundleDetailsActivity
 import com.infinum.sentinel.ui.main.preferences.editor.PreferenceEditorActivity
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
@@ -56,23 +55,26 @@ internal class PreferencesFragment :
                                 labelView.text = tuple.second
                                 valueView.text = tuple.third.toString()
                                 root.setOnClickListener { view ->
-                                    println("_BOJAN_ == FILE: ${data.name} -> TYPE: ${tuple.first} -> KEY: ${tuple.second} -> VALUE: ${tuple.third}")
                                     view.context.startActivity(
                                         Intent(activity, PreferenceEditorActivity::class.java)
                                             .apply {
                                                 putExtra(Presentation.Constants.KEY_PREFERENCE_FILE, data.name)
-                                                putExtra(Presentation.Constants.KEY_PREFERENCE_CLASS, tuple.first)
+                                                putExtra(
+                                                    Presentation.Constants.KEY_PREFERENCE_TYPE,
+                                                    tuple.first.ordinal
+                                                )
                                                 putExtra(Presentation.Constants.KEY_PREFERENCE_KEY, tuple.second)
                                                 putExtra(
                                                     Presentation.Constants.KEY_PREFERENCE_VALUE,
                                                     when (tuple.first) {
-                                                        Boolean::class.java -> tuple.third as Boolean
-                                                        Float::class.java -> tuple.third as Float
-                                                        Int::class.java -> tuple.third as Int
-                                                        Long::class.java -> tuple.third as Long
-                                                        String::class.java -> tuple.third as String
-                                                        Set::class.java -> (tuple.third as Set<*>).toTypedArray()
-                                                        else -> throw IllegalArgumentException()
+                                                        PreferenceType.BOOLEAN -> tuple.third as Boolean
+                                                        PreferenceType.FLOAT -> tuple.third as Float
+                                                        PreferenceType.INT -> tuple.third as Int
+                                                        PreferenceType.LONG -> tuple.third as Long
+                                                        PreferenceType.STRING -> tuple.third as String
+                                                        PreferenceType.SET -> (tuple.third as Set<*>).toTypedArray()
+                                                        else ->
+                                                            throw IllegalArgumentException("Unknown preference type.")
                                                     }
                                                 )
                                             }

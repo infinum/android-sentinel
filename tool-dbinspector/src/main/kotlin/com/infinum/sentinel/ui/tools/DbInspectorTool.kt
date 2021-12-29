@@ -2,9 +2,6 @@ package com.infinum.sentinel.ui.tools
 
 import android.view.View
 import com.infinum.dbinspector.DbInspector
-import com.infinum.dbinspector.data.models.memory.logger.Level
-import com.infinum.dbinspector.data.sources.memory.logger.EmptyLogger
-import com.infinum.dbinspector.data.sources.memory.logger.Logger
 import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
 

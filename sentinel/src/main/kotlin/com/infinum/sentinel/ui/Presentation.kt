@@ -29,6 +29,7 @@ import com.infinum.sentinel.ui.main.application.ApplicationViewModel
 import com.infinum.sentinel.ui.main.device.DeviceViewModel
 import com.infinum.sentinel.ui.main.permissions.PermissionsViewModel
 import com.infinum.sentinel.ui.main.preferences.PreferencesViewModel
+import com.infinum.sentinel.ui.main.preferences.editor.PreferenceEditorViewModel
 import com.infinum.sentinel.ui.main.tools.ToolsViewModel
 import com.infinum.sentinel.ui.settings.SettingsViewModel
 import com.infinum.sentinel.ui.tools.AppInfoTool
@@ -48,7 +49,7 @@ internal object Presentation {
         const val KEY_BUNDLE_ID = "KEY_BUNDLE_ID"
 
         const val KEY_PREFERENCE_FILE = "KEY_PREFERENCE_FILE"
-        const val KEY_PREFERENCE_CLASS = "KEY_PREFERENCE_CLASS"
+        const val KEY_PREFERENCE_TYPE = "KEY_PREFERENCE_TYPE"
         const val KEY_PREFERENCE_KEY = "KEY_PREFERENCE_KEY"
         const val KEY_PREFERENCE_VALUE = "KEY_PREFERENCE_VALUE"
 
@@ -131,6 +132,7 @@ internal object Presentation {
         viewModel { ApplicationViewModel(get()) }
         viewModel { PermissionsViewModel(get()) }
         viewModel { PreferencesViewModel(get()) }
+        viewModel { PreferenceEditorViewModel(get()) }
         viewModel { ToolsViewModel(get()) }
         viewModel { SettingsViewModel(get(), get(), get()) }
         viewModel { BundlesViewModel(get(), get()) }
