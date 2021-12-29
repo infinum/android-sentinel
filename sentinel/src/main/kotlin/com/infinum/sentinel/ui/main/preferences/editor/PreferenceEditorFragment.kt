@@ -1,8 +1,11 @@
 package com.infinum.sentinel.ui.main.preferences.editor
 
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
 import androidx.annotation.RestrictTo
+import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import com.infinum.sentinel.R
 import com.infinum.sentinel.data.models.raw.PreferenceType
 import com.infinum.sentinel.databinding.SentinelFragmentPreferenceEditorBinding
@@ -77,7 +80,7 @@ internal class PreferenceEditorFragment : BaseChildFragment<Any, Any>(R.layout.s
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        println("_BOJAN_ -> fileName: $fileName, key: $key, value: $value")
+
         with(binding) {
             toolbar.setNavigationOnClickListener { requireActivity().finish() }
             preferencesView.text = fileName
@@ -89,7 +92,86 @@ internal class PreferenceEditorFragment : BaseChildFragment<Any, Any>(R.layout.s
                 PreferenceType.LONG -> (value as? Long)?.toString()
                 PreferenceType.STRING -> value as? String
                 PreferenceType.SET -> (value as? Array<*>)?.contentToString()
-                else -> ""
+                else -> null
+            }
+            when (type) {
+                PreferenceType.BOOLEAN -> {
+                    toggleGroup.isVisible = true
+                    trueButton.isChecked = (value as? Boolean)?.equals(true) ?: false
+                    falseButton.isChecked = (value as? Boolean)?.equals(false) ?: false
+                    newValueInputLayout.isVisible = false
+                }
+                PreferenceType.FLOAT -> {
+                    toggleGroup.isVisible = false
+                    newValueInputLayout.isVisible = true
+                }
+                PreferenceType.INT -> {
+                    toggleGroup.isVisible = false
+                    newValueInputLayout.isVisible = true
+                }
+                PreferenceType.LONG -> {
+                    toggleGroup.isVisible = false
+                    newValueInputLayout.isVisible = true
+                }
+                PreferenceType.STRING -> {
+                    toggleGroup.isVisible = false
+                    newValueInputLayout.isVisible = true
+                }
+                PreferenceType.SET -> {
+                    toggleGroup.isVisible = false
+                    newValueInputLayout.isVisible = false
+                }
+                else -> {
+                    toggleGroup.isVisible = false
+                    newValueInputLayout.isVisible = false
+                }
+            }
+            newValueInput.inputType = when (type) {
+                PreferenceType.BOOLEAN -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
+                PreferenceType.FLOAT -> InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+                PreferenceType.INT -> InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_NORMAL
+                PreferenceType.LONG -> InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_NORMAL
+                PreferenceType.STRING -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
+                PreferenceType.SET -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
+                else -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
+            }
+            newValueInput.doOnTextChanged { text, _, _, _ ->
+                val newValue = text?.toString().orEmpty().trim()
+                when (type) {
+                    PreferenceType.BOOLEAN -> {
+                        newValueInputLayout.error = null
+                    }
+                    PreferenceType.FLOAT -> {
+                        newValue.toFloatOrNull()?.let {
+                            newValueInputLayout.error = null
+                        } ?: run {
+                            newValueInputLayout.error = "Invalid float number."
+                        }
+                    }
+                    PreferenceType.INT -> {
+                        newValue.toIntOrNull()?.let {
+                            newValueInputLayout.error = null
+                        } ?: run {
+                            newValueInputLayout.error = "Invalid integer number."
+                        }
+                    }
+                    PreferenceType.LONG -> {
+                        newValue.toLongOrNull()?.let {
+                            newValueInputLayout.error = null
+                        } ?: run {
+                            newValueInputLayout.error = "Invalid long number."
+                        }
+                    }
+                    PreferenceType.STRING -> {
+                        newValueInputLayout.error = null
+                    }
+                    PreferenceType.SET -> {
+                        newValueInputLayout.error = null
+                    }
+                    else -> {
+                        newValueInputLayout.error = "Unknown preference type."
+                    }
+                }
             }
         }
     }
