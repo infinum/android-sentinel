@@ -43,6 +43,7 @@ internal class PreferencesFragment :
 
     override fun onEvent(event: Nothing) = Unit
 
+    @Suppress("UNCHECKED_CAST")
     private fun createItemView(data: PreferencesData): View =
         SentinelViewItemPreferenceBinding.inflate(layoutInflater, binding.contentLayout, false)
             .apply {
@@ -72,7 +73,8 @@ internal class PreferencesFragment :
                                                         PreferenceType.INT -> tuple.third as Int
                                                         PreferenceType.LONG -> tuple.third as Long
                                                         PreferenceType.STRING -> tuple.third as String
-                                                        PreferenceType.SET -> (tuple.third as Set<*>).toTypedArray()
+                                                        PreferenceType.SET -> (tuple.third as HashSet<String>)
+                                                            .toList().toTypedArray()
                                                         else ->
                                                             throw IllegalArgumentException("Unknown preference type.")
                                                     }

@@ -88,7 +88,7 @@ internal class PreferenceEditorFragment : BaseChildFragment<Any, Any>(R.layout.s
                 PreferenceType.INT -> (value as? Int)?.toString()
                 PreferenceType.LONG -> (value as? Long)?.toString()
                 PreferenceType.STRING -> value as? String
-                PreferenceType.SET -> (value as? Set<*>)?.toString()
+                PreferenceType.SET -> (value as? Array<*>)?.contentToString()
                 else -> ""
             }
         }
