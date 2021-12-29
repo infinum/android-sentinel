@@ -29,6 +29,7 @@ internal class TriggersRepository(
                         TriggerType.USB_CONNECTED -> cache.usbConnected().active = entity.enabled
                         TriggerType.AIRPLANE_MODE_ON ->
                             cache.airplaneModeOn().active = entity.enabled
+                        else -> Unit
                     }
                 }
             }

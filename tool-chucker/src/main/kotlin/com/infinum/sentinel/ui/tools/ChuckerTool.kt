@@ -2,7 +2,9 @@ package com.infinum.sentinel.ui.tools
 
 import android.content.Intent
 import android.view.View
+import androidx.annotation.DrawableRes
 import com.chuckerteam.chucker.api.Chucker
+import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
 
 /**
@@ -19,7 +21,21 @@ public data class ChuckerTool(
             }
         )
     }
-) : Sentinel.NetworkTool {
+) : Sentinel.Tool {
+
+    /**
+     * An optional icon for this tool
+     *
+     * @return a Drawable resource that will be used to generate an icon in a Button in Tools UI
+     */
+    override fun icon(): Int? = null
+
+    /**
+     * A dedicated name for this tool
+     *
+     * @return a String resource that will be used to generate a name for a Button in Tools UI
+     */
+    override fun name(): Int = R.string.sentinel_network
 
     /**
      * A callback to be invoked when this view is clicked.

@@ -27,6 +27,17 @@
         </activity>
 
         <activity
+            android:name=".ui.main.preferences.editor.PreferenceEditorActivity"
+            android:exported="false"
+            android:label="@string/sentinel_name"
+            android:taskAffinity="com.infinum.sentinel"
+            android:theme="@style/Sentinel.Theme.Leaf">
+            <meta-data
+                android:name="@string/sentinel_infinum_monitored"
+                android:value="false" />
+        </activity>
+
+        <activity
             android:name=".ui.bundles.BundlesActivity"
             android:exported="false"
             android:label="@string/sentinel_bundle_monitor"

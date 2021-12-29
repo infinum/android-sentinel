@@ -5,7 +5,8 @@ Change Log
 
 _2021-10-05_
 
-* Update Kotlin to 1.5.31.
+* Update Kotlin to 1.6.10.
+* Update Gradle wrapper to 7.3.3.
 * Implement Android 12 compatibility.
 * Implement copy to clipboard for all values.
 * Implement preferences editor.

@@ -91,6 +91,7 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
                         binding.airplaneModeTriggerView,
                         trigger
                     )
+                    else -> throw NotImplementedError()
                 }
             }
             is SettingsEvent.FormatChanged -> when (event.value.type) {

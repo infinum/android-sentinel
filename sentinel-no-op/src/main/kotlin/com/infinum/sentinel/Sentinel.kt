@@ -1,6 +1,7 @@
 package com.infinum.sentinel
 
 import android.view.View
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 
 @Suppress("unused")
@@ -16,9 +17,27 @@ public object Sentinel {
 
     public interface Tool {
 
+        /**
+         * An optional icon for this tool
+         *
+         * @return a Drawable resource that will be used to generate an icon in a Button in Tools UI
+         */
+        @DrawableRes
+        public fun icon(): Int? = null
+
+        /**
+         * A dedicated name for this tool
+         *
+         * @return a String resource that will be used to generate a name for a Button in Tools UI
+         */
         @StringRes
         public fun name(): Int
 
+        /**
+         * A callback to be invoked when this view is clicked.
+         *
+         * @return an assigned OnClickListener that will be used to generate a Button in Tools UI
+         */
         public fun listener(): View.OnClickListener
     }
 
