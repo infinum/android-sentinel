@@ -51,7 +51,7 @@ internal class PreferenceEditorFragment : BaseChildFragment<Any, Any>(R.layout.s
     override val viewModel: PreferenceEditorViewModel by viewModel()
 
     private var fileName: String? = null
-    private var typeOrdinal: Int? = null
+    private var type: PreferenceType = PreferenceType.UNKNOWN
     private var key: String? = null
     private var value: Any? = null
 
@@ -59,9 +59,11 @@ internal class PreferenceEditorFragment : BaseChildFragment<Any, Any>(R.layout.s
         super.onCreate(savedInstanceState)
 
         fileName = arguments?.getString(Presentation.Constants.KEY_PREFERENCE_FILE)
-        typeOrdinal = arguments?.getInt(Presentation.Constants.KEY_PREFERENCE_TYPE)
+        type = PreferenceType.values()
+            .firstOrNull { it.ordinal == arguments?.getInt(Presentation.Constants.KEY_PREFERENCE_TYPE) }
+            ?: PreferenceType.UNKNOWN
         key = arguments?.getString(Presentation.Constants.KEY_PREFERENCE_KEY)
-        value = when (PreferenceType.values().firstOrNull { it.ordinal == typeOrdinal }) {
+        value = when (type) {
             PreferenceType.BOOLEAN -> arguments?.getBoolean(Presentation.Constants.KEY_PREFERENCE_VALUE)
             PreferenceType.FLOAT -> arguments?.getFloat(Presentation.Constants.KEY_PREFERENCE_VALUE)
             PreferenceType.INT -> arguments?.getInt(Presentation.Constants.KEY_PREFERENCE_VALUE)
@@ -70,22 +72,29 @@ internal class PreferenceEditorFragment : BaseChildFragment<Any, Any>(R.layout.s
             PreferenceType.SET -> arguments?.getStringArray(Presentation.Constants.KEY_PREFERENCE_VALUE)
             else -> throw IllegalArgumentException("Unknown preference type.")
         }
-        viewModel.data(fileName, key, PreferenceType.values().firstOrNull { it.ordinal == typeOrdinal }, value)
+        viewModel.data(fileName, key, type, value)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setupToolbar()
+        println("_BOJAN_ -> fileName: $fileName, key: $key, value: $value")
+        with(binding) {
+            toolbar.setNavigationOnClickListener { requireActivity().finish() }
+            preferencesView.text = fileName
+            keyView.text = key
+            currentValueView.text = when (type) {
+                PreferenceType.BOOLEAN -> (value as? Boolean)?.toString()
+                PreferenceType.FLOAT -> (value as? Float)?.toString()
+                PreferenceType.INT -> (value as? Int)?.toString()
+                PreferenceType.LONG -> (value as? Long)?.toString()
+                PreferenceType.STRING -> value as? String
+                PreferenceType.SET -> (value as? Set<*>)?.toString()
+                else -> ""
+            }
+        }
     }
 
     override fun onState(state: Any) = Unit
 
     override fun onEvent(event: Any) = Unit
-
-    private fun setupToolbar() {
-        with(binding) {
-            toolbar.setNavigationOnClickListener { requireActivity().finish() }
-        }
-    }
 }

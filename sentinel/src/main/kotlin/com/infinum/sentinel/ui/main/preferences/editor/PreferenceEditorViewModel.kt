@@ -11,7 +11,7 @@ internal class PreferenceEditorViewModel(
     override fun data() = Unit
 
     fun data(fileName: String?, key: String?, type: PreferenceType?, value: Any?) {
-        println("_BOJAN_ -> fileName: $fileName, key: $key, type: $type, value: $value")
+//        println("_BOJAN_ -> fileName: $fileName, key: $key, type: $type, value: $value")
         launch {
             io {
                 collectors.preferences()()
