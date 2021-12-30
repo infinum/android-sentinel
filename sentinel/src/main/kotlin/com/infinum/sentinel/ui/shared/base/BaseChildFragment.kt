@@ -6,7 +6,6 @@ import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.annotation.RestrictTo
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.infinum.sentinel.di.LibraryKoinComponent
 
@@ -21,7 +20,7 @@ internal abstract class BaseChildFragment<State, Event>(
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        collectFlows(viewLifecycleOwner.lifecycleScope)
+        collectFlows(viewLifecycleOwner)
 
         viewModel.data()
     }

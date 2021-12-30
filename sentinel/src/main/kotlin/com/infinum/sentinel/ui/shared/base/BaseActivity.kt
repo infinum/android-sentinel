@@ -8,7 +8,6 @@ import androidx.annotation.RestrictTo
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.lifecycleScope
 import com.infinum.sentinel.ui.main.SentinelActivity
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
@@ -33,7 +32,7 @@ internal abstract class BaseActivity<State, Event> : FragmentActivity(), BaseVie
             }
         }
 
-        collectFlows(lifecycleScope)
+        collectFlows(this)
     }
 
     @CallSuper

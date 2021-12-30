@@ -12,7 +12,6 @@ import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.annotation.RestrictTo
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.infinum.sentinel.R
 import com.infinum.sentinel.di.LibraryKoinComponent
@@ -55,7 +54,7 @@ internal abstract class BaseFragment<State, Event>(
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        collectFlows(viewLifecycleOwner.lifecycleScope)
+        collectFlows(viewLifecycleOwner)
     }
 
     @CallSuper

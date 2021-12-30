@@ -27,11 +27,11 @@ internal abstract class BaseViewModel<State, Event> : ViewModel(), LibraryKoinCo
     private var mainDispatchers = Dispatchers.Main
 
     private val mutableStateFlow: MutableStateFlow<State?> = MutableStateFlow(null)
-    private val mutableEventFlow: MutableSharedFlow<Event> = MutableSharedFlow(replay = 1)
+    private val mutableEventFlow: MutableSharedFlow<Event?> = MutableSharedFlow(replay = 1)
     private val mutableErrorFlow: MutableStateFlow<Throwable?> = MutableStateFlow(null)
 
     val stateFlow: StateFlow<State?> get() = mutableStateFlow.asStateFlow()
-    val eventFlow: SharedFlow<Event> get() = mutableEventFlow.asSharedFlow()
+    val eventFlow: SharedFlow<Event?> get() = mutableEventFlow.asSharedFlow()
     val errorFlow: StateFlow<Throwable?> get() = mutableErrorFlow.asStateFlow()
 
     protected open val errorHandler = CoroutineExceptionHandler { _, throwable ->

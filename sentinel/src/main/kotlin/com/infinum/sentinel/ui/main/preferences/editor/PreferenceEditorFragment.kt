@@ -41,8 +41,6 @@ internal class PreferenceEditorFragment :
         with(binding) {
             toolbar.setNavigationOnClickListener { requireActivity().finish() }
         }
-
-        viewModel.data()
     }
 
     @Suppress("UNCHECKED_CAST", "LongMethod", "ComplexMethod", "NestedBlockDepth")
