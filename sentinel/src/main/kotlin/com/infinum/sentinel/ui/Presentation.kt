@@ -48,11 +48,6 @@ internal object Presentation {
     object Constants {
         const val KEY_BUNDLE_ID = "KEY_BUNDLE_ID"
 
-        const val KEY_PREFERENCE_FILE = "KEY_PREFERENCE_FILE"
-        const val KEY_PREFERENCE_TYPE = "KEY_PREFERENCE_TYPE"
-        const val KEY_PREFERENCE_KEY = "KEY_PREFERENCE_KEY"
-        const val KEY_PREFERENCE_VALUE = "KEY_PREFERENCE_VALUE"
-
         const val BYTE_MULTIPLIER = 1000
     }
 
@@ -131,7 +126,7 @@ internal object Presentation {
         viewModel { DeviceViewModel(get()) }
         viewModel { ApplicationViewModel(get()) }
         viewModel { PermissionsViewModel(get()) }
-        viewModel { PreferencesViewModel(get()) }
+        viewModel { PreferencesViewModel(get(), get()) }
         viewModel { PreferenceEditorViewModel(get()) }
         viewModel { ToolsViewModel(get()) }
         viewModel { SettingsViewModel(get(), get(), get()) }

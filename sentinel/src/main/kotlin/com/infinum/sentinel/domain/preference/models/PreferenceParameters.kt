@@ -1,11 +1,18 @@
 package com.infinum.sentinel.domain.preference.models
 
+import com.infinum.sentinel.data.models.raw.PreferenceType
 import com.infinum.sentinel.domain.shared.base.BaseParameters
 
 internal sealed class PreferenceParameters(
     open val name: String,
     open val key: String,
 ) : BaseParameters {
+
+    data class Cache(
+        override val name: String,
+        override val key: String,
+        val value: Triple<PreferenceType, String, Any>
+    ) : PreferenceParameters(name, key)
 
     data class BooleanType(
         override val name: String,

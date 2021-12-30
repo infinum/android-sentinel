@@ -62,6 +62,6 @@ internal object Domain {
     }
 
     private fun preferences() = module {
-        single<Repositories.Preference> { PreferenceRepository(get()) }
+        single<Repositories.Preference> { PreferenceRepository(get(), get()) }
     }
 }
