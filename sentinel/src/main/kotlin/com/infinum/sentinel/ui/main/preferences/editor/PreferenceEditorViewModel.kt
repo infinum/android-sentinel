@@ -43,11 +43,7 @@ internal class PreferenceEditorViewModel(
                     }
                 }
             }
-            if (result) {
-                emitEvent(PreferenceEditorEvent.Saved())
-            } else {
-                setError(IllegalStateException("Preference paramaters are invalid."))
-            }
+            onResult(result)
         }
 
     fun saveFloat(fileName: String, key: String, currentValue: Float?, newValue: Float?) =
@@ -70,11 +66,7 @@ internal class PreferenceEditorViewModel(
                     }
                 }
             }
-            if (result) {
-                emitEvent(PreferenceEditorEvent.Saved())
-            } else {
-                setError(IllegalStateException("Preference paramaters are invalid."))
-            }
+            onResult(result)
         }
 
     fun saveInteger(fileName: String, key: String, currentValue: Int?, newValue: Int?) =
@@ -97,11 +89,7 @@ internal class PreferenceEditorViewModel(
                     }
                 }
             }
-            if (result) {
-                emitEvent(PreferenceEditorEvent.Saved())
-            } else {
-                setError(IllegalStateException("Preference paramaters are invalid."))
-            }
+            onResult(result)
         }
 
     fun saveLong(fileName: String, key: String, currentValue: Long?, newValue: Long?) =
@@ -124,11 +112,7 @@ internal class PreferenceEditorViewModel(
                     }
                 }
             }
-            if (result) {
-                emitEvent(PreferenceEditorEvent.Saved())
-            } else {
-                setError(IllegalStateException("Preference paramaters are invalid."))
-            }
+            onResult(result)
         }
 
     fun saveString(fileName: String, key: String, currentValue: String?, newValue: String?) =
@@ -151,11 +135,7 @@ internal class PreferenceEditorViewModel(
                     }
                 }
             }
-            if (result) {
-                emitEvent(PreferenceEditorEvent.Saved())
-            } else {
-                setError(IllegalStateException("Preference paramaters are invalid."))
-            }
+            onResult(result)
         }
 
     fun saveArray(fileName: String, key: String, currentValue: Array<String>?, newValue: Array<String>?) =
@@ -178,10 +158,14 @@ internal class PreferenceEditorViewModel(
                     }
                 }
             }
-            if (result) {
-                emitEvent(PreferenceEditorEvent.Saved())
-            } else {
-                setError(IllegalStateException("Preference paramaters are invalid."))
-            }
+            onResult(result)
         }
+
+    private suspend fun onResult(value: Boolean) {
+        if (value) {
+            emitEvent(PreferenceEditorEvent.Saved())
+        } else {
+            setError(IllegalStateException("Preference paramaters are invalid."))
+        }
+    }
 }
