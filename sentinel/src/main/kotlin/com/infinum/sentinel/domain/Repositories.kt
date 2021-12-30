@@ -7,6 +7,7 @@ import com.infinum.sentinel.domain.bundle.descriptor.models.BundleDescriptor
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleParameters
 import com.infinum.sentinel.domain.bundle.monitor.models.BundleMonitorParameters
 import com.infinum.sentinel.domain.formats.models.FormatsParameters
+import com.infinum.sentinel.domain.preference.models.PreferenceParameters
 import com.infinum.sentinel.domain.shared.base.BaseRepository
 import com.infinum.sentinel.domain.triggers.models.TriggerParameters
 
@@ -22,4 +23,6 @@ internal interface Repositories {
 
         suspend fun clear()
     }
+
+    interface Preference : BaseRepository<PreferenceParameters, Unit>
 }

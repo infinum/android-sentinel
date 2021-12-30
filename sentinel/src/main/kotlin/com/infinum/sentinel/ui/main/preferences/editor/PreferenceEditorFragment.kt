@@ -3,19 +3,25 @@ package com.infinum.sentinel.ui.main.preferences.editor
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
+import android.widget.FrameLayout
 import androidx.annotation.RestrictTo
+import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputLayout
 import com.infinum.sentinel.R
 import com.infinum.sentinel.data.models.raw.PreferenceType
 import com.infinum.sentinel.databinding.SentinelFragmentPreferenceEditorBinding
+import com.infinum.sentinel.databinding.SentinelViewItemInputBinding
 import com.infinum.sentinel.ui.Presentation
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class PreferenceEditorFragment : BaseChildFragment<Any, Any>(R.layout.sentinel_fragment_preference_editor) {
+internal class PreferenceEditorFragment :
+    BaseChildFragment<Any, PreferenceEditorEvent>(R.layout.sentinel_fragment_preference_editor) {
 
     @Suppress("UNCHECKED_CAST")
     companion object {
@@ -75,14 +81,79 @@ internal class PreferenceEditorFragment : BaseChildFragment<Any, Any>(R.layout.s
             PreferenceType.SET -> arguments?.getStringArray(Presentation.Constants.KEY_PREFERENCE_VALUE)
             else -> throw IllegalArgumentException("Unknown preference type.")
         }
-        viewModel.data(fileName, key, type, value)
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
             toolbar.setNavigationOnClickListener { requireActivity().finish() }
+            toolbar.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.save -> {
+                        when (type) {
+                            PreferenceType.BOOLEAN -> viewModel.saveBoolean(
+                                fileName,
+                                key,
+                                value as? Boolean,
+                                when {
+                                    trueButton.isChecked -> true
+                                    falseButton.isChecked -> false
+                                    else -> null
+                                }
+                            )
+                            PreferenceType.FLOAT -> viewModel.saveFloat(
+                                fileName,
+                                key,
+                                value as? Float,
+                                newValueInputLayout.editText?.text?.toString().orEmpty().trim().toFloatOrNull()
+                            )
+                            PreferenceType.INT -> viewModel.saveInteger(
+                                fileName,
+                                key,
+                                value as? Int,
+                                newValueInputLayout.editText?.text?.toString().orEmpty().trim().toIntOrNull()
+                            )
+                            PreferenceType.LONG -> viewModel.saveLong(
+                                fileName,
+                                key,
+                                value as? Long,
+                                newValueInputLayout.editText?.text?.toString().orEmpty().trim().toLongOrNull()
+                            )
+                            PreferenceType.STRING -> viewModel.saveString(
+                                fileName,
+                                key,
+                                value as? String,
+                                newValueInputLayout.editText?.text?.toString()?.trim()
+                            )
+                            PreferenceType.SET -> viewModel.saveArray(
+                                fileName,
+                                key,
+                                value as? Array<String>,
+                                setLayout
+                                    .children
+                                    .filterIsInstance<FrameLayout>()
+                                    .map { frameLayout -> frameLayout.getChildAt(0) }
+                                    .filterIsInstance<TextInputLayout>()
+                                    .map { textInputLayout ->
+                                        textInputLayout
+                                            .editText
+                                            ?.text
+                                            ?.toString()
+                                            .orEmpty()
+                                            .trim()
+                                    }
+                                    .toList()
+                                    .toTypedArray()
+                            )
+                            else -> Unit
+                        }
+                        true
+                    }
+                    else -> false
+                }
+            }
             preferencesView.text = fileName
             keyView.text = key
             currentValueView.text = when (type) {
@@ -100,30 +171,72 @@ internal class PreferenceEditorFragment : BaseChildFragment<Any, Any>(R.layout.s
                     trueButton.isChecked = (value as? Boolean)?.equals(true) ?: false
                     falseButton.isChecked = (value as? Boolean)?.equals(false) ?: false
                     newValueInputLayout.isVisible = false
+                    setLayout.isVisible = false
                 }
                 PreferenceType.FLOAT -> {
                     toggleGroup.isVisible = false
                     newValueInputLayout.isVisible = true
+                    setLayout.isVisible = false
+                    newValueInputLayout.editText?.setText((value as? Float)?.toString())
                 }
                 PreferenceType.INT -> {
                     toggleGroup.isVisible = false
                     newValueInputLayout.isVisible = true
+                    setLayout.isVisible = false
+                    newValueInputLayout.editText?.setText((value as? Int)?.toString())
                 }
                 PreferenceType.LONG -> {
                     toggleGroup.isVisible = false
                     newValueInputLayout.isVisible = true
+                    setLayout.isVisible = false
+                    newValueInputLayout.editText?.setText((value as? Long)?.toString())
                 }
                 PreferenceType.STRING -> {
                     toggleGroup.isVisible = false
                     newValueInputLayout.isVisible = true
+                    setLayout.isVisible = false
+                    newValueInputLayout.editText?.setText(value as? String)
                 }
                 PreferenceType.SET -> {
                     toggleGroup.isVisible = false
                     newValueInputLayout.isVisible = false
+                    setLayout.isVisible = true
+                    addButton.setOnClickListener {
+                        setLayout.addView(
+                            SentinelViewItemInputBinding.inflate(layoutInflater, setLayout, false)
+                                .apply {
+                                    inputLayout.editText?.setText("")
+                                    inputLayout.setStartIconOnClickListener {
+                                        setLayout.removeView(this.root)
+                                    }
+                                    inputLayout.setEndIconOnClickListener {
+                                        inputLayout.editText?.setText("")
+                                    }
+                                }.root
+                        )
+                    }
+                    (value as? Array<*>)
+                        ?.mapNotNull { (it as? String) }
+                        .orEmpty()
+                        .forEach { value ->
+                            setLayout.addView(
+                                SentinelViewItemInputBinding.inflate(layoutInflater, setLayout, false)
+                                    .apply {
+                                        inputLayout.editText?.setText(value)
+                                        inputLayout.setStartIconOnClickListener {
+                                            setLayout.removeView(this.root)
+                                        }
+                                        inputLayout.setEndIconOnClickListener {
+                                            inputLayout.editText?.setText("")
+                                        }
+                                    }.root
+                            )
+                        }
                 }
                 else -> {
                     toggleGroup.isVisible = false
                     newValueInputLayout.isVisible = false
+                    setLayout.isVisible = false
                 }
             }
             newValueInput.inputType = when (type) {
@@ -178,5 +291,15 @@ internal class PreferenceEditorFragment : BaseChildFragment<Any, Any>(R.layout.s
 
     override fun onState(state: Any) = Unit
 
-    override fun onEvent(event: Any) = Unit
+    override fun onEvent(event: PreferenceEditorEvent) =
+        when (event) {
+            is PreferenceEditorEvent.Saved -> {
+                Snackbar.make(binding.root, "New value saved.", Snackbar.LENGTH_SHORT)
+                    .addCallback(object : Snackbar.Callback() {
+                        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                            activity?.finish()
+                        }
+                    }).show()
+            }
+        }
 }

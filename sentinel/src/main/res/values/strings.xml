@@ -15,6 +15,7 @@
     <string name="sentinel_clear">Clear</string>
     <string name="sentinel_search">Search</string>
     <string name="sentinel_show">Show</string>
+    <string name="sentinel_save">Save</string>
     <string name="sentinel_preferences_editor">Preferences editor</string>
     <string name="sentinel_key">Key</string>
     <string name="sentinel_current_value">Current value</string>

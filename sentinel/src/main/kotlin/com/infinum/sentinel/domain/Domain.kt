@@ -7,6 +7,7 @@ import com.infinum.sentinel.domain.bundle.monitor.BundleMonitorRepository
 import com.infinum.sentinel.domain.collectors.CollectorFactory
 import com.infinum.sentinel.domain.formats.FormatsRepository
 import com.infinum.sentinel.domain.formatters.FormatterFactory
+import com.infinum.sentinel.domain.preference.PreferenceRepository
 import com.infinum.sentinel.domain.triggers.TriggersRepository
 import org.koin.core.module.Module
 import org.koin.core.parameter.parametersOf
@@ -29,7 +30,8 @@ internal object Domain {
                 triggers(),
                 formats(),
                 bundleMonitor(),
-                bundles()
+                bundles(),
+                preferences()
             )
         )
 
@@ -57,5 +59,9 @@ internal object Domain {
 
     private fun bundles() = module {
         single<Repositories.Bundles> { BundlesRepository(get()) }
+    }
+
+    private fun preferences() = module {
+        single<Repositories.Preference> { PreferenceRepository(get()) }
     }
 }
