@@ -31,8 +31,6 @@ android {
         }
     }
 
-    resourcePrefix 'designer_'
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -52,7 +50,7 @@ android {
 dependencies {
     implementation libs.kotlin.core
     api libs.library
-    //api libs.thimble
+    api libs.thimble
 }
 
 apply from: "publish.gradle"

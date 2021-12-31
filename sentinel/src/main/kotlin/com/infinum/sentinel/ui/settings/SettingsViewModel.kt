@@ -17,24 +17,29 @@ internal class SettingsViewModel(
     private val bundleMonitor: Repositories.BundleMonitor
 ) : BaseChildViewModel<Nothing, SettingsEvent>() {
 
-    override fun data() =
+    override fun data() {
         launch {
             triggers.load(TriggerParameters())
                 .flowOn(runningDispatchers)
                 .collectLatest {
                     emitEvent(SettingsEvent.TriggersChanged(value = it))
                 }
+        }
+        launch {
             formats.load(FormatsParameters())
                 .flowOn(runningDispatchers)
                 .collectLatest {
                     emitEvent(SettingsEvent.FormatChanged(value = it))
                 }
+        }
+        launch {
             bundleMonitor.load(BundleMonitorParameters())
                 .flowOn(runningDispatchers)
                 .collectLatest {
                     emitEvent(SettingsEvent.BundleMonitorChanged(value = it))
                 }
         }
+    }
 
     fun toggleTrigger(entity: TriggerEntity) =
         launch {

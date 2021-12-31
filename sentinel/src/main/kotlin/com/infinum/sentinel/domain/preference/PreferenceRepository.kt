@@ -42,5 +42,5 @@ internal class PreferenceRepository(
         }
     }
 
-    override suspend fun load(input: PreferenceParameters): Flow<Unit> = flowOf(Unit)
+    override fun load(input: PreferenceParameters): Flow<Unit> = flowOf(Unit)
 }

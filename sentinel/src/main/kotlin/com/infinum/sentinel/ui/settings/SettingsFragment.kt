@@ -81,28 +81,32 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
     @Suppress("ComplexMethod", "LongMethod")
     override fun onEvent(event: SettingsEvent) =
         when (event) {
-            is SettingsEvent.TriggersChanged -> event.value.forEach { trigger ->
-                when (trigger.type) {
-                    TriggerType.MANUAL -> setupSwitch(binding.manualTriggerView, trigger)
-                    TriggerType.SHAKE -> setupSwitch(binding.shakeTriggerView, trigger)
-                    TriggerType.FOREGROUND -> setupSwitch(binding.foregroundTriggerView, trigger)
-                    TriggerType.USB_CONNECTED -> setupSwitch(binding.usbTriggerView, trigger)
-                    TriggerType.AIRPLANE_MODE_ON -> setupSwitch(
-                        binding.airplaneModeTriggerView,
-                        trigger
-                    )
-                    else -> throw NotImplementedError()
+            is SettingsEvent.TriggersChanged -> {
+                event.value.forEach { trigger ->
+                    when (trigger.type) {
+                        TriggerType.MANUAL -> setupSwitch(binding.manualTriggerView, trigger)
+                        TriggerType.SHAKE -> setupSwitch(binding.shakeTriggerView, trigger)
+                        TriggerType.FOREGROUND -> setupSwitch(binding.foregroundTriggerView, trigger)
+                        TriggerType.USB_CONNECTED -> setupSwitch(binding.usbTriggerView, trigger)
+                        TriggerType.AIRPLANE_MODE_ON -> setupSwitch(
+                            binding.airplaneModeTriggerView,
+                            trigger
+                        )
+                        else -> throw NotImplementedError()
+                    }
                 }
             }
-            is SettingsEvent.FormatChanged -> when (event.value.type) {
-                FormatType.PLAIN -> R.id.plainChip
-                FormatType.MARKDOWN -> R.id.markdownChip
-                FormatType.JSON -> R.id.jsonChip
-                FormatType.XML -> R.id.xmlChip
-                FormatType.HTML -> R.id.htmlChip
-                else -> throw NotImplementedError()
-            }.let {
-                binding.formatGroup.check(it)
+            is SettingsEvent.FormatChanged -> {
+                when (event.value.type) {
+                    FormatType.PLAIN -> R.id.plainChip
+                    FormatType.MARKDOWN -> R.id.markdownChip
+                    FormatType.JSON -> R.id.jsonChip
+                    FormatType.XML -> R.id.xmlChip
+                    FormatType.HTML -> R.id.htmlChip
+                    else -> throw NotImplementedError()
+                }.let {
+                    binding.formatGroup.check(it)
+                }
             }
             is SettingsEvent.BundleMonitorChanged -> {
                 binding.bundleMonitorSwitch.setOnCheckedChangeListener(null)

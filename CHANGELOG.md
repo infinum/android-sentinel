@@ -3,7 +3,7 @@ Change Log
 
 ## Version 1.1.7
 
-_2021-10-05_
+_2021-12-31_
 
 * Update Kotlin to 1.6.10.
 * Update Gradle wrapper to 7.3.3.

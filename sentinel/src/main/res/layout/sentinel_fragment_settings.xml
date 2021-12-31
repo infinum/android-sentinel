@@ -188,7 +188,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:minHeight="@dimen/sentinel_item_height"
-                    app:selectionRequired="true"
+                    app:selectionRequired="false"
                     app:singleSelection="false">
 
                     <com.google.android.material.chip.Chip
