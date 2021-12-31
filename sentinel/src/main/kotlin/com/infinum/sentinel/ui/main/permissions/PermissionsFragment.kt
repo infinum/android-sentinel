@@ -1,21 +1,22 @@
 package com.infinum.sentinel.ui.main.permissions
 
-import android.os.Bundle
 import android.view.View
 import androidx.annotation.RestrictTo
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentPermissionsBinding
 import com.infinum.sentinel.databinding.SentinelViewItemCheckableBinding
+import com.infinum.sentinel.extensions.copyToClipboard
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class PermissionsFragment : BaseChildFragment(R.layout.sentinel_fragment_preferences) {
+internal class PermissionsFragment :
+    BaseChildFragment<PermissionsState, Nothing>(R.layout.sentinel_fragment_preferences) {
 
     companion object {
         fun newInstance() = PermissionsFragment()
-        val TAG: String = PermissionsFragment::class.java.name
+        const val TAG: String = "PermissionsFragment"
     }
 
     override val binding: SentinelFragmentPermissionsBinding by viewBinding(
@@ -24,30 +25,28 @@ internal class PermissionsFragment : BaseChildFragment(R.layout.sentinel_fragmen
 
     override val viewModel: PermissionsViewModel by viewModel()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        viewModel.data(this@PermissionsFragment::bind)
-    }
-
-    private fun bind(permissions: Map<String, Boolean>) =
-        with(binding) {
-            contentLayout.removeAllViews()
-            permissions.forEach {
-                contentLayout.addView(createItemView(it))
+    override fun onState(state: PermissionsState) =
+        when (state) {
+            is PermissionsState.Data -> with(binding) {
+                contentLayout.removeAllViews()
+                state.value.forEach {
+                    contentLayout.addView(createItemView(it))
+                }
             }
         }
+
+    override fun onEvent(event: Nothing) = Unit
 
     private fun createItemView(entry: Map.Entry<String, Boolean>): View =
         SentinelViewItemCheckableBinding.inflate(layoutInflater, binding.contentLayout, false)
             .apply {
                 this.labelView.text = entry.key
-                this.valueView.setImageResource(
-                    if (entry.value) {
-                        R.drawable.sentinel_ic_checked
-                    } else {
-                        R.drawable.sentinel_ic_unchecked
-                    }
-                )
+                this.valueView.isChecked = entry.value
+                root.setOnLongClickListener {
+                    it.context.copyToClipboard(
+                        key = entry.key,
+                        value = "${entry.key} = ${entry.value}"
+                    )
+                }
             }.root
 }

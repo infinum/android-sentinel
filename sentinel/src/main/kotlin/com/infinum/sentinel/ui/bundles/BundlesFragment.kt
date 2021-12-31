@@ -20,11 +20,11 @@ import com.infinum.sentinel.ui.shared.edgefactories.bounce.BounceEdgeEffectFacto
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class BundlesFragment : BaseChildFragment(R.layout.sentinel_fragment_bundles) {
+internal class BundlesFragment : BaseChildFragment<Nothing, BundlesEvent>(R.layout.sentinel_fragment_bundles) {
 
     companion object {
         fun newInstance() = BundlesFragment()
-        val TAG: String = BundlesFragment::class.java.simpleName
+        const val TAG: String = "BundlesFragment"
     }
 
     override val binding: SentinelFragmentBundlesBinding by viewBinding(
@@ -52,11 +52,14 @@ internal class BundlesFragment : BaseChildFragment(R.layout.sentinel_fragment_bu
 
         setupToolbar()
         setupRecyclerView()
-
-        viewModel.data {
-            adapter.submitList(it)
-        }
     }
+
+    override fun onState(state: Nothing) = Unit
+
+    override fun onEvent(event: BundlesEvent) =
+        when (event) {
+            is BundlesEvent.BundlesIntercepted -> adapter.submitList(event.value)
+        }
 
     private fun setupToolbar() {
         with(binding) {
@@ -78,14 +81,10 @@ internal class BundlesFragment : BaseChildFragment(R.layout.sentinel_fragment_bu
                 hint = getString(R.string.sentinel_search),
                 onSearchClosed = {
                     toolbar.menu.findItem(R.id.clear).isVisible = true
-                    viewModel.data {
-                        adapter.submitList(it)
-                    }
+                    viewModel.data()
                 },
                 onQueryTextChanged = { query ->
-                    viewModel.setSearchQuery(query) {
-                        adapter.submitList(it)
-                    }
+                    viewModel.setSearchQuery(query)
                 }
             )
         }

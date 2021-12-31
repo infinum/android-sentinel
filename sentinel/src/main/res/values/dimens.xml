@@ -15,4 +15,6 @@
     <dimen name="sentinel_slider_button_margin">6dp</dimen>
     <dimen name="sentinel_slider_halo_radius">20dp</dimen>
     <dimen name="sentinel_slider_thumb_radius">10dp</dimen>
+
+    <dimen name="sentinel_blur_radius">13dp</dimen>
 </resources>

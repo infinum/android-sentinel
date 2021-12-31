@@ -16,11 +16,11 @@ import kotlin.math.roundToInt
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class SettingsFragment : BaseChildFragment(R.layout.sentinel_fragment_settings) {
+internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.layout.sentinel_fragment_settings) {
 
     companion object {
         fun newInstance() = SettingsFragment()
-        val TAG: String = SettingsFragment::class.java.simpleName
+        const val TAG: String = "SettingsFragment"
 
         private const val FORMAT_BUNDLE_SIZE = "%s kB"
     }
@@ -34,127 +34,39 @@ internal class SettingsFragment : BaseChildFragment(R.layout.sentinel_fragment_s
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupToolbar()
-        setupTriggers()
-        setupFormats()
-        setupBundleMonitor()
-    }
-
-    private fun setupToolbar() {
-        binding.toolbar.setNavigationOnClickListener { requireActivity().finish() }
-    }
-
-    private fun setupTriggers() {
-        viewModel.triggers {
-            it.forEach { trigger ->
-                when (trigger.type) {
-                    TriggerType.MANUAL -> setupSwitch(binding.manualTriggerView, trigger)
-                    TriggerType.SHAKE -> setupSwitch(binding.shakeTriggerView, trigger)
-                    TriggerType.FOREGROUND -> setupSwitch(binding.foregroundTriggerView, trigger)
-                    TriggerType.USB_CONNECTED -> setupSwitch(binding.usbTriggerView, trigger)
-                    TriggerType.AIRPLANE_MODE_ON -> setupSwitch(
-                        binding.airplaneModeTriggerView,
-                        trigger
-                    )
-                }
-            }
-        }
-    }
-
-    private fun setupFormats() {
-        viewModel.formats { entity ->
-            when (entity.type) {
-                FormatType.PLAIN -> R.id.plainChip
-                FormatType.MARKDOWN -> R.id.markdownChip
-                FormatType.JSON -> R.id.jsonChip
-                FormatType.XML -> R.id.xmlChip
-                FormatType.HTML -> R.id.htmlChip
-                else -> throw NotImplementedError()
-            }.let {
-                binding.formatGroup.check(it)
-            }
-        }
-
-        binding.formatGroup.setOnCheckedChangeListener { _, checkedId ->
-            viewModel.saveFormats(
-                listOf(
-                    FormatEntity(
-                        id = FormatType.PLAIN.ordinal.toLong(),
-                        type = FormatType.PLAIN,
-                        selected = R.id.plainChip == checkedId
-                    ),
-                    FormatEntity(
-                        id = FormatType.MARKDOWN.ordinal.toLong(),
-                        type = FormatType.MARKDOWN,
-                        selected = R.id.markdownChip == checkedId
-                    ),
-                    FormatEntity(
-                        id = FormatType.JSON.ordinal.toLong(),
-                        type = FormatType.JSON,
-                        selected = R.id.jsonChip == checkedId
-                    ),
-                    FormatEntity(
-                        id = FormatType.XML.ordinal.toLong(),
-                        type = FormatType.XML,
-                        selected = R.id.xmlChip == checkedId
-                    ),
-                    FormatEntity(
-                        id = FormatType.HTML.ordinal.toLong(),
-                        type = FormatType.HTML,
-                        selected = R.id.htmlChip == checkedId
-                    )
-                )
-            )
-        }
-    }
-
-    private fun setupBundleMonitor() {
-        viewModel.bundleMonitor {
-            binding.bundleMonitorSwitch.setOnCheckedChangeListener(null)
-            binding.bundleMonitorSwitch.isChecked = it.notify
-            binding.bundleMonitorSwitch.setOnCheckedChangeListener { _, isChecked ->
-                viewModel.updateBundleMonitor(it.copy(notify = isChecked))
-            }
-
-            binding.activityIntentExtrasChip.setOnCheckedChangeListener(null)
-            binding.activitySavedStateChip.setOnCheckedChangeListener(null)
-            binding.fragmentArgumentsChip.setOnCheckedChangeListener(null)
-            binding.fragmentSavedStateChip.setOnCheckedChangeListener(null)
-            binding.activityIntentExtrasChip.isChecked = it.activityIntentExtras
-            binding.activitySavedStateChip.isChecked = it.activitySavedState
-            binding.fragmentArgumentsChip.isChecked = it.fragmentArguments
-            binding.fragmentSavedStateChip.isChecked = it.fragmentSavedState
-            binding.activityIntentExtrasChip.setOnCheckedChangeListener { _, _ ->
-                viewModel.updateBundleMonitor(
-                    it.copy(activityIntentExtras = binding.activityIntentExtrasChip.isChecked)
-                )
-            }
-            binding.activitySavedStateChip.setOnCheckedChangeListener { _, _ ->
-                viewModel.updateBundleMonitor(
-                    it.copy(activitySavedState = binding.activitySavedStateChip.isChecked)
-                )
-            }
-            binding.fragmentArgumentsChip.setOnCheckedChangeListener { _, _ ->
-                viewModel.updateBundleMonitor(
-                    it.copy(fragmentArguments = binding.fragmentArgumentsChip.isChecked)
-                )
-            }
-            binding.fragmentSavedStateChip.setOnCheckedChangeListener { _, _ ->
-                viewModel.updateBundleMonitor(
-                    it.copy(fragmentSavedState = binding.fragmentSavedStateChip.isChecked)
-                )
-            }
-
-            binding.limitSlider.clearOnChangeListeners()
-            binding.limitSlider.value = it.limit.toFloat()
-            binding.limitSlider.addOnChangeListener { _, value, _ ->
-                binding.limitValueView.text = String.format(FORMAT_BUNDLE_SIZE, value.roundToInt())
-                viewModel.updateBundleMonitor(it.copy(limit = value.roundToInt()))
-            }
-            binding.limitValueView.text = String.format(FORMAT_BUNDLE_SIZE, it.limit)
-        }
-
         with(binding) {
+            toolbar.setNavigationOnClickListener { requireActivity().finish() }
+            formatGroup.setOnCheckedChangeListener { _, checkedId ->
+                viewModel.saveFormats(
+                    listOf(
+                        FormatEntity(
+                            id = FormatType.PLAIN.ordinal.toLong(),
+                            type = FormatType.PLAIN,
+                            selected = R.id.plainChip == checkedId
+                        ),
+                        FormatEntity(
+                            id = FormatType.MARKDOWN.ordinal.toLong(),
+                            type = FormatType.MARKDOWN,
+                            selected = R.id.markdownChip == checkedId
+                        ),
+                        FormatEntity(
+                            id = FormatType.JSON.ordinal.toLong(),
+                            type = FormatType.JSON,
+                            selected = R.id.jsonChip == checkedId
+                        ),
+                        FormatEntity(
+                            id = FormatType.XML.ordinal.toLong(),
+                            type = FormatType.XML,
+                            selected = R.id.xmlChip == checkedId
+                        ),
+                        FormatEntity(
+                            id = FormatType.HTML.ordinal.toLong(),
+                            type = FormatType.HTML,
+                            selected = R.id.htmlChip == checkedId
+                        )
+                    )
+                )
+            }
             decreaseLimitButton.setOnClickListener {
                 limitSlider.value = (limitSlider.value - limitSlider.stepSize).coerceAtLeast(limitSlider.valueFrom)
             }
@@ -163,6 +75,84 @@ internal class SettingsFragment : BaseChildFragment(R.layout.sentinel_fragment_s
             }
         }
     }
+
+    override fun onState(state: Nothing) = Unit
+
+    @Suppress("ComplexMethod", "LongMethod")
+    override fun onEvent(event: SettingsEvent) =
+        when (event) {
+            is SettingsEvent.TriggersChanged -> {
+                event.value.forEach { trigger ->
+                    when (trigger.type) {
+                        TriggerType.MANUAL -> setupSwitch(binding.manualTriggerView, trigger)
+                        TriggerType.SHAKE -> setupSwitch(binding.shakeTriggerView, trigger)
+                        TriggerType.FOREGROUND -> setupSwitch(binding.foregroundTriggerView, trigger)
+                        TriggerType.USB_CONNECTED -> setupSwitch(binding.usbTriggerView, trigger)
+                        TriggerType.AIRPLANE_MODE_ON -> setupSwitch(
+                            binding.airplaneModeTriggerView,
+                            trigger
+                        )
+                        else -> throw NotImplementedError()
+                    }
+                }
+            }
+            is SettingsEvent.FormatChanged -> {
+                when (event.value.type) {
+                    FormatType.PLAIN -> R.id.plainChip
+                    FormatType.MARKDOWN -> R.id.markdownChip
+                    FormatType.JSON -> R.id.jsonChip
+                    FormatType.XML -> R.id.xmlChip
+                    FormatType.HTML -> R.id.htmlChip
+                    else -> throw NotImplementedError()
+                }.let {
+                    binding.formatGroup.check(it)
+                }
+            }
+            is SettingsEvent.BundleMonitorChanged -> {
+                binding.bundleMonitorSwitch.setOnCheckedChangeListener(null)
+                binding.bundleMonitorSwitch.isChecked = event.value.notify
+                binding.bundleMonitorSwitch.setOnCheckedChangeListener { _, isChecked ->
+                    viewModel.updateBundleMonitor(event.value.copy(notify = isChecked))
+                }
+
+                binding.activityIntentExtrasChip.setOnCheckedChangeListener(null)
+                binding.activitySavedStateChip.setOnCheckedChangeListener(null)
+                binding.fragmentArgumentsChip.setOnCheckedChangeListener(null)
+                binding.fragmentSavedStateChip.setOnCheckedChangeListener(null)
+                binding.activityIntentExtrasChip.isChecked = event.value.activityIntentExtras
+                binding.activitySavedStateChip.isChecked = event.value.activitySavedState
+                binding.fragmentArgumentsChip.isChecked = event.value.fragmentArguments
+                binding.fragmentSavedStateChip.isChecked = event.value.fragmentSavedState
+                binding.activityIntentExtrasChip.setOnCheckedChangeListener { _, _ ->
+                    viewModel.updateBundleMonitor(
+                        event.value.copy(activityIntentExtras = binding.activityIntentExtrasChip.isChecked)
+                    )
+                }
+                binding.activitySavedStateChip.setOnCheckedChangeListener { _, _ ->
+                    viewModel.updateBundleMonitor(
+                        event.value.copy(activitySavedState = binding.activitySavedStateChip.isChecked)
+                    )
+                }
+                binding.fragmentArgumentsChip.setOnCheckedChangeListener { _, _ ->
+                    viewModel.updateBundleMonitor(
+                        event.value.copy(fragmentArguments = binding.fragmentArgumentsChip.isChecked)
+                    )
+                }
+                binding.fragmentSavedStateChip.setOnCheckedChangeListener { _, _ ->
+                    viewModel.updateBundleMonitor(
+                        event.value.copy(fragmentSavedState = binding.fragmentSavedStateChip.isChecked)
+                    )
+                }
+
+                binding.limitSlider.clearOnChangeListeners()
+                binding.limitSlider.value = event.value.limit.toFloat()
+                binding.limitSlider.addOnChangeListener { _, value, _ ->
+                    binding.limitValueView.text = String.format(FORMAT_BUNDLE_SIZE, value.roundToInt())
+                    viewModel.updateBundleMonitor(event.value.copy(limit = value.roundToInt()))
+                }
+                binding.limitValueView.text = String.format(FORMAT_BUNDLE_SIZE, event.value.limit)
+            }
+        }
 
     private fun setupSwitch(switchView: SwitchMaterial, trigger: TriggerEntity) =
         with(switchView) {

@@ -29,6 +29,7 @@ import com.infinum.sentinel.ui.main.application.ApplicationViewModel
 import com.infinum.sentinel.ui.main.device.DeviceViewModel
 import com.infinum.sentinel.ui.main.permissions.PermissionsViewModel
 import com.infinum.sentinel.ui.main.preferences.PreferencesViewModel
+import com.infinum.sentinel.ui.main.preferences.editor.PreferenceEditorViewModel
 import com.infinum.sentinel.ui.main.tools.ToolsViewModel
 import com.infinum.sentinel.ui.settings.SettingsViewModel
 import com.infinum.sentinel.ui.tools.AppInfoTool
@@ -47,6 +48,11 @@ internal object Presentation {
     object Constants {
         const val KEY_BUNDLE_ID = "KEY_BUNDLE_ID"
         const val BYTE_MULTIPLIER = 1000
+
+        object Keys {
+
+            const val SHOULD_REFRESH: String = "KEY_SHOULD_REFRESH"
+        }
     }
 
     private val DEFAULT_TOOLS = setOf(
@@ -124,7 +130,8 @@ internal object Presentation {
         viewModel { DeviceViewModel(get()) }
         viewModel { ApplicationViewModel(get()) }
         viewModel { PermissionsViewModel(get()) }
-        viewModel { PreferencesViewModel(get()) }
+        viewModel { PreferencesViewModel(get(), get()) }
+        viewModel { PreferenceEditorViewModel(get()) }
         viewModel { ToolsViewModel(get()) }
         viewModel { SettingsViewModel(get(), get(), get()) }
         viewModel { BundlesViewModel(get(), get()) }

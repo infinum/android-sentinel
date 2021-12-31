@@ -23,10 +23,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @Suppress("TooManyFunctions")
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment) {
+internal class SentinelFragment : BaseFragment<SentinelState, SentinelEvent>(R.layout.sentinel_fragment) {
 
     companion object {
-        val TAG: String = SentinelFragment::class.java.simpleName
+        const val TAG: String = "SentinelFragment"
 
         private const val SHARE_MIME_TYPE = "text/plain"
     }
@@ -45,15 +45,29 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment) {
 
         viewModel.checkIfEmulator()
 
-        viewModel.applicationIconAndName {
-            with(binding) {
-                applicationIconView.background = it.first
-                toolbar.subtitle = it.second
-            }
-        }
+        viewModel.applicationIconAndName()
 
         showTools()
     }
+
+    override fun onState(state: SentinelState) =
+        when (state) {
+            is SentinelState.ApplicationIconAndName -> {
+                with(binding) {
+                    applicationIconView.background = state.icon
+                    toolbar.subtitle = state.name
+                }
+            }
+        }
+
+    override fun onEvent(event: SentinelEvent) =
+        when (event) {
+            is SentinelEvent.Formatted -> ShareCompat.IntentBuilder(requireActivity())
+                .setChooserTitle(R.string.sentinel_name)
+                .setType(SHARE_MIME_TYPE)
+                .setText(event.value)
+                .startChooser()
+        }
 
     private fun setupToolbar() {
         with(binding) {
@@ -64,13 +78,7 @@ internal class SentinelFragment : BaseFragment(R.layout.sentinel_fragment) {
             toolbar.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.share -> {
-                        viewModel.formatData {
-                            ShareCompat.IntentBuilder(requireActivity())
-                                .setChooserTitle(R.string.sentinel_name)
-                                .setType(SHARE_MIME_TYPE)
-                                .setText(it)
-                                .startChooser()
-                        }
+                        viewModel.formatData()
                     }
                 }
                 true

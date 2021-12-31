@@ -18,7 +18,7 @@ internal class TriggersRepository(
         input.entity?.let { dao.save(it) }
             ?: throw IllegalStateException("Cannot save null entity")
 
-    override suspend fun load(input: TriggerParameters): Flow<List<TriggerEntity>> =
+    override fun load(input: TriggerParameters): Flow<List<TriggerEntity>> =
         dao.load()
             .onEach {
                 it.forEach { entity ->
@@ -29,6 +29,7 @@ internal class TriggersRepository(
                         TriggerType.USB_CONNECTED -> cache.usbConnected().active = entity.enabled
                         TriggerType.AIRPLANE_MODE_ON ->
                             cache.airplaneModeOn().active = entity.enabled
+                        else -> Unit
                     }
                 }
             }

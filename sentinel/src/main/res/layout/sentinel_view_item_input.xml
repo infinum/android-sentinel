@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:endIconCheckable="true"
+        app:endIconDrawable="@drawable/sentinel_ic_clear_search"
+        app:endIconMode="custom"
+        app:errorEnabled="true"
+        app:hintEnabled="false"
+        app:passwordToggleEnabled="false"
+        app:startIconCheckable="false"
+        app:startIconDrawable="@drawable/sentinel_ic_minus"
+        app:startIconTint="@color/sentinel_color_primary">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</FrameLayout>

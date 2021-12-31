@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
     android:orientation="horizontal"
     android:paddingStart="16dp"
     android:paddingEnd="16dp">
@@ -11,20 +14,23 @@
         android:id="@+id/labelView"
         style="@style/TextAppearance.MaterialComponents.Caption"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="start|center_vertical"
         android:layout_weight="0.4"
         android:gravity="start|center_vertical"
         android:minHeight="@dimen/sentinel_item_height"
         tools:text="android.permission.READ_EXTERNAL_STORAGE" />
 
-    <ImageView
+    <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/valueView"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="end|center_vertical"
         android:layout_marginStart="8dp"
-        android:importantForAccessibility="no"
-        tools:src="@drawable/sentinel_ic_checked" />
+        android:background="@null"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:importantForAccessibility="no" />
 
 </LinearLayout>

@@ -21,7 +21,7 @@ class SampleApplication : Application() {
                 CollarTool(),
                 DbInspectorTool(),
                 LeakCanaryTool(),
-                AppGalleryTool(appId = "102016595"),
+                AppGalleryTool("102016595"),
                 GooglePlayTool(),
                 ThimbleTool(),
             )

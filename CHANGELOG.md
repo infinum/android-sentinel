@@ -1,6 +1,16 @@
 Change Log
 ==========
 
+## Version 1.1.7
+
+_2021-12-31_
+
+* Update Kotlin to 1.6.10.
+* Update Gradle wrapper to 7.3.3.
+* Implement Android 12 compatibility.
+* Implement copy to clipboard for all values.
+* Implement preferences editor.
+
 ## Version 1.1.6
 
 _2021-08-23_
