@@ -27,7 +27,7 @@ internal abstract class BaseViewModel<State, Event> : ViewModel(), LibraryKoinCo
     private var mainDispatchers = Dispatchers.Main
 
     private val mutableStateFlow: MutableStateFlow<State?> = MutableStateFlow(null)
-    private val mutableEventFlow: MutableSharedFlow<Event?> = MutableSharedFlow(replay = 1)
+    private val mutableEventFlow: MutableSharedFlow<Event?> = MutableSharedFlow(replay = 0)
     private val mutableErrorFlow: MutableStateFlow<Throwable?> = MutableStateFlow(null)
 
     val stateFlow: StateFlow<State?> get() = mutableStateFlow.asStateFlow()

@@ -39,7 +39,9 @@ internal class PreferenceEditorFragment :
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            toolbar.setNavigationOnClickListener { requireActivity().finish() }
+            toolbar.setNavigationOnClickListener {
+                requireActivity().finish()
+            }
         }
     }
 
@@ -89,7 +91,7 @@ internal class PreferenceEditorFragment :
                                     PreferenceType.SET -> viewModel.saveArray(
                                         state.name,
                                         state.key,
-                                        state.value as? Array<String>,
+                                        (state.value as? HashSet<String>)?.toTypedArray(),
                                         setLayout
                                             .children
                                             .filterIsInstance<FrameLayout>()
@@ -174,7 +176,7 @@ internal class PreferenceEditorFragment :
                                         }.root
                                 )
                             }
-                            (state.value as? Array<*>)
+                            (state.value as? HashSet<*>)
                                 ?.mapNotNull { (it as? String) }
                                 .orEmpty()
                                 .forEach { value ->

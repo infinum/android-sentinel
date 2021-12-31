@@ -41,9 +41,11 @@ internal class PreferencesFragment :
 
     override fun onEvent(event: PreferencesEvent) =
         when (event) {
-            is PreferencesEvent.Cached -> startActivity(
-                Intent(activity, PreferenceEditorActivity::class.java)
-            )
+            is PreferencesEvent.Cached -> {
+                startActivity(
+                    Intent(activity, PreferenceEditorActivity::class.java)
+                )
+            }
         }
 
     @Suppress("UNCHECKED_CAST")
