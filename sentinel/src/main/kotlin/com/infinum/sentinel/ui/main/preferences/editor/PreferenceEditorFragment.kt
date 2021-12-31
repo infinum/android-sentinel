@@ -5,12 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import androidx.annotation.RestrictTo
+import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.infinum.sentinel.R
 import com.infinum.sentinel.data.models.raw.PreferenceType
@@ -59,6 +60,8 @@ internal class PreferenceEditorFragment :
                     toolbar.setOnMenuItemClickListener {
                         when (it.itemId) {
                             R.id.save -> {
+                                closeKeyboard()
+                                binding.progressBar.isVisible = true
                                 when (state.type) {
                                     PreferenceType.BOOLEAN -> viewModel.saveBoolean(
                                         state.name,
@@ -258,21 +261,30 @@ internal class PreferenceEditorFragment :
         }
     }
 
-    override fun onEvent(event: PreferenceEditorEvent) =
+    override fun onEvent(event: PreferenceEditorEvent) {
         when (event) {
             is PreferenceEditorEvent.Saved -> {
-                activity?.setResult(
-                    Activity.RESULT_OK,
-                    Intent().apply {
-                        putExtra(Presentation.Constants.Keys.SHOULD_REFRESH, true)
-                    }
-                )
-                Snackbar.make(binding.root, "New value saved.", Snackbar.LENGTH_SHORT)
-                    .addCallback(object : Snackbar.Callback() {
-                        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                            activity?.finish()
+                binding.progressBar.isVisible = false
+                activity?.let {
+                    it.setResult(
+                        Activity.RESULT_OK,
+                        Intent().apply {
+                            putExtra(Presentation.Constants.Keys.SHOULD_REFRESH, true)
                         }
-                    }).show()
+                    )
+                    it.finish()
+                }
             }
         }
+    }
+
+    override fun onError(error: Throwable) {
+        super.onError(error)
+        binding.progressBar.isVisible = false
+    }
+
+    private fun closeKeyboard() {
+        val imm = ContextCompat.getSystemService(requireContext(), InputMethodManager::class.java)
+        imm?.hideSoftInputFromWindow(binding.newValueInputLayout.windowToken, 0)
+    }
 }
