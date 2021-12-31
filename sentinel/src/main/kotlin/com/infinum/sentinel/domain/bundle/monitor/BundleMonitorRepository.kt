@@ -15,6 +15,6 @@ internal class BundleMonitorRepository(
             ?: throw IllegalStateException("Cannot save null entities")
     }
 
-    override suspend fun load(input: BundleMonitorParameters): Flow<BundleMonitorEntity> =
+    override fun load(input: BundleMonitorParameters): Flow<BundleMonitorEntity> =
         dao.load()
 }

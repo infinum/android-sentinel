@@ -1,21 +1,21 @@
 package com.infinum.sentinel.ui.main.tools
 
-import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.domain.Factories
-import com.infinum.sentinel.domain.shared.base.BaseParameters
 import com.infinum.sentinel.ui.shared.base.BaseChildViewModel
 
 internal class ToolsViewModel(
     private val collectors: Factories.Collector
-) : BaseChildViewModel<BaseParameters, Set<Sentinel.Tool>>() {
+) : BaseChildViewModel<ToolsState, Nothing>() {
 
-    override var parameters: BaseParameters? = null
-
-    override fun data(action: (Set<Sentinel.Tool>) -> Unit) =
+    override fun data() =
         launch {
             val result = io {
                 collectors.tools()()
             }
-            action(result)
+            setState(
+                ToolsState.Data(
+                    value = result
+                )
+            )
         }
 }

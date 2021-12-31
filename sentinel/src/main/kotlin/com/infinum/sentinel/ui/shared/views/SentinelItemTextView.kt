@@ -7,6 +7,7 @@ import android.widget.FrameLayout
 import androidx.core.content.withStyledAttributes
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelViewItemTextBinding
+import com.infinum.sentinel.extensions.copyToClipboard
 
 internal class SentinelItemTextView @JvmOverloads constructor(
     context: Context,
@@ -29,6 +30,12 @@ internal class SentinelItemTextView @JvmOverloads constructor(
 
     init {
         parseAttributes(attrs)
+        viewBinding.root.setOnLongClickListener {
+            it.context.copyToClipboard(
+                key = viewBinding.labelView.text?.toString().orEmpty(),
+                value = viewBinding.valueView.text?.toString().orEmpty()
+            )
+        }
     }
 
     private fun parseAttributes(attrs: AttributeSet?) {

@@ -59,7 +59,7 @@ public data class GooglePlayTool(
             )
         )
     }
-) : Sentinel.DistributionTool {
+) : Sentinel.Tool {
 
     internal companion object {
         private const val SCHEME_MARKET = "market"
@@ -72,6 +72,13 @@ public data class GooglePlayTool(
         private const val PATH_STORE = "store"
         private const val PATH_APPS = "apps"
     }
+
+    /**
+     * An optional icon for this tool
+     *
+     * @return a Drawable resource that will be used to generate an icon in a Button in Tools UI
+     */
+    override fun icon(): Int? = null
 
     /**
      * A dedicated name for this tool

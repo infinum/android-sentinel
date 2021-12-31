@@ -2,7 +2,6 @@ package com.infinum.sentinel.ui.bundles.details
 
 import androidx.lifecycle.viewModelScope
 import com.infinum.sentinel.domain.Repositories
-import com.infinum.sentinel.domain.bundle.descriptor.models.BundleDescriptor
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleParameters
 import com.infinum.sentinel.ui.shared.base.BaseChildViewModel
 import kotlinx.coroutines.flow.flowOn
@@ -12,20 +11,20 @@ import kotlinx.coroutines.flow.onEach
 
 internal class BundleDetailsViewModel(
     private val bundles: Repositories.Bundles
-) : BaseChildViewModel<BundleParameters, BundleDescriptor>() {
+) : BaseChildViewModel<BundleDetailsState, Nothing>() {
 
-    override var parameters: BundleParameters? = BundleParameters()
+    private var parameters: BundleParameters = BundleParameters()
 
-    override fun data(action: (BundleDescriptor) -> Unit) =
+    override fun data() =
         launch {
-            bundles.load(parameters!!)
-                .flowOn(dispatchersIo)
-                .map { it.single { descriptor -> descriptor.bundleTree.id == parameters?.bundleId } }
-                .onEach { action(it) }
+            bundles.load(parameters)
+                .flowOn(runningDispatchers)
+                .map { it.single { descriptor -> descriptor.bundleTree.id == parameters.bundleId } }
+                .onEach { setState(BundleDetailsState.Data(value = it)) }
                 .launchIn(viewModelScope)
         }
 
     fun setBundleId(value: String?) {
-        parameters = parameters?.copy(bundleId = value)
+        parameters = parameters.copy(bundleId = value)
     }
 }

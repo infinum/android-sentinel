@@ -15,6 +15,6 @@ internal class FormatsRepository(
             ?: throw IllegalStateException("Cannot save null entities")
     }
 
-    override suspend fun load(input: FormatsParameters): Flow<FormatEntity> =
+    override fun load(input: FormatsParameters): Flow<FormatEntity> =
         dao.load()
 }

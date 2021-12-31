@@ -1,13 +1,14 @@
 package com.infinum.sentinel.ui.shared.base
 
 import android.app.Dialog
+import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.view.WindowManager
+import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.annotation.RestrictTo
 import androidx.fragment.app.DialogFragment
@@ -16,24 +17,31 @@ import com.infinum.sentinel.R
 import com.infinum.sentinel.di.LibraryKoinComponent
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal abstract class BaseFragment(
+internal abstract class BaseFragment<State, Event>(
     @LayoutRes private val contentLayoutId: Int
-) : DialogFragment(), LibraryKoinComponent {
-
-    abstract val viewModel: BaseViewModel
+) : DialogFragment(), BaseView<State, Event>, LibraryKoinComponent {
 
     abstract val binding: ViewBinding
 
     override fun getTheme(): Int = R.style.Sentinel_Theme_Dialog
 
+    @CallSuper
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
-        Dialog(requireContext(), theme).also {
-            val window: Window? = it.window
-            val layoutParams: WindowManager.LayoutParams? = window?.attributes
-            layoutParams?.gravity = Gravity.BOTTOM
-            window?.attributes = layoutParams
+        super.onCreateDialog(savedInstanceState).apply {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                window?.let {
+                    it.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND)
+                    it.attributes.blurBehindRadius = resources.getDimensionPixelSize(R.dimen.sentinel_blur_radius)
+                }
+            }
+            window?.let {
+                val layoutParams: WindowManager.LayoutParams = it.attributes
+                layoutParams.gravity = Gravity.BOTTOM
+                it.attributes = layoutParams
+            }
         }
 
+    @CallSuper
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,6 +52,12 @@ internal abstract class BaseFragment(
             false -> null
         }
 
+    @CallSuper
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        collectFlows(viewLifecycleOwner)
+    }
+
+    @CallSuper
     override fun onDetach() =
         super.onDetach().run {
             requireActivity().finish()

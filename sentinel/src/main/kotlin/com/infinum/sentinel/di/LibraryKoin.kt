@@ -1,7 +1,6 @@
 package com.infinum.sentinel.di
 
 import android.content.Context
-import com.infinum.sentinel.BuildConfig
 import com.infinum.sentinel.ui.Presentation
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -17,7 +16,7 @@ internal object LibraryKoin {
 
     fun initialize(context: Context) {
         koinApplication.apply {
-            androidLogger(if (BuildConfig.DEBUG) Level.DEBUG else Level.NONE)
+            androidLogger(Level.ERROR)
             androidContext(context)
             modules(Presentation.modules())
         }

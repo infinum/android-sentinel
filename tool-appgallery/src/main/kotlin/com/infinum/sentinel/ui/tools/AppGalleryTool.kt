@@ -18,7 +18,7 @@ import com.infinum.sentinel.Sentinel
  * If no appropriate application is found, this tool will open a website on appgallery.cloud.huawei.com.
  */
 @SuppressLint("QueryPermissionsNeeded")
-public data class AppGalleryTool(
+public data class AppGalleryTool @JvmOverloads constructor(
     private val appId: String,
     private val listener: View.OnClickListener = View.OnClickListener { view ->
         val intent = Intent(
@@ -61,7 +61,7 @@ public data class AppGalleryTool(
             )
         )
     }
-) : Sentinel.DistributionTool {
+) : Sentinel.Tool {
 
     internal companion object {
         private const val SCHEME_MARKET = "appmarket"
@@ -75,6 +75,13 @@ public data class AppGalleryTool(
         private const val PATH_APP = "app"
         private const val PATH_C = "C"
     }
+
+    /**
+     * An optional icon for this tool
+     *
+     * @return a Drawable resource that will be used to generate an icon in a Button in Tools UI
+     */
+    override fun icon(): Int? = null
 
     /**
      * A dedicated name for this tool
