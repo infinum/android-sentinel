@@ -46,36 +46,36 @@ Then add the following dependencies in your app `build.gradle` or `build.gradle.
 
 **Groovy**
 ```groovy
-debugImplementation "com.infinum.sentinel:sentinel:1.1.6"
-releaseImplementation "com.infinum.sentinel:sentinel-no-op:1.1.6"
+debugImplementation "com.infinum.sentinel:sentinel:1.1.7"
+releaseImplementation "com.infinum.sentinel:sentinel-no-op:1.1.7"
 ```
 **KotlinDSL**
 ```kotlin
-debugImplementation("com.infinum.sentinel:sentinel:1.1.6")
-releaseImplementation("com.infinum.sentinel:sentinel-no-op:1.1.6")
+debugImplementation("com.infinum.sentinel:sentinel:1.1.7")
+releaseImplementation("com.infinum.sentinel:sentinel-no-op:1.1.7")
 ```
 
 Basic tools are provided inside the main package but depending on requirements you might want to add specific tools:
 
 **Groovy**
 ```groovy
-debugImplementation "com.infinum.sentinel:tool-chucker:1.1.6"
-debugImplementation "com.infinum.sentinel:tool-collar:1.1.6"
-debugImplementation "com.infinum.sentinel:tool-dbinspector:1.1.6"
-debugImplementation "com.infinum.sentinel:tool-leakcanary:1.1.6"
-debugImplementation "com.infinum.sentinel:tool-appgallery:1.1.6"
-debugImplementation "com.infinum.sentinel:tool-googleplay:1.1.6"
-debugImplementation "com.infinum.sentinel:tool-thimble:1.1.6"
+debugImplementation "com.infinum.sentinel:tool-chucker:1.1.7"
+debugImplementation "com.infinum.sentinel:tool-collar:1.1.7"
+debugImplementation "com.infinum.sentinel:tool-dbinspector:1.1.7"
+debugImplementation "com.infinum.sentinel:tool-leakcanary:1.1.7"
+debugImplementation "com.infinum.sentinel:tool-appgallery:1.1.7"
+debugImplementation "com.infinum.sentinel:tool-googleplay:1.1.7"
+debugImplementation "com.infinum.sentinel:tool-thimble:1.1.7"
 ```
 **KotlinDSL**
 ```kotlin
-debugImplementation("com.infinum.sentinel:tool-chucker:1.1.6")
-debugImplementation("com.infinum.sentinel:tool-collar:1.1.6")
-debugImplementation("com.infinum.sentinel:tool-dbinspector:1.1.6")
-debugImplementation("com.infinum.sentinel:tool-leakcanary:1.1.6")
-debugImplementation("com.infinum.sentinel:tool-appgallery:1.1.6")
-debugImplementation("com.infinum.sentinel:tool-googleplay:1.1.6")
-debugImplementation("com.infinum.sentinel:tool-thimble:1.1.6")
+debugImplementation("com.infinum.sentinel:tool-chucker:1.1.7")
+debugImplementation("com.infinum.sentinel:tool-collar:1.1.7")
+debugImplementation("com.infinum.sentinel:tool-dbinspector:1.1.7")
+debugImplementation("com.infinum.sentinel:tool-leakcanary:1.1.7")
+debugImplementation("com.infinum.sentinel:tool-appgallery:1.1.7")
+debugImplementation("com.infinum.sentinel:tool-googleplay:1.1.7")
+debugImplementation("com.infinum.sentinel:tool-thimble:1.1.7")
 ```
 
 Now you can sync your project.
@@ -107,6 +107,8 @@ _Sentinel_ provides several different levels of tools for a developer to impleme
 #### Built in
 
 - `AppInfoTool` - opens Android OS Settings page of the application in which _Sentinel_ was implemented
+- `BundleMonitorTool` - monitors Bundle objects passed around the application mostly for size avoiding _TransactionTooLarge_ exceptions
+- `Preference Editor` - by tapping any preference _Sentinel_ opens a screen where you can edit current value
 
 #### Dependency wrappers
 
