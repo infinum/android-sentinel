@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+## Version 1.1.8
+
+_2022-01-10_
+
+* Implement root check row in Device tab.
+
 ## Version 1.1.7
 
 _2021-12-31_

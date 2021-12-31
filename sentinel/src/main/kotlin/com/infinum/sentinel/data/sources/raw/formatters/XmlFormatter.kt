@@ -105,6 +105,7 @@ internal class XmlFormatter(
             addNode(R.string.sentinel_emulator, it.isProbablyAnEmulator.toString())
             addNode(R.string.sentinel_auto_time, it.autoTime.toString())
             addNode(R.string.sentinel_auto_timezone, it.autoTimezone.toString())
+            addNode(R.string.sentinel_rooted, it.isRooted.toString())
         }
         endTag(NAMESPACE, DEVICE)
     }

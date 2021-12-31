@@ -54,5 +54,6 @@ internal abstract class StringBuilderFormatter {
         addLine(builder, R.string.sentinel_emulator, data.isProbablyAnEmulator.toString())
         addLine(builder, R.string.sentinel_auto_time, data.autoTime.toString())
         addLine(builder, R.string.sentinel_auto_timezone, data.autoTimezone.toString())
+        addLine(builder, R.string.sentinel_rooted, data.isRooted.toString())
     }
 }

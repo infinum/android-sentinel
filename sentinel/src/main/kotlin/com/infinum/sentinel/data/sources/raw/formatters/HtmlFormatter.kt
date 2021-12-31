@@ -104,6 +104,7 @@ internal class HtmlFormatter(
                     addDiv(R.string.sentinel_emulator, it.isProbablyAnEmulator.toString())
                     addDiv(R.string.sentinel_auto_time, it.autoTime.toString())
                     addDiv(R.string.sentinel_auto_timezone, it.autoTimezone.toString())
+                    addDiv(R.string.sentinel_rooted, it.isRooted.toString())
                 }
             }
             .toString()

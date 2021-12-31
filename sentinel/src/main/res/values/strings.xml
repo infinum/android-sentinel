@@ -74,6 +74,7 @@
     <string name="sentinel_emulator">Emulator</string>
     <string name="sentinel_auto_time">Automatic time</string>
     <string name="sentinel_auto_timezone">Automatic timezone</string>
+    <string name="sentinel_rooted">Rooted</string>
 
     <string name="sentinel_bundle_monitor_empty">No bundles collected.</string>
 

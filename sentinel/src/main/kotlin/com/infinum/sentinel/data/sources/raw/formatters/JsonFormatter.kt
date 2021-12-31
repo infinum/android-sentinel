@@ -84,6 +84,7 @@ internal class JsonFormatter(
                 addKey(R.string.sentinel_emulator, it.isProbablyAnEmulator)
                 addKey(R.string.sentinel_auto_time, it.autoTime)
                 addKey(R.string.sentinel_auto_timezone, it.autoTimezone)
+                addKey(R.string.sentinel_rooted, it.isRooted)
             }
         }
 
