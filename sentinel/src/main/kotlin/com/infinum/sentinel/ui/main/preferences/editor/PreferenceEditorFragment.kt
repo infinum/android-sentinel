@@ -1,5 +1,7 @@
 package com.infinum.sentinel.ui.main.preferences.editor
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
@@ -14,6 +16,7 @@ import com.infinum.sentinel.R
 import com.infinum.sentinel.data.models.raw.PreferenceType
 import com.infinum.sentinel.databinding.SentinelFragmentPreferenceEditorBinding
 import com.infinum.sentinel.databinding.SentinelViewItemInputBinding
+import com.infinum.sentinel.ui.Presentation
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -40,7 +43,10 @@ internal class PreferenceEditorFragment :
 
         with(binding) {
             toolbar.setNavigationOnClickListener {
-                requireActivity().finish()
+                with(requireActivity()) {
+                    setResult(Activity.RESULT_CANCELED)
+                    finish()
+                }
             }
         }
     }
@@ -255,6 +261,12 @@ internal class PreferenceEditorFragment :
     override fun onEvent(event: PreferenceEditorEvent) =
         when (event) {
             is PreferenceEditorEvent.Saved -> {
+                activity?.setResult(
+                    Activity.RESULT_OK,
+                    Intent().apply {
+                        putExtra(Presentation.Constants.Keys.SHOULD_REFRESH, true)
+                    }
+                )
                 Snackbar.make(binding.root, "New value saved.", Snackbar.LENGTH_SHORT)
                     .addCallback(object : Snackbar.Callback() {
                         override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {

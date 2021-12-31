@@ -47,8 +47,12 @@ internal object Presentation {
 
     object Constants {
         const val KEY_BUNDLE_ID = "KEY_BUNDLE_ID"
-
         const val BYTE_MULTIPLIER = 1000
+
+        object Keys {
+
+            const val SHOULD_REFRESH: String = "KEY_SHOULD_REFRESH"
+        }
     }
 
     private val DEFAULT_TOOLS = setOf(
