@@ -67,6 +67,9 @@ class MainActivity : AppCompatActivity() {
                         }
                 )
             }
+            generateException.setOnClickListener {
+                throw RuntimeException("This is a test exception!")
+            }
         }
     }
 

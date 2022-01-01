@@ -1,6 +1,5 @@
-package com.infinum.sentinel.ui.bundles
+package com.infinum.sentinel.ui.crash
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.RestrictTo
@@ -9,43 +8,42 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.infinum.sentinel.R
-import com.infinum.sentinel.databinding.SentinelFragmentBundlesBinding
+import com.infinum.sentinel.databinding.SentinelFragmentCrashesBinding
 import com.infinum.sentinel.extensions.searchView
 import com.infinum.sentinel.extensions.setup
 import com.infinum.sentinel.ui.Presentation
-import com.infinum.sentinel.ui.bundles.details.BundleDetailsActivity
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
 import com.infinum.sentinel.ui.shared.edgefactories.bounce.BounceEdgeEffectFactory
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class BundlesFragment : BaseChildFragment<Nothing, BundlesEvent>(R.layout.sentinel_fragment_bundles) {
+internal class CrashesFragment : BaseChildFragment<Nothing, Nothing>(R.layout.sentinel_fragment_crashes) {
 
     companion object {
-        fun newInstance() = BundlesFragment()
-        const val TAG: String = "BundlesFragment"
+        fun newInstance(applicationName: String?) = CrashesFragment()
+            .apply {
+                arguments = Bundle().apply {
+                    putString(Presentation.Constants.Keys.APPLICATION_NAME, applicationName)
+                }
+            }
+
+        const val TAG: String = "CrashesFragment"
     }
 
-    override val binding: SentinelFragmentBundlesBinding by viewBinding(
-        SentinelFragmentBundlesBinding::bind
+    override val binding: SentinelFragmentCrashesBinding by viewBinding(
+        SentinelFragmentCrashesBinding::bind
     )
 
-    override val viewModel: BundlesViewModel by viewModel()
+    override val viewModel: CrashesViewModel by viewModel()
 
-    private val adapter = BundlesAdapter(
-        onListChanged = { isEmpty ->
-            showEmptyState(isEmpty)
-        },
-        onClick = {
-            startActivity(
-                Intent(requireContext(), BundleDetailsActivity::class.java)
-                    .apply {
-                        putExtra(Presentation.Constants.Keys.BUNDLE_ID, it.bundleTree.id)
-                    }
-            )
-        }
-    )
+    private var applicationName: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        applicationName = arguments?.getString(Presentation.Constants.Keys.APPLICATION_NAME)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,14 +54,12 @@ internal class BundlesFragment : BaseChildFragment<Nothing, BundlesEvent>(R.layo
 
     override fun onState(state: Nothing) = Unit
 
-    override fun onEvent(event: BundlesEvent) =
-        when (event) {
-            is BundlesEvent.BundlesIntercepted -> adapter.submitList(event.value)
-        }
+    override fun onEvent(event: Nothing) = Unit
 
     private fun setupToolbar() {
         with(binding) {
             toolbar.setNavigationOnClickListener { requireActivity().finish() }
+            toolbar.subtitle = applicationName
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.search -> {
@@ -71,7 +67,7 @@ internal class BundlesFragment : BaseChildFragment<Nothing, BundlesEvent>(R.layo
                         true
                     }
                     R.id.clear -> {
-                        viewModel.clearBundles()
+//                        viewModel.clearBundles()
                         true
                     }
                     else -> false
@@ -84,7 +80,7 @@ internal class BundlesFragment : BaseChildFragment<Nothing, BundlesEvent>(R.layo
                     viewModel.data()
                 },
                 onQueryTextChanged = { query ->
-                    viewModel.setSearchQuery(query)
+//                    viewModel.setSearchQuery(query)
                 }
             )
         }
@@ -93,7 +89,7 @@ internal class BundlesFragment : BaseChildFragment<Nothing, BundlesEvent>(R.layo
     private fun setupRecyclerView() {
         with(binding) {
             recyclerView.layoutManager = LinearLayoutManager(recyclerView.context, LinearLayoutManager.VERTICAL, false)
-            recyclerView.adapter = adapter
+//            recyclerView.adapter = adapter
             recyclerView.edgeEffectFactory = BounceEdgeEffectFactory()
             recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, LinearLayoutManager.VERTICAL))
         }

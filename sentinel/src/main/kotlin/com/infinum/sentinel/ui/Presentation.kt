@@ -23,6 +23,11 @@ import com.infinum.sentinel.ui.bundles.callbacks.BundleMonitorActivityCallbacks
 import com.infinum.sentinel.ui.bundles.callbacks.BundleMonitorNotificationCallbacks
 import com.infinum.sentinel.ui.bundles.details.BundleDetailsActivity
 import com.infinum.sentinel.ui.bundles.details.BundleDetailsViewModel
+import com.infinum.sentinel.ui.crash.CrashesViewModel
+import com.infinum.sentinel.ui.crash.notification.NotificationFactory
+import com.infinum.sentinel.ui.crash.handler.SentinelExceptionHandler
+import com.infinum.sentinel.ui.crash.notification.SystemNotificationFactory
+import com.infinum.sentinel.ui.crash.details.CrashDetailsViewModel
 import com.infinum.sentinel.ui.main.SentinelActivity
 import com.infinum.sentinel.ui.main.SentinelViewModel
 import com.infinum.sentinel.ui.main.application.ApplicationViewModel
@@ -46,12 +51,13 @@ import timber.log.Timber
 internal object Presentation {
 
     object Constants {
-        const val KEY_BUNDLE_ID = "KEY_BUNDLE_ID"
         const val BYTE_MULTIPLIER = 1000
 
         object Keys {
-
+            const val BUNDLE_ID = "KEY_BUNDLE_ID"
             const val SHOULD_REFRESH: String = "KEY_SHOULD_REFRESH"
+            const val APPLICATION_NAME: String = "KEY_APPLICATION_NAME"
+            const val CRASH_ID: String = "KEY_CRASH_ID"
         }
     }
 
@@ -69,6 +75,10 @@ internal object Presentation {
     }
 
     fun initialize(context: Context) {
+        Thread.setDefaultUncaughtExceptionHandler(
+            LibraryKoin.koin().get()
+        )
+
         this.context = context
 
         val bundleMonitor = LibraryKoin.koin().get<Repositories.BundleMonitor>()
@@ -106,7 +116,7 @@ internal object Presentation {
                                         view.context.startActivity(
                                             Intent(activity, BundleDetailsActivity::class.java)
                                                 .apply {
-                                                    putExtra(Constants.KEY_BUNDLE_ID, sizeTree.id)
+                                                    putExtra(Constants.Keys.BUNDLE_ID, sizeTree.id)
                                                 }
                                         )
                                     }
@@ -121,22 +131,10 @@ internal object Presentation {
     fun modules(): List<Module> =
         Domain.modules().plus(
             listOf(
-                viewModels()
+                viewModels(),
+                factories()
             )
         )
-
-    private fun viewModels() = module {
-        viewModel { SentinelViewModel(get(), get(), get(), get()) }
-        viewModel { DeviceViewModel(get()) }
-        viewModel { ApplicationViewModel(get()) }
-        viewModel { PermissionsViewModel(get()) }
-        viewModel { PreferencesViewModel(get(), get()) }
-        viewModel { PreferenceEditorViewModel(get()) }
-        viewModel { ToolsViewModel(get()) }
-        viewModel { SettingsViewModel(get(), get(), get()) }
-        viewModel { BundlesViewModel(get(), get()) }
-        viewModel { BundleDetailsViewModel(get()) }
-    }
 
     fun setup(tools: Set<Sentinel.Tool>, onTriggered: () -> Unit) {
         Domain.setup(tools.plus(DEFAULT_TOOLS), onTriggered)
@@ -155,4 +153,25 @@ internal object Presentation {
         } else {
             throw NullPointerException("Presentation context has not been initialized.")
         }
+
+    private fun viewModels() = module {
+        viewModel { SentinelViewModel(get(), get(), get(), get()) }
+        viewModel { DeviceViewModel(get()) }
+        viewModel { ApplicationViewModel(get()) }
+        viewModel { PermissionsViewModel(get()) }
+        viewModel { PreferencesViewModel(get(), get()) }
+        viewModel { PreferenceEditorViewModel(get()) }
+        viewModel { ToolsViewModel(get()) }
+        viewModel { SettingsViewModel(get(), get(), get()) }
+        viewModel { BundlesViewModel(get(), get()) }
+        viewModel { BundleDetailsViewModel(get()) }
+        viewModel { CrashesViewModel() }
+        viewModel { CrashDetailsViewModel(get()) }
+    }
+
+    private fun factories() = module {
+        single<NotificationFactory> { SystemNotificationFactory(get()) }
+
+        single<Thread.UncaughtExceptionHandler> { SentinelExceptionHandler(get(), get(), get()) }
+    }
 }

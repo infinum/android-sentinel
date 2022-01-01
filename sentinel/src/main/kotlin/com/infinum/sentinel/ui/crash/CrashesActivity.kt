@@ -1,4 +1,4 @@
-package com.infinum.sentinel.ui.bundles.details
+package com.infinum.sentinel.ui.crash
 
 import android.os.Bundle
 import androidx.annotation.RestrictTo
@@ -6,7 +6,7 @@ import com.infinum.sentinel.ui.Presentation
 import com.infinum.sentinel.ui.shared.base.BaseChildActivity
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class BundleDetailsActivity : BaseChildActivity() {
+internal class CrashesActivity : BaseChildActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -14,8 +14,8 @@ internal class BundleDetailsActivity : BaseChildActivity() {
         supportFragmentManager.beginTransaction()
             .replace(
                 android.R.id.content,
-                BundleDetailsFragment.newInstance(intent.extras?.getString(Presentation.Constants.Keys.BUNDLE_ID)),
-                BundleDetailsFragment.TAG
+                CrashesFragment.newInstance(intent.getStringExtra(Presentation.Constants.Keys.APPLICATION_NAME)),
+                CrashesFragment.TAG
             )
             .commit()
     }

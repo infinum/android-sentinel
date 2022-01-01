@@ -77,9 +77,7 @@ internal class SentinelFragment : BaseFragment<SentinelState, SentinelEvent>(R.l
             }
             toolbar.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
-                    R.id.share -> {
-                        viewModel.formatData()
-                    }
+                    R.id.share -> viewModel.formatData()
                 }
                 true
             }
