@@ -13,6 +13,7 @@ import com.infinum.sentinel.sample.databinding.ActivityMainBinding
 import java.util.Locale
 import kotlin.math.roundToInt
 import kotlin.random.Random
+import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
 
@@ -43,6 +44,11 @@ class MainActivity : AppCompatActivity() {
                 EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             )
         )
+
+        Sentinel.setExceptionHandler { _, exception ->
+            println("setExceptionHandler ${exception.message}")
+            exitProcess(exception.hashCode())
+        }
 
         with(viewBinding) {
             showSentinel.setOnClickListener {

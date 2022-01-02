@@ -24,10 +24,11 @@ import com.infinum.sentinel.ui.bundles.callbacks.BundleMonitorNotificationCallba
 import com.infinum.sentinel.ui.bundles.details.BundleDetailsActivity
 import com.infinum.sentinel.ui.bundles.details.BundleDetailsViewModel
 import com.infinum.sentinel.ui.crash.CrashesViewModel
-import com.infinum.sentinel.ui.crash.notification.NotificationFactory
-import com.infinum.sentinel.ui.crash.handler.SentinelExceptionHandler
-import com.infinum.sentinel.ui.crash.notification.SystemNotificationFactory
 import com.infinum.sentinel.ui.crash.details.CrashDetailsViewModel
+import com.infinum.sentinel.ui.crash.handler.SentinelExceptionHandler
+import com.infinum.sentinel.ui.crash.handler.SentinelUncaughtExceptionHandler
+import com.infinum.sentinel.ui.crash.notification.NotificationFactory
+import com.infinum.sentinel.ui.crash.notification.SystemNotificationFactory
 import com.infinum.sentinel.ui.main.SentinelActivity
 import com.infinum.sentinel.ui.main.SentinelViewModel
 import com.infinum.sentinel.ui.main.application.ApplicationViewModel
@@ -75,9 +76,8 @@ internal object Presentation {
     }
 
     fun initialize(context: Context) {
-        Thread.setDefaultUncaughtExceptionHandler(
-            LibraryKoin.koin().get()
-        )
+        val exceptionHandler = LibraryKoin.koin().get<SentinelExceptionHandler>()
+        Thread.setDefaultUncaughtExceptionHandler(exceptionHandler as Thread.UncaughtExceptionHandler)
 
         this.context = context
 
@@ -128,13 +128,10 @@ internal object Presentation {
             )
     }
 
-    fun modules(): List<Module> =
-        Domain.modules().plus(
-            listOf(
-                viewModels(),
-                factories()
-            )
-        )
+    fun setExceptionHandler(handler: Thread.UncaughtExceptionHandler?) {
+        val exceptionHandler = LibraryKoin.koin().get<SentinelExceptionHandler>()
+        exceptionHandler.setExceptionHandler(handler)
+    }
 
     fun setup(tools: Set<Sentinel.Tool>, onTriggered: () -> Unit) {
         Domain.setup(tools.plus(DEFAULT_TOOLS), onTriggered)
@@ -154,6 +151,14 @@ internal object Presentation {
             throw NullPointerException("Presentation context has not been initialized.")
         }
 
+    fun modules(): List<Module> =
+        Domain.modules().plus(
+            listOf(
+                viewModels(),
+                factories()
+            )
+        )
+
     private fun viewModels() = module {
         viewModel { SentinelViewModel(get(), get(), get(), get()) }
         viewModel { DeviceViewModel(get()) }
@@ -172,6 +177,6 @@ internal object Presentation {
     private fun factories() = module {
         single<NotificationFactory> { SystemNotificationFactory(get()) }
 
-        single<Thread.UncaughtExceptionHandler> { SentinelExceptionHandler(get(), get(), get()) }
+        single<SentinelExceptionHandler> { SentinelUncaughtExceptionHandler(get(), get(), get()) }
     }
 }

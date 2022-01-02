@@ -18,6 +18,10 @@ public object Sentinel {
     @JvmStatic
     public fun show(): Unit = showInternal()
 
+    @JvmStatic
+    public fun setExceptionHandler(handler: Thread.UncaughtExceptionHandler?): Unit =
+        Presentation.setExceptionHandler(handler)
+
     /**
      * Used for manually showing Sentinel UI
      */

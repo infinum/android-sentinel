@@ -15,6 +15,10 @@ public object Sentinel {
     @JvmStatic
     public fun show(): Unit = Unit
 
+    @JvmStatic
+    @Suppress("UNUSED_PARAMETER")
+    public fun setExceptionHandler(handler: Thread.UncaughtExceptionHandler?): Unit = Unit
+
     public interface Tool {
 
         /**
