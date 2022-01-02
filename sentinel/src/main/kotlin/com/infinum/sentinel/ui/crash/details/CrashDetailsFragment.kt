@@ -8,6 +8,8 @@ import com.infinum.sentinel.databinding.SentinelFragmentCrashDetailsBinding
 import com.infinum.sentinel.ui.Presentation
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
+import java.text.SimpleDateFormat
+import java.util.Date
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
@@ -50,9 +52,12 @@ internal class CrashDetailsFragment :
             is CrashDetailsState.Data -> {
                 with(binding) {
                     toolbar.subtitle = state.value.applicationName
-                    fileView.text = state.value.data.exception?.file
-                    lineView.text = state.value.data.exception?.lineNumber?.toString()
-                    dateView.text = state.value.timestamp.toString()
+                    lineView.text = listOfNotNull(
+                        state.value.data.exception?.file,
+                        state.value.data.exception?.lineNumber
+                    ).joinToString(":")
+                    timestampView.text = SimpleDateFormat.getTimeInstance().format(Date(state.value.timestamp))
+                    exceptionView.text = state.value.data.exception?.name
                 }
             }
         }

@@ -17,7 +17,7 @@ internal class SentinelUncaughtExceptionHandler(
     private val dao: CrashesDao,
 ) : SentinelExceptionHandler {
 
-    private var isRunning: Boolean = true
+    private var catchUncaughtExceptions: Boolean = false
 
     private val applicationName: String = (context.packageManager.getApplicationLabel(
         context.packageManager.getApplicationInfo(context.packageName, PackageManager.GET_META_DATA)
@@ -26,7 +26,7 @@ internal class SentinelUncaughtExceptionHandler(
     private var currentDefaultHandler: Thread.UncaughtExceptionHandler? = Thread.getDefaultUncaughtExceptionHandler()
 
     override fun uncaughtException(t: Thread, e: Throwable) {
-        if (isRunning) {
+        if (catchUncaughtExceptions) {
             val entity = CrashEntity(
                 applicationName = applicationName,
                 timestamp = System.currentTimeMillis(),
@@ -41,12 +41,12 @@ internal class SentinelUncaughtExceptionHandler(
         currentDefaultHandler?.uncaughtException(t, e)
     }
 
-    override fun start() {
-        isRunning = true
+    override fun startCatchingUncaughtExceptions() {
+        catchUncaughtExceptions = true
     }
 
-    override fun stop() {
-        isRunning = false
+    override fun stopCatchingUncaughtExceptions() {
+        catchUncaughtExceptions = false
     }
 
     override fun setExceptionHandler(handler: Thread.UncaughtExceptionHandler?) {

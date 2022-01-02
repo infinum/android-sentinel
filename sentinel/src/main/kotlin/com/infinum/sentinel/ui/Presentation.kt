@@ -167,7 +167,7 @@ internal object Presentation {
         viewModel { PreferencesViewModel(get(), get()) }
         viewModel { PreferenceEditorViewModel(get()) }
         viewModel { ToolsViewModel(get()) }
-        viewModel { SettingsViewModel(get(), get(), get()) }
+        viewModel { SettingsViewModel(get(), get(), get(), get()) }
         viewModel { BundlesViewModel(get(), get()) }
         viewModel { BundleDetailsViewModel(get()) }
         viewModel { CrashesViewModel(get()) }

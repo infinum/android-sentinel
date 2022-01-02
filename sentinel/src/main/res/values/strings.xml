@@ -89,4 +89,7 @@
     <string name="sentinel_line">Line</string>
     <string name="sentinel_date">Date</string>
     <string name="sentinel_crash_empty">No crashes detected.</string>
+    <string name="sentinel_exception_handler">Exception handler</string>
+    <string name="sentinel_notify_uncaught">Notify uncaught exceptions</string>
+    <string name="sentinel_notify_anr">Notify "Application Not Responding"</string>
 </resources>

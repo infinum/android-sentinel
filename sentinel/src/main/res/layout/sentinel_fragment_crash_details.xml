@@ -36,68 +36,70 @@
             android:paddingEnd="16dp"
             android:paddingBottom="32dp">
 
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.MaterialComponents.Caption"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/listPreferredItemHeightSmall"
-                android:gravity="start|bottom"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:paddingBottom="8dp"
-                android:text="@string/sentinel_file"
-                android:textAllCaps="true"
-                android:textColor="@color/sentinel_color_primary" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/fileView"
-                style="@style/TextAppearance.MaterialComponents.Body2"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                tools:text="MainActivity.kt" />
+                android:background="?attr/selectableItemBackground"
+                android:minHeight="?attr/listPreferredItemHeight"
+                android:orientation="horizontal"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
 
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.MaterialComponents.Caption"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/listPreferredItemHeightSmall"
-                android:gravity="start|bottom"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:paddingBottom="8dp"
-                android:text="@string/sentinel_line"
-                android:textAllCaps="true"
-                android:textColor="@color/sentinel_color_primary" />
+                <ImageView
+                    android:id="@+id/iconView"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/sentinel_ic_crash"
+                    tools:src="@drawable/sentinel_ic_crash" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/lineView"
-                style="@style/TextAppearance.MaterialComponents.Body2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                tools:text="47" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:orientation="vertical">
 
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.MaterialComponents.Caption"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/listPreferredItemHeightSmall"
-                android:gravity="start|bottom"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:paddingBottom="8dp"
-                android:text="@string/sentinel_date"
-                android:textAllCaps="true"
-                android:textColor="@color/sentinel_color_primary" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/dateView"
-                style="@style/TextAppearance.MaterialComponents.Body2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                tools:text="1239782482382" />
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/lineView"
+                            style="@style/TextAppearance.MaterialComponents.Caption"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            tools:text="MainActivity.kt:47" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/timestampView"
+                            style="@style/TextAppearance.MaterialComponents.Caption"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:gravity="center_vertical|end"
+                            android:maxLines="1"
+                            tools:text="@tools:sample/date/hhmmss" />
+
+                    </LinearLayout>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/exceptionView"
+                        style="@style/TextAppearance.MaterialComponents.Body2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        tools:text="NullPointerException" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
 
         </LinearLayout>
 

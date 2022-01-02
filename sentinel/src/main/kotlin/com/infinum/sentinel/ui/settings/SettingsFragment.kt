@@ -73,6 +73,12 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
             increaseLimitButton.setOnClickListener {
                 limitSlider.value = (limitSlider.value + limitSlider.stepSize).coerceAtMost(limitSlider.valueTo)
             }
+            uncaughtExceptionSwitch.setOnCheckedChangeListener { _, isChecked ->
+                viewModel.toggleUncaughtException(isChecked)
+            }
+            anrSwitch.setOnCheckedChangeListener { _, isChecked ->
+                viewModel.toggleAnrException(isChecked)
+            }
         }
     }
 

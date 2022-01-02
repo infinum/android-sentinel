@@ -168,7 +168,6 @@
                 android:textColor="@color/sentinel_color_primary" />
 
             <LinearLayout
-                android:id="@+id/bundleMonitorLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -312,6 +311,43 @@
                         app:strokeWidth="0dp" />
 
                 </LinearLayout>
+
+            </LinearLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:gravity="start|bottom"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp"
+                android:text="@string/sentinel_exception_handler"
+                android:textAllCaps="true"
+                android:textColor="@color/sentinel_color_primary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp">
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/uncaughtExceptionSwitch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:minHeight="@dimen/sentinel_item_height"
+                    android:text="@string/sentinel_notify_uncaught" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/anrSwitch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:minHeight="@dimen/sentinel_item_height"
+                    android:text="@string/sentinel_notify_anr" />
 
             </LinearLayout>
 
