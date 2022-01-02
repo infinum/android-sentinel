@@ -76,6 +76,15 @@ class MainActivity : AppCompatActivity() {
             generateException.setOnClickListener {
                 throw RuntimeException("This is a test exception!")
             }
+            generateDeadlock.setOnClickListener {
+                ANRTester.testDeadLock()
+            }
+            generateLoop.setOnClickListener {
+                ANRTester.testInfiniteLoop()
+            }
+            generateSleep.setOnClickListener {
+                ANRTester.testSleep()
+            }
         }
     }
 

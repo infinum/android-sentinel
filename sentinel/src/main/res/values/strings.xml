@@ -85,9 +85,9 @@
     <string name="sentinel_crash_notification_subtitle">Tap here to see crash details.</string>
     <string name="sentinel_crashes">Crashes</string>
     <string name="sentinel_crash">Crash</string>
-    <string name="sentinel_file">File</string>
-    <string name="sentinel_line">Line</string>
-    <string name="sentinel_date">Date</string>
+    <string name="sentinel_stacktrace">StackTrace</string>
+    <string name="sentinel_thread">Thread</string>
+    <string name="sentinel_daemon">Daemon</string>
     <string name="sentinel_crash_empty">No crashes detected.</string>
     <string name="sentinel_exception_handler">Exception handler</string>
     <string name="sentinel_notify_uncaught">Notify uncaught exceptions</string>

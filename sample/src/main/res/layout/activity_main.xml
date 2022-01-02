@@ -51,4 +51,25 @@
         android:layout_gravity="center"
         android:text="Generate exception" />
 
+    <Button
+        android:id="@+id/generateDeadlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Generate deadlock" />
+
+    <Button
+        android:id="@+id/generateLoop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Generate infinite loop" />
+
+    <Button
+        android:id="@+id/generateSleep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Generate thread sleep" />
+
 </LinearLayout>

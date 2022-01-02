@@ -58,6 +58,23 @@ internal class CrashDetailsFragment :
                     ).joinToString(":")
                     timestampView.text = SimpleDateFormat.getTimeInstance().format(Date(state.value.timestamp))
                     exceptionView.text = state.value.data.exception?.name
+                    stackTraceView.text = "${state.value.data.exception?.name}: ${state.value.data.exception?.message}"
+                        .plus(state.value.data.exception?.stackTrace?.joinToString { "\n\t\t\t at $it" })
+                    threadView.text = listOf(
+                        "${state.value.data.thread?.name}",
+                        "${state.value.data.thread?.state?.uppercase()}"
+                    ).joinToString("\t\t\t")
+                    threadDataView.text = listOf(
+                        "priority = ${
+                            when (state.value.data.thread?.priority) {
+                                Thread.MAX_PRIORITY -> "maximum"
+                                Thread.MIN_PRIORITY -> "minimum"
+                                else -> "normal"
+                            }
+                        }",
+                        "id = ${state.value.data.thread?.id}",
+                        "daemon = ${state.value.data.thread?.isDaemon}"
+                    ).joinToString("\t\t\t")
                 }
             }
         }
