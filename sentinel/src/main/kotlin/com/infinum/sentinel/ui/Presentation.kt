@@ -165,7 +165,7 @@ internal object Presentation {
         viewModel { SettingsViewModel(get(), get(), get()) }
         viewModel { BundlesViewModel(get(), get()) }
         viewModel { BundleDetailsViewModel(get()) }
-        viewModel { CrashesViewModel() }
+        viewModel { CrashesViewModel(get()) }
         viewModel { CrashDetailsViewModel(get()) }
     }
 

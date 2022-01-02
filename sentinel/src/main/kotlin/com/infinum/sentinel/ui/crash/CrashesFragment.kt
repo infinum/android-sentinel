@@ -1,5 +1,6 @@
 package com.infinum.sentinel.ui.crash
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.RestrictTo
@@ -12,13 +13,14 @@ import com.infinum.sentinel.databinding.SentinelFragmentCrashesBinding
 import com.infinum.sentinel.extensions.searchView
 import com.infinum.sentinel.extensions.setup
 import com.infinum.sentinel.ui.Presentation
+import com.infinum.sentinel.ui.crash.details.CrashDetailsActivity
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
 import com.infinum.sentinel.ui.shared.edgefactories.bounce.BounceEdgeEffectFactory
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class CrashesFragment : BaseChildFragment<Nothing, Nothing>(R.layout.sentinel_fragment_crashes) {
+internal class CrashesFragment : BaseChildFragment<Nothing, CrashesEvent>(R.layout.sentinel_fragment_crashes) {
 
     companion object {
         fun newInstance(applicationName: String?) = CrashesFragment()
@@ -37,6 +39,20 @@ internal class CrashesFragment : BaseChildFragment<Nothing, Nothing>(R.layout.se
 
     override val viewModel: CrashesViewModel by viewModel()
 
+    private val adapter = CrashesAdapter(
+        onListChanged = { isEmpty ->
+            showEmptyState(isEmpty)
+        },
+        onClick = {
+            startActivity(
+                Intent(requireContext(), CrashDetailsActivity::class.java)
+                    .apply {
+                        putExtra(Presentation.Constants.Keys.CRASH_ID, it.id)
+                    }
+            )
+        }
+    )
+
     private var applicationName: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +70,10 @@ internal class CrashesFragment : BaseChildFragment<Nothing, Nothing>(R.layout.se
 
     override fun onState(state: Nothing) = Unit
 
-    override fun onEvent(event: Nothing) = Unit
+    override fun onEvent(event: CrashesEvent) =
+        when (event) {
+            is CrashesEvent.CrashesIntercepted -> adapter.submitList(event.value)
+        }
 
     private fun setupToolbar() {
         with(binding) {
@@ -67,7 +86,7 @@ internal class CrashesFragment : BaseChildFragment<Nothing, Nothing>(R.layout.se
                         true
                     }
                     R.id.clear -> {
-//                        viewModel.clearBundles()
+                        viewModel.clearCrashes()
                         true
                     }
                     else -> false
@@ -80,7 +99,7 @@ internal class CrashesFragment : BaseChildFragment<Nothing, Nothing>(R.layout.se
                     viewModel.data()
                 },
                 onQueryTextChanged = { query ->
-//                    viewModel.setSearchQuery(query)
+                    viewModel.setSearchQuery(query)
                 }
             )
         }
@@ -89,7 +108,7 @@ internal class CrashesFragment : BaseChildFragment<Nothing, Nothing>(R.layout.se
     private fun setupRecyclerView() {
         with(binding) {
             recyclerView.layoutManager = LinearLayoutManager(recyclerView.context, LinearLayoutManager.VERTICAL, false)
-//            recyclerView.adapter = adapter
+            recyclerView.adapter = adapter
             recyclerView.edgeEffectFactory = BounceEdgeEffectFactory()
             recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, LinearLayoutManager.VERTICAL))
         }

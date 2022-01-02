@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:importantForAccessibility="no"
-            android:src="@drawable/sentinel_ic_bundle_monitor_empty" />
+            android:src="@drawable/sentinel_ic_crashes_empty" />
 
         <com.google.android.material.textview.MaterialTextView
             style="@style/TextAppearance.MaterialComponents.Subtitle1"
