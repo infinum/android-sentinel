@@ -19,7 +19,7 @@ internal class SystemNotificationFactory(
 ) : NotificationFactory {
 
     companion object {
-        private const val NOTIFICATIONS_CHANNEL_ID = "collar_analytics"
+        private const val NOTIFICATIONS_CHANNEL_ID = "sentinel_crashes"
         private const val NOTIFICATION_ID = 3105
     }
 
@@ -38,32 +38,16 @@ internal class SystemNotificationFactory(
     }
 
     override fun showCrash(applicationName: String, id: Long, entity: CrashEntity) {
-        buildNotification(applicationName, id, entity)
+        buildExceptionNotification(applicationName, id, entity)
     }
 
-    private fun buildNotification(applicationName: String, id: Long, entity: CrashEntity) {
+    override fun showAnr(applicationName: String, id: Long, entity: CrashEntity) {
+        buildAnrNotification(applicationName, id, entity)
+    }
+
+    private fun buildExceptionNotification(applicationName: String, id: Long, entity: CrashEntity) {
         val builder = NotificationCompat.Builder(context, NOTIFICATIONS_CHANNEL_ID)
-            .setContentIntent(
-                PendingIntent.getActivities(
-                    context,
-                    NOTIFICATION_ID,
-                    arrayOf(
-                        Intent(context, CrashesActivity::class.java)
-                            .apply {
-                                putExtra(Presentation.Constants.Keys.APPLICATION_NAME, applicationName)
-                            },
-                        Intent(context, CrashDetailsActivity::class.java)
-                            .apply {
-                                putExtra(Presentation.Constants.Keys.CRASH_ID, id)
-                            }
-                    ),
-                    when {
-                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ->
-                            PendingIntent.FLAG_MUTABLE
-                        else -> PendingIntent.FLAG_CANCEL_CURRENT
-                    }
-                )
-            )
+            .setContentIntent(buildPendingIntent(applicationName, id))
             .setLocalOnly(true)
             .setSmallIcon(R.drawable.sentinel_ic_notification_crash)
             .setColor(ContextCompat.getColor(context, R.color.sentinel_color_primary))
@@ -80,4 +64,45 @@ internal class SystemNotificationFactory(
 
         notificationManager.notify(NOTIFICATION_ID, builder.build())
     }
+
+    private fun buildAnrNotification(applicationName: String, id: Long, entity: CrashEntity) {
+        val builder = NotificationCompat.Builder(context, NOTIFICATIONS_CHANNEL_ID)
+            .setContentIntent(buildPendingIntent(applicationName, id))
+            .setLocalOnly(true)
+            .setSmallIcon(R.drawable.sentinel_ic_notification_anr)
+            .setColor(ContextCompat.getColor(context, R.color.sentinel_color_primary))
+            .setContentTitle(
+                String.format(
+                    context.getString(R.string.sentinel_anr_notification_title),
+                    entity.applicationName
+                )
+            )
+            .setContentText(context.getString(R.string.sentinel_anr_notification_subtitle))
+            .setWhen(entity.timestamp)
+            .setShowWhen(true)
+            .setAutoCancel(true)
+
+        notificationManager.notify(NOTIFICATION_ID, builder.build())
+    }
+
+    private fun buildPendingIntent(applicationName: String, id: Long) =
+        PendingIntent.getActivities(
+            context,
+            NOTIFICATION_ID,
+            arrayOf(
+                Intent(context, CrashesActivity::class.java)
+                    .apply {
+                        putExtra(Presentation.Constants.Keys.APPLICATION_NAME, applicationName)
+                    },
+                Intent(context, CrashDetailsActivity::class.java)
+                    .apply {
+                        putExtra(Presentation.Constants.Keys.CRASH_ID, id)
+                    }
+            ),
+            when {
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ->
+                    PendingIntent.FLAG_MUTABLE
+                else -> PendingIntent.FLAG_CANCEL_CURRENT
+            }
+        )
 }

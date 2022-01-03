@@ -50,6 +50,11 @@ class MainActivity : AppCompatActivity() {
             exitProcess(exception.hashCode())
         }
 
+        Sentinel.setAnrListener { exception ->
+            println("setAnrListener ${exception.message}")
+            exitProcess(exception.hashCode())
+        }
+
         with(viewBinding) {
             showSentinel.setOnClickListener {
                 Sentinel.show()
@@ -77,13 +82,13 @@ class MainActivity : AppCompatActivity() {
                 throw RuntimeException("This is a test exception!")
             }
             generateDeadlock.setOnClickListener {
-                ANRTester.testDeadLock()
+                ANRTester.deadLock()
             }
             generateLoop.setOnClickListener {
-                ANRTester.testInfiniteLoop()
+                ANRTester.infiniteLoop()
             }
             generateSleep.setOnClickListener {
-                ANRTester.testSleep()
+                ANRTester.threadSleep()
             }
         }
     }

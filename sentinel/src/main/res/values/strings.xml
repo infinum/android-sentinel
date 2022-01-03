@@ -83,6 +83,8 @@
 
     <string name="sentinel_crash_notification_title">Sentinel detected a crash in %s</string>
     <string name="sentinel_crash_notification_subtitle">Tap here to see crash details.</string>
+    <string name="sentinel_anr_notification_title">Sentinel detected an ANR in %s</string>
+    <string name="sentinel_anr_notification_subtitle">Tap here to see ANR details.</string>
     <string name="sentinel_crashes">Crashes</string>
     <string name="sentinel_crash">Crash</string>
     <string name="sentinel_stacktrace">StackTrace</string>
@@ -92,4 +94,6 @@
     <string name="sentinel_exception_handler">Exception handler</string>
     <string name="sentinel_notify_uncaught">Notify uncaught exceptions</string>
     <string name="sentinel_notify_anr">Notify "Application Not Responding"</string>
+    <string name="sentinel_anr_title">Application Not Responding</string>
+    <string name="sentinel_anr_message">Main thread is unresponsive</string>
 </resources>

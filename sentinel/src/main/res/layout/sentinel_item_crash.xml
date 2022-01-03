@@ -19,7 +19,6 @@
         android:layout_height="24dp"
         android:layout_gravity="center_vertical"
         android:importantForAccessibility="no"
-        android:src="@drawable/sentinel_ic_crash"
         tools:src="@drawable/sentinel_ic_crash" />
 
     <LinearLayout

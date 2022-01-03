@@ -1,6 +1,7 @@
 package com.infinum.sentinel.ui.crash
 
 import androidx.recyclerview.widget.RecyclerView
+import com.infinum.sentinel.R
 import com.infinum.sentinel.data.models.local.CrashEntity
 import com.infinum.sentinel.databinding.SentinelItemCrashBinding
 import java.text.SimpleDateFormat
@@ -13,12 +14,27 @@ internal class CrashViewHolder(
     fun bind(item: CrashEntity?, onClick: (CrashEntity) -> Unit) =
         item?.let { descriptor ->
             with(binding) {
-                lineView.text = listOfNotNull(
-                    descriptor.data.exception?.file,
-                    descriptor.data.exception?.lineNumber
-                ).joinToString(":")
+                iconView.setImageResource(
+                    if (item.data.exception?.isANRException == true) {
+                        R.drawable.sentinel_ic_anr
+                    } else {
+                        R.drawable.sentinel_ic_crash
+                    }
+                )
+                lineView.text = if (item.data.exception?.isANRException == true) {
+                    lineView.context.getString(R.string.sentinel_anr_message)
+                } else {
+                    listOfNotNull(
+                        descriptor.data.exception?.file,
+                        descriptor.data.exception?.lineNumber
+                    ).joinToString(":")
+                }
                 timestampView.text = SimpleDateFormat.getTimeInstance().format(Date(descriptor.timestamp))
-                exceptionView.text = descriptor.data.exception?.name
+                exceptionView.text = if (item.data.exception?.isANRException == true) {
+                    lineView.context.getString(R.string.sentinel_anr_title)
+                } else {
+                    descriptor.data.exception?.name
+                }
                 root.setOnClickListener { onClick(descriptor) }
             }
         } ?: unbind()

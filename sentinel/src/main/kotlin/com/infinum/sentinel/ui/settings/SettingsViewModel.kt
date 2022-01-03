@@ -7,6 +7,7 @@ import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.bundle.monitor.models.BundleMonitorParameters
 import com.infinum.sentinel.domain.formats.models.FormatsParameters
 import com.infinum.sentinel.domain.triggers.models.TriggerParameters
+import com.infinum.sentinel.ui.crash.anr.AnrObserver
 import com.infinum.sentinel.ui.crash.handler.SentinelExceptionHandler
 import com.infinum.sentinel.ui.shared.base.BaseChildViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -16,7 +17,8 @@ internal class SettingsViewModel(
     private val triggers: Repositories.Triggers,
     private val formats: Repositories.Formats,
     private val bundleMonitor: Repositories.BundleMonitor,
-    private val exceptionHandler: SentinelExceptionHandler
+    private val exceptionHandler: SentinelExceptionHandler,
+    private val anrObserver: AnrObserver
 ) : BaseChildViewModel<Nothing, SettingsEvent>() {
 
     override fun data() {
@@ -91,9 +93,9 @@ internal class SettingsViewModel(
         launch {
             io {
                 if (value) {
-                    exceptionHandler.startCatchingUncaughtExceptions()
+                    anrObserver.start()
                 } else {
-                    exceptionHandler.stopCatchingUncaughtExceptions()
+                    anrObserver.stop()
                 }
             }
         }

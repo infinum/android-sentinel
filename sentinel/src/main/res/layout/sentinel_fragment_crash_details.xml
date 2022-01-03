@@ -51,7 +51,6 @@
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/sentinel_ic_crash"
                     tools:src="@drawable/sentinel_ic_crash" />
 
                 <LinearLayout
@@ -128,6 +127,7 @@
             </HorizontalScrollView>
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/threadLabel"
                 style="@style/TextAppearance.MaterialComponents.Caption"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/listPreferredItemHeightSmall"
@@ -137,7 +137,8 @@
                 android:paddingBottom="8dp"
                 android:text="@string/sentinel_thread"
                 android:textAllCaps="true"
-                android:textColor="@color/sentinel_color_primary" />
+                android:textColor="@color/sentinel_color_primary"
+                android:visibility="gone" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/threadView"
@@ -147,6 +148,7 @@
                 android:gravity="center_vertical"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
+                android:visibility="gone"
                 tools:text="Main" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -158,6 +160,7 @@
                 android:gravity="center_vertical"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
+                android:visibility="gone"
                 tools:text="id = 2" />
 
         </LinearLayout>

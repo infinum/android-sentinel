@@ -11,7 +11,7 @@ class ANRTester : Thread() {
         private const val DEADLOCK_DURATION = 1000L
         private val mutex = Any()
 
-        fun testSleep() {
+        fun threadSleep() {
             try {
                 sleep(SLEEP_DURATION)
             } catch (e: InterruptedException) {
@@ -19,14 +19,14 @@ class ANRTester : Thread() {
             }
         }
 
-        fun testInfiniteLoop() {
+        fun infiniteLoop() {
             var i = 0
             while (true) {
                 i++
             }
         }
 
-        fun testDeadLock() {
+        fun deadLock() {
             Handler(Looper.getMainLooper())
                 .postDelayed(
                     {
@@ -46,6 +46,6 @@ class ANRTester : Thread() {
 
     override fun run() =
         synchronized(mutex) {
-            while (true) testSleep()
+            while (true) threadSleep()
         }
 }

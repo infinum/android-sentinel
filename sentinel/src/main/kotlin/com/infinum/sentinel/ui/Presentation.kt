@@ -24,6 +24,8 @@ import com.infinum.sentinel.ui.bundles.callbacks.BundleMonitorNotificationCallba
 import com.infinum.sentinel.ui.bundles.details.BundleDetailsActivity
 import com.infinum.sentinel.ui.bundles.details.BundleDetailsViewModel
 import com.infinum.sentinel.ui.crash.CrashesViewModel
+import com.infinum.sentinel.ui.crash.anr.AnrObserver
+import com.infinum.sentinel.ui.crash.anr.AnrObserverRunnable
 import com.infinum.sentinel.ui.crash.details.CrashDetailsViewModel
 import com.infinum.sentinel.ui.crash.handler.SentinelExceptionHandler
 import com.infinum.sentinel.ui.crash.handler.SentinelUncaughtExceptionHandler
@@ -40,6 +42,8 @@ import com.infinum.sentinel.ui.main.tools.ToolsViewModel
 import com.infinum.sentinel.ui.settings.SettingsViewModel
 import com.infinum.sentinel.ui.tools.AppInfoTool
 import com.infinum.sentinel.ui.tools.BundleMonitorTool
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -78,6 +82,8 @@ internal object Presentation {
     fun initialize(context: Context) {
         val exceptionHandler = LibraryKoin.koin().get<SentinelExceptionHandler>()
         Thread.setDefaultUncaughtExceptionHandler(exceptionHandler as Thread.UncaughtExceptionHandler)
+        val observer = LibraryKoin.koin().get<AnrObserver>()
+        observer.start()
 
         this.context = context
 
@@ -133,6 +139,11 @@ internal object Presentation {
         exceptionHandler.setExceptionHandler(handler)
     }
 
+    fun setAnrListener(listener: Sentinel.ApplicationNotRespondingListener?) {
+        val observer = LibraryKoin.koin().get<AnrObserver>()
+        observer.setListener(listener)
+    }
+
     fun setup(tools: Set<Sentinel.Tool>, onTriggered: () -> Unit) {
         Domain.setup(tools.plus(DEFAULT_TOOLS), onTriggered)
         LibraryKoin.koin().get<ShakeTrigger>().apply { active = true }
@@ -167,7 +178,7 @@ internal object Presentation {
         viewModel { PreferencesViewModel(get(), get()) }
         viewModel { PreferenceEditorViewModel(get()) }
         viewModel { ToolsViewModel(get()) }
-        viewModel { SettingsViewModel(get(), get(), get(), get()) }
+        viewModel { SettingsViewModel(get(), get(), get(), get(), get()) }
         viewModel { BundlesViewModel(get(), get()) }
         viewModel { BundleDetailsViewModel(get()) }
         viewModel { CrashesViewModel(get()) }
@@ -178,5 +189,9 @@ internal object Presentation {
         single<NotificationFactory> { SystemNotificationFactory(get()) }
 
         single<SentinelExceptionHandler> { SentinelUncaughtExceptionHandler(get(), get(), get()) }
+
+        single { AnrObserverRunnable(get(), get(), get()) }
+        factory<ExecutorService> { Executors.newSingleThreadExecutor() }
+        single { AnrObserver(get(), get()) }
     }
 }
