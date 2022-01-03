@@ -17,7 +17,7 @@ import timber.log.Timber
 /**
  * A [Runnable] testing the UI thread every 10s until stop is called explicitly.
  */
-internal class AnrObserverRunnable(
+internal class SentinelAnrObserverRunnable(
     context: Context,
     private val notificationFactory: NotificationFactory,
     private val dao: CrashesDao
@@ -26,7 +26,7 @@ internal class AnrObserverRunnable(
     companion object {
         private const val ANR_OBSERVER_THREAD_NAME = "Sentinel-ANR-Observer"
         private const val ANR_OBSERVER_TIMEOUT: Long = 10_000
-        private const val ANR_THREAD_RESPONSE_THRESHOLD: Long = 5_000
+        private const val ANR_THREAD_RESPONSE_THRESHOLD: Long = 2_000
     }
 
     private val applicationName: String = (context.packageManager.getApplicationLabel(
@@ -64,7 +64,7 @@ internal class AnrObserverRunnable(
                 // Create new callback
                 val callback = AnrObserverCallback()
 
-                // Perform test, Handler should run the callback within 5s
+                // Perform test, Handler should run the callback within 2s
                 synchronized(callback) {
                     handler.post(callback)
                     (callback as Object).wait(ANR_THREAD_RESPONSE_THRESHOLD)
@@ -90,7 +90,7 @@ internal class AnrObserverRunnable(
 
                         (callback as Object).wait(0L)
                     } else {
-                        Timber.d("UI Thread responded within 5s.")
+                        Timber.d("UI Thread responded within 2s.")
                     }
                 }
 
@@ -104,7 +104,7 @@ internal class AnrObserverRunnable(
 
         // Set stop completed flag
         isStopped = true
-        Timber.d("ANR observer stopped.")
+        Timber.d("ANR observer on stand by.")
     }
 
     @Synchronized
@@ -138,5 +138,22 @@ internal class AnrObserverRunnable(
 
     fun setListener(listener: Sentinel.ApplicationNotRespondingListener?) {
         this.listener = listener
+    }
+
+    /**
+     * Runnable as callback that calls notifyAll on run.
+     */
+    internal class AnrObserverCallback : Runnable {
+
+        @get:Synchronized
+        var isCalled = false
+            private set
+
+        @Synchronized
+        @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
+        override fun run() {
+            isCalled = true
+            (this as Object).notifyAll()
+        }
     }
 }

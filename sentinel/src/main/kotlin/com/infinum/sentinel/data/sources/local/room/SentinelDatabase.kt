@@ -6,10 +6,12 @@ import androidx.room.TypeConverters
 import com.infinum.sentinel.data.Data.DATABASE_VERSION
 import com.infinum.sentinel.data.models.local.BundleMonitorEntity
 import com.infinum.sentinel.data.models.local.CrashEntity
+import com.infinum.sentinel.data.models.local.CrashMonitorEntity
 import com.infinum.sentinel.data.models.local.FormatEntity
 import com.infinum.sentinel.data.models.local.TriggerEntity
 import com.infinum.sentinel.data.sources.local.room.dao.BundleMonitorDao
 import com.infinum.sentinel.data.sources.local.room.dao.CrashesDao
+import com.infinum.sentinel.data.sources.local.room.dao.CrashMonitorDao
 import com.infinum.sentinel.data.sources.local.room.dao.FormatsDao
 import com.infinum.sentinel.data.sources.local.room.dao.TriggersDao
 import com.infinum.sentinel.data.sources.local.room.typeconverters.CrashDataConverter
@@ -21,7 +23,8 @@ import com.infinum.sentinel.data.sources.local.room.typeconverters.TriggerTypeCo
         TriggerEntity::class,
         FormatEntity::class,
         BundleMonitorEntity::class,
-        CrashEntity::class
+        CrashEntity::class,
+        CrashMonitorEntity::class
     ],
     version = DATABASE_VERSION,
     exportSchema = false
@@ -36,4 +39,6 @@ internal abstract class SentinelDatabase : RoomDatabase() {
     abstract fun bundleMonitor(): BundleMonitorDao
 
     abstract fun crashes(): CrashesDao
+
+    abstract fun crashMonitor(): CrashMonitorDao
 }

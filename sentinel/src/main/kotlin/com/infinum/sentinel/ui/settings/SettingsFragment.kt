@@ -73,12 +73,6 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
             increaseLimitButton.setOnClickListener {
                 limitSlider.value = (limitSlider.value + limitSlider.stepSize).coerceAtMost(limitSlider.valueTo)
             }
-            uncaughtExceptionSwitch.setOnCheckedChangeListener { _, isChecked ->
-                viewModel.toggleUncaughtException(isChecked)
-            }
-            anrSwitch.setOnCheckedChangeListener { _, isChecked ->
-                viewModel.toggleAnrException(isChecked)
-            }
         }
     }
 
@@ -157,6 +151,18 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
                     viewModel.updateBundleMonitor(event.value.copy(limit = value.roundToInt()))
                 }
                 binding.limitValueView.text = String.format(FORMAT_BUNDLE_SIZE, event.value.limit)
+            }
+            is SettingsEvent.CrashMonitorChanged -> {
+                binding.uncaughtExceptionSwitch.setOnCheckedChangeListener(null)
+                binding.uncaughtExceptionSwitch.isChecked = event.value.notifyExceptions
+                binding.uncaughtExceptionSwitch.setOnCheckedChangeListener { _, isChecked ->
+                    viewModel.updateCrashMonitor(event.value.copy(notifyExceptions = isChecked))
+                }
+                binding.anrSwitch.setOnCheckedChangeListener(null)
+                binding.anrSwitch.isChecked = event.value.notifyAnrs
+                binding.anrSwitch.setOnCheckedChangeListener { _, isChecked ->
+                    viewModel.updateCrashMonitor(event.value.copy(notifyAnrs = isChecked))
+                }
             }
         }
 

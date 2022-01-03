@@ -6,15 +6,15 @@ import java.util.concurrent.ExecutorService
 /**
  * A class observing the UI thread for ANR errors.
  */
-internal class AnrObserver(
-    private val observerRunnable: AnrObserverRunnable,
+internal class SentinelUiAnrObserver(
+    private val observerRunnable: SentinelAnrObserverRunnable,
     private val executor: ExecutorService
-) {
+) : SentinelAnrObserver {
     /**
      * Start observing.
      */
     @Synchronized
-    fun start() =
+    override fun start() =
         synchronized(observerRunnable) {
             if (observerRunnable.isStopped) {
                 executor.execute(observerRunnable)
@@ -30,10 +30,10 @@ internal class AnrObserver(
      * There will be at least one more ANR check before the observing is stopped.
      */
     @Synchronized
-    fun stop() =
+    override fun stop() =
         observerRunnable.stop()
 
-    fun setListener(listener: Sentinel.ApplicationNotRespondingListener?) {
+    override fun setListener(listener: Sentinel.ApplicationNotRespondingListener?) {
         observerRunnable.setListener(listener)
     }
 }

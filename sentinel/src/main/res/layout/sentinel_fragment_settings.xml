@@ -322,7 +322,7 @@
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:paddingBottom="8dp"
-                android:text="@string/sentinel_exception_handler"
+                android:text="@string/sentinel_crash_monitor"
                 android:textAllCaps="true"
                 android:textColor="@color/sentinel_color_primary" />
 
@@ -337,7 +337,7 @@
                     android:id="@+id/uncaughtExceptionSwitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:checked="true"
+                    android:checked="false"
                     android:minHeight="@dimen/sentinel_item_height"
                     android:text="@string/sentinel_notify_uncaught" />
 
@@ -345,7 +345,7 @@
                     android:id="@+id/anrSwitch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:checked="true"
+                    android:checked="false"
                     android:minHeight="@dimen/sentinel_item_height"
                     android:text="@string/sentinel_notify_anr" />
 

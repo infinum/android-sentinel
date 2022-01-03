@@ -9,6 +9,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.infinum.sentinel.BuildConfig
 import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
+import com.infinum.sentinel.data.models.local.CrashMonitorEntity
 import com.infinum.sentinel.data.models.memory.triggers.shake.ShakeTrigger
 import com.infinum.sentinel.di.LibraryKoin
 import com.infinum.sentinel.domain.Domain
@@ -16,6 +17,7 @@ import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleDescriptor
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleParameters
 import com.infinum.sentinel.domain.bundle.monitor.models.BundleMonitorParameters
+import com.infinum.sentinel.domain.crash.monitor.models.CrashMonitorParameters
 import com.infinum.sentinel.extensions.sizeTree
 import com.infinum.sentinel.ui.Presentation.Constants.BYTE_MULTIPLIER
 import com.infinum.sentinel.ui.bundles.BundlesViewModel
@@ -24,8 +26,9 @@ import com.infinum.sentinel.ui.bundles.callbacks.BundleMonitorNotificationCallba
 import com.infinum.sentinel.ui.bundles.details.BundleDetailsActivity
 import com.infinum.sentinel.ui.bundles.details.BundleDetailsViewModel
 import com.infinum.sentinel.ui.crash.CrashesViewModel
-import com.infinum.sentinel.ui.crash.anr.AnrObserver
-import com.infinum.sentinel.ui.crash.anr.AnrObserverRunnable
+import com.infinum.sentinel.ui.crash.anr.SentinelAnrObserver
+import com.infinum.sentinel.ui.crash.anr.SentinelAnrObserverRunnable
+import com.infinum.sentinel.ui.crash.anr.SentinelUiAnrObserver
 import com.infinum.sentinel.ui.crash.details.CrashDetailsViewModel
 import com.infinum.sentinel.ui.crash.handler.SentinelExceptionHandler
 import com.infinum.sentinel.ui.crash.handler.SentinelUncaughtExceptionHandler
@@ -42,10 +45,12 @@ import com.infinum.sentinel.ui.main.tools.ToolsViewModel
 import com.infinum.sentinel.ui.settings.SettingsViewModel
 import com.infinum.sentinel.ui.tools.AppInfoTool
 import com.infinum.sentinel.ui.tools.BundleMonitorTool
+import com.infinum.sentinel.ui.tools.CrashMonitorTool
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
@@ -67,6 +72,7 @@ internal object Presentation {
     }
 
     private val DEFAULT_TOOLS = setOf(
+        CrashMonitorTool(),
         BundleMonitorTool(),
         AppInfoTool()
     )
@@ -80,12 +86,41 @@ internal object Presentation {
     }
 
     fun initialize(context: Context) {
+        this.context = context
+
         val exceptionHandler = LibraryKoin.koin().get<SentinelExceptionHandler>()
         Thread.setDefaultUncaughtExceptionHandler(exceptionHandler as Thread.UncaughtExceptionHandler)
-        val observer = LibraryKoin.koin().get<AnrObserver>()
-        observer.start()
+        val anrObserver = LibraryKoin.koin().get<SentinelAnrObserver>()
 
-        this.context = context
+        val crashMonitor = LibraryKoin.koin().get<Repositories.CrashMonitor>()
+        GlobalScope.launch {
+            crashMonitor.load(CrashMonitorParameters()).firstOrNull()
+                ?.let { entity ->
+                    if (entity.notifyExceptions) {
+                        exceptionHandler.start()
+                    } else {
+                        exceptionHandler.stop()
+                    }
+                    if (entity.notifyExceptions) {
+                        anrObserver.start()
+                    } else {
+                        anrObserver.stop()
+                    }
+                }
+                ?: run {
+                    crashMonitor.save(
+                        CrashMonitorParameters(
+                            entity = CrashMonitorEntity(
+                                id = 1L,
+                                notifyExceptions = false,
+                                notifyAnrs = false
+                            )
+                        )
+                    )
+                    exceptionHandler.stop()
+                    anrObserver.stop()
+                }
+        }
 
         val bundleMonitor = LibraryKoin.koin().get<Repositories.BundleMonitor>()
         val bundles = LibraryKoin.koin().get<Repositories.Bundles>()
@@ -140,7 +175,7 @@ internal object Presentation {
     }
 
     fun setAnrListener(listener: Sentinel.ApplicationNotRespondingListener?) {
-        val observer = LibraryKoin.koin().get<AnrObserver>()
+        val observer = LibraryKoin.koin().get<SentinelAnrObserver>()
         observer.setListener(listener)
     }
 
@@ -178,7 +213,7 @@ internal object Presentation {
         viewModel { PreferencesViewModel(get(), get()) }
         viewModel { PreferenceEditorViewModel(get()) }
         viewModel { ToolsViewModel(get()) }
-        viewModel { SettingsViewModel(get(), get(), get(), get(), get()) }
+        viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get()) }
         viewModel { BundlesViewModel(get(), get()) }
         viewModel { BundleDetailsViewModel(get()) }
         viewModel { CrashesViewModel(get()) }
@@ -190,8 +225,8 @@ internal object Presentation {
 
         single<SentinelExceptionHandler> { SentinelUncaughtExceptionHandler(get(), get(), get()) }
 
-        single { AnrObserverRunnable(get(), get(), get()) }
+        single { SentinelAnrObserverRunnable(get(), get(), get()) }
         factory<ExecutorService> { Executors.newSingleThreadExecutor() }
-        single { AnrObserver(get(), get()) }
+        single<SentinelAnrObserver> { SentinelUiAnrObserver(get(), get()) }
     }
 }

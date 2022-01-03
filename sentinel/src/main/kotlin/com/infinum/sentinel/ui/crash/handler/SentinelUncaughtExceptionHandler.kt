@@ -17,7 +17,7 @@ internal class SentinelUncaughtExceptionHandler(
     private val dao: CrashesDao,
 ) : SentinelExceptionHandler {
 
-    private var catchUncaughtExceptions: Boolean = true
+    private var catchUncaughtExceptions: Boolean = false
 
     private val applicationName: String = (context.packageManager.getApplicationLabel(
         context.packageManager.getApplicationInfo(context.packageName, PackageManager.GET_META_DATA)
@@ -41,11 +41,11 @@ internal class SentinelUncaughtExceptionHandler(
         currentDefaultHandler?.uncaughtException(t, e)
     }
 
-    override fun startCatchingUncaughtExceptions() {
+    override fun start() {
         catchUncaughtExceptions = true
     }
 
-    override fun stopCatchingUncaughtExceptions() {
+    override fun stop() {
         catchUncaughtExceptions = false
     }
 

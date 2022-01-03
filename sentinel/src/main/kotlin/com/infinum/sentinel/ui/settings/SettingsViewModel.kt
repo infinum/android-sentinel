@@ -1,13 +1,15 @@
 package com.infinum.sentinel.ui.settings
 
 import com.infinum.sentinel.data.models.local.BundleMonitorEntity
+import com.infinum.sentinel.data.models.local.CrashMonitorEntity
 import com.infinum.sentinel.data.models.local.FormatEntity
 import com.infinum.sentinel.data.models.local.TriggerEntity
 import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.bundle.monitor.models.BundleMonitorParameters
+import com.infinum.sentinel.domain.crash.monitor.models.CrashMonitorParameters
 import com.infinum.sentinel.domain.formats.models.FormatsParameters
 import com.infinum.sentinel.domain.triggers.models.TriggerParameters
-import com.infinum.sentinel.ui.crash.anr.AnrObserver
+import com.infinum.sentinel.ui.crash.anr.SentinelAnrObserver
 import com.infinum.sentinel.ui.crash.handler.SentinelExceptionHandler
 import com.infinum.sentinel.ui.shared.base.BaseChildViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -17,8 +19,9 @@ internal class SettingsViewModel(
     private val triggers: Repositories.Triggers,
     private val formats: Repositories.Formats,
     private val bundleMonitor: Repositories.BundleMonitor,
+    private val crashMonitor: Repositories.CrashMonitor,
     private val exceptionHandler: SentinelExceptionHandler,
-    private val anrObserver: AnrObserver
+    private val anrObserver: SentinelAnrObserver,
 ) : BaseChildViewModel<Nothing, SettingsEvent>() {
 
     override fun data() {
@@ -41,6 +44,13 @@ internal class SettingsViewModel(
                 .flowOn(runningDispatchers)
                 .collectLatest {
                     emitEvent(SettingsEvent.BundleMonitorChanged(value = it))
+                }
+        }
+        launch {
+            crashMonitor.load(CrashMonitorParameters())
+                .flowOn(runningDispatchers)
+                .collectLatest {
+                    emitEvent(SettingsEvent.CrashMonitorChanged(value = it))
                 }
         }
     }
@@ -78,21 +88,20 @@ internal class SettingsViewModel(
             }
         }
 
-    fun toggleUncaughtException(value: Boolean) =
+    fun updateCrashMonitor(entity: CrashMonitorEntity) =
         launch {
             io {
-                if (value) {
-                    exceptionHandler.startCatchingUncaughtExceptions()
+                crashMonitor.save(
+                    CrashMonitorParameters(
+                        entity = entity
+                    )
+                )
+                if (entity.notifyExceptions) {
+                    exceptionHandler.start()
                 } else {
-                    exceptionHandler.stopCatchingUncaughtExceptions()
+                    exceptionHandler.stop()
                 }
-            }
-        }
-
-    fun toggleAnrException(value: Boolean) =
-        launch {
-            io {
-                if (value) {
+                if (entity.notifyAnrs) {
                     anrObserver.start()
                 } else {
                     anrObserver.stop()
