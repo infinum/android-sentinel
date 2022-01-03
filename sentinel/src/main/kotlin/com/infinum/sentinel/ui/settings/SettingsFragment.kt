@@ -163,6 +163,11 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
                 binding.anrSwitch.setOnCheckedChangeListener { _, isChecked ->
                     viewModel.updateCrashMonitor(event.value.copy(notifyAnrs = isChecked))
                 }
+                binding.includeAllDataSwitch.setOnCheckedChangeListener(null)
+                binding.includeAllDataSwitch.isChecked = event.value.includeAllData
+                binding.includeAllDataSwitch.setOnCheckedChangeListener { _, isChecked ->
+                    viewModel.updateCrashMonitor(event.value.copy(includeAllData = isChecked))
+                }
             }
         }
 

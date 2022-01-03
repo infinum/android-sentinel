@@ -3,6 +3,7 @@ package com.infinum.sentinel.data.sources.raw.formatters
 import android.content.Context
 import androidx.annotation.StringRes
 import com.infinum.sentinel.R
+import com.infinum.sentinel.data.models.local.CrashEntity
 import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.APPLICATION
 import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.DEVICE
 import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.PERMISSIONS
@@ -50,6 +51,29 @@ internal class HtmlFormatter(
             .appendLine(BODY_END)
             .appendLine(HTML_END)
             .toString()
+
+    override fun formatCrash(includeAllData: Boolean, entity: CrashEntity): String =
+        if (includeAllData) {
+            StringBuilder()
+                .appendLine(HTML_START)
+                .appendLine(BODY_START)
+                .appendLine(application())
+                .appendLine(permissions())
+                .appendLine(device())
+                .appendLine(preferences())
+                .appendLine(crash(entity))
+                .appendLine(BODY_END)
+                .appendLine(HTML_END)
+                .toString()
+        } else {
+            StringBuilder()
+                .appendLine(HTML_START)
+                .appendLine(BODY_START)
+                .appendLine(crash(entity))
+                .appendLine(BODY_END)
+                .appendLine(HTML_END)
+                .toString()
+        }
 
     override fun application(): String =
         StringBuilder()
@@ -121,6 +145,54 @@ internal class HtmlFormatter(
                             addLi(triple.second, triple.third.toString())
                         }
                     }
+                }
+            }
+            .toString()
+
+    override fun crash(entity: CrashEntity): String =
+        StringBuilder()
+            .apply {
+                if (entity.data.exception?.isANRException == true) {
+                    addDiv(R.string.sentinel_timestamp, entity.timestamp.toString())
+                    addDiv(R.string.sentinel_message, context.getString(R.string.sentinel_anr_message))
+                    addDiv(R.string.sentinel_exception_name, context.getString(R.string.sentinel_anr_title))
+                    addDiv(
+                        R.string.sentinel_stacktrace,
+                        "${entity.data.exception?.name}: ${entity.data.exception?.message}"
+                            .plus(entity.data.exception?.stackTrace?.joinToString { "</br>&emsp; at $it" })
+                    )
+                    addDiv(R.string.sentinel_thread_states, entity.data.threadState.orEmpty().count().toString())
+                    appendLine(UL_START)
+                    entity.data.threadState?.forEach { process ->
+                        addLi(
+                            context.getString(R.string.sentinel_stacktrace),
+                            "${process.name}&emsp;${process.state.uppercase()}"
+                                .plus(process.stackTrace.joinToString { "</br>&emsp; at $it" })
+                        )
+                    }
+                    appendLine(UL_END)
+                } else {
+                    addDiv(R.string.sentinel_timestamp, entity.timestamp.toString())
+                    addDiv(R.string.sentinel_file, entity.data.exception?.file.orEmpty())
+                    addDiv(R.string.sentinel_line, entity.data.exception?.lineNumber?.toString().orEmpty())
+                    addDiv(R.string.sentinel_exception_name, entity.data.exception?.name.orEmpty())
+                    addDiv(
+                        R.string.sentinel_stacktrace,
+                        "${entity.data.exception?.name}: ${entity.data.exception?.message}"
+                            .plus(entity.data.exception?.stackTrace?.joinToString { "</br>&emsp; at $it" })
+                    )
+                    addDiv(R.string.sentinel_thread_name, entity.data.thread?.name.orEmpty())
+                    addDiv(R.string.sentinel_thread_state, entity.data.thread?.state.orEmpty())
+                    addDiv(
+                        R.string.sentinel_priority,
+                        when (entity.data.thread?.priority) {
+                            Thread.MAX_PRIORITY -> "maximum"
+                            Thread.MIN_PRIORITY -> "minimum"
+                            else -> "normal"
+                        }
+                    )
+                    addDiv(R.string.sentinel_id, entity.data.thread?.id?.toString().orEmpty())
+                    addDiv(R.string.sentinel_daemon, entity.data.thread?.isDaemon?.toString().orEmpty())
                 }
             }
             .toString()

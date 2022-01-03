@@ -18,9 +18,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
-            app:menu="@menu/sentinel_crashes"
+            app:menu="@menu/sentinel_crash_monitor"
             app:navigationIcon="@drawable/sentinel_ic_close"
-            app:title="@string/sentinel_crashes" />
+            app:title="@string/sentinel_crash_monitor" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

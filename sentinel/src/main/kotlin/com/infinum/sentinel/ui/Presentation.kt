@@ -62,6 +62,7 @@ internal object Presentation {
 
     object Constants {
         const val BYTE_MULTIPLIER = 1000
+        const val SHARE_MIME_TYPE = "text/plain"
 
         object Keys {
             const val BUNDLE_ID = "KEY_BUNDLE_ID"
@@ -85,6 +86,7 @@ internal object Presentation {
         }
     }
 
+    @Suppress("LongMethod")
     fun initialize(context: Context) {
         this.context = context
 
@@ -113,7 +115,8 @@ internal object Presentation {
                             entity = CrashMonitorEntity(
                                 id = 1L,
                                 notifyExceptions = false,
-                                notifyAnrs = false
+                                notifyAnrs = false,
+                                includeAllData = false
                             )
                         )
                     )
@@ -217,7 +220,7 @@ internal object Presentation {
         viewModel { BundlesViewModel(get(), get()) }
         viewModel { BundleDetailsViewModel(get()) }
         viewModel { CrashesViewModel(get()) }
-        viewModel { CrashDetailsViewModel(get()) }
+        viewModel { CrashDetailsViewModel(get(), get(), get(), get()) }
     }
 
     private fun factories() = module {

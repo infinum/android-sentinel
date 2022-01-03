@@ -349,6 +349,14 @@
                     android:minHeight="@dimen/sentinel_item_height"
                     android:text="@string/sentinel_notify_anr" />
 
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/includeAllDataSwitch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:minHeight="@dimen/sentinel_item_height"
+                    android:text="@string/sentinel_include_all_data" />
+
             </LinearLayout>
 
         </LinearLayout>

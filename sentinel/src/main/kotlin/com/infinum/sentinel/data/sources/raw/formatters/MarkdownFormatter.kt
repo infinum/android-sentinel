@@ -1,7 +1,10 @@
 package com.infinum.sentinel.data.sources.raw.formatters
 
 import android.content.Context
+import com.infinum.sentinel.R
+import com.infinum.sentinel.data.models.local.CrashEntity
 import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.APPLICATION
+import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.CRASH
 import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.DEVICE
 import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.PERMISSIONS
 import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.PREFERENCES
@@ -37,12 +40,29 @@ internal class MarkdownFormatter(
 
     override fun invoke(): String =
         addAllData(
-            StringBuilder(),
-            application(),
-            permissions(),
-            device(),
-            preferences()
+            builder = StringBuilder(),
+            applicationData = application(),
+            permissionsData = permissions(),
+            deviceData = device(),
+            preferencesData = preferences()
         )
+
+    override fun formatCrash(includeAllData: Boolean, entity: CrashEntity): String =
+        if (includeAllData) {
+            addAllData(
+                builder = StringBuilder(),
+                applicationData = application(),
+                permissionsData = permissions(),
+                deviceData = device(),
+                preferencesData = preferences(),
+                crashData = crash(entity)
+            )
+        } else {
+            addAllData(
+                builder = StringBuilder(),
+                crashData = crash(entity)
+            )
+        }
 
     override fun application(): String =
         StringBuilder()
@@ -80,6 +100,43 @@ internal class MarkdownFormatter(
                             appendLine("$BULLET$ITALIC${triple.second}$ITALIC: ${triple.third}")
                         }
                     }
+                }
+            }
+            .toString()
+
+    override fun crash(entity: CrashEntity): String =
+        StringBuilder()
+            .appendLine("$HEADER_1$CRASH")
+            .apply {
+                if (entity.data.exception?.isANRException == true) {
+                    addLine(this, R.string.sentinel_timestamp, entity.timestamp.toString())
+                    addLine(this, R.string.sentinel_message, context.getString(R.string.sentinel_anr_message))
+                    addLine(this, R.string.sentinel_exception_name, context.getString(R.string.sentinel_anr_title))
+                    addLine(
+                        this,
+                        R.string.sentinel_stacktrace,
+                        "\n>> ${entity.data.exception?.name}: ${entity.data.exception?.message}"
+                            .plus(
+                                entity
+                                    .data
+                                    .exception
+                                    ?.stackTrace
+                                    ?.joinToString { "\n>> &nbsp;&nbsp;&nbsp;&nbsp; at $it" }
+                            )
+                    )
+                    appendLine("\n")
+                    addLine(this, R.string.sentinel_thread_states, entity.data.threadState.orEmpty().count().toString())
+                    entity.data.threadState?.forEach { process ->
+                        appendLine("\n")
+                        addLine(
+                            this,
+                            R.string.sentinel_stacktrace,
+                            "\n>> ${process.name}&nbsp;&nbsp;&nbsp;&nbsp;${process.state.uppercase()}"
+                                .plus(process.stackTrace.joinToString { "\n>> &nbsp;&nbsp;&nbsp;&nbsp; at $it" })
+                        )
+                    }
+                } else {
+                    addCrashData(this, entity)
                 }
             }
             .toString()

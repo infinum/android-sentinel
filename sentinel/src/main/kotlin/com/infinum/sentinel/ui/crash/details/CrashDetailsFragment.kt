@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.RestrictTo
+import androidx.core.app.ShareCompat
 import androidx.core.view.isVisible
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentCrashDetailsBinding
@@ -17,7 +18,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class CrashDetailsFragment :
-    BaseChildFragment<CrashDetailsState, Nothing>(R.layout.sentinel_fragment_crash_details) {
+    BaseChildFragment<CrashDetailsState, CrashDetailsEvent>(R.layout.sentinel_fragment_crash_details) {
 
     companion object {
         fun newInstance(crashId: Long) = CrashDetailsFragment().apply {
@@ -72,7 +73,7 @@ internal class CrashDetailsFragment :
                             state.value.data.exception?.lineNumber
                         ).joinToString(":")
                     }
-                    timestampView.text = SimpleDateFormat.getTimeInstance().format(Date(state.value.timestamp))
+                    timestampView.text = SimpleDateFormat.getDateTimeInstance().format(Date(state.value.timestamp))
                     exceptionView.text = if (state.value.data.exception?.isANRException == true) {
                         lineView.context.getString(R.string.sentinel_anr_title)
                     } else {
@@ -127,11 +128,32 @@ internal class CrashDetailsFragment :
             }
         }
 
-    override fun onEvent(event: Nothing) = Unit
+    override fun onEvent(event: CrashDetailsEvent) =
+        when (event) {
+            is CrashDetailsEvent.Removed -> requireActivity().finish()
+            is CrashDetailsEvent.Formatted -> ShareCompat.IntentBuilder(requireActivity())
+                .setChooserTitle(R.string.sentinel_name)
+                .setType(Presentation.Constants.SHARE_MIME_TYPE)
+                .setText(event.value)
+                .startChooser()
+        }
 
     private fun setupToolbar() {
         with(binding.toolbar) {
             setNavigationOnClickListener { requireActivity().finish() }
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.clear -> {
+                        viewModel.remove()
+                        true
+                    }
+                    R.id.share -> {
+                        viewModel.share()
+                        true
+                    }
+                    else -> false
+                }
+            }
         }
     }
 }

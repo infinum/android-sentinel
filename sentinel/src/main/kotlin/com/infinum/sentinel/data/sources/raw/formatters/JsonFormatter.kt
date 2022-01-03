@@ -3,7 +3,9 @@ package com.infinum.sentinel.data.sources.raw.formatters
 import android.content.Context
 import androidx.annotation.StringRes
 import com.infinum.sentinel.R
+import com.infinum.sentinel.data.models.local.CrashEntity
 import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.APPLICATION
+import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.CRASH
 import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.DEVICE
 import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.NAME
 import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.PERMISSIONS
@@ -16,6 +18,7 @@ import com.infinum.sentinel.extensions.sanitize
 import org.json.JSONArray
 import org.json.JSONObject
 
+@Suppress("TooManyFunctions")
 internal class JsonFormatter(
     private val context: Context,
     private val applicationCollector: Collectors.Application,
@@ -35,6 +38,21 @@ internal class JsonFormatter(
             .put(DEVICE, device())
             .put(PREFERENCES, preferences())
             .toString(INDENT_SPACES)
+
+    override fun formatCrash(includeAllData: Boolean, entity: CrashEntity): String =
+        if (includeAllData) {
+            JSONObject()
+                .put(APPLICATION, application())
+                .put(PERMISSIONS, permissions())
+                .put(DEVICE, device())
+                .put(PREFERENCES, preferences())
+                .put(CRASH, crash(entity))
+                .toString(INDENT_SPACES)
+        } else {
+            JSONObject()
+                .put(CRASH, crash(entity))
+                .toString(INDENT_SPACES)
+        }
 
     override fun application(): JSONObject =
         JSONObject().apply {
@@ -113,6 +131,54 @@ internal class JsonFormatter(
             }
         }
 
+    override fun crash(entity: CrashEntity): JSONObject =
+        JSONObject().apply {
+            if (entity.data.exception?.isANRException == true) {
+                addKey(R.string.sentinel_timestamp, entity.timestamp)
+                addKey(R.string.sentinel_message, context.getString(R.string.sentinel_anr_message))
+                addKey(R.string.sentinel_exception_name, context.getString(R.string.sentinel_anr_title))
+                addKey(
+                    R.string.sentinel_stacktrace,
+                    "${entity.data.exception?.name}: ${entity.data.exception?.message}"
+                        .plus(entity.data.exception?.stackTrace?.joinToString { "\n\t\t\t at $it" })
+                )
+                addKey(R.string.sentinel_thread_states, entity.data.threadState.orEmpty().count().toString())
+                addKey(
+                    R.string.sentinel_stacktrace,
+                    JSONArray().apply {
+                        entity.data.threadState?.forEach { process ->
+                            put(
+                                "${process.name}\t\t\t${process.state.uppercase()}"
+                                    .plus(process.stackTrace.joinToString { "\n\t\t\t at $it" })
+                            )
+                        }
+                    }
+                )
+            } else {
+                addKey(R.string.sentinel_file, entity.data.exception?.file.orEmpty())
+                addKey(R.string.sentinel_line, entity.data.exception?.lineNumber?.toString().orEmpty())
+                addKey(R.string.sentinel_timestamp, entity.timestamp)
+                addKey(R.string.sentinel_exception_name, entity.data.exception?.name.orEmpty())
+                addKey(
+                    R.string.sentinel_stacktrace,
+                    "${entity.data.exception?.name}: ${entity.data.exception?.message}"
+                        .plus(entity.data.exception?.stackTrace?.joinToString { "\n\t\t\t at $it" })
+                )
+                addKey(R.string.sentinel_thread_name, entity.data.thread?.name.orEmpty())
+                addKey(R.string.sentinel_thread_state, entity.data.thread?.state.orEmpty())
+                addKey(
+                    R.string.sentinel_priority,
+                    when (entity.data.thread?.priority) {
+                        Thread.MAX_PRIORITY -> "maximum"
+                        Thread.MIN_PRIORITY -> "minimum"
+                        else -> "normal"
+                    }
+                )
+                addKey(R.string.sentinel_id, entity.data.thread?.id?.toString().orEmpty())
+                addKey(R.string.sentinel_daemon, entity.data.thread?.isDaemon?.toString().orEmpty())
+            }
+        }
+
     private fun JSONObject.addKey(@StringRes key: Int, value: String) {
         context.getString(key).sanitize().let {
             put(it, value)
@@ -122,6 +188,18 @@ internal class JsonFormatter(
     private fun JSONObject.addKey(@StringRes key: Int, value: Boolean) {
         context.getString(key).sanitize().let {
             put(it, value)
+        }
+    }
+
+    private fun JSONObject.addKey(@StringRes key: Int, value: Long) {
+        context.getString(key).sanitize().let {
+            put(it, value)
+        }
+    }
+
+    private fun JSONObject.addKey(@StringRes key: Int, values: JSONArray) {
+        context.getString(key).sanitize().let {
+            put(it, values)
         }
     }
 

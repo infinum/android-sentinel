@@ -16,4 +16,7 @@ internal data class CrashMonitorEntity(
 
     @ColumnInfo(name = "notify_anrs", defaultValue = "false")
     var notifyAnrs: Boolean = false,
+
+    @ColumnInfo(name = "include_all_data", defaultValue = "false")
+    var includeAllData: Boolean = false
 )

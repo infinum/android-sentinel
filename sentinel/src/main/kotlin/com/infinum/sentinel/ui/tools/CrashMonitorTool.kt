@@ -1,10 +1,12 @@
 package com.infinum.sentinel.ui.tools
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.view.View
 import androidx.annotation.StringRes
 import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
+import com.infinum.sentinel.ui.Presentation
 import com.infinum.sentinel.ui.crash.CrashesActivity
 
 /**
@@ -18,6 +20,15 @@ internal data class CrashMonitorTool(
                 it.context,
                 CrashesActivity::class.java
             ).apply {
+                putExtra(
+                    Presentation.Constants.Keys.APPLICATION_NAME,
+                    (it.context.packageManager.getApplicationLabel(
+                        it.context.packageManager.getApplicationInfo(
+                            it.context.packageName,
+                            PackageManager.GET_META_DATA
+                        )
+                    ) as? String) ?: it.context.getString(R.string.sentinel_name)
+                )
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
             }

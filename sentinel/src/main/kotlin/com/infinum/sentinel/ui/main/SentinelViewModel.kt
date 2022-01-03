@@ -68,7 +68,11 @@ internal class SentinelViewModel(
                         FormatType.XML -> formatters.xml()
                         FormatType.HTML -> formatters.html()
                         else -> null
-                    }?.invoke()?.let { emitEvent(SentinelEvent.Formatted(it)) }
+                    }
+                        ?.invoke()
+                        ?.let { text ->
+                            emitEvent(SentinelEvent.Formatted(text))
+                        }
                 }
         }
 }

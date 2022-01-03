@@ -29,7 +29,7 @@ internal class CrashViewHolder(
                         descriptor.data.exception?.lineNumber
                     ).joinToString(":")
                 }
-                timestampView.text = SimpleDateFormat.getTimeInstance().format(Date(descriptor.timestamp))
+                timestampView.text = SimpleDateFormat.getDateTimeInstance().format(Date(descriptor.timestamp))
                 exceptionView.text = if (item.data.exception?.isANRException == true) {
                     lineView.context.getString(R.string.sentinel_anr_title)
                 } else {
