@@ -171,7 +171,8 @@ public object Sentinel {
     }
 
     /**
-     * [Exception] to represent an ANR. This [Exception]'s stack trace will be the current stack trace of the given [Thread]
+     * [Exception] to represent an ANR.
+     * This [Exception]'s stack trace will be the current stack trace of the given [Thread]
      */
     public class ApplicationNotRespondingException(thread: Thread) : Exception("ANR detected.") {
 

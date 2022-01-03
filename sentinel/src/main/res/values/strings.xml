@@ -96,4 +96,5 @@
     <string name="sentinel_notify_anr">Notify "Application Not Responding"</string>
     <string name="sentinel_anr_title">Application Not Responding</string>
     <string name="sentinel_anr_message">Main thread is unresponsive</string>
+    <string name="sentinel_thread_states">Thread states</string>
 </resources>

@@ -163,6 +163,27 @@
                 android:visibility="gone"
                 tools:text="id = 2" />
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/threadStatesLabel"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:gravity="start|bottom"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="8dp"
+                android:text="@string/sentinel_thread_states"
+                android:textAllCaps="true"
+                android:textColor="@color/sentinel_color_primary"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/threadStatesContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone" />
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

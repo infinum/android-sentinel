@@ -7,6 +7,7 @@ import androidx.annotation.RestrictTo
 import androidx.core.view.isVisible
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentCrashDetailsBinding
+import com.infinum.sentinel.databinding.SentinelViewItemThreadStateBinding
 import com.infinum.sentinel.ui.Presentation
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
@@ -50,6 +51,7 @@ internal class CrashDetailsFragment :
     }
 
     @SuppressLint("SetTextI18n")
+    @Suppress("NestedBlockDepth", "LongMethod")
     override fun onState(state: CrashDetailsState) =
         when (state) {
             is CrashDetailsState.Data -> {
@@ -80,10 +82,25 @@ internal class CrashDetailsFragment :
                         .plus(state.value.data.exception?.stackTrace?.joinToString { "\n\t\t\t at $it" })
 
                     if (state.value.data.exception?.isANRException == true) {
-
+                        threadStatesLabel.text =
+                            "${getString(R.string.sentinel_thread_states)}\t\t\t(${
+                                state.value.data.threadState.orEmpty().count()
+                            })"
+                        state.value.data.threadState?.forEach { process ->
+                            threadStatesContainer.addView(
+                                SentinelViewItemThreadStateBinding.inflate(layoutInflater, threadStatesContainer, false)
+                                    .apply {
+                                        stackTraceView.text =
+                                            "${process.name}\t\t\t${process.state.uppercase()}"
+                                                .plus(process.stackTrace.joinToString { "\n\t\t\t at $it" })
+                                    }.root
+                            )
+                        }
                         threadLabel.isVisible = false
                         threadView.isVisible = false
                         threadDataView.isVisible = false
+                        threadStatesLabel.isVisible = true
+                        threadStatesContainer.isVisible = true
                     } else {
                         threadView.text = listOf(
                             "${state.value.data.thread?.name}",
@@ -103,6 +120,8 @@ internal class CrashDetailsFragment :
                         threadLabel.isVisible = true
                         threadView.isVisible = true
                         threadDataView.isVisible = true
+                        threadStatesLabel.isVisible = false
+                        threadStatesContainer.isVisible = false
                     }
                 }
             }
