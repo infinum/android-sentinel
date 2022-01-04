@@ -10,8 +10,8 @@ import com.infinum.sentinel.data.models.local.CrashMonitorEntity
 import com.infinum.sentinel.data.models.local.FormatEntity
 import com.infinum.sentinel.data.models.local.TriggerEntity
 import com.infinum.sentinel.data.sources.local.room.dao.BundleMonitorDao
-import com.infinum.sentinel.data.sources.local.room.dao.CrashesDao
 import com.infinum.sentinel.data.sources.local.room.dao.CrashMonitorDao
+import com.infinum.sentinel.data.sources.local.room.dao.CrashesDao
 import com.infinum.sentinel.data.sources.local.room.dao.FormatsDao
 import com.infinum.sentinel.data.sources.local.room.dao.TriggersDao
 import com.infinum.sentinel.data.sources.local.room.typeconverters.CrashDataConverter

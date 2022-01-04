@@ -37,26 +37,12 @@ internal class PlainFormatter(
     }
 
     override fun invoke(): String =
-        addAllData(
-            builder = StringBuilder(),
-            applicationData = application(),
-            permissionsData = permissions(),
-            deviceData = device(),
-            preferencesData = preferences()
-        )
+        format()
 
     override fun formatCrash(includeAllData: Boolean, entity: CrashEntity): String =
-        if (includeAllData) {
-            addAllData(
-                builder = StringBuilder(),
-                applicationData = application(),
-                permissionsData = permissions(),
-                deviceData = device(),
-                preferencesData = preferences(),
-                crashData = crash(entity)
-            )
-        } else {
-            addAllData(
+        when (includeAllData) {
+            true -> format(entity)
+            false -> addAllData(
                 builder = StringBuilder(),
                 crashData = crash(entity)
             )
@@ -117,9 +103,7 @@ internal class PlainFormatter(
             .appendLine(SEPARATOR.repeat(CRASH.length))
             .apply {
                 if (entity.data.exception?.isANRException == true) {
-                    addLine(this, R.string.sentinel_timestamp, entity.timestamp.toString())
-                    addLine(this, R.string.sentinel_message, context.getString(R.string.sentinel_anr_message))
-                    addLine(this, R.string.sentinel_exception_name, context.getString(R.string.sentinel_anr_title))
+                    addAnrData(context, this, entity)
                     addLine(
                         this,
                         R.string.sentinel_stacktrace,
@@ -142,4 +126,14 @@ internal class PlainFormatter(
             }
             .appendLine()
             .toString()
+
+    private fun format(crash: CrashEntity? = null) =
+        addAllData(
+            StringBuilder(),
+            application(),
+            permissions(),
+            device(),
+            preferences(),
+            crash?.let { crash(it) }
+        )
 }

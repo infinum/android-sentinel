@@ -39,24 +39,11 @@ internal class MarkdownFormatter(
     }
 
     override fun invoke(): String =
-        addAllData(
-            builder = StringBuilder(),
-            applicationData = application(),
-            permissionsData = permissions(),
-            deviceData = device(),
-            preferencesData = preferences()
-        )
+        format()
 
     override fun formatCrash(includeAllData: Boolean, entity: CrashEntity): String =
         if (includeAllData) {
-            addAllData(
-                builder = StringBuilder(),
-                applicationData = application(),
-                permissionsData = permissions(),
-                deviceData = device(),
-                preferencesData = preferences(),
-                crashData = crash(entity)
-            )
+            format(entity)
         } else {
             addAllData(
                 builder = StringBuilder(),
@@ -109,9 +96,7 @@ internal class MarkdownFormatter(
             .appendLine("$HEADER_1$CRASH")
             .apply {
                 if (entity.data.exception?.isANRException == true) {
-                    addLine(this, R.string.sentinel_timestamp, entity.timestamp.toString())
-                    addLine(this, R.string.sentinel_message, context.getString(R.string.sentinel_anr_message))
-                    addLine(this, R.string.sentinel_exception_name, context.getString(R.string.sentinel_anr_title))
+                    addAnrData(context, this, entity)
                     addLine(
                         this,
                         R.string.sentinel_stacktrace,
@@ -140,4 +125,14 @@ internal class MarkdownFormatter(
                 }
             }
             .toString()
+
+    private fun format(entity: CrashEntity? = null) =
+        addAllData(
+            StringBuilder(),
+            application(),
+            permissions(),
+            device(),
+            preferences(),
+            entity?.let { crash(it) }
+        )
 }

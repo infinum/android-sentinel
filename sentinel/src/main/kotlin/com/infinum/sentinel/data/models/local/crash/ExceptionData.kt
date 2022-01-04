@@ -26,5 +26,5 @@ internal data class ExceptionData(
 ) {
 
     fun asPrint(spacer: String = "\n\t\t\t"): String =
-        "${name}: $message".plus(stackTrace.joinToString { "$spacer at $it" })
+        "$name: $message ${stackTrace.joinToString { "$spacer at $it" }}"
 }

@@ -19,9 +19,11 @@ internal class SentinelUncaughtExceptionHandler(
 
     private var catchUncaughtExceptions: Boolean = false
 
-    private val applicationName: String = (context.packageManager.getApplicationLabel(
-        context.packageManager.getApplicationInfo(context.packageName, PackageManager.GET_META_DATA)
-    ) as? String) ?: context.getString(R.string.sentinel_name)
+    private val applicationName: String = (
+        context.packageManager.getApplicationLabel(
+            context.packageManager.getApplicationInfo(context.packageName, PackageManager.GET_META_DATA)
+        ) as? String
+        ) ?: context.getString(R.string.sentinel_name)
 
     private var currentDefaultHandler: Thread.UncaughtExceptionHandler? = Thread.getDefaultUncaughtExceptionHandler()
 

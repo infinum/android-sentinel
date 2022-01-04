@@ -29,9 +29,11 @@ internal class SentinelAnrObserverRunnable(
         private const val ANR_THREAD_RESPONSE_THRESHOLD: Long = 2_000
     }
 
-    private val applicationName: String = (context.packageManager.getApplicationLabel(
-        context.packageManager.getApplicationInfo(context.packageName, PackageManager.GET_META_DATA)
-    ) as? String) ?: context.getString(R.string.sentinel_name)
+    private val applicationName: String = (
+        context.packageManager.getApplicationLabel(
+            context.packageManager.getApplicationInfo(context.packageName, PackageManager.GET_META_DATA)
+        ) as? String
+        ) ?: context.getString(R.string.sentinel_name)
 
     /**
      * The [Handler] to access the UI threads message queue

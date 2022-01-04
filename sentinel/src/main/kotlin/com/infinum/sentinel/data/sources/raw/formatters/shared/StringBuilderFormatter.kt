@@ -1,5 +1,6 @@
 package com.infinum.sentinel.data.sources.raw.formatters.shared
 
+import android.content.Context
 import androidx.annotation.StringRes
 import com.infinum.sentinel.R
 import com.infinum.sentinel.data.models.local.CrashEntity
@@ -61,6 +62,12 @@ internal abstract class StringBuilderFormatter {
         addLine(builder, R.string.sentinel_auto_time, data.autoTime.toString())
         addLine(builder, R.string.sentinel_auto_timezone, data.autoTimezone.toString())
         addLine(builder, R.string.sentinel_rooted, data.isRooted.toString())
+    }
+
+    internal fun addAnrData(context: Context, builder: StringBuilder, entity: CrashEntity) {
+        addLine(builder, R.string.sentinel_timestamp, entity.timestamp.toString())
+        addLine(builder, R.string.sentinel_message, context.getString(R.string.sentinel_anr_message))
+        addLine(builder, R.string.sentinel_exception_name, context.getString(R.string.sentinel_anr_title))
     }
 
     internal fun addCrashData(builder: StringBuilder, entity: CrashEntity) {

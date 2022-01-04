@@ -158,8 +158,7 @@ internal class HtmlFormatter(
                     addDiv(R.string.sentinel_exception_name, context.getString(R.string.sentinel_anr_title))
                     addDiv(
                         R.string.sentinel_stacktrace,
-                        "${entity.data.exception?.name}: ${entity.data.exception?.message}"
-                            .plus(entity.data.exception?.stackTrace?.joinToString { "</br>&emsp; at $it" })
+                        entity.data.exception?.asPrint("</br>&emsp;").orEmpty()
                     )
                     addDiv(R.string.sentinel_thread_states, entity.data.threadState.orEmpty().count().toString())
                     appendLine(UL_START)
@@ -178,8 +177,7 @@ internal class HtmlFormatter(
                     addDiv(R.string.sentinel_exception_name, entity.data.exception?.name.orEmpty())
                     addDiv(
                         R.string.sentinel_stacktrace,
-                        "${entity.data.exception?.name}: ${entity.data.exception?.message}"
-                            .plus(entity.data.exception?.stackTrace?.joinToString { "</br>&emsp; at $it" })
+                        entity.data.exception?.asPrint("</br>&emsp;").orEmpty()
                     )
                     addDiv(R.string.sentinel_thread_name, entity.data.thread?.name.orEmpty())
                     addDiv(R.string.sentinel_thread_state, entity.data.thread?.state.orEmpty())

@@ -156,7 +156,8 @@ public object Sentinel {
     }
 
     /**
-     * [Exception] to represent an ANR. This [Exception]'s stack trace will be the current stack trace of the given [Thread]
+     * [Exception] to represent an ANR.
+     * This [Exception]'s stack trace will be the current stack trace of the given [Thread]
      */
     public class ApplicationNotRespondingException(thread: Thread) : Exception("ANR detected.") {
 
@@ -219,14 +220,17 @@ public object Sentinel {
             val stackTraces = Thread.getAllStackTraces()
             for (thread in stackTraces.keys) {
                 if (!stackTraces[thread].isNullOrEmpty()) {
-                    val process = ProcessThread(thread.name, thread.state.name, stackTraces[thread]!!
-                        .map {
-                            if (it.isNativeMethod) {
-                                "${it.className}.${it.methodName}[Native Method]"
-                            } else {
-                                "${it.className}.${it.methodName}(${it.fileName}:${it.lineNumber})"
+                    val process = ProcessThread(
+                        thread.name,
+                        thread.state.name,
+                        stackTraces[thread]!!
+                            .map {
+                                if (it.isNativeMethod) {
+                                    "${it.className}.${it.methodName}[Native Method]"
+                                } else {
+                                    "${it.className}.${it.methodName}(${it.fileName}:${it.lineNumber})"
+                                }
                             }
-                        }
                     )
                     list.add(process)
                 }

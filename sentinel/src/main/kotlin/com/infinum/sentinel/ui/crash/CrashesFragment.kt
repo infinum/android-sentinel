@@ -76,13 +76,13 @@ internal class CrashesFragment : BaseChildFragment<Nothing, CrashesEvent>(R.layo
         }
 
     private fun setupToolbar() {
-        with(binding) {
-            toolbar.setNavigationOnClickListener { requireActivity().finish() }
-            toolbar.subtitle = applicationName
-            toolbar.setOnMenuItemClickListener {
+        with(binding.toolbar) {
+            setNavigationOnClickListener { requireActivity().finish() }
+            subtitle = applicationName
+            setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.search -> {
-                        toolbar.menu.findItem(R.id.clear).isVisible = false
+                        menu.findItem(R.id.clear).isVisible = false
                         true
                     }
                     R.id.clear -> {
@@ -92,10 +92,10 @@ internal class CrashesFragment : BaseChildFragment<Nothing, CrashesEvent>(R.layo
                     else -> false
                 }
             }
-            toolbar.menu.searchView?.setup(
+            menu.searchView?.setup(
                 hint = getString(R.string.sentinel_search),
                 onSearchClosed = {
-                    toolbar.menu.findItem(R.id.clear).isVisible = true
+                    menu.findItem(R.id.clear).isVisible = true
                     viewModel.data()
                 },
                 onQueryTextChanged = { query ->
@@ -106,11 +106,11 @@ internal class CrashesFragment : BaseChildFragment<Nothing, CrashesEvent>(R.layo
     }
 
     private fun setupRecyclerView() {
-        with(binding) {
-            recyclerView.layoutManager = LinearLayoutManager(recyclerView.context, LinearLayoutManager.VERTICAL, false)
-            recyclerView.adapter = adapter
-            recyclerView.edgeEffectFactory = BounceEdgeEffectFactory()
-            recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, LinearLayoutManager.VERTICAL))
+        with(binding.recyclerView) {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            adapter = this@CrashesFragment.adapter
+            edgeEffectFactory = BounceEdgeEffectFactory()
+            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
     }
 

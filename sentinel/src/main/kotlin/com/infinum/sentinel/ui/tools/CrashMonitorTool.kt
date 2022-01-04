@@ -22,12 +22,14 @@ internal data class CrashMonitorTool(
             ).apply {
                 putExtra(
                     Presentation.Constants.Keys.APPLICATION_NAME,
-                    (it.context.packageManager.getApplicationLabel(
-                        it.context.packageManager.getApplicationInfo(
-                            it.context.packageName,
-                            PackageManager.GET_META_DATA
-                        )
-                    ) as? String) ?: it.context.getString(R.string.sentinel_name)
+                    (
+                        it.context.packageManager.getApplicationLabel(
+                            it.context.packageManager.getApplicationInfo(
+                                it.context.packageName,
+                                PackageManager.GET_META_DATA
+                            )
+                        ) as? String
+                        ) ?: it.context.getString(R.string.sentinel_name)
                 )
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)

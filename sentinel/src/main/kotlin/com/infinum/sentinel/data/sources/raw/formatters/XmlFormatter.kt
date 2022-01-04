@@ -39,38 +39,11 @@ internal class XmlFormatter(
 
     @SuppressLint("DefaultLocale")
     override fun invoke(): String =
-        StringWriter().apply {
-            with(Xml.newSerializer()) {
-                setFeature(FEATURE_INDENT, true)
-                setOutput(this@apply)
-                startDocument(Xml.Encoding.UTF_8.name, true)
-                startTag(NAMESPACE, ROOT)
-                addApplicationNode()
-                addPermissionsNode()
-                addDeviceNode()
-                addPreferencesNode()
-                endTag(NAMESPACE, ROOT)
-                endDocument()
-            }
-        }.toString()
+        format()
 
     override fun formatCrash(includeAllData: Boolean, entity: CrashEntity): String =
         if (includeAllData) {
-            StringWriter().apply {
-                with(Xml.newSerializer()) {
-                    setFeature(FEATURE_INDENT, true)
-                    setOutput(this@apply)
-                    startDocument(Xml.Encoding.UTF_8.name, true)
-                    startTag(NAMESPACE, ROOT)
-                    addApplicationNode()
-                    addPermissionsNode()
-                    addDeviceNode()
-                    addPreferencesNode()
-                    addCrashNode(entity)
-                    endTag(NAMESPACE, ROOT)
-                    endDocument()
-                }
-            }.toString()
+            format(entity)
         } else {
             StringWriter().apply {
                 with(Xml.newSerializer()) {
@@ -94,6 +67,23 @@ internal class XmlFormatter(
     override fun preferences(): String = ""
 
     override fun crash(entity: CrashEntity): String = ""
+
+    private fun format(entity: CrashEntity? = null) =
+        StringWriter().apply {
+            with(Xml.newSerializer()) {
+                setFeature(FEATURE_INDENT, true)
+                setOutput(this@apply)
+                startDocument(Xml.Encoding.UTF_8.name, true)
+                startTag(NAMESPACE, ROOT)
+                addApplicationNode()
+                addPermissionsNode()
+                addDeviceNode()
+                addPreferencesNode()
+                entity?.let { addCrashNode(it) }
+                endTag(NAMESPACE, ROOT)
+                endDocument()
+            }
+        }.toString()
 
     private fun XmlSerializer.addApplicationNode() {
         startTag(NAMESPACE, APPLICATION)

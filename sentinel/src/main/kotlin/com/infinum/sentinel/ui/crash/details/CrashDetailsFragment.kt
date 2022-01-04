@@ -85,9 +85,8 @@ internal class CrashDetailsFragment :
 
                     if (state.value.data.exception?.isANRException == true) {
                         threadStatesLabel.text =
-                            "${getString(R.string.sentinel_thread_states)}\t\t\t(${
-                                state.value.data.threadState.orEmpty().count()
-                            })"
+                            getString(R.string.sentinel_thread_states) +
+                                "\t\t\t(${state.value.data.threadState.orEmpty().count()})"
                         state.value.data.threadState?.forEach { process ->
                             threadStatesContainer.addView(
                                 SentinelViewItemThreadStateBinding.inflate(layoutInflater, threadStatesContainer, false)
@@ -109,13 +108,11 @@ internal class CrashDetailsFragment :
                             "${state.value.data.thread?.state?.uppercase()}"
                         ).joinToString("\t\t\t")
                         threadDataView.text = listOf(
-                            "priority = ${
-                                when (state.value.data.thread?.priority) {
-                                    Thread.MAX_PRIORITY -> "maximum"
-                                    Thread.MIN_PRIORITY -> "minimum"
-                                    else -> "normal"
-                                }
-                            }",
+                            "priority = " + when (state.value.data.thread?.priority) {
+                                Thread.MAX_PRIORITY -> "maximum"
+                                Thread.MIN_PRIORITY -> "minimum"
+                                else -> "normal"
+                            },
                             "id = ${state.value.data.thread?.id}",
                             "daemon = ${state.value.data.thread?.isDaemon}"
                         ).joinToString("\t\t\t")
