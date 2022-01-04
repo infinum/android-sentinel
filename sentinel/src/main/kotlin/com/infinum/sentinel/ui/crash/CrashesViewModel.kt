@@ -6,6 +6,7 @@ import com.infinum.sentinel.domain.crash.models.CrashParameters
 import com.infinum.sentinel.ui.shared.base.BaseChildViewModel
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
 internal class CrashesViewModel(
@@ -16,6 +17,26 @@ internal class CrashesViewModel(
 
     override fun data() {
         dao.loadAll()
+            .map {
+                if (parameters.query?.lowercase().isNullOrBlank()) {
+                    it
+                } else {
+                    it.filter { entity ->
+                        entity.data.exception?.name?.lowercase()?.contains(
+                            parameters.query?.lowercase().orEmpty()
+                        ) ?: true ||
+                            entity.data.exception?.lineNumber?.toString()?.lowercase()?.contains(
+                                parameters.query?.lowercase().orEmpty()
+                            ) ?: true ||
+                            entity.data.exception?.file?.lowercase()?.contains(
+                                parameters.query?.lowercase().orEmpty()
+                            ) ?: true ||
+                            entity.data.exception?.message?.lowercase()?.contains(
+                                parameters.query?.lowercase().orEmpty()
+                            ) ?: true
+                    }
+                }
+            }
             .flowOn(runningDispatchers)
             .onEach { emitEvent(CrashesEvent.CrashesIntercepted(value = it)) }
             .launchIn(viewModelScope)

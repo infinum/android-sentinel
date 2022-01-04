@@ -123,8 +123,7 @@ internal class PlainFormatter(
                     addLine(
                         this,
                         R.string.sentinel_stacktrace,
-                        "${entity.data.exception?.name}: ${entity.data.exception?.message}"
-                            .plus(entity.data.exception?.stackTrace?.joinToString { "\n\t\t\t at $it" })
+                        entity.data.exception?.asPrint().orEmpty()
                     )
                     addLine(this, R.string.sentinel_thread_states, entity.data.threadState.orEmpty().count().toString())
                     entity.data.threadState?.forEach { process ->

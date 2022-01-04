@@ -71,8 +71,7 @@ internal abstract class StringBuilderFormatter {
         addLine(
             builder,
             R.string.sentinel_stacktrace,
-            "${entity.data.exception?.name}: ${entity.data.exception?.message}"
-                .plus(entity.data.exception?.stackTrace?.joinToString { "\n\t\t\t at $it" })
+            entity.data.exception?.asPrint().orEmpty()
         )
         addLine(builder, R.string.sentinel_thread_name, entity.data.thread?.name.orEmpty())
         addLine(builder, R.string.sentinel_thread_state, entity.data.thread?.state.orEmpty())

@@ -9,8 +9,8 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentBinding
+import com.infinum.sentinel.extensions.shareText
 import com.infinum.sentinel.extensions.toCradleDrawable
-import com.infinum.sentinel.ui.Presentation
 import com.infinum.sentinel.ui.main.application.ApplicationFragment
 import com.infinum.sentinel.ui.main.device.DeviceFragment
 import com.infinum.sentinel.ui.main.permissions.PermissionsFragment
@@ -62,10 +62,7 @@ internal class SentinelFragment : BaseFragment<SentinelState, SentinelEvent>(R.l
     override fun onEvent(event: SentinelEvent) =
         when (event) {
             is SentinelEvent.Formatted -> ShareCompat.IntentBuilder(requireActivity())
-                .setChooserTitle(R.string.sentinel_name)
-                .setType(Presentation.Constants.SHARE_MIME_TYPE)
-                .setText(event.value)
-                .startChooser()
+                .shareText(event.value)
         }
 
     private fun setupToolbar() {

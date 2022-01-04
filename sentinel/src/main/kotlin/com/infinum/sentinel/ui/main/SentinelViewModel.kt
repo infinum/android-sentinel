@@ -1,15 +1,16 @@
 package com.infinum.sentinel.ui.main
 
-import com.infinum.sentinel.data.models.memory.formats.FormatType
 import com.infinum.sentinel.data.models.memory.triggers.TriggerType
 import com.infinum.sentinel.domain.Factories
 import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.formats.models.FormatsParameters
 import com.infinum.sentinel.domain.triggers.models.TriggerParameters
+import com.infinum.sentinel.extensions.formatter
 import com.infinum.sentinel.ui.shared.base.BaseViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 
 internal class SentinelViewModel(
     private val collectors: Factories.Collector,
@@ -59,20 +60,12 @@ internal class SentinelViewModel(
     fun formatData() =
         launch {
             formats.load(FormatsParameters())
+                .map { it.type?.formatter(formatters) }
                 .flowOn(runningDispatchers)
                 .collectLatest {
-                    when (it.type) {
-                        FormatType.PLAIN -> formatters.plain()
-                        FormatType.MARKDOWN -> formatters.markdown()
-                        FormatType.JSON -> formatters.json()
-                        FormatType.XML -> formatters.xml()
-                        FormatType.HTML -> formatters.html()
-                        else -> null
+                    it?.invoke()?.let { text ->
+                        emitEvent(SentinelEvent.Formatted(text))
                     }
-                        ?.invoke()
-                        ?.let { text ->
-                            emitEvent(SentinelEvent.Formatted(text))
-                        }
                 }
         }
 }

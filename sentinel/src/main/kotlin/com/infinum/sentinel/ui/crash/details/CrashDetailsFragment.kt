@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentCrashDetailsBinding
 import com.infinum.sentinel.databinding.SentinelViewItemThreadStateBinding
+import com.infinum.sentinel.extensions.shareText
 import com.infinum.sentinel.ui.Presentation
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
@@ -132,10 +133,7 @@ internal class CrashDetailsFragment :
         when (event) {
             is CrashDetailsEvent.Removed -> requireActivity().finish()
             is CrashDetailsEvent.Formatted -> ShareCompat.IntentBuilder(requireActivity())
-                .setChooserTitle(R.string.sentinel_name)
-                .setType(Presentation.Constants.SHARE_MIME_TYPE)
-                .setText(event.value)
-                .startChooser()
+                .shareText(event.value)
         }
 
     private fun setupToolbar() {

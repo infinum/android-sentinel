@@ -139,8 +139,7 @@ internal class JsonFormatter(
                 addKey(R.string.sentinel_exception_name, context.getString(R.string.sentinel_anr_title))
                 addKey(
                     R.string.sentinel_stacktrace,
-                    "${entity.data.exception?.name}: ${entity.data.exception?.message}"
-                        .plus(entity.data.exception?.stackTrace?.joinToString { "\n\t\t\t at $it" })
+                    entity.data.exception?.asPrint().orEmpty()
                 )
                 addKey(R.string.sentinel_thread_states, entity.data.threadState.orEmpty().count().toString())
                 addKey(
@@ -161,8 +160,7 @@ internal class JsonFormatter(
                 addKey(R.string.sentinel_exception_name, entity.data.exception?.name.orEmpty())
                 addKey(
                     R.string.sentinel_stacktrace,
-                    "${entity.data.exception?.name}: ${entity.data.exception?.message}"
-                        .plus(entity.data.exception?.stackTrace?.joinToString { "\n\t\t\t at $it" })
+                    entity.data.exception?.asPrint().orEmpty()
                 )
                 addKey(R.string.sentinel_thread_name, entity.data.thread?.name.orEmpty())
                 addKey(R.string.sentinel_thread_state, entity.data.thread?.state.orEmpty())

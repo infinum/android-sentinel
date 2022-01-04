@@ -23,4 +23,8 @@ internal data class ExceptionData(
 
     @SerialName("is_ANR_exception")
     val isANRException: Boolean = false
-)
+) {
+
+    fun asPrint(spacer: String = "\n\t\t\t"): String =
+        "${name}: $message".plus(stackTrace.joinToString { "$spacer at $it" })
+}

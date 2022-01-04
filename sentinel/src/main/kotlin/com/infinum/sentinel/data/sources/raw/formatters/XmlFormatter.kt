@@ -168,8 +168,7 @@ internal class XmlFormatter(
             addNode(R.string.sentinel_exception_name, context.getString(R.string.sentinel_anr_title))
             addNode(
                 R.string.sentinel_stacktrace,
-                "${entity.data.exception?.name}: ${entity.data.exception?.message}"
-                    .plus(entity.data.exception?.stackTrace?.joinToString { "\n\t\t\t at $it" })
+                entity.data.exception?.asPrint().orEmpty()
             )
             addNode(R.string.sentinel_thread_states, entity.data.threadState.orEmpty().count().toString())
             entity.data.threadState?.forEach { process ->
@@ -186,8 +185,7 @@ internal class XmlFormatter(
             addNode(R.string.sentinel_exception_name, entity.data.exception?.name.orEmpty())
             addNode(
                 R.string.sentinel_stacktrace,
-                "${entity.data.exception?.name}: ${entity.data.exception?.message}"
-                    .plus(entity.data.exception?.stackTrace?.joinToString { "\n\t\t\t at $it" })
+                entity.data.exception?.asPrint().orEmpty()
             )
             addNode(R.string.sentinel_thread_name, entity.data.thread?.name.orEmpty())
             addNode(R.string.sentinel_thread_state, entity.data.thread?.state.orEmpty())

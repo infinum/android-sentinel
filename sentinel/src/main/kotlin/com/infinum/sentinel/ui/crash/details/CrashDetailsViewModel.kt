@@ -1,14 +1,15 @@
 package com.infinum.sentinel.ui.crash.details
 
-import com.infinum.sentinel.data.models.memory.formats.FormatType
 import com.infinum.sentinel.data.sources.local.room.dao.CrashesDao
 import com.infinum.sentinel.domain.Factories
 import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.crash.models.CrashParameters
 import com.infinum.sentinel.domain.crash.monitor.models.CrashMonitorParameters
 import com.infinum.sentinel.domain.formats.models.FormatsParameters
+import com.infinum.sentinel.extensions.formatter
 import com.infinum.sentinel.ui.shared.base.BaseChildViewModel
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
 
 internal class CrashDetailsViewModel(
     private val crashMonitor: Repositories.CrashMonitor,
@@ -45,17 +46,11 @@ internal class CrashDetailsViewModel(
             val result = io {
                 val monitor = crashMonitor.load(CrashMonitorParameters()).firstOrNull()
                 val entity = dao.loadById(parameters.crashId!!)
-                val formatter = formats.load(FormatsParameters()).firstOrNull()
-                when (formatter?.type) {
-                    FormatType.PLAIN -> formatters.plain()
-                    FormatType.MARKDOWN -> formatters.markdown()
-                    FormatType.JSON -> formatters.json()
-                    FormatType.XML -> formatters.xml()
-                    FormatType.HTML -> formatters.html()
-                    else -> null
-                }
-                    ?.formatCrash(monitor?.includeAllData ?: false, entity)
-                    .orEmpty()
+                val formatter = formats.load(FormatsParameters())
+                    .map { it.type?.formatter(formatters) }
+                    .firstOrNull()
+
+                formatter?.formatCrash(monitor?.includeAllData ?: false, entity).orEmpty()
             }
             emitEvent(CrashDetailsEvent.Formatted(result))
         }
