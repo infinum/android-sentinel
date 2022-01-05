@@ -102,7 +102,7 @@ Create or inject an instance of _Sentinel_ in your Application class and start w
 triggers:
 
 ```kotlin
-    Sentinel.watch(
+Sentinel.watch(
     setOf(
         ChuckerTool(),
         CollarTool(),
@@ -169,7 +169,7 @@ for a name and a _View.OnClickListener_. An optional icon *Drawable resource* ca
 Implementing this interface enables any class to be provided as a tool in _Sentinel_.
 
 ```kotlin
-    interface Tool {
+interface Tool {
 
     @DrawableRes
     fun icon(): Int? = null
@@ -217,7 +217,7 @@ persisted between sessions and available on demand.
 Methods to react on these crashes in a graceful way are provided in _Sentinel_.
 
 ```kotlin
-     Sentinel.setExceptionHandler { _, exception ->
+Sentinel.setExceptionHandler { _, exception ->
     println("Exception happened: ${exception.message}")
     exitProcess(exception.hashCode())
 }
