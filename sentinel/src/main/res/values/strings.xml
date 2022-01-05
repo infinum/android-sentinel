@@ -9,6 +9,7 @@
     <string name="sentinel_settings">Settings</string>
     <string name="sentinel_app_info">App info</string>
     <string name="sentinel_bundle_monitor">Bundle monitor</string>
+    <string name="sentinel_crash_monitor">Crash monitor</string>
     <string name="sentinel_share">Share</string>
     <string name="sentinel_notify">Notify</string>
     <string name="sentinel_limit">Limit</string>
@@ -16,10 +17,6 @@
     <string name="sentinel_search">Search</string>
     <string name="sentinel_show">Show</string>
     <string name="sentinel_save">Save</string>
-    <string name="sentinel_preferences_editor">Preferences editor</string>
-    <string name="sentinel_key">Key</string>
-    <string name="sentinel_current_value">Current value</string>
-    <string name="sentinel_new_value">New value</string>
 
     <string name="sentinel_network">Network</string>
     <string name="sentinel_memory">Memory</string>
@@ -74,9 +71,38 @@
     <string name="sentinel_emulator">Emulator</string>
     <string name="sentinel_auto_time">Automatic time</string>
     <string name="sentinel_auto_timezone">Automatic timezone</string>
+    <string name="sentinel_rooted">Rooted</string>
 
     <string name="sentinel_bundle_monitor_empty">No bundles collected.</string>
 
+    <string name="sentinel_preferences_editor">Preferences editor</string>
+    <string name="sentinel_key">Key</string>
+    <string name="sentinel_current_value">Current value</string>
+    <string name="sentinel_new_value">New value</string>
     <string name="sentinel_text_copied">Text copied to clipboard.</string>
     <string name="sentinel_failed_to_copy_to_clipboard">Failed to copy to clipboard</string>
+
+    <string name="sentinel_crash_notification_title">Sentinel detected a crash in %s</string>
+    <string name="sentinel_crash_notification_subtitle">Tap here to see crash details.</string>
+    <string name="sentinel_anr_notification_title">Sentinel detected an ANR in %s</string>
+    <string name="sentinel_anr_notification_subtitle">Tap here to see ANR details.</string>
+    <string name="sentinel_crash">Crash</string>
+    <string name="sentinel_stacktrace">StackTrace</string>
+    <string name="sentinel_thread">Thread</string>
+    <string name="sentinel_daemon">Daemon</string>
+    <string name="sentinel_crash_empty">No crashes detected.</string>
+    <string name="sentinel_notify_uncaught">Notify uncaught exceptions</string>
+    <string name="sentinel_notify_anr">Notify "Application Not Responding"</string>
+    <string name="sentinel_include_all_data">Share includes all data</string>
+    <string name="sentinel_anr_title">Application Not Responding</string>
+    <string name="sentinel_anr_message">Main thread is unresponsive</string>
+    <string name="sentinel_thread_states">Thread states</string>
+    <string name="sentinel_file">File</string>
+    <string name="sentinel_line">Line</string>
+    <string name="sentinel_timestamp">Timestamp</string>
+    <string name="sentinel_exception_name">Exception name</string>
+    <string name="sentinel_thread_name">Thread name</string>
+    <string name="sentinel_thread_state">State</string>
+    <string name="sentinel_priority">Priority</string>
+    <string name="sentinel_message">Message</string>
 </resources>

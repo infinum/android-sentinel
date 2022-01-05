@@ -14,7 +14,7 @@ internal class BundleDetailsActivity : BaseChildActivity() {
         supportFragmentManager.beginTransaction()
             .replace(
                 android.R.id.content,
-                BundleDetailsFragment.newInstance(intent.extras?.getString(Presentation.Constants.KEY_BUNDLE_ID)),
+                BundleDetailsFragment.newInstance(intent.extras?.getString(Presentation.Constants.Keys.BUNDLE_ID)),
                 BundleDetailsFragment.TAG
             )
             .commit()

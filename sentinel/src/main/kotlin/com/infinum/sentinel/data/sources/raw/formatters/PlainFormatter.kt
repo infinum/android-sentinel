@@ -1,7 +1,10 @@
 package com.infinum.sentinel.data.sources.raw.formatters
 
 import android.content.Context
+import com.infinum.sentinel.R
+import com.infinum.sentinel.data.models.local.CrashEntity
 import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.APPLICATION
+import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.CRASH
 import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.DEVICE
 import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.PERMISSIONS
 import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.PREFERENCES
@@ -34,13 +37,16 @@ internal class PlainFormatter(
     }
 
     override fun invoke(): String =
-        addAllData(
-            StringBuilder(),
-            application(),
-            permissions(),
-            device(),
-            preferences()
-        )
+        format()
+
+    override fun formatCrash(includeAllData: Boolean, entity: CrashEntity): String =
+        when (includeAllData) {
+            true -> format(entity)
+            false -> addAllData(
+                builder = StringBuilder(),
+                crashData = crash(entity)
+            )
+        }
 
     override fun application(): String =
         StringBuilder()
@@ -90,4 +96,44 @@ internal class PlainFormatter(
                 }
             }
             .toString()
+
+    override fun crash(entity: CrashEntity): String =
+        StringBuilder()
+            .appendLine(CRASH.uppercase(Locale.getDefault()))
+            .appendLine(SEPARATOR.repeat(CRASH.length))
+            .apply {
+                if (entity.data.exception?.isANRException == true) {
+                    addAnrData(context, this, entity)
+                    addLine(
+                        this,
+                        R.string.sentinel_stacktrace,
+                        entity.data.exception?.asPrint().orEmpty()
+                    )
+                    addLine(this, R.string.sentinel_thread_states, entity.data.threadState.orEmpty().count().toString())
+                    entity.data.threadState?.forEach { process ->
+                        appendLine()
+                        appendLine(SEPARATOR.repeat(process.name.length))
+                        addLine(
+                            this,
+                            context.getString(R.string.sentinel_stacktrace),
+                            "${process.name}\t\t\t${process.state.uppercase()}"
+                                .plus(process.stackTrace.joinToString { "\n\t\t\t at $it" })
+                        )
+                    }
+                } else {
+                    addCrashData(this, entity)
+                }
+            }
+            .appendLine()
+            .toString()
+
+    private fun format(crash: CrashEntity? = null) =
+        addAllData(
+            StringBuilder(),
+            application(),
+            permissions(),
+            device(),
+            preferences(),
+            crash?.let { crash(it) }
+        )
 }

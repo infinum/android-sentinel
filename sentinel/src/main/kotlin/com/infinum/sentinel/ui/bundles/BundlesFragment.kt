@@ -41,7 +41,7 @@ internal class BundlesFragment : BaseChildFragment<Nothing, BundlesEvent>(R.layo
             startActivity(
                 Intent(requireContext(), BundleDetailsActivity::class.java)
                     .apply {
-                        putExtra(Presentation.Constants.KEY_BUNDLE_ID, it.bundleTree.id)
+                        putExtra(Presentation.Constants.Keys.BUNDLE_ID, it.bundleTree.id)
                     }
             )
         }

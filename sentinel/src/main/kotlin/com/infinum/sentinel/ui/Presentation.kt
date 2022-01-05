@@ -9,6 +9,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.infinum.sentinel.BuildConfig
 import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
+import com.infinum.sentinel.data.models.local.CrashMonitorEntity
 import com.infinum.sentinel.data.models.memory.triggers.shake.ShakeTrigger
 import com.infinum.sentinel.di.LibraryKoin
 import com.infinum.sentinel.domain.Domain
@@ -16,6 +17,7 @@ import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleDescriptor
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleParameters
 import com.infinum.sentinel.domain.bundle.monitor.models.BundleMonitorParameters
+import com.infinum.sentinel.domain.crash.monitor.models.CrashMonitorParameters
 import com.infinum.sentinel.extensions.sizeTree
 import com.infinum.sentinel.ui.Presentation.Constants.BYTE_MULTIPLIER
 import com.infinum.sentinel.ui.bundles.BundlesViewModel
@@ -23,6 +25,15 @@ import com.infinum.sentinel.ui.bundles.callbacks.BundleMonitorActivityCallbacks
 import com.infinum.sentinel.ui.bundles.callbacks.BundleMonitorNotificationCallbacks
 import com.infinum.sentinel.ui.bundles.details.BundleDetailsActivity
 import com.infinum.sentinel.ui.bundles.details.BundleDetailsViewModel
+import com.infinum.sentinel.ui.crash.CrashesViewModel
+import com.infinum.sentinel.ui.crash.anr.SentinelAnrObserver
+import com.infinum.sentinel.ui.crash.anr.SentinelAnrObserverRunnable
+import com.infinum.sentinel.ui.crash.anr.SentinelUiAnrObserver
+import com.infinum.sentinel.ui.crash.details.CrashDetailsViewModel
+import com.infinum.sentinel.ui.crash.handler.SentinelExceptionHandler
+import com.infinum.sentinel.ui.crash.handler.SentinelUncaughtExceptionHandler
+import com.infinum.sentinel.ui.crash.notification.NotificationFactory
+import com.infinum.sentinel.ui.crash.notification.SystemNotificationFactory
 import com.infinum.sentinel.ui.main.SentinelActivity
 import com.infinum.sentinel.ui.main.SentinelViewModel
 import com.infinum.sentinel.ui.main.application.ApplicationViewModel
@@ -34,8 +45,12 @@ import com.infinum.sentinel.ui.main.tools.ToolsViewModel
 import com.infinum.sentinel.ui.settings.SettingsViewModel
 import com.infinum.sentinel.ui.tools.AppInfoTool
 import com.infinum.sentinel.ui.tools.BundleMonitorTool
+import com.infinum.sentinel.ui.tools.CrashMonitorTool
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
@@ -46,16 +61,19 @@ import timber.log.Timber
 internal object Presentation {
 
     object Constants {
-        const val KEY_BUNDLE_ID = "KEY_BUNDLE_ID"
         const val BYTE_MULTIPLIER = 1000
+        const val SHARE_MIME_TYPE = "text/plain"
 
         object Keys {
-
+            const val BUNDLE_ID = "KEY_BUNDLE_ID"
             const val SHOULD_REFRESH: String = "KEY_SHOULD_REFRESH"
+            const val APPLICATION_NAME: String = "KEY_APPLICATION_NAME"
+            const val CRASH_ID: String = "KEY_CRASH_ID"
         }
     }
 
     private val DEFAULT_TOOLS = setOf(
+        CrashMonitorTool(),
         BundleMonitorTool(),
         AppInfoTool()
     )
@@ -68,8 +86,44 @@ internal object Presentation {
         }
     }
 
+    @Suppress("LongMethod")
     fun initialize(context: Context) {
         this.context = context
+
+        val exceptionHandler = LibraryKoin.koin().get<SentinelExceptionHandler>()
+        Thread.setDefaultUncaughtExceptionHandler(exceptionHandler as Thread.UncaughtExceptionHandler)
+        val anrObserver = LibraryKoin.koin().get<SentinelAnrObserver>()
+
+        val crashMonitor = LibraryKoin.koin().get<Repositories.CrashMonitor>()
+        GlobalScope.launch {
+            crashMonitor.load(CrashMonitorParameters()).firstOrNull()
+                ?.let { entity ->
+                    if (entity.notifyExceptions) {
+                        exceptionHandler.start()
+                    } else {
+                        exceptionHandler.stop()
+                    }
+                    if (entity.notifyExceptions) {
+                        anrObserver.start()
+                    } else {
+                        anrObserver.stop()
+                    }
+                }
+                ?: run {
+                    crashMonitor.save(
+                        CrashMonitorParameters(
+                            entity = CrashMonitorEntity(
+                                id = 1L,
+                                notifyExceptions = false,
+                                notifyAnrs = false,
+                                includeAllData = false
+                            )
+                        )
+                    )
+                    exceptionHandler.stop()
+                    anrObserver.stop()
+                }
+        }
 
         val bundleMonitor = LibraryKoin.koin().get<Repositories.BundleMonitor>()
         val bundles = LibraryKoin.koin().get<Repositories.Bundles>()
@@ -106,7 +160,7 @@ internal object Presentation {
                                         view.context.startActivity(
                                             Intent(activity, BundleDetailsActivity::class.java)
                                                 .apply {
-                                                    putExtra(Constants.KEY_BUNDLE_ID, sizeTree.id)
+                                                    putExtra(Constants.Keys.BUNDLE_ID, sizeTree.id)
                                                 }
                                         )
                                     }
@@ -118,24 +172,14 @@ internal object Presentation {
             )
     }
 
-    fun modules(): List<Module> =
-        Domain.modules().plus(
-            listOf(
-                viewModels()
-            )
-        )
+    fun setExceptionHandler(handler: Thread.UncaughtExceptionHandler?) {
+        val exceptionHandler = LibraryKoin.koin().get<SentinelExceptionHandler>()
+        exceptionHandler.setExceptionHandler(handler)
+    }
 
-    private fun viewModels() = module {
-        viewModel { SentinelViewModel(get(), get(), get(), get()) }
-        viewModel { DeviceViewModel(get()) }
-        viewModel { ApplicationViewModel(get()) }
-        viewModel { PermissionsViewModel(get()) }
-        viewModel { PreferencesViewModel(get(), get()) }
-        viewModel { PreferenceEditorViewModel(get()) }
-        viewModel { ToolsViewModel(get()) }
-        viewModel { SettingsViewModel(get(), get(), get()) }
-        viewModel { BundlesViewModel(get(), get()) }
-        viewModel { BundleDetailsViewModel(get()) }
+    fun setAnrListener(listener: Sentinel.ApplicationNotRespondingListener?) {
+        val observer = LibraryKoin.koin().get<SentinelAnrObserver>()
+        observer.setListener(listener)
     }
 
     fun setup(tools: Set<Sentinel.Tool>, onTriggered: () -> Unit) {
@@ -155,4 +199,37 @@ internal object Presentation {
         } else {
             throw NullPointerException("Presentation context has not been initialized.")
         }
+
+    fun modules(): List<Module> =
+        Domain.modules().plus(
+            listOf(
+                viewModels(),
+                factories()
+            )
+        )
+
+    private fun viewModels() = module {
+        viewModel { SentinelViewModel(get(), get(), get(), get()) }
+        viewModel { DeviceViewModel(get()) }
+        viewModel { ApplicationViewModel(get()) }
+        viewModel { PermissionsViewModel(get()) }
+        viewModel { PreferencesViewModel(get(), get()) }
+        viewModel { PreferenceEditorViewModel(get()) }
+        viewModel { ToolsViewModel(get()) }
+        viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get()) }
+        viewModel { BundlesViewModel(get(), get()) }
+        viewModel { BundleDetailsViewModel(get()) }
+        viewModel { CrashesViewModel(get()) }
+        viewModel { CrashDetailsViewModel(get(), get(), get(), get()) }
+    }
+
+    private fun factories() = module {
+        single<NotificationFactory> { SystemNotificationFactory(get()) }
+
+        single<SentinelExceptionHandler> { SentinelUncaughtExceptionHandler(get(), get(), get()) }
+
+        single { SentinelAnrObserverRunnable(get(), get(), get()) }
+        factory<ExecutorService> { Executors.newSingleThreadExecutor() }
+        single<SentinelAnrObserver> { SentinelUiAnrObserver(get(), get()) }
+    }
 }

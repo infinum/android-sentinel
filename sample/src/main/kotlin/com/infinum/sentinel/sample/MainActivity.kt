@@ -13,6 +13,7 @@ import com.infinum.sentinel.sample.databinding.ActivityMainBinding
 import java.util.Locale
 import kotlin.math.roundToInt
 import kotlin.random.Random
+import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,6 +45,16 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
+        Sentinel.setExceptionHandler { _, exception ->
+            println("setExceptionHandler ${exception.message}")
+            exitProcess(exception.hashCode())
+        }
+
+        Sentinel.setAnrListener { exception ->
+            println("setAnrListener ${exception.message}")
+            exitProcess(exception.hashCode())
+        }
+
         with(viewBinding) {
             showSentinel.setOnClickListener {
                 Sentinel.show()
@@ -66,6 +77,18 @@ class MainActivity : AppCompatActivity() {
                                 }
                         }
                 )
+            }
+            generateException.setOnClickListener {
+                throw RuntimeException("This is a test exception!")
+            }
+            generateDeadlock.setOnClickListener {
+                ANRTester.deadLock()
+            }
+            generateLoop.setOnClickListener {
+                ANRTester.infiniteLoop()
+            }
+            generateSleep.setOnClickListener {
+                ANRTester.threadSleep()
             }
         }
     }

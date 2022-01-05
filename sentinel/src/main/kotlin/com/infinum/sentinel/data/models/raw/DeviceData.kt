@@ -36,5 +36,6 @@ internal data class DeviceData(
             "google_sdk" == Build.PRODUCT
         ),
     val autoTime: Boolean,
-    val autoTimezone: Boolean
+    val autoTimezone: Boolean,
+    val isRooted: Boolean
 )

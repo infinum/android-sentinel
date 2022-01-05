@@ -5,7 +5,9 @@ import android.content.Context
 import android.util.Xml
 import androidx.annotation.StringRes
 import com.infinum.sentinel.R
+import com.infinum.sentinel.data.models.local.CrashEntity
 import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.APPLICATION
+import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.CRASH
 import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.DEVICE
 import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.NAME
 import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.PERMISSIONS
@@ -37,6 +39,36 @@ internal class XmlFormatter(
 
     @SuppressLint("DefaultLocale")
     override fun invoke(): String =
+        format()
+
+    override fun formatCrash(includeAllData: Boolean, entity: CrashEntity): String =
+        if (includeAllData) {
+            format(entity)
+        } else {
+            StringWriter().apply {
+                with(Xml.newSerializer()) {
+                    setFeature(FEATURE_INDENT, true)
+                    setOutput(this@apply)
+                    startDocument(Xml.Encoding.UTF_8.name, true)
+                    startTag(NAMESPACE, ROOT)
+                    addCrashNode(entity)
+                    endTag(NAMESPACE, ROOT)
+                    endDocument()
+                }
+            }.toString()
+        }
+
+    override fun application(): String = ""
+
+    override fun permissions(): String = ""
+
+    override fun device(): String = ""
+
+    override fun preferences(): String = ""
+
+    override fun crash(entity: CrashEntity): String = ""
+
+    private fun format(entity: CrashEntity? = null) =
         StringWriter().apply {
             with(Xml.newSerializer()) {
                 setFeature(FEATURE_INDENT, true)
@@ -47,18 +79,11 @@ internal class XmlFormatter(
                 addPermissionsNode()
                 addDeviceNode()
                 addPreferencesNode()
+                entity?.let { addCrashNode(it) }
                 endTag(NAMESPACE, ROOT)
                 endDocument()
             }
         }.toString()
-
-    override fun application(): String = ""
-
-    override fun permissions(): String = ""
-
-    override fun device(): String = ""
-
-    override fun preferences(): String = ""
 
     private fun XmlSerializer.addApplicationNode() {
         startTag(NAMESPACE, APPLICATION)
@@ -105,6 +130,7 @@ internal class XmlFormatter(
             addNode(R.string.sentinel_emulator, it.isProbablyAnEmulator.toString())
             addNode(R.string.sentinel_auto_time, it.autoTime.toString())
             addNode(R.string.sentinel_auto_timezone, it.autoTimezone.toString())
+            addNode(R.string.sentinel_rooted, it.isRooted.toString())
         }
         endTag(NAMESPACE, DEVICE)
     }
@@ -122,6 +148,49 @@ internal class XmlFormatter(
             }
         }
         endTag(NAMESPACE, PREFERENCES)
+    }
+
+    private fun XmlSerializer.addCrashNode(entity: CrashEntity) {
+        startTag(NAMESPACE, CRASH)
+        if (entity.data.exception?.isANRException == true) {
+            addNode(R.string.sentinel_timestamp, entity.timestamp.toString())
+            addNode(R.string.sentinel_message, context.getString(R.string.sentinel_anr_message))
+            addNode(R.string.sentinel_exception_name, context.getString(R.string.sentinel_anr_title))
+            addNode(
+                R.string.sentinel_stacktrace,
+                entity.data.exception?.asPrint().orEmpty()
+            )
+            addNode(R.string.sentinel_thread_states, entity.data.threadState.orEmpty().count().toString())
+            entity.data.threadState?.forEach { process ->
+                addNode(
+                    R.string.sentinel_stacktrace,
+                    "${process.name}\t\t\t${process.state.uppercase()}"
+                        .plus(process.stackTrace.joinToString { "\n\t\t\t at $it" })
+                )
+            }
+        } else {
+            addNode(R.string.sentinel_file, entity.data.exception?.file.orEmpty())
+            addNode(R.string.sentinel_line, entity.data.exception?.lineNumber?.toString().orEmpty())
+            addNode(R.string.sentinel_timestamp, entity.timestamp.toString())
+            addNode(R.string.sentinel_exception_name, entity.data.exception?.name.orEmpty())
+            addNode(
+                R.string.sentinel_stacktrace,
+                entity.data.exception?.asPrint().orEmpty()
+            )
+            addNode(R.string.sentinel_thread_name, entity.data.thread?.name.orEmpty())
+            addNode(R.string.sentinel_thread_state, entity.data.thread?.state.orEmpty())
+            addNode(
+                R.string.sentinel_priority,
+                when (entity.data.thread?.priority) {
+                    Thread.MAX_PRIORITY -> "maximum"
+                    Thread.MIN_PRIORITY -> "minimum"
+                    else -> "normal"
+                }
+            )
+            addNode(R.string.sentinel_id, entity.data.thread?.id?.toString().orEmpty())
+            addNode(R.string.sentinel_daemon, entity.data.thread?.isDaemon?.toString().orEmpty())
+        }
+        endTag(NAMESPACE, CRASH)
     }
 
     private fun XmlSerializer.addNode(@StringRes tag: Int, text: String) {

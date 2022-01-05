@@ -5,6 +5,7 @@ import com.infinum.sentinel.data.Data
 import com.infinum.sentinel.domain.bundle.descriptor.BundlesRepository
 import com.infinum.sentinel.domain.bundle.monitor.BundleMonitorRepository
 import com.infinum.sentinel.domain.collectors.CollectorFactory
+import com.infinum.sentinel.domain.crash.monitor.CrashMonitorRepository
 import com.infinum.sentinel.domain.formats.FormatsRepository
 import com.infinum.sentinel.domain.formatters.FormatterFactory
 import com.infinum.sentinel.domain.preference.PreferenceRepository
@@ -31,7 +32,8 @@ internal object Domain {
                 formats(),
                 bundleMonitor(),
                 bundles(),
-                preferences()
+                preferences(),
+                crashMonitor()
             )
         )
 
@@ -63,5 +65,9 @@ internal object Domain {
 
     private fun preferences() = module {
         single<Repositories.Preference> { PreferenceRepository(get(), get()) }
+    }
+
+    private fun crashMonitor() = module {
+        single<Repositories.CrashMonitor> { CrashMonitorRepository(get()) }
     }
 }

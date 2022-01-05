@@ -1,10 +1,11 @@
 plugins {
     id "com.android.library"
     id "kotlin-android"
+    id "org.jetbrains.kotlin.plugin.serialization"
     id "com.google.devtools.ksp" version "1.6.10-1.0.2"
 }
 
-apply from: 'jacoco.gradle'
+apply from: "jacoco.gradle"
 
 android {
     compileSdkVersion buildConfig.compileSdk
@@ -40,10 +41,10 @@ android {
         }
     }
 
-    resourcePrefix 'sentinel_'
+    resourcePrefix "sentinel_"
 
     lintOptions {
-        disable 'RtlEnabled', 'VectorPath'
+        disable "RtlEnabled", "VectorPath"
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -52,9 +53,9 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs += [
-                '-Xopt-in=kotlin.ExperimentalStdlibApi',
-                '-Xopt-in=kotlinx.coroutines.DelicateCoroutinesApi',
-                '-Xexplicit-api=strict'
+                "-Xopt-in=kotlin.ExperimentalStdlibApi",
+                "-Xopt-in=kotlinx.coroutines.DelicateCoroutinesApi",
+                "-Xexplicit-api=strict"
         ]
     }
     testOptions {
@@ -72,6 +73,7 @@ android {
 
 dependencies {
     implementation libs.kotlin.core
+    implementation libs.kotlin.json
     implementation libs.coroutines
     implementation libs.bundles.androidx
     ksp libs.androidx.room.compiler
@@ -80,21 +82,21 @@ dependencies {
     implementation libs.timber
 
     androidTestImplementation "junit:junit:4.13.2"
-    androidTestImplementation 'androidx.arch.core:core-testing:2.1.0'
-    androidTestImplementation 'androidx.test:core-ktx:1.4.0'
-    androidTestImplementation 'androidx.test:rules:1.4.0'
-    androidTestImplementation 'androidx.test:runner:1.4.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
+    androidTestImplementation "androidx.test:core-ktx:1.4.0"
+    androidTestImplementation "androidx.test:rules:1.4.0"
+    androidTestImplementation "androidx.test:runner:1.4.0"
+    androidTestImplementation "androidx.test.ext:junit:1.1.3"
     androidTestImplementation "androidx.security:security-crypto:1.1.0-alpha03"
     androidTestImplementation "org.robolectric:shadowapi:4.5.1"
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:3.4.0"
     androidTestImplementation "androidx.room:room-testing:2.3.0"
-    androidTestImplementation 'androidx.fragment:fragment-ktx:1.3.6'
-    androidTestImplementation 'androidx.fragment:fragment-testing:1.3.6'
+    androidTestImplementation "androidx.fragment:fragment-ktx:1.3.6"
+    androidTestImplementation "androidx.fragment:fragment-testing:1.3.6"
 
     testImplementation "junit:junit:4.13.2"
-    testImplementation 'androidx.test.ext:junit:1.1.3'
+    testImplementation "androidx.test.ext:junit:1.1.3"
 }
 
 apply from: "publish.gradle"
