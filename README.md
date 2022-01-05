@@ -237,13 +237,13 @@ the limit of Bundle size.
 This monitor feature runs automatically for every _Activity_ but if you wish to disable monitoring
 for a specific screen, you can do so in the _AndroidManifest.xml_ by adding a _meta-data_ node.
 ```xml
-    <activity
-        android:name="com.example.ui.main.MainActivity"
-        android:exported="false">
-        <meta-data
-          android:name="@string/sentinel_infinum_monitored"
-          android:value="false" />
-    </activity>
+<activity
+    android:name="com.example.ui.main.MainActivity"
+    android:exported="false">
+    <meta-data
+      android:name="@string/sentinel_infinum_monitored"
+      android:value="false" />
+</activity>
 ```
 
 ## Requirements
