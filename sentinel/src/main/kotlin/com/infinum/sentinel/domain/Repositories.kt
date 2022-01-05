@@ -1,12 +1,14 @@
 package com.infinum.sentinel.domain
 
 import com.infinum.sentinel.data.models.local.BundleMonitorEntity
+import com.infinum.sentinel.data.models.local.CrashMonitorEntity
 import com.infinum.sentinel.data.models.local.FormatEntity
 import com.infinum.sentinel.data.models.local.TriggerEntity
 import com.infinum.sentinel.data.models.raw.PreferenceType
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleDescriptor
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleParameters
 import com.infinum.sentinel.domain.bundle.monitor.models.BundleMonitorParameters
+import com.infinum.sentinel.domain.crash.monitor.models.CrashMonitorParameters
 import com.infinum.sentinel.domain.formats.models.FormatsParameters
 import com.infinum.sentinel.domain.preference.models.PreferenceParameters
 import com.infinum.sentinel.domain.shared.base.BaseRepository
@@ -31,4 +33,6 @@ internal interface Repositories {
 
         fun consume(): Pair<String, Triple<PreferenceType, String, Any>>
     }
+
+    interface CrashMonitor : BaseRepository<CrashMonitorParameters, CrashMonitorEntity>
 }

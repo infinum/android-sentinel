@@ -21,7 +21,7 @@ internal class BundleDetailsFragment :
     companion object {
         fun newInstance(bundleId: String?) = BundleDetailsFragment().apply {
             arguments = Bundle().apply {
-                putString(Presentation.Constants.KEY_BUNDLE_ID, bundleId)
+                putString(Presentation.Constants.Keys.BUNDLE_ID, bundleId)
             }
         }
 
@@ -41,7 +41,7 @@ internal class BundleDetailsFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        bundleId = arguments?.getString(Presentation.Constants.KEY_BUNDLE_ID)
+        bundleId = arguments?.getString(Presentation.Constants.Keys.BUNDLE_ID)
         viewModel.setBundleId(bundleId)
     }
 

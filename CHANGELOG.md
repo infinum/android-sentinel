@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+## Version 1.1.8
+
+_2022-01-10_
+
+* Implement root check row in Device tab.
+* Implement crash monitor for uncaught exceptions and ANRs.
+
 ## Version 1.1.7
 
 _2021-12-31_

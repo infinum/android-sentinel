@@ -38,6 +38,7 @@ internal class DeviceFragment : BaseChildFragment<DeviceState, Nothing>(R.layout
                 emulatorView.data = state.value.isProbablyAnEmulator.toString()
                 autoTimeView.data = state.value.autoTime.toString()
                 autoTimezoneView.data = state.value.autoTimezone.toString()
+                rootedView.data = state.value.isRooted.toString()
             }
         }
 

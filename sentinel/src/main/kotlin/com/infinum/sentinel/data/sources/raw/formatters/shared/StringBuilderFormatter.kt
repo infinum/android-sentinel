@@ -1,7 +1,9 @@
 package com.infinum.sentinel.data.sources.raw.formatters.shared
 
+import android.content.Context
 import androidx.annotation.StringRes
 import com.infinum.sentinel.R
+import com.infinum.sentinel.data.models.local.CrashEntity
 import com.infinum.sentinel.data.models.raw.ApplicationData
 import com.infinum.sentinel.data.models.raw.DeviceData
 
@@ -11,18 +13,23 @@ internal abstract class StringBuilderFormatter {
 
     abstract fun addLine(builder: StringBuilder, tag: String, text: String)
 
+    @Suppress("LongParameterList")
     internal fun addAllData(
         builder: StringBuilder,
-        applicationData: String,
-        permissionsData: String,
-        deviceData: String,
-        preferencesData: String
+        applicationData: String? = null,
+        permissionsData: String? = null,
+        deviceData: String? = null,
+        preferencesData: String? = null,
+        crashData: String? = null
     ): String =
         builder
-            .appendLine(applicationData)
-            .appendLine(permissionsData)
-            .appendLine(deviceData)
-            .appendLine(preferencesData)
+            .apply {
+                applicationData?.let { appendLine(it) }
+                permissionsData?.let { appendLine(it) }
+                deviceData?.let { appendLine(it) }
+                preferencesData?.let { appendLine(it) }
+                crashData?.let { appendLine(it) }
+            }
             .toString()
 
     internal fun addApplicationData(builder: StringBuilder, data: ApplicationData) {
@@ -54,5 +61,37 @@ internal abstract class StringBuilderFormatter {
         addLine(builder, R.string.sentinel_emulator, data.isProbablyAnEmulator.toString())
         addLine(builder, R.string.sentinel_auto_time, data.autoTime.toString())
         addLine(builder, R.string.sentinel_auto_timezone, data.autoTimezone.toString())
+        addLine(builder, R.string.sentinel_rooted, data.isRooted.toString())
+    }
+
+    internal fun addAnrData(context: Context, builder: StringBuilder, entity: CrashEntity) {
+        addLine(builder, R.string.sentinel_timestamp, entity.timestamp.toString())
+        addLine(builder, R.string.sentinel_message, context.getString(R.string.sentinel_anr_message))
+        addLine(builder, R.string.sentinel_exception_name, context.getString(R.string.sentinel_anr_title))
+    }
+
+    internal fun addCrashData(builder: StringBuilder, entity: CrashEntity) {
+        addLine(builder, R.string.sentinel_file, entity.data.exception?.file.orEmpty())
+        addLine(builder, R.string.sentinel_line, entity.data.exception?.lineNumber?.toString().orEmpty())
+        addLine(builder, R.string.sentinel_timestamp, entity.timestamp.toString())
+        addLine(builder, R.string.sentinel_exception_name, entity.data.exception?.name.orEmpty())
+        addLine(
+            builder,
+            R.string.sentinel_stacktrace,
+            entity.data.exception?.asPrint().orEmpty()
+        )
+        addLine(builder, R.string.sentinel_thread_name, entity.data.thread?.name.orEmpty())
+        addLine(builder, R.string.sentinel_thread_state, entity.data.thread?.state.orEmpty())
+        addLine(
+            builder,
+            R.string.sentinel_priority,
+            when (entity.data.thread?.priority) {
+                Thread.MAX_PRIORITY -> "maximum"
+                Thread.MIN_PRIORITY -> "minimum"
+                else -> "normal"
+            }
+        )
+        addLine(builder, R.string.sentinel_id, entity.data.thread?.id?.toString().orEmpty())
+        addLine(builder, R.string.sentinel_daemon, entity.data.thread?.isDaemon?.toString().orEmpty())
     }
 }

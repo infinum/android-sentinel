@@ -36,7 +36,7 @@ import org.koin.dsl.module
 
 internal object Data {
 
-    const val DATABASE_VERSION = 2
+    const val DATABASE_VERSION = 3
 
     object Qualifiers {
 
@@ -87,6 +87,8 @@ internal object Data {
         single { get<SentinelDatabase>().triggers() }
         single { get<SentinelDatabase>().formats() }
         single { get<SentinelDatabase>().bundleMonitor() }
+        single { get<SentinelDatabase>().crashes() }
+        single { get<SentinelDatabase>().crashMonitor() }
     }
 
     private fun raw() = module {

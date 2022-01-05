@@ -152,6 +152,23 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
                 }
                 binding.limitValueView.text = String.format(FORMAT_BUNDLE_SIZE, event.value.limit)
             }
+            is SettingsEvent.CrashMonitorChanged -> {
+                binding.uncaughtExceptionSwitch.setOnCheckedChangeListener(null)
+                binding.uncaughtExceptionSwitch.isChecked = event.value.notifyExceptions
+                binding.uncaughtExceptionSwitch.setOnCheckedChangeListener { _, isChecked ->
+                    viewModel.updateCrashMonitor(event.value.copy(notifyExceptions = isChecked))
+                }
+                binding.anrSwitch.setOnCheckedChangeListener(null)
+                binding.anrSwitch.isChecked = event.value.notifyAnrs
+                binding.anrSwitch.setOnCheckedChangeListener { _, isChecked ->
+                    viewModel.updateCrashMonitor(event.value.copy(notifyAnrs = isChecked))
+                }
+                binding.includeAllDataSwitch.setOnCheckedChangeListener(null)
+                binding.includeAllDataSwitch.isChecked = event.value.includeAllData
+                binding.includeAllDataSwitch.setOnCheckedChangeListener { _, isChecked ->
+                    viewModel.updateCrashMonitor(event.value.copy(includeAllData = isChecked))
+                }
+            }
         }
 
     private fun setupSwitch(switchView: SwitchMaterial, trigger: TriggerEntity) =

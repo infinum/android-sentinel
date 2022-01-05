@@ -11,6 +11,7 @@ buildscript {
     dependencies {
         classpath libs.tools.gradle
         classpath libs.kotlin.gradle
+        classpath libs.kotlin.serialization
         classpath libs.cpd
         classpath libs.detekt.gradle
         classpath libs.ktlint

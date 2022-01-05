@@ -1,6 +1,8 @@
 package com.infinum.sentinel.data.sources.raw.formatters
 
-internal interface Formatter<T, K> {
+import com.infinum.sentinel.data.models.local.CrashEntity
+
+internal interface Formatter<Model, Collection> {
 
     companion object {
         internal const val APPLICATION = "application"
@@ -9,16 +11,21 @@ internal interface Formatter<T, K> {
         internal const val NAME = "name"
         internal const val STATUS = "status"
         internal const val PREFERENCES = "preferences"
+        internal const val CRASH = "crash"
         internal const val VALUES = "values"
     }
 
     operator fun invoke(): String
 
-    fun application(): T
+    fun formatCrash(includeAllData: Boolean, entity: CrashEntity): String
 
-    fun permissions(): K
+    fun application(): Model
 
-    fun device(): T
+    fun permissions(): Collection
 
-    fun preferences(): K
+    fun device(): Model
+
+    fun preferences(): Collection
+
+    fun crash(entity: CrashEntity): Model
 }
