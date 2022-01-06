@@ -39,6 +39,10 @@ internal class DeviceFragment : BaseChildFragment<DeviceState, Nothing>(R.layout
                 autoTimeView.data = state.value.autoTime.toString()
                 autoTimezoneView.data = state.value.autoTimezone.toString()
                 rootedView.data = state.value.isRooted.toString()
+                screenWidthView.data = state.value.screenWidth
+                screenHeightView.data = state.value.screenHeight
+                screenSizeView.data = state.value.screenSize
+                screenDensityView.data = state.value.screenDpi
             }
         }
 

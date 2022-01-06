@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+## Version 1.1.9
+
+_2022-01-10_
+
+* Implement screen information in Device tab.
+
 ## Version 1.1.8
 
 _2022-01-10_

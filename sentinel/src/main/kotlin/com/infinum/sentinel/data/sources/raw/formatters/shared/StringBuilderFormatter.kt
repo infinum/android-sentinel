@@ -62,6 +62,10 @@ internal abstract class StringBuilderFormatter {
         addLine(builder, R.string.sentinel_auto_time, data.autoTime.toString())
         addLine(builder, R.string.sentinel_auto_timezone, data.autoTimezone.toString())
         addLine(builder, R.string.sentinel_rooted, data.isRooted.toString())
+        addLine(builder, R.string.sentinel_screen_width, data.screenWidth)
+        addLine(builder, R.string.sentinel_screen_height, data.screenHeight)
+        addLine(builder, R.string.sentinel_screen_size, data.screenSize)
+        addLine(builder, R.string.sentinel_screen_density, data.screenDpi)
     }
 
     internal fun addAnrData(context: Context, builder: StringBuilder, entity: CrashEntity) {

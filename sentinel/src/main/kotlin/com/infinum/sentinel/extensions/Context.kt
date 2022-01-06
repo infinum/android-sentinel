@@ -6,6 +6,11 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.widget.Toast
 import com.infinum.sentinel.R
+import kotlin.math.ceil
+import kotlin.math.pow
+import kotlin.math.sqrt
+
+private const val DENSITY_MULTIPLIER = 160f
 
 internal fun Context.isPermissionGranted(name: String): Boolean =
     packageManager.checkPermission(name, packageName) == PackageManager.PERMISSION_GRANTED
@@ -28,3 +33,25 @@ internal fun Context.copyToClipboard(key: String, value: String): Boolean =
         ).show()
         false
     }
+
+internal val Context.widthPixels
+    get() = resources.displayMetrics.widthPixels
+
+internal val Context.heightPixels
+    get() = resources.displayMetrics.heightPixels
+
+internal val Context.xdpi
+    get() = resources.displayMetrics.xdpi
+
+internal val Context.ydpi
+    get() = resources.displayMetrics.ydpi
+
+internal val Context.screenSize
+    get() = ceil(
+        sqrt(
+            (widthPixels / xdpi.toDouble()).pow(2.0) + (heightPixels / ydpi.toDouble()).pow(2.0)
+        )
+    )
+
+internal val Context.density
+    get() = (resources.displayMetrics.density * DENSITY_MULTIPLIER).toInt()

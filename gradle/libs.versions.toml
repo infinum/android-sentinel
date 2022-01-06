@@ -1,5 +1,5 @@
 [versions]
-sentinel = "1.1.8"
+sentinel = "1.1.9"
 gradle = "7.0.4"
 kotlin = "1.6.10"
 coroutines = "1.6.0"

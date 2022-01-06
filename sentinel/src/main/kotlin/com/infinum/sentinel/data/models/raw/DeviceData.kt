@@ -37,5 +37,9 @@ internal data class DeviceData(
         ),
     val autoTime: Boolean,
     val autoTimezone: Boolean,
-    val isRooted: Boolean
+    val isRooted: Boolean,
+    val screenWidth: String,
+    val screenHeight: String,
+    val screenSize: String,
+    val screenDpi: String
 )

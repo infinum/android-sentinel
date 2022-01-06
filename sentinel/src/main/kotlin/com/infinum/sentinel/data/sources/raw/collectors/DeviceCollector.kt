@@ -5,6 +5,10 @@ import android.os.Build
 import android.provider.Settings
 import com.infinum.sentinel.data.models.raw.DeviceData
 import com.infinum.sentinel.domain.collectors.Collectors
+import com.infinum.sentinel.extensions.density
+import com.infinum.sentinel.extensions.heightPixels
+import com.infinum.sentinel.extensions.screenSize
+import com.infinum.sentinel.extensions.widthPixels
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
@@ -25,7 +29,11 @@ internal class DeviceCollector(
             Settings.Global.AUTO_TIME_ZONE,
             0
         ) == 1,
-        isRooted = checkRootPrimary() || checkRootSecondary() || checkRootTertiary()
+        isRooted = checkRootPrimary() || checkRootSecondary() || checkRootTertiary(),
+        screenWidth = "${context.widthPixels} px",
+        screenHeight = "${context.heightPixels} px",
+        screenSize = "${context.screenSize} ″",
+        screenDpi = "${context.density} dpi"
     )
 
     private fun checkRootPrimary(): Boolean {

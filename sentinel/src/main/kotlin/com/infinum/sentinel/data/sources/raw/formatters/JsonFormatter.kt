@@ -103,6 +103,10 @@ internal class JsonFormatter(
                 addKey(R.string.sentinel_auto_time, it.autoTime)
                 addKey(R.string.sentinel_auto_timezone, it.autoTimezone)
                 addKey(R.string.sentinel_rooted, it.isRooted)
+                addKey(R.string.sentinel_screen_width, it.screenWidth)
+                addKey(R.string.sentinel_screen_height, it.screenHeight)
+                addKey(R.string.sentinel_screen_size, it.screenSize)
+                addKey(R.string.sentinel_screen_density, it.screenDpi)
             }
         }
 

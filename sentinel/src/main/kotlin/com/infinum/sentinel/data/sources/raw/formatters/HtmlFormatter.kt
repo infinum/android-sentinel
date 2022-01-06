@@ -129,6 +129,10 @@ internal class HtmlFormatter(
                     addDiv(R.string.sentinel_auto_time, it.autoTime.toString())
                     addDiv(R.string.sentinel_auto_timezone, it.autoTimezone.toString())
                     addDiv(R.string.sentinel_rooted, it.isRooted.toString())
+                    addDiv(R.string.sentinel_screen_width, it.screenWidth)
+                    addDiv(R.string.sentinel_screen_height, it.screenHeight)
+                    addDiv(R.string.sentinel_screen_size, it.screenSize)
+                    addDiv(R.string.sentinel_screen_density, it.screenDpi)
                 }
             }
             .toString()

@@ -106,6 +106,31 @@
             android:layout_height="wrap_content"
             app:sentinel_label="@string/sentinel_rooted" />
 
+
+        <com.infinum.sentinel.ui.shared.views.SentinelItemTextView
+            android:id="@+id/screenWidthView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:sentinel_label="@string/sentinel_screen_width" />
+
+        <com.infinum.sentinel.ui.shared.views.SentinelItemTextView
+            android:id="@+id/screenHeightView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:sentinel_label="@string/sentinel_screen_height" />
+
+        <com.infinum.sentinel.ui.shared.views.SentinelItemTextView
+            android:id="@+id/screenSizeView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:sentinel_label="@string/sentinel_screen_size" />
+
+        <com.infinum.sentinel.ui.shared.views.SentinelItemTextView
+            android:id="@+id/screenDensityView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:sentinel_label="@string/sentinel_screen_density" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
