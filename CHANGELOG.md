@@ -6,6 +6,8 @@ Change Log
 _2022-01-10_
 
 * Implement screen information in Device tab.
+* Implement font scale information in Device tab.
+* Implement Proximity sensor trigger.
 
 ## Version 1.1.8
 

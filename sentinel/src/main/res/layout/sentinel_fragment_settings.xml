@@ -74,6 +74,13 @@
                     android:text="@string/sentinel_shake" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/proximityTriggerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/sentinel_item_height"
+                    android:text="@string/sentinel_proximity" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/foregroundTriggerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

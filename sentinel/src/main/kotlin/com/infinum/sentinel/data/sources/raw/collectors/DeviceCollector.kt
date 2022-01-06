@@ -13,7 +13,6 @@ import com.infinum.sentinel.extensions.widthPixels
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
-import timber.log.Timber
 
 internal class DeviceCollector(
     private val context: Context
@@ -62,7 +61,7 @@ internal class DeviceCollector(
         return false
     }
 
-    @Suppress("TooGenericExceptionCaught")
+    @Suppress("TooGenericExceptionCaught", "SwallowedException")
     private fun checkRootTertiary(): Boolean {
         var process: Process? = null
         return try {
@@ -70,7 +69,7 @@ internal class DeviceCollector(
             val stream = BufferedReader(InputStreamReader(process.inputStream))
             stream.readLine() != null
         } catch (t: Throwable) {
-            Timber.e(t)
+            // Do nothing
             false
         } finally {
             process?.destroy()

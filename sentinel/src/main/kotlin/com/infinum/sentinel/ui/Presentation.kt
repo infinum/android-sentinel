@@ -9,7 +9,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.infinum.sentinel.BuildConfig
 import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
-import com.infinum.sentinel.data.models.local.CrashMonitorEntity
 import com.infinum.sentinel.data.models.memory.triggers.shake.ShakeTrigger
 import com.infinum.sentinel.di.LibraryKoin
 import com.infinum.sentinel.domain.Domain
@@ -50,7 +49,6 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
@@ -96,33 +94,17 @@ internal object Presentation {
 
         val crashMonitor = LibraryKoin.koin().get<Repositories.CrashMonitor>()
         GlobalScope.launch {
-            crashMonitor.load(CrashMonitorParameters()).firstOrNull()
-                ?.let { entity ->
-                    if (entity.notifyExceptions) {
-                        exceptionHandler.start()
-                    } else {
-                        exceptionHandler.stop()
-                    }
-                    if (entity.notifyExceptions) {
-                        anrObserver.start()
-                    } else {
-                        anrObserver.stop()
-                    }
-                }
-                ?: run {
-                    crashMonitor.save(
-                        CrashMonitorParameters(
-                            entity = CrashMonitorEntity(
-                                id = 1L,
-                                notifyExceptions = false,
-                                notifyAnrs = false,
-                                includeAllData = false
-                            )
-                        )
-                    )
-                    exceptionHandler.stop()
-                    anrObserver.stop()
-                }
+            val entity = crashMonitor.load(CrashMonitorParameters()).first()
+            if (entity.notifyExceptions) {
+                exceptionHandler.start()
+            } else {
+                exceptionHandler.stop()
+            }
+            if (entity.notifyExceptions) {
+                anrObserver.start()
+            } else {
+                anrObserver.stop()
+            }
         }
 
         val bundleMonitor = LibraryKoin.koin().get<Repositories.BundleMonitor>()

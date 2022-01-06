@@ -86,6 +86,7 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
                     when (trigger.type) {
                         TriggerType.MANUAL -> setupSwitch(binding.manualTriggerView, trigger)
                         TriggerType.SHAKE -> setupSwitch(binding.shakeTriggerView, trigger)
+                        TriggerType.PROXIMITY -> setupSwitch(binding.proximityTriggerView, trigger)
                         TriggerType.FOREGROUND -> setupSwitch(binding.foregroundTriggerView, trigger)
                         TriggerType.USB_CONNECTED -> setupSwitch(binding.usbTriggerView, trigger)
                         TriggerType.AIRPLANE_MODE_ON -> setupSwitch(

@@ -7,6 +7,7 @@ import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.data.models.memory.triggers.airplanemode.AirplaneModeOnTrigger
 import com.infinum.sentinel.data.models.memory.triggers.foreground.ForegroundTrigger
 import com.infinum.sentinel.data.models.memory.triggers.manual.ManualTrigger
+import com.infinum.sentinel.data.models.memory.triggers.proximity.ProximityTrigger
 import com.infinum.sentinel.data.models.memory.triggers.shake.ShakeTrigger
 import com.infinum.sentinel.data.models.memory.triggers.usb.UsbConnectedTrigger
 import com.infinum.sentinel.data.sources.local.room.SentinelDatabase
@@ -36,7 +37,7 @@ import org.koin.dsl.module
 
 internal object Data {
 
-    const val DATABASE_VERSION = 3
+    const val DATABASE_VERSION = 4
 
     object Qualifiers {
 
@@ -60,6 +61,7 @@ internal object Data {
         )
 
     private fun local() = module {
+        single<RoomDatabase.Callback> { SentinelDefaultValuesCallback() }
         single(qualifier = Qualifiers.Name.DATABASE) {
             val context: Context = get()
             String.format(
@@ -78,10 +80,9 @@ internal object Data {
                 SentinelDatabase::class.java,
                 get(Qualifiers.Name.DATABASE)
             )
-                .allowMainThreadQueries()
                 .setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
                 .fallbackToDestructiveMigration()
-                .addCallback(SentinelDefaultValuesCallback())
+                .addCallback(get())
                 .build()
         }
         single { get<SentinelDatabase>().triggers() }
@@ -111,11 +112,13 @@ internal object Data {
         single { ManualTrigger() }
         single { ForegroundTrigger(get(qualifier = Qualifiers.Name.LAMBDA_TRIGGER)) }
         single { ShakeTrigger(get(), get(qualifier = Qualifiers.Name.LAMBDA_TRIGGER)) }
+        single { ProximityTrigger(get(), get(qualifier = Qualifiers.Name.LAMBDA_TRIGGER)) }
         single { UsbConnectedTrigger(get(), get(qualifier = Qualifiers.Name.LAMBDA_TRIGGER)) }
         single { AirplaneModeOnTrigger(get(), get(qualifier = Qualifiers.Name.LAMBDA_TRIGGER)) }
 
         single<TriggersCache> {
             TriggersCacheFactory(
+                get(),
                 get(),
                 get(),
                 get(),

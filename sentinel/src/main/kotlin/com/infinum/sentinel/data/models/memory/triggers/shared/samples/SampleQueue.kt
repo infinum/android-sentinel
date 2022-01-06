@@ -1,4 +1,4 @@
-package com.infinum.sentinel.data.models.memory.triggers.shake.samples
+package com.infinum.sentinel.data.models.memory.triggers.shared.samples
 
 /** Queue of samples. Keeps a running average.  */
 internal class SampleQueue {
@@ -20,21 +20,21 @@ internal class SampleQueue {
     private var oldest: Sample? = null
     private var newest: Sample? = null
     private var sampleCount = 0
-    private var acceleratingCount = 0
+    private var constrainedCount = 0
 
     /**
      * Adds a sample.
      *
      * @param timestamp in nanoseconds of sample
-     * @param accelerating true if > [.accelerationThreshold].
+     * @param triggered true if > threshold().
      */
-    fun add(timestamp: Long, accelerating: Boolean) { // Purge samples that proceed window.
+    fun add(timestamp: Long, triggered: Boolean) { // Purge samples that proceed window.
         purge(timestamp - MAX_WINDOW_SIZE)
 
         // Add the sample to the queue.
         val added = pool.acquire().apply {
             this.timestamp = timestamp
-            this.accelerating = accelerating
+            this.triggered = triggered
             this.next = null
         }
 
@@ -49,8 +49,8 @@ internal class SampleQueue {
 
         // Update running average.
         sampleCount++
-        if (accelerating) {
-            acceleratingCount++
+        if (triggered) {
+            constrainedCount++
         }
     }
 
@@ -63,7 +63,7 @@ internal class SampleQueue {
         }
         newest = null
         sampleCount = 0
-        acceleratingCount = 0
+        constrainedCount = 0
     }
 
     /** Purges samples with timestamps older than cutoff.  */
@@ -74,8 +74,8 @@ internal class SampleQueue {
             (cutoff - (oldest?.timestamp ?: 0)) > 0
         ) { // Remove sample.
             val removed: Sample = oldest as Sample
-            if (removed.accelerating) {
-                acceleratingCount--
+            if (removed.triggered) {
+                constrainedCount--
             }
             sampleCount--
             oldest = removed.next
@@ -88,9 +88,9 @@ internal class SampleQueue {
 
     /**
      * Returns true if we have enough samples and more than 3/4 of those samples
-     * are accelerating.
+     * are in requirement parameters.
      */
-    val isShaking: Boolean
+    val isTriggered: Boolean
         get() = if (newest != null && oldest != null) {
             hasWindowPassed(newest!!.timestamp, oldest!!.timestamp) && hasCountPassed()
         } else {
@@ -101,5 +101,5 @@ internal class SampleQueue {
         newest - oldest >= MIN_WINDOW_SIZE
 
     private fun hasCountPassed() =
-        acceleratingCount >= (sampleCount shr 1) + (sampleCount shr 2)
+        constrainedCount >= (sampleCount shr 1) + (sampleCount shr 2)
 }
