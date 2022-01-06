@@ -6,6 +6,7 @@ import android.provider.Settings
 import com.infinum.sentinel.data.models.raw.DeviceData
 import com.infinum.sentinel.domain.collectors.Collectors
 import com.infinum.sentinel.extensions.density
+import com.infinum.sentinel.extensions.fontScale
 import com.infinum.sentinel.extensions.heightPixels
 import com.infinum.sentinel.extensions.screenSize
 import com.infinum.sentinel.extensions.widthPixels
@@ -33,7 +34,8 @@ internal class DeviceCollector(
         screenWidth = "${context.widthPixels} px",
         screenHeight = "${context.heightPixels} px",
         screenSize = "${context.screenSize} ″",
-        screenDpi = "${context.density} dpi"
+        screenDpi = "${context.density} dpi",
+        fontScale = context.fontScale
     )
 
     private fun checkRootPrimary(): Boolean {

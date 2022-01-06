@@ -131,6 +131,12 @@
             android:layout_height="wrap_content"
             app:sentinel_label="@string/sentinel_screen_density" />
 
+        <com.infinum.sentinel.ui.shared.views.SentinelItemTextView
+            android:id="@+id/fontScaleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:sentinel_label="@string/sentinel_font_scale" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

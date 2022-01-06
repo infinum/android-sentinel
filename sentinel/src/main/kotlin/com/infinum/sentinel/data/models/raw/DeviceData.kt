@@ -41,5 +41,6 @@ internal data class DeviceData(
     val screenWidth: String,
     val screenHeight: String,
     val screenSize: String,
-    val screenDpi: String
+    val screenDpi: String,
+    val fontScale: Float
 )

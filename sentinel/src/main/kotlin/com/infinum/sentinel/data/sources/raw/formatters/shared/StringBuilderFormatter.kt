@@ -66,6 +66,7 @@ internal abstract class StringBuilderFormatter {
         addLine(builder, R.string.sentinel_screen_height, data.screenHeight)
         addLine(builder, R.string.sentinel_screen_size, data.screenSize)
         addLine(builder, R.string.sentinel_screen_density, data.screenDpi)
+        addLine(builder, R.string.sentinel_font_scale, data.fontScale.toString())
     }
 
     internal fun addAnrData(context: Context, builder: StringBuilder, entity: CrashEntity) {

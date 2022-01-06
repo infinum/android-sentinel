@@ -76,6 +76,7 @@
     <string name="sentinel_screen_height">Screen height</string>
     <string name="sentinel_screen_size">Screen size</string>
     <string name="sentinel_screen_density">Screen density</string>
+    <string name="sentinel_font_scale">Font scale</string>
 
     <string name="sentinel_bundle_monitor_empty">No bundles collected.</string>
 

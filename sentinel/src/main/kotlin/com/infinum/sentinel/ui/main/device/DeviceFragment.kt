@@ -43,6 +43,7 @@ internal class DeviceFragment : BaseChildFragment<DeviceState, Nothing>(R.layout
                 screenHeightView.data = state.value.screenHeight
                 screenSizeView.data = state.value.screenSize
                 screenDensityView.data = state.value.screenDpi
+                fontScaleView.data = state.value.fontScale.toString()
             }
         }
 

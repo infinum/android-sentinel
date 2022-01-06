@@ -61,7 +61,8 @@ dependencies {
 //    implementation libs.library
 //    implementation libs.bundles.tools
 
-    debugImplementation libs.library
-    releaseImplementation libs.librarynoop
+//    debugImplementation libs.library
+//    releaseImplementation libs.librarynoop
+    implementation project(":sentinel")
     debugImplementation libs.bundles.tools
 }

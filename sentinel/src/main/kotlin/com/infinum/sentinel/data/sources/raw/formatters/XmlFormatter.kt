@@ -135,6 +135,7 @@ internal class XmlFormatter(
             addNode(R.string.sentinel_screen_height, it.screenHeight)
             addNode(R.string.sentinel_screen_size, it.screenSize)
             addNode(R.string.sentinel_screen_density, it.screenDpi)
+            addNode(R.string.sentinel_font_scale, it.fontScale.toString())
         }
         endTag(NAMESPACE, DEVICE)
     }

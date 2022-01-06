@@ -133,6 +133,7 @@ internal class HtmlFormatter(
                     addDiv(R.string.sentinel_screen_height, it.screenHeight)
                     addDiv(R.string.sentinel_screen_size, it.screenSize)
                     addDiv(R.string.sentinel_screen_density, it.screenDpi)
+                    addDiv(R.string.sentinel_font_scale, it.fontScale.toString())
                 }
             }
             .toString()

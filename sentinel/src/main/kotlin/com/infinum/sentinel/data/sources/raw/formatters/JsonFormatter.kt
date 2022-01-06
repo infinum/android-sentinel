@@ -107,6 +107,7 @@ internal class JsonFormatter(
                 addKey(R.string.sentinel_screen_height, it.screenHeight)
                 addKey(R.string.sentinel_screen_size, it.screenSize)
                 addKey(R.string.sentinel_screen_density, it.screenDpi)
+                addKey(R.string.sentinel_font_scale, it.fontScale.toString())
             }
         }
 
