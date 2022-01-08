@@ -12,7 +12,6 @@ import com.infinum.sentinel.data.sources.local.room.dao.CrashesDao
 import com.infinum.sentinel.extensions.asExceptionData
 import com.infinum.sentinel.ui.crash.notification.NotificationFactory
 import kotlinx.coroutines.runBlocking
-import timber.log.Timber
 
 /**
  * A [Runnable] testing the UI thread every 10s until stop is called explicitly.
@@ -61,8 +60,6 @@ internal class SentinelAnrObserverRunnable(
 
         while (Thread.interrupted().not()) {
             try {
-                Timber.d("Checking for ANR...")
-
                 // Create new callback
                 val callback = AnrObserverCallback()
 
@@ -92,7 +89,7 @@ internal class SentinelAnrObserverRunnable(
 
                         (callback as Object).wait(0L)
                     } else {
-                        Timber.d("UI Thread responded within 2s.")
+                        // Do nothing
                     }
                 }
 
@@ -106,7 +103,6 @@ internal class SentinelAnrObserverRunnable(
 
         // Set stop completed flag
         isStopped = true
-        Timber.d("ANR observer on stand by.")
     }
 
     @Synchronized
@@ -125,7 +121,6 @@ internal class SentinelAnrObserverRunnable(
      */
     @Synchronized
     fun stop() {
-        Timber.d("Stopping...")
         stopped = true
     }
 
@@ -134,7 +129,6 @@ internal class SentinelAnrObserverRunnable(
      */
     @Synchronized
     fun unstop() {
-        Timber.d("Reverting stop...")
         stopped = false
     }
 

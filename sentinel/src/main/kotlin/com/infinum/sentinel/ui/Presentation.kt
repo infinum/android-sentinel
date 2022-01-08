@@ -47,7 +47,7 @@ import com.infinum.sentinel.ui.tools.BundleMonitorTool
 import com.infinum.sentinel.ui.tools.CrashMonitorTool
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -78,6 +78,8 @@ internal object Presentation {
 
     private lateinit var context: Context
 
+    private val scope = MainScope()
+
     init {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
@@ -93,7 +95,7 @@ internal object Presentation {
         val anrObserver = LibraryKoin.koin().get<SentinelAnrObserver>()
 
         val crashMonitor = LibraryKoin.koin().get<Repositories.CrashMonitor>()
-        GlobalScope.launch {
+        scope.launch {
             val entity = crashMonitor.load(CrashMonitorParameters()).first()
             if (entity.notifyExceptions) {
                 exceptionHandler.start()
@@ -116,7 +118,7 @@ internal object Presentation {
         (this.context.applicationContext as? Application)
             ?.registerActivityLifecycleCallbacks(
                 BundleMonitorActivityCallbacks { activity, timestamp, className, callSite, bundle ->
-                    GlobalScope.launch {
+                    scope.launch {
                         val sizeTree = bundle.sizeTree()
                         bundles.save(
                             BundleParameters(

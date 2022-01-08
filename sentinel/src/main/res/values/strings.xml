@@ -26,6 +26,7 @@
     <string name="sentinel_bluetooth">Bluetooth</string>
     <string name="sentinel_distribution">Distribution</string>
     <string name="sentinel_design">Design</string>
+    <string name="sentinel_logger">Logger</string>
 
     <string name="sentinel_triggers">Triggers</string>
     <string name="sentinel_share_format">Share format</string>
@@ -36,11 +37,6 @@
     <string name="sentinel_html">HTML</string>
     <string name="sentinel_table">Table</string>
     <string name="sentinel_markdown">Markdown</string>
-
-    <string name="sentinel_bundle_activity_intent_extras">Activity Intent extras</string>
-    <string name="sentinel_bundle_activity_saved_state">Activity Saved State</string>
-    <string name="sentinel_fragment_arguments">Fragment arguments</string>
-    <string name="sentinel_fragment_saved_state">Fragment Saved State</string>
 
     <string name="sentinel_version_code">Version code</string>
     <string name="sentinel_version_name">Version name</string>
@@ -80,6 +76,10 @@
     <string name="sentinel_font_scale">Font scale</string>
 
     <string name="sentinel_bundle_monitor_empty">No bundles collected.</string>
+    <string name="sentinel_bundle_activity_intent_extras">Activity Intent extras</string>
+    <string name="sentinel_bundle_activity_saved_state">Activity Saved State</string>
+    <string name="sentinel_fragment_arguments">Fragment arguments</string>
+    <string name="sentinel_fragment_saved_state">Fragment Saved State</string>
 
     <string name="sentinel_preferences_editor">Preferences editor</string>
     <string name="sentinel_key">Key</string>
@@ -111,4 +111,7 @@
     <string name="sentinel_thread_state">State</string>
     <string name="sentinel_priority">Priority</string>
     <string name="sentinel_message">Message</string>
+
+    <string name="sentinel_logger_empty">No logs collected.</string>
+    <string name="sentinel_tmb_message_with_tag_format">Bla</string>
 </resources>

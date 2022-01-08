@@ -8,6 +8,7 @@ core = "1.7.0"
 appcompat = "1.4.0"
 activity = "1.4.0"
 fragment = "1.4.0"
+recycler = "1.2.1"
 lifecycle = "2.4.0"
 preference = "1.1.1"
 room = "2.4.0"
@@ -39,6 +40,7 @@ toolleakcanary = { module = "com.infinum.sentinel:tool-leakcanary", version.ref 
 toolappgallery = { module = "com.infinum.sentinel:tool-appgallery", version.ref = "sentinel" }
 toolgoogleplay = { module = "com.infinum.sentinel:tool-googleplay", version.ref = "sentinel" }
 toolthimble = { module = "com.infinum.sentinel:tool-thimble", version.ref = "sentinel" }
+tooltimber = { module = "com.infinum.sentinel:tool-timber", version.ref = "sentinel" }
 
 tools-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 
@@ -53,6 +55,7 @@ androidx-core = { module = "androidx.core:core-ktx", version.ref = "core" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "activity" }
 androidx-fragment = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment" }
+androidx-recycler = { module = "androidx.recyclerview:recyclerview", version.ref = "recycler" }
 androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-livedata = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle" }
@@ -68,8 +71,6 @@ androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 material = { module = "com.google.android.material:material", version.ref = "design" }
 
 koin = { module = "io.insert-koin:koin-android", version.ref = "koin" }
-
-timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
 detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
@@ -89,6 +90,8 @@ dbinspector = { module = "com.infinum.dbinspector:dbinspector", version.ref = "d
 leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 
 thimble = { module = "com.infinum.thimble:thimble", version.ref = "thimble" }
+
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
 [bundles]
 androidx = [
@@ -114,5 +117,6 @@ tools = [
     "toolleakcanary",
     "toolappgallery",
     "toolgoogleplay",
-    "toolthimble"
+    "toolthimble",
+    "tooltimber"
 ]

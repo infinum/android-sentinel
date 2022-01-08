@@ -70,6 +70,14 @@ task deployToolThimble(dependsOn: [
     description = "Deploy module to repositories"
 }
 
+task deployToolTimber(dependsOn: [
+        ':tool-timber:clean',
+        ':tool-timber:publishReleasePublicationToSonatypeRepository'
+]) {
+    group = "Deploy"
+    description = "Deploy module to repositories"
+}
+
 task deploySentinelAll(dependsOn: [
         'deploySentinel',
         'deploySentinelNoOp'
@@ -85,7 +93,8 @@ task deployToolsAll(dependsOn: [
         'deployToolDbInspector',
         'deployToolAppGallery',
         'deployToolGooglePlay',
-        'deployToolThimble'
+        'deployToolThimble',
+        'deployToolTimber'
 ]) {
     group = "Deploy"
     description = "Deploy all tools modules to repositories"
@@ -100,7 +109,8 @@ task deployAll(dependsOn: [
         'deployToolLeakCanary',
         'deployToolAppGallery',
         'deployToolGooglePlay',
-        'deployToolThimble'
+        'deployToolThimble',
+        'deployToolTimber'
 ]) {
     group = "Deploy"
     description = "Deploy all modules to repositories"
@@ -124,7 +134,8 @@ task deployDebug(dependsOn: [
         ':tool-leakcanary:publishReleasePublicationToMavenLocal',
         ':tool-appgallery:publishReleasePublicationToMavenLocal',
         ':tool-googleplay:publishReleasePublicationToMavenLocal',
-        ':tool-thimble:publishReleasePublicationToMavenLocal'
+        ':tool-thimble:publishReleasePublicationToMavenLocal',
+        ':tool-timber:publishReleasePublicationToMavenLocal'
 ]) {
     group = "Deploy"
     description = "Deploy all modules to Mavel Local repository"

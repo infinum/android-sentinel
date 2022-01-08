@@ -27,7 +27,7 @@ import com.infinum.sentinel.ui.main.application.ApplicationFragment
 import com.infinum.sentinel.ui.main.permissions.PermissionsFragment
 import com.infinum.sentinel.ui.main.preferences.PreferencesFragment
 import com.infinum.sentinel.ui.main.tools.ToolsFragment
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
@@ -60,7 +60,7 @@ class SentinelFragmentTests {
 
     @Before
     fun setupGraph() {
-        GlobalScope.launch {
+        MainScope().launch {
             Presentation.setup(setOf()) {}
         }
     }

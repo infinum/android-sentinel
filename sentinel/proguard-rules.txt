@@ -5,6 +5,7 @@
 -keep public class com.infinum.sentinel.Sentinel {
   public protected *;
 }
+-keep public class com.infinum.sentinel.databinding.**
 
 # KotlinX Serialization
 -if @kotlinx.serialization.Serializable class **

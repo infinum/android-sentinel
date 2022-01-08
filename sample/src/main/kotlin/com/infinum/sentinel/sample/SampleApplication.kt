@@ -9,6 +9,7 @@ import com.infinum.sentinel.ui.tools.DbInspectorTool
 import com.infinum.sentinel.ui.tools.GooglePlayTool
 import com.infinum.sentinel.ui.tools.LeakCanaryTool
 import com.infinum.sentinel.ui.tools.ThimbleTool
+import com.infinum.sentinel.ui.tools.TimberTool
 
 class SampleApplication : Application() {
 
@@ -24,6 +25,7 @@ class SampleApplication : Application() {
                 AppGalleryTool("102016595"),
                 GooglePlayTool(),
                 ThimbleTool(),
+                TimberTool()
             )
         )
     }
