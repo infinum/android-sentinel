@@ -33,8 +33,8 @@ import com.infinum.sentinel.data.sources.raw.formatters.PlainFormatter
 import com.infinum.sentinel.data.sources.raw.formatters.XmlFormatter
 import com.infinum.sentinel.domain.collectors.Collectors
 import com.infinum.sentinel.domain.formatters.Formatters
+import java.security.cert.X509Certificate
 import java.util.Locale
-import javax.net.ssl.X509TrustManager
 import org.koin.core.module.Module
 import org.koin.core.qualifier.StringQualifier
 import org.koin.dsl.module
@@ -101,7 +101,7 @@ internal object Data {
         single<Collectors.Application> { ApplicationCollector(get()) }
         single<Collectors.Permissions> { PermissionsCollector(get()) }
         single<Collectors.Preferences> { PreferencesCollector(get()) }
-        single<Collectors.Certificates> { (managers: List<X509TrustManager>) -> CertificateCollector(managers) }
+        single<Collectors.Certificates> { (managers: List<X509Certificate>) -> CertificateCollector(managers) }
         single<Collectors.Tools> { (tools: Set<Sentinel.Tool>) -> ToolsCollector(tools) }
 
         single<Formatters.Plain> { PlainFormatter(get(), get(), get(), get(), get()) }

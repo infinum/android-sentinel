@@ -5,13 +5,13 @@ import android.view.View
 import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.ui.certificates.CertificatesActivity
-import javax.net.ssl.X509TrustManager
+import java.security.cert.X509Certificate
 
 /**
  * Specific wrapper tool that previews X.509 certificates from system and application.
  */
 public data class CertificateTool @JvmOverloads constructor(
-    val userManagers: List<X509TrustManager> = listOf(),
+    val userCertificates: List<X509Certificate> = listOf(),
     private val listener: View.OnClickListener = View.OnClickListener {
         it.context.startActivity(
             Intent(

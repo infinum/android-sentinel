@@ -11,7 +11,7 @@ import com.infinum.sentinel.domain.formats.FormatsRepository
 import com.infinum.sentinel.domain.formatters.FormatterFactory
 import com.infinum.sentinel.domain.preference.PreferenceRepository
 import com.infinum.sentinel.domain.triggers.TriggersRepository
-import javax.net.ssl.X509TrustManager
+import java.security.cert.X509Certificate
 import org.koin.core.module.Module
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
@@ -20,15 +20,15 @@ import org.koin.dsl.module
 internal object Domain {
 
     private var tools: Set<Sentinel.Tool> = setOf()
-    private var userManagers: List<X509TrustManager> = listOf()
+    private var userCertificates: List<X509Certificate> = listOf()
 
     fun setup(
         tools: Set<Sentinel.Tool>,
-        userManagers: List<X509TrustManager>,
+        userManagers: List<X509Certificate>,
         onTriggered: () -> Unit
     ) {
         this.tools = tools
-        this.userManagers = userManagers
+        this.userCertificates = userManagers
         Data.setup(onTriggered)
     }
 
@@ -54,7 +54,7 @@ internal object Domain {
                 get(),
                 get(),
                 get(),
-                get { parametersOf(userManagers) },
+                get { parametersOf(userCertificates) },
                 get { parametersOf(tools) }
             )
         }

@@ -172,7 +172,7 @@ internal object Presentation {
     fun setup(tools: Set<Sentinel.Tool>, onTriggered: () -> Unit) {
         Domain.setup(
             tools.plus(DEFAULT_TOOLS),
-            tools.filterIsInstance<CertificateTool>().firstOrNull()?.userManagers.orEmpty(),
+            tools.filterIsInstance<CertificateTool>().firstOrNull()?.userCertificates.orEmpty(),
             onTriggered
         )
         LibraryKoin.koin().get<ShakeTrigger>().apply { active = true }

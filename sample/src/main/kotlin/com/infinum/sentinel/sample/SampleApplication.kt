@@ -11,6 +11,8 @@ import com.infinum.sentinel.ui.tools.GooglePlayTool
 import com.infinum.sentinel.ui.tools.LeakCanaryTool
 import com.infinum.sentinel.ui.tools.ThimbleTool
 import com.infinum.sentinel.ui.tools.TimberTool
+import java.security.cert.CertificateFactory
+import java.security.cert.X509Certificate
 
 class SampleApplication : Application() {
 
@@ -27,8 +29,20 @@ class SampleApplication : Application() {
                 GooglePlayTool(),
                 ThimbleTool(),
                 TimberTool(),
-                CertificateTool(listOf())
+                CertificateTool(
+                    loadDebugCertificates()
+                )
             )
         )
+    }
+
+    private fun loadDebugCertificates(): List<X509Certificate> {
+        val factory = CertificateFactory.getInstance("X.509")
+        return listOf(
+            "stackexchange.pem",
+            "selfsigned_knobtviker.com.cert"
+        )
+            .map { assets.open(it) }
+            .map { factory.generateCertificate(it) as X509Certificate }
     }
 }

@@ -18,11 +18,9 @@ import java.security.cert.X509Certificate
 import java.security.interfaces.DSAPublicKey
 import java.security.interfaces.ECPublicKey
 import java.security.interfaces.RSAPublicKey
-import javax.net.ssl.TrustManagerFactory
-import javax.net.ssl.X509TrustManager
 
 internal class CertificateCollector(
-    var userManagers: List<X509TrustManager>
+    var userCertificates: List<X509Certificate>
 ) : Collectors.Certificates {
 
     companion object {
@@ -31,12 +29,8 @@ internal class CertificateCollector(
     }
 
     override fun invoke(): List<CertificateData> =
-        userManagers
-            .asSequence()
-            .plus(defaultTrustManagers())
-            .map { it.acceptedIssuers.toList() }
-            .toList()
-            .flatten()
+        userCertificates
+            .plus(defaultTrustedCertificates())
             .map {
                 CertificateData(
                     publicKey = PublicKeyData(
@@ -72,13 +66,19 @@ internal class CertificateCollector(
         CertificateException::class,
         IOException::class
     )
-    private fun defaultTrustManagers(): List<X509TrustManager> {
-        val factory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm())
-        val keyStore = KeyStore.getInstance("AndroidCAStore")
-        keyStore.load(null, null)
-        factory.init(keyStore)
-        return factory.trustManagers.toList().filterIsInstance<X509TrustManager>()
-    }
+    private fun defaultTrustedCertificates(): List<X509Certificate> =
+        listOf(
+            KeyStore.getInstance("AndroidCAStore"),
+            KeyStore.getInstance(KeyStore.getDefaultType())
+        )
+            .onEach { it.load(null, null) }
+            .map {
+                it.aliases()
+                    .toList()
+                    .filter { alias -> it.entryInstanceOf(alias, KeyStore.TrustedCertificateEntry::class.java) }
+                    .map { alias -> it.getCertificate(alias) as X509Certificate }
+            }
+            .flatten()
 
     @Suppress("SwallowedException")
     fun fingerprint(certificate: X509Certificate, algorithm: String): String? {
