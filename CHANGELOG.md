@@ -9,6 +9,7 @@ _2022-01-10_
 * Implement font scale information in Device tab.
 * Implement Proximity sensor trigger.
 * Add Timber tool.
+* Add Certificates tool.
 
 ## Version 1.1.8
 

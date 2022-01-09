@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:minHeight="?attr/listPreferredItemHeight"
+    android:orientation="horizontal"
+    android:paddingEnd="16dp">
+
+    <View
+        android:id="@+id/expiredView"
+        android:layout_width="4dp"
+        android:layout_height="match_parent"
+        android:background="@color/sentinel_color_primary" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:orientation="vertical"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/titleView"
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            tools:text="DigiCert Inc." />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/subtitleView"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            tools:text="DigiCert" />
+
+    </LinearLayout>
+
+</LinearLayout>

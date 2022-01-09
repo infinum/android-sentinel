@@ -114,7 +114,8 @@ Sentinel.watch(
         AppGalleryTool(appId = "123456789"),
         GooglePlayTool(),
         ThimbleTool(),
-        TimberTool()
+        TimberTool(),
+        CertificateTool(userManagers = listOf())
     )
 )
 ```
@@ -135,6 +136,7 @@ _Sentinel_ provides several different levels of tools for a developer to impleme
   avoiding _TransactionTooLarge_ exceptions
 - `Preference Editor` - by tapping any preference _Sentinel_ opens a screen where you can edit
   current value
+- `CertificateTool` - opens a list of system and user provided X.509 certificates with details    
 
 #### Dependency wrappers
 
@@ -196,6 +198,7 @@ between sessions.
 
 - `Manual` - used for manually triggering UI with _show()_
 - `Shake` - default trigger to show UI, shake device to invoke
+- `Proximity` - shows UI every time sensor detects _near_ state  
 - `Foreground` - shows UI every time application goes into foreground
 - `USB connected` - shows UI every time an USB cable is plugged in
 - `Airplane mode on` - shows UI every time Airplane mode is turned on

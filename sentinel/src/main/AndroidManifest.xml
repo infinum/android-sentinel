@@ -81,6 +81,28 @@
                 android:value="false" />
         </activity>
 
+        <activity
+            android:name=".ui.certificates.CertificatesActivity"
+            android:exported="false"
+            android:label="@string/sentinel_certificates"
+            android:taskAffinity="com.infinum.sentinel.certificates"
+            android:theme="@style/Sentinel.Theme.Leaf">
+            <meta-data
+                android:name="@string/sentinel_infinum_monitored"
+                android:value="false" />
+        </activity>
+
+        <activity
+            android:name=".ui.certificates.details.CertificateDetailsActivity"
+            android:exported="false"
+            android:label="@string/sentinel_certificate"
+            android:taskAffinity="com.infinum.sentinel.certificates"
+            android:theme="@style/Sentinel.Theme.Leaf">
+            <meta-data
+                android:name="@string/sentinel_infinum_monitored"
+                android:value="false" />
+        </activity>
+
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"

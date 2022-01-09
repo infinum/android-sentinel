@@ -2,14 +2,14 @@ package com.infinum.sentinel.ui.tools
 
 import android.view.View
 import com.infinum.sentinel.Sentinel
+import javax.net.ssl.X509TrustManager
 
 /**
- * Specific wrapper tool around Huawei AppGallery in no - op.
- *
+ * Specific wrapper tool that previews X.509 certificates from system and application.
  */
 @Suppress("UnusedPrivateMember")
-public data class AppGalleryTool @JvmOverloads constructor(
-    private val appId: String = "",
+public data class CertificateTool @JvmOverloads constructor(
+    private val userManagers: List<X509TrustManager> = listOf(),
     private val listener: View.OnClickListener = View.OnClickListener {
         // no - op
     }

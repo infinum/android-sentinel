@@ -1,4 +1,4 @@
-package com.infinum.sentinel.ui.certificates
+package com.infinum.sentinel.data.models.raw.certificates
 
 internal data class FingerprintData(
     val md5: String?,

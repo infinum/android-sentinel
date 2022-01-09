@@ -1,7 +1,13 @@
-package com.infinum.sentinel.ui.certificates
+package com.infinum.sentinel.data.sources.raw.collectors
 
+import com.infinum.sentinel.data.models.raw.CertificateData
+import com.infinum.sentinel.data.models.raw.certificates.FingerprintData
+import com.infinum.sentinel.data.models.raw.certificates.PublicKeyData
+import com.infinum.sentinel.data.models.raw.certificates.SignatureData
+import com.infinum.sentinel.domain.collectors.Collectors
+import com.infinum.sentinel.extensions.asASN
+import com.infinum.sentinel.extensions.asHexString
 import java.io.IOException
-import java.math.BigInteger
 import java.security.KeyStore
 import java.security.KeyStoreException
 import java.security.MessageDigest
@@ -12,20 +18,22 @@ import java.security.cert.X509Certificate
 import java.security.interfaces.DSAPublicKey
 import java.security.interfaces.ECPublicKey
 import java.security.interfaces.RSAPublicKey
-import javax.net.ssl.TrustManager
 import javax.net.ssl.TrustManagerFactory
 import javax.net.ssl.X509TrustManager
 
-internal class TrustManagerCollector {
+internal class CertificateCollector(
+    var userManagers: List<X509TrustManager>
+) : Collectors.Certificates {
 
-    private var userManagers: List<TrustManager> = listOf()
-
-    fun setUserTrustManagers(managers: List<TrustManager>) {
-        userManagers = managers.filterIsInstance<X509TrustManager>()
+    companion object {
+        private const val DEFAULT_PUBLIC_KEY_SIZE_MULTIPLIER = 7
+        private const val SERIAL_NUMBER_RADIX = 16
     }
 
-    fun data(): List<CertificateData> =
-        allTrustManagers()
+    override fun invoke(): List<CertificateData> =
+        userManagers
+            .asSequence()
+            .plus(defaultTrustManagers())
             .map { it.acceptedIssuers.toList() }
             .toList()
             .flatten()
@@ -37,17 +45,17 @@ internal class TrustManagerCollector {
                             "RSA" -> (it.publicKey as RSAPublicKey).modulus.bitLength()
                             "DSA" -> (it.publicKey as DSAPublicKey).params.p.bitLength() // Or P or Q or G?
                             "EC" -> (it.publicKey as ECPublicKey).params.order.bitLength() // Or curve or cofactor?
-                            else -> it.publicKey.encoded.size * 7 // bad estimate and wild guess
+                            else -> it.publicKey.encoded.size * DEFAULT_PUBLIC_KEY_SIZE_MULTIPLIER // wild guess
                         }
                     ),
-                    serialNumber = it.serialNumber.toString(16),
+                    serialNumber = it.serialNumber.toString(SERIAL_NUMBER_RADIX),
                     version = it.version,
                     signature = SignatureData(
                         algorithmName = it.sigAlgName,
                         algorithmOID = it.sigAlgOID
                     ),
-                    issuerName = it.issuerDN.name,
-                    subjectName = it.subjectDN.name,
+                    issuerData = it.issuerDN.name.asASN(),
+                    subjectData = it.subjectDN.name.asASN(),
                     startDate = it.notBefore,
                     endDate = it.notAfter,
                     fingerprint = FingerprintData(
@@ -56,7 +64,7 @@ internal class TrustManagerCollector {
                         sha256 = fingerprint(it, "SHA-256")?.lowercase()
                     )
                 )
-            }
+            }.toList()
 
     @Throws(
         NoSuchAlgorithmException::class,
@@ -72,13 +80,8 @@ internal class TrustManagerCollector {
         return factory.trustManagers.toList().filterIsInstance<X509TrustManager>()
     }
 
-    private fun userTrustManagers(): List<X509TrustManager> =
-        userManagers.filterIsInstance<X509TrustManager>()
-
-    private fun allTrustManagers(): List<X509TrustManager> =
-        userTrustManagers().plus(defaultTrustManagers())
-
-    private fun fingerprint(certificate: X509Certificate, algorithm: String): String? {
+    @Suppress("SwallowedException")
+    fun fingerprint(certificate: X509Certificate, algorithm: String): String? {
         var hash: String?
         try {
             val md = MessageDigest.getInstance(algorithm)
@@ -92,9 +95,3 @@ internal class TrustManagerCollector {
         return hash
     }
 }
-
-internal fun ByteArray.asHexString(): String =
-    String.format(
-        "%0${this.size shl 1}X",
-        BigInteger(1, this)
-    )

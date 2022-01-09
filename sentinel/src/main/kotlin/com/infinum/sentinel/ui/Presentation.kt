@@ -24,6 +24,8 @@ import com.infinum.sentinel.ui.bundles.callbacks.BundleMonitorActivityCallbacks
 import com.infinum.sentinel.ui.bundles.callbacks.BundleMonitorNotificationCallbacks
 import com.infinum.sentinel.ui.bundles.details.BundleDetailsActivity
 import com.infinum.sentinel.ui.bundles.details.BundleDetailsViewModel
+import com.infinum.sentinel.ui.certificates.CertificatesViewModel
+import com.infinum.sentinel.ui.certificates.details.CertificateDetailsViewModel
 import com.infinum.sentinel.ui.crash.CrashesViewModel
 import com.infinum.sentinel.ui.crash.anr.SentinelAnrObserver
 import com.infinum.sentinel.ui.crash.anr.SentinelAnrObserverRunnable
@@ -44,6 +46,7 @@ import com.infinum.sentinel.ui.main.tools.ToolsViewModel
 import com.infinum.sentinel.ui.settings.SettingsViewModel
 import com.infinum.sentinel.ui.tools.AppInfoTool
 import com.infinum.sentinel.ui.tools.BundleMonitorTool
+import com.infinum.sentinel.ui.tools.CertificateTool
 import com.infinum.sentinel.ui.tools.CrashMonitorTool
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -167,7 +170,11 @@ internal object Presentation {
     }
 
     fun setup(tools: Set<Sentinel.Tool>, onTriggered: () -> Unit) {
-        Domain.setup(tools.plus(DEFAULT_TOOLS), onTriggered)
+        Domain.setup(
+            tools.plus(DEFAULT_TOOLS),
+            tools.filterIsInstance<CertificateTool>().firstOrNull()?.userManagers.orEmpty(),
+            onTriggered
+        )
         LibraryKoin.koin().get<ShakeTrigger>().apply { active = true }
     }
 
@@ -205,6 +212,8 @@ internal object Presentation {
         viewModel { BundleDetailsViewModel(get()) }
         viewModel { CrashesViewModel(get()) }
         viewModel { CrashDetailsViewModel(get(), get(), get(), get()) }
+        viewModel { CertificatesViewModel(get(), get()) }
+        viewModel { CertificateDetailsViewModel(get()) }
     }
 
     private fun factories() = module {

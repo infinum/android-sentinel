@@ -4,4 +4,6 @@
 
     <color name="sentinel_color_background">#ffffff</color>
     <color name="sentinel_color_ripple">#1f000000</color>
+
+    <color name="sentinel_error">#f44336</color>
 </resources>

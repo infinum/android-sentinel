@@ -14,11 +14,14 @@ import com.infinum.sentinel.data.sources.local.room.SentinelDatabase
 import com.infinum.sentinel.data.sources.local.room.callbacks.SentinelDefaultValuesCallback
 import com.infinum.sentinel.data.sources.memory.bundles.BundlesCache
 import com.infinum.sentinel.data.sources.memory.bundles.InMemoryBundlesCache
+import com.infinum.sentinel.data.sources.memory.certificate.CertificateCache
+import com.infinum.sentinel.data.sources.memory.certificate.InMemoryCertificateCache
 import com.infinum.sentinel.data.sources.memory.preference.InMemoryPreferenceCache
 import com.infinum.sentinel.data.sources.memory.preference.PreferenceCache
 import com.infinum.sentinel.data.sources.memory.triggers.TriggersCache
 import com.infinum.sentinel.data.sources.memory.triggers.TriggersCacheFactory
 import com.infinum.sentinel.data.sources.raw.collectors.ApplicationCollector
+import com.infinum.sentinel.data.sources.raw.collectors.CertificateCollector
 import com.infinum.sentinel.data.sources.raw.collectors.DeviceCollector
 import com.infinum.sentinel.data.sources.raw.collectors.PermissionsCollector
 import com.infinum.sentinel.data.sources.raw.collectors.PreferencesCollector
@@ -31,6 +34,7 @@ import com.infinum.sentinel.data.sources.raw.formatters.XmlFormatter
 import com.infinum.sentinel.domain.collectors.Collectors
 import com.infinum.sentinel.domain.formatters.Formatters
 import java.util.Locale
+import javax.net.ssl.X509TrustManager
 import org.koin.core.module.Module
 import org.koin.core.qualifier.StringQualifier
 import org.koin.dsl.module
@@ -97,6 +101,7 @@ internal object Data {
         single<Collectors.Application> { ApplicationCollector(get()) }
         single<Collectors.Permissions> { PermissionsCollector(get()) }
         single<Collectors.Preferences> { PreferencesCollector(get()) }
+        single<Collectors.Certificates> { (managers: List<X509TrustManager>) -> CertificateCollector(managers) }
         single<Collectors.Tools> { (tools: Set<Sentinel.Tool>) -> ToolsCollector(tools) }
 
         single<Formatters.Plain> { PlainFormatter(get(), get(), get(), get(), get()) }
@@ -128,7 +133,7 @@ internal object Data {
         }
 
         single<BundlesCache> { InMemoryBundlesCache() }
-
         single<PreferenceCache> { InMemoryPreferenceCache() }
+        single<CertificateCache> { InMemoryCertificateCache() }
     }
 }

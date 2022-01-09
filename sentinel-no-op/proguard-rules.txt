@@ -29,4 +29,7 @@
 -keep public class com.infinum.sentinel.ui.tools.TimberTool {
   public protected *;
 }
+-keep public class com.infinum.sentinel.ui.tools.CertificateTool {
+  public protected *;
+}
 -keep public class com.infinum.sentinel.databinding.**

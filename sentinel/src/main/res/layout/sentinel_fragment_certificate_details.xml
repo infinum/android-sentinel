@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:colorBackground"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior"
+        app:liftOnScroll="true"
+        app:liftOnScrollTargetViewId="@id/recyclerView">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            app:navigationIcon="@drawable/sentinel_ic_back"
+            app:title="@string/sentinel_certificate" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="32dp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/expiredView"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:background="@color/sentinel_error"
+                android:gravity="center"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/sentinel_expired"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:visibility="gone" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:gravity="start|bottom"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="8dp"
+                android:text="@string/sentinel_public_key"
+                android:textAllCaps="true"
+                android:textColor="@color/sentinel_color_primary" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/sentinel_algorithm" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/publicKeyAlgorithmView"
+                style="@style/TextAppearance.MaterialComponents.Body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/sentinel_size" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/publicKeySizeView"
+                style="@style/TextAppearance.MaterialComponents.Body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:gravity="start|bottom"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="8dp"
+                android:text="@string/sentinel_serial_number"
+                android:textAllCaps="true"
+                android:textColor="@color/sentinel_color_primary" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/serialNumberView"
+                style="@style/TextAppearance.MaterialComponents.Body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:gravity="start|bottom"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="8dp"
+                android:text="@string/sentinel_version"
+                android:textAllCaps="true"
+                android:textColor="@color/sentinel_color_primary" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/versionView"
+                style="@style/TextAppearance.MaterialComponents.Body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:gravity="start|bottom"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="8dp"
+                android:text="@string/sentinel_signature"
+                android:textAllCaps="true"
+                android:textColor="@color/sentinel_color_primary" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/sentinel_algorithm" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/signatureAlgorithmView"
+                style="@style/TextAppearance.MaterialComponents.Body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/sentinel_oid" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/signatureOidView"
+                style="@style/TextAppearance.MaterialComponents.Body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:gravity="start|bottom"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="8dp"
+                android:text="@string/sentinel_issuer"
+                android:textAllCaps="true"
+                android:textColor="@color/sentinel_color_primary" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/issuerView"
+                style="@style/TextAppearance.MaterialComponents.Body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:gravity="start|bottom"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="8dp"
+                android:text="@string/sentinel_subject"
+                android:textAllCaps="true"
+                android:textColor="@color/sentinel_color_primary" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/subjectView"
+                style="@style/TextAppearance.MaterialComponents.Body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:gravity="start|bottom"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="8dp"
+                android:text="@string/sentinel_validity"
+                android:textAllCaps="true"
+                android:textColor="@color/sentinel_color_primary" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/sentinel_issued" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/issuedView"
+                style="@style/TextAppearance.MaterialComponents.Body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/sentinel_expires" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/expiresView"
+                style="@style/TextAppearance.MaterialComponents.Body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:gravity="start|bottom"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="8dp"
+                android:text="@string/sentinel_fingerprints"
+                android:textAllCaps="true"
+                android:textColor="@color/sentinel_color_primary" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/sentinel_md5" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/md5View"
+                style="@style/TextAppearance.MaterialComponents.Body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/sentinel_sha1" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/sha1View"
+                style="@style/TextAppearance.MaterialComponents.Body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/sentinel_sha256" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/sha256View"
+                style="@style/TextAppearance.MaterialComponents.Body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

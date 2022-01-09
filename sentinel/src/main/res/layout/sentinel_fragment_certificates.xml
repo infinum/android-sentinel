@@ -18,9 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
-            app:menu="@menu/sentinel_logger"
             app:navigationIcon="@drawable/sentinel_ic_close"
-            app:title="@string/sentinel_logger" />
+            app:title="@string/sentinel_certificates" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -47,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:importantForAccessibility="no"
-            android:src="@drawable/sentinel_ic_logger_empty" />
+            android:src="@drawable/sentinel_ic_bundle_monitor_empty" />
 
         <com.google.android.material.textview.MaterialTextView
             style="@style/TextAppearance.MaterialComponents.Subtitle1"
@@ -56,7 +55,7 @@
             android:layout_marginTop="16dp"
             android:gravity="center_horizontal"
             android:padding="16dp"
-            android:text="@string/sentinel_logger_empty" />
+            android:text="@string/sentinel_certificates_empty" />
 
     </LinearLayout>
 

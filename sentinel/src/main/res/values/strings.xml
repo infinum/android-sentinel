@@ -10,6 +10,7 @@
     <string name="sentinel_app_info">App info</string>
     <string name="sentinel_bundle_monitor">Bundle monitor</string>
     <string name="sentinel_crash_monitor">Crash monitor</string>
+    <string name="sentinel_certificates">Certificates</string>
     <string name="sentinel_share">Share</string>
     <string name="sentinel_notify">Notify</string>
     <string name="sentinel_limit">Limit</string>
@@ -113,5 +114,24 @@
     <string name="sentinel_message">Message</string>
 
     <string name="sentinel_logger_empty">No logs collected.</string>
-    <string name="sentinel_tmb_message_with_tag_format">Bla</string>
+
+    <string name="sentinel_certificate">Certificate</string>
+    <string name="sentinel_certificates_empty">No certificates collected.</string>
+    <string name="sentinel_public_key">Public Key</string>
+    <string name="sentinel_algorithm">Algorithm</string>
+    <string name="sentinel_size">Size</string>
+    <string name="sentinel_serial_number">Serial number</string>
+    <string name="sentinel_version">Version</string>
+    <string name="sentinel_signature">Signature</string>
+    <string name="sentinel_oid">OID</string>
+    <string name="sentinel_issuer">Issuer</string>
+    <string name="sentinel_subject">Subject</string>
+    <string name="sentinel_validity">Validity</string>
+    <string name="sentinel_issued">Issued</string>
+    <string name="sentinel_expires">Expires</string>
+    <string name="sentinel_fingerprints">Fingerprints</string>
+    <string name="sentinel_md5">MD5</string>
+    <string name="sentinel_sha1">SHA-1</string>
+    <string name="sentinel_sha256">SHA-256</string>
+    <string name="sentinel_expired">Expired</string>
 </resources>
