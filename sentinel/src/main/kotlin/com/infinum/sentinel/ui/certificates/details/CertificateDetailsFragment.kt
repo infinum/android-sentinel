@@ -3,6 +3,7 @@ package com.infinum.sentinel.ui.certificates.details
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.RestrictTo
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentCertificateDetailsBinding
@@ -53,7 +54,21 @@ internal class CertificateDetailsFragment :
                     subjectView.text = state.value.subjectData.joinToString("\n")
                     issuedView.text = SimpleDateFormat.getDateInstance().format(state.value.startDate)
                     expiresView.text = SimpleDateFormat.getDateInstance().format(state.value.endDate)
-                    expiredView.isVisible = state.value.isValid.not()
+                    if (state.value.isValidNow) {
+                        if (state.value.isValidIn()) {
+                            expiredView.isVisible = false
+                            expiredView.setBackgroundColor(ContextCompat.getColor(expiredView.context, R.color.sentinel_color_primary))
+                            expiredView.text = getString(R.string.sentinel_expired)
+                        } else {
+                            expiredView.isVisible = true
+                            expiredView.setBackgroundColor(ContextCompat.getColor(expiredView.context, R.color.sentinel_warning))
+                            expiredView.text = String.format(getString(R.string.sentinel_expiring_at), expiresView.text)
+                        }
+                    } else {
+                        expiredView.isVisible = true
+                        expiredView.setBackgroundColor(ContextCompat.getColor(expiredView.context, R.color.sentinel_error))
+                        expiredView.text = getString(R.string.sentinel_expired)
+                    }
                     md5View.text = state.value.fingerprint.md5
                     sha1View.text = state.value.fingerprint.sha1
                     sha256View.text = state.value.fingerprint.sha256

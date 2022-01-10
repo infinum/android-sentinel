@@ -18,7 +18,15 @@ internal class CertificateViewHolder(
                 expiredView.setBackgroundColor(
                     ContextCompat.getColor(
                         expiredView.context,
-                        if (certificate.isValid) R.color.sentinel_color_primary else R.color.sentinel_error
+                        if (certificate.isValidNow) {
+                            if (certificate.isValidIn()) {
+                                R.color.sentinel_color_primary
+                            } else {
+                                R.color.sentinel_warning
+                            }
+                        } else {
+                            R.color.sentinel_error
+                        }
                     )
                 )
                 root.setOnClickListener { onClick(certificate) }
@@ -29,7 +37,7 @@ internal class CertificateViewHolder(
         with(binding) {
             titleView.text = null
             subtitleView.text = null
-            expiredView.setBackgroundColor(ContextCompat.getColor(expiredView.context, R.color.sentinel_color_primary))
+            expiredView.background = null
             root.setOnClickListener(null)
         }
 }

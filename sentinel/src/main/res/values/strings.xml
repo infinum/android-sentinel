@@ -134,4 +134,5 @@
     <string name="sentinel_sha1">SHA-1</string>
     <string name="sentinel_sha256">SHA-256</string>
     <string name="sentinel_expired">Expired</string>
+    <string name="sentinel_expiring_at">Expiring at %s</string>
 </resources>
