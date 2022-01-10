@@ -135,4 +135,6 @@
     <string name="sentinel_sha256">SHA-256</string>
     <string name="sentinel_expired">Expired</string>
     <string name="sentinel_expiring_at">Expiring at %s</string>
+    <string name="sentinel_certificates_user">User certificates</string>
+    <string name="sentinel_certificates_system">System certificates</string>
 </resources>

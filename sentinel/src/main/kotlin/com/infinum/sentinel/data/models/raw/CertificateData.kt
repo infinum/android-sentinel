@@ -8,7 +8,6 @@ import java.time.Period
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 import java.util.Date
-import timber.log.Timber
 
 internal data class CertificateData(
     val publicKey: PublicKeyData,
@@ -42,6 +41,7 @@ internal data class CertificateData(
             return now.isAfter(start) && now.isBefore(end)
         }
 
+    @Suppress("MagicNumber", "ComplexMethod")
     fun isValidIn(amount: Int = 0, unit: ChronoUnit = ChronoUnit.DAYS): Boolean {
         val delta: Period = when (unit) {
             ChronoUnit.NANOS -> Period.ZERO

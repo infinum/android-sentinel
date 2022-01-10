@@ -7,7 +7,7 @@ import com.infinum.sentinel.data.models.raw.CertificateData
 import com.infinum.sentinel.databinding.SentinelItemCertificateBinding
 
 internal class CertificatesAdapter(
-    private val onListChanged: (Boolean) -> Unit,
+    private val onListChanged: () -> Unit,
     private val onClick: (CertificateData) -> Unit
 ) : ListAdapter<CertificateData, CertificateViewHolder>(CertificatesDiffUtil()) {
 
@@ -30,6 +30,5 @@ internal class CertificatesAdapter(
     override fun onCurrentListChanged(
         previousList: MutableList<CertificateData>,
         currentList: MutableList<CertificateData>
-    ) =
-        onListChanged(currentList.isEmpty())
+    ) = onListChanged()
 }

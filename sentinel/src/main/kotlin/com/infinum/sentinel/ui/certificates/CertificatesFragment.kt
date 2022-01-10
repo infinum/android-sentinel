@@ -6,6 +6,7 @@ import android.view.View
 import androidx.annotation.RestrictTo
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.infinum.sentinel.R
@@ -31,9 +32,19 @@ internal class CertificatesFragment :
 
     override val viewModel: CertificatesViewModel by viewModel()
 
-    private val adapter = CertificatesAdapter(
-        onListChanged = { isEmpty ->
-            showEmptyState(isEmpty)
+    private val userHeaderAdapter = HeaderAdapter(R.string.sentinel_certificates_user, 0)
+    private val userAdapter = CertificatesAdapter(
+        onListChanged = {
+            showEmptyState()
+        },
+        onClick = {
+            viewModel.cache(it)
+        }
+    )
+    private val systemHeaderAdapter = HeaderAdapter(R.string.sentinel_certificates_system, 0)
+    private val systemAdapter = CertificatesAdapter(
+        onListChanged = {
+            showEmptyState()
         },
         onClick = {
             viewModel.cache(it)
@@ -49,7 +60,12 @@ internal class CertificatesFragment :
 
     override fun onState(state: CertificatesState) =
         when (state) {
-            is CertificatesState.Data -> adapter.submitList(state.value)
+            is CertificatesState.Data -> {
+                userHeaderAdapter.updateCount(state.userCertificates.count())
+                systemHeaderAdapter.updateCount(state.systemCertificates.count())
+                userAdapter.submitList(state.userCertificates)
+                systemAdapter.submitList(state.systemCertificates)
+            }
         }
 
     override fun onEvent(event: CertificatesEvent) =
@@ -70,15 +86,25 @@ internal class CertificatesFragment :
     private fun setupRecyclerView() {
         with(binding.recyclerView) {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = this@CertificatesFragment.adapter
+            adapter = ConcatAdapter(
+                userHeaderAdapter,
+                userAdapter,
+                systemHeaderAdapter,
+                systemAdapter
+            )
             edgeEffectFactory = BounceEdgeEffectFactory()
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
     }
 
-    private fun showEmptyState(isEmpty: Boolean) =
+    private fun showEmptyState() {
+        val isUserEmpty: Boolean = userAdapter.currentList.isEmpty()
+        val isSystemEmpty: Boolean = systemAdapter.currentList.isEmpty()
+        userHeaderAdapter.updateCount(userAdapter.currentList.count())
+        systemHeaderAdapter.updateCount(systemAdapter.currentList.count())
         with(binding) {
-            recyclerView.isGone = isEmpty
-            emptyStateLayout.isVisible = isEmpty
+            recyclerView.isGone = isUserEmpty && isSystemEmpty
+            emptyStateLayout.isVisible = isUserEmpty && isSystemEmpty
         }
+    }
 }

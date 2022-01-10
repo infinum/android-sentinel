@@ -39,6 +39,7 @@ internal class CertificateDetailsFragment :
         }
     }
 
+    @Suppress("NestedBlockDepth")
     override fun onState(state: CertificateDetailsState) {
         when (state) {
             is CertificateDetailsState.Cache -> {
@@ -57,16 +58,31 @@ internal class CertificateDetailsFragment :
                     if (state.value.isValidNow) {
                         if (state.value.isValidIn()) {
                             expiredView.isVisible = false
-                            expiredView.setBackgroundColor(ContextCompat.getColor(expiredView.context, R.color.sentinel_color_primary))
+                            expiredView.setBackgroundColor(
+                                ContextCompat.getColor(
+                                    expiredView.context,
+                                    R.color.sentinel_color_primary
+                                )
+                            )
                             expiredView.text = getString(R.string.sentinel_expired)
                         } else {
                             expiredView.isVisible = true
-                            expiredView.setBackgroundColor(ContextCompat.getColor(expiredView.context, R.color.sentinel_warning))
+                            expiredView.setBackgroundColor(
+                                ContextCompat.getColor(
+                                    expiredView.context,
+                                    R.color.sentinel_warning
+                                )
+                            )
                             expiredView.text = String.format(getString(R.string.sentinel_expiring_at), expiresView.text)
                         }
                     } else {
                         expiredView.isVisible = true
-                        expiredView.setBackgroundColor(ContextCompat.getColor(expiredView.context, R.color.sentinel_error))
+                        expiredView.setBackgroundColor(
+                            ContextCompat.getColor(
+                                expiredView.context,
+                                R.color.sentinel_error
+                            )
+                        )
                         expiredView.text = getString(R.string.sentinel_expired)
                     }
                     md5View.text = state.value.fingerprint.md5

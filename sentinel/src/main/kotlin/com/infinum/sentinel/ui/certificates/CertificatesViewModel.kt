@@ -1,6 +1,7 @@
 package com.infinum.sentinel.ui.certificates
 
 import com.infinum.sentinel.data.models.raw.CertificateData
+import com.infinum.sentinel.data.models.raw.certificates.CertificateType
 import com.infinum.sentinel.domain.Factories
 import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.certificate.models.CertificateParameters
@@ -15,11 +16,11 @@ internal class CertificatesViewModel(
         launch {
             val result = io {
                 collectors.certificates()()
-                    .sortedBy { it.title?.lowercase() }
             }
             setState(
                 CertificatesState.Data(
-                    value = result
+                    userCertificates = result[CertificateType.USER].orEmpty(),
+                    systemCertificates = result[CertificateType.SYSTEM].orEmpty()
                 )
             )
         }

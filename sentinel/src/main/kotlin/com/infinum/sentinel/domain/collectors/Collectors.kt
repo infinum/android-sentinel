@@ -5,6 +5,7 @@ import com.infinum.sentinel.data.models.raw.ApplicationData
 import com.infinum.sentinel.data.models.raw.CertificateData
 import com.infinum.sentinel.data.models.raw.DeviceData
 import com.infinum.sentinel.data.models.raw.PreferencesData
+import com.infinum.sentinel.data.models.raw.certificates.CertificateType
 import com.infinum.sentinel.data.sources.raw.collectors.Collector
 
 internal interface Collectors {
@@ -17,7 +18,7 @@ internal interface Collectors {
 
     interface Preferences : Collector<List<PreferencesData>>
 
-    interface Certificates : Collector<List<CertificateData>>
+    interface Certificates : Collector<Map<CertificateType, List<CertificateData>>>
 
     interface Tools : Collector<Set<Sentinel.Tool>>
 }

@@ -102,6 +102,7 @@ androidx = [
     "androidx-appcompat",
     "androidx-activity",
     "androidx-fragment",
+    "androidx-recycler",
     "androidx-lifecycle-runtime",
     "androidx-lifecycle-viewmodel",
     "androidx-lifecycle-livedata",
