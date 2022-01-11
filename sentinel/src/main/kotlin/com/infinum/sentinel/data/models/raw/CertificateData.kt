@@ -42,7 +42,7 @@ internal data class CertificateData(
         }
 
     @Suppress("MagicNumber", "ComplexMethod")
-    fun isValidIn(amount: Int = 0, unit: ChronoUnit = ChronoUnit.DAYS): Boolean {
+    fun isValidIn(amount: Int = 2, unit: ChronoUnit = ChronoUnit.YEARS): Boolean {
         val delta: Period = when (unit) {
             ChronoUnit.NANOS -> Period.ZERO
             ChronoUnit.MICROS -> Period.ZERO

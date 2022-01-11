@@ -13,6 +13,7 @@ recycler = "1.2.1"
 lifecycle = "2.4.0"
 preference = "1.1.1"
 room = "2.4.0"
+workmanager = "2.7.1"
 startup = "1.1.0"
 crypto = "1.1.0-alpha03"
 dynamicanimation = "1.0.0"
@@ -70,6 +71,7 @@ androidx-dynamicanimation = { module = "androidx.dynamicanimation:dynamicanimati
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+androidx-workmanager-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workmanager" }
 
 material = { module = "com.google.android.material:material", version.ref = "design" }
 
@@ -112,7 +114,8 @@ androidx = [
     "androidx-startup",
     "androidx-dynamicanimation",
     "androidx-room-runtime",
-    "androidx-room-ktx"
+    "androidx-room-ktx",
+    "androidx-workmanager-ktx"
 ]
 tools = [
     "toolchucker",

@@ -27,6 +27,7 @@ import com.infinum.sentinel.ui.bundles.details.BundleDetailsViewModel
 import com.infinum.sentinel.ui.certificates.CertificatesViewModel
 import com.infinum.sentinel.ui.certificates.details.CertificateDetailsViewModel
 import com.infinum.sentinel.ui.certificates.observer.CertificatesObserver
+import com.infinum.sentinel.ui.certificates.observer.SentinelWorkManager
 import com.infinum.sentinel.ui.crash.CrashesViewModel
 import com.infinum.sentinel.ui.crash.anr.SentinelAnrObserver
 import com.infinum.sentinel.ui.crash.anr.SentinelAnrObserverRunnable
@@ -67,6 +68,7 @@ internal object Presentation {
     object Constants {
         const val BYTE_MULTIPLIER = 1000
         const val SHARE_MIME_TYPE = "text/plain"
+        const val NOTIFICATIONS_CHANNEL_ID = "sentinel"
 
         object Keys {
             const val BUNDLE_ID = "KEY_BUNDLE_ID"
@@ -180,6 +182,7 @@ internal object Presentation {
         )
         LibraryKoin.koin().get<ShakeTrigger>().apply { active = true }
         LibraryKoin.koin().get<CertificatesObserver>()
+        LibraryKoin.koin().get<SentinelWorkManager>().checkCertificates()
     }
 
     fun show() =
@@ -231,5 +234,6 @@ internal object Presentation {
         single<SentinelAnrObserver> { SentinelUiAnrObserver(get(), get()) }
 
         single { CertificatesObserver(get(), get(), get()) }
+        single { SentinelWorkManager(get()) }
     }
 }

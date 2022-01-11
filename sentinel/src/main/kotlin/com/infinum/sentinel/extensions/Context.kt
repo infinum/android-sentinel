@@ -35,6 +35,16 @@ internal fun Context.copyToClipboard(key: String, value: String): Boolean =
         false
     }
 
+internal val Context.applicationName: String
+    get() = (
+        packageManager.getApplicationLabel(
+            packageManager.getApplicationInfo(
+                packageName,
+                PackageManager.GET_META_DATA
+            )
+        ) as? String
+        ) ?: getString(R.string.sentinel_name)
+
 @Suppress("DEPRECATION")
 internal val Context.widthPixels: Int
     get() {

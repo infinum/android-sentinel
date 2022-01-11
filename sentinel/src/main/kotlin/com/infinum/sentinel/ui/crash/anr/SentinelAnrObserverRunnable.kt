@@ -1,14 +1,13 @@
 package com.infinum.sentinel.ui.crash.anr
 
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Handler
 import android.os.Looper
-import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.data.models.local.CrashEntity
 import com.infinum.sentinel.data.models.local.crash.CrashData
 import com.infinum.sentinel.data.sources.local.room.dao.CrashesDao
+import com.infinum.sentinel.extensions.applicationName
 import com.infinum.sentinel.extensions.asExceptionData
 import com.infinum.sentinel.ui.shared.notification.NotificationFactory
 import kotlinx.coroutines.runBlocking
@@ -17,7 +16,7 @@ import kotlinx.coroutines.runBlocking
  * A [Runnable] testing the UI thread every 10s until stop is called explicitly.
  */
 internal class SentinelAnrObserverRunnable(
-    context: Context,
+    private val context: Context,
     private val notificationFactory: NotificationFactory,
     private val dao: CrashesDao
 ) : Runnable {
@@ -27,12 +26,6 @@ internal class SentinelAnrObserverRunnable(
         private const val ANR_OBSERVER_TIMEOUT: Long = 10_000
         private const val ANR_THREAD_RESPONSE_THRESHOLD: Long = 2_000
     }
-
-    private val applicationName: String = (
-        context.packageManager.getApplicationLabel(
-            context.packageManager.getApplicationInfo(context.packageName, PackageManager.GET_META_DATA)
-        ) as? String
-        ) ?: context.getString(R.string.sentinel_name)
 
     /**
      * The [Handler] to access the UI threads message queue
@@ -75,7 +68,7 @@ internal class SentinelAnrObserverRunnable(
                         )
 
                         val entity = CrashEntity(
-                            applicationName = applicationName,
+                            applicationName = context.applicationName,
                             timestamp = System.currentTimeMillis(),
                             data = CrashData(
                                 threadState = exception.threadStateList,
@@ -83,7 +76,7 @@ internal class SentinelAnrObserverRunnable(
                             )
                         )
                         val id: Long = runBlocking { dao.save(entity) }
-                        notificationFactory.showAnr(applicationName, id, entity)
+                        notificationFactory.showAnr(context.applicationName, id, entity)
 
                         listener?.onAppNotResponding(exception)
 

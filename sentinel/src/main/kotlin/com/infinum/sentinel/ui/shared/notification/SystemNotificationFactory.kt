@@ -11,6 +11,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.infinum.sentinel.R
 import com.infinum.sentinel.data.models.local.CrashEntity
+import com.infinum.sentinel.ui.Presentation.Constants.NOTIFICATIONS_CHANNEL_ID
 
 internal class SystemNotificationFactory(
     private val context: Context,
@@ -18,7 +19,6 @@ internal class SystemNotificationFactory(
 ) : NotificationFactory {
 
     companion object {
-        private const val NOTIFICATIONS_CHANNEL_ID = "sentinel_crashes"
         private const val NOTIFICATION_ID_CRASH = 3105
         private const val NOTIFICATION_ID_CERTIFICATE = 7011
         private const val NOTIFICATION_ID_CERTIFICATE_EXPIRE = 1802
