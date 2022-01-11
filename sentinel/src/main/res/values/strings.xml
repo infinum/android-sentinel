@@ -137,4 +137,7 @@
     <string name="sentinel_expiring_at">Expiring at %s</string>
     <string name="sentinel_certificates_user">User certificates</string>
     <string name="sentinel_certificates_system">System certificates</string>
+    <string name="sentinel_certificates_notification_title">Sentinel detected %d invalid certificates</string>
+    <string name="sentinel_certificates_soon_notification_title">Sentinel detected %d soon to expire certificates</string>
+    <string name="sentinel_certificates_notification_subtitle">Tap here to see certificates.</string>
 </resources>

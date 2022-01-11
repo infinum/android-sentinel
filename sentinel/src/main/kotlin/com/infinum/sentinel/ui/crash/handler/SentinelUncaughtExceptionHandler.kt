@@ -8,7 +8,7 @@ import com.infinum.sentinel.data.models.local.crash.CrashData
 import com.infinum.sentinel.data.sources.local.room.dao.CrashesDao
 import com.infinum.sentinel.extensions.asExceptionData
 import com.infinum.sentinel.extensions.asThreadData
-import com.infinum.sentinel.ui.crash.notification.NotificationFactory
+import com.infinum.sentinel.ui.shared.notification.NotificationFactory
 import kotlinx.coroutines.runBlocking
 
 internal class SentinelUncaughtExceptionHandler(

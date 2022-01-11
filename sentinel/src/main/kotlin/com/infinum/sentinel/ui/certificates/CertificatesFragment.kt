@@ -50,6 +50,12 @@ internal class CertificatesFragment :
             viewModel.cache(it)
         }
     )
+    private val adapter = ConcatAdapter(
+        userHeaderAdapter,
+        userAdapter,
+        systemHeaderAdapter,
+        systemAdapter
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,15 +64,22 @@ internal class CertificatesFragment :
         setupRecyclerView()
     }
 
-    override fun onState(state: CertificatesState) =
+    override fun onState(state: CertificatesState) {
         when (state) {
             is CertificatesState.Data -> {
                 userHeaderAdapter.updateCount(state.userCertificates.count())
                 systemHeaderAdapter.updateCount(state.systemCertificates.count())
                 userAdapter.submitList(state.userCertificates)
                 systemAdapter.submitList(state.systemCertificates)
+                if (state.userCertificates.isEmpty()) {
+                    adapter.removeAdapter(userHeaderAdapter)
+                }
+                if (state.systemCertificates.isEmpty()) {
+                    adapter.removeAdapter(systemHeaderAdapter)
+                }
             }
         }
+    }
 
     override fun onEvent(event: CertificatesEvent) =
         when (event) {
@@ -86,12 +99,7 @@ internal class CertificatesFragment :
     private fun setupRecyclerView() {
         with(binding.recyclerView) {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = ConcatAdapter(
-                userHeaderAdapter,
-                userAdapter,
-                systemHeaderAdapter,
-                systemAdapter
-            )
+            adapter = this@CertificatesFragment.adapter
             edgeEffectFactory = BounceEdgeEffectFactory()
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }

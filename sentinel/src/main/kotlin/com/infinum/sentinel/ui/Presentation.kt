@@ -26,6 +26,7 @@ import com.infinum.sentinel.ui.bundles.details.BundleDetailsActivity
 import com.infinum.sentinel.ui.bundles.details.BundleDetailsViewModel
 import com.infinum.sentinel.ui.certificates.CertificatesViewModel
 import com.infinum.sentinel.ui.certificates.details.CertificateDetailsViewModel
+import com.infinum.sentinel.ui.certificates.observer.CertificatesObserver
 import com.infinum.sentinel.ui.crash.CrashesViewModel
 import com.infinum.sentinel.ui.crash.anr.SentinelAnrObserver
 import com.infinum.sentinel.ui.crash.anr.SentinelAnrObserverRunnable
@@ -33,8 +34,6 @@ import com.infinum.sentinel.ui.crash.anr.SentinelUiAnrObserver
 import com.infinum.sentinel.ui.crash.details.CrashDetailsViewModel
 import com.infinum.sentinel.ui.crash.handler.SentinelExceptionHandler
 import com.infinum.sentinel.ui.crash.handler.SentinelUncaughtExceptionHandler
-import com.infinum.sentinel.ui.crash.notification.NotificationFactory
-import com.infinum.sentinel.ui.crash.notification.SystemNotificationFactory
 import com.infinum.sentinel.ui.main.SentinelActivity
 import com.infinum.sentinel.ui.main.SentinelViewModel
 import com.infinum.sentinel.ui.main.application.ApplicationViewModel
@@ -44,6 +43,10 @@ import com.infinum.sentinel.ui.main.preferences.PreferencesViewModel
 import com.infinum.sentinel.ui.main.preferences.editor.PreferenceEditorViewModel
 import com.infinum.sentinel.ui.main.tools.ToolsViewModel
 import com.infinum.sentinel.ui.settings.SettingsViewModel
+import com.infinum.sentinel.ui.shared.notification.IntentFactory
+import com.infinum.sentinel.ui.shared.notification.NotificationFactory
+import com.infinum.sentinel.ui.shared.notification.NotificationIntentFactory
+import com.infinum.sentinel.ui.shared.notification.SystemNotificationFactory
 import com.infinum.sentinel.ui.tools.AppInfoTool
 import com.infinum.sentinel.ui.tools.BundleMonitorTool
 import com.infinum.sentinel.ui.tools.CertificateTool
@@ -176,6 +179,7 @@ internal object Presentation {
             onTriggered
         )
         LibraryKoin.koin().get<ShakeTrigger>().apply { active = true }
+        LibraryKoin.koin().get<CertificatesObserver>()
     }
 
     fun show() =
@@ -217,12 +221,15 @@ internal object Presentation {
     }
 
     private fun factories() = module {
-        single<NotificationFactory> { SystemNotificationFactory(get()) }
+        factory<IntentFactory> { NotificationIntentFactory(get()) }
+        factory<NotificationFactory> { SystemNotificationFactory(get(), get()) }
 
         single<SentinelExceptionHandler> { SentinelUncaughtExceptionHandler(get(), get(), get()) }
 
         single { SentinelAnrObserverRunnable(get(), get(), get()) }
         factory<ExecutorService> { Executors.newSingleThreadExecutor() }
         single<SentinelAnrObserver> { SentinelUiAnrObserver(get(), get()) }
+
+        single { CertificatesObserver(get(), get(), get()) }
     }
 }
