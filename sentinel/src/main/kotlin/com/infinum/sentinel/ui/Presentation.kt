@@ -16,6 +16,7 @@ import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleDescriptor
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleParameters
 import com.infinum.sentinel.domain.bundle.monitor.models.BundleMonitorParameters
+import com.infinum.sentinel.domain.certificate.monitor.models.CertificateMonitorParameters
 import com.infinum.sentinel.domain.crash.monitor.models.CrashMonitorParameters
 import com.infinum.sentinel.extensions.sizeTree
 import com.infinum.sentinel.ui.Presentation.Constants.BYTE_MULTIPLIER
@@ -63,6 +64,7 @@ import org.koin.dsl.module
 import timber.log.Timber
 
 @SuppressLint("StaticFieldLeak")
+@Suppress("TooManyFunctions")
 internal object Presentation {
 
     object Constants {
@@ -75,6 +77,10 @@ internal object Presentation {
             const val SHOULD_REFRESH: String = "KEY_SHOULD_REFRESH"
             const val APPLICATION_NAME: String = "KEY_APPLICATION_NAME"
             const val CRASH_ID: String = "KEY_CRASH_ID"
+            const val NOTIFY_INVALID_NOW: String = "KEY_NOTIFY_INVALID_NOW"
+            const val NOTIFY_TO_EXPIRE: String = "KEY_NOTIFY_TO_EXPIRE"
+            const val EXPIRE_IN_AMOUNT: String = "KEY_EXPIRE_IN_AMOUNT"
+            const val EXPIRE_IN_UNIT: String = "KEY_EXPIRE_IN_UNIT"
         }
     }
 
@@ -94,10 +100,55 @@ internal object Presentation {
         }
     }
 
-    @Suppress("LongMethod")
     fun initialize(context: Context) {
         this.context = context
 
+        initializeCrashMonitor()
+        initializeBundleMonitor()
+    }
+
+    fun setExceptionHandler(handler: Thread.UncaughtExceptionHandler?) {
+        val exceptionHandler = LibraryKoin.koin().get<SentinelExceptionHandler>()
+        exceptionHandler.setExceptionHandler(handler)
+    }
+
+    fun setAnrListener(listener: Sentinel.ApplicationNotRespondingListener?) {
+        val observer = LibraryKoin.koin().get<SentinelAnrObserver>()
+        observer.setListener(listener)
+    }
+
+    fun setup(tools: Set<Sentinel.Tool>, onTriggered: () -> Unit) {
+        Domain.setup(
+            tools.plus(DEFAULT_TOOLS),
+            tools.filterIsInstance<CertificateTool>().firstOrNull()?.userCertificates.orEmpty(),
+            onTriggered
+        )
+        LibraryKoin.koin().get<ShakeTrigger>().apply { active = true }
+        initializeCertificateMonitor()
+    }
+
+    fun show() =
+        if (this::context.isInitialized) {
+            context.startActivity(
+                Intent(context, SentinelActivity::class.java)
+                    .apply {
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                    }
+            )
+        } else {
+            throw NullPointerException("Presentation context has not been initialized.")
+        }
+
+    fun modules(): List<Module> =
+        Domain.modules().plus(
+            listOf(
+                viewModels(),
+                factories()
+            )
+        )
+
+    private fun initializeCrashMonitor() {
         val exceptionHandler = LibraryKoin.koin().get<SentinelExceptionHandler>()
         Thread.setDefaultUncaughtExceptionHandler(exceptionHandler as Thread.UncaughtExceptionHandler)
         val anrObserver = LibraryKoin.koin().get<SentinelAnrObserver>()
@@ -116,10 +167,11 @@ internal object Presentation {
                 anrObserver.stop()
             }
         }
+    }
 
+    private fun initializeBundleMonitor() {
         val bundleMonitor = LibraryKoin.koin().get<Repositories.BundleMonitor>()
         val bundles = LibraryKoin.koin().get<Repositories.Bundles>()
-
         val notificationCallbacks = BundleMonitorNotificationCallbacks()
 
         (this.context.applicationContext as? Application)?.registerActivityLifecycleCallbacks(notificationCallbacks)
@@ -164,47 +216,20 @@ internal object Presentation {
             )
     }
 
-    fun setExceptionHandler(handler: Thread.UncaughtExceptionHandler?) {
-        val exceptionHandler = LibraryKoin.koin().get<SentinelExceptionHandler>()
-        exceptionHandler.setExceptionHandler(handler)
-    }
-
-    fun setAnrListener(listener: Sentinel.ApplicationNotRespondingListener?) {
-        val observer = LibraryKoin.koin().get<SentinelAnrObserver>()
-        observer.setListener(listener)
-    }
-
-    fun setup(tools: Set<Sentinel.Tool>, onTriggered: () -> Unit) {
-        Domain.setup(
-            tools.plus(DEFAULT_TOOLS),
-            tools.filterIsInstance<CertificateTool>().firstOrNull()?.userCertificates.orEmpty(),
-            onTriggered
-        )
-        LibraryKoin.koin().get<ShakeTrigger>().apply { active = true }
-        LibraryKoin.koin().get<CertificatesObserver>()
-        LibraryKoin.koin().get<SentinelWorkManager>().checkCertificates()
-    }
-
-    fun show() =
-        if (this::context.isInitialized) {
-            context.startActivity(
-                Intent(context, SentinelActivity::class.java)
-                    .apply {
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                    }
-            )
-        } else {
-            throw NullPointerException("Presentation context has not been initialized.")
+    private fun initializeCertificateMonitor() {
+        val certificateMonitor = LibraryKoin.koin().get<Repositories.CertificateMonitor>()
+        val certificatesObserver = LibraryKoin.koin().get<CertificatesObserver>()
+        val workManager = LibraryKoin.koin().get<SentinelWorkManager>()
+        scope.launch {
+            val monitorEntity = certificateMonitor.load(CertificateMonitorParameters()).first()
+            monitorEntity.takeIf { it.runOnStart }?.let {
+                certificatesObserver.activate(it)
+            } ?: certificatesObserver.deactivate()
+            monitorEntity.takeIf { it.runInBackground }?.let {
+                workManager.startCertificatesCheck(it)
+            } ?: workManager.stopCertificatesCheck()
         }
-
-    fun modules(): List<Module> =
-        Domain.modules().plus(
-            listOf(
-                viewModels(),
-                factories()
-            )
-        )
+    }
 
     private fun viewModels() = module {
         viewModel { SentinelViewModel(get(), get(), get(), get()) }
@@ -214,13 +239,13 @@ internal object Presentation {
         viewModel { PreferencesViewModel(get(), get()) }
         viewModel { PreferenceEditorViewModel(get()) }
         viewModel { ToolsViewModel(get()) }
-        viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get()) }
+        viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
         viewModel { BundlesViewModel(get(), get()) }
         viewModel { BundleDetailsViewModel(get()) }
         viewModel { CrashesViewModel(get()) }
         viewModel { CrashDetailsViewModel(get(), get(), get(), get()) }
-        viewModel { CertificatesViewModel(get(), get()) }
-        viewModel { CertificateDetailsViewModel(get()) }
+        viewModel { CertificatesViewModel(get(), get(), get()) }
+        viewModel { CertificateDetailsViewModel(get(), get()) }
     }
 
     private fun factories() = module {

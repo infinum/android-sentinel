@@ -40,7 +40,7 @@ class SampleApplication : Application() {
         val factory = CertificateFactory.getInstance("X.509")
         return listOf(
             "stackexchange.pem",
-            "selfsigned_knobtviker.com.cert"
+            "selfsigned_knobtviker.cert"
         )
             .map { assets.open(it) }
             .map { factory.generateCertificate(it) as X509Certificate }

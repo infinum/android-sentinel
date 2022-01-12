@@ -140,4 +140,13 @@
     <string name="sentinel_certificates_notification_title">Sentinel detected %d invalid certificates</string>
     <string name="sentinel_certificates_soon_notification_title">Sentinel detected %d soon to expire certificates</string>
     <string name="sentinel_certificates_notification_subtitle">Tap here to see certificates.</string>
+    <string name="sentinel_certificates_run_on_start">Run on start</string>
+    <string name="sentinel_certificates_run_in_background">Run daily in background</string>
+    <string name="sentinel_certificates_check_invalid_now">Check invalid now</string>
+    <string name="sentinel_certificates_check_to_expire">Check about to expire</string>
+    <string name="sentinel_expiring_in">Expiring in next</string>
+    <string name="sentinel_days">Days</string>
+    <string name="sentinel_weeks">Weeks</string>
+    <string name="sentinel_months">Months</string>
+    <string name="sentinel_years">Years</string>
 </resources>

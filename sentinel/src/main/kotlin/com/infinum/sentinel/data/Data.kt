@@ -94,6 +94,7 @@ internal object Data {
         single { get<SentinelDatabase>().bundleMonitor() }
         single { get<SentinelDatabase>().crashes() }
         single { get<SentinelDatabase>().crashMonitor() }
+        single { get<SentinelDatabase>().certificateMonitor() }
     }
 
     private fun raw() = module {

@@ -5,6 +5,7 @@ import com.infinum.sentinel.data.Data
 import com.infinum.sentinel.domain.bundle.descriptor.BundlesRepository
 import com.infinum.sentinel.domain.bundle.monitor.BundleMonitorRepository
 import com.infinum.sentinel.domain.certificate.CertificateRepository
+import com.infinum.sentinel.domain.certificate.monitor.CertificateMonitorRepository
 import com.infinum.sentinel.domain.collectors.CollectorFactory
 import com.infinum.sentinel.domain.crash.monitor.CrashMonitorRepository
 import com.infinum.sentinel.domain.formats.FormatsRepository
@@ -43,7 +44,8 @@ internal object Domain {
                 bundles(),
                 preferences(),
                 crashMonitor(),
-                certificates()
+                certificates(),
+                certificateMonitor()
             )
         )
 
@@ -90,5 +92,9 @@ internal object Domain {
 
     private fun certificates() = module {
         single<Repositories.Certificate> { CertificateRepository(get()) }
+    }
+
+    private fun certificateMonitor() = module {
+        single<Repositories.CertificateMonitor> { CertificateMonitorRepository(get()) }
     }
 }

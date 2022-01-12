@@ -67,6 +67,7 @@ internal class CertificatesFragment :
     override fun onState(state: CertificatesState) {
         when (state) {
             is CertificatesState.Data -> {
+                userAdapter.settings = state.settings
                 userHeaderAdapter.updateCount(state.userCertificates.count())
                 systemHeaderAdapter.updateCount(state.systemCertificates.count())
                 userAdapter.submitList(state.userCertificates)

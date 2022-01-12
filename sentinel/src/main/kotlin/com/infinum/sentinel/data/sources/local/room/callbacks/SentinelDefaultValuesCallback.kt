@@ -36,6 +36,13 @@ internal class SentinelDefaultValuesCallback : RoomDatabase.Callback() {
         ("id","notify_exceptions","notify_anrs","include_all_data") 
         VALUES (0,0,0,0);
         """.trimIndent()
+
+        private val DEFAULT_CERTIFICATE_MONITOR = """
+        INSERT INTO "certificate_monitor" 
+        ("id","run_on_start","run_in_background","notify_invalid_now",
+        "notify_to_expire","expire_in_amount","expire_in_unit") 
+        VALUES (0,0,0,0,0,0,'DAYS');
+        """.trimIndent()
     }
 
     override fun onCreate(db: SupportSQLiteDatabase) {
@@ -45,6 +52,7 @@ internal class SentinelDefaultValuesCallback : RoomDatabase.Callback() {
             db.execSQL(DEFAULT_FORMATS)
             db.execSQL(DEFAULT_BUNDLE_MONITOR)
             db.execSQL(DEFAULT_CRASH_MONITOR)
+            db.execSQL(DEFAULT_CERTIFICATE_MONITOR)
             db.setTransactionSuccessful()
             db.endTransaction()
         }

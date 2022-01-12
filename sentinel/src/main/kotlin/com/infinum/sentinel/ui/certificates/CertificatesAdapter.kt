@@ -3,6 +3,7 @@ package com.infinum.sentinel.ui.certificates
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
+import com.infinum.sentinel.data.models.local.CertificateMonitorEntity
 import com.infinum.sentinel.data.models.raw.CertificateData
 import com.infinum.sentinel.databinding.SentinelItemCertificateBinding
 
@@ -10,6 +11,8 @@ internal class CertificatesAdapter(
     private val onListChanged: () -> Unit,
     private val onClick: (CertificateData) -> Unit
 ) : ListAdapter<CertificateData, CertificateViewHolder>(CertificatesDiffUtil()) {
+
+    var settings: CertificateMonitorEntity? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CertificateViewHolder =
         CertificateViewHolder(
@@ -21,7 +24,7 @@ internal class CertificatesAdapter(
         )
 
     override fun onBindViewHolder(holder: CertificateViewHolder, position: Int) =
-        holder.bind(getItem(position), onClick)
+        holder.bind(getItem(position), settings, onClick)
 
     override fun onViewRecycled(holder: CertificateViewHolder) {
         holder.unbind()

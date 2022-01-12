@@ -1,27 +1,35 @@
 package com.infinum.sentinel.ui.settings
 
 import com.infinum.sentinel.data.models.local.BundleMonitorEntity
+import com.infinum.sentinel.data.models.local.CertificateMonitorEntity
 import com.infinum.sentinel.data.models.local.CrashMonitorEntity
 import com.infinum.sentinel.data.models.local.FormatEntity
 import com.infinum.sentinel.data.models.local.TriggerEntity
 import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.bundle.monitor.models.BundleMonitorParameters
+import com.infinum.sentinel.domain.certificate.monitor.models.CertificateMonitorParameters
 import com.infinum.sentinel.domain.crash.monitor.models.CrashMonitorParameters
 import com.infinum.sentinel.domain.formats.models.FormatsParameters
 import com.infinum.sentinel.domain.triggers.models.TriggerParameters
+import com.infinum.sentinel.ui.certificates.observer.CertificatesObserver
+import com.infinum.sentinel.ui.certificates.observer.SentinelWorkManager
 import com.infinum.sentinel.ui.crash.anr.SentinelAnrObserver
 import com.infinum.sentinel.ui.crash.handler.SentinelExceptionHandler
 import com.infinum.sentinel.ui.shared.base.BaseChildViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOn
 
+@Suppress("LongParameterList")
 internal class SettingsViewModel(
     private val triggers: Repositories.Triggers,
     private val formats: Repositories.Formats,
     private val bundleMonitor: Repositories.BundleMonitor,
     private val crashMonitor: Repositories.CrashMonitor,
+    private val certificateMonitor: Repositories.CertificateMonitor,
     private val exceptionHandler: SentinelExceptionHandler,
     private val anrObserver: SentinelAnrObserver,
+    private val certificatesObserver: CertificatesObserver,
+    private val workManager: SentinelWorkManager
 ) : BaseChildViewModel<Nothing, SettingsEvent>() {
 
     override fun data() {
@@ -51,6 +59,13 @@ internal class SettingsViewModel(
                 .flowOn(runningDispatchers)
                 .collectLatest {
                     emitEvent(SettingsEvent.CrashMonitorChanged(value = it))
+                }
+        }
+        launch {
+            certificateMonitor.load(CertificateMonitorParameters())
+                .flowOn(runningDispatchers)
+                .collectLatest {
+                    emitEvent(SettingsEvent.CertificateMonitorChanged(value = it))
                 }
         }
     }
@@ -108,4 +123,22 @@ internal class SettingsViewModel(
                 }
             }
         }
+
+    fun updateCertificatesMonitor(entity: CertificateMonitorEntity) {
+        launch {
+            io {
+                certificateMonitor.save(
+                    CertificateMonitorParameters(
+                        entity = entity
+                    )
+                )
+                entity.takeIf { it.runOnStart }?.let {
+                    certificatesObserver.activate(it)
+                } ?: certificatesObserver.deactivate()
+                entity.takeIf { it.runInBackground }?.let {
+                    workManager.startCertificatesCheck(it)
+                } ?: workManager.stopCertificatesCheck()
+            }
+        }
+    }
 }

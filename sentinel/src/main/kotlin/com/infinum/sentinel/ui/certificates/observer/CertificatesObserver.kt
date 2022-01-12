@@ -5,10 +5,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
+import com.infinum.sentinel.data.models.local.CertificateMonitorEntity
 import com.infinum.sentinel.data.models.raw.certificates.CertificateType
 import com.infinum.sentinel.domain.Factories
 import com.infinum.sentinel.extensions.applicationName
 import com.infinum.sentinel.ui.shared.notification.NotificationFactory
+import java.time.temporal.ChronoUnit
 import kotlin.coroutines.resume
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -26,6 +28,12 @@ internal class CertificatesObserver(
     private val scope = MainScope()
     private var currentJob: Job? = null
 
+    private var active = false
+    private var notifyInvalidNow = false
+    private var notifyToExpire = false
+    private var expireInAmount = 0
+    private var expireInUnit = ChronoUnit.DAYS
+
     init {
         scope.launch(Dispatchers.Main) {
             ProcessLifecycleOwner.get().lifecycle.addObserver(this@CertificatesObserver)
@@ -40,37 +48,57 @@ internal class CertificatesObserver(
         }
     }
 
+    fun activate(entity: CertificateMonitorEntity) {
+        active = true
+        this.notifyInvalidNow = entity.notifyInvalidNow
+        this.notifyToExpire = entity.notifyToExpire
+        this.expireInAmount = entity.expireInAmount
+        this.expireInUnit = entity.expireInUnit
+    }
+
+    fun deactivate() {
+        active = false
+    }
+
     private fun start() {
-        currentJob?.cancel()
-        currentJob = scope.launch(Dispatchers.Main) {
-            val result = withContext(Dispatchers.IO) {
-                suspendCancellableCoroutine<CertificateCount> {
-                    val userCertificates = collectors.certificates()
-                        .invoke()[CertificateType.USER]
-                        .orEmpty()
+        stop()
 
-                    val invalidCertificatesCount = userCertificates
-                        .filterNot { certificate -> certificate.isValidNow }
-                        .count()
-                    val toExpireCertificatesCount = userCertificates
-                        .filterNot { certificate -> certificate.isValidIn() }
-                        .count()
+        if (notifyInvalidNow || notifyToExpire) {
+            currentJob = scope.launch(Dispatchers.Main) {
+                val result = withContext(Dispatchers.IO) {
+                    if (active) {
+                        suspendCancellableCoroutine {
+                            val userCertificates = collectors.certificates()
+                                .invoke()[CertificateType.USER]
+                                .orEmpty()
 
-                    it.resume(
-                        CertificateCount(
-                            invalidCertificatesCount,
-                            toExpireCertificatesCount
-                        )
-                    )
+                            val invalidCertificatesCount = userCertificates
+                                .filterNot { certificate -> certificate.isValidNow }
+                                .count()
+                            val toExpireCertificatesCount = userCertificates
+                                .filterNot { certificate -> certificate.isValidIn(expireInAmount, expireInUnit) }
+                                .count()
+
+                            it.resume(
+                                CertificateCount(
+                                    invalidCertificatesCount,
+                                    toExpireCertificatesCount
+                                )
+                            )
+                        }
+                    } else {
+                        CertificateCount(0, 0)
+                    }
+                }
+                if (result.invalid > 0 && notifyInvalidNow) {
+                    notificationFactory.showExpiredCertificate(context.applicationName, result.invalid)
+                }
+                if (result.toExpire > 0 && notifyToExpire) {
+                    notificationFactory.showToExpireCertificate(context.applicationName, result.toExpire)
                 }
             }
-            if (result.invalid > 0) {
-                notificationFactory.showExpiredCertificate(context.applicationName, result.invalid)
-            }
-            if (result.toExpire > 0) {
-                notificationFactory.showToExpireCertificate(context.applicationName, result.toExpire)
-            }
         }
+        // dont run
     }
 
     private fun stop() {

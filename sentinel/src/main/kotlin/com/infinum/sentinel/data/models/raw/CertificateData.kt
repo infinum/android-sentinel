@@ -41,25 +41,12 @@ internal data class CertificateData(
             return now.isAfter(start) && now.isBefore(end)
         }
 
-    @Suppress("MagicNumber", "ComplexMethod")
-    fun isValidIn(amount: Int = 2, unit: ChronoUnit = ChronoUnit.YEARS): Boolean {
+    fun isValidIn(amount: Int = 0, unit: ChronoUnit = ChronoUnit.DAYS): Boolean {
         val delta: Period = when (unit) {
-            ChronoUnit.NANOS -> Period.ZERO
-            ChronoUnit.MICROS -> Period.ZERO
-            ChronoUnit.MILLIS -> Period.ZERO
-            ChronoUnit.SECONDS -> Period.ZERO
-            ChronoUnit.MINUTES -> Period.ZERO
-            ChronoUnit.HOURS -> Period.ZERO
-            ChronoUnit.HALF_DAYS -> Period.ZERO
             ChronoUnit.DAYS -> Period.ofDays(amount)
             ChronoUnit.WEEKS -> Period.ofWeeks(amount)
             ChronoUnit.MONTHS -> Period.ofMonths(amount)
             ChronoUnit.YEARS -> Period.ofYears(amount)
-            ChronoUnit.DECADES -> Period.ofYears(amount * 10)
-            ChronoUnit.CENTURIES -> Period.ofYears(amount * 100)
-            ChronoUnit.MILLENNIA -> Period.ofYears(amount * 1000)
-            ChronoUnit.ERAS -> Period.ofYears(amount * 1000)
-            ChronoUnit.FOREVER -> Period.ofYears(amount * 1000)
             else -> Period.ZERO
         }
 
