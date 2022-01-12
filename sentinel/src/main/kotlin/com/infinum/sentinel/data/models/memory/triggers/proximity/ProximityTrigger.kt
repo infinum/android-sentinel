@@ -8,7 +8,7 @@ import com.infinum.sentinel.data.models.memory.triggers.shared.SensorTrigger
 internal class ProximityTrigger(
     context: Context,
     trigger: () -> Unit
-) : SensorTrigger(context, trigger, Sensor.TYPE_PROXIMITY) {
+) : SensorTrigger(context, trigger, Sensor.TYPE_PROXIMITY, null) {
 
     companion object {
         private const val SENSITIVITY_THRESHOLD = 4

@@ -6,14 +6,15 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import com.infinum.sentinel.data.models.memory.triggers.shared.samples.SampleQueue
+import timber.log.Timber
 
 internal abstract class SensorTrigger(
     private val context: Context,
     private val trigger: () -> Unit,
-    private val sensorType: Int
+    private val sensorType: Int,
+    private val queue: SampleQueue?
 ) : AbstractTrigger(), SensorEventListener {
 
-    private val queue = SampleQueue()
     private var sensorManager: SensorManager? = null
 
     abstract fun threshold(): Int
@@ -24,13 +25,14 @@ internal abstract class SensorTrigger(
         sensorManager = (context.getSystemService(Context.SENSOR_SERVICE) as? SensorManager)
         sensorManager?.let {
             registerSensor(it)
+            this.active = true
         } ?: run {
             this.active = false
         }
     }
 
     override fun stop() {
-        queue.clear()
+        queue?.clear()
         unregisterSensor()
         sensorManager = null
         this.active = false
@@ -38,12 +40,23 @@ internal abstract class SensorTrigger(
 
     override fun onSensorChanged(event: SensorEvent) {
         val triggered = processEvent(event)
+        if (event.sensor.type == Sensor.TYPE_PROXIMITY) {
+            Timber.tag("_BOJAN_").i("SensorTrigger -> onSensorChanged -> ${event.values[0]}")
+        }
         val timestamp = event.timestamp
-        queue.add(timestamp, triggered)
-        if (queue.isTriggered) {
-            queue.clear()
-            if (active) {
-                trigger()
+        queue?.let {
+            it.add(timestamp, triggered)
+            if (it.isTriggered) {
+                it.clear()
+                if (active) {
+                    trigger()
+                }
+            }
+        } ?: run {
+            if (triggered) {
+                if (active) {
+                    trigger()
+                }
             }
         }
     }
@@ -53,7 +66,6 @@ internal abstract class SensorTrigger(
     private fun registerSensor(sensorManager: SensorManager) {
         sensorManager.getDefaultSensor(sensorType)?.let {
             sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
-            this.active = true
         } ?: run {
             this.active = false
         }

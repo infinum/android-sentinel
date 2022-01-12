@@ -9,7 +9,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.infinum.sentinel.BuildConfig
 import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
-import com.infinum.sentinel.data.models.memory.triggers.shake.ShakeTrigger
 import com.infinum.sentinel.di.LibraryKoin
 import com.infinum.sentinel.domain.Domain
 import com.infinum.sentinel.domain.Repositories
@@ -18,6 +17,7 @@ import com.infinum.sentinel.domain.bundle.descriptor.models.BundleParameters
 import com.infinum.sentinel.domain.bundle.monitor.models.BundleMonitorParameters
 import com.infinum.sentinel.domain.certificate.monitor.models.CertificateMonitorParameters
 import com.infinum.sentinel.domain.crash.monitor.models.CrashMonitorParameters
+import com.infinum.sentinel.domain.triggers.models.TriggerParameters
 import com.infinum.sentinel.extensions.sizeTree
 import com.infinum.sentinel.ui.Presentation.Constants.BYTE_MULTIPLIER
 import com.infinum.sentinel.ui.bundles.BundlesViewModel
@@ -123,7 +123,7 @@ internal object Presentation {
             tools.filterIsInstance<CertificateTool>().firstOrNull()?.userCertificates.orEmpty(),
             onTriggered
         )
-        LibraryKoin.koin().get<ShakeTrigger>().apply { active = true }
+        initializeTriggers()
         initializeCertificateMonitor()
     }
 
@@ -214,6 +214,13 @@ internal object Presentation {
                     }
                 }
             )
+    }
+
+    private fun initializeTriggers() {
+        val triggers = LibraryKoin.koin().get<Repositories.Triggers>()
+        scope.launch {
+            triggers.load(TriggerParameters()).first()
+        }
     }
 
     private fun initializeCertificateMonitor() {

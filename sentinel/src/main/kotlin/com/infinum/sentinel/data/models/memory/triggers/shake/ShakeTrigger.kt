@@ -4,11 +4,12 @@ import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import com.infinum.sentinel.data.models.memory.triggers.shared.SensorTrigger
+import com.infinum.sentinel.data.models.memory.triggers.shared.samples.SampleQueue
 
 internal class ShakeTrigger(
     context: Context,
     trigger: () -> Unit
-) : SensorTrigger(context, trigger, Sensor.TYPE_ACCELEROMETER) {
+) : SensorTrigger(context, trigger, Sensor.TYPE_ACCELEROMETER, SampleQueue()) {
 
     companion object {
         private const val MAGNITUDE_THRESHOLD = 169
