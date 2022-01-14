@@ -74,6 +74,13 @@
                     android:text="@string/sentinel_shake" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/proximityTriggerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/sentinel_item_height"
+                    android:text="@string/sentinel_proximity" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/foregroundTriggerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -358,6 +365,199 @@
                     android:text="@string/sentinel_include_all_data" />
 
             </LinearLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:gravity="start|bottom"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp"
+                android:text="@string/sentinel_certificates"
+                android:textAllCaps="true"
+                android:textColor="@color/sentinel_color_primary" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/runOnStartSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:minHeight="@dimen/sentinel_item_height"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/sentinel_certificates_run_on_start" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/runInBackgroundSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:minHeight="@dimen/sentinel_item_height"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/sentinel_certificates_run_in_background" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/checkInvalidNowSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:minHeight="@dimen/sentinel_item_height"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/sentinel_certificates_check_invalid_now" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/checkToExpireSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:minHeight="@dimen/sentinel_item_height"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/sentinel_certificates_check_to_expire" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/sentinel_expiring_in"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/toExpireValueView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:gravity="center_vertical"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/decreaseToExpireButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="@dimen/sentinel_slider_button_size"
+                    android:layout_height="@dimen/sentinel_slider_button_size"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/sentinel_slider_button_margin"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    app:cornerRadius="@dimen/sentinel_slider_button_corner_radius"
+                    app:icon="@drawable/sentinel_ic_minus"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:strokeWidth="0dp" />
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/toExpireAmountSlider"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:stepSize="1"
+                    android:value="1"
+                    android:valueFrom="0"
+                    android:valueTo="100"
+                    app:haloRadius="@dimen/sentinel_slider_halo_radius"
+                    app:labelBehavior="floating"
+                    app:thumbRadius="@dimen/sentinel_slider_thumb_radius" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/increaseToExpireButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="@dimen/sentinel_slider_button_size"
+                    android:layout_height="@dimen/sentinel_slider_button_size"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/sentinel_slider_button_margin"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    app:cornerRadius="@dimen/sentinel_slider_button_corner_radius"
+                    app:icon="@drawable/sentinel_ic_plus"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:strokeWidth="0dp" />
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                app:selectionRequired="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/daysButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/sentinel_days"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    app:cornerRadius="@dimen/sentinel_slider_button_corner_radius" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/weeksButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/sentinel_weeks"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    app:cornerRadius="@dimen/sentinel_slider_button_corner_radius" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/monthsButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/sentinel_months"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    app:cornerRadius="@dimen/sentinel_slider_button_corner_radius" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/yearsButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/sentinel_years"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    app:cornerRadius="@dimen/sentinel_slider_button_corner_radius" />
+
+            </com.google.android.material.button.MaterialButtonToggleGroup>
 
         </LinearLayout>
 

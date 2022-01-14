@@ -7,7 +7,13 @@ import com.infinum.sentinel.Sentinel
  * Specific wrapper tool around Huawei AppGallery in no - op.
  *
  */
-public class AppGalleryTool : Sentinel.Tool {
+@Suppress("UnusedPrivateMember")
+public data class AppGalleryTool @JvmOverloads constructor(
+    private val appId: String = "",
+    private val listener: View.OnClickListener = View.OnClickListener {
+        // no - op
+    }
+) : Sentinel.Tool {
 
     override fun name(): Int = 0
 

@@ -131,6 +131,11 @@ internal class XmlFormatter(
             addNode(R.string.sentinel_auto_time, it.autoTime.toString())
             addNode(R.string.sentinel_auto_timezone, it.autoTimezone.toString())
             addNode(R.string.sentinel_rooted, it.isRooted.toString())
+            addNode(R.string.sentinel_screen_width, it.screenWidth)
+            addNode(R.string.sentinel_screen_height, it.screenHeight)
+            addNode(R.string.sentinel_screen_size, it.screenSize)
+            addNode(R.string.sentinel_screen_density, it.screenDpi)
+            addNode(R.string.sentinel_font_scale, it.fontScale.toString())
         }
         endTag(NAMESPACE, DEVICE)
     }

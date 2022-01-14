@@ -10,6 +10,7 @@ internal class SentinelActivity : BaseActivity<Nothing, Nothing>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         SentinelFragment().show(supportFragmentManager, SentinelFragment.TAG)
     }
 

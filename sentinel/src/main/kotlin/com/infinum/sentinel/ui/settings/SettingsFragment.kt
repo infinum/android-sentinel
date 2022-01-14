@@ -12,6 +12,7 @@ import com.infinum.sentinel.data.models.memory.triggers.TriggerType
 import com.infinum.sentinel.databinding.SentinelFragmentSettingsBinding
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
+import java.time.temporal.ChronoUnit
 import kotlin.math.roundToInt
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -23,6 +24,7 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
         const val TAG: String = "SettingsFragment"
 
         private const val FORMAT_BUNDLE_SIZE = "%s kB"
+        private const val FORMAT_CERTIFICATE_TO_EXPIRE = "%s %s"
     }
 
     override val binding: SentinelFragmentSettingsBinding by viewBinding(
@@ -68,10 +70,22 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
                 )
             }
             decreaseLimitButton.setOnClickListener {
-                limitSlider.value = (limitSlider.value - limitSlider.stepSize).coerceAtLeast(limitSlider.valueFrom)
+                limitSlider.value = (limitSlider.value - limitSlider.stepSize)
+                    .coerceAtLeast(limitSlider.valueFrom)
             }
             increaseLimitButton.setOnClickListener {
-                limitSlider.value = (limitSlider.value + limitSlider.stepSize).coerceAtMost(limitSlider.valueTo)
+                limitSlider.value = (limitSlider.value + limitSlider.stepSize)
+                    .coerceAtMost(limitSlider.valueTo)
+            }
+            decreaseToExpireButton.setOnClickListener {
+                toExpireAmountSlider.value =
+                    (toExpireAmountSlider.value - toExpireAmountSlider.stepSize)
+                        .coerceAtLeast(toExpireAmountSlider.valueFrom)
+            }
+            increaseToExpireButton.setOnClickListener {
+                toExpireAmountSlider.value =
+                    (toExpireAmountSlider.value + toExpireAmountSlider.stepSize)
+                        .coerceAtMost(toExpireAmountSlider.valueTo)
             }
         }
     }
@@ -86,6 +100,7 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
                     when (trigger.type) {
                         TriggerType.MANUAL -> setupSwitch(binding.manualTriggerView, trigger)
                         TriggerType.SHAKE -> setupSwitch(binding.shakeTriggerView, trigger)
+                        TriggerType.PROXIMITY -> setupSwitch(binding.proximityTriggerView, trigger)
                         TriggerType.FOREGROUND -> setupSwitch(binding.foregroundTriggerView, trigger)
                         TriggerType.USB_CONNECTED -> setupSwitch(binding.usbTriggerView, trigger)
                         TriggerType.AIRPLANE_MODE_ON -> setupSwitch(
@@ -167,6 +182,62 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
                 binding.includeAllDataSwitch.isChecked = event.value.includeAllData
                 binding.includeAllDataSwitch.setOnCheckedChangeListener { _, isChecked ->
                     viewModel.updateCrashMonitor(event.value.copy(includeAllData = isChecked))
+                }
+            }
+            is SettingsEvent.CertificateMonitorChanged -> {
+                binding.runOnStartSwitch.setOnCheckedChangeListener(null)
+                binding.runOnStartSwitch.isChecked = event.value.runOnStart
+                binding.runOnStartSwitch.setOnCheckedChangeListener { _, isChecked ->
+                    viewModel.updateCertificatesMonitor(event.value.copy(runOnStart = isChecked))
+                }
+                binding.runInBackgroundSwitch.setOnCheckedChangeListener(null)
+                binding.runInBackgroundSwitch.isChecked = event.value.runInBackground
+                binding.runInBackgroundSwitch.setOnCheckedChangeListener { _, isChecked ->
+                    viewModel.updateCertificatesMonitor(event.value.copy(runInBackground = isChecked))
+                }
+                binding.checkInvalidNowSwitch.setOnCheckedChangeListener(null)
+                binding.checkInvalidNowSwitch.isChecked = event.value.notifyInvalidNow
+                binding.checkInvalidNowSwitch.setOnCheckedChangeListener { _, isChecked ->
+                    viewModel.updateCertificatesMonitor(event.value.copy(notifyInvalidNow = isChecked))
+                }
+                binding.checkToExpireSwitch.setOnCheckedChangeListener(null)
+                binding.checkToExpireSwitch.isChecked = event.value.notifyToExpire
+                binding.checkToExpireSwitch.setOnCheckedChangeListener { _, isChecked ->
+                    viewModel.updateCertificatesMonitor(event.value.copy(notifyToExpire = isChecked))
+                }
+                binding.toExpireAmountSlider.clearOnChangeListeners()
+                binding.toExpireAmountSlider.value = event.value.expireInAmount.toFloat()
+                binding.toExpireAmountSlider.addOnChangeListener { _, value, _ ->
+                    binding.toExpireValueView.text = String.format(
+                        FORMAT_CERTIFICATE_TO_EXPIRE,
+                        value.roundToInt(),
+                        event.value.expireInUnit.name.lowercase()
+                    )
+                    viewModel.updateCertificatesMonitor(event.value.copy(expireInAmount = value.roundToInt()))
+                }
+                binding.toExpireValueView.text = String.format(
+                    FORMAT_CERTIFICATE_TO_EXPIRE,
+                    event.value.expireInAmount,
+                    event.value.expireInUnit.name.lowercase()
+                )
+                when (event.value.expireInUnit) {
+                    ChronoUnit.DAYS -> binding.daysButton.isChecked = true
+                    ChronoUnit.WEEKS -> binding.weeksButton.isChecked = true
+                    ChronoUnit.MONTHS -> binding.monthsButton.isChecked = true
+                    ChronoUnit.YEARS -> binding.yearsButton.isChecked = true
+                    else -> binding.daysButton.isChecked = true
+                }
+                binding.daysButton.setOnClickListener {
+                    viewModel.updateCertificatesMonitor(event.value.copy(expireInUnit = ChronoUnit.DAYS))
+                }
+                binding.weeksButton.setOnClickListener {
+                    viewModel.updateCertificatesMonitor(event.value.copy(expireInUnit = ChronoUnit.WEEKS))
+                }
+                binding.monthsButton.setOnClickListener {
+                    viewModel.updateCertificatesMonitor(event.value.copy(expireInUnit = ChronoUnit.MONTHS))
+                }
+                binding.yearsButton.setOnClickListener {
+                    viewModel.updateCertificatesMonitor(event.value.copy(expireInUnit = ChronoUnit.YEARS))
                 }
             }
         }

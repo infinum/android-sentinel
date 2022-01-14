@@ -47,6 +47,7 @@ android {
         disable "RtlEnabled", "VectorPath"
     }
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -54,7 +55,6 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs += [
                 "-Xopt-in=kotlin.ExperimentalStdlibApi",
-                "-Xopt-in=kotlinx.coroutines.DelicateCoroutinesApi",
                 "-Xexplicit-api=strict"
         ]
     }
@@ -72,6 +72,7 @@ android {
 }
 
 dependencies {
+    coreLibraryDesugaring libs.desugar
     implementation libs.kotlin.core
     implementation libs.kotlin.json
     implementation libs.coroutines
@@ -91,9 +92,9 @@ dependencies {
     androidTestImplementation "org.robolectric:shadowapi:4.5.1"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
     androidTestImplementation "androidx.test.espresso:espresso-intents:3.4.0"
-    androidTestImplementation "androidx.room:room-testing:2.3.0"
-    androidTestImplementation "androidx.fragment:fragment-ktx:1.3.6"
-    androidTestImplementation "androidx.fragment:fragment-testing:1.3.6"
+    androidTestImplementation "androidx.room:room-testing:2.4.0"
+    androidTestImplementation "androidx.fragment:fragment-ktx:1.4.0"
+    androidTestImplementation "androidx.fragment:fragment-testing:1.4.0"
 
     testImplementation "junit:junit:4.13.2"
     testImplementation "androidx.test.ext:junit:1.1.3"

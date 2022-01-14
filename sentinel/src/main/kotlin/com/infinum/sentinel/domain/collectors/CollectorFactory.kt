@@ -7,6 +7,7 @@ internal class CollectorFactory(
     private val application: Collectors.Application,
     private val permissions: Collectors.Permissions,
     private val preferences: Collectors.Preferences,
+    private val certificates: Collectors.Certificates,
     private val tools: Collectors.Tools
 ) : Factories.Collector {
 
@@ -17,6 +18,8 @@ internal class CollectorFactory(
     override fun permissions(): Collectors.Permissions = permissions
 
     override fun preferences(): Collectors.Preferences = preferences
+
+    override fun certificates(): Collectors.Certificates = certificates
 
     override fun tools(): Collectors.Tools = tools
 }

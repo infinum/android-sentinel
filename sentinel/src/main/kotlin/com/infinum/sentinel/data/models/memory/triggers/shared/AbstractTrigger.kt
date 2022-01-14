@@ -6,7 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.infinum.sentinel.data.models.memory.triggers.Trigger
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
 internal abstract class AbstractTrigger : LifecycleEventObserver, Trigger {
@@ -14,7 +14,7 @@ internal abstract class AbstractTrigger : LifecycleEventObserver, Trigger {
     internal var active: Boolean = false
 
     init {
-        GlobalScope.launch(Dispatchers.Main) {
+        MainScope().launch(Dispatchers.Main) {
             ProcessLifecycleOwner.get().lifecycle.addObserver(this@AbstractTrigger)
         }
     }

@@ -26,8 +26,14 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
+            debuggable true
             minifyEnabled false
+            applicationIdSuffix ".debug"
+        }
+        release {
+            debuggable false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.dummy
         }
@@ -57,6 +63,7 @@ dependencies {
     implementation libs.androidx.preference
     implementation libs.androidx.crypto
     implementation libs.material
+    implementation libs.timber
 
 //    implementation libs.library
 //    implementation libs.bundles.tools

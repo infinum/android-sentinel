@@ -1,9 +1,19 @@
 Change Log
 ==========
 
-## Version 1.1.8
+## Version 1.1.9
 
 _2022-01-10_
+
+* Implement screen information in Device tab.
+* Implement font scale information in Device tab.
+* Implement Proximity sensor trigger.
+* Add Timber tool.
+* Add Certificates tool.
+
+## Version 1.1.8
+
+_2022-01-06_
 
 * Implement root check row in Device tab.
 * Implement crash monitor for uncaught exceptions and ANRs.

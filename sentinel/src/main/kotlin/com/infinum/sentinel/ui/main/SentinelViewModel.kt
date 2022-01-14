@@ -8,7 +8,7 @@ import com.infinum.sentinel.domain.triggers.models.TriggerParameters
 import com.infinum.sentinel.extensions.formatter
 import com.infinum.sentinel.ui.shared.base.BaseViewModel
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
@@ -23,9 +23,8 @@ internal class SentinelViewModel(
         launch {
             io {
                 if (collectors.device()().isProbablyAnEmulator) {
-                    triggers.load(TriggerParameters())
-                        .firstOrNull()
-                        ?.firstOrNull { it.type == TriggerType.FOREGROUND }
+                    triggers.load(TriggerParameters()).first()
+                        .firstOrNull { it.type == TriggerType.FOREGROUND }
                         ?.let {
                             triggers.save(
                                 TriggerParameters(

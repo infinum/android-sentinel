@@ -20,6 +20,7 @@
 /tool-thimble/build/
 /tool-appgallery/build/
 /tool-leakcanary/build/
+/tool-timber/build/
 
 publish.properties
 *.gpg

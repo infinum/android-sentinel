@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="sentinel_log_level_assert">#9c27b0</color>
+    <color name="sentinel_log_level_debug">#2196f3</color>
+    <color name="sentinel_log_level_error">#f44336</color>
+    <color name="sentinel_log_level_info">#4caf50</color>
+    <color name="sentinel_log_level_verbose">#9e9e9e</color>
+    <color name="sentinel_log_level_warn">#ffeb3b</color>
+    <color name="sentinel_log_level_unknown">#00FFFFFF</color>
+</resources>
