@@ -24,6 +24,7 @@ The project is organized in the following modules:
 - `tool-appgallery` - contains a class wrapper for Huawei AppGallery
 - `tool-googleplay` - contains a class wrapper for Google Play
 - `tool-thimble` - contains a class wrapper for Thimble
+- `tool-timber` - contains a class wrapper for Timber
 - `sample` - a sample app for testing and developing
 
 ## Usage
@@ -56,15 +57,15 @@ Then add the following dependencies in your app `build.gradle` or `build.gradle.
 **Groovy**
 
 ```groovy
-debugImplementation "com.infinum.sentinel:sentinel:1.1.8"
-releaseImplementation "com.infinum.sentinel:sentinel-no-op:1.1.8"
+debugImplementation "com.infinum.sentinel:sentinel:1.1.9"
+releaseImplementation "com.infinum.sentinel:sentinel-no-op:1.1.9"
 ```
 
 **KotlinDSL**
 
 ```kotlin
-debugImplementation("com.infinum.sentinel:sentinel:1.1.8")
-releaseImplementation("com.infinum.sentinel:sentinel-no-op:1.1.8")
+debugImplementation("com.infinum.sentinel:sentinel:1.1.9")
+releaseImplementation("com.infinum.sentinel:sentinel-no-op:1.1.9")
 ```
 
 Basic tools are provided inside the main package but depending on requirements you might want to add
@@ -73,25 +74,27 @@ specific tools:
 **Groovy**
 
 ```groovy
-debugImplementation "com.infinum.sentinel:tool-chucker:1.1.8"
-debugImplementation "com.infinum.sentinel:tool-collar:1.1.8"
-debugImplementation "com.infinum.sentinel:tool-dbinspector:1.1.8"
-debugImplementation "com.infinum.sentinel:tool-leakcanary:1.1.8"
-debugImplementation "com.infinum.sentinel:tool-appgallery:1.1.8"
-debugImplementation "com.infinum.sentinel:tool-googleplay:1.1.8"
-debugImplementation "com.infinum.sentinel:tool-thimble:1.1.8"
+debugImplementation "com.infinum.sentinel:tool-chucker:1.1.9"
+debugImplementation "com.infinum.sentinel:tool-collar:1.1.9"
+debugImplementation "com.infinum.sentinel:tool-dbinspector:1.1.9"
+debugImplementation "com.infinum.sentinel:tool-leakcanary:1.1.9"
+debugImplementation "com.infinum.sentinel:tool-appgallery:1.1.9"
+debugImplementation "com.infinum.sentinel:tool-googleplay:1.1.9"
+debugImplementation "com.infinum.sentinel:tool-thimble:1.1.9"
+debugImplementation "com.infinum.sentinel:tool-timber:1.1.9"
 ```
 
 **KotlinDSL**
 
 ```kotlin
-debugImplementation("com.infinum.sentinel:tool-chucker:1.1.8")
-debugImplementation("com.infinum.sentinel:tool-collar:1.1.8")
-debugImplementation("com.infinum.sentinel:tool-dbinspector:1.1.8")
-debugImplementation("com.infinum.sentinel:tool-leakcanary:1.1.8")
-debugImplementation("com.infinum.sentinel:tool-appgallery:1.1.8")
-debugImplementation("com.infinum.sentinel:tool-googleplay:1.1.8")
-debugImplementation("com.infinum.sentinel:tool-thimble:1.1.8")
+debugImplementation("com.infinum.sentinel:tool-chucker:1.1.9")
+debugImplementation("com.infinum.sentinel:tool-collar:1.1.9")
+debugImplementation("com.infinum.sentinel:tool-dbinspector:1.1.9")
+debugImplementation("com.infinum.sentinel:tool-leakcanary:1.1.9")
+debugImplementation("com.infinum.sentinel:tool-appgallery:1.1.9")
+debugImplementation("com.infinum.sentinel:tool-googleplay:1.1.9")
+debugImplementation("com.infinum.sentinel:tool-thimble:1.1.9")
+debugImplementation("com.infinum.sentinel:tool-timber:1.1.9")
 ```
 
 Now you can sync your project.
@@ -110,7 +113,9 @@ Sentinel.watch(
         LeakCanaryTool(),
         AppGalleryTool(appId = "123456789"),
         GooglePlayTool(),
-        ThimbleTool()
+        ThimbleTool(),
+        TimberTool(),
+        CertificateTool(userManagers = listOf())
     )
 )
 ```
@@ -131,6 +136,7 @@ _Sentinel_ provides several different levels of tools for a developer to impleme
   avoiding _TransactionTooLarge_ exceptions
 - `Preference Editor` - by tapping any preference _Sentinel_ opens a screen where you can edit
   current value
+- `CertificateTool` - opens a list of system and user provided X.509 certificates with details    
 
 #### Dependency wrappers
 
@@ -142,6 +148,7 @@ Depending of what you include as module dependencies, very specific tools are pr
   opens [DbInspector](https://github.com/infinum/android_dbinspector)
 - `LeakCanaryTool` - a wrapper class that opens [LeakCanary](https://github.com/square/leakcanary)
 - `ThimbleTool` - a wrapper class that opens [Thimble](https://github.com/infinum/android-thimble)
+- `TimberTool` - a wrapper class that opens [Timber](https://github.com/JakeWharton/timber)  
 - `AppGalleryTool` - a wrapper class that opens Huawei AppGallery of a published application or a
   web page of the application if Huawei AppGallery is not found
 - `GooglePlayTool` - a wrapper class that opens Google Play of a published application or a web page
@@ -191,6 +198,7 @@ between sessions.
 
 - `Manual` - used for manually triggering UI with _show()_
 - `Shake` - default trigger to show UI, shake device to invoke
+- `Proximity` - shows UI every time sensor detects _near_ state  
 - `Foreground` - shows UI every time application goes into foreground
 - `USB connected` - shows UI every time an USB cable is plugged in
 - `Airplane mode on` - shows UI every time Airplane mode is turned on

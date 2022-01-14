@@ -4,22 +4,32 @@ import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.data.Data
 import com.infinum.sentinel.domain.bundle.descriptor.BundlesRepository
 import com.infinum.sentinel.domain.bundle.monitor.BundleMonitorRepository
+import com.infinum.sentinel.domain.certificate.CertificateRepository
+import com.infinum.sentinel.domain.certificate.monitor.CertificateMonitorRepository
 import com.infinum.sentinel.domain.collectors.CollectorFactory
 import com.infinum.sentinel.domain.crash.monitor.CrashMonitorRepository
 import com.infinum.sentinel.domain.formats.FormatsRepository
 import com.infinum.sentinel.domain.formatters.FormatterFactory
 import com.infinum.sentinel.domain.preference.PreferenceRepository
 import com.infinum.sentinel.domain.triggers.TriggersRepository
+import java.security.cert.X509Certificate
 import org.koin.core.module.Module
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
+@Suppress("TooManyFunctions")
 internal object Domain {
 
     private var tools: Set<Sentinel.Tool> = setOf()
+    private var userCertificates: List<X509Certificate> = listOf()
 
-    fun setup(tools: Set<Sentinel.Tool>, onTriggered: () -> Unit) {
+    fun setup(
+        tools: Set<Sentinel.Tool>,
+        userManagers: List<X509Certificate>,
+        onTriggered: () -> Unit
+    ) {
         this.tools = tools
+        this.userCertificates = userManagers
         Data.setup(onTriggered)
     }
 
@@ -33,13 +43,22 @@ internal object Domain {
                 bundleMonitor(),
                 bundles(),
                 preferences(),
-                crashMonitor()
+                crashMonitor(),
+                certificates(),
+                certificateMonitor()
             )
         )
 
     private fun collectors() = module {
         single<Factories.Collector> {
-            CollectorFactory(get(), get(), get(), get(), get { parametersOf(tools) })
+            CollectorFactory(
+                get(),
+                get(),
+                get(),
+                get(),
+                get { parametersOf(userCertificates) },
+                get { parametersOf(tools) }
+            )
         }
     }
 
@@ -69,5 +88,13 @@ internal object Domain {
 
     private fun crashMonitor() = module {
         single<Repositories.CrashMonitor> { CrashMonitorRepository(get()) }
+    }
+
+    private fun certificates() = module {
+        single<Repositories.Certificate> { CertificateRepository(get()) }
+    }
+
+    private fun certificateMonitor() = module {
+        single<Repositories.CertificateMonitor> { CertificateMonitorRepository(get()) }
     }
 }

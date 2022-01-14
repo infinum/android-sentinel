@@ -1,4 +1,4 @@
-package com.infinum.sentinel.data.models.memory.triggers.shake.samples
+package com.infinum.sentinel.data.models.memory.triggers.shared.samples
 
 /** Pools samples. Avoids garbage collection.  */
 internal class SamplePool {

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import androidx.security.crypto.EncryptedSharedPreferences
@@ -14,6 +15,7 @@ import java.util.Locale
 import kotlin.math.roundToInt
 import kotlin.random.Random
 import kotlin.system.exitProcess
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
@@ -89,6 +91,66 @@ class MainActivity : AppCompatActivity() {
             }
             generateSleep.setOnClickListener {
                 ANRTester.threadSleep()
+            }
+            generateInfo.setOnClickListener {
+                if (tagView.isChecked) {
+                    Timber.tag("Main").i("Some info message")
+                } else {
+                    Timber.i("Some info message")
+                }
+            }
+            generateDebug.setOnClickListener {
+                if (tagView.isChecked) {
+                    Timber.tag("Main").d("Some debug message")
+                } else {
+                    Timber.d("Some debug message")
+                }
+            }
+            generateWarning.setOnClickListener {
+                if (tagView.isChecked) {
+                    Timber.tag("Main").w("Some warning message")
+                } else {
+                    Timber.w("Some warning message")
+                }
+            }
+            generateVerbose.setOnClickListener {
+                if (tagView.isChecked) {
+                    Timber.tag("Main").v("Some verbose message")
+                } else {
+                    Timber.v("Some verbose message")
+                }
+            }
+            generateWtf.setOnClickListener {
+                if (tagView.isChecked) {
+                    Timber.tag("Main").wtf("Some WTF message")
+                } else {
+                    Timber.wtf("Some WTF message")
+                }
+            }
+            generateLog.setOnClickListener {
+                if (tagView.isChecked) {
+                    Timber.tag("Main").log(Log.WARN, "Some log message with Log.WARN priority")
+                } else {
+                    Timber.log(Log.WARN, "Some log message with Log.WARN priority")
+                }
+            }
+            generateError.setOnClickListener {
+                if (tagView.isChecked) {
+                    Timber.tag("Main").e("Some message")
+                } else {
+                    Timber.e("Some message")
+                }
+            }
+            generateErrorException.setOnClickListener {
+                try {
+                    throw RuntimeException("Oh no.")
+                } catch (exception: RuntimeException) {
+                    if (tagView.isChecked) {
+                        Timber.tag("Main").e(exception)
+                    } else {
+                        Timber.e("Some exception message", exception)
+                    }
+                }
             }
         }
     }

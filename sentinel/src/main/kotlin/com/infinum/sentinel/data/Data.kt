@@ -7,17 +7,21 @@ import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.data.models.memory.triggers.airplanemode.AirplaneModeOnTrigger
 import com.infinum.sentinel.data.models.memory.triggers.foreground.ForegroundTrigger
 import com.infinum.sentinel.data.models.memory.triggers.manual.ManualTrigger
+import com.infinum.sentinel.data.models.memory.triggers.proximity.ProximityTrigger
 import com.infinum.sentinel.data.models.memory.triggers.shake.ShakeTrigger
 import com.infinum.sentinel.data.models.memory.triggers.usb.UsbConnectedTrigger
 import com.infinum.sentinel.data.sources.local.room.SentinelDatabase
 import com.infinum.sentinel.data.sources.local.room.callbacks.SentinelDefaultValuesCallback
 import com.infinum.sentinel.data.sources.memory.bundles.BundlesCache
 import com.infinum.sentinel.data.sources.memory.bundles.InMemoryBundlesCache
+import com.infinum.sentinel.data.sources.memory.certificate.CertificateCache
+import com.infinum.sentinel.data.sources.memory.certificate.InMemoryCertificateCache
 import com.infinum.sentinel.data.sources.memory.preference.InMemoryPreferenceCache
 import com.infinum.sentinel.data.sources.memory.preference.PreferenceCache
 import com.infinum.sentinel.data.sources.memory.triggers.TriggersCache
 import com.infinum.sentinel.data.sources.memory.triggers.TriggersCacheFactory
 import com.infinum.sentinel.data.sources.raw.collectors.ApplicationCollector
+import com.infinum.sentinel.data.sources.raw.collectors.CertificateCollector
 import com.infinum.sentinel.data.sources.raw.collectors.DeviceCollector
 import com.infinum.sentinel.data.sources.raw.collectors.PermissionsCollector
 import com.infinum.sentinel.data.sources.raw.collectors.PreferencesCollector
@@ -29,6 +33,7 @@ import com.infinum.sentinel.data.sources.raw.formatters.PlainFormatter
 import com.infinum.sentinel.data.sources.raw.formatters.XmlFormatter
 import com.infinum.sentinel.domain.collectors.Collectors
 import com.infinum.sentinel.domain.formatters.Formatters
+import java.security.cert.X509Certificate
 import java.util.Locale
 import org.koin.core.module.Module
 import org.koin.core.qualifier.StringQualifier
@@ -36,7 +41,7 @@ import org.koin.dsl.module
 
 internal object Data {
 
-    const val DATABASE_VERSION = 3
+    const val DATABASE_VERSION = 4
 
     object Qualifiers {
 
@@ -60,6 +65,7 @@ internal object Data {
         )
 
     private fun local() = module {
+        single<RoomDatabase.Callback> { SentinelDefaultValuesCallback() }
         single(qualifier = Qualifiers.Name.DATABASE) {
             val context: Context = get()
             String.format(
@@ -78,10 +84,9 @@ internal object Data {
                 SentinelDatabase::class.java,
                 get(Qualifiers.Name.DATABASE)
             )
-                .allowMainThreadQueries()
                 .setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
                 .fallbackToDestructiveMigration()
-                .addCallback(SentinelDefaultValuesCallback())
+                .addCallback(get())
                 .build()
         }
         single { get<SentinelDatabase>().triggers() }
@@ -89,6 +94,7 @@ internal object Data {
         single { get<SentinelDatabase>().bundleMonitor() }
         single { get<SentinelDatabase>().crashes() }
         single { get<SentinelDatabase>().crashMonitor() }
+        single { get<SentinelDatabase>().certificateMonitor() }
     }
 
     private fun raw() = module {
@@ -96,6 +102,7 @@ internal object Data {
         single<Collectors.Application> { ApplicationCollector(get()) }
         single<Collectors.Permissions> { PermissionsCollector(get()) }
         single<Collectors.Preferences> { PreferencesCollector(get()) }
+        single<Collectors.Certificates> { (managers: List<X509Certificate>) -> CertificateCollector(managers) }
         single<Collectors.Tools> { (tools: Set<Sentinel.Tool>) -> ToolsCollector(tools) }
 
         single<Formatters.Plain> { PlainFormatter(get(), get(), get(), get(), get()) }
@@ -111,6 +118,7 @@ internal object Data {
         single { ManualTrigger() }
         single { ForegroundTrigger(get(qualifier = Qualifiers.Name.LAMBDA_TRIGGER)) }
         single { ShakeTrigger(get(), get(qualifier = Qualifiers.Name.LAMBDA_TRIGGER)) }
+        single { ProximityTrigger(get(), get(qualifier = Qualifiers.Name.LAMBDA_TRIGGER)) }
         single { UsbConnectedTrigger(get(), get(qualifier = Qualifiers.Name.LAMBDA_TRIGGER)) }
         single { AirplaneModeOnTrigger(get(), get(qualifier = Qualifiers.Name.LAMBDA_TRIGGER)) }
 
@@ -120,12 +128,13 @@ internal object Data {
                 get(),
                 get(),
                 get(),
+                get(),
                 get()
             )
         }
 
         single<BundlesCache> { InMemoryBundlesCache() }
-
         single<PreferenceCache> { InMemoryPreferenceCache() }
+        single<CertificateCache> { InMemoryCertificateCache() }
     }
 }
