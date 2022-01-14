@@ -3,7 +3,7 @@ Change Log
 
 ## Version 1.1.9
 
-_2022-01-10_
+_2022-01-14_
 
 * Implement screen information in Device tab.
 * Implement font scale information in Device tab.
