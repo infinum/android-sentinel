@@ -28,6 +28,11 @@ public data class TimberTool @JvmOverloads constructor(
     }
 ) : Sentinel.Tool {
 
+    /**
+     * An optional set of filterable tags
+     *
+     * Sets a list of allowed tags for filtering stored in internal cache(AllowedTags)
+     */
     init {
         AllowedTags.set(allowedTags)
     }
