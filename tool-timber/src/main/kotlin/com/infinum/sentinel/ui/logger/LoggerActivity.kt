@@ -101,7 +101,7 @@ public class LoggerActivity : AppCompatActivity() {
                 onSearchClosed = {
                     toolbar.menu.findItem(R.id.clear).isVisible = true
                     toolbar.menu.findItem(R.id.share).isVisible = true
-                    data(AllowedTags.value)
+                    data()
                 },
                 onQueryTextChanged = { query ->
                     filter(query)
@@ -117,18 +117,18 @@ public class LoggerActivity : AppCompatActivity() {
             recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, LinearLayoutManager.VERTICAL))
         }
 
-        data(AllowedTags.value)
+        data()
     }
 
-    private fun data(allowedTags: List<String>) {
+    private fun data() {
         buffer
             .asFlow()
             .flowOn(Dispatchers.IO)
             .map { entries ->
-                if (allowedTags.isEmpty()) {
+                if (AllowedTags.value.isEmpty()) {
                     entries
                 } else {
-                    entries.filter { entry -> allowedTags.contains(entry.tag) }
+                    entries.filter { entry -> AllowedTags.value.contains(entry.tag) }
                 }
             }
             .onEach { entries -> adapter.submitList(entries) }
