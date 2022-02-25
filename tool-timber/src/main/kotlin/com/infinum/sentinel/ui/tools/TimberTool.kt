@@ -5,18 +5,32 @@ import android.view.View
 import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.ui.logger.LoggerActivity
-import java.util.ArrayList
+import com.infinum.sentinel.ui.logger.storage.AllowedTags
 
 /**
  * Specific wrapper tool around Timber.
  *
  * Tool Activity will launch with no additional flags.
  */
-internal const val EXTRA_ALLOWED_TAGS = "EXTRA_ALLOWED_TAGS"
 
-public data class TimberTool(
-    private val allowedTags: List<String> = emptyList()
+public data class TimberTool @JvmOverloads constructor(
+    private val allowedTags: List<String> = emptyList(),
+    private val clickListener: View.OnClickListener = View.OnClickListener {
+        it.context.startActivity(
+            Intent(
+                it.context,
+                LoggerActivity::class.java
+            ).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            }
+        )
+    }
 ) : Sentinel.Tool {
+
+    init {
+        AllowedTags.set(allowedTags)
+    }
 
     /**
      * An optional icon for this tool
@@ -37,16 +51,5 @@ public data class TimberTool(
      *
      * @return an assigned OnClickListener that will be used to generate a Button in Tools UI
      */
-    override fun listener(): View.OnClickListener = View.OnClickListener {
-        it.context.startActivity(
-            Intent(
-                it.context,
-                LoggerActivity::class.java
-            ).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                putStringArrayListExtra(EXTRA_ALLOWED_TAGS, ArrayList(allowedTags))
-            }
-        )
-    }
+    override fun listener(): View.OnClickListener = clickListener
 }

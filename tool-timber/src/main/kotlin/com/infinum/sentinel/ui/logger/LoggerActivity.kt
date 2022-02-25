@@ -17,10 +17,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.infinum.sentinel.R
 import com.infinum.sentinel.SentinelTree
 import com.infinum.sentinel.databinding.SentinelActivityLoggerBinding
+import com.infinum.sentinel.ui.logger.storage.AllowedTags
 import com.infinum.sentinel.ui.logger.models.FlowBuffer
 import com.infinum.sentinel.ui.shared.BounceEdgeEffectFactory
 import com.infinum.sentinel.ui.shared.setup
-import com.infinum.sentinel.ui.tools.EXTRA_ALLOWED_TAGS
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
@@ -54,8 +54,6 @@ public class LoggerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val allowedTags = intent.getStringArrayListExtra(EXTRA_ALLOWED_TAGS).orEmpty()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
@@ -103,7 +101,7 @@ public class LoggerActivity : AppCompatActivity() {
                 onSearchClosed = {
                     toolbar.menu.findItem(R.id.clear).isVisible = true
                     toolbar.menu.findItem(R.id.share).isVisible = true
-                    data(allowedTags)
+                    data(AllowedTags.value)
                 },
                 onQueryTextChanged = { query ->
                     filter(query)
@@ -119,7 +117,7 @@ public class LoggerActivity : AppCompatActivity() {
             recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, LinearLayoutManager.VERTICAL))
         }
 
-        data(allowedTags)
+        data(AllowedTags.value)
     }
 
     private fun data(allowedTags: List<String>) {
