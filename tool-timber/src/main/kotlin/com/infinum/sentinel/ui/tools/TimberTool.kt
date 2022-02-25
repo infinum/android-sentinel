@@ -15,7 +15,7 @@ import com.infinum.sentinel.ui.logger.storage.AllowedTags
 
 public data class TimberTool @JvmOverloads constructor(
     private val allowedTags: List<String> = emptyList(),
-    private val clickListener: View.OnClickListener = View.OnClickListener {
+    private val listener: View.OnClickListener = View.OnClickListener {
         it.context.startActivity(
             Intent(
                 it.context,
@@ -51,5 +51,5 @@ public data class TimberTool @JvmOverloads constructor(
      *
      * @return an assigned OnClickListener that will be used to generate a Button in Tools UI
      */
-    override fun listener(): View.OnClickListener = clickListener
+    override fun listener(): View.OnClickListener = listener
 }
