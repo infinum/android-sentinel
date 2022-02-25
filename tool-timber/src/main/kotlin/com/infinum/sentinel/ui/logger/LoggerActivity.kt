@@ -20,9 +20,11 @@ import com.infinum.sentinel.databinding.SentinelActivityLoggerBinding
 import com.infinum.sentinel.ui.logger.models.FlowBuffer
 import com.infinum.sentinel.ui.shared.BounceEdgeEffectFactory
 import com.infinum.sentinel.ui.shared.setup
+import com.infinum.sentinel.ui.tools.EXTRA_ALLOWED_TAGS
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -52,6 +54,8 @@ public class LoggerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val allowedTags = intent.getStringArrayListExtra(EXTRA_ALLOWED_TAGS).orEmpty()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
@@ -99,7 +103,7 @@ public class LoggerActivity : AppCompatActivity() {
                 onSearchClosed = {
                     toolbar.menu.findItem(R.id.clear).isVisible = true
                     toolbar.menu.findItem(R.id.share).isVisible = true
-                    data()
+                    data(allowedTags)
                 },
                 onQueryTextChanged = { query ->
                     filter(query)
@@ -115,13 +119,20 @@ public class LoggerActivity : AppCompatActivity() {
             recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, LinearLayoutManager.VERTICAL))
         }
 
-        data()
+        data(allowedTags)
     }
 
-    private fun data() {
+    private fun data(allowedTags: List<String>) {
         buffer
             .asFlow()
             .flowOn(Dispatchers.IO)
+            .map { entries ->
+                if (allowedTags.isEmpty()) {
+                    entries
+                } else {
+                    entries.filter { entry -> allowedTags.contains(entry.tag) }
+                }
+            }
             .onEach { entries -> adapter.submitList(entries) }
             .launchIn(lifecycleScope)
     }
