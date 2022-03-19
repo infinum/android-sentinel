@@ -4,6 +4,6 @@ detekt {
     toolVersion = libs.versions.detekt.get()
 }
 
-dependencies {
-    detektPlugins libs.detekt.formatting
-}
+//dependencies {
+//    detektPlugins libs.detekt.formatting
+//}

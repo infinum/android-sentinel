@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+## Version 1.2.0
+
+_2022-03-19_
+
+* Implement tag filtering in Timber tool.
+* Update Gradle wrapper.
+* Update dependencies.
+
 ## Version 1.1.9
 
 _2022-01-14_

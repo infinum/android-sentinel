@@ -1,15 +1,16 @@
 package com.infinum.sentinel.ui.certificates.observer
 
 import android.content.Context
+import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.infinum.sentinel.data.models.raw.certificates.CertificateType
+import com.infinum.sentinel.di.LibraryKoinComponent
 import com.infinum.sentinel.domain.Factories
 import com.infinum.sentinel.extensions.applicationName
 import com.infinum.sentinel.ui.Presentation.Constants.Keys.EXPIRE_IN_AMOUNT
 import com.infinum.sentinel.ui.Presentation.Constants.Keys.EXPIRE_IN_UNIT
 import com.infinum.sentinel.ui.Presentation.Constants.Keys.NOTIFY_INVALID_NOW
 import com.infinum.sentinel.ui.Presentation.Constants.Keys.NOTIFY_TO_EXPIRE
-import com.infinum.sentinel.ui.shared.base.BaseWorker
 import com.infinum.sentinel.ui.shared.notification.NotificationFactory
 import java.time.temporal.ChronoUnit
 import org.koin.core.component.inject
@@ -17,7 +18,7 @@ import org.koin.core.component.inject
 internal class CertificateCheckWorker(
     private val context: Context,
     parameters: WorkerParameters
-) : BaseWorker(context, parameters) {
+) : CoroutineWorker(context, parameters), LibraryKoinComponent {
 
     companion object {
         const val NAME = "sentinel_check_certificates"
