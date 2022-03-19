@@ -17,12 +17,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.infinum.sentinel.R
 import com.infinum.sentinel.SentinelTree
 import com.infinum.sentinel.databinding.SentinelActivityLoggerBinding
+import com.infinum.sentinel.ui.logger.storage.AllowedTags
 import com.infinum.sentinel.ui.logger.models.FlowBuffer
 import com.infinum.sentinel.ui.shared.BounceEdgeEffectFactory
 import com.infinum.sentinel.ui.shared.setup
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -122,6 +124,13 @@ public class LoggerActivity : AppCompatActivity() {
         buffer
             .asFlow()
             .flowOn(Dispatchers.IO)
+            .map { entries ->
+                if (AllowedTags.value.isEmpty()) {
+                    entries
+                } else {
+                    entries.filter { entry -> AllowedTags.value.contains(entry.tag) }
+                }
+            }
             .onEach { entries -> adapter.submitList(entries) }
             .launchIn(lifecycleScope)
     }

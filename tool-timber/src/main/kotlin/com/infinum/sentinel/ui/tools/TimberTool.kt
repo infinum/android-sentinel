@@ -5,13 +5,15 @@ import android.view.View
 import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.ui.logger.LoggerActivity
+import com.infinum.sentinel.ui.logger.storage.AllowedTags
 
 /**
  * Specific wrapper tool around Timber.
  *
  * Tool Activity will launch with no additional flags.
  */
-public data class TimberTool(
+public data class TimberTool @JvmOverloads constructor(
+    private val allowedTags: List<String> = emptyList(),
     private val listener: View.OnClickListener = View.OnClickListener {
         it.context.startActivity(
             Intent(
@@ -24,6 +26,15 @@ public data class TimberTool(
         )
     }
 ) : Sentinel.Tool {
+
+    /**
+     * An optional set of filterable tags
+     *
+     * Sets a list of allowed tags for filtering stored in internal cache(AllowedTags)
+     */
+    init {
+        AllowedTags.set(allowedTags)
+    }
 
     /**
      * An optional icon for this tool

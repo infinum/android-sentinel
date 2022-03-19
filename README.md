@@ -114,7 +114,7 @@ Sentinel.watch(
         AppGalleryTool(appId = "123456789"),
         GooglePlayTool(),
         ThimbleTool(),
-        TimberTool(),
+        TimberTool(allowedTags = "listOf("EXAMPLE"),
         CertificateTool(userManagers = listOf())
     )
 )
@@ -148,7 +148,8 @@ Depending of what you include as module dependencies, very specific tools are pr
   opens [DbInspector](https://github.com/infinum/android_dbinspector)
 - `LeakCanaryTool` - a wrapper class that opens [LeakCanary](https://github.com/square/leakcanary)
 - `ThimbleTool` - a wrapper class that opens [Thimble](https://github.com/infinum/android-thimble)
-- `TimberTool` - a wrapper class that opens [Timber](https://github.com/JakeWharton/timber)  
+- `TimberTool` - a wrapper class that opens [Timber](https://github.com/JakeWharton/timber) . Takes in an optional list of allowed tags
+which enables user to filter with predefined set of tags if preferred.
 - `AppGalleryTool` - a wrapper class that opens Huawei AppGallery of a published application or a
   web page of the application if Huawei AppGallery is not found
 - `GooglePlayTool` - a wrapper class that opens Google Play of a published application or a web page
