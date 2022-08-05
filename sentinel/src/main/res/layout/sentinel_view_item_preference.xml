@@ -8,11 +8,11 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/nameView"
-        style="@style/TextAppearance.MaterialComponents.Caption"
+        style="@style/TextAppearance.Material3.BodySmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:textColor="@color/sentinel_color_primary" />
+        android:textColor="@color/sentinel_primary" />
 
     <LinearLayout
         android:id="@+id/prefsLayout"

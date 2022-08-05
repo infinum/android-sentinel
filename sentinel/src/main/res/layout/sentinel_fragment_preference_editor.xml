@@ -46,7 +46,7 @@
                 android:paddingBottom="32dp">
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    style="@style/TextAppearance.Material3.BodySmall"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/listPreferredItemHeightSmall"
                     android:gravity="start|bottom"
@@ -55,11 +55,11 @@
                     android:paddingBottom="8dp"
                     android:text="@string/sentinel_preferences"
                     android:textAllCaps="true"
-                    android:textColor="@color/sentinel_color_primary" />
+                    android:textColor="@color/sentinel_primary" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/preferencesView"
-                    style="@style/TextAppearance.MaterialComponents.Body2"
+                    style="@style/TextAppearance.Material3.BodyMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="8dp"
@@ -67,7 +67,7 @@
                     tools:text="Samsung" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    style="@style/TextAppearance.Material3.BodySmall"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/listPreferredItemHeightSmall"
                     android:gravity="start|bottom"
@@ -76,11 +76,11 @@
                     android:paddingBottom="8dp"
                     android:text="@string/sentinel_key"
                     android:textAllCaps="true"
-                    android:textColor="@color/sentinel_color_primary" />
+                    android:textColor="@color/sentinel_primary" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/keyView"
-                    style="@style/TextAppearance.MaterialComponents.Body2"
+                    style="@style/TextAppearance.Material3.BodyMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="8dp"
@@ -88,7 +88,7 @@
                     tools:text="Samsung" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    style="@style/TextAppearance.Material3.BodySmall"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/listPreferredItemHeightSmall"
                     android:gravity="start|bottom"
@@ -97,11 +97,11 @@
                     android:paddingBottom="8dp"
                     android:text="@string/sentinel_current_value"
                     android:textAllCaps="true"
-                    android:textColor="@color/sentinel_color_primary" />
+                    android:textColor="@color/sentinel_primary" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/currentValueView"
-                    style="@style/TextAppearance.MaterialComponents.Body2"
+                    style="@style/TextAppearance.Material3.BodyMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="8dp"
@@ -109,7 +109,7 @@
                     tools:text="Samsung" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    style="@style/TextAppearance.Material3.BodySmall"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/listPreferredItemHeightSmall"
                     android:gravity="start|bottom"
@@ -118,7 +118,7 @@
                     android:paddingBottom="8dp"
                     android:text="@string/sentinel_new_value"
                     android:textAllCaps="true"
-                    android:textColor="@color/sentinel_color_primary" />
+                    android:textColor="@color/sentinel_primary" />
 
                 <com.google.android.material.button.MaterialButtonToggleGroup
                     android:id="@+id/toggleGroup"
@@ -157,7 +157,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/newValueInputLayout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="8dp"
@@ -202,7 +202,7 @@
 
             <ProgressBar
                 android:id="@+id/progressBar"
-                style="@style/Widget.MaterialComponents.CircularProgressIndicator"
+                style="@style/Widget.Material3.CircularProgressIndicator"
                 android:layout_width="64dp"
                 android:layout_gravity="center"
                 android:layout_height="64dp"

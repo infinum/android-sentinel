@@ -14,7 +14,7 @@
         android:padding="16dp">
 
         <com.google.android.material.textview.MaterialTextView
-            style="@style/TextAppearance.MaterialComponents.Caption"
+            style="@style/TextAppearance.Material3.BodySmall"
             android:layout_width="match_parent"
             android:layout_height="?attr/listPreferredItemHeightSmall"
             android:gravity="start|bottom"
@@ -26,7 +26,7 @@
             android:textColor="@color/colorAccent" />
 
         <com.google.android.material.textview.MaterialTextView
-            style="@style/TextAppearance.MaterialComponents.Caption"
+            style="@style/TextAppearance.Material3.BodySmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="8dp"
@@ -37,7 +37,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/showSentinel"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Show manually now"
@@ -45,14 +45,14 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/showJavaScreen"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Show from Java screen"
             app:cornerRadius="16dp" />
 
         <com.google.android.material.textview.MaterialTextView
-            style="@style/TextAppearance.MaterialComponents.Caption"
+            style="@style/TextAppearance.Material3.BodySmall"
             android:layout_width="match_parent"
             android:layout_height="?attr/listPreferredItemHeightSmall"
             android:gravity="start|bottom"
@@ -64,7 +64,7 @@
             android:textColor="@color/colorAccent" />
 
         <com.google.android.material.textview.MaterialTextView
-            style="@style/TextAppearance.MaterialComponents.Caption"
+            style="@style/TextAppearance.Material3.BodySmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="8dp"
@@ -75,14 +75,14 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/randomizePrefs"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Randomize"
             app:cornerRadius="16dp" />
 
         <com.google.android.material.textview.MaterialTextView
-            style="@style/TextAppearance.MaterialComponents.Caption"
+            style="@style/TextAppearance.Material3.BodySmall"
             android:layout_width="match_parent"
             android:layout_height="?attr/listPreferredItemHeightSmall"
             android:gravity="start|bottom"
@@ -94,7 +94,7 @@
             android:textColor="@color/colorAccent" />
 
         <com.google.android.material.textview.MaterialTextView
-            style="@style/TextAppearance.MaterialComponents.Caption"
+            style="@style/TextAppearance.Material3.BodySmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="8dp"
@@ -114,14 +114,14 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/showBundleScreen"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Show generated Bundle screen"
             app:cornerRadius="16dp" />
 
         <com.google.android.material.textview.MaterialTextView
-            style="@style/TextAppearance.MaterialComponents.Caption"
+            style="@style/TextAppearance.Material3.BodySmall"
             android:layout_width="match_parent"
             android:layout_height="?attr/listPreferredItemHeightSmall"
             android:gravity="start|bottom"
@@ -133,7 +133,7 @@
             android:textColor="@color/colorAccent" />
 
         <com.google.android.material.textview.MaterialTextView
-            style="@style/TextAppearance.MaterialComponents.Caption"
+            style="@style/TextAppearance.Material3.BodySmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="8dp"
@@ -144,7 +144,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/generateException"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Generate exception"
@@ -152,7 +152,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/generateDeadlock"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Generate deadlock"
@@ -160,7 +160,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/generateLoop"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Generate infinite loop"
@@ -168,14 +168,14 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/generateSleep"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Generate thread sleep"
             app:cornerRadius="16dp" />
 
         <com.google.android.material.textview.MaterialTextView
-            style="@style/TextAppearance.MaterialComponents.Caption"
+            style="@style/TextAppearance.Material3.BodySmall"
             android:layout_width="match_parent"
             android:layout_height="?attr/listPreferredItemHeightSmall"
             android:gravity="start|bottom"
@@ -197,7 +197,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/generateInfo"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Generate Timber info"
@@ -205,7 +205,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/generateDebug"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Generate Timber debug"
@@ -213,7 +213,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/generateWarning"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Generate Timber warning"
@@ -221,7 +221,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/generateVerbose"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Generate Timber verbose"
@@ -229,7 +229,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/generateWtf"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Generate Timber WTF"
@@ -237,7 +237,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/generateLog"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Generate Timber log"
@@ -245,7 +245,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/generateError"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Generate Timber error"
@@ -253,7 +253,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/generateErrorException"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Generate Timber exception"

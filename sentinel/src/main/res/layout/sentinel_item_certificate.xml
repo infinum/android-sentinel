@@ -25,7 +25,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/titleView"
-            style="@style/TextAppearance.MaterialComponents.Body2"
+            style="@style/TextAppearance.Material3.BodyMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -33,7 +33,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/subtitleView"
-            style="@style/TextAppearance.MaterialComponents.Caption"
+            style="@style/TextAppearance.Material3.BodySmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

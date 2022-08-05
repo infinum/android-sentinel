@@ -10,7 +10,7 @@
     tools:context=".MainActivity">
 
     <com.google.android.material.textview.MaterialTextView
-        style="@style/TextAppearance.MaterialComponents.Caption"
+        style="@style/TextAppearance.Material3.BodySmall"
         android:layout_width="match_parent"
         android:layout_height="?attr/listPreferredItemHeightSmall"
         android:gravity="start|bottom"
@@ -22,7 +22,7 @@
         android:textColor="@color/colorAccent" />
 
     <com.google.android.material.textview.MaterialTextView
-        style="@style/TextAppearance.MaterialComponents.Caption"
+        style="@style/TextAppearance.Material3.BodySmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="8dp"
@@ -33,7 +33,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/showSentinel"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

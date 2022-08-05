@@ -1,10 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Sentinel.BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/sentinel_color_primary</item>
-        <item name="colorPrimaryDark">@android:color/transparent</item>
-        <item name="colorControlActivated">@color/sentinel_color_primary</item>
+    <style name="Sentinel.BaseTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/sentinel_primary</item>
+        <item name="colorOnPrimary">@color/sentinel_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/sentinel_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/sentinel_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/sentinel_secondary</item>
+        <item name="colorOnSecondary">@color/sentinel_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/sentinel_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/sentinel_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/sentinel_tertiary</item>
+        <item name="colorOnTertiary">@color/sentinel_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/sentinel_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/sentinel_onTertiaryContainer</item>
+        <item name="colorError">@color/sentinel_error</item>
+        <item name="colorErrorContainer">@color/sentinel_errorContainer</item>
+        <item name="colorOnError">@color/sentinel_onError</item>
+        <item name="colorOnErrorContainer">@color/sentinel_onErrorContainer</item>
+        <item name="android:colorBackground">@color/sentinel_background</item>
+        <item name="colorOnBackground">@color/sentinel_onBackground</item>
+        <item name="colorSurface">@color/sentinel_surface</item>
+        <item name="colorOnSurface">@color/sentinel_onSurface</item>
+        <item name="colorSurfaceVariant">@color/sentinel_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/sentinel_onSurfaceVariant</item>
+        <item name="colorOutline">@color/sentinel_outline</item>
+        <item name="colorOnSurfaceInverse">@color/sentinel_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/sentinel_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/sentinel_primaryInverse</item>
     </style>
 
     <style name="Sentinel.Theme" parent="Sentinel.BaseTheme">
@@ -17,18 +40,19 @@
     </style>
 
     <style name="Sentinel.Theme.Leaf" parent="Sentinel.BaseTheme">
-        <item name="android:statusBarColor">?colorSurface</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Activity</item>
     </style>
 
-    <style name="Sentinel.Theme.Dialog" parent="@style/Theme.MaterialComponents.DayNight.Dialog">
+    <style name="Sentinel.Theme.Dialog" parent="@style/Theme.Material3.DayNight.Dialog">
+        <item name="colorSurface">@color/sentinel_surface</item>
+        <item name="colorOutline">@android:color/transparent</item>
         <item name="android:windowMinWidthMajor">100%</item>
         <item name="android:windowMinWidthMinor">100%</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
     </style>
 
-    <style name="Sentinel.Widget.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+    <style name="Sentinel.Widget.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
         <item name="itemTextAppearanceActive">
             @style/Sentinel.TextAppearance.Item.BottomNavigationView.Active
         </item>
@@ -39,15 +63,24 @@
         <item name="itemRippleColor">@color/sentinel_color_ripple</item>
         <item name="itemIconTint">@color/sentinel_selector_bottomnavigation_icon_tint</item>
         <item name="itemTextColor">@color/sentinel_selector_bottomnavigation_text_color</item>
+        <item name="itemActiveIndicatorStyle">@style/Sentinel.Widget.BottomNavigationView.ActiveIndicator</item>
     </style>
 
-    <style name="Sentinel.TextAppearance.Item.BottomNavigationView.Active" parent="TextAppearance.MaterialComponents.Caption">
+    <style name="Sentinel.Widget.BottomNavigationView.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:width">64dp</item>
+        <item name="android:height">32dp</item>
+        <item name="marginHorizontal">4dp</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Material3.NavigationBarView.ActiveIndicator</item>
+        <item name="android:color">@android:color/transparent</item>
+    </style>
+
+    <style name="Sentinel.TextAppearance.Item.BottomNavigationView.Active" parent="TextAppearance.Material3.BodySmall">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="Sentinel.TextAppearance.Item.BottomNavigationView.Inactive" parent="TextAppearance.MaterialComponents.Caption">
+    <style name="Sentinel.TextAppearance.Item.BottomNavigationView.Inactive" parent="TextAppearance.Material3.BodySmall">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:layout_height">wrap_content</item>

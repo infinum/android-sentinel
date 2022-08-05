@@ -12,7 +12,7 @@ internal class FormatsRepository(
 
     override suspend fun save(input: FormatsParameters) {
         input.entities?.let { dao.save(it) }
-            ?: throw IllegalStateException("Cannot save null entities")
+            ?: error("Cannot save null entities")
     }
 
     override fun load(input: FormatsParameters): Flow<FormatEntity> =

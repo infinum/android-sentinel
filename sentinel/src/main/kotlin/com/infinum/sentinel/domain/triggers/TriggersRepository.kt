@@ -16,7 +16,7 @@ internal class TriggersRepository(
 
     override suspend fun save(input: TriggerParameters) =
         input.entity?.let { dao.save(it) }
-            ?: throw IllegalStateException("Cannot save null entity")
+            ?: error("Cannot save null entity")
 
     override fun load(input: TriggerParameters): Flow<List<TriggerEntity>> =
         dao.load()

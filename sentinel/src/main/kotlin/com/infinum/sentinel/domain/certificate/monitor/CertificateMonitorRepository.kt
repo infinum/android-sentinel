@@ -12,7 +12,7 @@ internal class CertificateMonitorRepository(
 
     override suspend fun save(input: CertificateMonitorParameters) {
         input.entity?.let { dao.save(it) }
-            ?: throw IllegalStateException("Cannot save null entities")
+            ?: error("Cannot save null entities")
     }
 
     override fun load(input: CertificateMonitorParameters): Flow<CertificateMonitorEntity> =

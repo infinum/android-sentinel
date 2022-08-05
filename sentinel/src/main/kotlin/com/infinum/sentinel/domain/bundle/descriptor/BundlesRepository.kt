@@ -15,7 +15,7 @@ internal class BundlesRepository(
 
     override suspend fun save(input: BundleParameters) {
         input.descriptor?.let { cache.save(it) }
-            ?: throw IllegalStateException("Cannot save null descriptors")
+            ?: error("Cannot save null descriptors")
     }
 
     override fun load(input: BundleParameters): Flow<List<BundleDescriptor>> =

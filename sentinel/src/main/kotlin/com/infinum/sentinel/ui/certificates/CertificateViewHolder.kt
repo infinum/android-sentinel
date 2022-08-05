@@ -27,7 +27,7 @@ internal class CertificateViewHolder(
                                     settings?.expireInUnit ?: ChronoUnit.DAYS
                                 )
                             ) {
-                                R.color.sentinel_color_primary
+                                R.color.sentinel_primary
                             } else {
                                 R.color.sentinel_warning
                             }

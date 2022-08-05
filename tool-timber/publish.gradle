@@ -58,6 +58,11 @@ afterEvaluate {
                             name = 'Bojan Komljenović'
                             email = 'bojan.komljenovic@infinum.com'
                         }
+                        developer {
+                            id = 'gobbletsit'
+                            name = 'Nikola Gobović'
+                            email = 'nikola.gobovic@infinum.com'
+                        }
                     }
                     scm {
                         connection = 'https://github.com/infinum/android-sentinel.git'

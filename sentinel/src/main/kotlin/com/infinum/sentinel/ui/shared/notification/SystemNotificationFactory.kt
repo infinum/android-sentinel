@@ -119,7 +119,7 @@ internal class SystemNotificationFactory(
             .setContentIntent(buildPendingIntent(intents))
             .setLocalOnly(true)
             .setSmallIcon(smallIcon)
-            .setColor(ContextCompat.getColor(context, R.color.sentinel_color_primary))
+            .setColor(ContextCompat.getColor(context, R.color.sentinel_primary))
             .setContentTitle(title)
             .setContentText(content)
             .setWhen(timestamp)

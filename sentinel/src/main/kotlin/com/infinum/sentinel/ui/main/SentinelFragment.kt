@@ -5,12 +5,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.RestrictTo
 import androidx.core.app.ShareCompat
-import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentBinding
 import com.infinum.sentinel.extensions.shareText
-import com.infinum.sentinel.extensions.toCradleDrawable
 import com.infinum.sentinel.ui.main.application.ApplicationFragment
 import com.infinum.sentinel.ui.main.device.DeviceFragment
 import com.infinum.sentinel.ui.main.permissions.PermissionsFragment
@@ -95,22 +93,6 @@ internal class SentinelFragment : BaseFragment<SentinelState, SentinelEvent>(R.l
                     )
                 )
                 .build()
-            bottomNavigation.background = MaterialShapeDrawable().toCradleDrawable(
-                context = requireContext(),
-                color = R.color.sentinel_color_background,
-                fabDiameter = resources
-                    .getDimensionPixelSize(R.dimen.sentinel_cradle_diameter)
-                    .toFloat(),
-                fabCradleMargin = resources
-                    .getDimensionPixelSize(R.dimen.sentinel_cradle_margin)
-                    .toFloat(),
-                fabCornerRadius = resources
-                    .getDimensionPixelSize(R.dimen.sentinel_cradle_corner_radius)
-                    .toFloat(),
-                fabVerticalOffset = resources
-                    .getDimensionPixelSize(R.dimen.sentinel_cradle_vertical_offset)
-                    .toFloat()
-            )
             bottomNavigation.elevation =
                 resources.getDimensionPixelSize(R.dimen.sentinel_cradle_margin).toFloat() * 2
             bottomNavigation.setOnItemSelectedListener { menuItem ->

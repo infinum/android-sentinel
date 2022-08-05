@@ -61,7 +61,7 @@ internal class CertificateDetailsFragment :
                             expiredView.setBackgroundColor(
                                 ContextCompat.getColor(
                                     expiredView.context,
-                                    R.color.sentinel_color_primary
+                                    R.color.sentinel_primary
                                 )
                             )
                             expiredView.text = getString(R.string.sentinel_expired)

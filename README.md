@@ -57,15 +57,15 @@ Then add the following dependencies in your app `build.gradle` or `build.gradle.
 **Groovy**
 
 ```groovy
-debugImplementation "com.infinum.sentinel:sentinel:1.1.9"
-releaseImplementation "com.infinum.sentinel:sentinel-no-op:1.1.9"
+debugImplementation "com.infinum.sentinel:sentinel:1.2.1"
+releaseImplementation "com.infinum.sentinel:sentinel-no-op:1.2.1"
 ```
 
 **KotlinDSL**
 
 ```kotlin
-debugImplementation("com.infinum.sentinel:sentinel:1.1.9")
-releaseImplementation("com.infinum.sentinel:sentinel-no-op:1.1.9")
+debugImplementation("com.infinum.sentinel:sentinel:1.2.1")
+releaseImplementation("com.infinum.sentinel:sentinel-no-op:1.2.1")
 ```
 
 Basic tools are provided inside the main package but depending on requirements you might want to add
@@ -74,27 +74,27 @@ specific tools:
 **Groovy**
 
 ```groovy
-debugImplementation "com.infinum.sentinel:tool-chucker:1.1.9"
-debugImplementation "com.infinum.sentinel:tool-collar:1.1.9"
-debugImplementation "com.infinum.sentinel:tool-dbinspector:1.1.9"
-debugImplementation "com.infinum.sentinel:tool-leakcanary:1.1.9"
-debugImplementation "com.infinum.sentinel:tool-appgallery:1.1.9"
-debugImplementation "com.infinum.sentinel:tool-googleplay:1.1.9"
-debugImplementation "com.infinum.sentinel:tool-thimble:1.1.9"
-debugImplementation "com.infinum.sentinel:tool-timber:1.1.9"
+debugImplementation "com.infinum.sentinel:tool-chucker:1.2.1"
+debugImplementation "com.infinum.sentinel:tool-collar:1.2.1"
+debugImplementation "com.infinum.sentinel:tool-dbinspector:1.2.1"
+debugImplementation "com.infinum.sentinel:tool-leakcanary:1.2.1"
+debugImplementation "com.infinum.sentinel:tool-appgallery:1.2.1"
+debugImplementation "com.infinum.sentinel:tool-googleplay:1.2.1"
+debugImplementation "com.infinum.sentinel:tool-thimble:1.2.1"
+debugImplementation "com.infinum.sentinel:tool-timber:1.2.1"
 ```
 
 **KotlinDSL**
 
 ```kotlin
-debugImplementation("com.infinum.sentinel:tool-chucker:1.1.9")
-debugImplementation("com.infinum.sentinel:tool-collar:1.1.9")
-debugImplementation("com.infinum.sentinel:tool-dbinspector:1.1.9")
-debugImplementation("com.infinum.sentinel:tool-leakcanary:1.1.9")
-debugImplementation("com.infinum.sentinel:tool-appgallery:1.1.9")
-debugImplementation("com.infinum.sentinel:tool-googleplay:1.1.9")
-debugImplementation("com.infinum.sentinel:tool-thimble:1.1.9")
-debugImplementation("com.infinum.sentinel:tool-timber:1.1.9")
+debugImplementation("com.infinum.sentinel:tool-chucker:1.2.1")
+debugImplementation("com.infinum.sentinel:tool-collar:1.2.1")
+debugImplementation("com.infinum.sentinel:tool-dbinspector:1.2.1")
+debugImplementation("com.infinum.sentinel:tool-leakcanary:1.2.1")
+debugImplementation("com.infinum.sentinel:tool-appgallery:1.2.1")
+debugImplementation("com.infinum.sentinel:tool-googleplay:1.2.1")
+debugImplementation("com.infinum.sentinel:tool-thimble:1.2.1")
+debugImplementation("com.infinum.sentinel:tool-timber:1.2.1")
 ```
 
 Now you can sync your project.
@@ -114,7 +114,7 @@ Sentinel.watch(
         AppGalleryTool(appId = "123456789"),
         GooglePlayTool(),
         ThimbleTool(),
-        TimberTool(allowedTags = "listOf("EXAMPLE"),
+        TimberTool(allowedTags = listOf("EXAMPLE"),
         CertificateTool(userManagers = listOf())
     )
 )
@@ -148,8 +148,7 @@ Depending of what you include as module dependencies, very specific tools are pr
   opens [DbInspector](https://github.com/infinum/android_dbinspector)
 - `LeakCanaryTool` - a wrapper class that opens [LeakCanary](https://github.com/square/leakcanary)
 - `ThimbleTool` - a wrapper class that opens [Thimble](https://github.com/infinum/android-thimble)
-- `TimberTool` - a wrapper class that opens [Timber](https://github.com/JakeWharton/timber) . Takes in an optional list of allowed tags
-which enables user to filter with predefined set of tags if preferred.
+- `TimberTool` - a wrapper class that opens [Timber](https://github.com/JakeWharton/timber) . Takes in an optional list of allowed tags for filtering logged messages per tag.
 - `AppGalleryTool` - a wrapper class that opens Huawei AppGallery of a published application or a
   web page of the application if Huawei AppGallery is not found
 - `GooglePlayTool` - a wrapper class that opens Google Play of a published application or a web page
@@ -289,9 +288,13 @@ limitations under the License.
 ```
 
 ## Credits
-
 Maintained and sponsored by [Infinum](http://www.infinum.com).
 
-<a href='https://infinum.com'>
-  <img src='https://infinum.com/infinum.png' href='https://infinum.com' width='264'>
-</a>
+<p align="center">
+  <a href='https://infinum.com'>
+    <picture>
+        <source srcset="https://assets.infinum.com/brand/logo/static/white.svg" media="(prefers-color-scheme: dark)">
+        <img src="https://assets.infinum.com/brand/logo/static/default.svg">
+    </picture>
+  </a>
+</p>

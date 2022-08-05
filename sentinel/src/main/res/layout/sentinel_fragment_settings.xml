@@ -40,7 +40,7 @@
             android:paddingBottom="32dp">
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.MaterialComponents.Caption"
+                style="@style/TextAppearance.Material3.BodySmall"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/listPreferredItemHeightSmall"
                 android:gravity="start|bottom"
@@ -49,7 +49,7 @@
                 android:paddingBottom="8dp"
                 android:text="@string/sentinel_triggers"
                 android:textAllCaps="true"
-                android:textColor="@color/sentinel_color_primary" />
+                android:textColor="@color/sentinel_primary" />
 
             <LinearLayout
                 android:id="@+id/triggersLayout"
@@ -104,7 +104,7 @@
             </LinearLayout>
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.MaterialComponents.Caption"
+                style="@style/TextAppearance.Material3.BodySmall"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/listPreferredItemHeightSmall"
                 android:gravity="start|bottom"
@@ -113,7 +113,7 @@
                 android:paddingBottom="8dp"
                 android:text="@string/sentinel_share_format"
                 android:textAllCaps="true"
-                android:textColor="@color/sentinel_color_primary" />
+                android:textColor="@color/sentinel_primary" />
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/formatGroup"
@@ -127,35 +127,35 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/plainChip"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    style="@style/Widget.Material3.Chip.Suggestion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sentinel_plain" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/markdownChip"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    style="@style/Widget.Material3.Chip.Suggestion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sentinel_markdown" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/jsonChip"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    style="@style/Widget.Material3.Chip.Suggestion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sentinel_json" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/xmlChip"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    style="@style/Widget.Material3.Chip.Suggestion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sentinel_xml" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/htmlChip"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    style="@style/Widget.Material3.Chip.Suggestion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sentinel_html" />
@@ -163,7 +163,7 @@
             </com.google.android.material.chip.ChipGroup>
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.MaterialComponents.Caption"
+                style="@style/TextAppearance.Material3.BodySmall"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/listPreferredItemHeightSmall"
                 android:gravity="start|bottom"
@@ -172,7 +172,7 @@
                 android:paddingBottom="8dp"
                 android:text="@string/sentinel_bundle_monitor"
                 android:textAllCaps="true"
-                android:textColor="@color/sentinel_color_primary" />
+                android:textColor="@color/sentinel_primary" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -199,43 +199,39 @@
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/activityIntentExtrasChip"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:checked="true"
                         android:text="@string/sentinel_bundle_activity_intent_extras"
-                        app:checkedIcon="@drawable/sentinel_ic_checked_filter"
-                        app:checkedIconTint="@color/sentinel_color_primary" />
+                        app:checkedIcon="@drawable/sentinel_ic_checked_filter" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/activitySavedStateChip"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:checked="true"
                         android:text="@string/sentinel_bundle_activity_saved_state"
-                        app:checkedIcon="@drawable/sentinel_ic_checked_filter"
-                        app:checkedIconTint="@color/sentinel_color_primary" />
+                        app:checkedIcon="@drawable/sentinel_ic_checked_filter" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/fragmentArgumentsChip"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:checked="true"
                         android:text="@string/sentinel_fragment_arguments"
-                        app:checkedIcon="@drawable/sentinel_ic_checked_filter"
-                        app:checkedIconTint="@color/sentinel_color_primary" />
+                        app:checkedIcon="@drawable/sentinel_ic_checked_filter" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/fragmentSavedStateChip"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:checked="true"
                         android:text="@string/sentinel_fragment_saved_state"
-                        app:checkedIcon="@drawable/sentinel_ic_checked_filter"
-                        app:checkedIconTint="@color/sentinel_color_primary" />
+                        app:checkedIcon="@drawable/sentinel_ic_checked_filter" />
 
                 </com.google.android.material.chip.ChipGroup>
 
@@ -251,7 +247,7 @@
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:text="@string/sentinel_limit"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/limitValueView"
@@ -259,7 +255,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:gravity="center_vertical"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 
                 </LinearLayout>
 
@@ -271,7 +267,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/decreaseLimitButton"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="@dimen/sentinel_slider_button_size"
                         android:layout_height="@dimen/sentinel_slider_button_size"
                         android:layout_gravity="center_vertical"
@@ -302,7 +298,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/increaseLimitButton"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="@dimen/sentinel_slider_button_size"
                         android:layout_height="@dimen/sentinel_slider_button_size"
                         android:layout_gravity="center_vertical"
@@ -322,7 +318,7 @@
             </LinearLayout>
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.MaterialComponents.Caption"
+                style="@style/TextAppearance.Material3.BodySmall"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/listPreferredItemHeightSmall"
                 android:gravity="start|bottom"
@@ -331,7 +327,7 @@
                 android:paddingBottom="8dp"
                 android:text="@string/sentinel_crash_monitor"
                 android:textAllCaps="true"
-                android:textColor="@color/sentinel_color_primary" />
+                android:textColor="@color/sentinel_primary" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -367,7 +363,7 @@
             </LinearLayout>
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.MaterialComponents.Caption"
+                style="@style/TextAppearance.Material3.BodySmall"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/listPreferredItemHeightSmall"
                 android:gravity="start|bottom"
@@ -376,7 +372,7 @@
                 android:paddingBottom="8dp"
                 android:text="@string/sentinel_certificates"
                 android:textAllCaps="true"
-                android:textColor="@color/sentinel_color_primary" />
+                android:textColor="@color/sentinel_primary" />
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/runOnStartSwitch"
@@ -432,7 +428,7 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="@string/sentinel_expiring_in"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/toExpireValueView"
@@ -440,7 +436,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:gravity="center_vertical"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 
             </LinearLayout>
 
@@ -452,7 +448,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/decreaseToExpireButton"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="@dimen/sentinel_slider_button_size"
                     android:layout_height="@dimen/sentinel_slider_button_size"
                     android:layout_gravity="center_vertical"
@@ -483,7 +479,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/increaseToExpireButton"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="@dimen/sentinel_slider_button_size"
                     android:layout_height="@dimen/sentinel_slider_button_size"
                     android:layout_gravity="center_vertical"
@@ -511,50 +507,50 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/daysButton"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:text="@string/sentinel_days"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                     app:cornerRadius="@dimen/sentinel_slider_button_corner_radius" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/weeksButton"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:text="@string/sentinel_weeks"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                     app:cornerRadius="@dimen/sentinel_slider_button_corner_radius" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/monthsButton"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:text="@string/sentinel_months"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                     app:cornerRadius="@dimen/sentinel_slider_button_corner_radius" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/yearsButton"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:text="@string/sentinel_years"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                     app:cornerRadius="@dimen/sentinel_slider_button_corner_radius" />
 
             </com.google.android.material.button.MaterialButtonToggleGroup>

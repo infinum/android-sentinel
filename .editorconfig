@@ -1,5 +1,6 @@
-root=true
+root = true
 [*.{kt,kts}]
-max_line_length=140
+max_line_length = 140
 indent_style = space
 indent_size = 4
+ij_kotlin_imports_layout = *
