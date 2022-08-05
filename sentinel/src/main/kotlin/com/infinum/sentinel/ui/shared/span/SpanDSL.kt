@@ -110,7 +110,7 @@ internal class Builder(
                 val highlighted: Spannable = SpannableString(span)
                 startIndexes.forEach {
                     highlighted.setSpan(
-                        BackgroundColorSpan(ContextCompat.getColor(context, R.color.sentinel_color_primary)),
+                        BackgroundColorSpan(ContextCompat.getColor(context, R.color.sentinel_primary)),
                         it,
                         it + search.length,
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE

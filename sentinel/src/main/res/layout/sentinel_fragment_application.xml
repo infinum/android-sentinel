@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:divider="?android:listDivider"
         android:orientation="vertical"
-        android:paddingBottom="80dp"
+        android:paddingBottom="104dp"
         android:showDividers="middle">
 
         <com.infinum.sentinel.ui.shared.views.SentinelItemTextView

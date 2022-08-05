@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="sentinel_color_background">#424242</color>
+    <color name="sentinel_primary">#43E188</color>
+    <color name="sentinel_onPrimary">#00391A</color>
+    <color name="sentinel_primaryContainer">#005229</color>
+    <color name="sentinel_onPrimaryContainer">#66FEA2</color>
+    <color name="sentinel_secondary">#B6CCB8</color>
+    <color name="sentinel_onSecondary">#223527</color>
+    <color name="sentinel_secondaryContainer">#384B3C</color>
+    <color name="sentinel_onSecondaryContainer">#D2E9D4</color>
+    <color name="sentinel_tertiary">#A2CDD9</color>
+    <color name="sentinel_onTertiary">#023640</color>
+    <color name="sentinel_tertiaryContainer">#214C57</color>
+    <color name="sentinel_onTertiaryContainer">#BEEAF6</color>
+    <color name="sentinel_error">#FFB4A9</color>
+    <color name="sentinel_errorContainer">#930006</color>
+    <color name="sentinel_onError">#680003</color>
+    <color name="sentinel_onErrorContainer">#FFDAD4</color>
+    <color name="sentinel_background">#1A1C1A</color>
+    <color name="sentinel_onBackground">#E1E3DE</color>
+    <color name="sentinel_surface">#1A1C1A</color>
+    <color name="sentinel_onSurface">#E1E3DE</color>
+    <color name="sentinel_surfaceVariant">#414942</color>
+    <color name="sentinel_onSurfaceVariant">#C0C9BF</color>
+    <color name="sentinel_outline">#8A938A</color>
+    <color name="sentinel_inverseOnSurface">#1A1C1A</color>
+    <color name="sentinel_inverseSurface">#E1E3DE</color>
+    <color name="sentinel_inversePrimary">#006D39</color>
+    <color name="sentinel_shadow">#000000</color>
+    <color name="sentinel_primaryInverse">#006D39</color>
+
     <color name="sentinel_color_ripple">#33ffffff</color>
 </resources>

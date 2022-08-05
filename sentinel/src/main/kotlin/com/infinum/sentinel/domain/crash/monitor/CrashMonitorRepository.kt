@@ -12,7 +12,7 @@ internal class CrashMonitorRepository(
 
     override suspend fun save(input: CrashMonitorParameters) {
         input.entity?.let { dao.save(it) }
-            ?: throw IllegalStateException("Cannot save null entities")
+            ?: error("Cannot save null entities")
     }
 
     override fun load(input: CrashMonitorParameters): Flow<CrashMonitorEntity> =

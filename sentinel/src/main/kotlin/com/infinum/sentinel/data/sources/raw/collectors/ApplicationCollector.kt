@@ -49,8 +49,8 @@ internal class ApplicationCollector(
                 packageName = packageName,
                 processName = applicationInfo.processName,
                 taskAffinity = applicationInfo.taskAffinity,
-                localeLanguage = currentLocale.language,
-                localeCountry = currentLocale.country
+                localeLanguage = currentLocale?.language.orEmpty(),
+                localeCountry = currentLocale?.country.orEmpty()
             )
         }
     }

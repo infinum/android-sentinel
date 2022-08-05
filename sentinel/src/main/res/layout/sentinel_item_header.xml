@@ -8,7 +8,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/titleView"
-        style="@style/TextAppearance.MaterialComponents.Caption"
+        style="@style/TextAppearance.Material3.BodySmall"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -19,11 +19,11 @@
         android:paddingEnd="8dp"
         android:paddingBottom="4dp"
         android:textAllCaps="true"
-        android:textColor="@color/sentinel_color_primary" />
+        android:textColor="@color/sentinel_primary" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/countView"
-        style="@style/TextAppearance.MaterialComponents.Caption"
+        style="@style/TextAppearance.Material3.BodySmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="end|center_vertical"

@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+## Version 1.2.1
+
+_2022-08-05_
+
+* Update Kotlin to 1.7.10.
+* Add Material3 design.
+
 ## Version 1.2.0
 
 _2022-03-19_

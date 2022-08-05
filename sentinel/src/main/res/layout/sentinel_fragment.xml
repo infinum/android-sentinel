@@ -23,9 +23,9 @@
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:colorBackground"
+                android:background="@color/sentinel_surface"
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior"
-                app:liftOnScroll="true"
+                app:liftOnScroll="false"
                 app:liftOnScrollTargetViewId="@id/nestedScrollView">
 
                 <com.google.android.material.appbar.MaterialToolbar
@@ -45,14 +45,14 @@
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainer"
                 android:layout_width="match_parent"
-                android:layout_height="432dp"
+                android:layout_height="460dp"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottomNavigation"
                 style="@style/Sentinel.Widget.BottomNavigationView"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 app:menu="@menu/sentinel_bottom_navigation" />
 
@@ -61,12 +61,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom"
-                android:layout_marginBottom="28dp"
+                android:layout_marginBottom="40dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/sentinel_ic_tools"
-                app:backgroundTint="@color/sentinel_color_primary"
+                app:backgroundTint="@color/sentinel_primary"
                 app:elevation="9dp"
-                app:tint="?android:textColorSecondary" />
+                app:tint="?android:textColorSecondaryInverse" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

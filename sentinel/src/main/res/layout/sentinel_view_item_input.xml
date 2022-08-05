@@ -6,7 +6,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:endIconCheckable="true"
@@ -17,7 +17,7 @@
         app:passwordToggleEnabled="false"
         app:startIconCheckable="false"
         app:startIconDrawable="@drawable/sentinel_ic_minus"
-        app:startIconTint="@color/sentinel_color_primary">
+        app:startIconTint="@color/sentinel_primary">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/input"
