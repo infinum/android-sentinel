@@ -1,13 +1,13 @@
 ext {
     def major = 1
     def minor = 2
-    def patch = 1
+    def patch = 2
 
     buildConfig = [
             "minSdk"    : 21,
-            "compileSdk": 32,
-            "targetSdk" : 32,
-            "buildTools": "32.0.0"
+            "compileSdk": 33,
+            "targetSdk" : 33,
+            "buildTools": "33.0.0"
     ]
     releaseConfig = [
             "group"      : "com.infinum.sentinel",

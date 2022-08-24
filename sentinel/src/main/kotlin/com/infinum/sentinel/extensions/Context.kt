@@ -37,13 +37,21 @@ internal fun Context.copyToClipboard(key: String, value: String): Boolean =
 
 internal val Context.applicationName: String
     get() = (
-        packageManager.getApplicationLabel(
-            packageManager.getApplicationInfo(
-                packageName,
-                PackageManager.GET_META_DATA
-            )
-        ) as? String
-        ) ?: getString(R.string.sentinel_name)
+            packageManager.getApplicationLabel(
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    packageManager.getApplicationInfo(
+                        packageName,
+                        PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA.toLong())
+                    )
+                } else {
+                    @Suppress("DEPRECATION")
+                    packageManager.getApplicationInfo(
+                        packageName,
+                        PackageManager.GET_META_DATA
+                    )
+                }
+            ) as? String
+            ) ?: getString(R.string.sentinel_name)
 
 @Suppress("DEPRECATION")
 internal val Context.widthPixels: Int
