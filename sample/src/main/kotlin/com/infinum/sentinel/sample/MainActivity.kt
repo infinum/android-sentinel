@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var viewBinding: ActivityMainBinding
 
+    @Suppress("TooGenericExceptionCaught", "LongMethod")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
@@ -80,6 +81,7 @@ class MainActivity : AppCompatActivity() {
                         }
                 )
             }
+            @Suppress("TooGenericExceptionCaught")
             generateException.setOnClickListener {
                 throw RuntimeException("This is a test exception!")
             }
@@ -141,6 +143,7 @@ class MainActivity : AppCompatActivity() {
                     Timber.e("Some message")
                 }
             }
+            @Suppress("TooGenericExceptionCaught")
             generateErrorException.setOnClickListener {
                 try {
                     throw RuntimeException("Oh no.")

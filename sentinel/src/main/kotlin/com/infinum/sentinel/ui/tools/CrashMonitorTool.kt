@@ -24,21 +24,21 @@ internal data class CrashMonitorTool(
                 putExtra(
                     Presentation.Constants.Keys.APPLICATION_NAME,
                     (
-                            it.context.packageManager.getApplicationLabel(
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                    it.context.packageManager.getApplicationInfo(
-                                        it.context.packageName,
-                                        PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA.toLong())
-                                    )
-                                } else {
-                                    @Suppress("DEPRECATION")
-                                    it.context.packageManager.getApplicationInfo(
-                                        it.context.packageName,
-                                        PackageManager.GET_META_DATA
-                                    )
-                                }
-                            ) as? String
-                            ) ?: it.context.getString(R.string.sentinel_name)
+                        it.context.packageManager.getApplicationLabel(
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                it.context.packageManager.getApplicationInfo(
+                                    it.context.packageName,
+                                    PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA.toLong())
+                                )
+                            } else {
+                                @Suppress("DEPRECATION")
+                                it.context.packageManager.getApplicationInfo(
+                                    it.context.packageName,
+                                    PackageManager.GET_META_DATA
+                                )
+                            }
+                        ) as? String
+                        ) ?: it.context.getString(R.string.sentinel_name)
                 )
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
