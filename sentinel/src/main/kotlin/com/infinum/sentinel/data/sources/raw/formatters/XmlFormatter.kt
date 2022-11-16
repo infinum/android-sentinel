@@ -99,6 +99,7 @@ internal class XmlFormatter(
             addNode(R.string.sentinel_task_affinity, it.taskAffinity)
             addNode(R.string.sentinel_locale_language, it.localeLanguage)
             addNode(R.string.sentinel_locale_country, it.localeCountry)
+            addNode(R.string.sentinel_installer_package, it.installerPackageId)
         }
         endTag(NAMESPACE, APPLICATION)
     }

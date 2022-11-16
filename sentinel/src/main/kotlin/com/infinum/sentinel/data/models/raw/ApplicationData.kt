@@ -15,5 +15,6 @@ internal data class ApplicationData(
     val processName: String,
     val taskAffinity: String,
     val localeCountry: String,
-    val localeLanguage: String
+    val localeLanguage: String,
+    val installerPackageId: String
 )

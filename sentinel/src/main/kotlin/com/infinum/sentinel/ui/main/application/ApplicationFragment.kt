@@ -36,6 +36,8 @@ internal class ApplicationFragment :
                 taskAffinityView.data = state.value.taskAffinity
                 localeLanguageView.data = state.value.localeLanguage
                 localeCountryView.data = state.value.localeCountry
+                installerPackageView.data = state.value.installerPackageId
+                    .takeIf { it.isNotBlank() } ?: getString(R.string.sentinel_unknown)
             }
         }
 

@@ -44,6 +44,7 @@ internal abstract class StringBuilderFormatter {
         addLine(builder, R.string.sentinel_task_affinity, data.taskAffinity)
         addLine(builder, R.string.sentinel_locale_language, data.localeLanguage)
         addLine(builder, R.string.sentinel_locale_country, data.localeCountry)
+        addLine(builder, R.string.sentinel_installer_package, data.installerPackageId)
     }
 
     internal fun addDeviceData(builder: StringBuilder, data: DeviceData) {

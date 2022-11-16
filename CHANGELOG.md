@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+## Version 1.2.3
+
+_2022-MM-DD_
+
+* Add package installer information in application data.
+
 ## Version 1.2.2
 
 _2022-11-15_

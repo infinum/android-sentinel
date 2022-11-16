@@ -7,6 +7,7 @@ import android.os.Build
 import androidx.core.os.ConfigurationCompat
 import com.infinum.sentinel.data.models.raw.ApplicationData
 import com.infinum.sentinel.domain.collectors.Collectors
+import com.infinum.sentinel.extensions.installerPackage
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -50,7 +51,8 @@ internal class ApplicationCollector(
                 processName = applicationInfo.processName,
                 taskAffinity = applicationInfo.taskAffinity,
                 localeLanguage = currentLocale?.language.orEmpty(),
-                localeCountry = currentLocale?.country.orEmpty()
+                localeCountry = currentLocale?.country.orEmpty(),
+                installerPackageId = installerPackage.orEmpty()
             )
         }
     }
