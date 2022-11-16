@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+## Version 1.2.2
+
+_2022-11-15_
+
+* Update Kotlin to 1.7.21.
+* Fix Android 13 compatibility issues.
+
 ## Version 1.2.1
 
 _2022-08-05_

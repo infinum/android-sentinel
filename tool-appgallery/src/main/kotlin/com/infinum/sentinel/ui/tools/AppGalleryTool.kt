@@ -3,7 +3,9 @@ package com.infinum.sentinel.ui.tools
 import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.view.View
 import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
@@ -31,7 +33,14 @@ public data class AppGalleryTool @JvmOverloads constructor(
         )
         view.context
             .packageManager
-            .queryIntentActivities(intent, 0)
+            .let {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    it.queryIntentActivities(intent, PackageManager.ResolveInfoFlags.of(0L))
+                } else {
+                    @Suppress("DEPRECATION")
+                    it.queryIntentActivities(intent, 0)
+                }
+            }
             .toList()
             .find {
                 it.activityInfo

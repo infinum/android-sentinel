@@ -2,6 +2,7 @@ package com.infinum.sentinel.data.sources.raw.collectors
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
 import com.infinum.sentinel.domain.collectors.Collectors
 import com.infinum.sentinel.extensions.isPermissionGranted
 
@@ -11,18 +12,23 @@ internal class PermissionsCollector(
 
     override fun invoke(): Map<String, Boolean> {
         with(context) {
-            val packageInfo = packageManager.getPackageInfo(
-                packageName,
-                PackageManager.GET_PERMISSIONS
-            )
-
-            return with(packageInfo) {
-                requestedPermissions
-                    ?.toList()
-                    .orEmpty()
-                    .map { it to isPermissionGranted(it) }
-                    .toMap()
+            val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                packageManager.getPackageInfo(
+                    packageName,
+                    PackageManager.PackageInfoFlags.of(PackageManager.GET_PERMISSIONS.toLong())
+                )
+            } else {
+                @Suppress("DEPRECATION")
+                packageManager.getPackageInfo(
+                    packageName,
+                    PackageManager.GET_PERMISSIONS
+                )
             }
+
+            return packageInfo.requestedPermissions
+                ?.toList()
+                .orEmpty()
+                .associateWith { isPermissionGranted(it) }
         }
     }
 }

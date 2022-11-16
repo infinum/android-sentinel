@@ -21,11 +21,7 @@ internal fun Bundle.sizeTree(): BundleTree {
         original.keySet().map { key ->
             val withoutKey = Bundle(original)
 
-            val internalTree: BundleTree? = if (withoutKey[key] is Bundle) {
-                (withoutKey[key] as? Bundle)?.sizeTree()
-            } else {
-                null
-            }
+            val internalTree: BundleTree? = withoutKey.getBundle(key)?.sizeTree()
 
             withoutKey.remove(key)
 

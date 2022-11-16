@@ -38,33 +38,33 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
 
         with(binding) {
             toolbar.setNavigationOnClickListener { requireActivity().finish() }
-            formatGroup.setOnCheckedChangeListener { _, checkedId ->
+            formatGroup.setOnCheckedStateChangeListener { _, checkedIds ->
                 viewModel.saveFormats(
                     listOf(
                         FormatEntity(
                             id = FormatType.PLAIN.ordinal.toLong(),
                             type = FormatType.PLAIN,
-                            selected = R.id.plainChip == checkedId
+                            selected = checkedIds.contains(R.id.plainChip)
                         ),
                         FormatEntity(
                             id = FormatType.MARKDOWN.ordinal.toLong(),
                             type = FormatType.MARKDOWN,
-                            selected = R.id.markdownChip == checkedId
+                            selected = checkedIds.contains(R.id.markdownChip)
                         ),
                         FormatEntity(
                             id = FormatType.JSON.ordinal.toLong(),
                             type = FormatType.JSON,
-                            selected = R.id.jsonChip == checkedId
+                            selected = checkedIds.contains(R.id.jsonChip)
                         ),
                         FormatEntity(
                             id = FormatType.XML.ordinal.toLong(),
                             type = FormatType.XML,
-                            selected = R.id.xmlChip == checkedId
+                            selected = checkedIds.contains(R.id.xmlChip)
                         ),
                         FormatEntity(
                             id = FormatType.HTML.ordinal.toLong(),
                             type = FormatType.HTML,
-                            selected = R.id.htmlChip == checkedId
+                            selected = checkedIds.contains(R.id.htmlChip)
                         )
                     )
                 )

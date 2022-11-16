@@ -2,6 +2,7 @@ package com.infinum.sentinel.ui.tools
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.view.View
 import androidx.annotation.StringRes
 import com.infinum.sentinel.R
@@ -24,10 +25,18 @@ internal data class CrashMonitorTool(
                     Presentation.Constants.Keys.APPLICATION_NAME,
                     (
                         it.context.packageManager.getApplicationLabel(
-                            it.context.packageManager.getApplicationInfo(
-                                it.context.packageName,
-                                PackageManager.GET_META_DATA
-                            )
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                it.context.packageManager.getApplicationInfo(
+                                    it.context.packageName,
+                                    PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA.toLong())
+                                )
+                            } else {
+                                @Suppress("DEPRECATION")
+                                it.context.packageManager.getApplicationInfo(
+                                    it.context.packageName,
+                                    PackageManager.GET_META_DATA
+                                )
+                            }
                         ) as? String
                         ) ?: it.context.getString(R.string.sentinel_name)
                 )
