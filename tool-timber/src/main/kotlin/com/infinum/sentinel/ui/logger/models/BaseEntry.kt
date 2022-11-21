@@ -18,11 +18,4 @@ internal open class BaseEntry(
             .put("message", message)
             .put("stackTrace", stackTrace)
             .toString()
-//        "{ " +
-//            "\"level\": \"$level\", " +
-//            "\"timestamp\": $timestamp, " +
-//            "\"tag\": ${tag?.let { "\"$it\"" } ?: "null"}, " +
-//            "\"message\": ${message?.let { "\"$it\"" } ?: "null"}, " +
-//            "\"stackTrace\": ${stackTrace?.let { "\"$it\"" } ?: "null"}" +
-//            " }"
 }

@@ -6,7 +6,6 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import com.infinum.sentinel.data.models.memory.triggers.shared.samples.SampleQueue
-import timber.log.Timber
 
 internal abstract class SensorTrigger(
     private val context: Context,
@@ -40,9 +39,6 @@ internal abstract class SensorTrigger(
 
     override fun onSensorChanged(event: SensorEvent) {
         val triggered = processEvent(event)
-        if (event.sensor.type == Sensor.TYPE_PROXIMITY) {
-//            Timber.tag("_BOJAN_").i("SensorTrigger -> onSensorChanged -> ${event.values[0]}")
-        }
         val timestamp = event.timestamp
         queue?.let {
             it.add(timestamp, triggered)

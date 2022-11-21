@@ -46,7 +46,6 @@ internal class FlowBuffer<T : BaseEntry> {
             val result = JSONArray(
                 queue.map { entry -> JSONObject(entry.asString()) }.toTypedArray()
             ).toString()
-//            val result = "[ " + queue.joinToString(", ") { entry -> entry.asString() } + " ]"
             it.resume(result)
         }
 }
