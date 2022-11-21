@@ -1,5 +1,7 @@
 package com.infinum.sentinel.ui.logger.models
 
+import org.json.JSONObject
+
 internal open class BaseEntry(
     open val level: Level,
     open val timestamp: Long,
@@ -9,11 +11,18 @@ internal open class BaseEntry(
 ) {
 
     fun asString(): String =
-        "{ " +
-            "\"level\": \"$level\", " +
-            "\"timestamp\": $timestamp, " +
-            "\"tag\": ${tag?.let { "\"$it\"" } ?: "null"}, " +
-            "\"message\": ${message?.let { "\"$it\"" } ?: "null"}, " +
-            "\"stackTrace\": ${stackTrace?.let { "\"$it\"" } ?: "null"}" +
-            " }"
+        JSONObject()
+            .put("level", level)
+            .put("timestamp", timestamp)
+            .put("tag", tag)
+            .put("message", message)
+            .put("stackTrace", stackTrace)
+            .toString()
+//        "{ " +
+//            "\"level\": \"$level\", " +
+//            "\"timestamp\": $timestamp, " +
+//            "\"tag\": ${tag?.let { "\"$it\"" } ?: "null"}, " +
+//            "\"message\": ${message?.let { "\"$it\"" } ?: "null"}, " +
+//            "\"stackTrace\": ${stackTrace?.let { "\"$it\"" } ?: "null"}" +
+//            " }"
 }

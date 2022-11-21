@@ -5,6 +5,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
+import org.json.JSONArray
+import org.json.JSONObject
 
 internal class FlowBuffer<T : BaseEntry> {
 
@@ -32,8 +34,8 @@ internal class FlowBuffer<T : BaseEntry> {
             } else {
                 queue.reversed().filter {
                     it.tag?.lowercase()?.contains(query.lowercase()) == true ||
-                        it.message?.lowercase()?.contains(query.lowercase()) == true ||
-                        it.stackTrace?.lowercase()?.contains(query.lowercase()) == true
+                            it.message?.lowercase()?.contains(query.lowercase()) == true ||
+                            it.stackTrace?.lowercase()?.contains(query.lowercase()) == true
                 }
             }
         )
@@ -41,7 +43,10 @@ internal class FlowBuffer<T : BaseEntry> {
 
     suspend fun asString(): String =
         suspendCancellableCoroutine {
-            val result = "[ " + queue.joinToString(", ") { entry -> entry.asString() } + " ]"
+            val result = JSONArray(
+                queue.map { entry -> JSONObject(entry.asString()) }.toTypedArray()
+            ).toString()
+//            val result = "[ " + queue.joinToString(", ") { entry -> entry.asString() } + " ]"
             it.resume(result)
         }
 }

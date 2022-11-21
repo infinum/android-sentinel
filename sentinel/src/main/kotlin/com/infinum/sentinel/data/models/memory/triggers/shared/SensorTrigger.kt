@@ -41,7 +41,7 @@ internal abstract class SensorTrigger(
     override fun onSensorChanged(event: SensorEvent) {
         val triggered = processEvent(event)
         if (event.sensor.type == Sensor.TYPE_PROXIMITY) {
-            Timber.tag("_BOJAN_").i("SensorTrigger -> onSensorChanged -> ${event.values[0]}")
+//            Timber.tag("_BOJAN_").i("SensorTrigger -> onSensorChanged -> ${event.values[0]}")
         }
         val timestamp = event.timestamp
         queue?.let {
