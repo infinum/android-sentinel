@@ -91,6 +91,7 @@ internal class HtmlFormatter(
                     addDiv(R.string.sentinel_task_affinity, it.taskAffinity)
                     addDiv(R.string.sentinel_locale_language, it.localeLanguage)
                     addDiv(R.string.sentinel_locale_country, it.localeCountry)
+                    addDiv(R.string.sentinel_installer_package, it.installerPackageId)
                 }
             }
             .toString()

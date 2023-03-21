@@ -95,3 +95,11 @@ internal val Context.density
 
 internal val Context.fontScale
     get() = resources.configuration.fontScale
+
+internal val Context.installerPackage: String?
+    get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        packageManager.getInstallSourceInfo(packageName).installingPackageName
+    } else {
+        @Suppress("DEPRECATION")
+        packageManager.getInstallerPackageName(packageName)
+    }

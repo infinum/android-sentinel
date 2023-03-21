@@ -5,23 +5,23 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
+import org.json.JSONArray
+import org.json.JSONObject
 
 internal class FlowBuffer<T : BaseEntry> {
 
-    private val queue: MutableList<T> = mutableListOf()
+    private var queue: List<T> = listOf()
     private val flow: MutableStateFlow<List<T>> = MutableStateFlow(queue.reversed())
 
     suspend fun enqueue(item: T) {
-        val ok = queue.add(item)
-        if (ok) {
-            flow.emit(queue.reversed())
-        }
+        queue = queue.plus(item)
+        flow.emit(queue.reversed())
     }
 
     fun asFlow(): Flow<List<T>> = flow.asStateFlow()
 
     suspend fun clear() {
-        queue.clear()
+        queue = emptyList()
         flow.emit(queue)
     }
 
@@ -32,8 +32,8 @@ internal class FlowBuffer<T : BaseEntry> {
             } else {
                 queue.reversed().filter {
                     it.tag?.lowercase()?.contains(query.lowercase()) == true ||
-                        it.message?.lowercase()?.contains(query.lowercase()) == true ||
-                        it.stackTrace?.lowercase()?.contains(query.lowercase()) == true
+                            it.message?.lowercase()?.contains(query.lowercase()) == true ||
+                            it.stackTrace?.lowercase()?.contains(query.lowercase()) == true
                 }
             }
         )
@@ -41,7 +41,9 @@ internal class FlowBuffer<T : BaseEntry> {
 
     suspend fun asString(): String =
         suspendCancellableCoroutine {
-            val result = "[ " + queue.joinToString(", ") { entry -> entry.asString() } + " ]"
+            val result = JSONArray(
+                queue.map { entry -> JSONObject(entry.asString()) }.toTypedArray()
+            ).toString()
             it.resume(result)
         }
 }

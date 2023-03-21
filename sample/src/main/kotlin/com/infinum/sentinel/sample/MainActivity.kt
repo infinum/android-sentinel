@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                         }
                 )
             }
-            @Suppress("TooGenericExceptionCaught")
+            @Suppress("TooGenericExceptionThrown")
             generateException.setOnClickListener {
                 throw RuntimeException("This is a test exception!")
             }
@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity() {
                     Timber.e("Some message")
                 }
             }
-            @Suppress("TooGenericExceptionCaught")
+            @Suppress("TooGenericExceptionThrown")
             generateErrorException.setOnClickListener {
                 try {
                     throw RuntimeException("Oh no.")

@@ -50,6 +50,7 @@
     <string name="sentinel_task_affinity">Task affinity</string>
     <string name="sentinel_locale_country">Locale country</string>
     <string name="sentinel_locale_language">Locale language</string>
+    <string name="sentinel_installer_package">Installer</string>
     <string name="sentinel_manufacturer">Manufacturer</string>
     <string name="sentinel_model">Model</string>
     <string name="sentinel_id">id</string>
@@ -149,4 +150,6 @@
     <string name="sentinel_weeks">Weeks</string>
     <string name="sentinel_months">Months</string>
     <string name="sentinel_years">Years</string>
+
+    <string name="sentinel_unknown">unknown</string>
 </resources>

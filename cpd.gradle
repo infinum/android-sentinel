@@ -6,7 +6,7 @@ cpd {
 
 cpdCheck {
     reports {
-        xml.enabled = true
+        xml.required = true
     }
     source = allprojects*.file("src/main/kotlin")
 }

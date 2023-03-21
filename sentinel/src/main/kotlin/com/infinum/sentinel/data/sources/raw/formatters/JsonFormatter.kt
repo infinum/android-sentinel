@@ -68,6 +68,7 @@ internal class JsonFormatter(
                 addKey(R.string.sentinel_task_affinity, it.taskAffinity)
                 addKey(R.string.sentinel_locale_language, it.localeLanguage)
                 addKey(R.string.sentinel_locale_country, it.localeCountry)
+                addKey(R.string.sentinel_installer_package, it.installerPackageId)
             }
         }
 

@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.text.format.Formatter
 import com.google.android.material.snackbar.Snackbar
-import com.infinum.sentinel.BuildConfig
 import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.di.LibraryKoin
@@ -61,7 +60,6 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import timber.log.Timber
 
 @SuppressLint("StaticFieldLeak")
 @Suppress("TooManyFunctions")
@@ -93,12 +91,6 @@ internal object Presentation {
     private lateinit var context: Context
 
     private val scope = MainScope()
-
-    init {
-        if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
-        }
-    }
 
     fun initialize(context: Context) {
         this.context = context

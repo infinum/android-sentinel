@@ -1,5 +1,6 @@
 package com.infinum.sentinel.ui.shared.base
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.infinum.sentinel.di.LibraryKoinComponent
@@ -16,7 +17,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 internal abstract class BaseViewModel<State, Event> : ViewModel(), LibraryKoinComponent {
 
@@ -35,7 +35,7 @@ internal abstract class BaseViewModel<State, Event> : ViewModel(), LibraryKoinCo
     val errorFlow: StateFlow<Throwable?> get() = mutableErrorFlow.asStateFlow()
 
     protected open val errorHandler = CoroutineExceptionHandler { _, throwable ->
-        Timber.e(throwable)
+        Log.e("Sentinel", throwable.message.orEmpty())
         mutableErrorFlow.value = throwable
     }
 

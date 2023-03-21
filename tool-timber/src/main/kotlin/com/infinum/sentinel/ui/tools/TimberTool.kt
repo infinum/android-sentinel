@@ -13,7 +13,7 @@ import com.infinum.sentinel.ui.logger.storage.AllowedTags
  * Tool Activity will launch with no additional flags.
  */
 public data class TimberTool @JvmOverloads constructor(
-    private val allowedTags: List<String> = emptyList(),
+    public val allowedTags: List<String> = emptyList(),
     private val listener: View.OnClickListener = View.OnClickListener {
         it.context.startActivity(
             Intent(

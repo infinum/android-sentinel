@@ -8,7 +8,7 @@ internal class SentinelDefaultValuesCallback : RoomDatabase.Callback() {
     companion object {
         private val DEFAULT_TRIGGERS = """
         INSERT INTO "triggers" ("id","type","enabled","editable") VALUES (0,'MANUAL',1,0),
-         (1,'SHAKE',1,0),
+         (1,'SHAKE',1,1),
          (2,'PROXIMITY',1,1),
          (3,'FOREGROUND',1,1),
          (4,'USB_CONNECTED',1,1),
@@ -28,7 +28,7 @@ internal class SentinelDefaultValuesCallback : RoomDatabase.Callback() {
         ("id","limit","notify",
         "activity_intent_extras","activity_saved_state",
         "fragment_arguments","fragment_saved_state") 
-        VALUES (0,500,1,1,1,1,1);
+        VALUES (0,500,0,1,1,1,1);
         """.trimIndent()
 
         private val DEFAULT_CRASH_MONITOR = """

@@ -82,6 +82,12 @@
             android:layout_height="wrap_content"
             app:sentinel_label="@string/sentinel_locale_country" />
 
+        <com.infinum.sentinel.ui.shared.views.SentinelItemTextView
+            android:id="@+id/installerPackageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:sentinel_label="@string/sentinel_installer_package" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
