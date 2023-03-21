@@ -2,7 +2,7 @@ plugins {
     id "com.android.library"
     id "kotlin-android"
     id "org.jetbrains.kotlin.plugin.serialization"
-    id "com.google.devtools.ksp" version "1.7.21-1.0.8"
+    id "com.google.devtools.ksp" version "1.8.10-1.0.9"
 }
 
 apply from: "jacoco.gradle"
@@ -41,20 +41,27 @@ android {
         }
     }
 
+    namespace "com.infinum.sentinel"
     resourcePrefix "sentinel_"
 
-    lintOptions {
+    kotlin {
+        jvmToolchain(8)
+    }
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(8))
+        }
+    }
+
+    lint {
         disable "RtlEnabled", "VectorPath"
     }
     compileOptions {
         coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs += [
-                "-Xopt-in=kotlin.ExperimentalStdlibApi",
+                "-opt-in=kotlin.ExperimentalStdlibApi",
                 "-Xexplicit-api=strict",
                 '-Xjvm-default=all'
         ]
@@ -88,7 +95,6 @@ dependencies {
     ksp libs.androidx.room.compiler
     implementation libs.material
     implementation libs.koin
-    implementation libs.timber
 
     androidTestImplementation "junit:junit:4.13.2"
     androidTestImplementation "androidx.arch.core:core-testing:2.1.0"

@@ -3,9 +3,16 @@ Change Log
 
 ## Version 1.2.3
 
-_2022-MM-DD_
+_2023-03-21_
 
+* Update Kotlin to 1.8.10.
+* Make shake trigger editable for transportation testing purposes.
+* Disable auto start of Bundle monitor.
 * Add package installer information in application data.
+* Fix serialization of log entries in Timber tool.
+* Fix concurrency of log entries in Timber tool.
+* Update Gradle wrapper.
+* Update dependencies.
 
 ## Version 1.2.2
 

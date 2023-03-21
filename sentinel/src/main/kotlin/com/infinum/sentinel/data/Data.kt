@@ -41,7 +41,7 @@ import org.koin.dsl.module
 
 internal object Data {
 
-    const val DATABASE_VERSION = 4
+    const val DATABASE_VERSION = 5
 
     object Qualifiers {
 

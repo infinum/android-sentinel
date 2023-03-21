@@ -39,16 +39,19 @@ android {
         }
     }
 
+    namespace "com.infinum.sentinel.sample"
+
     buildFeatures {
         viewBinding = true
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+    kotlin {
+        jvmToolchain(8)
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(8))
+        }
     }
 
     sourceSets {
@@ -65,9 +68,8 @@ dependencies {
     implementation libs.material
     implementation libs.timber
 
-//    debugImplementation libs.library
-//    releaseImplementation libs.librarynoop
+    debugImplementation libs.library
+    releaseImplementation libs.librarynoop
 
-    implementation project(":sentinel")
     debugImplementation libs.bundles.tools
 }

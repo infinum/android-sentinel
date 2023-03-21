@@ -2,8 +2,8 @@ package com.infinum.sentinel.extensions
 
 import android.os.Bundle
 import android.os.Parcel
+import android.util.Log
 import com.infinum.sentinel.data.models.memory.bundles.BundleTree
-import timber.log.Timber
 
 /**
  * Measure the sizes of all the values in a [Bundle] when written to a [Parcel].
@@ -49,7 +49,7 @@ internal val Bundle.sizeAsParcelable: Int
             parcel.writeBundle(Bundle(this))
             parcel.dataSize()
         } catch (exception: ConcurrentModificationException) {
-            Timber.e(exception)
+            Log.e("Sentinel", exception.message.orEmpty())
             0
         } finally {
             parcel.recycle()

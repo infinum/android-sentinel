@@ -11,7 +11,7 @@ import java.security.cert.X509Certificate
  * Specific wrapper tool that previews X.509 certificates from system and application.
  */
 public data class CertificateTool @JvmOverloads constructor(
-    val userCertificates: List<X509Certificate> = listOf(),
+    public val userCertificates: List<X509Certificate> = listOf(),
     private val listener: View.OnClickListener = View.OnClickListener {
         it.context.startActivity(
             Intent(

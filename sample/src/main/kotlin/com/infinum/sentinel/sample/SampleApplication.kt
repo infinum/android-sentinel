@@ -25,13 +25,11 @@ class SampleApplication : Application() {
                 CollarTool(),
                 DbInspectorTool(),
                 LeakCanaryTool(),
-                AppGalleryTool("102016595"),
+                AppGalleryTool(appId = "102016595"),
                 GooglePlayTool(),
                 ThimbleTool(),
                 TimberTool(allowedTags = listOf("MAIN")),
-                CertificateTool(
-                    loadDebugCertificates()
-                )
+                CertificateTool(userCertificates = loadDebugCertificates())
             )
         )
     }

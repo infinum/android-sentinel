@@ -57,15 +57,15 @@ Then add the following dependencies in your app `build.gradle` or `build.gradle.
 **Groovy**
 
 ```groovy
-debugImplementation "com.infinum.sentinel:sentinel:1.2.2"
-releaseImplementation "com.infinum.sentinel:sentinel-no-op:1.2.2"
+debugImplementation "com.infinum.sentinel:sentinel:1.2.3"
+releaseImplementation "com.infinum.sentinel:sentinel-no-op:1.2.3"
 ```
 
 **KotlinDSL**
 
 ```kotlin
-debugImplementation("com.infinum.sentinel:sentinel:1.2.2")
-releaseImplementation("com.infinum.sentinel:sentinel-no-op:1.2.2")
+debugImplementation("com.infinum.sentinel:sentinel:1.2.3")
+releaseImplementation("com.infinum.sentinel:sentinel-no-op:1.2.3")
 ```
 
 Basic tools are provided inside the main package but depending on requirements you might want to add
@@ -74,27 +74,27 @@ specific tools:
 **Groovy**
 
 ```groovy
-debugImplementation "com.infinum.sentinel:tool-chucker:1.2.2"
-debugImplementation "com.infinum.sentinel:tool-collar:1.2.2"
-debugImplementation "com.infinum.sentinel:tool-dbinspector:1.2.2"
-debugImplementation "com.infinum.sentinel:tool-leakcanary:1.2.2"
-debugImplementation "com.infinum.sentinel:tool-appgallery:1.2.2"
-debugImplementation "com.infinum.sentinel:tool-googleplay:1.2.2"
-debugImplementation "com.infinum.sentinel:tool-thimble:1.2.2"
-debugImplementation "com.infinum.sentinel:tool-timber:1.2.2"
+debugImplementation "com.infinum.sentinel:tool-chucker:1.2.3"
+debugImplementation "com.infinum.sentinel:tool-collar:1.2.3"
+debugImplementation "com.infinum.sentinel:tool-dbinspector:1.2.3"
+debugImplementation "com.infinum.sentinel:tool-leakcanary:1.2.3"
+debugImplementation "com.infinum.sentinel:tool-appgallery:1.2.3"
+debugImplementation "com.infinum.sentinel:tool-googleplay:1.2.3"
+debugImplementation "com.infinum.sentinel:tool-thimble:1.2.3"
+debugImplementation "com.infinum.sentinel:tool-timber:1.2.3"
 ```
 
 **KotlinDSL**
 
 ```kotlin
-debugImplementation("com.infinum.sentinel:tool-chucker:1.2.2")
-debugImplementation("com.infinum.sentinel:tool-collar:1.2.2")
-debugImplementation("com.infinum.sentinel:tool-dbinspector:1.2.2")
-debugImplementation("com.infinum.sentinel:tool-leakcanary:1.2.2")
-debugImplementation("com.infinum.sentinel:tool-appgallery:1.2.2")
-debugImplementation("com.infinum.sentinel:tool-googleplay:1.2.2")
-debugImplementation("com.infinum.sentinel:tool-thimble:1.2.2")
-debugImplementation("com.infinum.sentinel:tool-timber:1.2.2")
+debugImplementation("com.infinum.sentinel:tool-chucker:1.2.3")
+debugImplementation("com.infinum.sentinel:tool-collar:1.2.3")
+debugImplementation("com.infinum.sentinel:tool-dbinspector:1.2.3")
+debugImplementation("com.infinum.sentinel:tool-leakcanary:1.2.3")
+debugImplementation("com.infinum.sentinel:tool-appgallery:1.2.3")
+debugImplementation("com.infinum.sentinel:tool-googleplay:1.2.3")
+debugImplementation("com.infinum.sentinel:tool-thimble:1.2.3")
+debugImplementation("com.infinum.sentinel:tool-timber:1.2.3")
 ```
 
 Now you can sync your project.
@@ -191,7 +191,7 @@ interface Tool {
 ### Triggers
 
 _Sentinel_ observes several different trigger events, determining when to show up.
-*Manual* and *Shake* triggers cannot be turned off but rest are configurable through _Sentinel_
+*Manual* trigger cannot be turned off but rest are configurable through _Sentinel_
 settings except *Foreground* trigger when running on emulators. Trigger states will be persisted
 between sessions.
 *Upon first run, all triggers are enabled.*

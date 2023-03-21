@@ -21,7 +21,7 @@ import com.infinum.sentinel.Sentinel
  */
 @SuppressLint("QueryPermissionsNeeded")
 public data class AppGalleryTool @JvmOverloads constructor(
-    private val appId: String,
+    public val appId: String,
     private val listener: View.OnClickListener = View.OnClickListener { view ->
         val intent = Intent(
             Intent.ACTION_VIEW,

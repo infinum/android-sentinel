@@ -44,7 +44,7 @@ internal class SentinelWorkManager(
         WorkManager.getInstance(context)
             .enqueueUniquePeriodicWork(
                 CertificateCheckWorker.NAME,
-                ExistingPeriodicWorkPolicy.REPLACE,
+                ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE,
                 PeriodicWorkRequestBuilder<CertificateCheckWorker>(
                     when (BuildConfig.DEBUG) {
                         true -> Duration.ofMinutes(DEBUG_INTERVAL)

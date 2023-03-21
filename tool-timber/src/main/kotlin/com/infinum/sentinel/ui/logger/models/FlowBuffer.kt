@@ -10,20 +10,18 @@ import org.json.JSONObject
 
 internal class FlowBuffer<T : BaseEntry> {
 
-    private val queue: MutableList<T> = mutableListOf()
+    private var queue: List<T> = listOf()
     private val flow: MutableStateFlow<List<T>> = MutableStateFlow(queue.reversed())
 
     suspend fun enqueue(item: T) {
-        val ok = queue.add(item)
-        if (ok) {
-            flow.emit(queue.reversed())
-        }
+        queue = queue.plus(item)
+        flow.emit(queue.reversed())
     }
 
     fun asFlow(): Flow<List<T>> = flow.asStateFlow()
 
     suspend fun clear() {
-        queue.clear()
+        queue = emptyList()
         flow.emit(queue)
     }
 
