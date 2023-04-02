@@ -6,6 +6,7 @@ import android.content.Intent
 import android.text.format.Formatter
 import com.google.android.material.snackbar.Snackbar
 import com.infinum.sentinel.R
+import com.infinum.sentinel.data.models.memory.triggers.TriggerType
 import com.infinum.sentinel.data.sources.local.room.dao.BundleMonitorDao
 import com.infinum.sentinel.data.sources.local.room.dao.CertificateMonitorDao
 import com.infinum.sentinel.data.sources.local.room.dao.CrashMonitorDao
@@ -37,6 +38,11 @@ import com.infinum.sentinel.domain.formatters.Formatters
 import com.infinum.sentinel.domain.preference.PreferenceRepository
 import com.infinum.sentinel.domain.triggers.TriggersRepository
 import com.infinum.sentinel.domain.triggers.models.TriggerParameters
+import com.infinum.sentinel.extensions.enableAirplaneModeOnTrigger
+import com.infinum.sentinel.extensions.enableForegroundTrigger
+import com.infinum.sentinel.extensions.enableProximityTrigger
+import com.infinum.sentinel.extensions.enableShakeTrigger
+import com.infinum.sentinel.extensions.enableUsbConnectedTrigger
 import com.infinum.sentinel.extensions.sizeTree
 import com.infinum.sentinel.ui.bundles.callbacks.BundleMonitorActivityCallbacks
 import com.infinum.sentinel.ui.bundles.callbacks.BundleMonitorNotificationCallbacks
@@ -56,9 +62,11 @@ import com.infinum.sentinel.ui.shared.notification.NotificationIntentFactory
 import com.infinum.sentinel.ui.shared.notification.SystemNotificationFactory
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Provides
 
@@ -113,19 +121,8 @@ internal abstract class DomainComponent(
     fun setup() {
         initializeCrashMonitor()
         initializeBundleMonitor()
-
-        scope.launch {
-            triggers.load(TriggerParameters()).first()
-        }
-        scope.launch {
-            val monitorEntity = certificateMonitor.load(CertificateMonitorParameters()).first()
-            monitorEntity.takeIf { it.runOnStart }?.let {
-                certificatesObserver.activate(it)
-            } ?: certificatesObserver.deactivate()
-            monitorEntity.takeIf { it.runInBackground }?.let {
-                sentinelWorkManager.startCertificatesCheck(it)
-            } ?: sentinelWorkManager.stopCertificatesCheck()
-        }
+        initializeCertificateMonitor()
+        initializeTriggers()
     }
 
     @Provides
@@ -241,16 +238,32 @@ internal abstract class DomainComponent(
     private fun initializeCrashMonitor() {
         Thread.setDefaultUncaughtExceptionHandler(sentinelExceptionHandler as Thread.UncaughtExceptionHandler)
         scope.launch {
-            val entity = crashMonitor.load(CrashMonitorParameters()).first()
-            if (entity.notifyExceptions) {
-                sentinelExceptionHandler.start()
-            } else {
-                sentinelExceptionHandler.stop()
+            withContext(Dispatchers.IO) {
+                val entity = crashMonitor.load(CrashMonitorParameters()).first()
+                if (entity.notifyExceptions) {
+                    sentinelExceptionHandler.start()
+                } else {
+                    sentinelExceptionHandler.stop()
+                }
+                if (entity.notifyExceptions) {
+                    sentinelAnrObserver.start()
+                } else {
+                    sentinelAnrObserver.stop()
+                }
             }
-            if (entity.notifyExceptions) {
-                sentinelAnrObserver.start()
-            } else {
-                sentinelAnrObserver.stop()
+        }
+    }
+
+    private fun initializeCertificateMonitor() {
+        scope.launch {
+            withContext(Dispatchers.IO) {
+                val monitorEntity = certificateMonitor.load(CertificateMonitorParameters()).first()
+                monitorEntity.takeIf { it.runOnStart }?.let {
+                    certificatesObserver.activate(it)
+                } ?: certificatesObserver.deactivate()
+                monitorEntity.takeIf { it.runInBackground }?.let {
+                    sentinelWorkManager.startCertificatesCheck(it)
+                } ?: sentinelWorkManager.stopCertificatesCheck()
             }
         }
     }
@@ -263,48 +276,95 @@ internal abstract class DomainComponent(
             ?.registerActivityLifecycleCallbacks(
                 BundleMonitorActivityCallbacks { activity, timestamp, className, callSite, bundle ->
                     scope.launch {
-                        val sizeTree = bundle.sizeTree()
-                        bundles.save(
-                            BundleParameters(
-                                descriptor = BundleDescriptor(
-                                    timestamp = timestamp,
-                                    className = className,
-                                    callSite = callSite,
-                                    bundleTree = sizeTree
+                        withContext(Dispatchers.IO) {
+                            val sizeTree = bundle.sizeTree()
+                            bundles.save(
+                                BundleParameters(
+                                    descriptor = BundleDescriptor(
+                                        timestamp = timestamp,
+                                        className = className,
+                                        callSite = callSite,
+                                        bundleTree = sizeTree
+                                    )
                                 )
                             )
-                        )
 
-                        val currentMonitor = bundleMonitor.load(BundleMonitorParameters()).first()
-                        if (currentMonitor.notify && sizeTree.size > currentMonitor.limit * Constants.BYTE_MULTIPLIER) {
-                            notificationCallbacks.currentActivity?.let {
-                                Snackbar.make(
-                                    it.window.decorView,
-                                    buildString {
-                                        append(className)
-                                        append(System.lineSeparator())
-                                        append(
-                                            Formatter.formatFileSize(
-                                                activity,
-                                                sizeTree.size.toLong()
+                            val currentMonitor =
+                                bundleMonitor.load(BundleMonitorParameters()).first()
+                            if (currentMonitor.notify && sizeTree.size >
+                                currentMonitor.limit * Constants.BYTE_MULTIPLIER
+                            ) {
+                                notificationCallbacks.currentActivity?.let {
+                                    Snackbar.make(
+                                        it.window.decorView,
+                                        buildString {
+                                            append(className)
+                                            append(System.lineSeparator())
+                                            append(
+                                                Formatter.formatFileSize(
+                                                    activity,
+                                                    sizeTree.size.toLong()
+                                                )
                                             )
-                                        )
-                                    },
-                                    Snackbar.LENGTH_LONG
-                                )
-                                    .setAction(R.string.sentinel_show) { view ->
-                                        view.context.startActivity(
-                                            Intent(activity, BundleDetailsActivity::class.java)
-                                                .apply {
-                                                    putExtra(Constants.Keys.BUNDLE_ID, sizeTree.id)
-                                                }
-                                        )
-                                    }
-                                    .show()
+                                        },
+                                        Snackbar.LENGTH_LONG
+                                    )
+                                        .setAction(R.string.sentinel_show) { view ->
+                                            view.context.startActivity(
+                                                Intent(activity, BundleDetailsActivity::class.java)
+                                                    .apply {
+                                                        putExtra(
+                                                            Constants.Keys.BUNDLE_ID,
+                                                            sizeTree.id
+                                                        )
+                                                    }
+                                            )
+                                        }
+                                        .show()
+                                }
                             }
                         }
                     }
                 }
             )
+    }
+
+    private fun initializeTriggers() {
+        scope.launch {
+            withContext(Dispatchers.IO) {
+                triggers.load(TriggerParameters()).first()
+                    .forEach { entity ->
+                        when (entity.type) {
+                            TriggerType.SHAKE ->
+                                context.enableShakeTrigger()?.let {
+                                    entity.enabled = it
+                                }
+                            TriggerType.FOREGROUND ->
+                                context.enableForegroundTrigger()?.let {
+                                    entity.enabled = it
+                                }
+                            TriggerType.PROXIMITY ->
+                                context.enableProximityTrigger()?.let {
+                                    entity.enabled = it
+                                }
+                            TriggerType.USB_CONNECTED ->
+                                context.enableUsbConnectedTrigger()?.let {
+                                    entity.enabled = it
+                                }
+                            TriggerType.AIRPLANE_MODE_ON ->
+                                context.enableAirplaneModeOnTrigger()?.let {
+                                    entity.enabled = it
+                                }
+                            else -> null
+                        }?.let {
+                            triggers.save(
+                                TriggerParameters(
+                                    entity = entity
+                                )
+                            )
+                        }
+                    }
+            }
+        }
     }
 }

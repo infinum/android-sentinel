@@ -194,7 +194,46 @@ _Sentinel_ observes several different trigger events, determining when to show u
 *Manual* trigger cannot be turned off but rest are configurable through _Sentinel_
 settings except *Foreground* trigger when running on emulators. Trigger states will be persisted
 between sessions.
-*Upon first run, all triggers are enabled.*
+*Upon first run, all triggers are enabled.*  
+Only way to override default trigger behaviour is to explicitly set them in you application manifest.  
+If declared, these will override any changes that user does on each application launch.  
+Accepted values are *0* and *1* to disable or enable a trigger.  
+Anything else will result in the same way like the metadata key isn't declared at all.
+```xml
+<application
+    android:name=".SampleApplication"
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"
+    android:roundIcon="@mipmap/ic_launcher_round"
+    android:supportsRtl="true"
+    android:theme="@style/AppTheme">
+  
+    ...
+  
+    <meta-data
+        android:name="com.infinum.sentinel.trigger.shake"
+        android:value="1" />
+
+    <meta-data
+        android:name="com.infinum.sentinel.trigger.proximity"
+        android:value="0" />
+
+    <meta-data
+        android:name="com.infinum.sentinel.trigger.foreground"
+        android:value="0" />
+
+    <meta-data
+        android:name="com.infinum.sentinel.trigger.usb_connected"
+        android:value="0" />
+
+    <meta-data
+        android:name="com.infinum.sentinel.trigger.airplane_mode_on"
+        android:value="0" />
+
+    ...
+  
+</application>
+```
 
 - `Manual` - used for manually triggering UI with _show()_
 - `Shake` - default trigger to show UI, shake device to invoke

@@ -279,13 +279,13 @@ internal abstract class DataComponent(
 
     @Provides
     @DataScope
-    fun foregroundTrigger(): ForegroundTrigger =
-        ForegroundTrigger(this.onTriggered)
+    fun shakeTrigger(): ShakeTrigger =
+        ShakeTrigger(context, this.onTriggered)
 
     @Provides
     @DataScope
-    fun shakeTrigger(): ShakeTrigger =
-        ShakeTrigger(context, this.onTriggered)
+    fun foregroundTrigger(): ForegroundTrigger =
+        ForegroundTrigger(this.onTriggered)
 
     @Provides
     @DataScope
