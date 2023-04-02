@@ -94,7 +94,8 @@ dependencies {
     implementation libs.bundles.androidx
     ksp libs.androidx.room.compiler
     implementation libs.material
-    implementation libs.koin
+    ksp libs.inject.compiler
+    implementation libs.inject.runtime
 
     androidTestImplementation "junit:junit:4.13.2"
     androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
@@ -112,6 +113,10 @@ dependencies {
 
     testImplementation "junit:junit:4.13.2"
     testImplementation "androidx.test.ext:junit:1.1.3"
+}
+
+ksp {
+    arg("me.tatarka.inject.dumpGraph", "false")
 }
 
 apply from: "publish.gradle"

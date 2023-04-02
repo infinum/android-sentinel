@@ -10,11 +10,11 @@ import com.infinum.sentinel.data.models.local.TriggerEntity
 import com.infinum.sentinel.data.models.memory.formats.FormatType
 import com.infinum.sentinel.data.models.memory.triggers.TriggerType
 import com.infinum.sentinel.databinding.SentinelFragmentSettingsBinding
+import com.infinum.sentinel.extensions.viewModels
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
 import java.time.temporal.ChronoUnit
 import kotlin.math.roundToInt
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.layout.sentinel_fragment_settings) {
@@ -31,7 +31,7 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
         SentinelFragmentSettingsBinding::bind
     )
 
-    override val viewModel: SettingsViewModel by viewModel()
+    override val viewModel: SettingsViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

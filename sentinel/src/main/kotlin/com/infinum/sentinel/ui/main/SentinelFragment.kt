@@ -9,6 +9,7 @@ import com.google.android.material.shape.ShapeAppearanceModel
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentBinding
 import com.infinum.sentinel.extensions.shareText
+import com.infinum.sentinel.extensions.viewModels
 import com.infinum.sentinel.ui.main.application.ApplicationFragment
 import com.infinum.sentinel.ui.main.device.DeviceFragment
 import com.infinum.sentinel.ui.main.permissions.PermissionsFragment
@@ -18,7 +19,6 @@ import com.infinum.sentinel.ui.settings.SettingsActivity
 import com.infinum.sentinel.ui.shared.base.BaseFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
 import com.infinum.sentinel.ui.shared.edgetreatment.ScissorsEdgeTreatment
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @Suppress("TooManyFunctions")
 @RestrictTo(RestrictTo.Scope.LIBRARY)
@@ -28,7 +28,7 @@ internal class SentinelFragment : BaseFragment<SentinelState, SentinelEvent>(R.l
         const val TAG: String = "SentinelFragment"
     }
 
-    override val viewModel: SentinelViewModel by viewModel()
+    override val viewModel: SentinelViewModel by viewModels()
 
     override val binding: SentinelFragmentBinding by viewBinding(
         SentinelFragmentBinding::bind

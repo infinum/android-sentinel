@@ -4,7 +4,9 @@ import com.infinum.sentinel.domain.bundle.descriptor.models.BundleDescriptor
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class InMemoryBundlesCache : BundlesCache {
 
     private val descriptors = mutableListOf<BundleDescriptor>()

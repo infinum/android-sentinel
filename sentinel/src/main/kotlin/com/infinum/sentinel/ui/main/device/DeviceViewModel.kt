@@ -2,7 +2,9 @@ package com.infinum.sentinel.ui.main.device
 
 import com.infinum.sentinel.domain.Factories
 import com.infinum.sentinel.ui.shared.base.BaseChildViewModel
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class DeviceViewModel(
     private val collectors: Factories.Collector
 ) : BaseChildViewModel<DeviceState, Nothing>() {

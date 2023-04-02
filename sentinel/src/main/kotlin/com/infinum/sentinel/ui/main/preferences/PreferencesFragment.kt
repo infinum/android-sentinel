@@ -10,10 +10,10 @@ import com.infinum.sentinel.databinding.SentinelFragmentPreferencesBinding
 import com.infinum.sentinel.databinding.SentinelViewItemPreferenceBinding
 import com.infinum.sentinel.databinding.SentinelViewItemTextBinding
 import com.infinum.sentinel.extensions.copyToClipboard
+import com.infinum.sentinel.extensions.viewModels
 import com.infinum.sentinel.ui.main.preferences.editor.PreferenceEditorContract
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class PreferencesFragment :
@@ -30,7 +30,7 @@ internal class PreferencesFragment :
         SentinelFragmentPreferencesBinding::bind
     )
 
-    override val viewModel: PreferencesViewModel by viewModel()
+    override val viewModel: PreferencesViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

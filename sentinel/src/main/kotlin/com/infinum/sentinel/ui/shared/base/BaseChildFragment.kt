@@ -7,12 +7,11 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.RestrictTo
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
-import com.infinum.sentinel.di.LibraryKoinComponent
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal abstract class BaseChildFragment<State, Event>(
     @LayoutRes contentLayoutId: Int
-) : Fragment(contentLayoutId), BaseView<State, Event>, LibraryKoinComponent {
+) : Fragment(contentLayoutId), BaseView<State, Event> {
 
     abstract val binding: ViewBinding
 

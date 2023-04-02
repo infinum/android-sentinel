@@ -5,7 +5,9 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import com.infinum.sentinel.data.models.memory.triggers.shared.SensorTrigger
 import com.infinum.sentinel.data.models.memory.triggers.shared.samples.SampleQueue
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class ShakeTrigger(
     context: Context,
     trigger: () -> Unit

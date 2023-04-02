@@ -17,10 +17,10 @@ import com.infinum.sentinel.R
 import com.infinum.sentinel.data.models.raw.PreferenceType
 import com.infinum.sentinel.databinding.SentinelFragmentPreferenceEditorBinding
 import com.infinum.sentinel.databinding.SentinelViewItemInputBinding
-import com.infinum.sentinel.ui.Presentation
+import com.infinum.sentinel.extensions.viewModels
+import com.infinum.sentinel.ui.shared.Constants
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class PreferenceEditorFragment :
@@ -37,7 +37,7 @@ internal class PreferenceEditorFragment :
         SentinelFragmentPreferenceEditorBinding::bind
     )
 
-    override val viewModel: PreferenceEditorViewModel by viewModel()
+    override val viewModel: PreferenceEditorViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -269,7 +269,7 @@ internal class PreferenceEditorFragment :
                     it.setResult(
                         Activity.RESULT_OK,
                         Intent().apply {
-                            putExtra(Presentation.Constants.Keys.SHOULD_REFRESH, true)
+                            putExtra(Constants.Keys.SHOULD_REFRESH, true)
                         }
                     )
                     it.finish()

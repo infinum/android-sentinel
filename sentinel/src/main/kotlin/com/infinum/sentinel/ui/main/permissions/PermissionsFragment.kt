@@ -6,9 +6,9 @@ import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentPermissionsBinding
 import com.infinum.sentinel.databinding.SentinelViewItemCheckableBinding
 import com.infinum.sentinel.extensions.copyToClipboard
+import com.infinum.sentinel.extensions.viewModels
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class PermissionsFragment :
@@ -23,7 +23,7 @@ internal class PermissionsFragment :
         SentinelFragmentPermissionsBinding::bind
     )
 
-    override val viewModel: PermissionsViewModel by viewModel()
+    override val viewModel: PermissionsViewModel by viewModels()
 
     override fun onState(state: PermissionsState) =
         when (state) {

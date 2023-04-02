@@ -8,7 +8,9 @@ import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.triggers.models.TriggerParameters
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onEach
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class TriggersRepository(
     private val dao: TriggersDao,
     private val cache: TriggersCache

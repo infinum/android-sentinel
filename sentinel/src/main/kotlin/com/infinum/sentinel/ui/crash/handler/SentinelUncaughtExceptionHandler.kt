@@ -9,7 +9,9 @@ import com.infinum.sentinel.extensions.asExceptionData
 import com.infinum.sentinel.extensions.asThreadData
 import com.infinum.sentinel.ui.shared.notification.NotificationFactory
 import kotlinx.coroutines.runBlocking
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class SentinelUncaughtExceptionHandler(
     private val context: Context,
     private val notificationFactory: NotificationFactory,

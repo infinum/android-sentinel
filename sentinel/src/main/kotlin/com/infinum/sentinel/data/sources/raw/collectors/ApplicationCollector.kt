@@ -11,7 +11,9 @@ import com.infinum.sentinel.extensions.installerPackage
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class ApplicationCollector(
     private val context: Context
 ) : Collectors.Application {

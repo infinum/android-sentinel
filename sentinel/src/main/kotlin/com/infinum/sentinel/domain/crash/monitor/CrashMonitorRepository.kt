@@ -5,7 +5,9 @@ import com.infinum.sentinel.data.sources.local.room.dao.CrashMonitorDao
 import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.crash.monitor.models.CrashMonitorParameters
 import kotlinx.coroutines.flow.Flow
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class CrashMonitorRepository(
     private val dao: CrashMonitorDao
 ) : Repositories.CrashMonitor {

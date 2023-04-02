@@ -17,9 +17,11 @@ import com.infinum.sentinel.domain.collectors.Collectors
 import com.infinum.sentinel.domain.formatters.Formatters
 import com.infinum.sentinel.extensions.sanitize
 import java.io.StringWriter
+import me.tatarka.inject.annotations.Inject
 import org.xmlpull.v1.XmlSerializer
 
 @Suppress("TooManyFunctions")
+@Inject
 internal class XmlFormatter(
     private val context: Context,
     private val applicationCollector: Collectors.Application,

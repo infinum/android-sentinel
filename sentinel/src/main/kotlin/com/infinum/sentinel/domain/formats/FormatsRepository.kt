@@ -5,7 +5,9 @@ import com.infinum.sentinel.data.sources.local.room.dao.FormatsDao
 import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.formats.models.FormatsParameters
 import kotlinx.coroutines.flow.Flow
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class FormatsRepository(
     private val dao: FormatsDao
 ) : Repositories.Formats {

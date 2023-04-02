@@ -3,7 +3,6 @@ package com.infinum.sentinel.data.sources.local.room
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.infinum.sentinel.data.Data.DATABASE_VERSION
 import com.infinum.sentinel.data.models.local.BundleMonitorEntity
 import com.infinum.sentinel.data.models.local.CertificateMonitorEntity
 import com.infinum.sentinel.data.models.local.CrashEntity
@@ -20,6 +19,7 @@ import com.infinum.sentinel.data.sources.local.room.typeconverters.ChronoUnitCon
 import com.infinum.sentinel.data.sources.local.room.typeconverters.CrashDataConverter
 import com.infinum.sentinel.data.sources.local.room.typeconverters.FormatTypeConverter
 import com.infinum.sentinel.data.sources.local.room.typeconverters.TriggerTypeConverter
+import com.infinum.sentinel.di.LibraryComponents.DATABASE_VERSION
 
 @Database(
     entities = [

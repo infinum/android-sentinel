@@ -7,7 +7,9 @@ import com.infinum.sentinel.data.models.raw.PreferenceType
 import com.infinum.sentinel.data.models.raw.PreferencesData
 import com.infinum.sentinel.domain.collectors.Collectors
 import java.io.File
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class PreferencesCollector(
     private val context: Context
 ) : Collectors.Preferences {

@@ -10,12 +10,12 @@ import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentCrashDetailsBinding
 import com.infinum.sentinel.databinding.SentinelViewItemThreadStateBinding
 import com.infinum.sentinel.extensions.shareText
-import com.infinum.sentinel.ui.Presentation
+import com.infinum.sentinel.extensions.viewModels
+import com.infinum.sentinel.ui.shared.Constants
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
 import java.text.SimpleDateFormat
 import java.util.Date
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class CrashDetailsFragment :
@@ -24,7 +24,7 @@ internal class CrashDetailsFragment :
     companion object {
         fun newInstance(crashId: Long) = CrashDetailsFragment().apply {
             arguments = Bundle().apply {
-                putLong(Presentation.Constants.Keys.CRASH_ID, crashId)
+                putLong(Constants.Keys.CRASH_ID, crashId)
             }
         }
 
@@ -35,14 +35,14 @@ internal class CrashDetailsFragment :
         SentinelFragmentCrashDetailsBinding::bind
     )
 
-    override val viewModel: CrashDetailsViewModel by viewModel()
+    override val viewModel: CrashDetailsViewModel by viewModels()
 
     private var crashId: Long? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        crashId = arguments?.getLong(Presentation.Constants.Keys.CRASH_ID)
+        crashId = arguments?.getLong(Constants.Keys.CRASH_ID)
         crashId?.let { viewModel.setCrashId(it) } ?: activity?.finish()
     }
 

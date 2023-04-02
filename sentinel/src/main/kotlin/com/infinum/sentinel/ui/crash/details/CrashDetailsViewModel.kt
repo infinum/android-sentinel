@@ -10,7 +10,9 @@ import com.infinum.sentinel.extensions.formatter
 import com.infinum.sentinel.ui.shared.base.BaseChildViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class CrashDetailsViewModel(
     private val crashMonitor: Repositories.CrashMonitor,
     private val dao: CrashesDao,

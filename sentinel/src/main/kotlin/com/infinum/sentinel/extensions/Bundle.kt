@@ -18,21 +18,27 @@ internal fun Bundle.sizeTree(): BundleTree {
     return BundleTree(
         "${System.identityHashCode(this)}",
         originalSize,
-        original.keySet().map { key ->
-            val withoutKey = Bundle(original)
+        original
+            .keySet()
+            .filter {
+                @Suppress("DEPRECATION")
+                original.get(it) is Bundle
+            }
+            .map { key ->
+                val withoutKey = Bundle(original)
 
-            val internalTree: BundleTree? = withoutKey.getBundle(key)?.sizeTree()
+                val internalTree: BundleTree? = withoutKey.getBundle(key)?.sizeTree()
 
-            withoutKey.remove(key)
+                withoutKey.remove(key)
 
-            val valueSize = originalSize - withoutKey.sizeAsParcelable
+                val valueSize = originalSize - withoutKey.sizeAsParcelable
 
-            BundleTree(
-                key,
-                valueSize,
-                internalTree?.let { listOf(it) } ?: emptyList()
-            )
-        }
+                BundleTree(
+                    key,
+                    valueSize,
+                    internalTree?.let { listOf(it) } ?: emptyList()
+                )
+            }
     )
 }
 

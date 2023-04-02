@@ -3,7 +3,6 @@ package com.infinum.sentinel.ui.shared.base
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.infinum.sentinel.di.LibraryKoinComponent
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +17,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-internal abstract class BaseViewModel<State, Event> : ViewModel(), LibraryKoinComponent {
+internal abstract class BaseViewModel<State, Event> : ViewModel() {
 
     private val supervisorJob = SupervisorJob()
 

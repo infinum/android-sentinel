@@ -4,7 +4,9 @@ import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import com.infinum.sentinel.data.models.memory.triggers.shared.SensorTrigger
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class ProximityTrigger(
     context: Context,
     trigger: () -> Unit

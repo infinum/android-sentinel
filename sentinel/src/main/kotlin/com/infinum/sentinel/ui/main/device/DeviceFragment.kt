@@ -3,9 +3,9 @@ package com.infinum.sentinel.ui.main.device
 import androidx.annotation.RestrictTo
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentDeviceBinding
+import com.infinum.sentinel.extensions.viewModels
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class DeviceFragment : BaseChildFragment<DeviceState, Nothing>(R.layout.sentinel_fragment_device) {
@@ -19,7 +19,7 @@ internal class DeviceFragment : BaseChildFragment<DeviceState, Nothing>(R.layout
         SentinelFragmentDeviceBinding::bind
     )
 
-    override val viewModel: DeviceViewModel by viewModel()
+    override val viewModel: DeviceViewModel by viewModels()
 
     override fun onState(state: DeviceState) =
         when (state) {

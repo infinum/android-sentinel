@@ -2,11 +2,13 @@ package com.infinum.sentinel.ui.shared.notification
 
 import android.content.Context
 import android.content.Intent
-import com.infinum.sentinel.ui.Presentation
 import com.infinum.sentinel.ui.certificates.CertificatesActivity
 import com.infinum.sentinel.ui.crash.CrashesActivity
 import com.infinum.sentinel.ui.crash.details.CrashDetailsActivity
+import com.infinum.sentinel.ui.shared.Constants
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class NotificationIntentFactory(
     private val context: Context
 ) : IntentFactory {
@@ -15,11 +17,11 @@ internal class NotificationIntentFactory(
         arrayOf(
             Intent(context, CrashesActivity::class.java)
                 .apply {
-                    putExtra(Presentation.Constants.Keys.APPLICATION_NAME, applicationName)
+                    putExtra(Constants.Keys.APPLICATION_NAME, applicationName)
                 },
             Intent(context, CrashDetailsActivity::class.java)
                 .apply {
-                    putExtra(Presentation.Constants.Keys.CRASH_ID, id)
+                    putExtra(Constants.Keys.CRASH_ID, id)
                 }
         )
 
@@ -27,7 +29,7 @@ internal class NotificationIntentFactory(
         arrayOf(
             Intent(context, CertificatesActivity::class.java)
                 .apply {
-                    putExtra(Presentation.Constants.Keys.APPLICATION_NAME, applicationName)
+                    putExtra(Constants.Keys.APPLICATION_NAME, applicationName)
                 }
         )
 }

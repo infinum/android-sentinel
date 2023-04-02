@@ -13,7 +13,9 @@ import com.infinum.sentinel.extensions.widthPixels
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class DeviceCollector(
     private val context: Context
 ) : Collectors.Device {

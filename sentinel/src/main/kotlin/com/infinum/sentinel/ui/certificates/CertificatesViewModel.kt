@@ -8,7 +8,9 @@ import com.infinum.sentinel.domain.certificate.models.CertificateParameters
 import com.infinum.sentinel.domain.certificate.monitor.models.CertificateMonitorParameters
 import com.infinum.sentinel.ui.shared.base.BaseChildViewModel
 import kotlinx.coroutines.flow.first
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class CertificatesViewModel(
     private val collectors: Factories.Collector,
     private val repository: Repositories.Certificate,

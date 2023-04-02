@@ -15,10 +15,12 @@ import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.VALU
 import com.infinum.sentinel.domain.collectors.Collectors
 import com.infinum.sentinel.domain.formatters.Formatters
 import com.infinum.sentinel.extensions.sanitize
+import me.tatarka.inject.annotations.Inject
 import org.json.JSONArray
 import org.json.JSONObject
 
 @Suppress("TooManyFunctions")
+@Inject
 internal class JsonFormatter(
     private val context: Context,
     private val applicationCollector: Collectors.Application,

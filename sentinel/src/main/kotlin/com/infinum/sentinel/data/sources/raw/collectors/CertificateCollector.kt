@@ -19,9 +19,12 @@ import java.security.cert.X509Certificate
 import java.security.interfaces.DSAPublicKey
 import java.security.interfaces.ECPublicKey
 import java.security.interfaces.RSAPublicKey
+import me.tatarka.inject.annotations.Assisted
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class CertificateCollector(
-    var userCertificates: List<X509Certificate>
+    @Assisted var userCertificates: List<X509Certificate>
 ) : Collectors.Certificates {
 
     companion object {

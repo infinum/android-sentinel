@@ -18,7 +18,9 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class CertificatesObserver(
     private val context: Context,
     private val collectors: Factories.Collector,

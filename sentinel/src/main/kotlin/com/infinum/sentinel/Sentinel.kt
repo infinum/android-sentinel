@@ -5,8 +5,8 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.infinum.sentinel.data.models.local.crash.ProcessThread
 import com.infinum.sentinel.data.models.memory.triggers.manual.ManualTrigger
+import com.infinum.sentinel.di.LibraryComponents
 import com.infinum.sentinel.extensions.asStringArray
-import com.infinum.sentinel.ui.Presentation
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 import java.util.Locale
@@ -16,7 +16,7 @@ public object Sentinel {
     @JvmStatic
     @JvmOverloads
     public fun watch(tools: Set<Tool> = setOf()): Sentinel {
-        Presentation.setup(tools) { Presentation.show() }
+        LibraryComponents.setup(tools) { LibraryComponents.presentation().show() }
         return this
     }
 
@@ -25,11 +25,11 @@ public object Sentinel {
 
     @JvmStatic
     public fun setExceptionHandler(handler: Thread.UncaughtExceptionHandler?): Unit =
-        Presentation.setExceptionHandler(handler)
+        LibraryComponents.presentation().setExceptionHandler(handler)
 
     @JvmStatic
     public fun setAnrListener(listener: ApplicationNotRespondingListener?): Unit =
-        Presentation.setAnrListener(listener)
+        LibraryComponents.presentation().setAnrListener(listener)
 
     /**
      * Used for manually showing Sentinel UI
@@ -37,7 +37,7 @@ public object Sentinel {
     private fun showInternal() {
         val manualTrigger = ManualTrigger()
         if (manualTrigger.active) {
-            Presentation.show()
+            LibraryComponents.presentation().show()
         }
     }
 

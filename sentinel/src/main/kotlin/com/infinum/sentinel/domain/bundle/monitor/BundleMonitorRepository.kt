@@ -5,7 +5,9 @@ import com.infinum.sentinel.data.sources.local.room.dao.BundleMonitorDao
 import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.bundle.monitor.models.BundleMonitorParameters
 import kotlinx.coroutines.flow.Flow
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class BundleMonitorRepository(
     private val dao: BundleMonitorDao
 ) : Repositories.BundleMonitor {

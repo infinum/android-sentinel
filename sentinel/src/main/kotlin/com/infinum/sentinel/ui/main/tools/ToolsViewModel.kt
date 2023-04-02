@@ -2,7 +2,9 @@ package com.infinum.sentinel.ui.main.tools
 
 import com.infinum.sentinel.domain.Factories
 import com.infinum.sentinel.ui.shared.base.BaseChildViewModel
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class ToolsViewModel(
     private val collectors: Factories.Collector
 ) : BaseChildViewModel<ToolsState, Nothing>() {

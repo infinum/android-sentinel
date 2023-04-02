@@ -2,10 +2,12 @@ package com.infinum.sentinel.ui.crash.anr
 
 import com.infinum.sentinel.Sentinel
 import java.util.concurrent.ExecutorService
+import me.tatarka.inject.annotations.Inject
 
 /**
  * A class observing the UI thread for ANR errors.
  */
+@Inject
 internal class SentinelUiAnrObserver(
     private val observerRunnable: SentinelAnrObserverRunnable,
     private val executor: ExecutorService

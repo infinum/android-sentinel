@@ -18,8 +18,10 @@ import com.infinum.sentinel.ui.crash.handler.SentinelExceptionHandler
 import com.infinum.sentinel.ui.shared.base.BaseChildViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOn
+import me.tatarka.inject.annotations.Inject
 
 @Suppress("LongParameterList")
+@Inject
 internal class SettingsViewModel(
     private val triggers: Repositories.Triggers,
     private val formats: Repositories.Formats,

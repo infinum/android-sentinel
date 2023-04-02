@@ -12,12 +12,12 @@ import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentBundlesBinding
 import com.infinum.sentinel.extensions.searchView
 import com.infinum.sentinel.extensions.setup
-import com.infinum.sentinel.ui.Presentation
+import com.infinum.sentinel.extensions.viewModels
 import com.infinum.sentinel.ui.bundles.details.BundleDetailsActivity
+import com.infinum.sentinel.ui.shared.Constants
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
 import com.infinum.sentinel.ui.shared.edgefactories.bounce.BounceEdgeEffectFactory
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class BundlesFragment : BaseChildFragment<Nothing, BundlesEvent>(R.layout.sentinel_fragment_bundles) {
@@ -31,7 +31,7 @@ internal class BundlesFragment : BaseChildFragment<Nothing, BundlesEvent>(R.layo
         SentinelFragmentBundlesBinding::bind
     )
 
-    override val viewModel: BundlesViewModel by viewModel()
+    override val viewModel: BundlesViewModel by viewModels()
 
     private val adapter = BundlesAdapter(
         onListChanged = { isEmpty ->
@@ -41,7 +41,7 @@ internal class BundlesFragment : BaseChildFragment<Nothing, BundlesEvent>(R.layo
             startActivity(
                 Intent(requireContext(), BundleDetailsActivity::class.java)
                     .apply {
-                        putExtra(Presentation.Constants.Keys.BUNDLE_ID, it.bundleTree.id)
+                        putExtra(Constants.Keys.BUNDLE_ID, it.bundleTree.id)
                     }
             )
         }

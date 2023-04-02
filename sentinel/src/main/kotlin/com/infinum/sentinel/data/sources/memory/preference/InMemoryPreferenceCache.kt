@@ -1,7 +1,9 @@
 package com.infinum.sentinel.data.sources.memory.preference
 
 import com.infinum.sentinel.data.models.raw.PreferenceType
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class InMemoryPreferenceCache : PreferenceCache {
 
     private var name: String? = null
