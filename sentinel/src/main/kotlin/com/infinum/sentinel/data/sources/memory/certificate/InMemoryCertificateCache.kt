@@ -1,7 +1,9 @@
 package com.infinum.sentinel.data.sources.memory.certificate
 
 import com.infinum.sentinel.data.models.raw.CertificateData
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class InMemoryCertificateCache : CertificateCache {
 
     private var value: CertificateData? = null

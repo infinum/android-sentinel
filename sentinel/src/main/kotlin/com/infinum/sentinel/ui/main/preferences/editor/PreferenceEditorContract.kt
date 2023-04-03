@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContract
-import com.infinum.sentinel.ui.Presentation
+import com.infinum.sentinel.ui.shared.Constants
 
 internal class PreferenceEditorContract : ActivityResultContract<Unit, Boolean>() {
 
@@ -14,7 +14,7 @@ internal class PreferenceEditorContract : ActivityResultContract<Unit, Boolean>(
     override fun parseResult(resultCode: Int, intent: Intent?): Boolean =
         if (resultCode == Activity.RESULT_OK) {
             intent?.getBooleanExtra(
-                Presentation.Constants.Keys.SHOULD_REFRESH,
+                Constants.Keys.SHOULD_REFRESH,
                 false
             ) ?: false
         } else {

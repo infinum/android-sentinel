@@ -11,10 +11,12 @@ import com.infinum.sentinel.extensions.applicationName
 import com.infinum.sentinel.extensions.asExceptionData
 import com.infinum.sentinel.ui.shared.notification.NotificationFactory
 import kotlinx.coroutines.runBlocking
+import me.tatarka.inject.annotations.Inject
 
 /**
  * A [Runnable] testing the UI thread every 10s until stop is called explicitly.
  */
+@Inject
 internal class SentinelAnrObserverRunnable(
     private val context: Context,
     private val notificationFactory: NotificationFactory,

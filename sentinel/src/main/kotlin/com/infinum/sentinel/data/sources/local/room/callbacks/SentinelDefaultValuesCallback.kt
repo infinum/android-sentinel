@@ -2,7 +2,9 @@ package com.infinum.sentinel.data.sources.local.room.callbacks
 
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class SentinelDefaultValuesCallback : RoomDatabase.Callback() {
 
     companion object {

@@ -7,9 +7,9 @@ import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.databinding.SentinelFragmentToolsBinding
 import com.infinum.sentinel.databinding.SentinelViewItemButtonBinding
+import com.infinum.sentinel.extensions.viewModels
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class ToolsFragment : BaseChildFragment<ToolsState, Nothing>(R.layout.sentinel_fragment_tools) {
@@ -23,7 +23,7 @@ internal class ToolsFragment : BaseChildFragment<ToolsState, Nothing>(R.layout.s
         SentinelFragmentToolsBinding::bind
     )
 
-    override val viewModel: ToolsViewModel by viewModel()
+    override val viewModel: ToolsViewModel by viewModels()
 
     override fun onState(state: ToolsState) =
         when (state) {

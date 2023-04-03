@@ -3,9 +3,9 @@ package com.infinum.sentinel.ui.main.application
 import androidx.annotation.RestrictTo
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentApplicationBinding
+import com.infinum.sentinel.extensions.viewModels
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class ApplicationFragment :
@@ -20,7 +20,7 @@ internal class ApplicationFragment :
         SentinelFragmentApplicationBinding::bind
     )
 
-    override val viewModel: ApplicationViewModel by viewModel()
+    override val viewModel: ApplicationViewModel by viewModels()
 
     override fun onState(state: ApplicationState) =
         when (state) {

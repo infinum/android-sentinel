@@ -11,7 +11,9 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class SentinelViewModel(
     private val collectors: Factories.Collector,
     private val formatters: Factories.Formatter,

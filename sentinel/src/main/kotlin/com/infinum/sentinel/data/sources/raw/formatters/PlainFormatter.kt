@@ -13,7 +13,9 @@ import com.infinum.sentinel.domain.collectors.Collectors
 import com.infinum.sentinel.domain.formatters.Formatters
 import com.infinum.sentinel.extensions.sanitize
 import java.util.Locale
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class PlainFormatter(
     private val context: Context,
     private val applicationCollector: Collectors.Application,

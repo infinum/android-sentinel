@@ -5,7 +5,9 @@ import com.infinum.sentinel.data.sources.local.room.dao.CertificateMonitorDao
 import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.certificate.monitor.models.CertificateMonitorParameters
 import kotlinx.coroutines.flow.Flow
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class CertificateMonitorRepository(
     private val dao: CertificateMonitorDao
 ) : Repositories.CertificateMonitor {

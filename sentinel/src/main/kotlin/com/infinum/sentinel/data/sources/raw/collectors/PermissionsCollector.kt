@@ -5,7 +5,9 @@ import android.content.pm.PackageManager
 import android.os.Build
 import com.infinum.sentinel.domain.collectors.Collectors
 import com.infinum.sentinel.extensions.isPermissionGranted
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class PermissionsCollector(
     private val context: Context
 ) : Collectors.Permissions {

@@ -3,7 +3,9 @@ package com.infinum.sentinel.data.models.memory.triggers.usb
 import android.content.Context
 import com.infinum.sentinel.data.models.memory.triggers.shared.BroadcastReceiverTrigger
 import com.infinum.sentinel.data.models.memory.triggers.shared.receiver.BroadcastReceiver
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class UsbConnectedTrigger(
     context: Context,
     private val trigger: () -> Unit

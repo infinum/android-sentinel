@@ -10,20 +10,24 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import androidx.work.WorkerFactory
 import androidx.work.workDataOf
 import com.infinum.sentinel.BuildConfig
 import com.infinum.sentinel.data.models.local.CertificateMonitorEntity
-import com.infinum.sentinel.ui.Presentation.Constants.Keys.EXPIRE_IN_AMOUNT
-import com.infinum.sentinel.ui.Presentation.Constants.Keys.EXPIRE_IN_UNIT
-import com.infinum.sentinel.ui.Presentation.Constants.Keys.NOTIFY_INVALID_NOW
-import com.infinum.sentinel.ui.Presentation.Constants.Keys.NOTIFY_TO_EXPIRE
+import com.infinum.sentinel.ui.shared.Constants.Keys.EXPIRE_IN_AMOUNT
+import com.infinum.sentinel.ui.shared.Constants.Keys.EXPIRE_IN_UNIT
+import com.infinum.sentinel.ui.shared.Constants.Keys.NOTIFY_INVALID_NOW
+import com.infinum.sentinel.ui.shared.Constants.Keys.NOTIFY_TO_EXPIRE
 import java.time.Duration
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class SentinelWorkManager(
-    private val context: Context
+    private val context: Context,
+    private val workerFactory: WorkerFactory
 ) {
 
     companion object {
@@ -36,6 +40,7 @@ internal class SentinelWorkManager(
             context,
             Configuration.Builder()
                 .setMinimumLoggingLevel(android.util.Log.INFO)
+                .setWorkerFactory(workerFactory)
                 .build()
         )
     }

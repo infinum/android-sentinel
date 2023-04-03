@@ -14,12 +14,11 @@ import androidx.annotation.RestrictTo
 import androidx.fragment.app.DialogFragment
 import androidx.viewbinding.ViewBinding
 import com.infinum.sentinel.R
-import com.infinum.sentinel.di.LibraryKoinComponent
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal abstract class BaseFragment<State, Event>(
     @LayoutRes private val contentLayoutId: Int
-) : DialogFragment(), BaseView<State, Event>, LibraryKoinComponent {
+) : DialogFragment(), BaseView<State, Event> {
 
     abstract val binding: ViewBinding
 
@@ -31,7 +30,8 @@ internal abstract class BaseFragment<State, Event>(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 window?.let {
                     it.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND)
-                    it.attributes.blurBehindRadius = resources.getDimensionPixelSize(R.dimen.sentinel_blur_radius)
+                    it.attributes.blurBehindRadius =
+                        resources.getDimensionPixelSize(R.dimen.sentinel_blur_radius)
                 }
             }
             window?.let {

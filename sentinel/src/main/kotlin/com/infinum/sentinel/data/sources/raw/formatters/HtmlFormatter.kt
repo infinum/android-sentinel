@@ -11,7 +11,9 @@ import com.infinum.sentinel.data.sources.raw.formatters.Formatter.Companion.PREF
 import com.infinum.sentinel.domain.collectors.Collectors
 import com.infinum.sentinel.domain.formatters.Formatters
 import com.infinum.sentinel.extensions.sanitize
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class HtmlFormatter(
     private val context: Context,
     private val applicationCollector: Collectors.Application,

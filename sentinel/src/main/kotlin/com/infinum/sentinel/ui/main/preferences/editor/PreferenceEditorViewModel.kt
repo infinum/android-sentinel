@@ -3,7 +3,9 @@ package com.infinum.sentinel.ui.main.preferences.editor
 import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.preference.models.PreferenceParameters
 import com.infinum.sentinel.ui.shared.base.BaseChildViewModel
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class PreferenceEditorViewModel(
     private val repository: Repositories.Preference
 ) : BaseChildViewModel<PreferenceEditorState, PreferenceEditorEvent>() {

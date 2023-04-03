@@ -7,10 +7,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentCertificateDetailsBinding
+import com.infinum.sentinel.extensions.viewModels
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
 import java.text.SimpleDateFormat
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class CertificateDetailsFragment :
@@ -27,7 +27,7 @@ internal class CertificateDetailsFragment :
         SentinelFragmentCertificateDetailsBinding::bind
     )
 
-    override val viewModel: CertificateDetailsViewModel by viewModel()
+    override val viewModel: CertificateDetailsViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

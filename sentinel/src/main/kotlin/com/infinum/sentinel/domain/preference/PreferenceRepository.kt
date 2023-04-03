@@ -8,7 +8,9 @@ import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.preference.models.PreferenceParameters
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class PreferenceRepository(
     private val context: Context,
     private val memoryCache: PreferenceCache

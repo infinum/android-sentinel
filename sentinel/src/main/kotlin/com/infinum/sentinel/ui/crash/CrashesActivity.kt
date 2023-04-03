@@ -2,7 +2,7 @@ package com.infinum.sentinel.ui.crash
 
 import android.os.Bundle
 import androidx.annotation.RestrictTo
-import com.infinum.sentinel.ui.Presentation
+import com.infinum.sentinel.ui.shared.Constants
 import com.infinum.sentinel.ui.shared.base.BaseChildActivity
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
@@ -14,7 +14,7 @@ internal class CrashesActivity : BaseChildActivity() {
         supportFragmentManager.beginTransaction()
             .replace(
                 android.R.id.content,
-                CrashesFragment.newInstance(intent.getStringExtra(Presentation.Constants.Keys.APPLICATION_NAME)),
+                CrashesFragment.newInstance(intent.getStringExtra(Constants.Keys.APPLICATION_NAME)),
                 CrashesFragment.TAG
             )
             .commit()

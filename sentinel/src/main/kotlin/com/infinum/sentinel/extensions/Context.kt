@@ -3,6 +3,7 @@ package com.infinum.sentinel.extensions
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import android.util.DisplayMetrics
@@ -12,6 +13,21 @@ import com.infinum.sentinel.R
 import java.math.RoundingMode
 import kotlin.math.pow
 import kotlin.math.sqrt
+
+private const val KEY_TRIGGER_SHAKE: String =
+    "com.infinum.sentinel.trigger.shake"
+
+private const val KEY_TRIGGER_PROXIMITY: String =
+    "com.infinum.sentinel.trigger.proximity"
+
+private const val KEY_TRIGGER_FOREGROUND: String =
+    "com.infinum.sentinel.trigger.foreground"
+
+private const val KEY_TRIGGER_USB_CONNECTED: String =
+    "com.infinum.sentinel.trigger.usb_connected"
+
+private const val KEY_TRIGGER_AIRPLANE_MODE_ON: String =
+    "com.infinum.sentinel.trigger.airplane_mode_on"
 
 internal fun Context.isPermissionGranted(name: String): Boolean =
     packageManager.checkPermission(name, packageName) == PackageManager.PERMISSION_GRANTED
@@ -35,23 +51,52 @@ internal fun Context.copyToClipboard(key: String, value: String): Boolean =
         false
     }
 
-internal val Context.applicationName: String
-    get() = (
-        packageManager.getApplicationLabel(
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                packageManager.getApplicationInfo(
-                    packageName,
-                    PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA.toLong())
-                )
-            } else {
-                @Suppress("DEPRECATION")
-                packageManager.getApplicationInfo(
-                    packageName,
-                    PackageManager.GET_META_DATA
-                )
+@Suppress("DEPRECATION")
+private val Context.info: ApplicationInfo
+    get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        packageManager
+            .getApplicationInfo(
+                packageName,
+                PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA.toLong())
+            )
+    } else {
+        packageManager
+            .getApplicationInfo(
+                packageName,
+                PackageManager.GET_META_DATA
+            )
+    }
+
+private fun Context.enableTrigger(key: String): Boolean? =
+    info.metaData
+        ?.getInt(key, -1)
+        ?.takeIf { it != -1 }
+        ?.let {
+            when (it) {
+                1 -> true
+                0 -> false
+                else -> null
             }
-        ) as? String
-        ) ?: getString(R.string.sentinel_name)
+        }
+
+internal fun Context.enableShakeTrigger(): Boolean? =
+    enableTrigger(KEY_TRIGGER_SHAKE)
+
+internal fun Context.enableProximityTrigger(): Boolean? =
+    enableTrigger(KEY_TRIGGER_PROXIMITY)
+
+internal fun Context.enableForegroundTrigger(): Boolean? =
+    enableTrigger(KEY_TRIGGER_FOREGROUND)
+
+internal fun Context.enableUsbConnectedTrigger(): Boolean? =
+    enableTrigger(KEY_TRIGGER_USB_CONNECTED)
+
+internal fun Context.enableAirplaneModeOnTrigger(): Boolean? =
+    enableTrigger(KEY_TRIGGER_AIRPLANE_MODE_ON)
+
+internal val Context.applicationName: String
+    get() = (packageManager.getApplicationLabel(this.info) as? String)
+        ?: getString(R.string.sentinel_name)
 
 @Suppress("DEPRECATION")
 internal val Context.widthPixels: Int

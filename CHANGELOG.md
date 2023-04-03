@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+## Version 1.2.4
+
+_2023-04-03_
+
+* Replace Koin with Kotlin Inject.
+* Filter out non Bundle keys in Bundle size monitor.
+* Add support for explicit trigger declarations in manifest.
+
 ## Version 1.2.3
 
 _2023-03-21_

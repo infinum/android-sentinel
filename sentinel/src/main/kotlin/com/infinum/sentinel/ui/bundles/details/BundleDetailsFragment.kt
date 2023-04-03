@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentBundleDetailsBinding
-import com.infinum.sentinel.ui.Presentation
+import com.infinum.sentinel.extensions.viewModels
+import com.infinum.sentinel.ui.shared.Constants
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
 import com.infinum.sentinel.ui.shared.edgefactories.bounce.BounceEdgeEffectFactory
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class BundleDetailsFragment :
@@ -21,7 +21,7 @@ internal class BundleDetailsFragment :
     companion object {
         fun newInstance(bundleId: String?) = BundleDetailsFragment().apply {
             arguments = Bundle().apply {
-                putString(Presentation.Constants.Keys.BUNDLE_ID, bundleId)
+                putString(Constants.Keys.BUNDLE_ID, bundleId)
             }
         }
 
@@ -32,7 +32,7 @@ internal class BundleDetailsFragment :
         SentinelFragmentBundleDetailsBinding::bind
     )
 
-    override val viewModel: BundleDetailsViewModel by viewModel()
+    override val viewModel: BundleDetailsViewModel by viewModels()
 
     private var bundleId: String? = null
 
@@ -41,7 +41,7 @@ internal class BundleDetailsFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        bundleId = arguments?.getString(Presentation.Constants.Keys.BUNDLE_ID)
+        bundleId = arguments?.getString(Constants.Keys.BUNDLE_ID)
         viewModel.setBundleId(bundleId)
     }
 

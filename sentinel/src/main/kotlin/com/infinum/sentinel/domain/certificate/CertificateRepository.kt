@@ -4,7 +4,9 @@ import com.infinum.sentinel.data.models.raw.CertificateData
 import com.infinum.sentinel.data.sources.memory.certificate.CertificateCache
 import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.certificate.models.CertificateParameters
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class CertificateRepository(
     private val memoryCache: CertificateCache
 ) : Repositories.Certificate {

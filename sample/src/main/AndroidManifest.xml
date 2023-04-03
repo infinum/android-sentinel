@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:theme,android:name,android:supportsRtl">
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

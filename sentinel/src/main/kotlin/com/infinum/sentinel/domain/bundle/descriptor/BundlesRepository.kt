@@ -5,7 +5,9 @@ import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleDescriptor
 import com.infinum.sentinel.domain.bundle.descriptor.models.BundleParameters
 import kotlinx.coroutines.flow.Flow
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class BundlesRepository(
     private val cache: BundlesCache
 ) : Repositories.Bundles {

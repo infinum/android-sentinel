@@ -4,28 +4,25 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.infinum.sentinel.data.models.raw.certificates.CertificateType
-import com.infinum.sentinel.di.LibraryKoinComponent
 import com.infinum.sentinel.domain.Factories
 import com.infinum.sentinel.extensions.applicationName
-import com.infinum.sentinel.ui.Presentation.Constants.Keys.EXPIRE_IN_AMOUNT
-import com.infinum.sentinel.ui.Presentation.Constants.Keys.EXPIRE_IN_UNIT
-import com.infinum.sentinel.ui.Presentation.Constants.Keys.NOTIFY_INVALID_NOW
-import com.infinum.sentinel.ui.Presentation.Constants.Keys.NOTIFY_TO_EXPIRE
+import com.infinum.sentinel.ui.shared.Constants.Keys.EXPIRE_IN_AMOUNT
+import com.infinum.sentinel.ui.shared.Constants.Keys.EXPIRE_IN_UNIT
+import com.infinum.sentinel.ui.shared.Constants.Keys.NOTIFY_INVALID_NOW
+import com.infinum.sentinel.ui.shared.Constants.Keys.NOTIFY_TO_EXPIRE
 import com.infinum.sentinel.ui.shared.notification.NotificationFactory
 import java.time.temporal.ChronoUnit
-import org.koin.core.component.inject
 
 internal class CertificateCheckWorker(
     private val context: Context,
-    parameters: WorkerParameters
-) : CoroutineWorker(context, parameters), LibraryKoinComponent {
+    parameters: WorkerParameters,
+    private val collectors: Factories.Collector,
+    private val notificationFactory: NotificationFactory
+) : CoroutineWorker(context, parameters) {
 
     companion object {
-        const val NAME = "sentinel_check_certificates"
+        const val NAME = "com.infinum.sentinel.ui.certificates.observer.CertificateCheckWorker"
     }
-
-    private val collectors: Factories.Collector by inject()
-    private val notificationFactory: NotificationFactory by inject()
 
     override suspend fun doWork(): Result {
         val notifyInvalidNow = inputData.getBoolean(NOTIFY_INVALID_NOW, false)

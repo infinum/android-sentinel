@@ -69,6 +69,7 @@ dependencies {
     implementation libs.timber
 
     debugImplementation libs.library
+//    debugImplementation project(":sentinel")
     releaseImplementation libs.librarynoop
 
     debugImplementation libs.bundles.tools

@@ -14,7 +14,10 @@ internal class BundleMonitorActivityCallbacks(
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         if (activity is FragmentActivity) {
-            activity.supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentCallbacks, true)
+            activity.supportFragmentManager.registerFragmentLifecycleCallbacks(
+                fragmentCallbacks,
+                true
+            )
         }
 
         if (activity.isMonitoredScreen) {

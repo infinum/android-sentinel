@@ -11,7 +11,9 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class BundlesViewModel(
     private val bundleMonitor: Repositories.BundleMonitor,
     private val bundles: Repositories.Bundles

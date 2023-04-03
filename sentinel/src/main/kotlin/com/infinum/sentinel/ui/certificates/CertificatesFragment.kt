@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentCertificatesBinding
+import com.infinum.sentinel.extensions.viewModels
 import com.infinum.sentinel.ui.certificates.details.CertificateDetailsActivity
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
 import com.infinum.sentinel.ui.shared.edgefactories.bounce.BounceEdgeEffectFactory
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class CertificatesFragment :
@@ -30,7 +30,7 @@ internal class CertificatesFragment :
         SentinelFragmentCertificatesBinding::bind
     )
 
-    override val viewModel: CertificatesViewModel by viewModel()
+    override val viewModel: CertificatesViewModel by viewModels()
 
     private val userHeaderAdapter = HeaderAdapter(R.string.sentinel_certificates_user, 0)
     private val userAdapter = CertificatesAdapter(

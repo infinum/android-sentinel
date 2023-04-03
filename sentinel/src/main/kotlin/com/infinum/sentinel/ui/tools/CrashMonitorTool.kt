@@ -7,8 +7,8 @@ import android.view.View
 import androidx.annotation.StringRes
 import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
-import com.infinum.sentinel.ui.Presentation
 import com.infinum.sentinel.ui.crash.CrashesActivity
+import com.infinum.sentinel.ui.shared.Constants
 
 /**
  * Specific wrapper tool that monitors crashes for the application which implemented Sentinel.
@@ -22,7 +22,7 @@ internal data class CrashMonitorTool(
                 CrashesActivity::class.java
             ).apply {
                 putExtra(
-                    Presentation.Constants.Keys.APPLICATION_NAME,
+                    Constants.Keys.APPLICATION_NAME,
                     (
                         it.context.packageManager.getApplicationLabel(
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

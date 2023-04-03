@@ -12,12 +12,12 @@ import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentCrashesBinding
 import com.infinum.sentinel.extensions.searchView
 import com.infinum.sentinel.extensions.setup
-import com.infinum.sentinel.ui.Presentation
+import com.infinum.sentinel.extensions.viewModels
 import com.infinum.sentinel.ui.crash.details.CrashDetailsActivity
+import com.infinum.sentinel.ui.shared.Constants
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
 import com.infinum.sentinel.ui.shared.edgefactories.bounce.BounceEdgeEffectFactory
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class CrashesFragment : BaseChildFragment<Nothing, CrashesEvent>(R.layout.sentinel_fragment_crashes) {
@@ -26,7 +26,7 @@ internal class CrashesFragment : BaseChildFragment<Nothing, CrashesEvent>(R.layo
         fun newInstance(applicationName: String?) = CrashesFragment()
             .apply {
                 arguments = Bundle().apply {
-                    putString(Presentation.Constants.Keys.APPLICATION_NAME, applicationName)
+                    putString(Constants.Keys.APPLICATION_NAME, applicationName)
                 }
             }
 
@@ -37,7 +37,7 @@ internal class CrashesFragment : BaseChildFragment<Nothing, CrashesEvent>(R.layo
         SentinelFragmentCrashesBinding::bind
     )
 
-    override val viewModel: CrashesViewModel by viewModel()
+    override val viewModel: CrashesViewModel by viewModels()
 
     private val adapter = CrashesAdapter(
         onListChanged = { isEmpty ->
@@ -47,7 +47,7 @@ internal class CrashesFragment : BaseChildFragment<Nothing, CrashesEvent>(R.layo
             startActivity(
                 Intent(requireContext(), CrashDetailsActivity::class.java)
                     .apply {
-                        putExtra(Presentation.Constants.Keys.CRASH_ID, it.id)
+                        putExtra(Constants.Keys.CRASH_ID, it.id)
                     }
             )
         }
@@ -58,7 +58,7 @@ internal class CrashesFragment : BaseChildFragment<Nothing, CrashesEvent>(R.layo
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        applicationName = arguments?.getString(Presentation.Constants.Keys.APPLICATION_NAME)
+        applicationName = arguments?.getString(Constants.Keys.APPLICATION_NAME)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

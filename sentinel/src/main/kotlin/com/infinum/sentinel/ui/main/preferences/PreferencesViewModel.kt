@@ -5,7 +5,9 @@ import com.infinum.sentinel.domain.Factories
 import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.preference.models.PreferenceParameters
 import com.infinum.sentinel.ui.shared.base.BaseChildViewModel
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class PreferencesViewModel(
     private val collectors: Factories.Collector,
     private val repository: Repositories.Preference

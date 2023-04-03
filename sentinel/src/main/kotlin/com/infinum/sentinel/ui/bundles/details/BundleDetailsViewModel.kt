@@ -8,7 +8,9 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import me.tatarka.inject.annotations.Inject
 
+@Inject
 internal class BundleDetailsViewModel(
     private val bundles: Repositories.Bundles
 ) : BaseChildViewModel<BundleDetailsState, Nothing>() {
