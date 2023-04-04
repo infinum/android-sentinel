@@ -1,6 +1,18 @@
 Change Log
 ==========
 
+## Version 1.2.6
+
+_2023-04-04_
+
+* Add initializer for easy no-op implementation purposes.
+
+## Version 1.2.5
+
+_2023-04-04_
+
+* Change initializer visibility for chained initialization.
+
 ## Version 1.2.4
 
 _2023-04-03_

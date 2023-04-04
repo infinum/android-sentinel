@@ -2,14 +2,11 @@ package com.infinum.sentinel
 
 import android.content.Context
 import androidx.startup.Initializer
-import com.infinum.sentinel.di.LibraryComponents
 
 public class SentinelInitializer : Initializer<Class<SentinelInitializer>> {
 
     override fun create(context: Context): Class<SentinelInitializer> {
-
-        LibraryComponents.initialize(context)
-
+        // no-op implementation
         return SentinelInitializer::class.java
     }
 

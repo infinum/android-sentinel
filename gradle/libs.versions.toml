@@ -1,5 +1,5 @@
 [versions]
-sentinel = "1.2.4"
+sentinel = "1.2.6"
 gradle = "7.4.2"
 desugar = "2.0.2"
 kotlin = "1.8.10"

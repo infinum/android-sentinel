@@ -63,6 +63,7 @@ android {
 
 dependencies {
     implementation libs.kotlin.core
+    implementation libs.androidx.startup
 }
 
 apply from: "publish.gradle"
