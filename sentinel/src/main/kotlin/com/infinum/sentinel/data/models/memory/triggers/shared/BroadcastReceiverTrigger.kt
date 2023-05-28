@@ -14,7 +14,7 @@ internal abstract class BroadcastReceiverTrigger(
             broadcastReceiver.receiver,
             broadcastReceiver.filter
         )
-        this.active = true
+        this.active = false
     }
 
     override fun stop() {

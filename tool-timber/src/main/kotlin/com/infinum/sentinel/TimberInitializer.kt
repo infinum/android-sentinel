@@ -6,7 +6,7 @@ import com.infinum.sentinel.ui.logger.models.FlowBuffer
 import kotlinx.coroutines.MainScope
 import timber.log.Timber
 
-internal class TimberInitializer : Initializer<Class<TimberInitializer>> {
+public class TimberInitializer : Initializer<Class<TimberInitializer>> {
 
     override fun create(context: Context): Class<TimberInitializer> {
 

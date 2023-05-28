@@ -244,6 +244,7 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
 
     private fun setupSwitch(switchView: SwitchMaterial, trigger: TriggerEntity) =
         with(switchView) {
+            setOnCheckedChangeListener(null)
             isChecked = trigger.enabled
             isEnabled = trigger.editable
             setOnCheckedChangeListener { _, isChecked ->

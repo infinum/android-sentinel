@@ -7,7 +7,7 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 internal class UsbConnectedTrigger(
-    context: Context,
+    private val context: Context,
     private val trigger: () -> Unit
 ) : BroadcastReceiverTrigger(context) {
 
@@ -16,21 +16,16 @@ internal class UsbConnectedTrigger(
         private const val USB_CONNECTED = "connected"
     }
 
-    private var skippedFirst: Boolean = false
-
     override val broadcastReceiver = BroadcastReceiver {
         onAction(USB_STATE) {
-            isConnected(it.extras?.getBoolean(USB_CONNECTED, false) ?: false)
-        }
-    }
-
-    private fun isConnected(connected: Boolean) {
-        if (skippedFirst) {
-            if (active && connected) {
-                trigger()
+            if (active) {
+                if (it.hasExtra(USB_CONNECTED)) {
+                    val isConnected = it.getBooleanExtra(USB_CONNECTED, false)
+                    if (isConnected) {
+                        trigger()
+                    }
+                }
             }
-        } else {
-            skippedFirst = true
         }
     }
 }

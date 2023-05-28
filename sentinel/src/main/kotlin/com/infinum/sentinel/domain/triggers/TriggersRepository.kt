@@ -17,23 +17,22 @@ internal class TriggersRepository(
 ) : Repositories.Triggers {
 
     override suspend fun save(input: TriggerParameters) =
-        input.entity?.let { dao.save(it) }
-            ?: error("Cannot save null entity")
+        input.entity?.let {
+            dao.save(it)
+        } ?: error("Cannot save null entity")
 
     override fun load(input: TriggerParameters): Flow<List<TriggerEntity>> =
         dao.load()
-            .onEach {
-                it.forEach { entity ->
-                    when (entity.type) {
-                        TriggerType.MANUAL -> cache.manual().active = entity.enabled
-                        TriggerType.FOREGROUND -> cache.foreground().active = entity.enabled
-                        TriggerType.SHAKE -> cache.shake().active = entity.enabled
-                        TriggerType.PROXIMITY -> cache.proximity().active = entity.enabled
-                        TriggerType.USB_CONNECTED -> cache.usbConnected().active = entity.enabled
-                        TriggerType.AIRPLANE_MODE_ON ->
-                            cache.airplaneModeOn().active = entity.enabled
-                        else -> Unit
-                    }
-                }
-            }
+            .onEach { it.forEach { entity -> updateCache(entity) } }
+
+    private fun updateCache(entity: TriggerEntity) =
+        when (entity.type) {
+            TriggerType.MANUAL -> cache.manual().active = entity.enabled
+            TriggerType.FOREGROUND -> cache.foreground().active = entity.enabled
+            TriggerType.SHAKE -> cache.shake().active = entity.enabled
+            TriggerType.PROXIMITY -> cache.proximity().active = entity.enabled
+            TriggerType.USB_CONNECTED -> cache.usbConnected().active = entity.enabled
+            TriggerType.AIRPLANE_MODE_ON -> cache.airplaneModeOn().active = entity.enabled
+            else -> Unit
+        }
 }

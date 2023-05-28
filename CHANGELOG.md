@@ -1,6 +1,31 @@
 Change Log
 ==========
 
+## Version 1.2.8
+
+_2023-05-28_
+
+* Fix a bug in BroadcastReceiverTrigger for USB and Airplane mode triggers.
+* Update dependencies.
+
+## Version 1.2.7
+
+_2023-04-07_
+
+* Add metadata to no-op.
+
+## Version 1.2.6
+
+_2023-04-04_
+
+* Add initializer for easy no-op implementation purposes.
+
+## Version 1.2.5
+
+_2023-04-04_
+
+* Change initializer visibility for chained initialization.
+
 ## Version 1.2.4
 
 _2023-04-03_

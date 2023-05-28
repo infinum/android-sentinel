@@ -18,13 +18,14 @@ internal class AirplaneModeOnTrigger(
 
     override val broadcastReceiver: BroadcastReceiver = BroadcastReceiver {
         onAction(Intent.ACTION_AIRPLANE_MODE_CHANGED) {
-            isEnabled(it.extras?.getBoolean(STATE, false) ?: false)
-        }
-    }
-
-    private fun isEnabled(enabled: Boolean) {
-        if (active && enabled) {
-            trigger()
+            if (active) {
+                if (it.hasExtra(STATE)) {
+                    val isEnabled = it.getBooleanExtra(STATE, false)
+                    if (isEnabled) {
+                        trigger()
+                    }
+                }
+            }
         }
     }
 }
