@@ -28,7 +28,7 @@ class SampleApplication : Application() {
                 AppGalleryTool(appId = "102016595"),
                 GooglePlayTool(),
                 ThimbleTool(),
-                TimberTool(allowedTags = listOf("MAIN")),
+                TimberTool(allowedTags = listOf("Main")),
                 CertificateTool(userCertificates = loadDebugCertificates())
             )
         )

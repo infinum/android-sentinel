@@ -17,8 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.infinum.sentinel.R
 import com.infinum.sentinel.SentinelTree
 import com.infinum.sentinel.databinding.SentinelActivityLoggerBinding
-import com.infinum.sentinel.ui.logger.storage.AllowedTags
 import com.infinum.sentinel.ui.logger.models.FlowBuffer
+import com.infinum.sentinel.ui.logger.storage.AllowedTags
 import com.infinum.sentinel.ui.shared.BounceEdgeEffectFactory
 import com.infinum.sentinel.ui.shared.setup
 import kotlinx.coroutines.Dispatchers
@@ -38,7 +38,10 @@ public class LoggerActivity : AppCompatActivity() {
 
     private lateinit var binding: SentinelActivityLoggerBinding
 
-    private val buffer = Timber.forest().filterIsInstance<SentinelTree>().firstOrNull()?.buffer ?: FlowBuffer()
+    private val buffer = Timber.forest()
+        .filterIsInstance<SentinelTree>()
+        .firstOrNull()?.buffer
+        ?: FlowBuffer()
 
     private val adapter = LoggerAdapter(
         onListChanged = { isEmpty ->
@@ -61,11 +64,18 @@ public class LoggerActivity : AppCompatActivity() {
                 Configuration.UI_MODE_NIGHT_NO -> true
                 else -> null
             }?.let {
-                WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = it
-            } ?: run { WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true }
+                WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars =
+                    it
+            } ?: run {
+                WindowInsetsControllerCompat(
+                    window,
+                    window.decorView
+                ).isAppearanceLightStatusBars = true
+            }
         } else {
             window.statusBarColor = ContextCompat.getColor(this, android.R.color.black)
-            WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
+            WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars =
+                true
         }
 
         binding = SentinelActivityLoggerBinding.inflate(layoutInflater)
@@ -74,21 +84,21 @@ public class LoggerActivity : AppCompatActivity() {
         with(binding) {
             toolbar.setNavigationOnClickListener { finish() }
             toolbar.subtitle = (
-                packageManager.getApplicationLabel(
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        packageManager.getApplicationInfo(
-                            packageName,
-                            PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA.toLong())
-                        )
-                    } else {
-                        @Suppress("DEPRECATION")
-                        packageManager.getApplicationInfo(
-                            packageName,
-                            PackageManager.GET_META_DATA
-                        )
-                    }
-                ) as? String
-                ) ?: getString(R.string.sentinel_name)
+                    packageManager.getApplicationLabel(
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            packageManager.getApplicationInfo(
+                                packageName,
+                                PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA.toLong())
+                            )
+                        } else {
+                            @Suppress("DEPRECATION")
+                            packageManager.getApplicationInfo(
+                                packageName,
+                                PackageManager.GET_META_DATA
+                            )
+                        }
+                    ) as? String
+                    ) ?: getString(R.string.sentinel_name)
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.search -> {
@@ -96,14 +106,17 @@ public class LoggerActivity : AppCompatActivity() {
                         toolbar.menu.findItem(R.id.share).isVisible = false
                         true
                     }
+
                     R.id.clear -> {
                         clearLogger()
                         true
                     }
+
                     R.id.share -> {
                         shareAll()
                         true
                     }
+
                     else -> false
                 }
             }
@@ -125,7 +138,12 @@ public class LoggerActivity : AppCompatActivity() {
             )
             recyclerView.adapter = adapter
             recyclerView.edgeEffectFactory = BounceEdgeEffectFactory()
-            recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, LinearLayoutManager.VERTICAL))
+            recyclerView.addItemDecoration(
+                DividerItemDecoration(
+                    recyclerView.context,
+                    LinearLayoutManager.VERTICAL
+                )
+            )
         }
 
         data()
