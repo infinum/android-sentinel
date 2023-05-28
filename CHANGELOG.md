@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+## Version 1.2.7
+
+_2023-04-07_
+
+* Add metadata to no-op.
+
 ## Version 1.2.6
 
 _2023-04-04_

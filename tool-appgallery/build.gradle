@@ -60,6 +60,10 @@ android {
     }
 }
 
+dokkaJavadoc {
+    mustRunAfter(":tool-appgallery:generateReleaseRFile")
+}
+
 dependencies {
     implementation libs.kotlin.core
     api libs.library

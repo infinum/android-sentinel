@@ -62,6 +62,10 @@ android {
     }
 }
 
+dokkaJavadoc {
+    mustRunAfter(":tool-timber:generateReleaseRFile")
+}
+
 dependencies {
     implementation libs.kotlin.core
     implementation libs.coroutines

@@ -61,6 +61,10 @@ android {
     }
 }
 
+dokkaJavadoc {
+    mustRunAfter(":sentinel-no-op:generateReleaseRFile")
+}
+
 dependencies {
     implementation libs.kotlin.core
     implementation libs.androidx.startup

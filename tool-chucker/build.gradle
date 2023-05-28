@@ -60,6 +60,10 @@ android {
     }
 }
 
+dokkaJavadoc {
+    mustRunAfter(":tool-chucker:generateReleaseRFile")
+}
+
 dependencies {
     implementation libs.kotlin.core
     api libs.library
