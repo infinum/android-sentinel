@@ -1,30 +1,42 @@
 package com.infinum.sentinel
 
+import android.content.Context
 import com.infinum.sentinel.ui.logger.models.BaseEntry
 import com.infinum.sentinel.ui.logger.models.FlowBuffer
 import com.infinum.sentinel.ui.logger.models.Level
+import com.infinum.sentinel.ui.shared.LogFileResolver
+import java.io.File
+import java.util.Calendar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-internal class SentinelTree(
+internal class SentinelFileTree(
+    context: Context,
     val buffer: FlowBuffer<Entry>
 ) : Timber.DebugTree() {
+
+    private val logFileResolver = LogFileResolver(context)
 
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
         MainScope().launch {
             withContext(Dispatchers.IO) {
-                buffer.enqueue(
-                    Entry(
-                        Level.forLogLevel(priority),
-                        System.currentTimeMillis(),
-                        tag,
-                        message,
-                        t?.stackTraceToString()
-                    )
+                val entry = Entry(
+                    Level.forLogLevel(priority),
+                    System.currentTimeMillis(),
+                    tag,
+                    message,
+                    t?.stackTraceToString()
                 )
+
+                buffer.enqueue(entry)
+
+                val file: File = logFileResolver.createOrOpenFile()
+                val line = entry.asLineString()
+
+                file.appendText(line)
             }
         }
     }

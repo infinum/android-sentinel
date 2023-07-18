@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+## Version 1.2.9
+
+_2023-07-18_
+
+* Update dependencies.
+* Persist logs to disk. 
+
 ## Version 1.2.8
 
 _2023-05-28_

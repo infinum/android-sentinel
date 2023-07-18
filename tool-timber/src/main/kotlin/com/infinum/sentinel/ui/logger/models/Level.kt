@@ -22,5 +22,16 @@ internal enum class Level {
                 Log.WARN -> WARN
                 else -> UNKNOWN
             }
+
+        fun byLevelName(levelName: String): Level =
+            when (levelName) {
+                "ASSERT" -> ASSERT
+                "DEBUG" -> DEBUG
+                "ERROR" -> ERROR
+                "INFO" -> INFO
+                "VERBOSE" -> VERBOSE
+                "WARN" -> WARN
+                else -> UNKNOWN
+            }
     }
 }

@@ -68,9 +68,17 @@ dependencies {
     implementation libs.material
     implementation libs.timber
 
-    debugImplementation libs.library
-//    debugImplementation project(":sentinel")
+//    debugImplementation libs.library
+    debugImplementation project(":sentinel")
     releaseImplementation libs.librarynoop
 
-    debugImplementation libs.bundles.tools
+//    debugImplementation libs.bundles.tools
+    debugImplementation project(":tool-appgallery")
+    debugImplementation project(":tool-chucker")
+    debugImplementation project(":tool-collar")
+    debugImplementation project(":tool-dbinspector")
+    debugImplementation project(":tool-googleplay")
+    debugImplementation project(":tool-leakcanary")
+    debugImplementation project(":tool-thimble")
+    debugImplementation project(":tool-timber")
 }

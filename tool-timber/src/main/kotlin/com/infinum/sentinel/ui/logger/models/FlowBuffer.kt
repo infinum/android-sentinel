@@ -1,12 +1,8 @@
 package com.infinum.sentinel.ui.logger.models
 
-import kotlin.coroutines.resume
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.suspendCancellableCoroutine
-import org.json.JSONArray
-import org.json.JSONObject
 
 internal class FlowBuffer<T : BaseEntry> {
 
@@ -38,12 +34,4 @@ internal class FlowBuffer<T : BaseEntry> {
             }
         )
     }
-
-    suspend fun asString(): String =
-        suspendCancellableCoroutine {
-            val result = JSONArray(
-                queue.map { entry -> JSONObject(entry.asString()) }.toTypedArray()
-            ).toString()
-            it.resume(result)
-        }
 }

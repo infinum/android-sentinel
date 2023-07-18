@@ -4,7 +4,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.infinum.sentinel.R
-import com.infinum.sentinel.SentinelTree
+import com.infinum.sentinel.SentinelFileTree
 import com.infinum.sentinel.databinding.SentinelItemLogBinding
 import com.infinum.sentinel.ui.logger.models.Level
 import java.text.SimpleDateFormat
@@ -14,7 +14,7 @@ internal class LoggerViewHolder(
     private val binding: SentinelItemLogBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: SentinelTree.Entry?, onClick: (SentinelTree.Entry) -> Unit) {
+    fun bind(item: SentinelFileTree.Entry?, onClick: (SentinelFileTree.Entry) -> Unit) {
         item?.let { entry ->
             with(binding) {
                 levelView.setBackgroundColor(
