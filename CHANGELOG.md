@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+## Version 1.3.0
+
+_2023-07-21_
+
+* Fix log file provider authorities.
+
 ## Version 1.2.9
 
 _2023-07-18_

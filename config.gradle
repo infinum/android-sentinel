@@ -1,7 +1,7 @@
 ext {
     def major = 1
-    def minor = 2
-    def patch = 9
+    def minor = 3
+    def patch = 0
 
     buildConfig = [
             "minSdk"    : 21,
