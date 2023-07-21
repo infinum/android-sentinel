@@ -1,4 +1,4 @@
-package com.infinum.sentinel.ui.logger
+package com.infinum.sentinel.ui.logs
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -18,49 +17,36 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.infinum.sentinel.R
-import com.infinum.sentinel.SentinelFileTree
-import com.infinum.sentinel.databinding.SentinelActivityLoggerBinding
-import com.infinum.sentinel.ui.logger.models.FlowBuffer
-import com.infinum.sentinel.ui.logger.storage.AllowedTags
-import com.infinum.sentinel.ui.logs.LogsActivity
+import com.infinum.sentinel.databinding.SentinelActivityLogsBinding
 import com.infinum.sentinel.ui.shared.BounceEdgeEffectFactory
 import com.infinum.sentinel.ui.shared.LogFileResolver
-import com.infinum.sentinel.ui.shared.setup
 import java.io.File
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 
-public class LoggerActivity : AppCompatActivity() {
+public class LogsActivity : AppCompatActivity() {
 
     private companion object {
         private const val MIME_TYPE_TEXT = "text/plain"
     }
 
-    private lateinit var binding: SentinelActivityLoggerBinding
+    private lateinit var binding: SentinelActivityLogsBinding
 
-    private lateinit var logFile: File
-
-    private val buffer = Timber.forest()
-        .filterIsInstance<SentinelFileTree>()
-        .firstOrNull()?.buffer
-        ?: FlowBuffer()
-
-    private val adapter = LoggerAdapter(
+    private val adapter = LogsAdapter(
         onListChanged = { isEmpty ->
             showEmptyState(isEmpty)
         },
-        onClick = {
-            ShareCompat.IntentBuilder(this)
-                .setText(it.asJSONString())
-                .setType(MIME_TYPE_TEXT)
-                .startChooser()
+        onDelete = {
+            deleteLog(it)
+        },
+        onShare = {
+            shareLog(it)
         }
     )
 
@@ -87,7 +73,7 @@ public class LoggerActivity : AppCompatActivity() {
                 true
         }
 
-        binding = SentinelActivityLoggerBinding.inflate(layoutInflater)
+        binding = SentinelActivityLogsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         with(binding) {
@@ -108,38 +94,7 @@ public class LoggerActivity : AppCompatActivity() {
                         }
                     ) as? String
                     ) ?: getString(R.string.sentinel_name)
-            toolbar.setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.search -> {
-                        toolbar.menu.findItem(R.id.logs).isVisible = false
-                        toolbar.menu.findItem(R.id.share).isVisible = false
-                        true
-                    }
 
-                    R.id.logs -> {
-                        showLogs()
-                        true
-                    }
-
-                    R.id.share -> {
-                        shareToday()
-                        true
-                    }
-
-                    else -> false
-                }
-            }
-            (toolbar.menu.findItem(R.id.search)?.actionView as? SearchView)?.setup(
-                hint = getString(R.string.sentinel_search),
-                onSearchClosed = {
-                    toolbar.menu.findItem(R.id.logs).isVisible = true
-                    toolbar.menu.findItem(R.id.share).isVisible = true
-                    data()
-                },
-                onQueryTextChanged = { query ->
-                    filter(query)
-                }
-            )
             recyclerView.layoutManager = LinearLayoutManager(
                 recyclerView.context,
                 LinearLayoutManager.VERTICAL,
@@ -155,46 +110,41 @@ public class LoggerActivity : AppCompatActivity() {
             )
         }
 
-        val logFileResolver = LogFileResolver(this)
-        logFile = logFileResolver.createOrOpenFile()
-        binding.logNameView.text = logFile.name
-
         data()
     }
 
     private fun data() {
-        buffer
+        LogFileResolver(this)
+            .logsDir()
+            .listFiles()
+            .orEmpty()
             .asFlow()
             .flowOn(Dispatchers.IO)
-            .map { entries ->
-                if (AllowedTags.value.isEmpty()) {
-                    entries
-                } else {
-                    entries.filter { entry -> AllowedTags.value.contains(entry.tag) }
-                }
+            .onEach { files ->
+                val allFiles = adapter.currentList + files
+                adapter.submitList(allFiles.sortedByDescending { it.lastModified() })
             }
-            .onEach { entries -> adapter.submitList(entries) }
             .launchIn(lifecycleScope)
     }
 
-    private fun filter(query: String?) {
-        lifecycleScope.launch { withContext(Dispatchers.IO) { buffer.filter(query) } }
+    private fun deleteLog(logFile: File) {
+        val ok = logFile.delete()
+        if (ok) {
+            val allFiles = adapter.currentList - logFile
+            adapter.submitList(allFiles.sortedByDescending { it.lastModified() })
+        }
     }
 
-    private fun showLogs() {
-        startActivity(Intent(this, LogsActivity::class.java))
-    }
-
-    private fun shareToday() {
+    private fun shareLog(logFile: File) {
         lifecycleScope.launch {
             val uri: Uri = withContext(Dispatchers.IO) {
                 FileProvider.getUriForFile(
-                    this@LoggerActivity,
+                    this@LogsActivity,
                     "com.infinum.sentinel.logprovider",
                     logFile
                 )
             }
-            ShareCompat.IntentBuilder(this@LoggerActivity)
+            ShareCompat.IntentBuilder(this@LogsActivity)
                 .addStream(uri)
                 .setType(MIME_TYPE_TEXT)
                 .apply {

@@ -1,5 +1,6 @@
 package com.infinum.sentinel.ui.logger.models
 
+import java.io.File
 import org.json.JSONObject
 
 internal open class BaseEntry(
@@ -10,7 +11,7 @@ internal open class BaseEntry(
     open val stackTrace: String? = null
 ) {
 
-    fun asString(): String =
+    fun asJSONString(): String =
         JSONObject()
             .put("level", level)
             .put("timestamp", timestamp)
@@ -18,4 +19,18 @@ internal open class BaseEntry(
             .put("message", message)
             .put("stackTrace", stackTrace)
             .toString()
+
+    fun asLineString(): String =
+        buildString {
+            append(timestamp)
+            append(" LEVEL: ")
+            append(level)
+            append(" TAG: ")
+            append(tag.orEmpty())
+            append(" MESSAGE: ")
+            append(message.orEmpty())
+            append(" STACKTRACE: ")
+            append(stackTrace.orEmpty())
+            append(System.lineSeparator())
+        }
 }

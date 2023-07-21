@@ -1,0 +1,22 @@
+package com.infinum.sentinel.ui.logs
+
+import androidx.recyclerview.widget.DiffUtil
+import com.infinum.sentinel.SentinelFileTree
+import java.io.File
+
+internal class LogsDiffUtil : DiffUtil.ItemCallback<File>() {
+
+    override fun areItemsTheSame(
+        oldItem: File,
+        newItem: File
+    ): Boolean {
+        return oldItem.name == newItem.name
+    }
+
+    override fun areContentsTheSame(
+        oldItem: File,
+        newItem: File
+    ): Boolean {
+        return oldItem == newItem
+    }
+}

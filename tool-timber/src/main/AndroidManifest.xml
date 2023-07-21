@@ -14,6 +14,17 @@
                 android:value="false" />
         </activity>
 
+        <activity
+            android:name=".ui.logs.LogsActivity"
+            android:exported="false"
+            android:label="@string/sentinel_logs"
+            android:taskAffinity="com.infinum.sentinel.logger"
+            android:theme="@style/Sentinel.Theme.Leaf">
+            <meta-data
+                android:name="@string/sentinel_infinum_monitored"
+                android:value="false" />
+        </activity>
+
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
@@ -22,6 +33,16 @@
             <meta-data
                 android:name="com.infinum.sentinel.TimberInitializer"
                 android:value="androidx.startup" />
+        </provider>
+
+        <provider
+            android:name=".SentinelLogsProvider"
+            android:authorities="${applicationId}.sentinel.logprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/sentinel_file_paths"/>
         </provider>
 
     </application>

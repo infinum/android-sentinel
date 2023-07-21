@@ -22,7 +22,8 @@ import com.infinum.sentinel.ui.shared.edgetreatment.ScissorsEdgeTreatment
 
 @Suppress("TooManyFunctions")
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class SentinelFragment : BaseFragment<SentinelState, SentinelEvent>(R.layout.sentinel_fragment) {
+internal class SentinelFragment :
+    BaseFragment<SentinelState, SentinelEvent>(R.layout.sentinel_fragment) {
 
     companion object {
         const val TAG: String = "SentinelFragment"
@@ -59,8 +60,8 @@ internal class SentinelFragment : BaseFragment<SentinelState, SentinelEvent>(R.l
 
     override fun onEvent(event: SentinelEvent) =
         when (event) {
-            is SentinelEvent.Formatted -> ShareCompat.IntentBuilder(requireActivity())
-                .shareText(event.value)
+            is SentinelEvent.Formatted ->
+                ShareCompat.IntentBuilder(requireActivity()).shareText(event.value)
         }
 
     private fun setupToolbar() {

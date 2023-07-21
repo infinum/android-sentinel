@@ -11,7 +11,8 @@ public class TimberInitializer : Initializer<Class<TimberInitializer>> {
     override fun create(context: Context): Class<TimberInitializer> {
 
         Timber.plant(
-            SentinelTree(
+            SentinelFileTree(
+                context,
                 FlowBuffer()
             )
         )

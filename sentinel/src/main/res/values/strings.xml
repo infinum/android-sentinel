@@ -114,7 +114,7 @@
     <string name="sentinel_priority">Priority</string>
     <string name="sentinel_message">Message</string>
 
-    <string name="sentinel_logger_empty">No logs collected.</string>
+    <string name="sentinel_logger_empty">No new logs collected.</string>
 
     <string name="sentinel_certificate">Certificate</string>
     <string name="sentinel_certificates_empty">No certificates collected.</string>

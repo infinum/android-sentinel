@@ -11,9 +11,9 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/clear"
-        android:icon="@drawable/sentinel_ic_clear"
-        android:title="@string/sentinel_clear"
+        android:id="@+id/logs"
+        android:icon="@drawable/sentinel_ic_logs"
+        android:title="@string/sentinel_logs"
         app:showAsAction="always" />
 
     <item

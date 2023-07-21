@@ -57,15 +57,15 @@ Then add the following dependencies in your app `build.gradle` or `build.gradle.
 **Groovy**
 
 ```groovy
-debugImplementation "com.infinum.sentinel:sentinel:1.2.8"
-releaseImplementation "com.infinum.sentinel:sentinel-no-op:1.2.8"
+debugImplementation "com.infinum.sentinel:sentinel:1.3.0"
+releaseImplementation "com.infinum.sentinel:sentinel-no-op:1.3.0"
 ```
 
 **KotlinDSL**
 
 ```kotlin
-debugImplementation("com.infinum.sentinel:sentinel:1.2.8")
-releaseImplementation("com.infinum.sentinel:sentinel-no-op:1.2.8")
+debugImplementation("com.infinum.sentinel:sentinel:1.3.0")
+releaseImplementation("com.infinum.sentinel:sentinel-no-op:1.3.0")
 ```
 
 Basic tools are provided inside the main package but depending on requirements you might want to add
@@ -74,27 +74,27 @@ specific tools:
 **Groovy**
 
 ```groovy
-debugImplementation "com.infinum.sentinel:tool-chucker:1.2.8"
-debugImplementation "com.infinum.sentinel:tool-collar:1.2.8"
-debugImplementation "com.infinum.sentinel:tool-dbinspector:1.2.8"
-debugImplementation "com.infinum.sentinel:tool-leakcanary:1.2.8"
-debugImplementation "com.infinum.sentinel:tool-appgallery:1.2.8"
-debugImplementation "com.infinum.sentinel:tool-googleplay:1.2.8"
-debugImplementation "com.infinum.sentinel:tool-thimble:1.2.8"
-debugImplementation "com.infinum.sentinel:tool-timber:1.2.8"
+debugImplementation "com.infinum.sentinel:tool-chucker:1.3.0"
+debugImplementation "com.infinum.sentinel:tool-collar:1.3.0"
+debugImplementation "com.infinum.sentinel:tool-dbinspector:1.3.0"
+debugImplementation "com.infinum.sentinel:tool-leakcanary:1.3.0"
+debugImplementation "com.infinum.sentinel:tool-appgallery:1.3.0"
+debugImplementation "com.infinum.sentinel:tool-googleplay:1.3.0"
+debugImplementation "com.infinum.sentinel:tool-thimble:1.3.0"
+debugImplementation "com.infinum.sentinel:tool-timber:1.3.0"
 ```
 
 **KotlinDSL**
 
 ```kotlin
-debugImplementation("com.infinum.sentinel:tool-chucker:1.2.8")
-debugImplementation("com.infinum.sentinel:tool-collar:1.2.8")
-debugImplementation("com.infinum.sentinel:tool-dbinspector:1.2.8")
-debugImplementation("com.infinum.sentinel:tool-leakcanary:1.2.8")
-debugImplementation("com.infinum.sentinel:tool-appgallery:1.2.8")
-debugImplementation("com.infinum.sentinel:tool-googleplay:1.2.8")
-debugImplementation("com.infinum.sentinel:tool-thimble:1.2.8")
-debugImplementation("com.infinum.sentinel:tool-timber:1.2.8")
+debugImplementation("com.infinum.sentinel:tool-chucker:1.3.0")
+debugImplementation("com.infinum.sentinel:tool-collar:1.3.0")
+debugImplementation("com.infinum.sentinel:tool-dbinspector:1.3.0")
+debugImplementation("com.infinum.sentinel:tool-leakcanary:1.3.0")
+debugImplementation("com.infinum.sentinel:tool-appgallery:1.3.0")
+debugImplementation("com.infinum.sentinel:tool-googleplay:1.3.0")
+debugImplementation("com.infinum.sentinel:tool-thimble:1.3.0")
+debugImplementation("com.infinum.sentinel:tool-timber:1.3.0")
 ```
 
 Now you can sync your project.

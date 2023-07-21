@@ -18,19 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
-            app:menu="@menu/sentinel_logger"
-            app:navigationIcon="@drawable/sentinel_ic_close"
-            app:title="@string/sentinel_logger" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/logNameView"
-            style="@style/TextAppearance.Material3.LabelSmall"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="60dp"
-            android:paddingTop="2dp"
-            android:paddingEnd="8dp"
-            android:paddingBottom="2dp" />
+            app:navigationIcon="@drawable/sentinel_ic_back"
+            app:title="@string/sentinel_logs" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
