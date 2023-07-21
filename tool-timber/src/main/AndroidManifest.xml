@@ -37,7 +37,7 @@
 
         <provider
             android:name=".SentinelLogsProvider"
-            android:authorities="com.infinum.sentinel.logprovider"
+            android:authorities="${applicationId}.sentinel.logprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
