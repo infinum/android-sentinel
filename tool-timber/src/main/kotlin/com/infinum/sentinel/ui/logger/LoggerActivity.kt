@@ -190,7 +190,7 @@ public class LoggerActivity : AppCompatActivity() {
             val uri: Uri = withContext(Dispatchers.IO) {
                 FileProvider.getUriForFile(
                     this@LoggerActivity,
-                    "com.infinum.sentinel.logprovider",
+                    "${this@LoggerActivity.packageName}.sentinel.logprovider",
                     logFile
                 )
             }
