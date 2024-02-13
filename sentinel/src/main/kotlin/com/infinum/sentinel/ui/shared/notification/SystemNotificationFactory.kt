@@ -29,6 +29,14 @@ internal class SystemNotificationFactory(
     private val notificationManager: NotificationManager =
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
+    private fun canShowNotifications(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            notificationManager.areNotificationsEnabled()
+        } else {
+            true
+        }
+    }
+
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationChannel = NotificationChannel(
@@ -117,6 +125,9 @@ internal class SystemNotificationFactory(
         content: String,
         intents: Array<Intent>,
     ) {
+        if (!canShowNotifications()) {
+            return
+        }
         val builder = NotificationCompat.Builder(context, NOTIFICATIONS_CHANNEL_ID)
             .setContentIntent(buildPendingIntent(intents))
             .setLocalOnly(true)
@@ -139,6 +150,7 @@ internal class SystemNotificationFactory(
             when {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ->
                     PendingIntent.FLAG_MUTABLE
+
                 else -> PendingIntent.FLAG_CANCEL_CURRENT
             }
         )

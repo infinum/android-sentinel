@@ -258,7 +258,8 @@ _Plain_ formatter is selected by default, but selecting any other is persisted b
 ## Crash monitor
 
 _Sentinel_ has a built in default uncaught exception handler and ANR observer. If switched on in
-settings, it will notify both in a form of a notification.  
+settings, it will notify both in a form of a notification. Note that from Android 13 you need to give permission 
+to the app to show notifications.
 Once tapped on this notification, a screen with details is shown. A complete list of crashes is
 persisted between sessions and available on demand.    
 Methods to react on these crashes in a graceful way are provided in _Sentinel_.
