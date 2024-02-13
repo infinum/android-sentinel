@@ -49,7 +49,7 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
         if (!isPermissionGranted) {
             Toast.makeText(
                 requireContext(),
-                "Notification permission denied. Can't show info",
+                getString(R.string.sentinel_notification_permission_denied),
                 Toast.LENGTH_LONG,
             ).show()
         }
@@ -287,12 +287,12 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
             shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
                 Snackbar.make(
                     binding.root,
-                    "Notification permission denied. Can't show info",
+                    getString(R.string.sentinel_notification_permission_denied),
                     Snackbar.LENGTH_LONG
-                ).setAction("Change") {
+                ).setAction(getString(R.string.sentinel_change)) {
                     Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
                         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        data = Uri.fromParts("package", requireContext().packageName, null)
+                        data = Uri.fromParts(getString(R.string.sentinel_package), requireContext().packageName, null)
                     }.also { intent ->
                         startActivity(intent)
                     }

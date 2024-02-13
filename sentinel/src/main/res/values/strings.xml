@@ -18,6 +18,7 @@
     <string name="sentinel_search">Search</string>
     <string name="sentinel_show">Show</string>
     <string name="sentinel_save">Save</string>
+    <string name="sentinel_change">Change</string>
 
     <string name="sentinel_network">Network</string>
     <string name="sentinel_memory">Memory</string>
@@ -151,5 +152,9 @@
     <string name="sentinel_months">Months</string>
     <string name="sentinel_years">Years</string>
 
+    <string name="sentinel_notification_permission_denied">Notification permission denied. Can\'t show info</string>
+
     <string name="sentinel_unknown">unknown</string>
+    <string name="sentinel_package">package</string>
+
 </resources>
