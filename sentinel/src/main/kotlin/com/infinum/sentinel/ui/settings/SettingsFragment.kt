@@ -1,8 +1,18 @@
 package com.infinum.sentinel.ui.settings
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RestrictTo
+import androidx.core.content.ContextCompat
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.infinum.sentinel.R
 import com.infinum.sentinel.data.models.local.FormatEntity
@@ -32,6 +42,18 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
     )
 
     override val viewModel: SettingsViewModel by viewModels()
+
+    private val permissionRequest = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isPermissionGranted: Boolean ->
+        if (!isPermissionGranted) {
+            Toast.makeText(
+                requireContext(),
+                "Notification permission denied. Can't show info",
+                Toast.LENGTH_LONG,
+            ).show()
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -107,10 +129,12 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
                             binding.airplaneModeTriggerView,
                             trigger
                         )
+
                         else -> throw NotImplementedError()
                     }
                 }
             }
+
             is SettingsEvent.FormatChanged -> {
                 when (event.value.type) {
                     FormatType.PLAIN -> R.id.plainChip
@@ -123,6 +147,7 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
                     binding.formatGroup.check(it)
                 }
             }
+
             is SettingsEvent.BundleMonitorChanged -> {
                 binding.bundleMonitorSwitch.setOnCheckedChangeListener(null)
                 binding.bundleMonitorSwitch.isChecked = event.value.notify
@@ -167,6 +192,7 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
                 }
                 binding.limitValueView.text = String.format(FORMAT_BUNDLE_SIZE, event.value.limit)
             }
+
             is SettingsEvent.CrashMonitorChanged -> {
                 binding.uncaughtExceptionSwitch.setOnCheckedChangeListener(null)
                 binding.uncaughtExceptionSwitch.isChecked = event.value.notifyExceptions
@@ -184,6 +210,7 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
                     viewModel.updateCrashMonitor(event.value.copy(includeAllData = isChecked))
                 }
             }
+
             is SettingsEvent.CertificateMonitorChanged -> {
                 binding.runOnStartSwitch.setOnCheckedChangeListener(null)
                 binding.runOnStartSwitch.isChecked = event.value.runOnStart
@@ -240,7 +267,44 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
                     viewModel.updateCertificatesMonitor(event.value.copy(expireInUnit = ChronoUnit.YEARS))
                 }
             }
+
+            SettingsEvent.PermissionsCheck -> {
+                handleNotificationsPermission()
+            }
         }
+
+    private fun handleNotificationsPermission() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            return
+        }
+        when {
+            ContextCompat.checkSelfPermission(
+                requireContext(), Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                // We have permission, all good
+            }
+
+            shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
+                Snackbar.make(
+                    binding.root,
+                    "Notification permission denied. Can't show info",
+                    Snackbar.LENGTH_LONG
+                ).setAction("Change") {
+                    Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        data = Uri.fromParts("package", requireContext().packageName, null)
+                    }.also { intent ->
+                        startActivity(intent)
+                    }
+                }.show()
+            }
+
+            else -> {
+                permissionRequest.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+
+    }
 
     private fun setupSwitch(switchView: SwitchMaterial, trigger: TriggerEntity) =
         with(switchView) {

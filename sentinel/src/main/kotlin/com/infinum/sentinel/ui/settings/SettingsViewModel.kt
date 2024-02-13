@@ -124,6 +124,7 @@ internal class SettingsViewModel(
                     anrObserver.stop()
                 }
             }
+            emitEvent(SettingsEvent.PermissionsCheck)
         }
 
     fun updateCertificatesMonitor(entity: CertificateMonitorEntity) {
