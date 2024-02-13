@@ -20,11 +20,16 @@ internal abstract class SensorTrigger(
 
     abstract fun processEvent(event: SensorEvent): Boolean
 
+    private var activeHolder: Boolean? = null
+
     override fun start() {
         sensorManager = (context.getSystemService(Context.SENSOR_SERVICE) as? SensorManager)
         sensorManager?.let {
             registerSensor(it)
-            this.active = true
+            if (activeHolder == null) {
+                activeHolder = active
+            }
+            this.active = activeHolder ?: true // use remembered active state
         } ?: run {
             this.active = false
         }
@@ -34,6 +39,7 @@ internal abstract class SensorTrigger(
         queue?.clear()
         unregisterSensor()
         sensorManager = null
+        activeHolder = active // remember active state
         this.active = false
     }
 
