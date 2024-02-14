@@ -17,15 +17,11 @@ internal data class AppInfoTool(
         it.context.startActivity(
             Intent().apply {
                 action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                data = Uri.fromParts(SCHEME_PACKAGE, it.context.packageName, null)
+                data = Uri.fromParts(it.context.getString(R.string.sentinel_package_schema), it.context.packageName, null)
             }
         )
     }
 ) : Sentinel.Tool {
-
-    companion object {
-        private const val SCHEME_PACKAGE = "package"
-    }
 
     /**
      * A dedicated name for this tool

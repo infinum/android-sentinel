@@ -155,6 +155,6 @@
     <string name="sentinel_notification_permission_denied">Notification permission denied. Can\'t show info</string>
 
     <string name="sentinel_unknown">unknown</string>
-    <string name="sentinel_package">package</string>
+    <string name="sentinel_package_schema">package</string>
 
 </resources>
