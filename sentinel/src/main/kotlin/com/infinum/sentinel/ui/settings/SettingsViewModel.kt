@@ -124,8 +124,13 @@ internal class SettingsViewModel(
                     anrObserver.stop()
                 }
             }
-            emitEvent(SettingsEvent.PermissionsCheck)
+            if (isAtLeastSomeCrashOptionChecked(entity)) {
+                emitEvent(SettingsEvent.PermissionsCheck)
+            }
         }
+
+    private fun isAtLeastSomeCrashOptionChecked(entity: CrashMonitorEntity): Boolean =
+        entity.notifyAnrs || entity.notifyExceptions
 
     fun updateCertificatesMonitor(entity: CertificateMonitorEntity) {
         launch {
@@ -142,6 +147,12 @@ internal class SettingsViewModel(
                     workManager.startCertificatesCheck(it)
                 } ?: workManager.stopCertificatesCheck()
             }
+            if (isAtLeastSomeCertificateOptionChecked(entity)) {
+                emitEvent(SettingsEvent.PermissionsCheck)
+            }
         }
     }
+
+    private fun isAtLeastSomeCertificateOptionChecked(entity: CertificateMonitorEntity): Boolean =
+        entity.runOnStart || entity.runInBackground || entity.notifyInvalidNow || entity.notifyToExpire
 }
