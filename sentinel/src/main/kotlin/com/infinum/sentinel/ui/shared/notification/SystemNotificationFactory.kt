@@ -14,6 +14,7 @@ import com.infinum.sentinel.data.models.local.CrashEntity
 import com.infinum.sentinel.ui.shared.Constants.NOTIFICATIONS_CHANNEL_ID
 import me.tatarka.inject.annotations.Inject
 
+@Suppress("TooManyFunctions")
 @Inject
 internal class SystemNotificationFactory(
     private val context: Context,

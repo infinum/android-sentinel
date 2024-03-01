@@ -292,7 +292,11 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
                 ).setAction(getString(R.string.sentinel_change)) {
                     Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
                         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        data = Uri.fromParts(getString(R.string.sentinel_package_schema), requireContext().packageName, null)
+                        data = Uri.fromParts(
+                            getString(R.string.sentinel_package_schema),
+                            requireContext().packageName,
+                            null
+                        )
                     }.also { intent ->
                         startActivity(intent)
                     }
@@ -303,7 +307,6 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
                 permissionRequest.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
         }
-
     }
 
     private fun setupSwitch(switchView: SwitchMaterial, trigger: TriggerEntity) =
