@@ -28,6 +28,8 @@
         <item name="colorOnSurfaceInverse">@color/sentinel_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/sentinel_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/sentinel_primaryInverse</item>
+        <item name="snackbarStyle">@style/Sentinel.Snackbar</item>
+        <item name="snackbarButtonStyle">@style/Sentinel.Snackbar.TextButton</item>
     </style>
 
     <style name="Sentinel.Theme" parent="Sentinel.BaseTheme">
@@ -89,4 +91,14 @@
     <style name="Sentinel.Animation" parent="@android:style/Animation">
         <item name="android:windowExitAnimation">@android:anim/fade_out</item>
     </style>
+
+    <style name="Sentinel.Snackbar" parent="@style/Widget.MaterialComponents.Snackbar">
+        <item name="android:background">@color/sentinel_onBackground</item>
+    </style>
+
+    <style name="Sentinel.Snackbar.TextButton" parent="@style/Widget.MaterialComponents.Button.TextButton.Snackbar">
+        <item name="android:textColor">@color/sentinel_primary</item>
+    </style>
+
+
 </resources>

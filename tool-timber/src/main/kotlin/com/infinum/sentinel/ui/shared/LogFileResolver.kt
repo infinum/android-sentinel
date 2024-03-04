@@ -3,6 +3,7 @@ package com.infinum.sentinel.ui.shared
 import android.content.Context
 import java.io.File
 import java.util.Calendar
+import java.util.Locale
 
 internal class LogFileResolver(
     private val context: Context
@@ -27,11 +28,12 @@ internal class LogFileResolver(
         val year = Calendar.getInstance().get(Calendar.YEAR)
 
         val filename = buildString {
-            append(String.format("%02d", day))
+            val locale = Locale.getDefault()
+            append(String.format(locale = locale, format = "%02d", day))
             append("-")
-            append(String.format("%02d", month))
+            append(String.format(locale = locale, format = "%02d", month))
             append("-")
-            append(String.format("%04d", year))
+            append(String.format(locale = locale, format = "%04d", year))
             append(LOG_EXTENSION)
         }
         val nowFile = File("${parent.absolutePath}/$filename")
