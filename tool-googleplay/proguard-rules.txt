@@ -1,1 +1,5 @@
--dontobfuscate
+-keeppackagenames
+-keep public class com.infinum.sentinel.ui.tools.GooglePlayTool {
+  public protected *;
+}
+-keep public class com.infinum.sentinel.databinding.**
