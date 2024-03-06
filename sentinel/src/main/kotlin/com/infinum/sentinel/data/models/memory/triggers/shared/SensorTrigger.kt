@@ -24,7 +24,6 @@ internal abstract class SensorTrigger(
         sensorManager = (context.getSystemService(Context.SENSOR_SERVICE) as? SensorManager)
         sensorManager?.let {
             registerSensor(it)
-            this.active = true
         } ?: run {
             this.active = false
         }
@@ -34,7 +33,6 @@ internal abstract class SensorTrigger(
         queue?.clear()
         unregisterSensor()
         sensorManager = null
-        this.active = false
     }
 
     override fun onSensorChanged(event: SensorEvent) {

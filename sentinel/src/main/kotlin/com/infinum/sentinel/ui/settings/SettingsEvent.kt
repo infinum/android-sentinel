@@ -27,4 +27,6 @@ internal sealed class SettingsEvent {
     data class CertificateMonitorChanged(
         val value: CertificateMonitorEntity
     ) : SettingsEvent()
+
+    object PermissionsCheck : SettingsEvent()
 }
