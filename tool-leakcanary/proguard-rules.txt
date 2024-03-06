@@ -1,5 +1,1 @@
--keeppackagenames
--keep public class com.infinum.sentinel.ui.tools.LeakCanaryTool {
-  public protected *;
-}
--keep public class com.infinum.sentinel.databinding.**
+-dontobfuscate
