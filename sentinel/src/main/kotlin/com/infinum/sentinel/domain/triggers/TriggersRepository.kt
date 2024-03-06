@@ -19,6 +19,7 @@ internal class TriggersRepository(
     override suspend fun save(input: TriggerParameters) =
         input.entity?.let {
             dao.save(it)
+            updateCache(it)
         } ?: error("Cannot save null entity")
 
     override fun load(input: TriggerParameters): Flow<List<TriggerEntity>> =
