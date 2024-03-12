@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id "com.android.library"
     id "kotlin-android"
@@ -62,8 +64,19 @@ android {
                 '-Xjvm-default=all'
         ]
     }
+
+    tasks.withType(KotlinCompile).configureEach {
+        if (it.name.toLowerCase().contains("test")) {
+            kotlinOptions {
+                freeCompilerArgs -= [
+                        "-Xexplicit-api=strict",
+                ]
+            }
+        }
+    }
     testOptions {
         animationsDisabled = true
+
     }
 
     sourceSets.each {
