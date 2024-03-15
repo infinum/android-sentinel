@@ -20,7 +20,7 @@
             android:minHeight="?attr/actionBarSize"
             app:menu="@menu/sentinel_logger"
             app:navigationIcon="@drawable/sentinel_ic_close"
-            app:title="@string/sentinel_logger" />
+            app:title="@string/sentinel_logger_name" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/logNameView"

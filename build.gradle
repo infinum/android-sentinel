@@ -37,6 +37,7 @@ subprojects {
 
 apply from: "deploy.gradle"
 
+// todo check warnings
 tasks.withType(JavaCompile) {
     options.compilerArgs += ["--release", "8"]
 }

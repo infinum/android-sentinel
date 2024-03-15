@@ -6,7 +6,7 @@
         <activity
             android:name=".ui.logger.LoggerActivity"
             android:exported="false"
-            android:label="@string/sentinel_logger"
+            android:label="@string/sentinel_logger_name"
             android:taskAffinity="com.infinum.sentinel.logger"
             android:theme="@style/Sentinel.Theme.Leaf">
             <meta-data

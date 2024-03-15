@@ -14,7 +14,7 @@ import com.infinum.sentinel.ui.shared.Constants
  * Specific wrapper tool that monitors crashes for the application which implemented Sentinel.
  */
 internal data class CrashMonitorTool(
-    @StringRes private val name: Int = R.string.sentinel_crash_monitor,
+    @StringRes private val name: Int = R.string.sentinel_crash_monitor_name,
     private val listener: View.OnClickListener = View.OnClickListener {
         it.context.startActivity(
             Intent(

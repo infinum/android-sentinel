@@ -20,7 +20,7 @@
             android:minHeight="?attr/actionBarSize"
             app:menu="@menu/sentinel_bundle_monitor"
             app:navigationIcon="@drawable/sentinel_ic_close"
-            app:title="@string/sentinel_bundle_monitor" />
+            app:title="@string/sentinel_bundle_monitor_name" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

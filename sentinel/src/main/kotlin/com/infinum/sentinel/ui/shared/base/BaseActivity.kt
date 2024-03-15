@@ -38,6 +38,7 @@ internal abstract class BaseActivity<State, Event> : FragmentActivity(), BaseVie
     @CallSuper
     override fun onPause() =
         super.onPause().run {
+            // todo
             overridePendingTransition(0, 0)
         }
 }

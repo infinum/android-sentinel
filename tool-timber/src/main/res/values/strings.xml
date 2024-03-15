@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="sentinel_name" translatable="false">Sentinel</string>
     <string name="sentinel_search" tools:override="true">Search</string>
-    <string name="sentinel_logger" tools:override="true">Logger</string>
+    <string name="sentinel_logger_name" tools:override="true">Logger</string>
     <string name="sentinel_logs" tools:override="true">Logs</string>
     <string name="sentinel_log_format">%1$s: %2$s</string>
 </resources>

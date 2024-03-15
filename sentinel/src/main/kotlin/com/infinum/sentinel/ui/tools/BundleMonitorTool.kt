@@ -11,7 +11,7 @@ import com.infinum.sentinel.ui.bundles.BundlesActivity
  * Specific wrapper tool that monitors Bundle sizes for the application which implemented Sentinel.
  */
 internal data class BundleMonitorTool(
-    @StringRes private val name: Int = R.string.sentinel_bundle_monitor,
+    @StringRes private val name: Int = R.string.sentinel_bundle_monitor_name,
     private val listener: View.OnClickListener = View.OnClickListener {
         it.context.startActivity(
             Intent(
