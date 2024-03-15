@@ -75,7 +75,7 @@ dependencies {
 
 //    debugImplementation libs.library
     debugImplementation project(":sentinel")
-    releaseImplementation libs.librarynoop
+    releaseImplementation libs.librarynoop //todo test string collision without
 
 //    debugImplementation libs.bundles.tools
     debugImplementation project(":tool-appgallery")

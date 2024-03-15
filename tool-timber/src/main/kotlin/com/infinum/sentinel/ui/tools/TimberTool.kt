@@ -48,7 +48,7 @@ public data class TimberTool @JvmOverloads constructor(
      *
      * @return a String resource that will be used to generate a name for a Button in Tools UI
      */
-    override fun name(): Int = R.string.sentinel_logger
+    override fun name(): Int = R.string.sentinel_logger_name
 
     /**
      * A callback to be invoked when this view is clicked.

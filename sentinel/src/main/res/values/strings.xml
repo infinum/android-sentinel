@@ -8,8 +8,8 @@
     <string name="sentinel_permissions">Permissions</string>
     <string name="sentinel_settings">Settings</string>
     <string name="sentinel_app_info">App info</string>
-    <string name="sentinel_bundle_monitor">Bundle monitor</string>
-    <string name="sentinel_crash_monitor">Crash monitor</string>
+    <string name="sentinel_bundle_monitor_name">Bundle monitor</string>
+    <string name="sentinel_crash_monitor_name">Crash monitor</string>
     <string name="sentinel_certificates">Certificates</string>
     <string name="sentinel_share">Share</string>
     <string name="sentinel_notify">Notify</string>
@@ -28,7 +28,7 @@
     <string name="sentinel_bluetooth">Bluetooth</string>
     <string name="sentinel_distribution">Distribution</string>
     <string name="sentinel_design">Design</string>
-    <string name="sentinel_logger">Logger</string>
+    <string name="sentinel_logger_name">Logger</string>
 
     <string name="sentinel_triggers">Triggers</string>
     <string name="sentinel_share_format">Share format</string>

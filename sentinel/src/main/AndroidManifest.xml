@@ -41,7 +41,8 @@
         <activity
             android:name=".ui.bundles.BundlesActivity"
             android:exported="false"
-            android:label="@string/sentinel_bundle_monitor"
+            android:label="@string/sentinel_bundle_monitor_name"
+            tools:replace="android:label"
             android:taskAffinity="com.infinum.sentinel.bundles"
             android:theme="@style/Sentinel.Theme.Leaf">
             <meta-data
@@ -52,7 +53,8 @@
         <activity
             android:name=".ui.bundles.details.BundleDetailsActivity"
             android:exported="false"
-            android:label="@string/sentinel_bundle_monitor"
+            android:label="@string/sentinel_bundle_monitor_name"
+            tools:replace="android:label"
             android:taskAffinity="com.infinum.sentinel.bundles"
             android:theme="@style/Sentinel.Theme.Leaf">
             <meta-data
@@ -63,7 +65,8 @@
         <activity
             android:name=".ui.crash.CrashesActivity"
             android:exported="false"
-            android:label="@string/sentinel_crash_monitor"
+            android:label="@string/sentinel_crash_monitor_name"
+            tools:replace="android:label"
             android:taskAffinity="com.infinum.sentinel.crashes"
             android:theme="@style/Sentinel.Theme.Leaf">
             <meta-data

@@ -170,7 +170,7 @@
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:paddingBottom="8dp"
-                android:text="@string/sentinel_bundle_monitor"
+                android:text="@string/sentinel_bundle_monitor_name"
                 android:textAllCaps="true"
                 android:textColor="@color/sentinel_primary" />
 
@@ -325,7 +325,7 @@
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:paddingBottom="8dp"
-                android:text="@string/sentinel_crash_monitor"
+                android:text="@string/sentinel_crash_monitor_name"
                 android:textAllCaps="true"
                 android:textColor="@color/sentinel_primary" />
 

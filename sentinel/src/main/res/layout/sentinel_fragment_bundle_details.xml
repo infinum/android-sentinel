@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
             app:navigationIcon="@drawable/sentinel_ic_back"
-            app:title="@string/sentinel_bundle_monitor" />
+            app:title="@string/sentinel_bundle_monitor_name" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
