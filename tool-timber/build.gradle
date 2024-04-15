@@ -67,7 +67,6 @@ dokkaJavadoc {
 }
 
 dependencies {
-    coreLibraryDesugaring libs.desugar
     implementation libs.kotlin.core
     implementation libs.coroutines
     api libs.library
