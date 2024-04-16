@@ -42,128 +42,94 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class SentinelFragmentTests {
 
-//    companion object {
-//
-//        private lateinit var context: Context
-//
-//        @BeforeClass
-//        @JvmStatic
-//        fun setupBeforeClass() {
-//            context = ApplicationProvider.getApplicationContext<SentinelTestApplication>()
-//
-//            Presentation.initialise(context)
-//        }
-//    }
-//
-//    @get:Rule
-//    val instantTaskExecutorRule = InstantTaskExecutorRule()
-//
-//    @Before
-//    fun setupGraph() {
-//        MainScope().launch {
-//            Presentation.setup(setOf()) {}
-//        }
-//    }
-//
+    companion object {
+
+        private lateinit var context: Context
+
+        @BeforeClass
+        @JvmStatic
+        fun setupBeforeClass() {
+            context = ApplicationProvider.getApplicationContext<SentinelTestApplication>()
+
+            Presentation.initialise(context)
+        }
+    }
+
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
+
+    @Before
+    fun setupGraph() {
+        MainScope().launch {
+            Presentation.setup(setOf()) {}
+        }
+    }
+
+    @Test
+    fun sentinelFragment_show() {
+        val scenario = launchFragmentInContainer<SentinelFragment>(
+            themeResId = R.style.Sentinel_Theme_BottomSheet
+        )
+        scenario.onFragment {
+            val childFragment = it.childFragmentManager.findFragmentByTag(ToolsFragment.TAG)
+            assertNotNull(childFragment)
+        }
+
+        onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
+        onView(withId(R.id.fab)).check(matches(isDisplayed()))
+        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
+        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
+        onView(withId(R.id.share)).check(matches(isDisplayed()))
+    }
+
+    // TODO: Fix this flaky test
 //    @Test
-//    fun sentinelFragment_show() {
-//        val scenario = launchFragmentInContainer<SentinelFragment>(
-//            themeResId = R.style.Sentinel_Theme_BottomSheet
-//        )
-//        scenario.onFragment {
-//            val childFragment = it.childFragmentManager.findFragmentByTag(ToolsFragment.TAG)
-//            assertNotNull(childFragment)
-//        }
+//    fun sentinelFragment_showChild_Settings() {
+//        val scenario =
+//            launchFragmentInContainer<SentinelFragment>(themeResId = R.style.Sentinel_Theme_BottomSheet)
 //
+//        onView(withId(R.id.sentinelTitle)).check(matches(withText(R.string.sentinel_name)))
 //        onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
 //        onView(withId(R.id.fab)).check(matches(isDisplayed()))
-//        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
+//        onView(withId(R.id.bottomAppBar)).check(matches(isDisplayed()))
 //        onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
 //        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
-//        onView(withId(R.id.share)).check(matches(isDisplayed()))
+//
+//        onView(withId(R.id.settings)).check(matches(isDisplayed()))
+//
+//        onView(
+//            allOf(
+//                withId(R.id.settings),
+//                withParent(instanceOf(ActionMenuView::class.java))
+//            )
+//        ).perform(click())
+//
+//        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
+//        onView(withText(R.string.sentinel_settings)).check(matches(withParent(withId(R.id.toolbar))))
+//
+//        scenario.onFragment {
+//            val childFragment = it.childFragmentManager.findFragmentByTag(SettingsFragment.TAG)
+//
+//            assertNotNull(childFragment)
+//        }
 //    }
-//
-//    // TODO: Fix this flaky test
-////    @Test
-////    fun sentinelFragment_showChild_Settings() {
-////        val scenario =
-////            launchFragmentInContainer<SentinelFragment>(themeResId = R.style.Sentinel_Theme_BottomSheet)
-////
-////        onView(withId(R.id.sentinelTitle)).check(matches(withText(R.string.sentinel_name)))
-////        onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
-////        onView(withId(R.id.fab)).check(matches(isDisplayed()))
-////        onView(withId(R.id.bottomAppBar)).check(matches(isDisplayed()))
-////        onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
-////        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
-////
-////        onView(withId(R.id.settings)).check(matches(isDisplayed()))
-////
-////        onView(
-////            allOf(
-////                withId(R.id.settings),
-////                withParent(instanceOf(ActionMenuView::class.java))
-////            )
-////        ).perform(click())
-////
-////        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
-////        onView(withText(R.string.sentinel_settings)).check(matches(withParent(withId(R.id.toolbar))))
-////
-////        scenario.onFragment {
-////            val childFragment = it.childFragmentManager.findFragmentByTag(SettingsFragment.TAG)
-////
-////            assertNotNull(childFragment)
-////        }
-////    }
-//
-////    @Test
-////    fun sentinelFragment_showChild_Device() {
-////        val scenario =
-////            launchFragmentInContainer<SentinelFragment>(themeResId = R.style.Sentinel_Theme_BottomSheet)
-////
-////        onView(withId(R.id.sentinelTitle)).check(matches(withText(R.string.sentinel_name)))
-////        onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
-////        onView(withId(R.id.fab)).check(matches(isDisplayed()))
-////        onView(withId(R.id.bottomAppBar)).check(matches(isDisplayed()))
-////        onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
-////        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
-////
-////        onView(
-////            allOf(
-////                withId(R.id.device),
-////                withParent(instanceOf(ActionMenuView::class.java))
-////            )
-////        ).perform(click())
-////
-////        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
-////        onView(
-////            allOf(
-////                withText(R.string.sentinel_device),
-////                withParent(instanceOf(MaterialToolbar::class.java))
-////            )
-////        ).check(matches(withParent(withId(R.id.toolbar))))
-////
-////        scenario.onFragment {
-////            val childFragment = it.childFragmentManager.findFragmentByTag(DeviceFragment.TAG)
-////
-////            assertNotNull(childFragment)
-////        }
-////    }
-//
+
 //    @Test
-//    fun sentinelFragment_showChild_Application() {
-//        val scenario = launchFragmentInContainer<SentinelFragment>(
-//            themeResId = R.style.Sentinel_Theme_BottomSheet
-//        )
+//    fun sentinelFragment_showChild_Device() {
+//        val scenario =
+//            launchFragmentInContainer<SentinelFragment>(themeResId = R.style.Sentinel_Theme_BottomSheet)
 //
+//        onView(withId(R.id.sentinelTitle)).check(matches(withText(R.string.sentinel_name)))
 //        onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
 //        onView(withId(R.id.fab)).check(matches(isDisplayed()))
-//        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
+//        onView(withId(R.id.bottomAppBar)).check(matches(isDisplayed()))
 //        onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
 //        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
 //
 //        onView(
 //            allOf(
-//                withId(R.id.application),
+//                withId(R.id.device),
 //                withParent(instanceOf(ActionMenuView::class.java))
 //            )
 //        ).perform(click())
@@ -171,158 +137,192 @@ class SentinelFragmentTests {
 //        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
 //        onView(
 //            allOf(
-//                withText(R.string.sentinel_application),
+//                withText(R.string.sentinel_device),
 //                withParent(instanceOf(MaterialToolbar::class.java))
 //            )
 //        ).check(matches(withParent(withId(R.id.toolbar))))
 //
 //        scenario.onFragment {
-//            val childFragment = it.childFragmentManager.findFragmentByTag(ApplicationFragment.TAG)
+//            val childFragment = it.childFragmentManager.findFragmentByTag(DeviceFragment.TAG)
 //
 //            assertNotNull(childFragment)
 //        }
 //    }
-//
-//    @Test
-//    fun sentinelFragment_showChild_Permissions() {
-//        val scenario = launchFragmentInContainer<SentinelFragment>(
-//            themeResId = R.style.Sentinel_Theme_BottomSheet
-//        )
-//
-//        onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
-//        onView(withId(R.id.fab)).check(matches(isDisplayed()))
-//        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
-//        onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
-//        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
-//
-//        onView(
-//            allOf(
-//                withId(R.id.permissions),
-//                withParent(instanceOf(ActionMenuView::class.java))
-//            )
-//        ).perform(click())
-//
-//        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
-//        onView(
-//            allOf(
-//                withText(R.string.sentinel_permissions),
-//                withParent(instanceOf(MaterialToolbar::class.java))
-//            )
-//        ).check(matches(withParent(withId(R.id.toolbar))))
-//
-//        scenario.onFragment {
-//            val childFragment = it.childFragmentManager.findFragmentByTag(PermissionsFragment.TAG)
-//
-//            assertNotNull(childFragment)
-//        }
-//    }
-//
-//    @Test
-//    fun sentinelFragment_showChild_Preferences() {
-//        val scenario = launchFragmentInContainer<SentinelFragment>(
-//            themeResId = R.style.Sentinel_Theme_BottomSheet
-//        )
-//
-//        onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
-//        onView(withId(R.id.fab)).check(matches(isDisplayed()))
-//        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
-//        onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
-//        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
-//
-//        onView(
-//            allOf(
-//                withId(R.id.preferences),
-//                withParent(instanceOf(ActionMenuView::class.java))
-//            )
-//        ).perform(lenientClick())
-//
-//        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
-//        onView(
-//            allOf(
-//                withText(R.string.sentinel_preferences),
-//                withParent(instanceOf(MaterialToolbar::class.java))
-//            )
-//        ).check(matches(withParent(withId(R.id.toolbar))))
-//
-//        scenario.onFragment {
-//            val childFragment = it.childFragmentManager.findFragmentByTag(PreferencesFragment.TAG)
-//
-//            assertNotNull(childFragment)
-//        }
-//    }
-//
-//    @Test
-//    fun sentinelFragment_showChild_Tools() {
-//        val scenario = launchFragmentInContainer<SentinelFragment>(
-//            themeResId = R.style.Sentinel_Theme_BottomSheet
-//        )
-//
-//        onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
-//        onView(withId(R.id.fab)).check(matches(isDisplayed()))
-//        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
-//        onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
-//        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
-//
-//        onView(
-//            allOf(
-//                withId(R.id.fab)
-//            )
-//        ).perform(click())
-//
-//        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
-//        onView(
-//            allOf(
-//                withText(R.string.sentinel_tools),
-//                withParent(instanceOf(MaterialToolbar::class.java))
-//            )
-//        ).check(matches(withParent(withId(R.id.toolbar))))
-//
-//        scenario.onFragment {
-//            val childFragment = it.childFragmentManager.findFragmentByTag(ToolsFragment.TAG)
-//
-//            assertNotNull(childFragment)
-//        }
-//    }
-//
-//    @Test
-//    fun sentinelFragment_share() {
-//        val scenario = launchFragmentInContainer<SentinelFragment>(
-//            themeResId = R.style.Sentinel_Theme_BottomSheet
-//        )
-//        scenario.onFragment {
-//            val childFragment = it.childFragmentManager.findFragmentByTag(ToolsFragment.TAG)
-//            assertNotNull(childFragment)
-//        }
-//
-//        onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
-//        onView(withId(R.id.fab)).check(matches(isDisplayed()))
-//        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
-//        onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
-//        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
-//        onView(withId(R.id.share)).check(matches(isDisplayed()))
-//
-//        Intents.init()
-//
-//        onView(allOf(withId(R.id.share))).perform(click())
-//
-//        Intents.intended(allOf(hasAction(Intent.ACTION_CHOOSER)), Intents.times(1))
-//
-//        Intents.release()
-//    }
-//
-//    private fun lenientClick(): ViewAction {
-//        return object : ViewAction {
-//            override fun getConstraints(): Matcher<View> {
-//                return ViewMatchers.isEnabled()
-//            }
-//
-//            override fun getDescription(): String {
-//                return "Barely clicking"
-//            }
-//
-//            override fun perform(uiController: UiController?, view: View) {
-//                view.performClick()
-//            }
-//        }
-//    }
+
+    @Test
+    fun sentinelFragment_showChild_Application() {
+        val scenario = launchFragmentInContainer<SentinelFragment>(
+            themeResId = R.style.Sentinel_Theme_BottomSheet
+        )
+
+        onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
+        onView(withId(R.id.fab)).check(matches(isDisplayed()))
+        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
+        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
+
+        onView(
+            allOf(
+                withId(R.id.application),
+                withParent(instanceOf(ActionMenuView::class.java))
+            )
+        ).perform(click())
+
+        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
+        onView(
+            allOf(
+                withText(R.string.sentinel_application),
+                withParent(instanceOf(MaterialToolbar::class.java))
+            )
+        ).check(matches(withParent(withId(R.id.toolbar))))
+
+        scenario.onFragment {
+            val childFragment = it.childFragmentManager.findFragmentByTag(ApplicationFragment.TAG)
+
+            assertNotNull(childFragment)
+        }
+    }
+
+    @Test
+    fun sentinelFragment_showChild_Permissions() {
+        val scenario = launchFragmentInContainer<SentinelFragment>(
+            themeResId = R.style.Sentinel_Theme_BottomSheet
+        )
+
+        onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
+        onView(withId(R.id.fab)).check(matches(isDisplayed()))
+        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
+        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
+
+        onView(
+            allOf(
+                withId(R.id.permissions),
+                withParent(instanceOf(ActionMenuView::class.java))
+            )
+        ).perform(click())
+
+        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
+        onView(
+            allOf(
+                withText(R.string.sentinel_permissions),
+                withParent(instanceOf(MaterialToolbar::class.java))
+            )
+        ).check(matches(withParent(withId(R.id.toolbar))))
+
+        scenario.onFragment {
+            val childFragment = it.childFragmentManager.findFragmentByTag(PermissionsFragment.TAG)
+
+            assertNotNull(childFragment)
+        }
+    }
+
+    @Test
+    fun sentinelFragment_showChild_Preferences() {
+        val scenario = launchFragmentInContainer<SentinelFragment>(
+            themeResId = R.style.Sentinel_Theme_BottomSheet
+        )
+
+        onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
+        onView(withId(R.id.fab)).check(matches(isDisplayed()))
+        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
+        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
+
+        onView(
+            allOf(
+                withId(R.id.preferences),
+                withParent(instanceOf(ActionMenuView::class.java))
+            )
+        ).perform(lenientClick())
+
+        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
+        onView(
+            allOf(
+                withText(R.string.sentinel_preferences),
+                withParent(instanceOf(MaterialToolbar::class.java))
+            )
+        ).check(matches(withParent(withId(R.id.toolbar))))
+
+        scenario.onFragment {
+            val childFragment = it.childFragmentManager.findFragmentByTag(PreferencesFragment.TAG)
+
+            assertNotNull(childFragment)
+        }
+    }
+
+    @Test
+    fun sentinelFragment_showChild_Tools() {
+        val scenario = launchFragmentInContainer<SentinelFragment>(
+            themeResId = R.style.Sentinel_Theme_BottomSheet
+        )
+
+        onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
+        onView(withId(R.id.fab)).check(matches(isDisplayed()))
+        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
+        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
+
+        onView(
+            allOf(
+                withId(R.id.fab)
+            )
+        ).perform(click())
+
+        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
+        onView(
+            allOf(
+                withText(R.string.sentinel_tools),
+                withParent(instanceOf(MaterialToolbar::class.java))
+            )
+        ).check(matches(withParent(withId(R.id.toolbar))))
+
+        scenario.onFragment {
+            val childFragment = it.childFragmentManager.findFragmentByTag(ToolsFragment.TAG)
+
+            assertNotNull(childFragment)
+        }
+    }
+
+    @Test
+    fun sentinelFragment_share() {
+        val scenario = launchFragmentInContainer<SentinelFragment>(
+            themeResId = R.style.Sentinel_Theme_BottomSheet
+        )
+        scenario.onFragment {
+            val childFragment = it.childFragmentManager.findFragmentByTag(ToolsFragment.TAG)
+            assertNotNull(childFragment)
+        }
+
+        onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
+        onView(withId(R.id.fab)).check(matches(isDisplayed()))
+        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
+        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
+        onView(withId(R.id.share)).check(matches(isDisplayed()))
+
+        Intents.init()
+
+        onView(allOf(withId(R.id.share))).perform(click())
+
+        Intents.intended(allOf(hasAction(Intent.ACTION_CHOOSER)), Intents.times(1))
+
+        Intents.release()
+    }
+
+    private fun lenientClick(): ViewAction {
+        return object : ViewAction {
+            override fun getConstraints(): Matcher<View> {
+                return ViewMatchers.isEnabled()
+            }
+
+            override fun getDescription(): String {
+                return "Barely clicking"
+            }
+
+            override fun perform(uiController: UiController?, view: View) {
+                view.performClick()
+            }
+        }
+    }
 }
