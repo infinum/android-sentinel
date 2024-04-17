@@ -54,9 +54,7 @@ android {
     lint {
         disable "RtlEnabled", "VectorPath"
     }
-    compileOptions {
-        coreLibraryDesugaringEnabled true
-    }
+
     kotlinOptions {
         freeCompilerArgs += [
                 "-opt-in=kotlin.ExperimentalStdlibApi",
@@ -102,7 +100,6 @@ dokkaJavadoc {
 }
 
 dependencies {
-    coreLibraryDesugaring libs.desugar
     implementation libs.kotlin.core
     implementation libs.kotlin.json
     implementation libs.coroutines

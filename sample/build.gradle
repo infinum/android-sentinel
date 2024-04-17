@@ -45,10 +45,6 @@ android {
         viewBinding = true
     }
 
-    compileOptions {
-        coreLibraryDesugaringEnabled true
-    }
-
     kotlin {
         jvmToolchain(8)
     }
@@ -65,7 +61,6 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring libs.desugar
     implementation libs.kotlin.core
     implementation libs.androidx.appcompat
     implementation libs.androidx.preference
