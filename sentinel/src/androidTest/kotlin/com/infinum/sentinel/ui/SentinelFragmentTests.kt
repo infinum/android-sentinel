@@ -40,15 +40,15 @@ package com.infinum.sentinel.ui
 //import org.junit.runner.RunWith
 //
 //@RunWith(AndroidJUnit4::class)
-//class SentinelFragmentTests {
+//public class SentinelFragmentTests {
 //
-//    companion object {
+//    public companion object {
 //
 //        private lateinit var context: Context
 //
 //        @BeforeClass
 //        @JvmStatic
-//        fun setupBeforeClass() {
+//        public fun setupBeforeClass() {
 //            context = ApplicationProvider.getApplicationContext<SentinelTestApplication>()
 //
 //            Presentation.initialise(context)
@@ -56,19 +56,19 @@ package com.infinum.sentinel.ui
 //    }
 //
 //    @get:Rule
-//    val instantTaskExecutorRule = InstantTaskExecutorRule()
+//    public val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 //
 //    @Before
-//    fun setupGraph() {
+//    public fun setupGraph() {
 //        MainScope().launch {
 //            Presentation.setup(setOf()) {}
 //        }
 //    }
 //
 //    @Test
-//    fun sentinelFragment_show() {
+//    public fun sentinelFragment_show() {
 //        val scenario = launchFragmentInContainer<SentinelFragment>(
-//            themeResId = R.style.Sentinel_Theme_BottomSheet
+//            themeResId = R.style.Sentinel_Theme_Dialog
 //        )
 //        scenario.onFragment {
 //            val childFragment = it.childFragmentManager.findFragmentByTag(ToolsFragment.TAG)
@@ -150,9 +150,9 @@ package com.infinum.sentinel.ui
 ////    }
 //
 //    @Test
-//    fun sentinelFragment_showChild_Application() {
+//    public fun sentinelFragment_showChild_Application() {
 //        val scenario = launchFragmentInContainer<SentinelFragment>(
-//            themeResId = R.style.Sentinel_Theme_BottomSheet
+//            themeResId = R.style.Sentinel_Theme_Dialog
 //        )
 //
 //        onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
@@ -184,9 +184,9 @@ package com.infinum.sentinel.ui
 //    }
 //
 //    @Test
-//    fun sentinelFragment_showChild_Permissions() {
+//    public fun sentinelFragment_showChild_Permissions() {
 //        val scenario = launchFragmentInContainer<SentinelFragment>(
-//            themeResId = R.style.Sentinel_Theme_BottomSheet
+//            themeResId = R.style.Sentinel_Theme_Dialog
 //        )
 //
 //        onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
@@ -218,9 +218,9 @@ package com.infinum.sentinel.ui
 //    }
 //
 //    @Test
-//    fun sentinelFragment_showChild_Preferences() {
+//    public fun sentinelFragment_showChild_Preferences() {
 //        val scenario = launchFragmentInContainer<SentinelFragment>(
-//            themeResId = R.style.Sentinel_Theme_BottomSheet
+//            themeResId = R.style.Sentinel_Theme_Dialog
 //        )
 //
 //        onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
@@ -252,9 +252,9 @@ package com.infinum.sentinel.ui
 //    }
 //
 //    @Test
-//    fun sentinelFragment_showChild_Tools() {
+//    public fun sentinelFragment_showChild_Tools() {
 //        val scenario = launchFragmentInContainer<SentinelFragment>(
-//            themeResId = R.style.Sentinel_Theme_BottomSheet
+//            themeResId = R.style.Sentinel_Theme_Dialog
 //        )
 //
 //        onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
@@ -285,9 +285,9 @@ package com.infinum.sentinel.ui
 //    }
 //
 //    @Test
-//    fun sentinelFragment_share() {
+//    public fun sentinelFragment_share() {
 //        val scenario = launchFragmentInContainer<SentinelFragment>(
-//            themeResId = R.style.Sentinel_Theme_BottomSheet
+//            themeResId = R.style.Sentinel_Theme_Dialog
 //        )
 //        scenario.onFragment {
 //            val childFragment = it.childFragmentManager.findFragmentByTag(ToolsFragment.TAG)

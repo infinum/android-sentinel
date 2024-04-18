@@ -6,7 +6,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.infinum.sentinel.data.models.raw.DeviceData
-//import com.infinum.sentinel.data.sources.raw.formatters.XmlStringBuilderTests
+import com.infinum.sentinel.data.sources.raw.formatters.XmlStringBuilderTests
 import com.infinum.sentinel.ui.SentinelTestApplication
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
