@@ -26,6 +26,10 @@ android {
         }
     }
 
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+    }
+
     namespace "com.infinum.sentinel"
 
     kotlin {
@@ -61,6 +65,7 @@ dokkaJavadoc {
 }
 
 dependencies {
+    coreLibraryDesugaring libs.desugar
     implementation libs.kotlin.core
     api libs.library
     api libs.dbinspector

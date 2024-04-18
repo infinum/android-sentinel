@@ -54,6 +54,10 @@ android {
         }
     }
 
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+    }
+
     sourceSets {
         main.java.srcDirs += "src/main/kotlin"
         release.java.srcDirs += "src/release/kotlin"
@@ -61,6 +65,7 @@ android {
 }
 
 dependencies {
+    coreLibraryDesugaring libs.desugar
     implementation libs.kotlin.core
     implementation libs.androidx.appcompat
     implementation libs.androidx.preference

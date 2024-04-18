@@ -37,10 +37,14 @@ android {
         }
     }
 
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+    }
+
     kotlinOptions {
         freeCompilerArgs += [
-                '-Xexplicit-api=strict',
-                '-Xjvm-default=all'
+            '-Xexplicit-api=strict',
+            '-Xjvm-default=all'
         ]
     }
 
@@ -61,6 +65,7 @@ dokkaJavadoc {
 }
 
 dependencies {
+    coreLibraryDesugaring libs.desugar
     implementation libs.kotlin.core
     api libs.library
     api libs.chucker

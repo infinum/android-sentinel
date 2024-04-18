@@ -17,6 +17,10 @@ android {
         targetSdkVersion buildConfig.targetSdk
     }
 
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+    }
+
     buildTypes {
         debug {
             minifyEnabled false
