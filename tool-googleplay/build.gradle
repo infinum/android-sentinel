@@ -14,17 +14,17 @@ android {
     defaultConfig {
         minSdkVersion buildConfig.minSdk
         targetSdkVersion buildConfig.targetSdk
-        versionCode releaseConfig.versionCode
-        versionName releaseConfig.version
+    }
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true
     }
 
     buildTypes {
         debug {
-            debuggable true
             minifyEnabled false
         }
         release {
-            debuggable false
             minifyEnabled true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt"
         }
@@ -67,6 +67,7 @@ dokkaJavadoc {
 dependencies {
     implementation libs.kotlin.core
     api libs.library
+    coreLibraryDesugaring libs.desugar
 }
 
 apply from: "publish.gradle"

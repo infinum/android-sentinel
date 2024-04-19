@@ -14,17 +14,13 @@ android {
     defaultConfig {
         minSdkVersion buildConfig.minSdk
         targetSdkVersion buildConfig.targetSdk
-        versionCode releaseConfig.versionCode
-        versionName releaseConfig.version
     }
 
     buildTypes {
         debug {
-            debuggable true
             minifyEnabled false
         }
         release {
-            debuggable false
             minifyEnabled true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt"
         }
@@ -41,10 +37,14 @@ android {
         }
     }
 
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+    }
+
     kotlinOptions {
         freeCompilerArgs += [
-                '-Xexplicit-api=strict',
-                '-Xjvm-default=all'
+            '-Xexplicit-api=strict',
+            '-Xjvm-default=all'
         ]
     }
 
@@ -65,6 +65,7 @@ dokkaJavadoc {
 }
 
 dependencies {
+    coreLibraryDesugaring libs.desugar
     implementation libs.kotlin.core
     api libs.library
     api libs.chucker
