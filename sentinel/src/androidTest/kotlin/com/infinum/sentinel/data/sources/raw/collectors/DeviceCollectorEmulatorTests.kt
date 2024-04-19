@@ -15,7 +15,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.util.ReflectionHelpers
 
-@Ignore("This test is ignored because it's failing on CI")
 @RunWith(AndroidJUnit4::class)
 internal class DeviceCollectorEmulatorTests {
 
