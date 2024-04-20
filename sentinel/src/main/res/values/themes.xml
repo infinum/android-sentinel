@@ -20,6 +20,7 @@
         <item name="colorOnErrorContainer">@color/sentinel_onErrorContainer</item>
         <item name="android:colorBackground">@color/sentinel_background</item>
         <item name="colorOnBackground">@color/sentinel_onBackground</item>
+        <item name="colorSurface">@color/sentinel_surface</item>
         <item name="colorOnSurface">@color/sentinel_onSurface</item>
         <item name="colorSurfaceVariant">@color/sentinel_surfaceVariant</item>
         <item name="colorOnSurfaceVariant">@color/sentinel_onSurfaceVariant</item>
