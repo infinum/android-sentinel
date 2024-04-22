@@ -6,7 +6,7 @@
     <application>
 
         <activity
-            android:name=".ui.main.SentinelActivity"
+            android:name="com.infinum.sentinel.ui.main.SentinelActivity"
             android:exported="true"
             android:label="@string/sentinel_name"
             android:taskAffinity="com.infinum.sentinel"
@@ -17,7 +17,7 @@
         </activity>
 
         <activity
-            android:name=".ui.settings.SettingsActivity"
+            android:name="com.infinum.sentinel.ui.settings.SettingsActivity"
             android:exported="false"
             android:label="@string/sentinel_name"
             android:taskAffinity="com.infinum.sentinel"
@@ -28,7 +28,7 @@
         </activity>
 
         <activity
-            android:name=".ui.main.preferences.editor.PreferenceEditorActivity"
+            android:name="com.infinum.sentinel.ui.main.preferences.editor.PreferenceEditorActivity"
             android:exported="false"
             android:label="@string/sentinel_name"
             android:taskAffinity="com.infinum.sentinel"
@@ -39,7 +39,7 @@
         </activity>
 
         <activity
-            android:name=".ui.bundles.BundlesActivity"
+            android:name="com.infinum.sentinel.ui.bundles.BundlesActivity"
             android:exported="false"
             android:label="@string/sentinel_bundle_monitor"
             android:taskAffinity="com.infinum.sentinel.bundles"
@@ -50,7 +50,7 @@
         </activity>
 
         <activity
-            android:name=".ui.bundles.details.BundleDetailsActivity"
+            android:name="com.infinum.sentinel.ui.bundles.details.BundleDetailsActivity"
             android:exported="false"
             android:label="@string/sentinel_bundle_monitor"
             android:taskAffinity="com.infinum.sentinel.bundles"
@@ -61,7 +61,7 @@
         </activity>
 
         <activity
-            android:name=".ui.crash.CrashesActivity"
+            android:name="com.infinum.sentinel.ui.crash.CrashesActivity"
             android:exported="false"
             android:label="@string/sentinel_crash_monitor"
             android:taskAffinity="com.infinum.sentinel.crashes"
@@ -72,7 +72,7 @@
         </activity>
 
         <activity
-            android:name=".ui.crash.details.CrashDetailsActivity"
+            android:name="com.infinum.sentinel.ui.crash.details.CrashDetailsActivity"
             android:exported="false"
             android:label="@string/sentinel_crash"
             android:taskAffinity="com.infinum.sentinel.crashes"
@@ -83,7 +83,7 @@
         </activity>
 
         <activity
-            android:name=".ui.certificates.CertificatesActivity"
+            android:name="com.infinum.sentinel.ui.certificates.CertificatesActivity"
             android:exported="false"
             android:label="@string/sentinel_certificates"
             android:taskAffinity="com.infinum.sentinel.certificates"
@@ -94,7 +94,7 @@
         </activity>
 
         <activity
-            android:name=".ui.certificates.details.CertificateDetailsActivity"
+            android:name="com.infinum.sentinel.ui.certificates.details.CertificateDetailsActivity"
             android:exported="false"
             android:label="@string/sentinel_certificate"
             android:taskAffinity="com.infinum.sentinel.certificates"

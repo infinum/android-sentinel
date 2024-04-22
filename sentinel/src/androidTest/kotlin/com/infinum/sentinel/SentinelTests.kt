@@ -79,7 +79,7 @@ internal class SentinelTests {
     fun sentinel_show() {
         Sentinel.show()
 
-        intended(hasComponent(ComponentName(context, SentinelActivity::class.java)), times(2))
+        intended(hasComponent(ComponentName(context, SentinelActivity::class.java)), times(1))
     }
 
 //    @Test
