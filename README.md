@@ -1,4 +1,4 @@
-![Download](https://img.shields.io/maven-central/v/com.infinum.sentinel/sentinel) ![Validate Gradle Wrapper](https://github.com/infinum/android-sentinel/workflows/Validate%20Gradle%20Wrapper/badge.svg) ![Code analysis](https://github.com/infinum/android-sentinel/workflows/Code%20analysis/badge.svg) [![CodeFactor](https://www.codefactor.io/repository/github/infinum/android-sentinel/badge/master)](https://www.codefactor.io/repository/github/infinum/android-sentinel/overview/master)
+![Download](https://img.shields.io/maven-central/v/com.infinum.sentinel/sentinel) ![Validate Gradle Wrapper](https://github.com/infinum/android-sentinel/actions/workflows/gradle-wrapper-validation.yml/badge.svg) ![Code analysis](https://github.com/infinum/android-sentinel/actions/workflows/code-analysis.yml/badge.svg) [![CodeFactor](https://www.codefactor.io/repository/github/infinum/android-sentinel/badge/master)](https://www.codefactor.io/repository/github/infinum/android-sentinel/overview/master)
 
 ### <img align="left" src="logo.svg" width="48">
 
@@ -57,15 +57,17 @@ Then add the following dependencies in your app `build.gradle` or `build.gradle.
 **Groovy**
 
 ```groovy
-debugImplementation "com.infinum.sentinel:sentinel:1.3.1"
-releaseImplementation "com.infinum.sentinel:sentinel-no-op:1.3.1"
+def sentinelVersion = "1.3.2"
+debugImplementation "com.infinum.sentinel:sentinel:$sentinelVersion"
+releaseImplementation "com.infinum.sentinel:sentinel-noop:$sentinelVersion"
 ```
 
 **KotlinDSL**
 
 ```kotlin
-debugImplementation("com.infinum.sentinel:sentinel:1.3.1")
-releaseImplementation("com.infinum.sentinel:sentinel-no-op:1.3.1")
+val sentinelVersion = "1.3.2"
+debugImplementation("com.infinum.sentinel:sentinel:$sentinelVersion")
+releaseImplementation("com.infinum.sentinel:sentinel-no-op:$sentinelVersion")
 ```
 
 Basic tools are provided inside the main package but depending on requirements you might want to add
@@ -74,27 +76,27 @@ specific tools:
 **Groovy**
 
 ```groovy
-debugImplementation "com.infinum.sentinel:tool-chucker:1.3.1"
-debugImplementation "com.infinum.sentinel:tool-collar:1.3.1"
-debugImplementation "com.infinum.sentinel:tool-dbinspector:1.3.1"
-debugImplementation "com.infinum.sentinel:tool-leakcanary:1.3.1"
-debugImplementation "com.infinum.sentinel:tool-appgallery:1.3.1"
-debugImplementation "com.infinum.sentinel:tool-googleplay:1.3.1"
-debugImplementation "com.infinum.sentinel:tool-thimble:1.3.1"
-debugImplementation "com.infinum.sentinel:tool-timber:1.3.1"
+debugImplementation "com.infinum.sentinel:tool-chucker:$sentinelVersion"
+debugImplementation "com.infinum.sentinel:tool-collar:$sentinelVersion"
+debugImplementation "com.infinum.sentinel:tool-dbinspector:$sentinelVersion"
+debugImplementation "com.infinum.sentinel:tool-leakcanary:$sentinelVersion"
+debugImplementation "com.infinum.sentinel:tool-appgallery:$sentinelVersion"
+debugImplementation "com.infinum.sentinel:tool-googleplay:$sentinelVersion"
+debugImplementation "com.infinum.sentinel:tool-thimble:$sentinelVersion"
+debugImplementation "com.infinum.sentinel:tool-timber:$sentinelVersion"
 ```
 
 **KotlinDSL**
 
 ```kotlin
-debugImplementation("com.infinum.sentinel:tool-chucker:1.3.1")
-debugImplementation("com.infinum.sentinel:tool-collar:1.3.1")
-debugImplementation("com.infinum.sentinel:tool-dbinspector:1.3.1")
-debugImplementation("com.infinum.sentinel:tool-leakcanary:1.3.1")
-debugImplementation("com.infinum.sentinel:tool-appgallery:1.3.1")
-debugImplementation("com.infinum.sentinel:tool-googleplay:1.3.1")
-debugImplementation("com.infinum.sentinel:tool-thimble:1.3.1")
-debugImplementation("com.infinum.sentinel:tool-timber:1.3.1")
+debugImplementation("com.infinum.sentinel:tool-chucker:$sentinelVersion")
+debugImplementation("com.infinum.sentinel:tool-collar:$sentinelVersion")
+debugImplementation("com.infinum.sentinel:tool-dbinspector:$sentinelVersion")
+debugImplementation("com.infinum.sentinel:tool-leakcanary:$sentinelVersion")
+debugImplementation("com.infinum.sentinel:tool-appgallery:$sentinelVersion")
+debugImplementation("com.infinum.sentinel:tool-googleplay:$sentinelVersion")
+debugImplementation("com.infinum.sentinel:tool-thimble:$sentinelVersion")
+debugImplementation("com.infinum.sentinel:tool-timber:$sentinelVersion")
 ```
 
 Now you can sync your project.

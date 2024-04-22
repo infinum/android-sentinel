@@ -12,4 +12,4 @@ import org.junit.runners.Suite.SuiteClasses
     XmlStringBuilderTests::class,
     HtmlStringBuilderTests::class
 )
-class FormattersTestSuite
+public class FormattersTestSuite

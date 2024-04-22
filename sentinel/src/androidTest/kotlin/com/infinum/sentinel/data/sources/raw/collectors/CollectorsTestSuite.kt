@@ -12,4 +12,4 @@ import org.junit.runners.Suite.SuiteClasses
     PermissionsCollectorTests::class,
     PreferencesCollectorTests::class
 )
-class CollectorsTestSuite
+public class CollectorsTestSuite

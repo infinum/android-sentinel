@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
-            app:menu="@menu/sentinel_logger"
+            app:menu="@menu/sentinel_logger_menu"
             app:navigationIcon="@drawable/sentinel_ic_close"
             app:title="@string/sentinel_logger" />
 

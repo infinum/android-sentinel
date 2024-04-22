@@ -23,7 +23,6 @@
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/sentinel_surface"
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior"
                 app:liftOnScroll="false"
                 app:liftOnScrollTargetViewId="@id/nestedScrollView">
@@ -33,6 +32,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingEnd="8dp"
+                    android:background="@color/sentinel_surface"
                     app:menu="@menu/sentinel_menu"
                     app:navigationIcon="@drawable/sentinel_ic_settings"
                     app:subtitleCentered="true"
