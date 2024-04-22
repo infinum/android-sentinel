@@ -14,17 +14,13 @@ android {
     defaultConfig {
         minSdkVersion buildConfig.minSdk
         targetSdkVersion buildConfig.targetSdk
-        versionCode releaseConfig.versionCode
-        versionName releaseConfig.version
     }
 
     buildTypes {
         debug {
-            debuggable true
             minifyEnabled false
         }
         release {
-            debuggable false
             minifyEnabled true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt"
         }
@@ -43,8 +39,8 @@ android {
 
     kotlinOptions {
         freeCompilerArgs += [
-                '-Xexplicit-api=strict',
-                '-Xjvm-default=all'
+            '-Xexplicit-api=strict',
+            '-Xjvm-default=all'
         ]
     }
 

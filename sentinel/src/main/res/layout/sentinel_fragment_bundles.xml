@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
-            app:menu="@menu/sentinel_bundle_monitor"
+            app:menu="@menu/sentinel_bundle_monitor_menu"
             app:navigationIcon="@drawable/sentinel_ic_close"
             app:title="@string/sentinel_bundle_monitor" />
 
