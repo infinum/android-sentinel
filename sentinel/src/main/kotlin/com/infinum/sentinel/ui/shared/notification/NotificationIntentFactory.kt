@@ -6,6 +6,7 @@ import android.os.Build
 import com.infinum.sentinel.ui.certificates.CertificatesActivity
 import com.infinum.sentinel.ui.crash.CrashesActivity
 import com.infinum.sentinel.ui.crash.details.CrashDetailsActivity
+import com.infinum.sentinel.ui.settings.SettingsActivity
 import com.infinum.sentinel.ui.shared.Constants
 import me.tatarka.inject.annotations.Inject
 
@@ -33,6 +34,8 @@ internal class NotificationIntentFactory(
                     .apply {
                         putExtra(Constants.Keys.APPLICATION_NAME, applicationName)
                     }
-            } else Intent() // todo recheck
+            } else {
+                Intent(context, SettingsActivity::class.java)
+            }
         )
 }

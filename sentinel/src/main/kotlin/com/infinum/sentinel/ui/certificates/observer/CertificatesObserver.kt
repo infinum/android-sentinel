@@ -73,37 +73,7 @@ internal class CertificatesObserver(
         if (notifyInvalidNow || notifyToExpire) {
             currentJob = scope.launch(Dispatchers.Main) {
                 val result = withContext(Dispatchers.IO) {
-                    if (active) {
-                        suspendCancellableCoroutine {
-                            val userCertificates = collectors.certificates()
-                                .invoke()[CertificateType.USER]
-                                .orEmpty()
-
-                            var invalidCertificatesCount = 0
-                            var toExpireCertificatesCount = 0
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                invalidCertificatesCount = userCertificates
-                                    .filterNot { certificate -> certificate.isValidNow }
-                                    .count()
-                                toExpireCertificatesCount = userCertificates
-                                    .filterNot { certificate ->
-                                        certificate.isValidIn(
-                                            expireInAmount, expireInUnit.toJavaChronoUnit()
-                                        )
-                                    }
-                                    .count()
-                            }
-
-                            it.resume(
-                                CertificateCount(
-                                    invalidCertificatesCount,
-                                    toExpireCertificatesCount
-                                )
-                            )
-                        }
-                    } else {
-                        CertificateCount(0, 0)
-                    }
+                    certificateCount()
                 }
                 if (result.invalid > 0 && notifyInvalidNow) {
                     notificationFactory.showExpiredCertificate(context.applicationName, result.invalid)
@@ -114,6 +84,38 @@ internal class CertificatesObserver(
             }
         }
         // dont run
+    }
+
+    private suspend fun certificateCount() = if (active) {
+        suspendCancellableCoroutine {
+            val userCertificates = collectors.certificates()
+                .invoke()[CertificateType.USER]
+                .orEmpty()
+
+            var invalidCertificatesCount = 0
+            var toExpireCertificatesCount = 0
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                invalidCertificatesCount = userCertificates
+                    .filterNot { certificate -> certificate.isValidNow }
+                    .count()
+                toExpireCertificatesCount = userCertificates
+                    .filterNot { certificate ->
+                        certificate.isValidIn(
+                            expireInAmount, expireInUnit.toJavaChronoUnit()
+                        )
+                    }
+                    .count()
+            }
+
+            it.resume(
+                CertificateCount(
+                    invalidCertificatesCount,
+                    toExpireCertificatesCount
+                )
+            )
+        }
+    } else {
+        CertificateCount(0, 0)
     }
 
     private fun stop() {
