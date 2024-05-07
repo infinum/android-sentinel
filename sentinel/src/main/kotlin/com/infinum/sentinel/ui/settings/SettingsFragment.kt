@@ -243,6 +243,7 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
+    @Suppress("LongMethod")
     private fun setCertificateUi(event: SettingsEvent.CertificateMonitorChanged) {
         binding.runOnStartSwitch.setOnCheckedChangeListener(null)
         binding.runOnStartSwitch.isChecked = event.value.runOnStart
@@ -287,16 +288,24 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
             else -> binding.daysButton.isChecked = true
         }
         binding.daysButton.setOnClickListener {
-            viewModel.updateCertificatesMonitor(event.value.copy(expireInUnit = ChronoUnit.DAYS.toSentinelChronoUnit()))
+            viewModel.updateCertificatesMonitor(
+                event.value.copy(expireInUnit = ChronoUnit.DAYS.toSentinelChronoUnit())
+            )
         }
         binding.weeksButton.setOnClickListener {
-            viewModel.updateCertificatesMonitor(event.value.copy(expireInUnit = ChronoUnit.WEEKS.toSentinelChronoUnit()))
+            viewModel.updateCertificatesMonitor(
+                event.value.copy(expireInUnit = ChronoUnit.WEEKS.toSentinelChronoUnit())
+            )
         }
         binding.monthsButton.setOnClickListener {
-            viewModel.updateCertificatesMonitor(event.value.copy(expireInUnit = ChronoUnit.MONTHS.toSentinelChronoUnit()))
+            viewModel.updateCertificatesMonitor(
+                event.value.copy(expireInUnit = ChronoUnit.MONTHS.toSentinelChronoUnit())
+            )
         }
         binding.yearsButton.setOnClickListener {
-            viewModel.updateCertificatesMonitor(event.value.copy(expireInUnit = ChronoUnit.YEARS.toSentinelChronoUnit()))
+            viewModel.updateCertificatesMonitor(
+                event.value.copy(expireInUnit = ChronoUnit.YEARS.toSentinelChronoUnit())
+            )
         }
     }
 

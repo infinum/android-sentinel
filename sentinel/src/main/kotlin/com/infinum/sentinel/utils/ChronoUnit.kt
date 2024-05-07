@@ -27,6 +27,7 @@ internal enum class ChronoUnit {
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
+@Suppress("CyclomaticComplexMethod")
 internal fun ChronoUnit.toJavaChronoUnit(): java.time.temporal.ChronoUnit =
     when (this) {
         ChronoUnit.NANOS -> java.time.temporal.ChronoUnit.NANOS

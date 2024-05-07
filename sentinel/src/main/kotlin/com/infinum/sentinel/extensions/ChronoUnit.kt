@@ -5,7 +5,7 @@ import androidx.annotation.RequiresApi
 import java.time.temporal.ChronoUnit
 
 @RequiresApi(Build.VERSION_CODES.O)
-
+@Suppress("CyclomaticComplexMethod")
 internal fun ChronoUnit.toSentinelChronoUnit(): com.infinum.sentinel.utils.ChronoUnit =
     when (this) {
         ChronoUnit.NANOS -> com.infinum.sentinel.utils.ChronoUnit.NANOS

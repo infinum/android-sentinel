@@ -60,7 +60,10 @@ internal class CertificateDetailsFragment :
                     issuedView.text = SimpleDateFormat.getDateInstance().format(state.value.startDate)
                     expiresView.text = SimpleDateFormat.getDateInstance().format(state.value.endDate)
                     if (state.value.isValidNow) {
-                        if (state.value.isValidIn(state.settings.expireInAmount, state.settings.expireInUnit.toJavaChronoUnit())) {
+                        if (state.value.isValidIn(
+                                state.settings.expireInAmount, state.settings.expireInUnit.toJavaChronoUnit()
+                            )
+                        ) {
                             expiredView.isVisible = false
                             expiredView.setBackgroundColor(
                                 ContextCompat.getColor(
