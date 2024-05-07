@@ -1,6 +1,8 @@
 package com.infinum.sentinel.ui.certificates.observer
 
 import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
@@ -10,6 +12,7 @@ import com.infinum.sentinel.data.models.raw.certificates.CertificateType
 import com.infinum.sentinel.domain.Factories
 import com.infinum.sentinel.extensions.applicationName
 import com.infinum.sentinel.ui.shared.notification.NotificationFactory
+import com.infinum.sentinel.utils.toJavaChronoUnit
 import java.time.temporal.ChronoUnit
 import kotlin.coroutines.resume
 import kotlinx.coroutines.Dispatchers
@@ -34,6 +37,8 @@ internal class CertificatesObserver(
     private var notifyInvalidNow = false
     private var notifyToExpire = false
     private var expireInAmount = 0
+
+    @RequiresApi(Build.VERSION_CODES.O)
     private var expireInUnit = ChronoUnit.DAYS
 
     init {
@@ -55,7 +60,9 @@ internal class CertificatesObserver(
         this.notifyInvalidNow = entity.notifyInvalidNow
         this.notifyToExpire = entity.notifyToExpire
         this.expireInAmount = entity.expireInAmount
-        this.expireInUnit = entity.expireInUnit
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            this.expireInUnit = entity.expireInUnit.toJavaChronoUnit()
+        }
     }
 
     fun deactivate() {
@@ -74,12 +81,16 @@ internal class CertificatesObserver(
                                 .invoke()[CertificateType.USER]
                                 .orEmpty()
 
-                            val invalidCertificatesCount = userCertificates
-                                .filterNot { certificate -> certificate.isValidNow }
-                                .count()
-                            val toExpireCertificatesCount = userCertificates
-                                .filterNot { certificate -> certificate.isValidIn(expireInAmount, expireInUnit) }
-                                .count()
+                            var invalidCertificatesCount = 0
+                            var toExpireCertificatesCount = 0
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                invalidCertificatesCount = userCertificates
+                                    .filterNot { certificate -> certificate.isValidNow }
+                                    .count()
+                                toExpireCertificatesCount = userCertificates
+                                    .filterNot { certificate -> certificate.isValidIn(expireInAmount, expireInUnit) }
+                                    .count()
+                            }
 
                             it.resume(
                                 CertificateCount(

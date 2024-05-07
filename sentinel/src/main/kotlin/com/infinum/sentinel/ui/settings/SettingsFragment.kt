@@ -10,6 +10,7 @@ import android.provider.Settings
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.annotation.RestrictTo
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
@@ -20,9 +21,11 @@ import com.infinum.sentinel.data.models.local.TriggerEntity
 import com.infinum.sentinel.data.models.memory.formats.FormatType
 import com.infinum.sentinel.data.models.memory.triggers.TriggerType
 import com.infinum.sentinel.databinding.SentinelFragmentSettingsBinding
+import com.infinum.sentinel.extensions.toSentinelChronoUnit
 import com.infinum.sentinel.extensions.viewModels
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
+import com.infinum.sentinel.utils.toJavaChronoUnit
 import java.time.temporal.ChronoUnit
 import kotlin.math.roundToInt
 
@@ -212,59 +215,10 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
             }
 
             is SettingsEvent.CertificateMonitorChanged -> {
-                binding.runOnStartSwitch.setOnCheckedChangeListener(null)
-                binding.runOnStartSwitch.isChecked = event.value.runOnStart
-                binding.runOnStartSwitch.setOnCheckedChangeListener { _, isChecked ->
-                    viewModel.updateCertificatesMonitor(event.value.copy(runOnStart = isChecked))
-                }
-                binding.runInBackgroundSwitch.setOnCheckedChangeListener(null)
-                binding.runInBackgroundSwitch.isChecked = event.value.runInBackground
-                binding.runInBackgroundSwitch.setOnCheckedChangeListener { _, isChecked ->
-                    viewModel.updateCertificatesMonitor(event.value.copy(runInBackground = isChecked))
-                }
-                binding.checkInvalidNowSwitch.setOnCheckedChangeListener(null)
-                binding.checkInvalidNowSwitch.isChecked = event.value.notifyInvalidNow
-                binding.checkInvalidNowSwitch.setOnCheckedChangeListener { _, isChecked ->
-                    viewModel.updateCertificatesMonitor(event.value.copy(notifyInvalidNow = isChecked))
-                }
-                binding.checkToExpireSwitch.setOnCheckedChangeListener(null)
-                binding.checkToExpireSwitch.isChecked = event.value.notifyToExpire
-                binding.checkToExpireSwitch.setOnCheckedChangeListener { _, isChecked ->
-                    viewModel.updateCertificatesMonitor(event.value.copy(notifyToExpire = isChecked))
-                }
-                binding.toExpireAmountSlider.clearOnChangeListeners()
-                binding.toExpireAmountSlider.value = event.value.expireInAmount.toFloat()
-                binding.toExpireAmountSlider.addOnChangeListener { _, value, _ ->
-                    binding.toExpireValueView.text = String.format(
-                        FORMAT_CERTIFICATE_TO_EXPIRE,
-                        value.roundToInt(),
-                        event.value.expireInUnit.name.lowercase()
-                    )
-                    viewModel.updateCertificatesMonitor(event.value.copy(expireInAmount = value.roundToInt()))
-                }
-                binding.toExpireValueView.text = String.format(
-                    FORMAT_CERTIFICATE_TO_EXPIRE,
-                    event.value.expireInAmount,
-                    event.value.expireInUnit.name.lowercase()
-                )
-                when (event.value.expireInUnit) {
-                    ChronoUnit.DAYS -> binding.daysButton.isChecked = true
-                    ChronoUnit.WEEKS -> binding.weeksButton.isChecked = true
-                    ChronoUnit.MONTHS -> binding.monthsButton.isChecked = true
-                    ChronoUnit.YEARS -> binding.yearsButton.isChecked = true
-                    else -> binding.daysButton.isChecked = true
-                }
-                binding.daysButton.setOnClickListener {
-                    viewModel.updateCertificatesMonitor(event.value.copy(expireInUnit = ChronoUnit.DAYS))
-                }
-                binding.weeksButton.setOnClickListener {
-                    viewModel.updateCertificatesMonitor(event.value.copy(expireInUnit = ChronoUnit.WEEKS))
-                }
-                binding.monthsButton.setOnClickListener {
-                    viewModel.updateCertificatesMonitor(event.value.copy(expireInUnit = ChronoUnit.MONTHS))
-                }
-                binding.yearsButton.setOnClickListener {
-                    viewModel.updateCertificatesMonitor(event.value.copy(expireInUnit = ChronoUnit.YEARS))
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    setCertificateUi(event)
+                } else {
+                    hideCertificateUi()
                 }
             }
 
@@ -272,6 +226,79 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
                 handleNotificationsPermission()
             }
         }
+
+    private fun hideCertificateUi() {
+        binding.apply {
+            runOnStartSwitch.visibility = View.GONE
+            runInBackgroundSwitch.visibility = View.GONE
+            checkInvalidNowSwitch.visibility = View.GONE
+            checkToExpireSwitch.visibility = View.GONE
+            toExpireAmountSlider.visibility = View.GONE
+            toExpireValueView.visibility = View.GONE
+            daysButton.visibility = View.GONE
+            weeksButton.visibility = View.GONE
+            monthsButton.visibility = View.GONE
+            yearsButton.visibility = View.GONE
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun setCertificateUi(event: SettingsEvent.CertificateMonitorChanged) {
+        binding.runOnStartSwitch.setOnCheckedChangeListener(null)
+        binding.runOnStartSwitch.isChecked = event.value.runOnStart
+        binding.runOnStartSwitch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.updateCertificatesMonitor(event.value.copy(runOnStart = isChecked))
+        }
+        binding.runInBackgroundSwitch.setOnCheckedChangeListener(null)
+        binding.runInBackgroundSwitch.isChecked = event.value.runInBackground
+        binding.runInBackgroundSwitch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.updateCertificatesMonitor(event.value.copy(runInBackground = isChecked))
+        }
+        binding.checkInvalidNowSwitch.setOnCheckedChangeListener(null)
+        binding.checkInvalidNowSwitch.isChecked = event.value.notifyInvalidNow
+        binding.checkInvalidNowSwitch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.updateCertificatesMonitor(event.value.copy(notifyInvalidNow = isChecked))
+        }
+        binding.checkToExpireSwitch.setOnCheckedChangeListener(null)
+        binding.checkToExpireSwitch.isChecked = event.value.notifyToExpire
+        binding.checkToExpireSwitch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.updateCertificatesMonitor(event.value.copy(notifyToExpire = isChecked))
+        }
+        binding.toExpireAmountSlider.clearOnChangeListeners()
+        binding.toExpireAmountSlider.value = event.value.expireInAmount.toFloat()
+        binding.toExpireAmountSlider.addOnChangeListener { _, value, _ ->
+            binding.toExpireValueView.text = String.format(
+                FORMAT_CERTIFICATE_TO_EXPIRE,
+                value.roundToInt(),
+                event.value.expireInUnit.name.lowercase()
+            )
+            viewModel.updateCertificatesMonitor(event.value.copy(expireInAmount = value.roundToInt()))
+        }
+        binding.toExpireValueView.text = String.format(
+            FORMAT_CERTIFICATE_TO_EXPIRE,
+            event.value.expireInAmount,
+            event.value.expireInUnit.name.lowercase()
+        )
+        when (event.value.expireInUnit.toJavaChronoUnit()) {
+            ChronoUnit.DAYS -> binding.daysButton.isChecked = true
+            ChronoUnit.WEEKS -> binding.weeksButton.isChecked = true
+            ChronoUnit.MONTHS -> binding.monthsButton.isChecked = true
+            ChronoUnit.YEARS -> binding.yearsButton.isChecked = true
+            else -> binding.daysButton.isChecked = true
+        }
+        binding.daysButton.setOnClickListener {
+            viewModel.updateCertificatesMonitor(event.value.copy(expireInUnit = ChronoUnit.DAYS.toSentinelChronoUnit()))
+        }
+        binding.weeksButton.setOnClickListener {
+            viewModel.updateCertificatesMonitor(event.value.copy(expireInUnit = ChronoUnit.WEEKS.toSentinelChronoUnit()))
+        }
+        binding.monthsButton.setOnClickListener {
+            viewModel.updateCertificatesMonitor(event.value.copy(expireInUnit = ChronoUnit.MONTHS.toSentinelChronoUnit()))
+        }
+        binding.yearsButton.setOnClickListener {
+            viewModel.updateCertificatesMonitor(event.value.copy(expireInUnit = ChronoUnit.YEARS.toSentinelChronoUnit()))
+        }
+    }
 
     private fun handleNotificationsPermission() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {

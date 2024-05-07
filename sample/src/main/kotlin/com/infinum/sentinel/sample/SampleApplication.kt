@@ -1,6 +1,7 @@
 package com.infinum.sentinel.sample
 
 import android.app.Application
+import android.os.Build
 import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.ui.tools.AppGalleryTool
 import com.infinum.sentinel.ui.tools.CertificateTool
@@ -20,17 +21,30 @@ class SampleApplication : Application() {
         super.onCreate()
 
         Sentinel.watch(
-            setOf(
-                ChuckerTool(),
-                CollarTool(),
-                DbInspectorTool(),
-                LeakCanaryTool(),
-                AppGalleryTool(appId = "102016595"),
-                GooglePlayTool(),
-                ThimbleTool(),
-                TimberTool(allowedTags = listOf("Main")),
-                CertificateTool(userCertificates = loadDebugCertificates())
-            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                setOf(
+                    ChuckerTool(),
+                    CollarTool(),
+                    DbInspectorTool(),
+                    LeakCanaryTool(),
+                    AppGalleryTool(appId = "102016595"),
+                    GooglePlayTool(),
+                    ThimbleTool(),
+                    TimberTool(allowedTags = listOf("Main")),
+                    CertificateTool(userCertificates = loadDebugCertificates())
+                )
+            } else {
+                setOf(
+                    ChuckerTool(),
+                    CollarTool(),
+                    DbInspectorTool(),
+                    LeakCanaryTool(),
+                    AppGalleryTool(appId = "102016595"),
+                    GooglePlayTool(),
+                    ThimbleTool(),
+                    TimberTool(allowedTags = listOf("Main"))
+                )
+            }
         )
     }
 

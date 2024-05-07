@@ -2,6 +2,7 @@ package com.infinum.sentinel.ui.shared.notification
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import com.infinum.sentinel.ui.certificates.CertificatesActivity
 import com.infinum.sentinel.ui.crash.CrashesActivity
 import com.infinum.sentinel.ui.crash.details.CrashDetailsActivity
@@ -27,9 +28,11 @@ internal class NotificationIntentFactory(
 
     override fun certificate(applicationName: String): Array<Intent> =
         arrayOf(
-            Intent(context, CertificatesActivity::class.java)
-                .apply {
-                    putExtra(Constants.Keys.APPLICATION_NAME, applicationName)
-                }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                Intent(context, CertificatesActivity::class.java)
+                    .apply {
+                        putExtra(Constants.Keys.APPLICATION_NAME, applicationName)
+                    }
+            } else Intent() // todo recheck
         )
 }
