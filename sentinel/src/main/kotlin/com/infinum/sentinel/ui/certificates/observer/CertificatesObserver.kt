@@ -2,7 +2,6 @@ package com.infinum.sentinel.ui.certificates.observer
 
 import android.content.Context
 import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
@@ -12,8 +11,8 @@ import com.infinum.sentinel.data.models.raw.certificates.CertificateType
 import com.infinum.sentinel.domain.Factories
 import com.infinum.sentinel.extensions.applicationName
 import com.infinum.sentinel.ui.shared.notification.NotificationFactory
+import com.infinum.sentinel.utils.ChronoUnit
 import com.infinum.sentinel.utils.toJavaChronoUnit
-import java.time.temporal.ChronoUnit
 import kotlin.coroutines.resume
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -38,7 +37,6 @@ internal class CertificatesObserver(
     private var notifyToExpire = false
     private var expireInAmount = 0
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private var expireInUnit = ChronoUnit.DAYS
 
     init {
@@ -61,7 +59,7 @@ internal class CertificatesObserver(
         this.notifyToExpire = entity.notifyToExpire
         this.expireInAmount = entity.expireInAmount
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            this.expireInUnit = entity.expireInUnit.toJavaChronoUnit()
+            this.expireInUnit = entity.expireInUnit
         }
     }
 
@@ -88,7 +86,11 @@ internal class CertificatesObserver(
                                     .filterNot { certificate -> certificate.isValidNow }
                                     .count()
                                 toExpireCertificatesCount = userCertificates
-                                    .filterNot { certificate -> certificate.isValidIn(expireInAmount, expireInUnit) }
+                                    .filterNot { certificate ->
+                                        certificate.isValidIn(
+                                            expireInAmount, expireInUnit.toJavaChronoUnit()
+                                        )
+                                    }
                                     .count()
                             }
 
