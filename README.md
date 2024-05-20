@@ -116,8 +116,8 @@ Sentinel.watch(
         AppGalleryTool(appId = "123456789"),
         GooglePlayTool(),
         ThimbleTool(),
-        TimberTool(allowedTags = listOf("EXAMPLE"),
-        CertificateTool(userManagers = listOf())
+        TimberTool(allowedTags = listOf("EXAMPLE")),
+        CertificateTool(userCertificates = listOf())
     )
 )
 ```
