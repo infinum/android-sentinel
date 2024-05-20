@@ -1,7 +1,9 @@
 package com.infinum.sentinel.ui.certificates.details
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.annotation.RestrictTo
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -10,9 +12,11 @@ import com.infinum.sentinel.databinding.SentinelFragmentCertificateDetailsBindin
 import com.infinum.sentinel.extensions.viewModels
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
+import com.infinum.sentinel.utils.toJavaChronoUnit
 import java.text.SimpleDateFormat
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
+@RequiresApi(Build.VERSION_CODES.O)
 internal class CertificateDetailsFragment :
     BaseChildFragment<CertificateDetailsState, Nothing>(R.layout.sentinel_fragment_certificate_details) {
 
@@ -56,7 +60,10 @@ internal class CertificateDetailsFragment :
                     issuedView.text = SimpleDateFormat.getDateInstance().format(state.value.startDate)
                     expiresView.text = SimpleDateFormat.getDateInstance().format(state.value.endDate)
                     if (state.value.isValidNow) {
-                        if (state.value.isValidIn(state.settings.expireInAmount, state.settings.expireInUnit)) {
+                        if (state.value.isValidIn(
+                                state.settings.expireInAmount, state.settings.expireInUnit.toJavaChronoUnit()
+                            )
+                        ) {
                             expiredView.isVisible = false
                             expiredView.setBackgroundColor(
                                 ContextCompat.getColor(

@@ -1,12 +1,15 @@
 package com.infinum.sentinel.ui.certificates
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.ListAdapter
 import com.infinum.sentinel.data.models.local.CertificateMonitorEntity
 import com.infinum.sentinel.data.models.raw.CertificateData
 import com.infinum.sentinel.databinding.SentinelItemCertificateBinding
 
+@RequiresApi(Build.VERSION_CODES.O)
 internal class CertificatesAdapter(
     private val onListChanged: () -> Unit,
     private val onClick: (CertificateData) -> Unit
