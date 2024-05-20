@@ -1,13 +1,17 @@
 package com.infinum.sentinel.ui.certificates
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.infinum.sentinel.R
 import com.infinum.sentinel.data.models.local.CertificateMonitorEntity
 import com.infinum.sentinel.data.models.raw.CertificateData
 import com.infinum.sentinel.databinding.SentinelItemCertificateBinding
+import com.infinum.sentinel.utils.toJavaChronoUnit
 import java.time.temporal.ChronoUnit
 
+@RequiresApi(Build.VERSION_CODES.O)
 internal class CertificateViewHolder(
     private val binding: SentinelItemCertificateBinding
 ) : RecyclerView.ViewHolder(binding.root) {
@@ -24,7 +28,7 @@ internal class CertificateViewHolder(
                             if (
                                 certificate.isValidIn(
                                     settings?.expireInAmount ?: 0,
-                                    settings?.expireInUnit ?: ChronoUnit.DAYS
+                                    settings?.expireInUnit?.toJavaChronoUnit() ?: ChronoUnit.DAYS
                                 )
                             ) {
                                 R.color.sentinel_primary

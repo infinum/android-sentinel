@@ -1,6 +1,7 @@
 package com.infinum.sentinel.ui.tools
 
 import android.content.Intent
+import android.os.Build
 import android.view.View
 import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
@@ -13,15 +14,17 @@ import java.security.cert.X509Certificate
 public data class CertificateTool @JvmOverloads constructor(
     public val userCertificates: List<X509Certificate> = listOf(),
     private val listener: View.OnClickListener = View.OnClickListener {
-        it.context.startActivity(
-            Intent(
-                it.context,
-                CertificatesActivity::class.java
-            ).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            }
-        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            it.context.startActivity(
+                Intent(
+                    it.context,
+                    CertificatesActivity::class.java
+                ).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                }
+            )
+        }
     }
 ) : Sentinel.Tool {
 

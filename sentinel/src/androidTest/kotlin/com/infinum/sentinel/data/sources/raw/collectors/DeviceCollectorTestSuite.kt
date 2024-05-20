@@ -6,4 +6,4 @@ import org.junit.runners.Suite.SuiteClasses
 
 @RunWith(Suite::class)
 @SuiteClasses(DeviceCollectorDeviceTests::class, DeviceCollectorEmulatorTests::class)
-class DeviceCollectorTestSuite
+public class DeviceCollectorTestSuite

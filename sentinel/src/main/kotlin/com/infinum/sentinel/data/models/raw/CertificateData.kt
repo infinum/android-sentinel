@@ -1,5 +1,7 @@
 package com.infinum.sentinel.data.models.raw
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.infinum.sentinel.data.models.raw.certificates.FingerprintData
 import com.infinum.sentinel.data.models.raw.certificates.PublicKeyData
 import com.infinum.sentinel.data.models.raw.certificates.SignatureData
@@ -9,6 +11,7 @@ import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 import java.util.Date
 
+@RequiresApi(Build.VERSION_CODES.O)
 internal data class CertificateData(
     val publicKey: PublicKeyData,
     val serialNumber: String,

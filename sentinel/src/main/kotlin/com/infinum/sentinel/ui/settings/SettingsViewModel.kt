@@ -1,5 +1,6 @@
 package com.infinum.sentinel.ui.settings
 
+import android.os.Build
 import com.infinum.sentinel.data.models.local.BundleMonitorEntity
 import com.infinum.sentinel.data.models.local.CertificateMonitorEntity
 import com.infinum.sentinel.data.models.local.CrashMonitorEntity
@@ -133,6 +134,9 @@ internal class SettingsViewModel(
         entity.notifyAnrs || entity.notifyExceptions
 
     fun updateCertificatesMonitor(entity: CertificateMonitorEntity) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            return
+        }
         launch {
             io {
                 certificateMonitor.save(

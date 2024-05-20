@@ -3,7 +3,7 @@ package com.infinum.sentinel.data.models.local
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.time.temporal.ChronoUnit
+import com.infinum.sentinel.utils.ChronoUnit
 
 @Entity(tableName = "certificate_monitor")
 internal data class CertificateMonitorEntity(

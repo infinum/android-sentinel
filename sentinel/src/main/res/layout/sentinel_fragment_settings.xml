@@ -364,6 +364,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/TextAppearance.Material3.BodySmall"
+                android:id="@+id/certificatesTitleView"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/listPreferredItemHeightSmall"
                 android:gravity="start|bottom"
@@ -415,6 +416,7 @@
                 android:text="@string/sentinel_certificates_check_to_expire" />
 
             <LinearLayout
+                android:id="@+id/toExpireLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -441,6 +443,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/toExpireSliderLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"

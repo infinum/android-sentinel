@@ -2,6 +2,7 @@ package com.infinum.sentinel.ui.certificates.observer
 
 import android.content.Context
 import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.asFlow
 import androidx.work.Configuration
 import androidx.work.Constraints
@@ -45,6 +46,7 @@ internal class SentinelWorkManager(
         )
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun startCertificatesCheck(entity: CertificateMonitorEntity) =
         WorkManager.getInstance(context)
             .enqueueUniquePeriodicWork(

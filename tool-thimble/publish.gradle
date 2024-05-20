@@ -22,14 +22,6 @@ afterEvaluate {
                     password sonatype.password()
                 }
             }
-            maven {
-                name github.name()
-                url github.url()
-                credentials {
-                    username github.username()
-                    password github.password()
-                }
-            }
         }
         publications {
             release(MavenPublication) {
