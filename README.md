@@ -57,7 +57,7 @@ Then add the following dependencies in your app `build.gradle` or `build.gradle.
 **Groovy**
 
 ```groovy
-def sentinelVersion = "1.3.2"
+def sentinelVersion = "1.3.3"
 debugImplementation "com.infinum.sentinel:sentinel:$sentinelVersion"
 releaseImplementation "com.infinum.sentinel:sentinel-noop:$sentinelVersion"
 ```
@@ -65,7 +65,7 @@ releaseImplementation "com.infinum.sentinel:sentinel-noop:$sentinelVersion"
 **KotlinDSL**
 
 ```kotlin
-val sentinelVersion = "1.3.2"
+val sentinelVersion = "1.3.3"
 debugImplementation("com.infinum.sentinel:sentinel:$sentinelVersion")
 releaseImplementation("com.infinum.sentinel:sentinel-no-op:$sentinelVersion")
 ```
