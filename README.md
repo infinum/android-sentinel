@@ -59,7 +59,7 @@ Then add the following dependencies in your app `build.gradle` or `build.gradle.
 ```groovy
 def sentinelVersion = "1.3.3"
 debugImplementation "com.infinum.sentinel:sentinel:$sentinelVersion"
-releaseImplementation "com.infinum.sentinel:sentinel-noop:$sentinelVersion"
+releaseImplementation "com.infinum.sentinel:sentinel-no-op:$sentinelVersion"
 ```
 
 **KotlinDSL**
