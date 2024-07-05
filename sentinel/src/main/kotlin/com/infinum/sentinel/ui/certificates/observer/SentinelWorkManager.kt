@@ -37,13 +37,15 @@ internal class SentinelWorkManager(
     }
 
     init {
-        WorkManager.initialize(
-            context,
-            Configuration.Builder()
-                .setMinimumLoggingLevel(android.util.Log.INFO)
-                .setWorkerFactory(workerFactory)
-                .build()
-        )
+        if (WorkManager.isInitialized().not()) {
+            WorkManager.initialize(
+                context,
+                Configuration.Builder()
+                    .setMinimumLoggingLevel(android.util.Log.INFO)
+                    .setWorkerFactory(workerFactory)
+                    .build()
+            )
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
