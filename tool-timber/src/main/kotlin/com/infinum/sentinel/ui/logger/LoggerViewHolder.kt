@@ -14,7 +14,11 @@ internal class LoggerViewHolder(
     private val binding: SentinelItemLogBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: SentinelFileTree.Entry?, onClick: (SentinelFileTree.Entry) -> Unit) {
+    fun bind(
+        item: SentinelFileTree.Entry?,
+        dateTimeFormat: SimpleDateFormat,
+        onClick: (SentinelFileTree.Entry) -> Unit
+    ) {
         item?.let { entry ->
             with(binding) {
                 levelView.setBackgroundColor(
@@ -31,7 +35,7 @@ internal class LoggerViewHolder(
                         }
                     )
                 )
-                timestampView.text = SimpleDateFormat.getDateTimeInstance().format(Date(entry.timestamp))
+                timestampView.text = dateTimeFormat.format(Date(entry.timestamp))
                 tagView.text = entry.tag
                 entry.stackTrace?.let {
                     stackTraceView.text = it

@@ -6,7 +6,8 @@ import com.infinum.sentinel.ui.logger.models.FlowBuffer
 import com.infinum.sentinel.ui.logger.models.Level
 import com.infinum.sentinel.ui.shared.LogFileResolver
 import java.io.File
-import java.util.Calendar
+import java.text.SimpleDateFormat
+import java.util.Locale
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -21,6 +22,8 @@ internal class SentinelFileTree(
     private val logFileResolver = LogFileResolver(context)
 
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+        val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss. SSSZ", Locale.getDefault())
+
         MainScope().launch {
             withContext(Dispatchers.IO) {
                 val entry = Entry(
@@ -34,7 +37,7 @@ internal class SentinelFileTree(
                 buffer.enqueue(entry)
 
                 val file: File = logFileResolver.createOrOpenFile()
-                val line = entry.asLineString()
+                val line = entry.asLineString(dateTimeFormat)
 
                 file.appendText(line)
             }
