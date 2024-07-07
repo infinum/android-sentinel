@@ -69,6 +69,9 @@ internal class PreferencesFragment :
         SentinelViewItemPreferenceBinding.inflate(layoutInflater, binding.contentLayout, false)
             .apply {
                 nameView.text = data.name
+                sortImageView.setOnClickListener {
+                    viewModel.onSortClicked(data)
+                }
                 data.values.forEach { tuple ->
                     prefsLayout.addView(
                         SentinelViewItemTextBinding.inflate(layoutInflater, prefsLayout, false)
