@@ -25,11 +25,11 @@ internal class DelegateWorker(
         parameters.inputData.getString(WORKER_CLASS_NAME) ?: ""
     private val workerId = parameters.inputData.getString(WORKER_ID)
     private val delegateWorkerFactory = workerFactories[workerId]
-    private val delegateWorker = delegateWorkerFactory?.createWorker(appContext, workerClassName, parameters)
+    private val delegatedWorker = delegateWorkerFactory?.createWorker(appContext, workerClassName, parameters)
 
     override fun startWork(): ListenableFuture<Result> {
-        return if (delegateWorker != null) {
-            delegateWorker.startWork()
+        return if (delegatedWorker != null) {
+            delegatedWorker.startWork()
         } else {
             val errorMessage = "No delegateWorker available for $workerId" +
                 " with workerClassName of $workerClassName. Is the " +

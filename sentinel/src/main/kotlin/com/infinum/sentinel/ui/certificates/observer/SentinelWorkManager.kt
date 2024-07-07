@@ -85,7 +85,6 @@ internal class SentinelWorkManager(
                     )
                     .build()
             )
-
     }
 
     fun certificatesCheckState(): Flow<Boolean> =
