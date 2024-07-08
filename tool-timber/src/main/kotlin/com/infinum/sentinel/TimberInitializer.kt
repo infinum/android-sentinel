@@ -3,7 +3,6 @@ package com.infinum.sentinel
 import android.content.Context
 import androidx.startup.Initializer
 import com.infinum.sentinel.ui.logger.models.FlowBuffer
-import kotlinx.coroutines.MainScope
 import timber.log.Timber
 
 public class TimberInitializer : Initializer<Class<TimberInitializer>> {
