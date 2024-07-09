@@ -24,6 +24,18 @@
             tools:text="Preferences" />
 
         <ImageView
+            android:id="@+id/sortImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/sentinel_sort_preference_by_name"
+            android:src="@drawable/sentinel_ic_sort" />
+
+        <View
+            android:layout_width="16dp"
+            android:layout_height="match_parent" />
+
+        <ImageView
             android:id="@+id/hideExpandImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,17 +43,6 @@
             android:contentDescription="@string/sentinel_hide_expands_the_preferences"
             android:src="@drawable/sentinel_ic_plus" />
 
-        <View
-            android:layout_width="16dp"
-            android:layout_height="match_parent" />
-
-        <ImageView
-            android:id="@+id/sortImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:contentDescription="@string/sentinel_sort_preference_by_name"
-            android:src="@drawable/sentinel_ic_sort" />
     </LinearLayout>
 
     <LinearLayout

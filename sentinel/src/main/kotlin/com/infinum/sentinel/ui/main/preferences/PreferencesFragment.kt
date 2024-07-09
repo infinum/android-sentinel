@@ -77,10 +77,12 @@ internal class PreferencesFragment :
 
                 if (data.isExpanded) {
                     prefsLayout.visibility = View.VISIBLE
+                    sortImageView.visibility = View.VISIBLE
                     hideExpandImageView.setImageResource(R.drawable.sentinel_ic_minus)
                     showPreferenceData(data)
                 } else {
                     prefsLayout.visibility = View.GONE
+                    sortImageView.visibility = View.GONE
                     hideExpandImageView.setImageResource(R.drawable.sentinel_ic_plus)
                 }
             }.root
