@@ -29,6 +29,8 @@ internal class PreferencesCollector(
                 prefsDirectory.list().orEmpty().toList().map { it.removeSuffix(PREFS_SUFFIX) }
             } else {
                 listOf()
+            }.sortedBy { name ->
+                name
             }.map { name ->
                 val allPrefs = getSharedPreferences(name, MODE_PRIVATE).all
                 val tuples = allPrefs.keys.toSet().mapNotNull {
