@@ -59,4 +59,20 @@ internal class PreferencesViewModel(
         }
         setState(PreferencesState.Data(value = changedValues))
     }
+
+    fun onHideExpandClicked(data: PreferencesData) {
+        (stateFlow.value as? PreferencesState.Data)?.let { state ->
+            val currentValues = state.value
+            val changedValues = currentValues.map { preferencesData ->
+                if (preferencesData.name == data.name) {
+                    preferencesData.copy(
+                        isExpanded = !preferencesData.isExpanded
+                    )
+                } else {
+                    preferencesData
+                }
+            }
+            setState(PreferencesState.Data(value = changedValues))
+        }
+    }
 }

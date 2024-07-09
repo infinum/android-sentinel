@@ -85,6 +85,7 @@
     <string name="sentinel_fragment_saved_state">Fragment Saved State</string>
 
     <string name="sentinel_sort_preference_by_name">Sort preferences by name</string>
+    <string name="sentinel_hide_expands_the_preferences">Hide/expands the preferences</string>
     <string name="sentinel_preferences_editor">Preferences editor</string>
     <string name="sentinel_key">Key</string>
     <string name="sentinel_current_value">Current value</string>

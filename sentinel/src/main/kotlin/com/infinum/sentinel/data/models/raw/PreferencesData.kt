@@ -4,4 +4,5 @@ internal data class PreferencesData(
     val name: String,
     val values: List<Triple<PreferenceType, String, Any>>,
     val isSortedAscending: Boolean = false,
+    val isExpanded: Boolean = true,
 )

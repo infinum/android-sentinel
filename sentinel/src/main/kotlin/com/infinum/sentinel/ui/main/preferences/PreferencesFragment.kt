@@ -64,7 +64,6 @@ internal class PreferencesFragment :
             }
         }
 
-    @Suppress("UNCHECKED_CAST")
     private fun createItemView(data: PreferencesData): View =
         SentinelViewItemPreferenceBinding.inflate(layoutInflater, binding.contentLayout, false)
             .apply {
@@ -72,27 +71,42 @@ internal class PreferencesFragment :
                 sortImageView.setOnClickListener {
                     viewModel.onSortClicked(data)
                 }
-                data.values.forEach { tuple ->
-                    prefsLayout.addView(
-                        SentinelViewItemTextBinding.inflate(layoutInflater, prefsLayout, false)
-                            .apply {
-                                labelView.isAllCaps = false
-                                labelView.text = tuple.second
-                                valueView.text = tuple.third.toString()
-                                root.setOnClickListener { _ ->
-                                    viewModel.cache(
-                                        data.name,
-                                        tuple
-                                    )
-                                }
-                                root.setOnLongClickListener {
-                                    it.context.copyToClipboard(
-                                        key = tuple.second,
-                                        value = tuple.third.toString()
-                                    )
-                                }
-                            }.root
-                    )
+                hideExpandImageView.setOnClickListener {
+                    viewModel.onHideExpandClicked(data)
+                }
+
+                if (data.isExpanded) {
+                    prefsLayout.visibility = View.VISIBLE
+                    hideExpandImageView.setImageResource(R.drawable.sentinel_ic_minus)
+                    showPreferenceData(data)
+                } else {
+                    prefsLayout.visibility = View.GONE
+                    hideExpandImageView.setImageResource(R.drawable.sentinel_ic_plus)
                 }
             }.root
+
+    private fun SentinelViewItemPreferenceBinding.showPreferenceData(data: PreferencesData) {
+        data.values.forEach { tuple ->
+            prefsLayout.addView(
+                SentinelViewItemTextBinding.inflate(layoutInflater, prefsLayout, false)
+                    .apply {
+                        labelView.isAllCaps = false
+                        labelView.text = tuple.second
+                        valueView.text = tuple.third.toString()
+                        root.setOnClickListener { _ ->
+                            viewModel.cache(
+                                data.name,
+                                tuple
+                            )
+                        }
+                        root.setOnLongClickListener {
+                            it.context.copyToClipboard(
+                                key = tuple.second,
+                                value = tuple.third.toString()
+                            )
+                        }
+                    }.root
+            )
+        }
+    }
 }
