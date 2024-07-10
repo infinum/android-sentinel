@@ -88,23 +88,23 @@ internal class PreferencesFragment :
             }.root
 
     private fun SentinelViewItemPreferenceBinding.showPreferenceData(data: PreferencesData) {
-        data.values.forEach { tuple ->
+        data.values.forEach { (preferenceType, label, value) ->
             prefsLayout.addView(
                 SentinelViewItemTextBinding.inflate(layoutInflater, prefsLayout, false)
                     .apply {
                         labelView.isAllCaps = false
-                        labelView.text = tuple.second
-                        valueView.text = tuple.third.toString()
+                        labelView.text = label
+                        valueView.text = value.toString()
                         root.setOnClickListener { _ ->
                             viewModel.cache(
-                                data.name,
-                                tuple
+                                name = data.name,
+                                tuple = Triple(preferenceType, label, value)
                             )
                         }
                         root.setOnLongClickListener {
                             it.context.copyToClipboard(
-                                key = tuple.second,
-                                value = tuple.third.toString()
+                                key = label,
+                                value = value.toString()
                             )
                         }
                     }.root
