@@ -1,6 +1,7 @@
 package com.infinum.sentinel.ui.logger.models
 
-import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
 import org.json.JSONObject
 
 internal open class BaseEntry(
@@ -10,7 +11,6 @@ internal open class BaseEntry(
     open val message: String? = null,
     open val stackTrace: String? = null
 ) {
-
     fun asJSONString(): String =
         JSONObject()
             .put("level", level)
@@ -20,9 +20,9 @@ internal open class BaseEntry(
             .put("stackTrace", stackTrace)
             .toString()
 
-    fun asLineString(): String =
+    fun asLineString(dateTimeFormat: SimpleDateFormat): String =
         buildString {
-            append(timestamp)
+            append(dateTimeFormat.format(Date(timestamp)))
             append(" LEVEL: ")
             append(level)
             append(" TAG: ")

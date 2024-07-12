@@ -28,8 +28,8 @@ internal class FlowBuffer<T : BaseEntry> {
             } else {
                 queue.reversed().filter {
                     it.tag?.lowercase()?.contains(query.lowercase()) == true ||
-                            it.message?.lowercase()?.contains(query.lowercase()) == true ||
-                            it.stackTrace?.lowercase()?.contains(query.lowercase()) == true
+                        it.message?.lowercase()?.contains(query.lowercase()) == true ||
+                        it.stackTrace?.lowercase()?.contains(query.lowercase()) == true
                 }
             }
         )

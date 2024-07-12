@@ -29,7 +29,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
 public class LogsActivity : AppCompatActivity() {
 
     private companion object {
@@ -79,21 +78,21 @@ public class LogsActivity : AppCompatActivity() {
         with(binding) {
             toolbar.setNavigationOnClickListener { finish() }
             toolbar.subtitle = (
-                    packageManager.getApplicationLabel(
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            packageManager.getApplicationInfo(
-                                packageName,
-                                PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA.toLong())
-                            )
-                        } else {
-                            @Suppress("DEPRECATION")
-                            packageManager.getApplicationInfo(
-                                packageName,
-                                PackageManager.GET_META_DATA
-                            )
-                        }
-                    ) as? String
-                    ) ?: getString(R.string.sentinel_name)
+                packageManager.getApplicationLabel(
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        packageManager.getApplicationInfo(
+                            packageName,
+                            PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA.toLong())
+                        )
+                    } else {
+                        @Suppress("DEPRECATION")
+                        packageManager.getApplicationInfo(
+                            packageName,
+                            PackageManager.GET_META_DATA
+                        )
+                    }
+                ) as? String
+                ) ?: getString(R.string.sentinel_name)
 
             recyclerView.layoutManager = LinearLayoutManager(
                 recyclerView.context,
