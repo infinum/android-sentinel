@@ -64,32 +64,51 @@ internal class PreferencesFragment :
             }
         }
 
-    @Suppress("UNCHECKED_CAST")
     private fun createItemView(data: PreferencesData): View =
         SentinelViewItemPreferenceBinding.inflate(layoutInflater, binding.contentLayout, false)
             .apply {
                 nameView.text = data.name
-                data.values.forEach { tuple ->
-                    prefsLayout.addView(
-                        SentinelViewItemTextBinding.inflate(layoutInflater, prefsLayout, false)
-                            .apply {
-                                labelView.isAllCaps = false
-                                labelView.text = tuple.second
-                                valueView.text = tuple.third.toString()
-                                root.setOnClickListener { _ ->
-                                    viewModel.cache(
-                                        data.name,
-                                        tuple
-                                    )
-                                }
-                                root.setOnLongClickListener {
-                                    it.context.copyToClipboard(
-                                        key = tuple.second,
-                                        value = tuple.third.toString()
-                                    )
-                                }
-                            }.root
-                    )
+                sortImageView.setOnClickListener {
+                    viewModel.onSortClicked(data)
+                }
+                hideExpandImageView.setOnClickListener {
+                    viewModel.onHideExpandClicked(data)
+                }
+
+                if (data.isExpanded) {
+                    prefsLayout.visibility = View.VISIBLE
+                    sortImageView.visibility = View.VISIBLE
+                    hideExpandImageView.setImageResource(R.drawable.sentinel_ic_minus)
+                    showPreferenceData(data)
+                } else {
+                    prefsLayout.visibility = View.GONE
+                    sortImageView.visibility = View.GONE
+                    hideExpandImageView.setImageResource(R.drawable.sentinel_ic_plus)
                 }
             }.root
+
+    private fun SentinelViewItemPreferenceBinding.showPreferenceData(data: PreferencesData) {
+        data.values.forEach { (preferenceType, label, value) ->
+            prefsLayout.addView(
+                SentinelViewItemTextBinding.inflate(layoutInflater, prefsLayout, false)
+                    .apply {
+                        labelView.isAllCaps = false
+                        labelView.text = label
+                        valueView.text = value.toString()
+                        root.setOnClickListener { _ ->
+                            viewModel.cache(
+                                name = data.name,
+                                tuple = Triple(preferenceType, label, value)
+                            )
+                        }
+                        root.setOnLongClickListener {
+                            it.context.copyToClipboard(
+                                key = label,
+                                value = value.toString()
+                            )
+                        }
+                    }.root
+            )
+        }
+    }
 }
