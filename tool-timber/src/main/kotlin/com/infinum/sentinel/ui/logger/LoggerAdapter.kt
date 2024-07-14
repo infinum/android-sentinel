@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.infinum.sentinel.SentinelFileTree
 import com.infinum.sentinel.databinding.SentinelItemLogBinding
-import com.infinum.sentinel.ui.shared.Constants.LOG_DATE_TIME_FORMAT
+import com.infinum.sentinel.ui.shared.TimberToolConstants.LOG_DATE_TIME_FORMAT
 import java.text.SimpleDateFormat
 import java.util.Locale
 
