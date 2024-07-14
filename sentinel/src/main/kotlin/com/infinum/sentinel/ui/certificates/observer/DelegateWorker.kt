@@ -2,6 +2,7 @@ package com.infinum.sentinel.ui.certificates.observer
 
 import android.content.Context
 import android.util.Log
+import androidx.annotation.UiThread
 import androidx.work.Data
 import androidx.work.ListenableWorker
 import androidx.work.WorkerFactory
@@ -57,7 +58,7 @@ internal class DelegateWorker(
 
             private val backingWorkerMap = mutableMapOf<String, WorkerFactory>()
 
-            // should be invoked only from the main thread
+            @UiThread
             override fun put(key: String, value: WorkerFactory): WorkerFactory? {
                 return backingWorkerMap.put(key, value)
             }
