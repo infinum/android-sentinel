@@ -5,11 +5,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.infinum.sentinel.SentinelFileTree
 import com.infinum.sentinel.databinding.SentinelItemLogBinding
+import com.infinum.sentinel.ui.shared.Constants.LOG_DATE_TIME_FORMAT
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 internal class LoggerAdapter(
     private val onListChanged: (Boolean) -> Unit,
     private val onClick: (SentinelFileTree.Entry) -> Unit
 ) : ListAdapter<SentinelFileTree.Entry, LoggerViewHolder>(LoggerDiffUtil()) {
+
+    private val dateTimeFormat = SimpleDateFormat(LOG_DATE_TIME_FORMAT, Locale.getDefault())
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LoggerViewHolder =
         LoggerViewHolder(
@@ -21,7 +26,11 @@ internal class LoggerAdapter(
         )
 
     override fun onBindViewHolder(holder: LoggerViewHolder, position: Int) {
-        holder.bind(getItem(position), onClick)
+        holder.bind(
+            item = getItem(position),
+            dateTimeFormat = dateTimeFormat,
+            onClick = onClick
+        )
     }
 
     override fun onViewRecycled(holder: LoggerViewHolder) {
