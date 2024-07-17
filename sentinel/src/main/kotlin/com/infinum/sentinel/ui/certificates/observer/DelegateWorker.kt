@@ -35,19 +35,7 @@ internal class DelegateWorker(
             val errorMessage = "No delegateWorker available for $workerId" +
                 " with workerClassName of $workerClassName. Is the " +
                 "DelegateWorker.workerFactories populated correctly?"
-
-            Log.w("Sentinel", errorMessage)
-
-            val errorData = Data.Builder().putString("Reason", errorMessage).build()
-
-            object : ListenableFuture<Result> {
-                override fun isDone(): Boolean = true
-                override fun get(): Result = Result.failure(errorData)
-                override fun get(timeout: Long, unit: TimeUnit): Result = Result.failure(errorData)
-                override fun cancel(mayInterruptIfRunning: Boolean): Boolean = false
-                override fun isCancelled(): Boolean = false
-                override fun addListener(listener: Runnable, executor: Executor) = listener.run()
-            }
+            throw IllegalStateException(errorMessage)
         }
     }
 
