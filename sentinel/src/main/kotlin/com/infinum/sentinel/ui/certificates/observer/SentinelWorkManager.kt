@@ -10,7 +10,6 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import androidx.work.WorkerFactory
 import androidx.work.workDataOf
 import com.infinum.sentinel.BuildConfig
 import com.infinum.sentinel.data.models.local.CertificateMonitorEntity
@@ -29,7 +28,6 @@ import me.tatarka.inject.annotations.Inject
 @Inject
 internal class SentinelWorkManager(
     private val context: Context,
-    private val workerFactory: WorkerFactory
 ) {
 
     companion object {

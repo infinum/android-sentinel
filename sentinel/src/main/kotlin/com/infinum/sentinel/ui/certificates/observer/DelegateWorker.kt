@@ -1,17 +1,13 @@
 package com.infinum.sentinel.ui.certificates.observer
 
 import android.content.Context
-import android.util.Log
 import androidx.annotation.UiThread
-import androidx.work.Data
 import androidx.work.ListenableWorker
 import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
 import com.google.common.util.concurrent.ListenableFuture
 import com.infinum.sentinel.ui.shared.Constants.Keys.WORKER_CLASS_NAME
 import com.infinum.sentinel.ui.shared.Constants.Keys.WORKER_ID
-import java.util.concurrent.Executor
-import java.util.concurrent.TimeUnit
 
 /**
  * A worker to delegate work requests from within the library to workers
