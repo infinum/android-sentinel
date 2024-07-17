@@ -34,7 +34,7 @@ internal class DelegateWorker(
         } else {
             val errorMessage = "No delegateWorker available for $workerId" +
                 " with workerClassName of $workerClassName. Is the " +
-                "RouterWorker.workerFactories populated correctly?"
+                "DelegateWorker.workerFactories populated correctly?"
 
             Log.w("Sentinel", errorMessage)
 
