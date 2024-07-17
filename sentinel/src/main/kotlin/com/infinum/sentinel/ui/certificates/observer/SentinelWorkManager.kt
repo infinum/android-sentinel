@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.asFlow
-import androidx.work.Configuration
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
@@ -36,18 +35,6 @@ internal class SentinelWorkManager(
     companion object {
         private const val DEBUG_INTERVAL = 15L
         private const val RELEASE_INTERVAL = 1440L
-    }
-
-    init {
-        if (WorkManager.isInitialized().not()) {
-            WorkManager.initialize(
-                context,
-                Configuration.Builder()
-                    .setMinimumLoggingLevel(android.util.Log.INFO)
-                    .setWorkerFactory(workerFactory)
-                    .build()
-            )
-        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
