@@ -50,7 +50,6 @@ import com.infinum.sentinel.ui.bundles.callbacks.BundleMonitorNotificationCallba
 import com.infinum.sentinel.ui.bundles.details.BundleDetailsActivity
 import com.infinum.sentinel.ui.certificates.observer.CertificatesObserver
 import com.infinum.sentinel.ui.certificates.observer.SentinelWorkManager
-import com.infinum.sentinel.ui.certificates.observer.SentinelWorkerFactory
 import com.infinum.sentinel.ui.crash.anr.SentinelAnrObserver
 import com.infinum.sentinel.ui.crash.anr.SentinelAnrObserverRunnable
 import com.infinum.sentinel.ui.crash.anr.SentinelUiAnrObserver
@@ -90,8 +89,6 @@ internal abstract class DomainComponent(
     abstract val certificatesObserver: CertificatesObserver
 
     abstract val sentinelAnrObserver: SentinelAnrObserver
-
-    abstract val sentinelWorkerFactory: SentinelWorkerFactory
 
     abstract val sentinelWorkManager: SentinelWorkManager
 
@@ -159,13 +156,8 @@ internal abstract class DomainComponent(
 
     @Provides
     @DomainScope
-    fun sentinelWorkerFactory(): SentinelWorkerFactory =
-        SentinelWorkerFactory(collectors, notificationFactory)
-
-    @Provides
-    @DomainScope
     fun sentinelWorkManager(): SentinelWorkManager =
-        SentinelWorkManager(context, sentinelWorkerFactory)
+        SentinelWorkManager(context)
 
     @Provides
     @DomainScope

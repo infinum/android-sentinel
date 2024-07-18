@@ -13,10 +13,10 @@
             android:name=".ui.main.SentinelActivity"
             android:exported="true"
             android:label="@string/sentinel_name"
+            android:permission="com.infinum.sentinel.permission.ACCESS_SENTINEL"
             android:taskAffinity="com.infinum.sentinel"
-            android:theme="@style/Sentinel.Theme"
-            android:permission="com.infinum.sentinel.permission.ACCESS_SENTINEL">
-        <meta-data
+            android:theme="@style/Sentinel.Theme">
+            <meta-data
                 android:name="@string/sentinel_infinum_monitored"
                 android:value="false" />
         </activity>
@@ -117,17 +117,6 @@
             <meta-data
                 android:name="com.infinum.sentinel.SentinelInitializer"
                 android:value="androidx.startup" />
-        </provider>
-
-        <provider
-            android:name="androidx.startup.InitializationProvider"
-            android:authorities="${applicationId}.androidx-startup"
-            android:exported="false"
-            tools:node="merge">
-            <meta-data
-                android:name="androidx.work.WorkManagerInitializer"
-                android:value="androidx.startup"
-                tools:node="remove" />
         </provider>
 
     </application>

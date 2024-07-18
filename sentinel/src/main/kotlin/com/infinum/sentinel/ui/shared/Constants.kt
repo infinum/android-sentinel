@@ -14,5 +14,7 @@ internal object Constants {
         const val NOTIFY_TO_EXPIRE: String = "KEY_NOTIFY_TO_EXPIRE"
         const val EXPIRE_IN_AMOUNT: String = "KEY_EXPIRE_IN_AMOUNT"
         const val EXPIRE_IN_UNIT: String = "KEY_EXPIRE_IN_UNIT"
+        const val WORKER_CLASS_NAME = "WORKER_CLASS_NAME"
+        const val WORKER_ID = "WORKER_ID"
     }
 }
