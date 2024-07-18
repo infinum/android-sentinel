@@ -1,18 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingStart="16dp"
     android:paddingEnd="16dp">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/nameView"
-        style="@style/TextAppearance.Material3.BodySmall"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textColor="@color/sentinel_primary" />
+        android:orientation="horizontal"
+        android:paddingBottom="8dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/nameView"
+            style="@style/TextAppearance.Material3.BodySmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:textColor="@color/sentinel_primary"
+            tools:text="Preferences" />
+
+        <ImageView
+            android:id="@+id/sortImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/sentinel_sort_preference_by_name"
+            android:src="@drawable/sentinel_ic_sort" />
+
+        <View
+            android:layout_width="16dp"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/hideExpandImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/sentinel_hide_expands_the_preferences"
+            android:src="@drawable/sentinel_ic_plus" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/prefsLayout"

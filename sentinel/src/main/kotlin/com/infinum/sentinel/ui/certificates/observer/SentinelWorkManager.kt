@@ -4,14 +4,12 @@ import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.asFlow
-import androidx.work.Configuration
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import androidx.work.WorkerFactory
 import androidx.work.workDataOf
 import com.infinum.sentinel.BuildConfig
 import com.infinum.sentinel.data.models.local.CertificateMonitorEntity
@@ -19,6 +17,8 @@ import com.infinum.sentinel.ui.shared.Constants.Keys.EXPIRE_IN_AMOUNT
 import com.infinum.sentinel.ui.shared.Constants.Keys.EXPIRE_IN_UNIT
 import com.infinum.sentinel.ui.shared.Constants.Keys.NOTIFY_INVALID_NOW
 import com.infinum.sentinel.ui.shared.Constants.Keys.NOTIFY_TO_EXPIRE
+import com.infinum.sentinel.ui.shared.Constants.Keys.WORKER_CLASS_NAME
+import com.infinum.sentinel.ui.shared.Constants.Keys.WORKER_ID
 import java.time.Duration
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
@@ -28,7 +28,6 @@ import me.tatarka.inject.annotations.Inject
 @Inject
 internal class SentinelWorkManager(
     private val context: Context,
-    private val workerFactory: WorkerFactory
 ) {
 
     companion object {
@@ -36,36 +35,27 @@ internal class SentinelWorkManager(
         private const val RELEASE_INTERVAL = 1440L
     }
 
-    init {
-        WorkManager.initialize(
-            context,
-            Configuration.Builder()
-                .setMinimumLoggingLevel(android.util.Log.INFO)
-                .setWorkerFactory(workerFactory)
-                .build()
-        )
-    }
-
     @RequiresApi(Build.VERSION_CODES.O)
-    fun startCertificatesCheck(entity: CertificateMonitorEntity) =
+    fun startCertificatesCheck(entity: CertificateMonitorEntity) {
+
+        val delegatedWorkData = workDataOf(
+            WORKER_CLASS_NAME to CertificateCheckWorker::class.qualifiedName,
+            WORKER_ID to CertificateCheckWorker.NAME,
+            NOTIFY_INVALID_NOW to entity.notifyInvalidNow,
+            NOTIFY_TO_EXPIRE to entity.notifyToExpire,
+            EXPIRE_IN_AMOUNT to entity.expireInAmount,
+            EXPIRE_IN_UNIT to entity.expireInUnit.name
+        )
         WorkManager.getInstance(context)
             .enqueueUniquePeriodicWork(
-                CertificateCheckWorker.NAME,
+                DelegateWorker.DELEGATE_WORKER_ID,
                 ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE,
-                PeriodicWorkRequestBuilder<CertificateCheckWorker>(
+                PeriodicWorkRequestBuilder<DelegateWorker>(
                     when (BuildConfig.DEBUG) {
                         true -> Duration.ofMinutes(DEBUG_INTERVAL)
                         false -> Duration.ofMinutes(RELEASE_INTERVAL)
                     }
-                )
-                    .setInputData(
-                        workDataOf(
-                            NOTIFY_INVALID_NOW to entity.notifyInvalidNow,
-                            NOTIFY_TO_EXPIRE to entity.notifyToExpire,
-                            EXPIRE_IN_AMOUNT to entity.expireInAmount,
-                            EXPIRE_IN_UNIT to entity.expireInUnit.name
-                        )
-                    )
+                ).setInputData(delegatedWorkData)
                     .setConstraints(
                         Constraints.Builder()
                             .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
@@ -80,6 +70,7 @@ internal class SentinelWorkManager(
                     )
                     .build()
             )
+    }
 
     fun certificatesCheckState(): Flow<Boolean> =
         WorkManager.getInstance(context)

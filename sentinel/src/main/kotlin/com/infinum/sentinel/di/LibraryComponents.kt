@@ -42,6 +42,7 @@ internal object LibraryComponents {
             tools.filterIsInstance<CertificateTool>().firstOrNull()?.userCertificates.orEmpty(),
             onTriggered
         )
+        WorkManagerInitializer.init(domainComponent)
         domainComponent.setup()
     }
 
