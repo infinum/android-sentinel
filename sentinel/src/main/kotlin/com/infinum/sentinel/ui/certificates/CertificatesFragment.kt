@@ -1,8 +1,10 @@
 package com.infinum.sentinel.ui.certificates
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.annotation.RestrictTo
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -18,6 +20,7 @@ import com.infinum.sentinel.ui.shared.delegates.viewBinding
 import com.infinum.sentinel.ui.shared.edgefactories.bounce.BounceEdgeEffectFactory
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
+@RequiresApi(Build.VERSION_CODES.O)
 internal class CertificatesFragment :
     BaseChildFragment<CertificatesState, CertificatesEvent>(R.layout.sentinel_fragment_certificates) {
 

@@ -57,15 +57,15 @@ Then add the following dependencies in your app `build.gradle` or `build.gradle.
 **Groovy**
 
 ```groovy
-def sentinelVersion = "1.3.2"
+def sentinelVersion = "1.4.0"
 debugImplementation "com.infinum.sentinel:sentinel:$sentinelVersion"
-releaseImplementation "com.infinum.sentinel:sentinel-noop:$sentinelVersion"
+releaseImplementation "com.infinum.sentinel:sentinel-no-op:$sentinelVersion"
 ```
 
 **KotlinDSL**
 
 ```kotlin
-val sentinelVersion = "1.3.2"
+val sentinelVersion = "1.4.0"
 debugImplementation("com.infinum.sentinel:sentinel:$sentinelVersion")
 releaseImplementation("com.infinum.sentinel:sentinel-no-op:$sentinelVersion")
 ```
@@ -116,8 +116,8 @@ Sentinel.watch(
         AppGalleryTool(appId = "123456789"),
         GooglePlayTool(),
         ThimbleTool(),
-        TimberTool(allowedTags = listOf("EXAMPLE"),
-        CertificateTool(userManagers = listOf())
+        TimberTool(allowedTags = listOf("EXAMPLE")),
+        CertificateTool(userCertificates = listOf())
     )
 )
 ```

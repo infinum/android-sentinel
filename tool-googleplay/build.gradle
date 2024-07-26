@@ -16,10 +16,6 @@ android {
         targetSdkVersion buildConfig.targetSdk
     }
 
-    compileOptions {
-        coreLibraryDesugaringEnabled true
-    }
-
     buildTypes {
         debug {
             minifyEnabled false
@@ -67,7 +63,6 @@ dokkaJavadoc {
 dependencies {
     implementation libs.kotlin.core
     api libs.library
-    coreLibraryDesugaring libs.desugar
 }
 
 apply from: "publish.gradle"

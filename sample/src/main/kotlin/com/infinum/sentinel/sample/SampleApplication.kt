@@ -1,6 +1,7 @@
 package com.infinum.sentinel.sample
 
 import android.app.Application
+import android.os.Build
 import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.ui.tools.AppGalleryTool
 import com.infinum.sentinel.ui.tools.CertificateTool
@@ -19,19 +20,23 @@ class SampleApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        Sentinel.watch(
-            setOf(
-                ChuckerTool(),
-                CollarTool(),
-                DbInspectorTool(),
-                LeakCanaryTool(),
-                AppGalleryTool(appId = "102016595"),
-                GooglePlayTool(),
-                ThimbleTool(),
-                TimberTool(allowedTags = listOf("Main")),
-                CertificateTool(userCertificates = loadDebugCertificates())
-            )
-        )
+        Sentinel.watch(getWatchedTools())
+    }
+
+    private fun getWatchedTools(): Set<Sentinel.Tool> {
+        val tools = mutableSetOf<Sentinel.Tool>()
+        tools.add(ChuckerTool())
+        tools.add(CollarTool())
+        tools.add(DbInspectorTool())
+        tools.add(LeakCanaryTool())
+        tools.add(AppGalleryTool(appId = "102016595"))
+        tools.add(GooglePlayTool())
+        tools.add(ThimbleTool())
+        tools.add(TimberTool(allowedTags = listOf("Main")))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            tools.add(CertificateTool(userCertificates = loadDebugCertificates()))
+        }
+        return tools
     }
 
     private fun loadDebugCertificates(): List<X509Certificate> {

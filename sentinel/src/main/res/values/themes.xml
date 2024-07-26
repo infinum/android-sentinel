@@ -55,6 +55,7 @@
     </style>
 
     <style name="Sentinel.Widget.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="android:background">@color/sentinel_surface</item>
         <item name="itemTextAppearanceActive">
             @style/Sentinel.TextAppearance.Item.BottomNavigationView.Active
         </item>

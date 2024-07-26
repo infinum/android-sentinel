@@ -53,7 +53,6 @@ android {
         disable "RtlEnabled", "VectorPath"
     }
     compileOptions {
-        coreLibraryDesugaringEnabled true
     }
     kotlinOptions {
         freeCompilerArgs += [
@@ -89,7 +88,6 @@ dokkaJavadoc {
 }
 
 dependencies {
-    coreLibraryDesugaring libs.desugar
     implementation libs.kotlin.core
     implementation libs.kotlin.json
     implementation libs.coroutines

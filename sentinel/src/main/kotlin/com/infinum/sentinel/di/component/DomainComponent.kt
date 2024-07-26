@@ -3,6 +3,7 @@ package com.infinum.sentinel.di.component
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.text.format.Formatter
 import com.google.android.material.snackbar.Snackbar
 import com.infinum.sentinel.R
@@ -49,7 +50,6 @@ import com.infinum.sentinel.ui.bundles.callbacks.BundleMonitorNotificationCallba
 import com.infinum.sentinel.ui.bundles.details.BundleDetailsActivity
 import com.infinum.sentinel.ui.certificates.observer.CertificatesObserver
 import com.infinum.sentinel.ui.certificates.observer.SentinelWorkManager
-import com.infinum.sentinel.ui.certificates.observer.SentinelWorkerFactory
 import com.infinum.sentinel.ui.crash.anr.SentinelAnrObserver
 import com.infinum.sentinel.ui.crash.anr.SentinelAnrObserverRunnable
 import com.infinum.sentinel.ui.crash.anr.SentinelUiAnrObserver
@@ -89,8 +89,6 @@ internal abstract class DomainComponent(
     abstract val certificatesObserver: CertificatesObserver
 
     abstract val sentinelAnrObserver: SentinelAnrObserver
-
-    abstract val sentinelWorkerFactory: SentinelWorkerFactory
 
     abstract val sentinelWorkManager: SentinelWorkManager
 
@@ -158,13 +156,8 @@ internal abstract class DomainComponent(
 
     @Provides
     @DomainScope
-    fun sentinelWorkerFactory(): SentinelWorkerFactory =
-        SentinelWorkerFactory(collectors, notificationFactory)
-
-    @Provides
-    @DomainScope
     fun sentinelWorkManager(): SentinelWorkManager =
-        SentinelWorkManager(context, sentinelWorkerFactory)
+        SentinelWorkManager(context)
 
     @Provides
     @DomainScope
@@ -255,6 +248,7 @@ internal abstract class DomainComponent(
     }
 
     private fun initializeCertificateMonitor() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
         scope.launch {
             withContext(Dispatchers.IO) {
                 val monitorEntity = certificateMonitor.load(CertificateMonitorParameters()).first()
@@ -339,22 +333,27 @@ internal abstract class DomainComponent(
                                 context.enableShakeTrigger()?.let {
                                     entity.enabled = it
                                 }
+
                             TriggerType.FOREGROUND ->
                                 context.enableForegroundTrigger()?.let {
                                     entity.enabled = it
                                 }
+
                             TriggerType.PROXIMITY ->
                                 context.enableProximityTrigger()?.let {
                                     entity.enabled = it
                                 }
+
                             TriggerType.USB_CONNECTED ->
                                 context.enableUsbConnectedTrigger()?.let {
                                     entity.enabled = it
                                 }
+
                             TriggerType.AIRPLANE_MODE_ON ->
                                 context.enableAirplaneModeOnTrigger()?.let {
                                     entity.enabled = it
                                 }
+
                             else -> null
                         }?.let {
                             triggers.save(

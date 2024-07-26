@@ -1,6 +1,7 @@
 package com.infinum.sentinel.ui.certificates.observer
 
 import android.content.Context
+import android.os.Build
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.infinum.sentinel.data.models.raw.certificates.CertificateType
@@ -25,6 +26,9 @@ internal class CertificateCheckWorker(
     }
 
     override suspend fun doWork(): Result {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            return Result.success()
+        }
         val notifyInvalidNow = inputData.getBoolean(NOTIFY_INVALID_NOW, false)
         val notifyToExpire = inputData.getBoolean(NOTIFY_TO_EXPIRE, false)
         val expireInAmount = inputData.getInt(EXPIRE_IN_AMOUNT, 0)

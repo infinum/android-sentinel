@@ -1,5 +1,6 @@
 package com.infinum.sentinel.sample;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -34,7 +35,9 @@ public class JavaMainActivity extends AppCompatActivity {
         tools.add(new GooglePlayTool());
         tools.add(new ThimbleTool());
         tools.add(new TimberTool());
-        tools.add(new CertificateTool());
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            tools.add(new CertificateTool());
+        }
         Sentinel.watch(tools);
 
         viewBinding.showSentinel.setOnClickListener(v -> Sentinel.show());

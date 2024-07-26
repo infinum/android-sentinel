@@ -1,6 +1,7 @@
 package com.infinum.sentinel.ui.certificates.observer
 
 import android.content.Context
+import android.os.Build
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
@@ -10,7 +11,8 @@ import com.infinum.sentinel.data.models.raw.certificates.CertificateType
 import com.infinum.sentinel.domain.Factories
 import com.infinum.sentinel.extensions.applicationName
 import com.infinum.sentinel.ui.shared.notification.NotificationFactory
-import java.time.temporal.ChronoUnit
+import com.infinum.sentinel.utils.ChronoUnit
+import com.infinum.sentinel.utils.toJavaChronoUnit
 import kotlin.coroutines.resume
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -34,6 +36,7 @@ internal class CertificatesObserver(
     private var notifyInvalidNow = false
     private var notifyToExpire = false
     private var expireInAmount = 0
+
     private var expireInUnit = ChronoUnit.DAYS
 
     init {
@@ -55,7 +58,9 @@ internal class CertificatesObserver(
         this.notifyInvalidNow = entity.notifyInvalidNow
         this.notifyToExpire = entity.notifyToExpire
         this.expireInAmount = entity.expireInAmount
-        this.expireInUnit = entity.expireInUnit
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            this.expireInUnit = entity.expireInUnit
+        }
     }
 
     fun deactivate() {
@@ -68,29 +73,7 @@ internal class CertificatesObserver(
         if (notifyInvalidNow || notifyToExpire) {
             currentJob = scope.launch(Dispatchers.Main) {
                 val result = withContext(Dispatchers.IO) {
-                    if (active) {
-                        suspendCancellableCoroutine {
-                            val userCertificates = collectors.certificates()
-                                .invoke()[CertificateType.USER]
-                                .orEmpty()
-
-                            val invalidCertificatesCount = userCertificates
-                                .filterNot { certificate -> certificate.isValidNow }
-                                .count()
-                            val toExpireCertificatesCount = userCertificates
-                                .filterNot { certificate -> certificate.isValidIn(expireInAmount, expireInUnit) }
-                                .count()
-
-                            it.resume(
-                                CertificateCount(
-                                    invalidCertificatesCount,
-                                    toExpireCertificatesCount
-                                )
-                            )
-                        }
-                    } else {
-                        CertificateCount(0, 0)
-                    }
+                    certificateCount()
                 }
                 if (result.invalid > 0 && notifyInvalidNow) {
                     notificationFactory.showExpiredCertificate(context.applicationName, result.invalid)
@@ -101,6 +84,38 @@ internal class CertificatesObserver(
             }
         }
         // dont run
+    }
+
+    private suspend fun certificateCount() = if (active) {
+        suspendCancellableCoroutine {
+            val userCertificates = collectors.certificates()
+                .invoke()[CertificateType.USER]
+                .orEmpty()
+
+            var invalidCertificatesCount = 0
+            var toExpireCertificatesCount = 0
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                invalidCertificatesCount = userCertificates
+                    .filterNot { certificate -> certificate.isValidNow }
+                    .count()
+                toExpireCertificatesCount = userCertificates
+                    .filterNot { certificate ->
+                        certificate.isValidIn(
+                            expireInAmount, expireInUnit.toJavaChronoUnit()
+                        )
+                    }
+                    .count()
+            }
+
+            it.resume(
+                CertificateCount(
+                    invalidCertificatesCount,
+                    toExpireCertificatesCount
+                )
+            )
+        }
+    } else {
+        CertificateCount(0, 0)
     }
 
     private fun stop() {
