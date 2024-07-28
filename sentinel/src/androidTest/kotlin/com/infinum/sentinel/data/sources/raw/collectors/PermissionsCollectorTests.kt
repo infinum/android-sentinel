@@ -8,17 +8,24 @@ import com.infinum.sentinel.ui.SentinelTestApplication
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.BeforeClass
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@Ignore("This test is ignored because it's failing on CI")
 @RunWith(AndroidJUnit4::class)
 internal class PermissionsCollectorTests {
 
     companion object {
 
-        private val APPENDED_PERMISSIONS = mapOf(Manifest.permission.REORDER_TASKS to true)
+        private val APPENDED_PERMISSIONS = mapOf(
+            Manifest.permission.REORDER_TASKS to true,
+            Manifest.permission.POST_NOTIFICATIONS to false,
+            Manifest.permission.POST_NOTIFICATIONS to false,
+            Manifest.permission.WAKE_LOCK to true,
+            Manifest.permission.ACCESS_NETWORK_STATE to true,
+            Manifest.permission.RECEIVE_BOOT_COMPLETED to true,
+            Manifest.permission.FOREGROUND_SERVICE to true,
+            "com.infinum.sentinel.test.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" to true
+        )
 
         lateinit var actualPermissions: Map<String, Boolean>
 
@@ -40,13 +47,15 @@ internal class PermissionsCollectorTests {
     fun permissions_notDeclared() {
         assertTrue(actualPermissions.isNotEmpty())
         assertEquals(APPENDED_PERMISSIONS.size, actualPermissions.size)
-        assertEquals(
-            APPENDED_PERMISSIONS.containsKey(Manifest.permission.REORDER_TASKS),
-            actualPermissions.containsKey(Manifest.permission.REORDER_TASKS)
-        )
-        assertEquals(
-            APPENDED_PERMISSIONS[Manifest.permission.REORDER_TASKS],
-            actualPermissions[Manifest.permission.REORDER_TASKS]
-        )
+        APPENDED_PERMISSIONS.forEach { (permission, expectedStatus) ->
+            assertEquals(
+                APPENDED_PERMISSIONS.containsKey(permission),
+                actualPermissions.containsKey(permission)
+            )
+            assertEquals(
+                expectedStatus,
+                actualPermissions[permission]
+            )
+        }
     }
 }
