@@ -121,7 +121,6 @@ internal class MarkdownStringBuilderTests {
         ?.use { it.readText() }
         .orEmpty()
 
-
     private fun checkDeviceSpecificFields(markdown: String): String {
         val fields = listOf(
             "_screen_width_",
