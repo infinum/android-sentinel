@@ -10,6 +10,8 @@ import androidx.test.espresso.intent.Intents.times
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
+import androidx.work.Configuration
+import androidx.work.WorkManager
 import com.infinum.sentinel.ui.SentinelTestApplication
 import com.infinum.sentinel.ui.main.SentinelActivity
 import com.infinum.sentinel.ui.tools.DummyTool
@@ -32,6 +34,10 @@ internal class SentinelTests {
         @JvmStatic
         fun setupBeforeClass() {
             context = ApplicationProvider.getApplicationContext<SentinelTestApplication>()
+            WorkManager.initialize(
+                context,
+                Configuration.Builder().build()
+            )
         }
     }
 
@@ -82,14 +88,13 @@ internal class SentinelTests {
         intended(hasComponent(ComponentName(context, SentinelActivity::class.java)), times(1))
     }
 
-//    @Test
-//    @SmallTest
-//    @RequiresDevice
-//    fun sentinel_showDevice() {
-//        val instance = Sentinel.watch(context)
-//
-//        instance.show()
-//
-//        intended(hasComponent(ComponentName(context, SentinelActivity::class.java)), times(1))
-//    }
+        @Test
+        @SmallTest
+        fun sentinel_showDevice() {
+            val instance = Sentinel.watch()
+
+            instance.show()
+
+            intended(hasComponent(ComponentName(context, SentinelActivity::class.java)), times(1))
+        }
 }
