@@ -14,7 +14,7 @@ internal class LogFileResolver(
         private const val LOG_EXTENSION = ".log"
     }
 
-    private val parent = File("${context.filesDir.absolutePath}${LOGS_DIRECTORY}")
+    private val parent = File("${context.filesDir.absolutePath}$LOGS_DIRECTORY")
 
     fun logsDir() = parent
 
