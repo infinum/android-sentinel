@@ -79,17 +79,16 @@ internal class SentinelTests {
     fun sentinel_show() {
         Sentinel.show()
 
-        intended(hasComponent(ComponentName(context, SentinelActivity::class.java)), times(2))
+        intended(hasComponent(ComponentName(context, SentinelActivity::class.java)), times(1))
     }
 
-//    @Test
-//    @SmallTest
-//    @RequiresDevice
-//    fun sentinel_showDevice() {
-//        val instance = Sentinel.watch(context)
-//
-//        instance.show()
-//
-//        intended(hasComponent(ComponentName(context, SentinelActivity::class.java)), times(1))
-//    }
+    @Test
+    @SmallTest
+    fun sentinel_showDevice() {
+        val instance = Sentinel.watch()
+
+        instance.show()
+
+        intended(hasComponent(ComponentName(context, SentinelActivity::class.java)), times(1))
+    }
 }

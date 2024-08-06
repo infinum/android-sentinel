@@ -5,16 +5,41 @@
     "first_install": "yyyy-MM-dd HH:mm:ss",
     "last_update": "yyyy-MM-dd HH:mm:ss",
     "min_sdk": "21",
-    "target_sdk": "29",
+    "target_sdk": "34",
     "package_name": "com.infinum.sentinel.test",
     "process_name": "com.infinum.sentinel.test",
     "task_affinity": "com.infinum.sentinel.test",
     "locale_language": "en",
-    "locale_country": "US"
+    "locale_country": "US",
+    "installer": ""
   },
   "permissions": [
     {
+      "name": "android.permission.POST_NOTIFICATIONS",
+      "status": "false"
+    },
+    {
+      "name": "android.permission.WAKE_LOCK",
+      "status": "true"
+    },
+    {
+      "name": "android.permission.ACCESS_NETWORK_STATE",
+      "status": "true"
+    },
+    {
+      "name": "android.permission.RECEIVE_BOOT_COMPLETED",
+      "status": "true"
+    },
+    {
+      "name": "android.permission.FOREGROUND_SERVICE",
+      "status": "true"
+    },
+    {
       "name": "android.permission.REORDER_TASKS",
+      "status": "true"
+    },
+    {
+      "name": "com.infinum.sentinel.test.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
       "status": "true"
     }
   ],
@@ -30,7 +55,15 @@
     "release": "10",
     "sdk": "29",
     "security_patch": "2019-09-05",
-    "emulator": true
+    "emulator": true,
+    "automatic_time": true,
+    "automatic_timezone": true,
+    "rooted": false,
+    "screen_width": "",
+    "screen_height": "",
+    "screen_size": "",
+    "screen_density": "",
+    "font_scale": ""
   },
   "preferences": []
 }

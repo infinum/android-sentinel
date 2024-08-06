@@ -13,17 +13,16 @@ import com.infinum.sentinel.data.sources.raw.collectors.PreferencesCollector
 import com.infinum.sentinel.domain.collectors.Collectors
 import com.infinum.sentinel.ui.SentinelTestApplication
 import java.io.File
+import org.json.JSONObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.BeforeClass
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.util.ReflectionHelpers
 
-@Ignore("This test is ignored because it's failing on CI")
 @RunWith(AndroidJUnit4::class)
 internal class JsonStringBuilderTests {
 
@@ -136,6 +135,27 @@ internal class JsonStringBuilderTests {
         assertTrue(success)
     }
 
+    private fun checkDeviceSpecificFields(json: JSONObject): JSONObject {
+        val device = json.optJSONObject("device") ?: throw AssertionError("Device object is missing")
+
+        val fields = listOf(
+            "screen_width",
+            "screen_height",
+            "screen_size",
+            "screen_density",
+            "font_scale"
+        )
+
+        fields.forEach { field ->
+            if (!device.has(field)) {
+                throw AssertionError("Field $field is missing in the device object")
+            }
+            device.put(field, "")
+        }
+
+        return json
+    }
+
     @Test
     @SmallTest
     fun formatter_hasDataWithoutPreferences() {
@@ -147,7 +167,8 @@ internal class JsonStringBuilderTests {
 
         assertNotNull(actualData)
         assertTrue(actualData.isNotBlank())
-        assertEquals(EXPECTED_DATA_NO_PREFERENCES, actualData)
+        val cleanedUpData = checkDeviceSpecificFields(JSONObject(actualData))
+        assertEquals(EXPECTED_DATA_NO_PREFERENCES, cleanedUpData.toString())
     }
 
     @Test
@@ -171,6 +192,8 @@ internal class JsonStringBuilderTests {
 
         assertNotNull(actualData)
         assertTrue(actualData.isNotBlank())
-        assertEquals(EXPECTED_DATA, actualData)
+        assertTrue(actualData.isNotBlank())
+        val cleanedUpData = checkDeviceSpecificFields(JSONObject(actualData))
+        assertEquals(EXPECTED_DATA, cleanedUpData.toString())
     }
 }

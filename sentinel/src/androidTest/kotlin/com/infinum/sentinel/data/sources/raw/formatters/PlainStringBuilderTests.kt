@@ -19,12 +19,10 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.BeforeClass
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.util.ReflectionHelpers
 
-@Ignore("This test is ignored because it's failing on CI")
 @RunWith(AndroidJUnit4::class)
 internal class PlainStringBuilderTests {
 
@@ -124,6 +122,33 @@ internal class PlainStringBuilderTests {
         ?.use { it.readText() }
         .orEmpty()
 
+    private fun checkDeviceSpecificFields(text: String): String {
+        val fields = listOf(
+            "screen_width",
+            "screen_height",
+            "screen_size",
+            "screen_density",
+            "font_scale"
+        )
+
+        val fieldPatterns = fields.map { field ->
+            field to Regex("""$field:\s*.*""")
+        }
+
+        var updatedText = text
+
+        fieldPatterns.forEach { (field, pattern) ->
+            val matchResult = pattern.find(updatedText)
+            if (matchResult == null) {
+                throw AssertionError("Field $field is missing in the device object")
+            } else {
+                updatedText = updatedText.replace(matchResult.value, """$field:""")
+            }
+        }
+
+        return updatedText
+    }
+
     @Before
     fun preferences_deleteDir_Before() {
         val prefsDirectory =
@@ -153,9 +178,11 @@ internal class PlainStringBuilderTests {
 
         val actualData = stringBuilder()
             .replace(Regex("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"), "yyyy-MM-dd HH:mm:ss")
+            .replace(Regex("(installer:)\\s"), "$1")
         assertNotNull(actualData)
         assertTrue(actualData.isNotBlank())
-        assertEquals(EXPECTED_DATA_NO_PREFERENCES, actualData)
+        val cleanedUpData = checkDeviceSpecificFields(actualData)
+        assertEquals(EXPECTED_DATA_NO_PREFERENCES, cleanedUpData)
     }
 
     @Test
@@ -175,9 +202,11 @@ internal class PlainStringBuilderTests {
 
         val actualData = stringBuilder()
             .replace(Regex("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"), "yyyy-MM-dd HH:mm:ss")
+            .replace(Regex("(installer:)\\s"), "$1")
 
         assertNotNull(actualData)
         assertTrue(actualData.isNotBlank())
-        assertEquals(EXPECTED_DATA, actualData)
+        val cleanedUpData = checkDeviceSpecificFields(actualData)
+        assertEquals(EXPECTED_DATA, cleanedUpData)
     }
 }
