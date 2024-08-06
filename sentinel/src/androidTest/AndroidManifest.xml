@@ -11,19 +11,7 @@
         <activity
             android:name="com.infinum.sentinel.ui.main.SentinelActivity"
             android:label="@string/sentinel_name"
-            android:theme="@style/Sentinel.Theme" />
-
-        <provider
-            android:name="androidx.startup.InitializationProvider"
-            android:authorities="${applicationId}.androidx-startup"
-            android:exported="false"
-            tools:node="merge">
-
-            <meta-data
-                android:name="androidx.work.WorkManagerInitializer"
-                android:value="androidx.startup"
-                tools:node="remove" />
-        </provider>
+            android:theme="@style/Sentinel.Theme"/>
     </application>
 
 </manifest>
