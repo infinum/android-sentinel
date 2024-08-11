@@ -14,11 +14,14 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.infinum.sentinel.R
 import com.infinum.sentinel.ui.main.SentinelFragment
+import com.infinum.sentinel.ui.main.application.ApplicationFragment
+import com.infinum.sentinel.ui.main.permissions.PermissionsFragment
 import com.infinum.sentinel.ui.main.tools.ToolsFragment
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -149,27 +152,20 @@ public class SentinelFragmentTests {
         onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
         onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
         onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
+        onView(withId(R.id.share)).check(matches(isDisplayed()))
 
-//        onView(
-//            allOf(
-//                withId(R.id.application),
-//                withParent(instanceOf(ActionMenuView::class.java))
-//            )
-//        ).perform(click())
+        onView(
+            allOf(
+                withId(R.id.application),
+                isDescendantOfA(withId(R.id.bottomNavigation))
+            )
+        ).perform(click())
 
-        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
-//        onView(
-//            allOf(
-//                withText(R.string.sentinel_application),
-//                withParent(instanceOf(MaterialToolbar::class.java))
-//            )
-//        ).check(matches(withParent(withId(R.id.toolbar))))
+        scenario.onFragment {
+            val childFragment = it.childFragmentManager.findFragmentByTag(ApplicationFragment.TAG)
 
-//        scenario.onFragment {
-//            val childFragment = it.childFragmentManager.findFragmentByTag(ApplicationFragment.TAG)
-//
-//            assertNotNull(childFragment)
-//        }
+            assertNotNull(childFragment)
+        }
     }
 
     @Test
@@ -184,26 +180,20 @@ public class SentinelFragmentTests {
         onView(withId(R.id.fragmentContainer)).check(matches(isDisplayed()))
         onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
 
-//        onView(
-//            allOf(
-//                withId(R.id.permissions),
-//                withParent(instanceOf(ActionMenuView::class.java))
-//            )
-//        ).perform(click())
+        onView(
+            allOf(
+                withId(R.id.permissions),
+                isDescendantOfA(withId(R.id.bottomNavigation))
+            )
+        ).perform(click())
 
         onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
-//        onView(
-//            allOf(
-//                withText(R.string.sentinel_permissions),
-//                withParent(instanceOf(MaterialToolbar::class.java))
-//            )
-//        ).check(matches(withParent(withId(R.id.toolbar))))
 
-//        scenario.onFragment {
-//            val childFragment = it.childFragmentManager.findFragmentByTag(PermissionsFragment.TAG)
-//
-//            assertNotNull(childFragment)
-//        }
+        scenario.onFragment {
+            val childFragment = it.childFragmentManager.findFragmentByTag(PermissionsFragment.TAG)
+
+            assertNotNull(childFragment)
+        }
     }
 
     @Test
