@@ -3,9 +3,7 @@ package com.infinum.sentinel.ui
 import android.content.Context
 import android.content.Intent
 import android.view.View
-import android.widget.ImageButton
 import androidx.appcompat.widget.AppCompatImageButton
-import androidx.appcompat.widget.Toolbar
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.core.app.ActivityScenario
@@ -63,9 +61,8 @@ public class SentinelFragmentTests {
 
     @Test
     public fun sentinelFragment_show() {
-        val scenario = launchFragmentInContainer<SentinelFragment>(
-            themeResId = R.style.Sentinel_Theme_Dialog
-        )
+        val scenario = launchFragmentInContainer<SentinelFragment>(themeResId = R.style.Sentinel_Theme_Dialog)
+
         scenario.onFragment {
             val childFragment = it.childFragmentManager.findFragmentByTag(ToolsFragment.TAG)
             assertNotNull(childFragment)
@@ -112,33 +109,24 @@ public class SentinelFragmentTests {
 
     @Test
     public fun settingsActivity_showSettingsFragment() {
-        val scenario =
-            ActivityScenario.launch(SettingsActivity::class.java)
-
-        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
-        onView(withText(R.string.sentinel_settings)).check(matches(withParent(withId(R.id.toolbar))))
-        onView(withId(R.id.triggersLayout)).check(matches(isDisplayed()))
-        onView(withId(R.id.formatGroup)).check(matches(isDisplayed()))
-        onView(withId(R.id.bundleMonitorLayout)).check(matches(isDisplayed()))
+        val scenario = ActivityScenario.launch(SettingsActivity::class.java)
 
         scenario.onActivity {
             val childFragment = it.supportFragmentManager.findFragmentByTag(SettingsFragment.TAG)
 
             assertNotNull(childFragment)
         }
-    }
 
-    public fun navigationIconMatcher(): Matcher<View> {
-        return allOf(
-            isAssignableFrom(ImageButton::class.java),
-            withParent(isAssignableFrom(Toolbar::class.java))
-        )
+        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
+        onView(withText(R.string.sentinel_settings)).check(matches(withParent(withId(R.id.toolbar))))
+        onView(withId(R.id.triggersLayout)).check(matches(isDisplayed()))
+        onView(withId(R.id.formatGroup)).check(matches(isDisplayed()))
+        onView(withId(R.id.bundleMonitorLayout)).check(matches(isDisplayed()))
     }
 
     @Test
     public fun sentinelFragment_showChild_Device() {
-        val scenario =
-            launchFragmentInContainer<SentinelFragment>(themeResId = R.style.Sentinel_Theme_Dialog)
+        val scenario = launchFragmentInContainer<SentinelFragment>(themeResId = R.style.Sentinel_Theme_Dialog)
 
         onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
@@ -153,13 +141,12 @@ public class SentinelFragmentTests {
             )
         ).perform(click())
 
-        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
-
         scenario.onFragment {
             val childFragment = it.childFragmentManager.findFragmentByTag(DeviceFragment.TAG)
 
             assertNotNull(childFragment)
         }
+        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -208,13 +195,12 @@ public class SentinelFragmentTests {
             )
         ).perform(click())
 
-        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
-
         scenario.onFragment {
             val childFragment = it.childFragmentManager.findFragmentByTag(PermissionsFragment.TAG)
 
             assertNotNull(childFragment)
         }
+        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -236,13 +222,12 @@ public class SentinelFragmentTests {
             )
         ).perform(lenientClick())
 
-        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
-
         scenario.onFragment {
             val childFragment = it.childFragmentManager.findFragmentByTag(PreferencesFragment.TAG)
 
             assertNotNull(childFragment)
         }
+        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -263,13 +248,12 @@ public class SentinelFragmentTests {
             )
         ).perform(click())
 
-        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
-
         scenario.onFragment {
             val childFragment = it.childFragmentManager.findFragmentByTag(ToolsFragment.TAG)
 
             assertNotNull(childFragment)
         }
+        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
     }
 
     @Test
