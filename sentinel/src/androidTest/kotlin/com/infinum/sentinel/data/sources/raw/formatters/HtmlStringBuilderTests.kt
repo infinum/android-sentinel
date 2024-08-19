@@ -18,12 +18,10 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.BeforeClass
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.util.ReflectionHelpers
 
-@Ignore("This test is ignored because it's failing on CI")
 @RunWith(AndroidJUnit4::class)
 internal class HtmlStringBuilderTests {
 
@@ -123,6 +121,33 @@ internal class HtmlStringBuilderTests {
         ?.use { it.readText() }
         .orEmpty()
 
+    private fun checkDeviceSpecificFields(html: String): String {
+        val fields = listOf(
+            "screen_width",
+            "screen_height",
+            "screen_size",
+            "screen_density",
+            "font_scale"
+        )
+
+        val fieldPatterns = fields.map { field ->
+            field to Regex("""<div>$field:\s*[^<]*</div>""")
+        }
+
+        var updatedHtml = html
+
+        fieldPatterns.forEach { (field, pattern) ->
+            val matchResult = pattern.find(updatedHtml)
+            if (matchResult == null) {
+                throw AssertionError("Field $field is missing in the device object")
+            } else {
+                updatedHtml = updatedHtml.replace(matchResult.value, """<div>$field: </div>""")
+            }
+        }
+
+        return updatedHtml
+    }
+
     @Before
     fun preferences_deleteDir() {
         val prefsDirectory =
@@ -144,7 +169,8 @@ internal class HtmlStringBuilderTests {
 
         assertNotNull(actualData)
         assertTrue(actualData.isNotBlank())
-        assertEquals(EXPECTED_DATA_NO_PREFERENCES, actualData)
+        val cleanedUpData = checkDeviceSpecificFields(actualData)
+        assertEquals(EXPECTED_DATA_NO_PREFERENCES, cleanedUpData)
     }
 
     @Test
@@ -167,6 +193,7 @@ internal class HtmlStringBuilderTests {
 
         assertNotNull(actualData)
         assertTrue(actualData.isNotBlank())
-        assertEquals(EXPECTED_DATA, actualData)
+        val cleanedUpData = checkDeviceSpecificFields(actualData)
+        assertEquals(EXPECTED_DATA, cleanedUpData)
     }
 }

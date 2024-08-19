@@ -35,6 +35,7 @@
                     android:background="@color/sentinel_surface"
                     app:menu="@menu/sentinel_menu"
                     app:navigationIcon="@drawable/sentinel_ic_settings"
+                    app:navigationContentDescription="@string/sentinel_settings"
                     app:subtitleCentered="true"
                     app:title="@string/sentinel_name"
                     app:titleCentered="true"

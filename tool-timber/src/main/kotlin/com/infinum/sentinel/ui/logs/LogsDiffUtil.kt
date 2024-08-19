@@ -1,7 +1,6 @@
 package com.infinum.sentinel.ui.logs
 
 import androidx.recyclerview.widget.DiffUtil
-import com.infinum.sentinel.SentinelFileTree
 import java.io.File
 
 internal class LogsDiffUtil : DiffUtil.ItemCallback<File>() {

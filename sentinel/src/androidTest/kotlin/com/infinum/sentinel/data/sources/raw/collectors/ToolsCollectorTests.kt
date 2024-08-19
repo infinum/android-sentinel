@@ -2,17 +2,15 @@ package com.infinum.sentinel.data.sources.raw.collectors
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
-import com.infinum.sentinel.ui.tools.AppInfoTool
+import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.ui.tools.DummyTool
 import com.infinum.sentinel.ui.tools.NoNameTool
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.BeforeClass
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@Ignore("This test is ignored because it's failing on CI")
 @RunWith(AndroidJUnit4::class)
 internal class ToolsCollectorTests {
 
@@ -33,12 +31,12 @@ internal class ToolsCollectorTests {
     @SmallTest
     fun tools_AreEmpty() {
         val collector = ToolsCollector(setOf())
-        val expectedTools = setOf(AppInfoTool())
+        val expectedTools = setOf<Sentinel.Tool>()
 
         val actualTools = collector()
 
         assertEquals(expectedTools.size, actualTools.size)
-        assertTrue(actualTools.isNotEmpty())
+        assertTrue(actualTools.isEmpty())
         assertEquals(expectedTools, actualTools)
     }
 
@@ -46,7 +44,7 @@ internal class ToolsCollectorTests {
     @SmallTest
     fun tools_AreUnique() {
         val collector = ToolsCollector(setOf(dummyTool, dummyTool))
-        val expectedTools = setOf(dummyTool, AppInfoTool())
+        val expectedTools = setOf(dummyTool)
 
         val actualTools = collector()
 
@@ -59,7 +57,7 @@ internal class ToolsCollectorTests {
     @SmallTest
     fun tools_AreValid() {
         val collector = ToolsCollector(setOf(dummyTool, noNameTool))
-        val expectedTools = setOf(dummyTool, AppInfoTool())
+        val expectedTools = setOf(dummyTool)
 
         val actualTools = collector()
 
