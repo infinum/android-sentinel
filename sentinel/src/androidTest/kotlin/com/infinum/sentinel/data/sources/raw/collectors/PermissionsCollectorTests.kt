@@ -19,7 +19,6 @@ internal class PermissionsCollectorTests {
         private val APPENDED_PERMISSIONS = mapOf(
             Manifest.permission.REORDER_TASKS to true,
             Manifest.permission.POST_NOTIFICATIONS to false,
-            Manifest.permission.POST_NOTIFICATIONS to false,
             Manifest.permission.WAKE_LOCK to true,
             Manifest.permission.ACCESS_NETWORK_STATE to true,
             Manifest.permission.RECEIVE_BOOT_COMPLETED to true,
