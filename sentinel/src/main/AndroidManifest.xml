@@ -3,17 +3,12 @@
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
-    <permission
-        android:name="com.infinum.sentinel.permission.ACCESS_SENTINEL"
-        android:protectionLevel="signature" />
-
     <application>
 
         <activity
             android:name="com.infinum.sentinel.ui.main.SentinelActivity"
             android:exported="true"
             android:label="@string/sentinel_name"
-            android:permission="com.infinum.sentinel.permission.ACCESS_SENTINEL"
             android:taskAffinity="com.infinum.sentinel"
             android:theme="@style/Sentinel.Theme">
             <meta-data
