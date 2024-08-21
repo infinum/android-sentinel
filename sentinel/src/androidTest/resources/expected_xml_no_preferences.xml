@@ -1,1 +1,56 @@
-<?xml version='1.0' encoding='UTF_8' standalone='yes' ?><n0:sentinel xmlns:n0="sentinel"><n0:application><n0:version_code>100000</n0:version_code><n0:version_name>1.0.0</n0:version_name><n0:first_install>yyyy-MM-dd HH:mm:ss</n0:first_install><n0:last_update>yyyy-MM-dd HH:mm:ss</n0:last_update><n0:min_sdk>21</n0:min_sdk><n0:target_sdk>29</n0:target_sdk><n0:package_name>com.infinum.sentinel.test</n0:package_name><n0:process_name>com.infinum.sentinel.test</n0:process_name><n0:task_affinity>com.infinum.sentinel.test</n0:task_affinity><n0:locale_language>en</n0:locale_language><n0:locale_country>US</n0:locale_country></n0:application><n0:permissions><n0:permission n0:name="android.permission.REORDER_TASKS" n0:status="true" /></n0:permissions><n0:device><n0:manufacturer>Google</n0:manufacturer><n0:model>Android SDK built for x86</n0:model><n0:id>QSR1.190920.001</n0:id><n0:bootloader>unknown</n0:bootloader><n0:device>generic_x86</n0:device><n0:board>goldfish_x86</n0:board><n0:architectures>x86</n0:architectures><n0:codename>REL</n0:codename><n0:release>10</n0:release><n0:sdk>29</n0:sdk><n0:security_patch>2019-09-05</n0:security_patch><n0:emulator>true</n0:emulator></n0:device><n0:preferences /></n0:sentinel>
+<?xml version='1.0' encoding='UTF_8' standalone='yes' ?>
+<n0:sentinel xmlns:n0="sentinel">
+    <n0:application>
+        <n0:version_code>100000
+        </n0:version_code>
+        <n0:version_name>1.0.0</n0:version_name>
+        <n0:first_install>yyyy-MM-dd
+            HH:mm:ss
+        </n0:first_install>
+        <n0:last_update>yyyy-MM-dd HH:mm:ss</n0:last_update>
+        <n0:min_sdk>21</n0:min_sdk>
+        <n0:target_sdk>34
+        </n0:target_sdk>
+        <n0:package_name>com.infinum.sentinel.test</n0:package_name>
+        <n0:process_name>com.infinum.sentinel
+            .test
+        </n0:process_name>
+        <n0:task_affinity>com.infinum.sentinel.test</n0:task_affinity>
+        <n0:locale_language>en
+        </n0:locale_language>
+        <n0:locale_country>US</n0:locale_country>
+        <n0:installer></n0:installer>
+    </n0:application>
+    <n0:permissions>
+        <n0:permission n0:name="android.permission.POST_NOTIFICATIONS" n0:status="false"/>
+        <n0:permission n0:name="android.permission.WAKE_LOCK" n0:status="true"/>
+        <n0:permission n0:name="android.permission.ACCESS_NETWORK_STATE" n0:status="true"/>
+        <n0:permission n0:name="android.permission.RECEIVE_BOOT_COMPLETED" n0:status="true"/>
+        <n0:permission n0:name="android.permission.FOREGROUND_SERVICE" n0:status="true"/>
+        <n0:permission n0:name="android.permission.REORDER_TASKS" n0:status="true"/>
+        <n0:permission n0:name="com.infinum.sentinel.test.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" n0:status="true"/>
+    </n0:permissions>
+    <n0:device>
+        <n0:manufacturer>Google</n0:manufacturer>
+        <n0:model>Android SDK built for x86</n0:model>
+        <n0:id>QSR1.190920.001</n0:id>
+        <n0:bootloader>unknown</n0:bootloader>
+        <n0:device>generic_x86</n0:device>
+        <n0:board>goldfish_x86</n0:board>
+        <n0:architectures>x86</n0:architectures>
+        <n0:codename>REL</n0:codename>
+        <n0:release>10</n0:release>
+        <n0:sdk>29</n0:sdk>
+        <n0:security_patch>2019-09-05</n0:security_patch>
+        <n0:emulator>true</n0:emulator>
+        <n0:automatic_time>true</n0:automatic_time>
+        <n0:automatic_timezone>true</n0:automatic_timezone>
+        <n0:rooted>false</n0:rooted>
+        <n0:screen_width></n0:screen_width>
+        <n0:screen_height></n0:screen_height>
+        <n0:screen_size></n0:screen_size>
+        <n0:screen_density></n0:screen_density>
+        <n0:font_scale></n0:font_scale>
+    </n0:device>
+    <n0:preferences/>
+</n0:sentinel>

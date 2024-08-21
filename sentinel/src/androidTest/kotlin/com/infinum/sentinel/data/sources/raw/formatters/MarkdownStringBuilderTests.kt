@@ -18,12 +18,10 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.BeforeClass
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.util.ReflectionHelpers
 
-@Ignore("This test is ignored because it's failing on CI")
 @RunWith(AndroidJUnit4::class)
 internal class MarkdownStringBuilderTests {
 
@@ -123,6 +121,33 @@ internal class MarkdownStringBuilderTests {
         ?.use { it.readText() }
         .orEmpty()
 
+    private fun checkDeviceSpecificFields(markdown: String): String {
+        val fields = listOf(
+            "_screen_width_",
+            "_screen_height_",
+            "_screen_size_",
+            "_screen_density_",
+            "_font_scale_"
+        )
+
+        val fieldPatterns = fields.map { field ->
+            field to Regex("""$field:\s*.*""")
+        }
+
+        var updatedMarkdown = markdown
+
+        fieldPatterns.forEach { (field, pattern) ->
+            val matchResult = pattern.find(updatedMarkdown)
+            if (matchResult == null) {
+                throw AssertionError("Field $field is missing in the device object")
+            } else {
+                updatedMarkdown = updatedMarkdown.replace(matchResult.value, """$field: """)
+            }
+        }
+
+        return updatedMarkdown
+    }
+
     @Before
     fun preferences_deleteDir() {
         val prefsDirectory =
@@ -144,7 +169,8 @@ internal class MarkdownStringBuilderTests {
 
         assertNotNull(actualData)
         assertTrue(actualData.isNotBlank())
-        assertEquals(EXPECTED_DATA_NO_PREFERENCES, actualData)
+        val cleanedUpData = checkDeviceSpecificFields(actualData)
+        assertEquals(EXPECTED_DATA_NO_PREFERENCES, cleanedUpData)
     }
 
     @Test
@@ -167,6 +193,7 @@ internal class MarkdownStringBuilderTests {
 
         assertNotNull(actualData)
         assertTrue(actualData.isNotBlank())
-        assertEquals(EXPECTED_DATA, actualData)
+        val cleanedUpData = checkDeviceSpecificFields(actualData)
+        assertEquals(EXPECTED_DATA, cleanedUpData)
     }
 }
