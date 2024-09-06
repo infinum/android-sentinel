@@ -1,0 +1,13 @@
+apply from: '../config.gradle'
+
+private void replaceVersionsInFile(File file) {
+    def content = file.text
+    content = content.replaceAll(~/sentinelVersion\s*=\s*".*"/, "sentinelVersion = \"${releaseConfig.version}\"")
+    file.setText(content)
+}
+
+tasks.register('generateReadme') {
+    doFirst {
+        replaceVersionsInFile(new File("${rootDir}/README.md"))
+    }
+}

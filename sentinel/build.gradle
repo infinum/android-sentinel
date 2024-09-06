@@ -126,3 +126,7 @@ project.gradle.taskGraph.whenReady {
         ignoreFailures = true
     }
 }
+
+apply from: '../tasks.gradle'
+preBuild.dependsOn ':sentinel:generateReadme'
+
