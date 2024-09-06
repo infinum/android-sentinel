@@ -1,6 +1,37 @@
 Change Log
 ==========
 
+## Version 1.4.1
+
+_2024-08-21_
+
+* Hotfix for can't install multiple variants of app with Sentinel
+
+## Version 1.4.0
+
+_2024-07-18_
+
+* UX improvements for SharedPreferences tool 
+* Improvement for exported logs - datetime now in human-readable format 
+* Fix WorkManager initialization bug that could crash apps
+
+## Version 1.3.3
+
+_2024-05-20_
+
+* Update dependencies
+* Fix AGP 8.3.0 support (duplicated resources resolved)
+* Remove desugaring 
+  * due to AGP changes 
+  * CertificateTool is now only supported on devices running API 26 or newer
+
+## Version 1.3.2
+
+_2024-03-06_
+
+* Fixed Android 13 notification permissions
+* Fixed triggers activating even though they were disabled by the user in manifest
+
 ## Version 1.3.1
 
 _2023-08-28_
