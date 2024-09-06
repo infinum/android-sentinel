@@ -1,20 +1,42 @@
-## :camera: Screenshots
-<!-- Show us what you've changed, we love images. -->
+## Summary
 
-## :page_facing_up: Context
-<!-- Why did you change something? Is there an [issue](https://github.com/infinum/android-sentinel/issues) to link here? Or an external link? -->
+<!--
+    Provide an overview of what this pull request aims to address or achieve.
 
-## :pencil: Changes
-<!-- Which code did you change? How? -->
+    Link any relevant issues that this pull request addresses or resolves, using the format "Fixes #issue_number".
+-->
 
-## :paperclip: Related PR
-<!-- PR that blocks this one, or the ones blocked by this PR -->
+## Changes
 
-## :no_entry_sign: Breaking
-<!-- Is there something breaking the API? Any class or method signature changed? -->
+### Type
 
-## :hammer_and_wrench: How to test
-<!-- Is there a special case to test your changes? -->
+- [ ] **Feature**: This pull request introduces a new feature.
+- [ ] **Bug fix**: This pull request fixes a bug.
+- [ ] **Refactor**: This pull request refactors existing code.
+- [ ] **Documentation**: This pull request updates documentation.
+- [ ] **Other**: This pull request makes other changes.
 
-## :stopwatch: Next steps
-<!-- Do we have to plan something else after the merge? -->
+#### Additional information
+
+- [ ] This pull request introduces a **breaking change**.
+
+### Description
+
+<!--
+    Describe the specific changes made in this pull request, including any technical details or architectural decisions.
+
+    If applicable, include additional information like screenshots, logs or other data that demonstrate the changes.
+-->
+
+## Checklist
+
+- [ ] I have performed a self-review of my own code.
+- [ ] I have tested my changes, including edge cases.
+- [ ] I have added necessary tests for the changes introduced (if applicable).
+- [ ] I have updated the documentation to reflect my changes (if applicable).
+
+## Additional notes
+
+<!--
+    Add any additional comments, instructions, or insights about this pull request.
+-->
