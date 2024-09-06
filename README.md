@@ -56,6 +56,9 @@ Then add the following dependencies in your app `build.gradle` or `build.gradle.
 
 **Groovy**
 
+<!-- 
+    If format of version definition is changed, make sure to update `generateReadme` task
+-->
 ```groovy
 def sentinelVersion = "1.4.1"
 debugImplementation "com.infinum.sentinel:sentinel:$sentinelVersion"
