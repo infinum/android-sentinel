@@ -6,6 +6,8 @@
 
 ![UI](ui.png)
 
+## Description
+
 _Sentinel_ is a simple one screen UI that provides standardised entry point for tools used in
 development and QA alongside device, application and permissions data.  
 It's designed to be easily configured and expanded depending on needs and requirements of developers
@@ -26,6 +28,23 @@ The project is organized in the following modules:
 - `tool-thimble` - contains a class wrapper for Thimble
 - `tool-timber` - contains a class wrapper for Timber
 - `sample` - a sample app for testing and developing
+
+
+## Table of contents
+
+* [Requirements](#requirements)
+* [Usage](#usage)
+* [Getting started](#getting-started)
+* [Contributing](#contributing)
+* [License](#license)
+* [Credits](#credits)
+
+## Requirements
+
+This plugin has been written in Kotlin but works both inside Kotlin and Java projects. Minimum
+required API level to use _Sentinel_ is *21* known
+as [Android 5.0, Lollipop](https://www.android.com/versions/lollipop-5-0/).
+_Sentinel_ is built with and for AndroidX projects.
 
 ## Usage
 
@@ -101,7 +120,7 @@ debugImplementation("com.infinum.sentinel:tool-timber:$sentinelVersion")
 
 Now you can sync your project.
 
-### Getting started
+## Getting started
 
 Create or inject an instance of _Sentinel_ in your Application class and start watching for
 triggers:
@@ -257,7 +276,7 @@ _Plain_ formatter is selected by default, but selecting any other is persisted b
 - `XML`
 - `HTML`
 
-## Crash monitor
+### Crash monitor
 
 _Sentinel_ has a built in default uncaught exception handler and ANR observer. If switched on in
 settings, it will notify both in a form of a notification. Note that from Android 13 you need to give permission 
@@ -278,7 +297,7 @@ Sentinel.setAnrListener { exception ->
 }
 ```
 
-## Bundle monitor
+### Bundle monitor
 
 _Sentinel_ monitors Bundle objects passed around the application mostly for size limit of 500kB,
 thus avoiding _TransactionTooLarge_ exceptions.  
@@ -296,20 +315,18 @@ for a specific screen, you can do so in the _AndroidManifest.xml_ by adding a _m
 </activity>
 ```
 
-## Requirements
-
-This plugin has been written in Kotlin but works both inside Kotlin and Java projects. Minimum
-required API level to use _Sentinel_ is *21* known
-as [Android 5.0, Lollipop](https://www.android.com/versions/lollipop-5-0/).
-_Sentinel_ is built with and for AndroidX projects.
-
 ## Contributing
 
-Feedback and code contributions are very much welcome. Just make a pull request with a short
-description of your changes. By making contributions to this project you give permission for your
-code to be used under the same [license](LICENSE). For easier developing a `sample` application with
+We believe that the community can help us improve and build better a product.
+Please refer to our [contributing guide](CONTRIBUTING.md) to learn about the types of contributions we accept and the process for submitting them.
+
+To ensure that our community remains respectful and professional, we defined a [code of conduct](CODE_OF_CONDUCT.md) that we expect all contributors to follow.
+
+For easier developing a `sample` application with
 proper implementations is provided. If you wish to add a new specific dependency wrapper tool,
 create a new module and set it up like the ones already provided. Then create a pull request.
+
+We appreciate your interest and look forward to your contributions.
 
 ## License
 
