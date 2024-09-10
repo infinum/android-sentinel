@@ -44,11 +44,15 @@ afterEvaluate {
                             url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
                         }
                     }
+                    organization {
+                        name = 'Infinum Inc.'
+                        url = 'https://infinum.com'
+                    }
                     developers {
                         developer {
                             id = 'Infinum'
                             name = 'Infinum Inc.'
-                            email = 'team.android@infinum.com'
+                            url = 'https://infinum.com'
                         }
                     }
                     scm {
