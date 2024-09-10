@@ -46,9 +46,9 @@ afterEvaluate {
                     }
                     developers {
                         developer {
-                            id = 'knobtviker'
-                            name = 'Bojan Komljenović'
-                            email = 'bojan.komljenovic@infinum.com'
+                            id = 'Infinum'
+                            name = 'Infinum Inc.'
+                            email = 'team.android@infinum.com'
                         }
                     }
                     scm {
