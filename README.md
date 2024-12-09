@@ -146,6 +146,33 @@ Sentinel.watch(
 
 A set of tools should be provided as a _watch_ parameter. This set of tools can be empty.
 
+### App Startup
+
+Under the hood Sentinel is using [App Startup library](https://developer.android.com/topic/libraries/app-startup) to initialize itself. 
+If you are using [App Startup library](https://developer.android.com/topic/libraries/app-startup) in your project, you might encounter errors related to Sentinel's initialization.
+
+To avoid errors simply add dependency to Sentinel's initializer in your initializer:
+
+```kotlin
+class SentinelInitializer : Initializer<Unit> {
+
+    override fun create(context: Context) {
+        Sentinel.watch(
+            setOf(
+                ChuckerTool(),
+                DbInspectorTool(),
+                GooglePlayTool(),
+                TimberTool(),
+            ),
+        )
+    }
+
+    override fun dependencies(): List<Class<out Initializer<*>?>?> = listOf(
+        com.infinum.sentinel.SentinelInitializer::class.java,
+    )
+}
+```
+
 ### Tools
 
 _Sentinel_ provides several different levels of tools for a developer to implement.
