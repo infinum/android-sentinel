@@ -34,7 +34,7 @@ internal abstract class StringBuilderFormatter {
 
     internal fun addApplicationData(builder: StringBuilder, data: ApplicationData) {
         addLine(builder, R.string.sentinel_version_code, data.versionCode)
-        addLine(builder, R.string.sentinel_version_name, data.versionName)
+        addLine(builder, R.string.sentinel_version_name, data.versionName ?: "")
         addLine(builder, R.string.sentinel_first_install, data.firstInstall)
         addLine(builder, R.string.sentinel_last_update, data.lastUpdate)
         addLine(builder, R.string.sentinel_min_sdk, data.minSdk)

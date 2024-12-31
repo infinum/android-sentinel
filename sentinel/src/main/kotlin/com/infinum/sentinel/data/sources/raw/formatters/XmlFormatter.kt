@@ -91,7 +91,7 @@ internal class XmlFormatter(
         startTag(NAMESPACE, APPLICATION)
         applicationCollector().let {
             addNode(R.string.sentinel_version_code, it.versionCode)
-            addNode(R.string.sentinel_version_name, it.versionName)
+            addNode(R.string.sentinel_version_name, it.versionName ?: "")
             addNode(R.string.sentinel_first_install, it.firstInstall)
             addNode(R.string.sentinel_last_update, it.lastUpdate)
             addNode(R.string.sentinel_min_sdk, it.minSdk)

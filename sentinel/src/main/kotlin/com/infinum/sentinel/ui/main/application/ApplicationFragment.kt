@@ -26,7 +26,7 @@ internal class ApplicationFragment :
         when (state) {
             is ApplicationState.Data -> with(binding) {
                 versionCodeView.data = state.value.versionCode
-                versionNameView.data = state.value.versionName
+                versionNameView.data = state.value.versionName ?: ""
                 firstInstallView.data = state.value.firstInstall
                 lastUpdateView.data = state.value.lastUpdate
                 minSdkView.data = state.value.minSdk

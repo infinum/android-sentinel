@@ -83,7 +83,7 @@ internal class HtmlFormatter(
             .apply {
                 applicationCollector().let {
                     addDiv(R.string.sentinel_version_code, it.versionCode)
-                    addDiv(R.string.sentinel_version_name, it.versionName)
+                    addDiv(R.string.sentinel_version_name, it.versionName ?: "")
                     addDiv(R.string.sentinel_first_install, it.firstInstall)
                     addDiv(R.string.sentinel_last_update, it.lastUpdate)
                     addDiv(R.string.sentinel_min_sdk, it.minSdk)
