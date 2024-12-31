@@ -19,6 +19,10 @@ buildscript {
     }
 }
 
+plugins {
+    alias(libs.plugins.kotlin.binary.compatibility)
+}
+
 allprojects {
 
     repositories {
