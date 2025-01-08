@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity() {
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
-
         applyInsetsToLastElement()
 
         val allPrefs = listOf(
