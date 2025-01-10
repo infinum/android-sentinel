@@ -6,7 +6,7 @@ internal data class ApplicationData(
     val applicationIcon: Drawable,
     val applicationName: String,
     val versionCode: String,
-    val versionName: String,
+    val versionName: String?,
     val firstInstall: String,
     val lastUpdate: String,
     val minSdk: String,

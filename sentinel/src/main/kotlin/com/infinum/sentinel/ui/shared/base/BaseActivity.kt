@@ -3,6 +3,7 @@ package com.infinum.sentinel.ui.shared.base
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.annotation.CallSuper
 import androidx.annotation.RestrictTo
 import androidx.core.content.ContextCompat
@@ -16,6 +17,8 @@ internal abstract class BaseActivity<State, Event> : FragmentActivity(), BaseVie
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        enableEdgeToEdge()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {

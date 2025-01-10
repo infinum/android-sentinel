@@ -60,7 +60,7 @@ internal class JsonFormatter(
         JSONObject().apply {
             applicationCollector().let {
                 addKey(R.string.sentinel_version_code, it.versionCode)
-                addKey(R.string.sentinel_version_name, it.versionName)
+                addKey(R.string.sentinel_version_name, it.versionName ?: "")
                 addKey(R.string.sentinel_first_install, it.firstInstall)
                 addKey(R.string.sentinel_last_update, it.lastUpdate)
                 addKey(R.string.sentinel_min_sdk, it.minSdk)
