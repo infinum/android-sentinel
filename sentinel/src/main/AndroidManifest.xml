@@ -87,7 +87,8 @@
             android:exported="false"
             android:label="@string/sentinel_certificates"
             android:taskAffinity="com.infinum.sentinel.certificates"
-            android:theme="@style/Sentinel.Theme.Leaf">
+            android:theme="@style/Sentinel.Theme.Leaf"
+            tools:targetApi="o">
             <meta-data
                 android:name="@string/sentinel_infinum_monitored"
                 android:value="false" />
@@ -98,7 +99,8 @@
             android:exported="false"
             android:label="@string/sentinel_certificate"
             android:taskAffinity="com.infinum.sentinel.certificates"
-            android:theme="@style/Sentinel.Theme.Leaf">
+            android:theme="@style/Sentinel.Theme.Leaf"
+            tools:targetApi="o">
             <meta-data
                 android:name="@string/sentinel_infinum_monitored"
                 android:value="false" />

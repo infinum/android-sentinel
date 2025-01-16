@@ -1,0 +1,58 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:recommended",
+        "group:all",
+        "schedule:monthly"
+    ],
+    "prCreation": "not-pending",
+    "branchPrefix": "update-dependencies-",
+    "labels": [
+        "auto pr",
+        "dependencies update"
+    ],
+    "packageRules": [
+        {
+            "description": "Update Kotlin (and related libs) monthly",
+            "groupName": "Kotlin",
+            "matchPackageNames": [
+                "/org.jetbrains.kotlin.*/"
+            ]
+        },
+        {
+            "description": "Update Kotlin (and related libs) monthly",
+            "groupName": "Kotlin",
+            "matchPackageNames": [
+                "/com.google.devtools.ksp/"
+            ]
+        },
+        {
+            "description": "Update Android Gradle plugin monthly",
+            "groupName": "Android Gradle plugin",
+            "matchPackageNames": [
+                "/com.android.tools.build:gradle/"
+            ]
+        },
+        {
+            "description": "Update Android Gradle plugin monthly",
+            "groupName": "Android Gradle plugin",
+            "matchPackageNames": [
+                "/com.android.application/"
+            ]
+        },
+        {
+            "description": "Update Android Gradle plugin monthly",
+            "groupName": "Android Gradle plugin",
+            "matchPackageNames": [
+                "/com.android.library/"
+            ]
+        },
+        {
+            "description": "Update Gradle wrapper monthly",
+            "groupName": "Gradle",
+            "matchPackageNames": [
+                "gradle"
+            ]
+        }
+    ]
+}
