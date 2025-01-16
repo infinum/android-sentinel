@@ -29,7 +29,7 @@ collar = "1.4.0"
 dbinspector = "5.4.9"
 leakcanary = "2.11"
 thimble = "1.0.1"
-
+binaryCompatibility = "0.17.0"
 
 [libraries]
 library = { module = "com.infinum.sentinel:sentinel", version.ref = "sentinel" }
@@ -125,3 +125,6 @@ tools = [
     "toolthimble",
     "tooltimber"
 ]
+
+[plugins]
+kotlin-binary-compatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryCompatibility" }

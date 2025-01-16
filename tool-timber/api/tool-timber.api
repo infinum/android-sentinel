@@ -1,0 +1,81 @@
+public final class com/infinum/sentinel/TimberInitializer : androidx/startup/Initializer {
+	public fun <init> ()V
+	public fun create (Landroid/content/Context;)Ljava/lang/Class;
+	public synthetic fun create (Landroid/content/Context;)Ljava/lang/Object;
+	public fun dependencies ()Ljava/util/List;
+}
+
+public final class com/infinum/sentinel/databinding/SentinelActivityLoggerBinding : androidx/viewbinding/ViewBinding {
+	public final field emptyStateLayout Landroid/widget/LinearLayout;
+	public final field logNameView Lcom/google/android/material/textview/MaterialTextView;
+	public final field recyclerView Landroidx/recyclerview/widget/RecyclerView;
+	public final field toolbar Lcom/google/android/material/appbar/MaterialToolbar;
+	public static fun bind (Landroid/view/View;)Lcom/infinum/sentinel/databinding/SentinelActivityLoggerBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Landroidx/coordinatorlayout/widget/CoordinatorLayout;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/infinum/sentinel/databinding/SentinelActivityLoggerBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/infinum/sentinel/databinding/SentinelActivityLoggerBinding;
+}
+
+public final class com/infinum/sentinel/databinding/SentinelActivityLogsBinding : androidx/viewbinding/ViewBinding {
+	public final field emptyStateLayout Landroid/widget/LinearLayout;
+	public final field recyclerView Landroidx/recyclerview/widget/RecyclerView;
+	public final field toolbar Lcom/google/android/material/appbar/MaterialToolbar;
+	public static fun bind (Landroid/view/View;)Lcom/infinum/sentinel/databinding/SentinelActivityLogsBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Landroidx/coordinatorlayout/widget/CoordinatorLayout;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/infinum/sentinel/databinding/SentinelActivityLogsBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/infinum/sentinel/databinding/SentinelActivityLogsBinding;
+}
+
+public final class com/infinum/sentinel/databinding/SentinelItemLogBinding : androidx/viewbinding/ViewBinding {
+	public final field levelView Landroid/view/View;
+	public final field messageView Lcom/google/android/material/textview/MaterialTextView;
+	public final field stackTraceContainer Landroid/widget/HorizontalScrollView;
+	public final field stackTraceView Lcom/google/android/material/textview/MaterialTextView;
+	public final field tagView Lcom/google/android/material/textview/MaterialTextView;
+	public final field timestampView Lcom/google/android/material/textview/MaterialTextView;
+	public static fun bind (Landroid/view/View;)Lcom/infinum/sentinel/databinding/SentinelItemLogBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Landroid/widget/LinearLayout;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/infinum/sentinel/databinding/SentinelItemLogBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/infinum/sentinel/databinding/SentinelItemLogBinding;
+}
+
+public final class com/infinum/sentinel/databinding/SentinelItemLogFileBinding : androidx/viewbinding/ViewBinding {
+	public final field deleteButton Lcom/google/android/material/button/MaterialButton;
+	public final field messageView Lcom/google/android/material/textview/MaterialTextView;
+	public final field shareButton Lcom/google/android/material/button/MaterialButton;
+	public final field timestampView Lcom/google/android/material/textview/MaterialTextView;
+	public static fun bind (Landroid/view/View;)Lcom/infinum/sentinel/databinding/SentinelItemLogFileBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Landroid/widget/LinearLayout;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/infinum/sentinel/databinding/SentinelItemLogFileBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/infinum/sentinel/databinding/SentinelItemLogFileBinding;
+}
+
+public final class com/infinum/sentinel/ui/logger/LoggerActivity : androidx/appcompat/app/AppCompatActivity {
+	public fun <init> ()V
+}
+
+public final class com/infinum/sentinel/ui/logs/LogsActivity : androidx/appcompat/app/AppCompatActivity {
+	public fun <init> ()V
+}
+
+public final class com/infinum/sentinel/ui/tools/TimberTool : com/infinum/sentinel/Sentinel$Tool {
+	public fun <init> ()V
+	public fun <init> (Ljava/util/List;)V
+	public fun <init> (Ljava/util/List;Landroid/view/View$OnClickListener;)V
+	public synthetic fun <init> (Ljava/util/List;Landroid/view/View$OnClickListener;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;Landroid/view/View$OnClickListener;)Lcom/infinum/sentinel/ui/tools/TimberTool;
+	public static synthetic fun copy$default (Lcom/infinum/sentinel/ui/tools/TimberTool;Ljava/util/List;Landroid/view/View$OnClickListener;ILjava/lang/Object;)Lcom/infinum/sentinel/ui/tools/TimberTool;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAllowedTags ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun icon ()Ljava/lang/Integer;
+	public fun listener ()Landroid/view/View$OnClickListener;
+	public fun name ()I
+	public fun toString ()Ljava/lang/String;
+}
+
