@@ -1,6 +1,15 @@
 Change Log
 ==========
 
+## Version 1.4.2
+
+_2025-01-24_
+
+* Bump compileSdk and targetSdk to 35
+* Bump Chucker to version 4.1.0
+* Bump AGP to 8.7.3
+* Support for edge to edge
+
 ## Version 1.4.1
 
 _2024-08-21_
