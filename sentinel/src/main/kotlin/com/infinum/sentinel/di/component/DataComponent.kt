@@ -24,6 +24,8 @@ import com.infinum.sentinel.data.sources.memory.certificate.CertificateCache
 import com.infinum.sentinel.data.sources.memory.certificate.InMemoryCertificateCache
 import com.infinum.sentinel.data.sources.memory.preference.InMemoryPreferenceCache
 import com.infinum.sentinel.data.sources.memory.preference.PreferenceCache
+import com.infinum.sentinel.data.sources.memory.targetedpreferences.InMemoryTargetedPreferencesCache
+import com.infinum.sentinel.data.sources.memory.targetedpreferences.TargetedPreferencesCache
 import com.infinum.sentinel.data.sources.memory.triggers.TriggersCache
 import com.infinum.sentinel.data.sources.memory.triggers.TriggersCacheFactory
 import com.infinum.sentinel.data.sources.raw.collectors.ApplicationCollector
@@ -31,6 +33,7 @@ import com.infinum.sentinel.data.sources.raw.collectors.CertificateCollector
 import com.infinum.sentinel.data.sources.raw.collectors.DeviceCollector
 import com.infinum.sentinel.data.sources.raw.collectors.PermissionsCollector
 import com.infinum.sentinel.data.sources.raw.collectors.PreferencesCollector
+import com.infinum.sentinel.data.sources.raw.collectors.TargetedPreferencesCollector
 import com.infinum.sentinel.data.sources.raw.collectors.ToolsCollector
 import com.infinum.sentinel.data.sources.raw.formatters.HtmlFormatter
 import com.infinum.sentinel.data.sources.raw.formatters.JsonFormatter
@@ -54,15 +57,18 @@ internal abstract class DataComponent(
     private val context: Context
 ) {
     private var tools: Set<Sentinel.Tool> = setOf()
+    private var targetedPreferences: Map<String, List<String>> = mapOf()
     private var userCertificates: List<X509Certificate> = listOf()
     private var onTriggered: () -> Unit = {}
 
     fun setup(
         tools: Set<Sentinel.Tool>,
+        targetedPreferences: Map<String, List<String>>,
         userCertificates: List<X509Certificate>,
         onTriggered: () -> Unit
     ) {
         this.tools = tools
+        this.targetedPreferences = targetedPreferences
         this.userCertificates = userCertificates
         this.onTriggered = onTriggered
     }
@@ -151,6 +157,8 @@ internal abstract class DataComponent(
 
     abstract val preferencesCollector: Collectors.Preferences
 
+    abstract val targetedPreferencesCollector: Collectors.TargetedPreferences
+
     abstract val certificatesCollector: Collectors.Certificates
 
     abstract val toolsCollector: Collectors.Tools
@@ -184,6 +192,11 @@ internal abstract class DataComponent(
     @DataScope
     fun preferencesCollector(): Collectors.Preferences =
         PreferencesCollector(context)
+
+    @Provides
+    @DataScope
+    fun targetedPreferencesCollector(): Collectors.TargetedPreferences =
+        TargetedPreferencesCollector(context, targetedPreferences)
 
     @Provides
     @DataScope
@@ -270,6 +283,8 @@ internal abstract class DataComponent(
 
     abstract val preferenceCache: PreferenceCache
 
+    abstract val targetedPreferencesCache: TargetedPreferencesCache
+
     abstract val certificateCache: CertificateCache
 
     @Provides
@@ -323,6 +338,11 @@ internal abstract class DataComponent(
     @DataScope
     fun preferenceCache(): PreferenceCache =
         InMemoryPreferenceCache()
+
+    @Provides
+    @DataScope
+    fun targetedPreferenceCache(): TargetedPreferencesCache =
+        InMemoryTargetedPreferencesCache()
 
     @Provides
     @DataScope

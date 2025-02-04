@@ -18,6 +18,8 @@ internal interface Collectors {
 
     interface Preferences : Collector<List<PreferencesData>>
 
+    interface TargetedPreferences : Collector<List<PreferencesData>>
+
     interface Certificates : Collector<Map<CertificateType, List<CertificateData>>>
 
     interface Tools : Collector<Set<Sentinel.Tool>>

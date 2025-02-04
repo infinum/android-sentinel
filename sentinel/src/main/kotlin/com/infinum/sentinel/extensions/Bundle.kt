@@ -1,9 +1,12 @@
 package com.infinum.sentinel.extensions
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcel
 import android.util.Log
 import com.infinum.sentinel.data.models.memory.bundles.BundleTree
+import java.io.Serializable
 
 /**
  * Measure the sizes of all the values in a [Bundle] when written to a [Parcel].
@@ -61,3 +64,13 @@ internal val Bundle.sizeAsParcelable: Int
             parcel.recycle()
         }
     }
+
+@Suppress("DEPRECATION")
+public inline fun <reified T: Serializable> Bundle.getSerializableExtraHelper(extraKey: String): T? {
+    return if (Build.VERSION.SDK_INT >= 33) {
+        this.getSerializable(extraKey, T::class.java)
+    } else {
+        this.getSerializable(extraKey) as T?
+    }
+
+}

@@ -36,9 +36,10 @@ internal object LibraryComponents {
         presentationComponent = PresentationComponent::class.create(context, viewModelComponent)
     }
 
-    fun setup(tools: Set<Sentinel.Tool>, onTriggered: () -> Unit) {
+    fun setup(tools: Set<Sentinel.Tool>, targetedPreferences: Map<String, List<String>>, onTriggered: () -> Unit) {
         dataComponent.setup(
             tools.plus(DEFAULT_TOOLS),
+            targetedPreferences,
             tools.filterIsInstance<CertificateTool>().firstOrNull()?.userCertificates.orEmpty(),
             onTriggered
         )

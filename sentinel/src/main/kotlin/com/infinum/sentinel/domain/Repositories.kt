@@ -38,6 +38,13 @@ internal interface Repositories {
         fun consume(): Pair<String, Triple<PreferenceType, String, Any>>
     }
 
+    interface TargetedPreferences : BaseRepository<PreferenceParameters, Unit> {
+
+        fun cache(cache: PreferenceParameters.Cache)
+
+        fun consume(): Pair<String, Triple<PreferenceType, String, Any>>
+    }
+
     interface CrashMonitor : BaseRepository<CrashMonitorParameters, CrashMonitorEntity>
 
     interface Certificate : BaseRepository<CertificateParameters, Unit> {

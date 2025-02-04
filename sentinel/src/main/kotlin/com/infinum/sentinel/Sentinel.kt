@@ -15,8 +15,8 @@ public object Sentinel {
 
     @JvmStatic
     @JvmOverloads
-    public fun watch(tools: Set<Tool> = setOf()): Sentinel {
-        LibraryComponents.setup(tools) { LibraryComponents.presentation().show() }
+    public fun watch(tools: Set<Tool> = setOf(), targetedPreferences: Map<String, List<String>> = mapOf()): Sentinel {
+        LibraryComponents.setup(tools, targetedPreferences) { LibraryComponents.presentation().show() }
         return this
     }
 
