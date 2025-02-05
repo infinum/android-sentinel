@@ -48,7 +48,7 @@ internal class AllPreferencesFragment :
     }
 
     private fun initToolbar() {
-        binding.toolbar.setNavigationOnClickListener { requireActivity().onBackPressedDispatcher.onBackPressed() }
+        binding.toolbar.setNavigationOnClickListener { requireActivity().finish() }
     }
 
     private fun applyWindowInsets() {

@@ -17,7 +17,6 @@ import com.infinum.sentinel.data.sources.local.room.dao.TriggersDao
 import com.infinum.sentinel.data.sources.memory.bundles.BundlesCache
 import com.infinum.sentinel.data.sources.memory.certificate.CertificateCache
 import com.infinum.sentinel.data.sources.memory.preference.PreferenceCache
-import com.infinum.sentinel.data.sources.memory.targetedpreferences.TargetedPreferencesCache
 import com.infinum.sentinel.data.sources.memory.triggers.TriggersCache
 import com.infinum.sentinel.di.scope.DomainScope
 import com.infinum.sentinel.domain.Factories
@@ -38,7 +37,6 @@ import com.infinum.sentinel.domain.formats.FormatsRepository
 import com.infinum.sentinel.domain.formatters.FormatterFactory
 import com.infinum.sentinel.domain.formatters.Formatters
 import com.infinum.sentinel.domain.preference.PreferenceRepository
-import com.infinum.sentinel.domain.targetedpreferences.TargetedPreferencesRepository
 import com.infinum.sentinel.domain.triggers.TriggersRepository
 import com.infinum.sentinel.domain.triggers.models.TriggerParameters
 import com.infinum.sentinel.extensions.enableAirplaneModeOnTrigger
@@ -215,11 +213,6 @@ internal abstract class DomainComponent(
     @DomainScope
     fun preferences(cache: PreferenceCache): Repositories.Preference =
         PreferenceRepository(context, cache)
-
-    @Provides
-    @DomainScope
-    fun targetedPreferences(cache: TargetedPreferencesCache): Repositories.TargetedPreferences =
-        TargetedPreferencesRepository(context, cache)
 
     @Provides
     @DomainScope

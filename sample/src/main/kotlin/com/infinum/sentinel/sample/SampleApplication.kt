@@ -20,7 +20,7 @@ class SampleApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        Sentinel.watch(getWatchedTools())
+        Sentinel.watch(getWatchedTools(), mapOf("ENCRYPTED_SHARED_PREFERENCES" to emptyList()))
     }
 
     private fun getWatchedTools(): Set<Sentinel.Tool> {

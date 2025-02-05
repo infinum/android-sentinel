@@ -13,7 +13,6 @@ internal class AllPreferencesActivity : BaseChildActivity() {
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-
         supportFragmentManager.beginTransaction()
             .replace(
                 android.R.id.content,

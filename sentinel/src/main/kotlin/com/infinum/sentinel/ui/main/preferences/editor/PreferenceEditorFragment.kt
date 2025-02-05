@@ -26,7 +26,6 @@ import com.infinum.sentinel.ui.shared.delegates.viewBinding
 internal class PreferenceEditorFragment :
     BaseChildFragment<PreferenceEditorState, PreferenceEditorEvent>(R.layout.sentinel_fragment_preference_editor) {
 
-    @Suppress("UNCHECKED_CAST")
     companion object {
         fun newInstance() = PreferenceEditorFragment()
 

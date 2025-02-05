@@ -5,7 +5,6 @@ import com.infinum.sentinel.data.models.raw.PreferencesData
 import com.infinum.sentinel.domain.Factories
 import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.preference.models.PreferenceParameters
-import com.infinum.sentinel.ui.main.preferences.targeted.TargetedPreferencesState
 import com.infinum.sentinel.ui.shared.base.BaseChildViewModel
 import me.tatarka.inject.annotations.Inject
 
@@ -42,7 +41,7 @@ internal class AllPreferencesViewModel(
         }
 
     fun onSortClicked(data: PreferencesData) {
-        val currentValues = (stateFlow.value as? TargetedPreferencesState.Data)?.value.orEmpty()
+        val currentValues = (stateFlow.value as? AllPreferencesState.Data)?.value.orEmpty()
         val sortedData = if (data.isSortedAscending) {
             data.values.sortedByDescending { it.second }
         } else {
@@ -62,7 +61,7 @@ internal class AllPreferencesViewModel(
     }
 
     fun onHideExpandClicked(data: PreferencesData) {
-        (stateFlow.value as? TargetedPreferencesState.Data)?.let { state ->
+        (stateFlow.value as? AllPreferencesState.Data)?.let { state ->
             val currentValues = state.value
             val changedValues = currentValues.map { preferencesData ->
                 if (preferencesData.name == data.name) {

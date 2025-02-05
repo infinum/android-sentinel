@@ -24,8 +24,6 @@ import com.infinum.sentinel.data.sources.memory.certificate.CertificateCache
 import com.infinum.sentinel.data.sources.memory.certificate.InMemoryCertificateCache
 import com.infinum.sentinel.data.sources.memory.preference.InMemoryPreferenceCache
 import com.infinum.sentinel.data.sources.memory.preference.PreferenceCache
-import com.infinum.sentinel.data.sources.memory.targetedpreferences.InMemoryTargetedPreferencesCache
-import com.infinum.sentinel.data.sources.memory.targetedpreferences.TargetedPreferencesCache
 import com.infinum.sentinel.data.sources.memory.triggers.TriggersCache
 import com.infinum.sentinel.data.sources.memory.triggers.TriggersCacheFactory
 import com.infinum.sentinel.data.sources.raw.collectors.ApplicationCollector
@@ -283,8 +281,6 @@ internal abstract class DataComponent(
 
     abstract val preferenceCache: PreferenceCache
 
-    abstract val targetedPreferencesCache: TargetedPreferencesCache
-
     abstract val certificateCache: CertificateCache
 
     @Provides
@@ -338,11 +334,6 @@ internal abstract class DataComponent(
     @DataScope
     fun preferenceCache(): PreferenceCache =
         InMemoryPreferenceCache()
-
-    @Provides
-    @DataScope
-    fun targetedPreferenceCache(): TargetedPreferencesCache =
-        InMemoryTargetedPreferencesCache()
 
     @Provides
     @DataScope
