@@ -30,7 +30,7 @@ import com.infinum.sentinel.ui.main.SentinelFragment
 import com.infinum.sentinel.ui.main.application.ApplicationFragment
 import com.infinum.sentinel.ui.main.device.DeviceFragment
 import com.infinum.sentinel.ui.main.permissions.PermissionsFragment
-import com.infinum.sentinel.ui.main.preferences.PreferencesFragment
+import com.infinum.sentinel.ui.main.preferences.targeted.TargetedPreferencesFragment
 import com.infinum.sentinel.ui.main.tools.ToolsFragment
 import com.infinum.sentinel.ui.settings.SettingsActivity
 import com.infinum.sentinel.ui.settings.SettingsFragment
@@ -223,7 +223,7 @@ public class SentinelFragmentTests {
         ).perform(lenientClick())
 
         scenario.onFragment {
-            val childFragment = it.childFragmentManager.findFragmentByTag(PreferencesFragment.TAG)
+            val childFragment = it.childFragmentManager.findFragmentByTag(TargetedPreferencesFragment.TAG)
 
             assertNotNull(childFragment)
         }

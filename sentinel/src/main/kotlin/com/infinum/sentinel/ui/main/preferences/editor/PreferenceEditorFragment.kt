@@ -73,30 +73,35 @@ internal class PreferenceEditorFragment :
                                             else -> null
                                         }
                                     )
+
                                     PreferenceType.FLOAT -> viewModel.saveFloat(
                                         state.name,
                                         state.key,
                                         state.value as? Float,
                                         newValueInputLayout.editText?.text?.toString().orEmpty().trim().toFloatOrNull()
                                     )
+
                                     PreferenceType.INT -> viewModel.saveInteger(
                                         state.name,
                                         state.key,
                                         state.value as? Int,
                                         newValueInputLayout.editText?.text?.toString().orEmpty().trim().toIntOrNull()
                                     )
+
                                     PreferenceType.LONG -> viewModel.saveLong(
                                         state.name,
                                         state.key,
                                         state.value as? Long,
                                         newValueInputLayout.editText?.text?.toString().orEmpty().trim().toLongOrNull()
                                     )
+
                                     PreferenceType.STRING -> viewModel.saveString(
                                         state.name,
                                         state.key,
                                         state.value as? String,
                                         newValueInputLayout.editText?.text?.toString()?.trim()
                                     )
+
                                     PreferenceType.SET -> viewModel.saveArray(
                                         state.name,
                                         state.key,
@@ -117,10 +122,12 @@ internal class PreferenceEditorFragment :
                                             .toList()
                                             .toTypedArray()
                                     )
+
                                     else -> Unit
                                 }
                                 true
                             }
+
                             else -> false
                         }
                     }
@@ -143,30 +150,35 @@ internal class PreferenceEditorFragment :
                             newValueInputLayout.isVisible = false
                             setLayout.isVisible = false
                         }
+
                         PreferenceType.FLOAT -> {
                             toggleGroup.isVisible = false
                             newValueInputLayout.isVisible = true
                             setLayout.isVisible = false
                             newValueInputLayout.editText?.setText((state.value as? Float)?.toString())
                         }
+
                         PreferenceType.INT -> {
                             toggleGroup.isVisible = false
                             newValueInputLayout.isVisible = true
                             setLayout.isVisible = false
                             newValueInputLayout.editText?.setText((state.value as? Int)?.toString())
                         }
+
                         PreferenceType.LONG -> {
                             toggleGroup.isVisible = false
                             newValueInputLayout.isVisible = true
                             setLayout.isVisible = false
                             newValueInputLayout.editText?.setText((state.value as? Long)?.toString())
                         }
+
                         PreferenceType.STRING -> {
                             toggleGroup.isVisible = false
                             newValueInputLayout.isVisible = true
                             setLayout.isVisible = false
                             newValueInputLayout.editText?.setText(state.value as? String)
                         }
+
                         PreferenceType.SET -> {
                             toggleGroup.isVisible = false
                             newValueInputLayout.isVisible = false
@@ -203,6 +215,7 @@ internal class PreferenceEditorFragment :
                                     )
                                 }
                         }
+
                         else -> {
                             toggleGroup.isVisible = false
                             newValueInputLayout.isVisible = false
@@ -224,6 +237,7 @@ internal class PreferenceEditorFragment :
                             PreferenceType.BOOLEAN -> {
                                 newValueInputLayout.error = null
                             }
+
                             PreferenceType.FLOAT -> {
                                 newValue.toFloatOrNull()?.let {
                                     newValueInputLayout.error = null
@@ -231,6 +245,7 @@ internal class PreferenceEditorFragment :
                                     newValueInputLayout.error = "Invalid float number."
                                 }
                             }
+
                             PreferenceType.INT -> {
                                 newValue.toIntOrNull()?.let {
                                     newValueInputLayout.error = null
@@ -238,6 +253,7 @@ internal class PreferenceEditorFragment :
                                     newValueInputLayout.error = "Invalid integer number."
                                 }
                             }
+
                             PreferenceType.LONG -> {
                                 newValue.toLongOrNull()?.let {
                                     newValueInputLayout.error = null
@@ -245,12 +261,15 @@ internal class PreferenceEditorFragment :
                                     newValueInputLayout.error = "Invalid long number."
                                 }
                             }
+
                             PreferenceType.STRING -> {
                                 newValueInputLayout.error = null
                             }
+
                             PreferenceType.SET -> {
                                 newValueInputLayout.error = null
                             }
+
                             else -> {
                                 newValueInputLayout.error = "Unknown preference type."
                             }

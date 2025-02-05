@@ -1,12 +1,14 @@
-package com.infinum.sentinel.ui.main.preferences
+package com.infinum.sentinel.ui.main.preferences.all
 
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RestrictTo
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.infinum.sentinel.R
 import com.infinum.sentinel.data.models.raw.PreferencesData
-import com.infinum.sentinel.databinding.SentinelFragmentPreferencesBinding
+import com.infinum.sentinel.databinding.SentinelFragmentAllPreferencesBinding
 import com.infinum.sentinel.databinding.SentinelViewItemPreferenceBinding
 import com.infinum.sentinel.databinding.SentinelViewItemTextBinding
 import com.infinum.sentinel.extensions.copyToClipboard
@@ -16,28 +18,47 @@ import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class PreferencesFragment :
-    BaseChildFragment<PreferencesState, PreferencesEvent>(R.layout.sentinel_fragment_preferences) {
+internal class AllPreferencesFragment :
+    BaseChildFragment<AllPreferencesState, AllPreferencesEvent>(R.layout.sentinel_fragment_all_preferences) {
 
     companion object {
-        fun newInstance() = PreferencesFragment()
-        const val TAG: String = "PreferencesFragment"
+        fun newInstance() = AllPreferencesFragment()
+        const val TAG: String = "AllPreferencesFragment"
     }
 
     private lateinit var contract: ActivityResultLauncher<Unit>
 
-    override val binding: SentinelFragmentPreferencesBinding by viewBinding(
-        SentinelFragmentPreferencesBinding::bind
+    override val binding: SentinelFragmentAllPreferencesBinding by viewBinding(
+        SentinelFragmentAllPreferencesBinding::bind
     )
 
-    override val viewModel: PreferencesViewModel by viewModels()
+    override val viewModel: AllPreferencesViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        applyWindowInsets()
+        initToolbar()
+
         contract = registerForActivityResult(PreferenceEditorContract()) { shouldRefresh ->
             if (shouldRefresh) {
                 viewModel.data()
+            }
+        }
+    }
+
+    private fun initToolbar() {
+        binding.toolbar.setNavigationOnClickListener { requireActivity().onBackPressedDispatcher.onBackPressed() }
+    }
+
+    private fun applyWindowInsets() {
+        view?.let {
+            ViewCompat.setOnApplyWindowInsetsListener(it) { _, insets ->
+                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+                binding.contentLayout.setPadding(0, 0, 0, systemBars.bottom)
+
+                insets
             }
         }
     }
@@ -47,9 +68,9 @@ internal class PreferencesFragment :
         super.onDestroyView()
     }
 
-    override fun onState(state: PreferencesState) =
+    override fun onState(state: AllPreferencesState) =
         when (state) {
-            is PreferencesState.Data -> with(binding) {
+            is AllPreferencesState.Data -> with(binding) {
                 contentLayout.removeAllViews()
                 state.value.forEach {
                     contentLayout.addView(createItemView(it))
@@ -57,9 +78,9 @@ internal class PreferencesFragment :
             }
         }
 
-    override fun onEvent(event: PreferencesEvent) =
+    override fun onEvent(event: AllPreferencesEvent) =
         when (event) {
-            is PreferencesEvent.Cached -> {
+            is AllPreferencesEvent.Cached -> {
                 contract.launch(Unit)
             }
         }

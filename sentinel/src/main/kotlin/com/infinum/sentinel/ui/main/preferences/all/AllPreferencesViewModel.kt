@@ -1,18 +1,19 @@
-package com.infinum.sentinel.ui.main.preferences
+package com.infinum.sentinel.ui.main.preferences.all
 
 import com.infinum.sentinel.data.models.raw.PreferenceType
 import com.infinum.sentinel.data.models.raw.PreferencesData
 import com.infinum.sentinel.domain.Factories
 import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.preference.models.PreferenceParameters
+import com.infinum.sentinel.ui.main.preferences.targeted.TargetedPreferencesState
 import com.infinum.sentinel.ui.shared.base.BaseChildViewModel
 import me.tatarka.inject.annotations.Inject
 
 @Inject
-internal class PreferencesViewModel(
+internal class AllPreferencesViewModel(
     private val collectors: Factories.Collector,
     private val repository: Repositories.Preference
-) : BaseChildViewModel<PreferencesState, PreferencesEvent>() {
+) : BaseChildViewModel<AllPreferencesState, AllPreferencesEvent>() {
 
     override fun data() =
         launch {
@@ -20,7 +21,7 @@ internal class PreferencesViewModel(
                 collectors.preferences()()
             }
             setState(
-                PreferencesState.Data(
+                AllPreferencesState.Data(
                     value = result
                 )
             )
@@ -37,11 +38,11 @@ internal class PreferencesViewModel(
                     )
                 )
             }
-            emitEvent(PreferencesEvent.Cached())
+            emitEvent(AllPreferencesEvent.Cached())
         }
 
     fun onSortClicked(data: PreferencesData) {
-        val currentValues = (stateFlow.value as? PreferencesState.Data)?.value.orEmpty()
+        val currentValues = (stateFlow.value as? TargetedPreferencesState.Data)?.value.orEmpty()
         val sortedData = if (data.isSortedAscending) {
             data.values.sortedByDescending { it.second }
         } else {
@@ -57,11 +58,11 @@ internal class PreferencesViewModel(
                 preferencesData
             }
         }
-        setState(PreferencesState.Data(value = changedValues))
+        setState(AllPreferencesState.Data(value = changedValues))
     }
 
     fun onHideExpandClicked(data: PreferencesData) {
-        (stateFlow.value as? PreferencesState.Data)?.let { state ->
+        (stateFlow.value as? TargetedPreferencesState.Data)?.let { state ->
             val currentValues = state.value
             val changedValues = currentValues.map { preferencesData ->
                 if (preferencesData.name == data.name) {
@@ -72,7 +73,7 @@ internal class PreferencesViewModel(
                     preferencesData
                 }
             }
-            setState(PreferencesState.Data(value = changedValues))
+            setState(AllPreferencesState.Data(value = changedValues))
         }
     }
 }
