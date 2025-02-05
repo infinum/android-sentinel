@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RestrictTo
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import com.infinum.sentinel.R
 import com.infinum.sentinel.data.models.raw.PreferencesData
 import com.infinum.sentinel.databinding.SentinelFragmentTargetedPreferencesBinding
@@ -62,9 +64,17 @@ internal class TargetedPreferencesFragment :
     override fun onState(state: TargetedPreferencesState) =
         when (state) {
             is TargetedPreferencesState.Data -> with(binding) {
-                contentLayout.removeAllViews()
-                state.value.forEach {
-                    contentLayout.addView(createItemView(it))
+
+                if (state.value.isEmpty()) {
+                    contentLayout.isGone = true
+                    emptyStateMessage.isVisible = true
+                } else {
+                    emptyStateMessage.isGone = true
+                    contentLayout.isVisible = true
+                    contentLayout.removeAllViews()
+                    state.value.forEach {
+                        contentLayout.addView(createItemView(it))
+                    }
                 }
             }
         }
