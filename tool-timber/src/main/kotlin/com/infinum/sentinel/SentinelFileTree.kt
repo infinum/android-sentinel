@@ -4,8 +4,8 @@ import android.content.Context
 import com.infinum.sentinel.ui.logger.models.BaseEntry
 import com.infinum.sentinel.ui.logger.models.FlowBuffer
 import com.infinum.sentinel.ui.logger.models.Level
-import com.infinum.sentinel.ui.shared.TimberToolConstants.LOG_DATE_TIME_FORMAT
 import com.infinum.sentinel.ui.shared.LogFileResolver
+import com.infinum.sentinel.ui.shared.TimberToolConstants.LOG_DATE_TIME_FORMAT
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale
