@@ -64,13 +64,3 @@ internal val Bundle.sizeAsParcelable: Int
             parcel.recycle()
         }
     }
-
-@Suppress("DEPRECATION")
-public inline fun <reified T: Serializable> Bundle.getSerializableExtraHelper(extraKey: String): T? {
-    return if (Build.VERSION.SDK_INT >= 33) {
-        this.getSerializable(extraKey, T::class.java)
-    } else {
-        this.getSerializable(extraKey) as T?
-    }
-
-}
