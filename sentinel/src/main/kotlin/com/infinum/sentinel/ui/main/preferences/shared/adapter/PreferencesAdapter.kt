@@ -14,13 +14,13 @@ internal class PreferencesAdapter(
     private val onSortClicked: (String) -> Unit = {},
     private val onHideExpandClick: (String) -> Unit = {},
     private val onPreferenceClicked: ((String, Triple<PreferenceType, String, Any>) -> Unit)? = null
-) : ListAdapter<PreferencesItem, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+) : ListAdapter<PreferencesItem, RecyclerView.ViewHolder>(diffItemCallback) {
 
     companion object {
         private const val PARENT_TYPE = 1
         private const val CHILD_TYPE = 2
 
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<PreferencesItem>() {
+        val diffItemCallback = object : DiffUtil.ItemCallback<PreferencesItem>() {
             override fun areItemsTheSame(oldItem: PreferencesItem, newItem: PreferencesItem): Boolean {
                 return when {
                     oldItem is PreferencesItem.Parent && newItem is PreferencesItem.Parent -> oldItem.name == newItem.name
