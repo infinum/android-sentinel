@@ -18,8 +18,9 @@ import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class TargetedPreferencesFragment :
-    BaseChildFragment<TargetedPreferencesState, TargetedPreferencesEvent>(R.layout.sentinel_fragment_targeted_preferences) {
+internal class TargetedPreferencesFragment : BaseChildFragment<TargetedPreferencesState, TargetedPreferencesEvent>(
+    R.layout.sentinel_fragment_targeted_preferences
+) {
 
     companion object {
         fun newInstance() = TargetedPreferencesFragment()

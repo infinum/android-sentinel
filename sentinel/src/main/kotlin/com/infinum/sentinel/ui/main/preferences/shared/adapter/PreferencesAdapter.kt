@@ -23,8 +23,12 @@ internal class PreferencesAdapter(
         val diffItemCallback = object : DiffUtil.ItemCallback<PreferencesItem>() {
             override fun areItemsTheSame(oldItem: PreferencesItem, newItem: PreferencesItem): Boolean {
                 return when {
-                    oldItem is PreferencesItem.Parent && newItem is PreferencesItem.Parent -> oldItem.name == newItem.name
-                    oldItem is PreferencesItem.Child && newItem is PreferencesItem.Child -> oldItem.label == newItem.label
+                    oldItem is PreferencesItem.Parent &&
+                        newItem is PreferencesItem.Parent -> oldItem.name == newItem.name
+
+                    oldItem is PreferencesItem.Child &&
+                        newItem is PreferencesItem.Child -> oldItem.label == newItem.label
+
                     else -> false
                 }
             }
