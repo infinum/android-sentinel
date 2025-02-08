@@ -9,8 +9,8 @@ import androidx.core.view.WindowInsetsCompat
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentAllPreferencesBinding
 import com.infinum.sentinel.extensions.viewModels
-import com.infinum.sentinel.ui.main.preferences.shared.adapter.PreferencesAdapter
 import com.infinum.sentinel.ui.main.preferences.editor.PreferenceEditorContract
+import com.infinum.sentinel.ui.main.preferences.shared.adapter.PreferencesAdapter
 import com.infinum.sentinel.ui.main.preferences.shared.model.flatten
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding

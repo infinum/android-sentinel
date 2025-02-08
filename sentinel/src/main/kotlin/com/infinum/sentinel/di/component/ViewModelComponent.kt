@@ -12,8 +12,8 @@ import com.infinum.sentinel.ui.main.application.ApplicationViewModel
 import com.infinum.sentinel.ui.main.device.DeviceViewModel
 import com.infinum.sentinel.ui.main.permissions.PermissionsViewModel
 import com.infinum.sentinel.ui.main.preferences.all.AllPreferencesViewModel
-import com.infinum.sentinel.ui.main.preferences.targeted.TargetedPreferencesViewModel
 import com.infinum.sentinel.ui.main.preferences.editor.PreferenceEditorViewModel
+import com.infinum.sentinel.ui.main.preferences.targeted.TargetedPreferencesViewModel
 import com.infinum.sentinel.ui.main.tools.ToolsViewModel
 import com.infinum.sentinel.ui.settings.SettingsViewModel
 import me.tatarka.inject.annotations.Component
