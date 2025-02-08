@@ -1,12 +1,9 @@
 package com.infinum.sentinel.extensions
 
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.os.Parcel
 import android.util.Log
 import com.infinum.sentinel.data.models.memory.bundles.BundleTree
-import java.io.Serializable
 
 /**
  * Measure the sizes of all the values in a [Bundle] when written to a [Parcel].
