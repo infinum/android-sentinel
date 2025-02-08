@@ -10,8 +10,9 @@
         android:layout_height="wrap_content"
         android:background="?android:colorBackground"
         android:fitsSystemWindows="true"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior"
         app:liftOnScroll="true"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior">
+        app:liftOnScrollTargetViewId="@id/recyclerView">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -19,25 +20,16 @@
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
             app:navigationIcon="@drawable/sentinel_ic_close"
-            app:title="@string/sentinel_all_preferences" />
+            app:title="@string/sentinel_all_preferences"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <LinearLayout
-            android:id="@+id/contentLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="?android:listDivider"
-            android:orientation="vertical"
-            android:showDividers="middle" />
-
-    </androidx.core.widget.NestedScrollView>
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

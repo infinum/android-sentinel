@@ -1,7 +1,6 @@
 package com.infinum.sentinel.ui.main.preferences.targeted
 
 import com.infinum.sentinel.data.models.raw.PreferenceType
-import com.infinum.sentinel.data.models.raw.PreferencesData
 import com.infinum.sentinel.domain.Factories
 import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.preference.models.PreferenceParameters
@@ -40,15 +39,16 @@ internal class TargetedPreferencesViewModel(
             emitEvent(TargetedPreferencesEvent.Cached())
         }
 
-    fun onSortClicked(data: PreferencesData) {
+    fun onSortClicked(prefParentName: String) {
         val currentValues = (stateFlow.value as? TargetedPreferencesState.Data)?.value.orEmpty()
-        val sortedData = if (data.isSortedAscending) {
-            data.values.sortedByDescending { it.second }
-        } else {
-            data.values.sortedBy { it.second }
-        }
+
         val changedValues = currentValues.map { preferencesData ->
-            if (preferencesData.name == data.name) {
+            if (preferencesData.name == prefParentName) {
+                val sortedData = if (preferencesData.isSortedAscending) {
+                    preferencesData.values.sortedByDescending { it.second }
+                } else {
+                    preferencesData.values.sortedBy { it.second }
+                }
                 preferencesData.copy(
                     values = sortedData,
                     isSortedAscending = !preferencesData.isSortedAscending
@@ -57,22 +57,21 @@ internal class TargetedPreferencesViewModel(
                 preferencesData
             }
         }
+
         setState(TargetedPreferencesState.Data(value = changedValues))
     }
 
-    fun onHideExpandClicked(data: PreferencesData) {
-        (stateFlow.value as? TargetedPreferencesState.Data)?.let { state ->
-            val currentValues = state.value
-            val changedValues = currentValues.map { preferencesData ->
-                if (preferencesData.name == data.name) {
-                    preferencesData.copy(
-                        isExpanded = !preferencesData.isExpanded
-                    )
-                } else {
-                    preferencesData
-                }
+    fun onHideExpandClicked(prefParentName: String) {
+        val currentValues = (stateFlow.value as? TargetedPreferencesState.Data)?.value.orEmpty()
+
+        val changedValues = currentValues.map { preferencesData ->
+            if (preferencesData.name == prefParentName) {
+                preferencesData.copy(isExpanded = !preferencesData.isExpanded)
+            } else {
+                preferencesData
             }
-            setState(TargetedPreferencesState.Data(value = changedValues))
         }
+
+        setState(TargetedPreferencesState.Data(value = changedValues))
     }
 }

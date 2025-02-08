@@ -8,14 +8,12 @@ import androidx.annotation.RestrictTo
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.infinum.sentinel.R
-import com.infinum.sentinel.data.models.raw.PreferencesData
 import com.infinum.sentinel.databinding.SentinelFragmentTargetedPreferencesBinding
-import com.infinum.sentinel.databinding.SentinelViewItemPreferenceBinding
-import com.infinum.sentinel.databinding.SentinelViewItemTextBinding
-import com.infinum.sentinel.extensions.copyToClipboard
 import com.infinum.sentinel.extensions.viewModels
 import com.infinum.sentinel.ui.main.preferences.all.AllPreferencesActivity
+import com.infinum.sentinel.ui.main.preferences.shared.adapter.PreferencesAdapter
 import com.infinum.sentinel.ui.main.preferences.editor.PreferenceEditorContract
+import com.infinum.sentinel.ui.main.preferences.shared.model.flatten
 import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
 
@@ -29,6 +27,8 @@ internal class TargetedPreferencesFragment :
     }
 
     private lateinit var contract: ActivityResultLauncher<Unit>
+
+    private lateinit var adapter: PreferencesAdapter
 
     override val binding: SentinelFragmentTargetedPreferencesBinding by viewBinding(
         SentinelFragmentTargetedPreferencesBinding::bind
@@ -45,7 +45,17 @@ internal class TargetedPreferencesFragment :
             }
         }
 
+        initAdapter()
         initListeners()
+    }
+
+    private fun initAdapter() {
+        adapter = PreferencesAdapter(
+            onSortClicked = { name -> viewModel.onSortClicked(name) },
+            onHideExpandClick = { name -> viewModel.onHideExpandClicked(name) },
+            onPreferenceClicked = { name, tuple -> viewModel.cache(name, tuple) }
+        )
+        binding.recyclerView.adapter = adapter
     }
 
     private fun initListeners() {
@@ -66,15 +76,13 @@ internal class TargetedPreferencesFragment :
             is TargetedPreferencesState.Data -> with(binding) {
 
                 if (state.value.isEmpty()) {
-                    contentLayout.isGone = true
+                    recyclerView.isGone = true
                     emptyStateMessage.isVisible = true
                 } else {
                     emptyStateMessage.isGone = true
-                    contentLayout.isVisible = true
-                    contentLayout.removeAllViews()
-                    state.value.forEach {
-                        contentLayout.addView(createItemView(it))
-                    }
+                    recyclerView.isVisible = true
+                    val flattenedPreferences = state.value.flatten()
+                    adapter.submitList(flattenedPreferences)
                 }
             }
         }
@@ -85,52 +93,4 @@ internal class TargetedPreferencesFragment :
                 contract.launch(Unit)
             }
         }
-
-    private fun createItemView(data: PreferencesData): View =
-        SentinelViewItemPreferenceBinding.inflate(layoutInflater, binding.contentLayout, false)
-            .apply {
-                nameView.text = data.name
-                sortImageView.setOnClickListener {
-                    viewModel.onSortClicked(data)
-                }
-                hideExpandImageView.setOnClickListener {
-                    viewModel.onHideExpandClicked(data)
-                }
-
-                if (data.isExpanded) {
-                    prefsLayout.visibility = View.VISIBLE
-                    sortImageView.visibility = View.VISIBLE
-                    hideExpandImageView.setImageResource(R.drawable.sentinel_ic_minus)
-                    showPreferenceData(data)
-                } else {
-                    prefsLayout.visibility = View.GONE
-                    sortImageView.visibility = View.GONE
-                    hideExpandImageView.setImageResource(R.drawable.sentinel_ic_plus)
-                }
-            }.root
-
-    private fun SentinelViewItemPreferenceBinding.showPreferenceData(data: PreferencesData) {
-        data.values.forEach { (preferenceType, label, value) ->
-            prefsLayout.addView(
-                SentinelViewItemTextBinding.inflate(layoutInflater, prefsLayout, false)
-                    .apply {
-                        labelView.isAllCaps = false
-                        labelView.text = label
-                        valueView.text = value.toString()
-                        root.setOnClickListener { _ ->
-                            viewModel.cache(
-                                name = data.name,
-                                tuple = Triple(preferenceType, label, value)
-                            )
-                        }
-                        root.setOnLongClickListener {
-                            it.context.copyToClipboard(
-                                key = label,
-                                value = value.toString()
-                            )
-                        }
-                    }.root
-            )
-        }
-    }
 }
