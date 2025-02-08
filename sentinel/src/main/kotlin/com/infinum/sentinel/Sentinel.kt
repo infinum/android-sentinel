@@ -13,6 +13,26 @@ import java.util.Locale
 
 public object Sentinel {
 
+    /**
+     * Used to initialize Sentinel.
+     *
+     * @param tools list of tools you want to have e.g. ChuckerTool
+     * @param targetedPreferences map of preference files and their properties, used to make finding specific
+     * properties more easily, if properties list is empty returns all properties of that file
+     *
+     * **Example:**
+     * // This will contain only tools which are default to Sentinel
+     * Sentinel.watch()
+     *
+     * // This will contain default Sentinel tools + Chucker
+     * Sentinel.watch(setOf(ChuckerTool()))
+     *
+     * // This will contain default Sentinel tools + Chucker and all preference properties of MY_PREFS_FILE
+     * Sentinel.watch(setOf(ChuckerTool()), mapOf("MY_PREFS_FILE" to emptyList()))
+     *
+     * // This will contain default Sentinel tools + Chucker and only MY_PROPERTY property of MY_PREFS_FILE
+     * Sentinel.watch(setOf(ChuckerTool()), mapOf("MY_PREFS_FILE" to listOf("MY_PROPERTY")))
+     */
     @JvmStatic
     @JvmOverloads
     public fun watch(tools: Set<Tool> = setOf(), targetedPreferences: Map<String, List<String>> = mapOf()): Sentinel {
