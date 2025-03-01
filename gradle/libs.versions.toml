@@ -1,9 +1,9 @@
 [versions]
 sentinel = "1.4.2"
 gradle = "8.7.3"
-kotlin = "1.9.22"
-coroutines = "1.8.0"
-json = "1.5.1"
+kotlin = "2.1.10"
+coroutines = "1.10.1"
+json = "1.8.0"
 core = "1.12.0"
 appcompat = "1.6.1"
 activity = "1.8.2"
