@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RestrictTo
 import androidx.core.os.bundleOf
@@ -12,8 +11,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import androidx.core.view.marginBottom
-import androidx.core.view.updateLayoutParams
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentTargetedPreferencesBinding
 import com.infinum.sentinel.extensions.viewModels
@@ -134,10 +131,10 @@ internal class PreferencesFragment : BaseChildFragment<PreferencesState, Prefere
         super.onDestroyView()
     }
 
+    @Suppress("NestedBlockDepth")
     override fun onState(state: PreferencesState) =
         when (state) {
             is PreferencesState.Data -> with(binding) {
-
                 if (state.value.isEmpty()) {
                     recyclerView.isGone = true
                     if (preferenceType == TARGETED_PREFERENCES) emptyStateMessage.isVisible = true
