@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nestedScrollView"
     android:layout_width="match_parent"
@@ -22,14 +21,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
+            <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="?attr/actionBarSize"
-                android:visibility="gone"
-                app:navigationIcon="@drawable/sentinel_ic_close"
-                app:title="@string/sentinel_all_preferences"/>
+                android:background="?android:colorBackground"
+                android:fitsSystemWindows="true"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior"
+                app:liftOnScroll="true"
+                app:liftOnScrollTargetViewId="@id/recyclerView">
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="?attr/actionBarSize"
+                    app:navigationIcon="@drawable/sentinel_ic_close"
+                    app:title="@string/sentinel_all_preferences" />
+
+            </com.google.android.material.appbar.AppBarLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/allPreferences"
@@ -38,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/sentinel_spacing_2x"
                 android:text="@string/sentinel_see_all_preferences"
-                app:cornerRadius="@dimen/sentinel_tool_corner_radius"/>
+                app:cornerRadius="@dimen/sentinel_tool_corner_radius" />
 
         </LinearLayout>
 
@@ -50,7 +59,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/headerContainer"/>
+            app:layout_constraintTop_toBottomOf="@id/headerContainer" />
 
         <TextView
             android:id="@+id/emptyStateMessage"
@@ -58,14 +67,14 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/sentinel_spacing_2x"
             android:layout_marginTop="@dimen/sentinel_spacing_2x"
-            android:text="@string/sentinel_empty_preferences_message"
-            android:visibility="gone"
             android:gravity="center"
+            android:text="@string/sentinel_empty_preferences_message"
             android:textAlignment="center"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/allPreferences"/>
+            app:layout_constraintTop_toBottomOf="@id/allPreferences" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
