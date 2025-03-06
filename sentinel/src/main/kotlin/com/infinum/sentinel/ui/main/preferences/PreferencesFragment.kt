@@ -77,11 +77,15 @@ internal class PreferencesFragment : BaseChildFragment<PreferencesState, Prefere
     private fun initUi() {
         when (preferenceType) {
             TARGETED_PREFERENCES -> binding.apply {
+                container.setPadding(0, 0, 0, 104.dpToPx())
+                nestedScrollView.setPadding(0, 0, 0, 64.dpToPx())
                 allPreferences.isVisible = true
                 toolbar.isGone = true
             }
 
             ALL_PREFERENCES -> binding.apply {
+                container.setPadding(0, 0, 0, 4.dpToPx())
+                nestedScrollView.setPadding(0, 0, 0, 0)
                 toolbar.isVisible = true
                 toolbar.setNavigationOnClickListener { requireActivity().finish() }
                 allPreferences.isGone = true
