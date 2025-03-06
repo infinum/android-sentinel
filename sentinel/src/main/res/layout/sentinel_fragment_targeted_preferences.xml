@@ -13,17 +13,34 @@
         android:layout_height="match_parent"
         android:paddingBottom="104dp">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/allPreferences"
-            style="?attr/materialButtonOutlinedStyle"
+        <LinearLayout
+            android:id="@+id/headerContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/sentinel_spacing_2x"
-            android:text="@string/sentinel_see_all_preferences"
-            app:cornerRadius="@dimen/sentinel_tool_corner_radius"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="?attr/actionBarSize"
+                android:visibility="gone"
+                app:navigationIcon="@drawable/sentinel_ic_close"
+                app:title="@string/sentinel_all_preferences"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/allPreferences"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/sentinel_spacing_2x"
+                android:text="@string/sentinel_see_all_preferences"
+                app:cornerRadius="@dimen/sentinel_tool_corner_radius"/>
+
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -33,7 +50,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/allPreferences"/>
+            app:layout_constraintTop_toBottomOf="@id/headerContainer"/>
 
         <TextView
             android:id="@+id/emptyStateMessage"

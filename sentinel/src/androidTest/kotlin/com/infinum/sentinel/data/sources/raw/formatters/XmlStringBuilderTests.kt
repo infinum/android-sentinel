@@ -103,7 +103,7 @@ internal class XmlStringBuilderTests {
             applicationCollector = ApplicationCollector(context)
             permissionsCollector = PermissionsCollector(context)
             deviceCollector = DeviceCollector(context)
-            preferencesCollector = PreferencesCollector(context)
+            preferencesCollector = PreferencesCollector(context, mapOf())
         }
     }
 

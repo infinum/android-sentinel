@@ -31,7 +31,6 @@ import com.infinum.sentinel.data.sources.raw.collectors.CertificateCollector
 import com.infinum.sentinel.data.sources.raw.collectors.DeviceCollector
 import com.infinum.sentinel.data.sources.raw.collectors.PermissionsCollector
 import com.infinum.sentinel.data.sources.raw.collectors.PreferencesCollector
-import com.infinum.sentinel.data.sources.raw.collectors.TargetedPreferencesCollector
 import com.infinum.sentinel.data.sources.raw.collectors.ToolsCollector
 import com.infinum.sentinel.data.sources.raw.formatters.HtmlFormatter
 import com.infinum.sentinel.data.sources.raw.formatters.JsonFormatter
@@ -155,8 +154,6 @@ internal abstract class DataComponent(
 
     abstract val preferencesCollector: Collectors.Preferences
 
-    abstract val targetedPreferencesCollector: Collectors.TargetedPreferences
-
     abstract val certificatesCollector: Collectors.Certificates
 
     abstract val toolsCollector: Collectors.Tools
@@ -189,12 +186,7 @@ internal abstract class DataComponent(
     @Provides
     @DataScope
     fun preferencesCollector(): Collectors.Preferences =
-        PreferencesCollector(context)
-
-    @Provides
-    @DataScope
-    fun targetedPreferencesCollector(): Collectors.TargetedPreferences =
-        TargetedPreferencesCollector(context, targetedPreferences)
+        PreferencesCollector(context, targetedPreferences)
 
     @Provides
     @DataScope

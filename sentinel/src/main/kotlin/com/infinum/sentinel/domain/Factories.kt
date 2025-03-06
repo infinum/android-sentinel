@@ -15,8 +15,6 @@ internal interface Factories {
 
         fun preferences(): Collectors.Preferences
 
-        fun targetedPreferences(): Collectors.TargetedPreferences
-
         fun certificates(): Collectors.Certificates
 
         fun tools(): Collectors.Tools

@@ -1,12 +1,19 @@
-package com.infinum.sentinel.ui.main.preferences.targeted
+package com.infinum.sentinel.ui.main.preferences
 
 import android.content.Intent
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RestrictTo
+import androidx.core.os.bundleOf
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.core.view.marginBottom
+import androidx.core.view.updateLayoutParams
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentTargetedPreferencesBinding
 import com.infinum.sentinel.extensions.viewModels
@@ -18,13 +25,23 @@ import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class TargetedPreferencesFragment : BaseChildFragment<TargetedPreferencesState, TargetedPreferencesEvent>(
+internal class PreferencesFragment : BaseChildFragment<PreferencesState, PreferencesEvent>(
     R.layout.sentinel_fragment_targeted_preferences
 ) {
 
     companion object {
-        fun newInstance() = TargetedPreferencesFragment()
-        const val TAG: String = "TargetedPreferencesFragment"
+        fun newInstance(preferenceType: String) = PreferencesFragment().apply {
+            arguments = bundleOf(
+                EXTRA_PREFERENCE_TYPE to preferenceType
+            )
+        }
+
+        const val TAG: String = "PreferencesFragment"
+
+        const val TARGETED_PREFERENCES = "TARGETED_PREFERENCES"
+        const val ALL_PREFERENCES = "ALL_PREFERENCES"
+
+        private const val EXTRA_PREFERENCE_TYPE = "EXTRA_PREFERENCE_TYPE"
     }
 
     private lateinit var contract: ActivityResultLauncher<Unit>
@@ -35,19 +52,60 @@ internal class TargetedPreferencesFragment : BaseChildFragment<TargetedPreferenc
         SentinelFragmentTargetedPreferencesBinding::bind
     )
 
-    override val viewModel: TargetedPreferencesViewModel by viewModels()
+    override val viewModel: PreferencesViewModel by viewModels()
+
+    private lateinit var preferenceType: String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         contract = registerForActivityResult(PreferenceEditorContract()) { shouldRefresh ->
             if (shouldRefresh) {
-                viewModel.data()
+                viewModel.load(preferenceType == TARGETED_PREFERENCES)
             }
         }
 
+        preferenceType = arguments?.getString(EXTRA_PREFERENCE_TYPE)
+            ?: ("Suitable preference type for PreferencesFragment is not found")
+
+        initUi()
         initAdapter()
         initListeners()
+        initViewModel()
+    }
+
+    private fun initUi() {
+        when (preferenceType) {
+            TARGETED_PREFERENCES -> binding.apply {
+                allPreferences.isVisible = true
+                toolbar.isGone = true
+            }
+
+            ALL_PREFERENCES -> binding.apply {
+                toolbar.isVisible = true
+                toolbar.setNavigationOnClickListener { requireActivity().finish() }
+                allPreferences.isGone = true
+                applyWindowInsets()
+            }
+
+            else -> throw IllegalArgumentException("Suitable preference type for PreferencesFragment is not found")
+        }
+    }
+
+    private fun applyWindowInsets() {
+        view?.let {
+            ViewCompat.setOnApplyWindowInsetsListener(it) { _, insets ->
+                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+                binding.recyclerView.setPadding(0, 0, 0, systemBars.bottom)
+
+                insets
+            }
+        }
+    }
+
+    private fun initViewModel() {
+        viewModel.load(shouldFilter = preferenceType == TARGETED_PREFERENCES)
     }
 
     private fun initAdapter() {
@@ -72,13 +130,13 @@ internal class TargetedPreferencesFragment : BaseChildFragment<TargetedPreferenc
         super.onDestroyView()
     }
 
-    override fun onState(state: TargetedPreferencesState) =
+    override fun onState(state: PreferencesState) =
         when (state) {
-            is TargetedPreferencesState.Data -> with(binding) {
+            is PreferencesState.Data -> with(binding) {
 
                 if (state.value.isEmpty()) {
                     recyclerView.isGone = true
-                    emptyStateMessage.isVisible = true
+                    if (preferenceType == TARGETED_PREFERENCES) emptyStateMessage.isVisible = true
                 } else {
                     emptyStateMessage.isGone = true
                     recyclerView.isVisible = true
@@ -88,10 +146,12 @@ internal class TargetedPreferencesFragment : BaseChildFragment<TargetedPreferenc
             }
         }
 
-    override fun onEvent(event: TargetedPreferencesEvent) =
+    override fun onEvent(event: PreferencesEvent) =
         when (event) {
-            is TargetedPreferencesEvent.Cached -> {
+            is PreferencesEvent.Cached -> {
                 contract.launch(Unit)
             }
         }
 }
+
+internal fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
