@@ -11,7 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.infinum.sentinel.R
-import com.infinum.sentinel.databinding.SentinelFragmentTargetedPreferencesBinding
+import com.infinum.sentinel.databinding.SentinelFragmentPreferencesBinding
 import com.infinum.sentinel.extensions.viewModels
 import com.infinum.sentinel.ui.main.preferences.all.AllPreferencesActivity
 import com.infinum.sentinel.ui.main.preferences.editor.PreferenceEditorContract
@@ -22,7 +22,7 @@ import com.infinum.sentinel.ui.shared.delegates.viewBinding
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class PreferencesFragment : BaseChildFragment<PreferencesState, PreferencesEvent>(
-    R.layout.sentinel_fragment_targeted_preferences
+    R.layout.sentinel_fragment_preferences
 ) {
 
     companion object {
@@ -44,8 +44,8 @@ internal class PreferencesFragment : BaseChildFragment<PreferencesState, Prefere
 
     private lateinit var adapter: PreferencesAdapter
 
-    override val binding: SentinelFragmentTargetedPreferencesBinding by viewBinding(
-        SentinelFragmentTargetedPreferencesBinding::bind
+    override val binding: SentinelFragmentPreferencesBinding by viewBinding(
+        SentinelFragmentPreferencesBinding::bind
     )
 
     override val viewModel: PreferencesViewModel by viewModels()

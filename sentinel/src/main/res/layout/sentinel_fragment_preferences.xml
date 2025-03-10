@@ -30,7 +30,7 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="104dp">
+            android:paddingBottom="@dimen/sentinel_preferences_container_bottom_sheet_bottom_padding">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/allPreferences"
