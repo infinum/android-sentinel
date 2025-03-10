@@ -1,4 +1,4 @@
-package com.infinum.sentinel.ui.main.preferences.targeted
+package com.infinum.sentinel.ui.main.preferences
 
 import com.infinum.sentinel.data.models.raw.PreferenceType
 import com.infinum.sentinel.domain.Factories
@@ -8,18 +8,20 @@ import com.infinum.sentinel.ui.shared.base.BaseChildViewModel
 import me.tatarka.inject.annotations.Inject
 
 @Inject
-internal class TargetedPreferencesViewModel(
+internal class PreferencesViewModel(
     private val collectors: Factories.Collector,
     private val repository: Repositories.Preference
-) : BaseChildViewModel<TargetedPreferencesState, TargetedPreferencesEvent>() {
+) : BaseChildViewModel<PreferencesState, PreferencesEvent>() {
 
-    override fun data() =
+    override fun data() = Unit
+
+    fun load(shouldFilter: Boolean) =
         launch {
             val result = io {
-                collectors.targetedPreferences()()
+                collectors.preferences()(shouldFilter)
             }
             setState(
-                TargetedPreferencesState.Data(
+                PreferencesState.Data(
                     value = result
                 )
             )
@@ -36,11 +38,11 @@ internal class TargetedPreferencesViewModel(
                     )
                 )
             }
-            emitEvent(TargetedPreferencesEvent.Cached())
+            emitEvent(PreferencesEvent.Cached())
         }
 
     fun onSortClicked(prefParentName: String) {
-        val currentValues = (stateFlow.value as? TargetedPreferencesState.Data)?.value.orEmpty()
+        val currentValues = (stateFlow.value as? PreferencesState.Data)?.value.orEmpty()
 
         val changedValues = currentValues.map { preferencesData ->
             if (preferencesData.name == prefParentName) {
@@ -58,11 +60,11 @@ internal class TargetedPreferencesViewModel(
             }
         }
 
-        setState(TargetedPreferencesState.Data(value = changedValues))
+        setState(PreferencesState.Data(value = changedValues))
     }
 
     fun onHideExpandClicked(prefParentName: String) {
-        val currentValues = (stateFlow.value as? TargetedPreferencesState.Data)?.value.orEmpty()
+        val currentValues = (stateFlow.value as? PreferencesState.Data)?.value.orEmpty()
 
         val changedValues = currentValues.map { preferencesData ->
             if (preferencesData.name == prefParentName) {
@@ -72,6 +74,6 @@ internal class TargetedPreferencesViewModel(
             }
         }
 
-        setState(TargetedPreferencesState.Data(value = changedValues))
+        setState(PreferencesState.Data(value = changedValues))
     }
 }
