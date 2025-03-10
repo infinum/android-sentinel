@@ -1,7 +1,6 @@
 package com.infinum.sentinel.ui.main.preferences
 
 import android.content.Intent
-import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
@@ -74,14 +73,24 @@ internal class PreferencesFragment : BaseChildFragment<PreferencesState, Prefere
     private fun initUi() {
         when (preferenceType) {
             TARGETED_PREFERENCES -> binding.apply {
-                container.setPadding(0, 0, 0, 104.dpToPx())
-                nestedScrollView.setPadding(0, 0, 0, 64.dpToPx())
+                container.setPadding(
+                    0,
+                    0,
+                    0,
+                    resources.getDimensionPixelSize(R.dimen.sentinel_preferences_container_bottom_sheet_bottom_padding)
+                )
+                nestedScrollView.setPadding(0, 0, 0, resources.getDimensionPixelSize(R.dimen.sentinel_icon_size))
                 allPreferences.isVisible = true
                 toolbar.isGone = true
             }
 
             ALL_PREFERENCES -> binding.apply {
-                container.setPadding(0, 0, 0, 4.dpToPx())
+                container.setPadding(
+                    0,
+                    0,
+                    0,
+                    resources.getDimensionPixelSize(R.dimen.sentinel_preferences_container_full_screen_bottom_padding)
+                )
                 nestedScrollView.setPadding(0, 0, 0, 0)
                 toolbar.isVisible = true
                 toolbar.setNavigationOnClickListener { requireActivity().finish() }
@@ -154,5 +163,3 @@ internal class PreferencesFragment : BaseChildFragment<PreferencesState, Prefere
             }
         }
 }
-
-internal fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
