@@ -56,7 +56,7 @@ internal class PreferencesCollectorTests {
             context = ApplicationProvider.getApplicationContext<SentinelTestApplication>()
                 .applicationContext
 
-            collector = PreferencesCollector(context)
+            collector = PreferencesCollector(context, mapOf())
         }
     }
 

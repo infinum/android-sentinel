@@ -13,7 +13,7 @@ import com.infinum.sentinel.extensions.viewModels
 import com.infinum.sentinel.ui.main.application.ApplicationFragment
 import com.infinum.sentinel.ui.main.device.DeviceFragment
 import com.infinum.sentinel.ui.main.permissions.PermissionsFragment
-import com.infinum.sentinel.ui.main.preferences.targeted.TargetedPreferencesFragment
+import com.infinum.sentinel.ui.main.preferences.PreferencesFragment
 import com.infinum.sentinel.ui.main.tools.ToolsFragment
 import com.infinum.sentinel.ui.settings.SettingsActivity
 import com.infinum.sentinel.ui.shared.base.BaseFragment
@@ -101,7 +101,7 @@ internal class SentinelFragment :
                     R.id.device -> showFragment(DeviceFragment.TAG)
                     R.id.application -> showFragment(ApplicationFragment.TAG)
                     R.id.permissions -> showFragment(PermissionsFragment.TAG)
-                    R.id.preferences -> showFragment(TargetedPreferencesFragment.TAG)
+                    R.id.preferences -> showFragment(PreferencesFragment.TAG)
                 }
                 true
             }
@@ -124,7 +124,10 @@ internal class SentinelFragment :
                 DeviceFragment.TAG -> DeviceFragment.newInstance()
                 ApplicationFragment.TAG -> ApplicationFragment.newInstance()
                 PermissionsFragment.TAG -> PermissionsFragment.newInstance()
-                TargetedPreferencesFragment.TAG -> TargetedPreferencesFragment.newInstance()
+                PreferencesFragment.TAG -> PreferencesFragment.newInstance(
+                    preferenceType = PreferencesFragment.TARGETED_PREFERENCES
+                )
+
                 ToolsFragment.TAG -> ToolsFragment.newInstance()
                 else -> null
             }?.let {

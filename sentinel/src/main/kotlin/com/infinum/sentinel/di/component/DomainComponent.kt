@@ -183,11 +183,10 @@ internal abstract class DomainComponent(
         application: Collectors.Application,
         permissions: Collectors.Permissions,
         preferences: Collectors.Preferences,
-        targetedPreferences: Collectors.TargetedPreferences,
         certificates: Collectors.Certificates,
         tools: Collectors.Tools
     ): Factories.Collector =
-        CollectorFactory(device, application, permissions, preferences, targetedPreferences, certificates, tools)
+        CollectorFactory(device, application, permissions, preferences, certificates, tools)
 
     @Provides
     @DomainScope
