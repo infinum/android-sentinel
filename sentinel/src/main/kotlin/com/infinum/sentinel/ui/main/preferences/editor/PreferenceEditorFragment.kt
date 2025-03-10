@@ -55,40 +55,43 @@ internal class PreferenceEditorFragment :
     override fun onState(state: PreferenceEditorState) {
         when (state) {
             is PreferenceEditorState.Cache -> {
-                with(binding) {
-                    toolbar.setOnMenuItemClickListener {
-                        when (it.itemId) {
-                            R.id.save -> {
-                                closeKeyboard()
-                                binding.progressBar.isVisible = true
-                                handleSaving(state)
-                                true
-                            }
-
-                            else -> false
-                        }
-                    }
-                    preferencesView.text = state.name
-                    keyView.text = state.key
-                    currentValueView.text = when (state.type) {
-                        PreferenceType.BOOLEAN -> (state.value as? Boolean)?.toString()
-                        PreferenceType.FLOAT -> (state.value as? Float)?.toString()
-                        PreferenceType.INT -> (state.value as? Int)?.toString()
-                        PreferenceType.LONG -> (state.value as? Long)?.toString()
-                        PreferenceType.STRING -> state.value as? String
-                        PreferenceType.SET -> (state.value as? Array<*>)?.contentToString()
-                        else -> null
-                    }
-                    refreshRestOfUiBasedOnType(state)
-                    newValueInput.inputType = handleInputType(state)
-                    newValueInput.doOnTextChanged { text, _, _, _ ->
-                        val newValue = text?.toString().orEmpty().trim()
-                        checkForInputError(state, newValue)
-                    }
-                }
+                handleCachedState(state)
             }
         }
     }
+
+    private fun handleCachedState(state: PreferenceEditorState.Cache) =
+        with(binding) {
+            toolbar.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.save -> {
+                        closeKeyboard()
+                        binding.progressBar.isVisible = true
+                        handleSaving(state)
+                        true
+                    }
+
+                    else -> false
+                }
+            }
+            preferencesView.text = state.name
+            keyView.text = state.key
+            currentValueView.text = when (state.type) {
+                PreferenceType.BOOLEAN -> (state.value as? Boolean)?.toString()
+                PreferenceType.FLOAT -> (state.value as? Float)?.toString()
+                PreferenceType.INT -> (state.value as? Int)?.toString()
+                PreferenceType.LONG -> (state.value as? Long)?.toString()
+                PreferenceType.STRING -> state.value as? String
+                PreferenceType.SET -> (state.value as? Array<*>)?.contentToString()
+                else -> null
+            }
+            refreshRestOfUiBasedOnType(state)
+            newValueInput.inputType = handleInputType(state)
+            newValueInput.doOnTextChanged { text, _, _, _ ->
+                val newValue = text?.toString().orEmpty().trim()
+                checkForInputError(state, newValue)
+            }
+        }
 
     private fun refreshRestOfUiBasedOnType(state: PreferenceEditorState.Cache) = with(binding) {
         when (state.type) {
