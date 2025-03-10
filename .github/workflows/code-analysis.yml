@@ -20,7 +20,7 @@ jobs:
           distribution: "adopt"
           java-version: 17
       - name: Save Gradle Caches
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.gradle/caches/
           key: gradle-caches-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
@@ -43,7 +43,7 @@ jobs:
           distribution: "adopt"
           java-version: 17
       - name: Save Gradle Caches
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.gradle/caches/
           key: gradle-caches-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
@@ -66,7 +66,7 @@ jobs:
           distribution: "adopt"
           java-version: 17
       - name: Save Gradle Caches
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.gradle/caches/
           key: gradle-caches-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
@@ -88,7 +88,7 @@ jobs:
           distribution: "adopt"
           java-version: 17
       - name: Save Gradle Caches
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.gradle/caches/
           key: gradle-caches-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
