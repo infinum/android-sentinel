@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+## Version 1.5.0
+
+_2025-03-11_
+
+* Add feature to show only predefined preferences
+
 ## Version 1.4.2
 
 _2025-01-24_
