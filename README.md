@@ -79,7 +79,7 @@ Then add the following dependencies in your app `build.gradle` or `build.gradle.
     If format of version definition is changed, make sure to update `generateReadme` task
 -->
 ```groovy
-def sentinelVersion = "1.4.2"
+def sentinelVersion = "1.5.0"
 debugImplementation "com.infinum.sentinel:sentinel:$sentinelVersion"
 releaseImplementation "com.infinum.sentinel:sentinel-no-op:$sentinelVersion"
 ```
@@ -87,7 +87,7 @@ releaseImplementation "com.infinum.sentinel:sentinel-no-op:$sentinelVersion"
 **KotlinDSL**
 
 ```kotlin
-val sentinelVersion = "1.4.2"
+val sentinelVersion = "1.5.0"
 debugImplementation("com.infinum.sentinel:sentinel:$sentinelVersion")
 releaseImplementation("com.infinum.sentinel:sentinel-no-op:$sentinelVersion")
 ```
