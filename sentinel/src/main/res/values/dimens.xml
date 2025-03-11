@@ -7,6 +7,7 @@
     <dimen name="sentinel_cradle_diameter">56dp</dimen>
     <dimen name="sentinel_cradle_margin">4dp</dimen>
     <dimen name="sentinel_cradle_corner_radius">8dp</dimen>
+    <dimen name="sentinel_spacing_2x">16dp</dimen>
     <dimen name="sentinel_cradle_vertical_offset">0dp</dimen>
     <dimen name="sentinel_tool_corner_radius">20dp</dimen>
 
@@ -15,6 +16,9 @@
     <dimen name="sentinel_slider_button_margin">6dp</dimen>
     <dimen name="sentinel_slider_halo_radius">20dp</dimen>
     <dimen name="sentinel_slider_thumb_radius">10dp</dimen>
+
+    <dimen name="sentinel_preferences_container_bottom_sheet_bottom_padding">104dp</dimen>
+    <dimen name="sentinel_preferences_container_full_screen_bottom_padding">4dp</dimen>
 
     <dimen name="sentinel_blur_radius">13dp</dimen>
 </resources>

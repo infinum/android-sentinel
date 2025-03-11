@@ -124,7 +124,10 @@ internal class SentinelFragment :
                 DeviceFragment.TAG -> DeviceFragment.newInstance()
                 ApplicationFragment.TAG -> ApplicationFragment.newInstance()
                 PermissionsFragment.TAG -> PermissionsFragment.newInstance()
-                PreferencesFragment.TAG -> PreferencesFragment.newInstance()
+                PreferencesFragment.TAG -> PreferencesFragment.newInstance(
+                    preferenceType = PreferencesFragment.TARGETED_PREFERENCES
+                )
+
                 ToolsFragment.TAG -> ToolsFragment.newInstance()
                 else -> null
             }?.let {

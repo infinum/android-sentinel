@@ -12,7 +12,7 @@ import com.infinum.sentinel.ui.shared.delegates.viewBinding
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class PermissionsFragment :
-    BaseChildFragment<PermissionsState, Nothing>(R.layout.sentinel_fragment_preferences) {
+    BaseChildFragment<PermissionsState, Nothing>(R.layout.sentinel_fragment_permissions) {
 
     companion object {
         fun newInstance() = PermissionsFragment()

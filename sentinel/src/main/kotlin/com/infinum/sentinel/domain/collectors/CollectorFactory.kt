@@ -2,6 +2,7 @@ package com.infinum.sentinel.domain.collectors
 
 import com.infinum.sentinel.domain.Factories
 
+@Suppress("LongParameterList")
 internal class CollectorFactory(
     private val device: Collectors.Device,
     private val application: Collectors.Application,

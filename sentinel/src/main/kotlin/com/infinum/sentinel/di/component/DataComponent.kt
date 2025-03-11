@@ -54,15 +54,18 @@ internal abstract class DataComponent(
     private val context: Context
 ) {
     private var tools: Set<Sentinel.Tool> = setOf()
+    private var targetedPreferences: Map<String, List<String>> = mapOf()
     private var userCertificates: List<X509Certificate> = listOf()
     private var onTriggered: () -> Unit = {}
 
     fun setup(
         tools: Set<Sentinel.Tool>,
+        targetedPreferences: Map<String, List<String>>,
         userCertificates: List<X509Certificate>,
         onTriggered: () -> Unit
     ) {
         this.tools = tools
+        this.targetedPreferences = targetedPreferences
         this.userCertificates = userCertificates
         this.onTriggered = onTriggered
     }
@@ -183,7 +186,7 @@ internal abstract class DataComponent(
     @Provides
     @DataScope
     fun preferencesCollector(): Collectors.Preferences =
-        PreferencesCollector(context)
+        PreferencesCollector(context, targetedPreferences)
 
     @Provides
     @DataScope

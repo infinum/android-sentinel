@@ -158,5 +158,8 @@
 
     <string name="sentinel_unknown">unknown</string>
     <string name="sentinel_package_schema">package</string>
+    <string name="sentinel_see_all_preferences">See all preferences</string>
+    <string name="sentinel_all_preferences">All preferences</string>
+    <string name="sentinel_empty_preferences_message">You are currently not targeting any specific preferences. Add them during Sentinel initialization.</string>
 
 </resources>

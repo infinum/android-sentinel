@@ -11,7 +11,8 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 internal class PreferencesCollector(
-    private val context: Context
+    private val context: Context,
+    private val targetedPreferences: Map<String, List<String>>,
 ) : Collectors.Preferences {
 
     companion object {
@@ -22,33 +23,43 @@ internal class PreferencesCollector(
         const val PREFS_SUFFIX = ".xml"
     }
 
-    override fun invoke() =
-        with(context) {
-            val prefsDirectory = File(applicationContext.applicationInfo.dataDir, PREFS_DIRECTORY)
-            if (prefsDirectory.exists() && prefsDirectory.isDirectory) {
-                prefsDirectory.list().orEmpty().toList().map { it.removeSuffix(PREFS_SUFFIX) }
-            } else {
-                listOf()
-            }.sortedBy { name ->
-                name
-            }.map { name ->
-                val allPrefs = getSharedPreferences(name, MODE_PRIVATE).all
-                val tuples = allPrefs.keys.toSet().mapNotNull {
-                    @Suppress("UNCHECKED_CAST")
-                    when (val value = allPrefs[it]) {
-                        is Boolean -> Triple(PreferenceType.BOOLEAN, it, value)
-                        is Float -> Triple(PreferenceType.FLOAT, it, value)
-                        is Int -> Triple(PreferenceType.INT, it, value)
-                        is Long -> Triple(PreferenceType.LONG, it, value)
-                        is String -> Triple(PreferenceType.STRING, it, value)
-                        is Set<*> -> Triple(PreferenceType.SET, it, value as Set<String>)
-                        else -> null
-                    }
-                }
-                PreferencesData(
-                    name = name,
-                    values = tuples
-                )
-            }
+    override fun invoke(filter: Boolean): List<PreferencesData> {
+        val prefsDirectory = File(context.applicationContext.applicationInfo.dataDir, PREFS_DIRECTORY)
+
+        if (!prefsDirectory.exists() || !prefsDirectory.isDirectory) {
+            return emptyList()
         }
+
+        val preferenceFiles = if (filter) {
+            targetedPreferences.keys
+        } else {
+            prefsDirectory.list().orEmpty().map { it.removeSuffix(PREFS_SUFFIX) }
+        }
+
+        return preferenceFiles.sorted()
+            .mapNotNull { name ->
+                val allPrefs = context.getSharedPreferences(name, MODE_PRIVATE).all
+
+                val filteredKeys = if (filter) targetedPreferences[name].orEmpty().toSet() else null
+
+                val tuples = allPrefs.keys
+                    .filter { filteredKeys.isNullOrEmpty() || filteredKeys.contains(it) }
+                    .mapNotNull { key ->
+                        @Suppress("UNCHECKED_CAST")
+                        when (val value = allPrefs[key]) {
+                            is Boolean -> Triple(PreferenceType.BOOLEAN, key, value)
+                            is Float -> Triple(PreferenceType.FLOAT, key, value)
+                            is Int -> Triple(PreferenceType.INT, key, value)
+                            is Long -> Triple(PreferenceType.LONG, key, value)
+                            is String -> Triple(PreferenceType.STRING, key, value)
+                            is Set<*> -> Triple(PreferenceType.SET, key, value as Set<String>)
+                            else -> null
+                        }
+                    }
+
+                if (tuples.isNotEmpty()) PreferencesData(name, tuples) else null
+            }
+    }
+
+    override fun invoke(): List<PreferencesData> = invoke(filter = false)
 }

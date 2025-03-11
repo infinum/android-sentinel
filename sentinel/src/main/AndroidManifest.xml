@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application>
 
@@ -13,7 +13,7 @@
             android:theme="@style/Sentinel.Theme">
             <meta-data
                 android:name="@string/sentinel_infinum_monitored"
-                android:value="false" />
+                android:value="false"/>
         </activity>
 
         <activity
@@ -24,7 +24,7 @@
             android:theme="@style/Sentinel.Theme.Leaf">
             <meta-data
                 android:name="@string/sentinel_infinum_monitored"
-                android:value="false" />
+                android:value="false"/>
         </activity>
 
         <activity
@@ -35,7 +35,7 @@
             android:theme="@style/Sentinel.Theme.Leaf">
             <meta-data
                 android:name="@string/sentinel_infinum_monitored"
-                android:value="false" />
+                android:value="false"/>
         </activity>
 
         <activity
@@ -46,7 +46,7 @@
             android:theme="@style/Sentinel.Theme.Leaf">
             <meta-data
                 android:name="@string/sentinel_infinum_monitored"
-                android:value="false" />
+                android:value="false"/>
         </activity>
 
         <activity
@@ -57,7 +57,7 @@
             android:theme="@style/Sentinel.Theme.Leaf">
             <meta-data
                 android:name="@string/sentinel_infinum_monitored"
-                android:value="false" />
+                android:value="false"/>
         </activity>
 
         <activity
@@ -68,7 +68,7 @@
             android:theme="@style/Sentinel.Theme.Leaf">
             <meta-data
                 android:name="@string/sentinel_infinum_monitored"
-                android:value="false" />
+                android:value="false"/>
         </activity>
 
         <activity
@@ -79,7 +79,7 @@
             android:theme="@style/Sentinel.Theme.Leaf">
             <meta-data
                 android:name="@string/sentinel_infinum_monitored"
-                android:value="false" />
+                android:value="false"/>
         </activity>
 
         <activity
@@ -91,7 +91,7 @@
             tools:targetApi="o">
             <meta-data
                 android:name="@string/sentinel_infinum_monitored"
-                android:value="false" />
+                android:value="false"/>
         </activity>
 
         <activity
@@ -103,7 +103,18 @@
             tools:targetApi="o">
             <meta-data
                 android:name="@string/sentinel_infinum_monitored"
-                android:value="false" />
+                android:value="false"/>
+        </activity>
+
+        <activity
+            android:name="com.infinum.sentinel.ui.main.preferences.all.AllPreferencesActivity"
+            android:exported="false"
+            android:label="@string/sentinel_name"
+            android:taskAffinity="com.infinum.sentinel"
+            android:theme="@style/Sentinel.Theme.Leaf">
+            <meta-data
+                android:name="@string/sentinel_infinum_monitored"
+                android:value="false"/>
         </activity>
 
         <provider
@@ -113,7 +124,7 @@
             tools:node="merge">
             <meta-data
                 android:name="com.infinum.sentinel.SentinelInitializer"
-                android:value="androidx.startup" />
+                android:value="androidx.startup"/>
         </provider>
 
     </application>

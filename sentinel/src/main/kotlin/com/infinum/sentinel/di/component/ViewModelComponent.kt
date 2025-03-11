@@ -11,8 +11,8 @@ import com.infinum.sentinel.ui.main.SentinelViewModel
 import com.infinum.sentinel.ui.main.application.ApplicationViewModel
 import com.infinum.sentinel.ui.main.device.DeviceViewModel
 import com.infinum.sentinel.ui.main.permissions.PermissionsViewModel
-import com.infinum.sentinel.ui.main.preferences.PreferencesViewModel
 import com.infinum.sentinel.ui.main.preferences.editor.PreferenceEditorViewModel
+import com.infinum.sentinel.ui.main.preferences.PreferencesViewModel
 import com.infinum.sentinel.ui.main.tools.ToolsViewModel
 import com.infinum.sentinel.ui.settings.SettingsViewModel
 import me.tatarka.inject.annotations.Component
@@ -35,7 +35,7 @@ internal abstract class ViewModelComponent(
 
     abstract val permissions: PermissionsViewModel
 
-    abstract val preferences: PreferencesViewModel
+    abstract val targetedPreferences: PreferencesViewModel
 
     abstract val preferenceEditor: PreferenceEditorViewModel
 
@@ -77,8 +77,8 @@ internal abstract class ViewModelComponent(
 
     @IntoMap
     @Provides
-    fun preferences(): Pair<Class<*>, ViewModel> =
-        PreferencesViewModel::class.java to preferences
+    fun targetedPreferences(): Pair<Class<*>, ViewModel> =
+        PreferencesViewModel::class.java to targetedPreferences
 
     @IntoMap
     @Provides
