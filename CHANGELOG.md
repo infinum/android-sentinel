@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+## Version 1.5.1
+
+_2025-03-31_
+
+* Hotfix: add targetedPreferences property to no-op
+
 ## Version 1.5.0
 
 _2025-03-11_
