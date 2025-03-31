@@ -5,7 +5,8 @@ public final class com/infinum/sentinel/Sentinel {
 	public static final fun show ()V
 	public static final fun watch ()Lcom/infinum/sentinel/Sentinel;
 	public static final fun watch (Ljava/util/Set;)Lcom/infinum/sentinel/Sentinel;
-	public static synthetic fun watch$default (Ljava/util/Set;ILjava/lang/Object;)Lcom/infinum/sentinel/Sentinel;
+	public static final fun watch (Ljava/util/Set;Ljava/util/Map;)Lcom/infinum/sentinel/Sentinel;
+	public static synthetic fun watch$default (Ljava/util/Set;Ljava/util/Map;ILjava/lang/Object;)Lcom/infinum/sentinel/Sentinel;
 }
 
 public abstract interface class com/infinum/sentinel/Sentinel$AnalyticsTool : com/infinum/sentinel/Sentinel$Tool {
