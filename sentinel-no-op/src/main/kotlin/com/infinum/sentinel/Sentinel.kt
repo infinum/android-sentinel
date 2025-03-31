@@ -14,7 +14,10 @@ public object Sentinel {
     @JvmStatic
     @JvmOverloads
     @Suppress("UNUSED_PARAMETER")
-    public fun watch(tools: Set<Tool> = setOf()): Sentinel = this
+    public fun watch(
+        tools: Set<Tool> = setOf(),
+        targetedPreferences: Map<String, List<String>> = mapOf(),
+    ): Sentinel = this
 
     @JvmStatic
     public fun show(): Unit = Unit
