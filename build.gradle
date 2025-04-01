@@ -43,6 +43,17 @@ subprojects {
     apply from: "$rootDir/dokka.gradle"
 }
 
+gradle.projectsEvaluated {
+    subprojects { subproject ->
+        def apiCheckTask = subproject.tasks.findByName("apiCheck")
+        if (apiCheckTask != null) {
+            subproject.tasks.matching { it.name.startsWith("publish") }.all { publishTask ->
+                publishTask.dependsOn apiCheckTask
+            }
+        }
+    }
+}
+
 apply from: "deploy.gradle"
 
 tasks.withType(JavaCompile) {

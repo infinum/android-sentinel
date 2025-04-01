@@ -131,3 +131,10 @@ project.gradle.taskGraph.whenReady {
 apply from: '../tasks.gradle'
 preBuild.dependsOn ':sentinel:generateReadme'
 
+apply from:'../apiComparison.gradle'
+afterEvaluate {
+    tasks.named("apiCheck").configure {
+        dependsOn("compareSentinelApis")
+    }
+}
+
