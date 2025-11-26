@@ -1,0 +1,18 @@
+name: Refresh CodeFactor Badge
+
+on:
+  schedule:
+    # Runs at 00:00 UTC on the 1st of every month
+    - cron: '0 0 1 * *'
+  workflow_dispatch:
+
+jobs:
+  refresh-badge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger CodeFactor URL
+        run: |
+          # Uses curl to visit the link, mimicking a browser user agent
+          curl -s -o /dev/null -w "Status: %{http_code}" \
+          -A "Mozilla/5.0 (GitHub Action)" \
+          "https://www.codefactor.io/repository/github/infinum/android-sentinel"
