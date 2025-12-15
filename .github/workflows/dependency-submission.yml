@@ -1,7 +1,7 @@
 name: Dependency Submission
 on:
   push:
-    branches: [ 'master' ]
+    branches: [ 'master', 'feature/dependency-submission' ]
   workflow_dispatch:
 
 permissions:
