@@ -1,9 +1,9 @@
 [versions]
 sentinel = "1.5.1"
 gradle = "8.7.3"
-kotlin = "1.9.22"
-coroutines = "1.8.0"
-json = "1.5.1"
+kotlin = "2.3.0"
+coroutines = "1.10.2"
+json = "1.9.0"
 core = "1.12.0"
 appcompat = "1.6.1"
 activity = "1.8.2"
@@ -29,7 +29,7 @@ collar = "1.4.0"
 dbinspector = "5.4.9"
 leakcanary = "2.11"
 thimble = "1.0.1"
-binaryCompatibility = "0.17.0"
+binaryCompatibility = "0.18.1"
 
 [libraries]
 library = { module = "com.infinum.sentinel:sentinel", version.ref = "sentinel" }
