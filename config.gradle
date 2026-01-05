@@ -5,9 +5,9 @@ ext {
 
     buildConfig = [
             "minSdk"    : 21,
-            "compileSdk": 35,
-            "targetSdk" : 35,
-            "buildTools": "34.0.0"
+            "compileSdk": 36,
+            "targetSdk" : 36,
+            "buildTools": "35.0.0"
     ]
     releaseConfig = [
             "group"      : "com.infinum.sentinel",
