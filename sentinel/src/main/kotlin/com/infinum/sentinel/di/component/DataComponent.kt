@@ -109,7 +109,7 @@ internal abstract class DataComponent(
             )
         )
             .setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
-            .fallbackToDestructiveMigration()
+            .fallbackToDestructiveMigration(dropAllTables = true)
             .addCallback(callback)
             .build()
 

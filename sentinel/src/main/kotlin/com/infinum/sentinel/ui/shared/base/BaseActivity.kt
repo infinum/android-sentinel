@@ -6,10 +6,8 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.CallSuper
 import androidx.annotation.RestrictTo
-import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.FragmentActivity
-import com.infinum.sentinel.ui.main.SentinelActivity
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal abstract class BaseActivity<State, Event> : FragmentActivity(), BaseView<State, Event> {
@@ -34,6 +32,11 @@ internal abstract class BaseActivity<State, Event> : FragmentActivity(), BaseVie
     @CallSuper
     override fun onPause() =
         super.onPause().run {
-            overridePendingTransition(0, 0)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, 0, 0)
+            } else {
+                @Suppress("DEPRECATION")
+                overridePendingTransition(0, 0)
+            }
         }
 }
