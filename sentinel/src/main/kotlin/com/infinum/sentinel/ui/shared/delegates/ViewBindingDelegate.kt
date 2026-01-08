@@ -16,9 +16,8 @@ import kotlinx.coroutines.launch
 
 internal class ViewBindingDelegate<T : ViewBinding>(
     val fragment: Fragment,
-    val viewBindingFactory: (View) -> T
+    val viewBindingFactory: (View) -> T,
 ) : ReadOnlyProperty<Fragment, T> {
-
     private var binding: T? = null
 
     init {
@@ -37,16 +36,23 @@ internal class ViewBindingDelegate<T : ViewBinding>(
         }
     }
 
-    override fun getValue(thisRef: Fragment, property: KProperty<*>): T {
+    override fun getValue(
+        thisRef: Fragment,
+        property: KProperty<*>,
+    ): T {
         val existingBinding = binding
         return when {
-            existingBinding != null -> existingBinding
+            existingBinding != null -> {
+                existingBinding
+            }
+
             else -> {
                 if (
                     fragment.viewLifecycleOwner
                         .lifecycle
                         .currentState
-                        .isAtLeast(Lifecycle.State.INITIALIZED).not()
+                        .isAtLeast(Lifecycle.State.INITIALIZED)
+                        .not()
                 ) {
                     error("Fragment views are not created yet.")
                 }
@@ -57,12 +63,9 @@ internal class ViewBindingDelegate<T : ViewBinding>(
     }
 }
 
-internal fun <T : ViewBinding> Fragment.viewBinding(viewBindingFactory: (View) -> T) =
-    ViewBindingDelegate(this, viewBindingFactory)
+internal fun <T : ViewBinding> Fragment.viewBinding(viewBindingFactory: (View) -> T) = ViewBindingDelegate(this, viewBindingFactory)
 
-internal inline fun <T : ViewBinding> AppCompatActivity.viewBinding(
-    crossinline bindingInflater: (LayoutInflater) -> T
-) =
+internal inline fun <T : ViewBinding> AppCompatActivity.viewBinding(crossinline bindingInflater: (LayoutInflater) -> T) =
     lazy(LazyThreadSafetyMode.NONE) {
         bindingInflater.invoke(layoutInflater)
     }

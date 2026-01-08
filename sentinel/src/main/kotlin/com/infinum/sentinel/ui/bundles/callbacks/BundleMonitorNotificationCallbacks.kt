@@ -5,10 +5,12 @@ import android.app.Application
 import android.os.Bundle
 
 internal class BundleMonitorNotificationCallbacks : Application.ActivityLifecycleCallbacks {
-
     var currentActivity: Activity? = null
 
-    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+    override fun onActivityCreated(
+        activity: Activity,
+        savedInstanceState: Bundle?,
+    ) {
         currentActivity = activity
     }
 
@@ -26,5 +28,8 @@ internal class BundleMonitorNotificationCallbacks : Application.ActivityLifecycl
 
     override fun onActivityStopped(activity: Activity) = Unit
 
-    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) = Unit
+    override fun onActivitySaveInstanceState(
+        activity: Activity,
+        outState: Bundle,
+    ) = Unit
 }

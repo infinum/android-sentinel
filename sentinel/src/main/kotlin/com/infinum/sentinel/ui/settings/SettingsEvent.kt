@@ -7,25 +7,24 @@ import com.infinum.sentinel.data.models.local.FormatEntity
 import com.infinum.sentinel.data.models.local.TriggerEntity
 
 internal sealed class SettingsEvent {
-
     data class TriggersChanged(
-        val value: List<TriggerEntity>
+        val value: List<TriggerEntity>,
     ) : SettingsEvent()
 
     data class FormatChanged(
-        val value: FormatEntity
+        val value: FormatEntity,
     ) : SettingsEvent()
 
     data class BundleMonitorChanged(
-        val value: BundleMonitorEntity
+        val value: BundleMonitorEntity,
     ) : SettingsEvent()
 
     data class CrashMonitorChanged(
-        val value: CrashMonitorEntity
+        val value: CrashMonitorEntity,
     ) : SettingsEvent()
 
     data class CertificateMonitorChanged(
-        val value: CertificateMonitorEntity
+        val value: CertificateMonitorEntity,
     ) : SettingsEvent()
 
     object PermissionsCheck : SettingsEvent()

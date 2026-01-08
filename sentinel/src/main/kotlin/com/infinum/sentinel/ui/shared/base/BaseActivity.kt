@@ -10,8 +10,9 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.FragmentActivity
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal abstract class BaseActivity<State, Event> : FragmentActivity(), BaseView<State, Event> {
-
+internal abstract class BaseActivity<State, Event> :
+    FragmentActivity(),
+    BaseView<State, Event> {
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

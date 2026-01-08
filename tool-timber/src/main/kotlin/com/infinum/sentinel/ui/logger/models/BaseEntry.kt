@@ -9,7 +9,7 @@ internal open class BaseEntry(
     open val timestamp: Long,
     open val tag: String? = null,
     open val message: String? = null,
-    open val stackTrace: String? = null
+    open val stackTrace: String? = null,
 ) {
     fun asJSONString(): String =
         JSONObject()

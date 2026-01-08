@@ -6,19 +6,16 @@ import com.infinum.sentinel.ui.logger.models.FlowBuffer
 import timber.log.Timber
 
 public class TimberInitializer : Initializer<Class<TimberInitializer>> {
-
     override fun create(context: Context): Class<TimberInitializer> {
-
         Timber.plant(
             SentinelFileTree(
                 context,
-                FlowBuffer()
-            )
+                FlowBuffer(),
+            ),
         )
 
         return TimberInitializer::class.java
     }
 
-    override fun dependencies(): List<Class<out Initializer<*>>> =
-        listOf()
+    override fun dependencies(): List<Class<out Initializer<*>>> = listOf()
 }

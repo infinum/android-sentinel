@@ -9,17 +9,14 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 internal class BundlesRepository(
-    private val cache: BundlesCache
+    private val cache: BundlesCache,
 ) : Repositories.Bundles {
-
-    override suspend fun clear() =
-        cache.clear()
+    override suspend fun clear() = cache.clear()
 
     override suspend fun save(input: BundleParameters) {
         input.descriptor?.let { cache.save(it) }
             ?: error("Cannot save null descriptors")
     }
 
-    override fun load(input: BundleParameters): Flow<List<BundleDescriptor>> =
-        cache.load()
+    override fun load(input: BundleParameters): Flow<List<BundleDescriptor>> = cache.load()
 }

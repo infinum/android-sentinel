@@ -5,5 +5,5 @@ internal enum class FormatType {
     MARKDOWN,
     JSON,
     XML,
-    HTML
+    HTML,
 }

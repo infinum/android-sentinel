@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 internal interface TriggersDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(entity: TriggerEntity)
 

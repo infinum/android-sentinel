@@ -10,55 +10,59 @@ import me.tatarka.inject.annotations.Inject
 @Inject
 internal class PreferencesViewModel(
     private val collectors: Factories.Collector,
-    private val repository: Repositories.Preference
+    private val repository: Repositories.Preference,
 ) : BaseChildViewModel<PreferencesState, PreferencesEvent>() {
-
     override fun data() = Unit
 
     fun load(shouldFilter: Boolean) =
         launch {
-            val result = io {
-                collectors.preferences()(shouldFilter)
-            }
+            val result =
+                io {
+                    collectors.preferences()(shouldFilter)
+                }
             setState(
                 PreferencesState.Data(
-                    value = result
-                )
+                    value = result,
+                ),
             )
         }
 
-    fun cache(name: String, tuple: Triple<PreferenceType, String, Any>) =
-        launch {
-            io {
-                repository.cache(
-                    PreferenceParameters.Cache(
-                        name = name,
-                        key = tuple.second,
-                        value = tuple
-                    )
-                )
-            }
-            emitEvent(PreferencesEvent.Cached())
+    fun cache(
+        name: String,
+        tuple: Triple<PreferenceType, String, Any>,
+    ) = launch {
+        io {
+            repository.cache(
+                PreferenceParameters.Cache(
+                    name = name,
+                    key = tuple.second,
+                    value = tuple,
+                ),
+            )
         }
+        emitEvent(PreferencesEvent.Cached())
+    }
 
     fun onSortClicked(prefParentName: String) {
         val currentValues = (stateFlow.value as? PreferencesState.Data)?.value.orEmpty()
 
-        val changedValues = currentValues.map { preferencesData ->
-            if (preferencesData.name == prefParentName) {
-                val sortedData = if (preferencesData.isSortedAscending) {
-                    preferencesData.values.sortedByDescending { it.second }
+        val changedValues =
+            currentValues.map { preferencesData ->
+                if (preferencesData.name == prefParentName) {
+                    val sortedData =
+                        if (preferencesData.isSortedAscending) {
+                            preferencesData.values.sortedByDescending { it.second }
+                        } else {
+                            preferencesData.values.sortedBy { it.second }
+                        }
+                    preferencesData.copy(
+                        values = sortedData,
+                        isSortedAscending = !preferencesData.isSortedAscending,
+                    )
                 } else {
-                    preferencesData.values.sortedBy { it.second }
+                    preferencesData
                 }
-                preferencesData.copy(
-                    values = sortedData,
-                    isSortedAscending = !preferencesData.isSortedAscending
-                )
-            } else {
-                preferencesData
             }
-        }
 
         setState(PreferencesState.Data(value = changedValues))
     }
@@ -66,13 +70,14 @@ internal class PreferencesViewModel(
     fun onHideExpandClicked(prefParentName: String) {
         val currentValues = (stateFlow.value as? PreferencesState.Data)?.value.orEmpty()
 
-        val changedValues = currentValues.map { preferencesData ->
-            if (preferencesData.name == prefParentName) {
-                preferencesData.copy(isExpanded = !preferencesData.isExpanded)
-            } else {
-                preferencesData
+        val changedValues =
+            currentValues.map { preferencesData ->
+                if (preferencesData.name == prefParentName) {
+                    preferencesData.copy(isExpanded = !preferencesData.isExpanded)
+                } else {
+                    preferencesData
+                }
             }
-        }
 
         setState(PreferencesState.Data(value = changedValues))
     }

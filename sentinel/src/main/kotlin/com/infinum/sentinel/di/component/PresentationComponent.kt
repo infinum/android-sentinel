@@ -12,9 +12,8 @@ import me.tatarka.inject.annotations.Provides
 @PresentationScope
 internal abstract class PresentationComponent(
     @get:Provides val context: Context,
-    @Component val viewModelComponent: ViewModelComponent
+    @Component val viewModelComponent: ViewModelComponent,
 ) {
-
     abstract val launchIntent: Intent
 
     @Provides
@@ -26,8 +25,7 @@ internal abstract class PresentationComponent(
                 addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
             }
 
-    fun show() =
-        context.startActivity(launchIntent)
+    fun show() = context.startActivity(launchIntent)
 
     fun setExceptionHandler(handler: Thread.UncaughtExceptionHandler?) =
         viewModelComponent

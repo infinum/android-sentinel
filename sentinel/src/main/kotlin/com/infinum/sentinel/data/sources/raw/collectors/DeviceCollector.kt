@@ -17,27 +17,29 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 internal class DeviceCollector(
-    private val context: Context
+    private val context: Context,
 ) : Collectors.Device {
-
-    override fun invoke() = DeviceData(
-        autoTime = Settings.Global.getInt(
-            context.contentResolver,
-            Settings.Global.AUTO_TIME,
-            0
-        ) == 1,
-        autoTimezone = Settings.Global.getInt(
-            context.contentResolver,
-            Settings.Global.AUTO_TIME_ZONE,
-            0
-        ) == 1,
-        isRooted = checkRootPrimary() || checkRootSecondary() || checkRootTertiary(),
-        screenWidth = "${context.widthPixels} px",
-        screenHeight = "${context.heightPixels} px",
-        screenSize = "${context.screenSize} ″",
-        screenDpi = "${context.density} dpi",
-        fontScale = context.fontScale
-    )
+    override fun invoke() =
+        DeviceData(
+            autoTime =
+                Settings.Global.getInt(
+                    context.contentResolver,
+                    Settings.Global.AUTO_TIME,
+                    0,
+                ) == 1,
+            autoTimezone =
+                Settings.Global.getInt(
+                    context.contentResolver,
+                    Settings.Global.AUTO_TIME_ZONE,
+                    0,
+                ) == 1,
+            isRooted = checkRootPrimary() || checkRootSecondary() || checkRootTertiary(),
+            screenWidth = "${context.widthPixels} px",
+            screenHeight = "${context.heightPixels} px",
+            screenSize = "${context.screenSize} ″",
+            screenDpi = "${context.density} dpi",
+            fontScale = context.fontScale,
+        )
 
     private fun checkRootPrimary(): Boolean {
         val buildTags = Build.TAGS
@@ -45,18 +47,19 @@ internal class DeviceCollector(
     }
 
     private fun checkRootSecondary(): Boolean {
-        val paths = arrayOf(
-            "/system/app/Superuser.apk",
-            "/sbin/su",
-            "/system/bin/su",
-            "/system/xbin/su",
-            "/data/local/xbin/su",
-            "/data/local/bin/su",
-            "/system/sd/xbin/su",
-            "/system/bin/failsafe/su",
-            "/data/local/su",
-            "/su/bin/su"
-        )
+        val paths =
+            arrayOf(
+                "/system/app/Superuser.apk",
+                "/sbin/su",
+                "/system/bin/su",
+                "/system/xbin/su",
+                "/data/local/xbin/su",
+                "/data/local/bin/su",
+                "/system/sd/xbin/su",
+                "/system/bin/failsafe/su",
+                "/data/local/su",
+                "/su/bin/su",
+            )
         for (path in paths) {
             if (File(path).exists()) return true
         }

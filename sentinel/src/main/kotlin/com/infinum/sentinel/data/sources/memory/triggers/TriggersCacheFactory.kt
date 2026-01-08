@@ -15,9 +15,8 @@ internal class TriggersCacheFactory(
     private val shake: ShakeTrigger,
     private val proximity: ProximityTrigger,
     private val usbConnected: UsbConnectedTrigger,
-    private val airplaneModeOn: AirplaneModeOnTrigger
+    private val airplaneModeOn: AirplaneModeOnTrigger,
 ) : TriggersCache {
-
     override fun manual(): ManualTrigger = manual
 
     override fun foreground(): ForegroundTrigger = foreground

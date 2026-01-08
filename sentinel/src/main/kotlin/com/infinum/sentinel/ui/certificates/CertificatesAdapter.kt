@@ -12,22 +12,26 @@ import com.infinum.sentinel.databinding.SentinelItemCertificateBinding
 @RequiresApi(Build.VERSION_CODES.O)
 internal class CertificatesAdapter(
     private val onListChanged: () -> Unit,
-    private val onClick: (CertificateData) -> Unit
+    private val onClick: (CertificateData) -> Unit,
 ) : ListAdapter<CertificateData, CertificateViewHolder>(CertificatesDiffUtil()) {
-
     var settings: CertificateMonitorEntity? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CertificateViewHolder =
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): CertificateViewHolder =
         CertificateViewHolder(
             SentinelItemCertificateBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
-                false
-            )
+                false,
+            ),
         )
 
-    override fun onBindViewHolder(holder: CertificateViewHolder, position: Int) =
-        holder.bind(getItem(position), settings, onClick)
+    override fun onBindViewHolder(
+        holder: CertificateViewHolder,
+        position: Int,
+    ) = holder.bind(getItem(position), settings, onClick)
 
     override fun onViewRecycled(holder: CertificateViewHolder) {
         holder.unbind()
@@ -35,6 +39,6 @@ internal class CertificatesAdapter(
 
     override fun onCurrentListChanged(
         previousList: MutableList<CertificateData>,
-        currentList: MutableList<CertificateData>
+        currentList: MutableList<CertificateData>,
     ) = onListChanged()
 }

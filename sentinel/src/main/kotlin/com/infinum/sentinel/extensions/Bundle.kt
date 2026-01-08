@@ -23,8 +23,7 @@ internal fun Bundle.sizeTree(): BundleTree {
             .filter {
                 @Suppress("DEPRECATION")
                 original.get(it) is Bundle
-            }
-            .map { key ->
+            }.map { key ->
                 val withoutKey = Bundle(original)
 
                 val internalTree: BundleTree? = withoutKey.getBundle(key)?.sizeTree()
@@ -36,9 +35,9 @@ internal fun Bundle.sizeTree(): BundleTree {
                 BundleTree(
                     key,
                     valueSize,
-                    internalTree?.let { listOf(it) } ?: emptyList()
+                    internalTree?.let { listOf(it) } ?: emptyList(),
                 )
-            }
+            },
     )
 }
 

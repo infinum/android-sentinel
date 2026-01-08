@@ -18,23 +18,25 @@ internal class SentinelViewModel(
     private val collectors: Factories.Collector,
     private val formatters: Factories.Formatter,
     private val triggers: Repositories.Triggers,
-    private val formats: Repositories.Formats
+    private val formats: Repositories.Formats,
 ) : BaseViewModel<SentinelState, SentinelEvent>() {
-
     fun checkIfEmulator() {
         launch {
             io {
                 if (collectors.device()().isProbablyAnEmulator) {
-                    triggers.load(TriggerParameters()).first()
+                    triggers
+                        .load(TriggerParameters())
+                        .first()
                         .firstOrNull { it.type == TriggerType.FOREGROUND }
                         ?.let {
                             triggers.save(
                                 TriggerParameters(
-                                    entity = it.copy(
-                                        enabled = true,
-                                        editable = false
-                                    )
-                                )
+                                    entity =
+                                        it.copy(
+                                            enabled = true,
+                                            editable = false,
+                                        ),
+                                ),
                             )
                         }
                 }
@@ -44,23 +46,25 @@ internal class SentinelViewModel(
 
     fun applicationIconAndName() {
         launch {
-            val result = io {
-                collectors.application()().let {
-                    it.applicationIcon to it.applicationName
+            val result =
+                io {
+                    collectors.application()().let {
+                        it.applicationIcon to it.applicationName
+                    }
                 }
-            }
             setState(
                 SentinelState.ApplicationIconAndName(
                     icon = result.first,
-                    name = result.second
-                )
+                    name = result.second,
+                ),
             )
         }
     }
 
     fun formatData() =
         launch {
-            formats.load(FormatsParameters())
+            formats
+                .load(FormatsParameters())
                 .map { it.type?.formatter(formatters) }
                 .flowOn(runningDispatchers)
                 .collectLatest {

@@ -7,9 +7,8 @@ internal class FormatterFactory(
     private val markdown: Formatters.Markdown,
     private val json: Formatters.Json,
     private val xml: Formatters.Xml,
-    private val html: Formatters.Html
+    private val html: Formatters.Html,
 ) : Factories.Formatter {
-
     override fun plain(): Formatters.Plain = plain
 
     override fun markdown(): Formatters.Markdown = markdown

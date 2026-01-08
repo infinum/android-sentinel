@@ -7,16 +7,15 @@ import com.infinum.sentinel.ui.shared.base.BaseChildActivity
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class CrashesActivity : BaseChildActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        supportFragmentManager.beginTransaction()
+        supportFragmentManager
+            .beginTransaction()
             .replace(
                 android.R.id.content,
                 CrashesFragment.newInstance(intent.getStringExtra(Constants.Keys.APPLICATION_NAME)),
-                CrashesFragment.TAG
-            )
-            .commit()
+                CrashesFragment.TAG,
+            ).commit()
     }
 }

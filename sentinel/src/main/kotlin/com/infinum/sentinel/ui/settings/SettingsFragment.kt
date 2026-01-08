@@ -28,9 +28,9 @@ import kotlin.math.roundToInt
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.layout.sentinel_fragment_settings) {
-
     companion object {
         fun newInstance() = SettingsFragment()
+
         const val TAG: String = "SettingsFragment"
 
         private const val FORMAT_BUNDLE_SIZE = "%s kB"
@@ -38,24 +38,29 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
     }
 
     override val binding: SentinelFragmentSettingsBinding by viewBinding(
-        SentinelFragmentSettingsBinding::bind
+        SentinelFragmentSettingsBinding::bind,
     )
 
     override val viewModel: SettingsViewModel by viewModels()
 
-    private val permissionRequest = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isPermissionGranted: Boolean ->
-        if (!isPermissionGranted) {
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.sentinel_notification_permission_denied),
-                Toast.LENGTH_LONG,
-            ).show()
+    private val permissionRequest =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission(),
+        ) { isPermissionGranted: Boolean ->
+            if (!isPermissionGranted) {
+                Toast
+                    .makeText(
+                        requireContext(),
+                        getString(R.string.sentinel_notification_permission_denied),
+                        Toast.LENGTH_LONG,
+                    ).show()
+            }
         }
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
@@ -66,39 +71,41 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
                         FormatEntity(
                             id = FormatType.PLAIN.ordinal.toLong(),
                             type = FormatType.PLAIN,
-                            selected = checkedIds.contains(R.id.plainChip)
+                            selected = checkedIds.contains(R.id.plainChip),
                         ),
                         FormatEntity(
                             id = FormatType.MARKDOWN.ordinal.toLong(),
                             type = FormatType.MARKDOWN,
-                            selected = checkedIds.contains(R.id.markdownChip)
+                            selected = checkedIds.contains(R.id.markdownChip),
                         ),
                         FormatEntity(
                             id = FormatType.JSON.ordinal.toLong(),
                             type = FormatType.JSON,
-                            selected = checkedIds.contains(R.id.jsonChip)
+                            selected = checkedIds.contains(R.id.jsonChip),
                         ),
                         FormatEntity(
                             id = FormatType.XML.ordinal.toLong(),
                             type = FormatType.XML,
-                            selected = checkedIds.contains(R.id.xmlChip)
+                            selected = checkedIds.contains(R.id.xmlChip),
                         ),
                         FormatEntity(
                             id = FormatType.HTML.ordinal.toLong(),
                             type = FormatType.HTML,
-                            selected = checkedIds.contains(R.id.htmlChip)
-                        )
-                    )
+                            selected = checkedIds.contains(R.id.htmlChip),
+                        ),
+                    ),
                 )
             }
 
             decreaseLimitButton.setOnClickListener {
-                limitSlider.value = (limitSlider.value - limitSlider.stepSize)
-                    .coerceAtLeast(limitSlider.valueFrom)
+                limitSlider.value =
+                    (limitSlider.value - limitSlider.stepSize)
+                        .coerceAtLeast(limitSlider.valueFrom)
             }
             increaseLimitButton.setOnClickListener {
-                limitSlider.value = (limitSlider.value + limitSlider.stepSize)
-                    .coerceAtMost(limitSlider.valueTo)
+                limitSlider.value =
+                    (limitSlider.value + limitSlider.stepSize)
+                        .coerceAtMost(limitSlider.valueTo)
             }
             decreaseToExpireButton.setOnClickListener {
                 toExpireAmountSlider.value =
@@ -121,17 +128,36 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
             is SettingsEvent.TriggersChanged -> {
                 event.value.forEach { trigger ->
                     when (trigger.type) {
-                        TriggerType.MANUAL -> setupSwitch(binding.manualTriggerView, trigger)
-                        TriggerType.SHAKE -> setupSwitch(binding.shakeTriggerView, trigger)
-                        TriggerType.PROXIMITY -> setupSwitch(binding.proximityTriggerView, trigger)
-                        TriggerType.FOREGROUND -> setupSwitch(binding.foregroundTriggerView, trigger)
-                        TriggerType.USB_CONNECTED -> setupSwitch(binding.usbTriggerView, trigger)
-                        TriggerType.AIRPLANE_MODE_ON -> setupSwitch(
-                            binding.airplaneModeTriggerView,
-                            trigger
-                        )
+                        TriggerType.MANUAL -> {
+                            setupSwitch(binding.manualTriggerView, trigger)
+                        }
 
-                        else -> throw NotImplementedError()
+                        TriggerType.SHAKE -> {
+                            setupSwitch(binding.shakeTriggerView, trigger)
+                        }
+
+                        TriggerType.PROXIMITY -> {
+                            setupSwitch(binding.proximityTriggerView, trigger)
+                        }
+
+                        TriggerType.FOREGROUND -> {
+                            setupSwitch(binding.foregroundTriggerView, trigger)
+                        }
+
+                        TriggerType.USB_CONNECTED -> {
+                            setupSwitch(binding.usbTriggerView, trigger)
+                        }
+
+                        TriggerType.AIRPLANE_MODE_ON -> {
+                            setupSwitch(
+                                binding.airplaneModeTriggerView,
+                                trigger,
+                            )
+                        }
+
+                        else -> {
+                            throw NotImplementedError()
+                        }
                     }
                 }
             }
@@ -166,22 +192,22 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
                 binding.fragmentSavedStateChip.isChecked = event.value.fragmentSavedState
                 binding.activityIntentExtrasChip.setOnCheckedChangeListener { _, _ ->
                     viewModel.updateBundleMonitor(
-                        event.value.copy(activityIntentExtras = binding.activityIntentExtrasChip.isChecked)
+                        event.value.copy(activityIntentExtras = binding.activityIntentExtrasChip.isChecked),
                     )
                 }
                 binding.activitySavedStateChip.setOnCheckedChangeListener { _, _ ->
                     viewModel.updateBundleMonitor(
-                        event.value.copy(activitySavedState = binding.activitySavedStateChip.isChecked)
+                        event.value.copy(activitySavedState = binding.activitySavedStateChip.isChecked),
                     )
                 }
                 binding.fragmentArgumentsChip.setOnCheckedChangeListener { _, _ ->
                     viewModel.updateBundleMonitor(
-                        event.value.copy(fragmentArguments = binding.fragmentArgumentsChip.isChecked)
+                        event.value.copy(fragmentArguments = binding.fragmentArgumentsChip.isChecked),
                     )
                 }
                 binding.fragmentSavedStateChip.setOnCheckedChangeListener { _, _ ->
                     viewModel.updateBundleMonitor(
-                        event.value.copy(fragmentSavedState = binding.fragmentSavedStateChip.isChecked)
+                        event.value.copy(fragmentSavedState = binding.fragmentSavedStateChip.isChecked),
                     )
                 }
 
@@ -269,18 +295,22 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
             toExpireAmountSlider.clearOnChangeListeners()
             toExpireAmountSlider.value = event.value.expireInAmount.toFloat()
             toExpireAmountSlider.addOnChangeListener { _, value, _ ->
-                toExpireValueView.text = String.format(
-                    FORMAT_CERTIFICATE_TO_EXPIRE,
-                    value.roundToInt(),
-                    event.value.expireInUnit.name.lowercase()
-                )
+                toExpireValueView.text =
+                    String.format(
+                        FORMAT_CERTIFICATE_TO_EXPIRE,
+                        value.roundToInt(),
+                        event.value.expireInUnit.name
+                            .lowercase(),
+                    )
                 viewModel.updateCertificatesMonitor(event.value.copy(expireInAmount = value.roundToInt()))
             }
-            toExpireValueView.text = String.format(
-                FORMAT_CERTIFICATE_TO_EXPIRE,
-                event.value.expireInAmount,
-                event.value.expireInUnit.name.lowercase()
-            )
+            toExpireValueView.text =
+                String.format(
+                    FORMAT_CERTIFICATE_TO_EXPIRE,
+                    event.value.expireInAmount,
+                    event.value.expireInUnit.name
+                        .lowercase(),
+                )
             when (event.value.expireInUnit) {
                 ChronoUnit.DAYS -> daysButton.isChecked = true
                 ChronoUnit.WEEKS -> weeksButton.isChecked = true
@@ -290,22 +320,22 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
             }
             daysButton.setOnClickListener {
                 viewModel.updateCertificatesMonitor(
-                    event.value.copy(expireInUnit = ChronoUnit.DAYS)
+                    event.value.copy(expireInUnit = ChronoUnit.DAYS),
                 )
             }
             weeksButton.setOnClickListener {
                 viewModel.updateCertificatesMonitor(
-                    event.value.copy(expireInUnit = ChronoUnit.WEEKS)
+                    event.value.copy(expireInUnit = ChronoUnit.WEEKS),
                 )
             }
             monthsButton.setOnClickListener {
                 viewModel.updateCertificatesMonitor(
-                    event.value.copy(expireInUnit = ChronoUnit.MONTHS)
+                    event.value.copy(expireInUnit = ChronoUnit.MONTHS),
                 )
             }
             yearsButton.setOnClickListener {
                 viewModel.updateCertificatesMonitor(
-                    event.value.copy(expireInUnit = ChronoUnit.YEARS)
+                    event.value.copy(expireInUnit = ChronoUnit.YEARS),
                 )
             }
         }
@@ -317,28 +347,32 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
         }
         when {
             ContextCompat.checkSelfPermission(
-                requireContext(), Manifest.permission.POST_NOTIFICATIONS
+                requireContext(),
+                Manifest.permission.POST_NOTIFICATIONS,
             ) == PackageManager.PERMISSION_GRANTED -> {
                 // We have permission, all good
             }
 
             shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
-                Snackbar.make(
-                    binding.root,
-                    getString(R.string.sentinel_notification_permission_denied),
-                    Snackbar.LENGTH_LONG
-                ).setAction(getString(R.string.sentinel_change)) {
-                    Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        data = Uri.fromParts(
-                            getString(R.string.sentinel_package_schema),
-                            requireContext().packageName,
-                            null
-                        )
-                    }.also { intent ->
-                        startActivity(intent)
-                    }
-                }.show()
+                Snackbar
+                    .make(
+                        binding.root,
+                        getString(R.string.sentinel_notification_permission_denied),
+                        Snackbar.LENGTH_LONG,
+                    ).setAction(getString(R.string.sentinel_change)) {
+                        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                            .apply {
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                data =
+                                    Uri.fromParts(
+                                        getString(R.string.sentinel_package_schema),
+                                        requireContext().packageName,
+                                        null,
+                                    )
+                            }.also { intent ->
+                                startActivity(intent)
+                            }
+                    }.show()
             }
 
             else -> {
@@ -347,15 +381,17 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
         }
     }
 
-    private fun setupSwitch(switchView: SwitchMaterial, trigger: TriggerEntity) =
-        with(switchView) {
-            setOnCheckedChangeListener(null)
-            isChecked = trigger.enabled
-            isEnabled = trigger.editable
-            setOnCheckedChangeListener { _, isChecked ->
-                viewModel.toggleTrigger(
-                    trigger.copy(enabled = isChecked)
-                )
-            }
+    private fun setupSwitch(
+        switchView: SwitchMaterial,
+        trigger: TriggerEntity,
+    ) = with(switchView) {
+        setOnCheckedChangeListener(null)
+        isChecked = trigger.enabled
+        isEnabled = trigger.editable
+        setOnCheckedChangeListener { _, isChecked ->
+            viewModel.toggleTrigger(
+                trigger.copy(enabled = isChecked),
+            )
         }
+    }
 }

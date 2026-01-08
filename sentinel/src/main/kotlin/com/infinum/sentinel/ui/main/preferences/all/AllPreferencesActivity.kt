@@ -8,18 +8,17 @@ import com.infinum.sentinel.ui.shared.base.BaseChildActivity
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class AllPreferencesActivity : BaseChildActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        supportFragmentManager.beginTransaction()
+        supportFragmentManager
+            .beginTransaction()
             .replace(
                 android.R.id.content,
                 PreferencesFragment.newInstance(PreferencesFragment.ALL_PREFERENCES),
-                PreferencesFragment.TAG
-            )
-            .commit()
+                PreferencesFragment.TAG,
+            ).commit()
     }
 }

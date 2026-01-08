@@ -12,34 +12,33 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 internal class CrashesViewModel(
-    private val dao: CrashesDao
+    private val dao: CrashesDao,
 ) : BaseChildViewModel<Nothing, CrashesEvent>() {
-
     private var parameters: CrashParameters = CrashParameters()
 
     override fun data() {
-        dao.loadAll()
+        dao
+            .loadAll()
             .map {
                 if (parameters.query?.lowercase().isNullOrBlank()) {
                     it
                 } else {
                     it.filter { entity ->
                         entity.data.exception?.name?.lowercase()?.contains(
-                            parameters.query?.lowercase().orEmpty()
+                            parameters.query?.lowercase().orEmpty(),
                         ) ?: true ||
                             entity.data.exception?.lineNumber?.toString()?.lowercase()?.contains(
-                                parameters.query?.lowercase().orEmpty()
+                                parameters.query?.lowercase().orEmpty(),
                             ) ?: true ||
                             entity.data.exception?.file?.lowercase()?.contains(
-                                parameters.query?.lowercase().orEmpty()
+                                parameters.query?.lowercase().orEmpty(),
                             ) ?: true ||
                             entity.data.exception?.message?.lowercase()?.contains(
-                                parameters.query?.lowercase().orEmpty()
+                                parameters.query?.lowercase().orEmpty(),
                             ) ?: true
                     }
                 }
-            }
-            .flowOn(runningDispatchers)
+            }.flowOn(runningDispatchers)
             .onEach { emitEvent(CrashesEvent.CrashesIntercepted(value = it)) }
             .launchIn(viewModelScope)
     }

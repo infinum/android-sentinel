@@ -15,21 +15,21 @@ import com.infinum.sentinel.ui.shared.delegates.viewBinding
 import com.infinum.sentinel.ui.shared.edgefactories.bounce.BounceEdgeEffectFactory
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class BundleDetailsFragment :
-    BaseChildFragment<BundleDetailsState, Nothing>(R.layout.sentinel_fragment_bundle_details) {
-
+internal class BundleDetailsFragment : BaseChildFragment<BundleDetailsState, Nothing>(R.layout.sentinel_fragment_bundle_details) {
     companion object {
-        fun newInstance(bundleId: String?) = BundleDetailsFragment().apply {
-            arguments = Bundle().apply {
-                putString(Constants.Keys.BUNDLE_ID, bundleId)
+        fun newInstance(bundleId: String?) =
+            BundleDetailsFragment().apply {
+                arguments =
+                    Bundle().apply {
+                        putString(Constants.Keys.BUNDLE_ID, bundleId)
+                    }
             }
-        }
 
         const val TAG: String = "BundleDetailsFragment"
     }
 
     override val binding: SentinelFragmentBundleDetailsBinding by viewBinding(
-        SentinelFragmentBundleDetailsBinding::bind
+        SentinelFragmentBundleDetailsBinding::bind,
     )
 
     override val viewModel: BundleDetailsViewModel by viewModels()
@@ -45,7 +45,10 @@ internal class BundleDetailsFragment :
         viewModel.setBundleId(bundleId)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
 
         setupToolbar()
@@ -55,13 +58,15 @@ internal class BundleDetailsFragment :
     override fun onState(state: BundleDetailsState) =
         when (state) {
             is BundleDetailsState.Data -> {
-                binding.toolbar.subtitle = listOf(
-                    state.value.className,
-                    Formatter.formatFileSize(
-                        binding.toolbar.context,
-                        state.value.bundleTree.size.toLong()
-                    )
-                ).joinToString(" ~ ")
+                binding.toolbar.subtitle =
+                    listOf(
+                        state.value.className,
+                        Formatter.formatFileSize(
+                            binding.toolbar.context,
+                            state.value.bundleTree.size
+                                .toLong(),
+                        ),
+                    ).joinToString(" ~ ")
 
                 adapter = BundleDetailsAdapter(state.value.bundleTree.size)
                 binding.recyclerView.adapter = adapter

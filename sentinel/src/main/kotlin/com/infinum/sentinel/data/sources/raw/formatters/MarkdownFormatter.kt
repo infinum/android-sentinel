@@ -20,9 +20,9 @@ internal class MarkdownFormatter(
     private val applicationCollector: Collectors.Application,
     private val permissionsCollector: Collectors.Permissions,
     private val deviceCollector: Collectors.Device,
-    private val preferencesCollector: Collectors.Preferences
-) : StringBuilderFormatter(), Formatters.Markdown {
-
+    private val preferencesCollector: Collectors.Preferences,
+) : StringBuilderFormatter(),
+    Formatters.Markdown {
     companion object {
         private const val HEADER_1 = "# "
         private const val HEADER_2 = "## "
@@ -30,26 +30,36 @@ internal class MarkdownFormatter(
         private const val BULLET = "- "
     }
 
-    override fun addLine(builder: StringBuilder, tag: Int, text: String) {
+    override fun addLine(
+        builder: StringBuilder,
+        tag: Int,
+        text: String,
+    ) {
         context.getString(tag).sanitize().let {
             builder.appendLine("$ITALIC${it}$ITALIC: $text")
         }
     }
 
-    override fun addLine(builder: StringBuilder, tag: String, text: String) {
+    override fun addLine(
+        builder: StringBuilder,
+        tag: String,
+        text: String,
+    ) {
         builder.appendLine("$ITALIC${tag}$ITALIC: $text")
     }
 
-    override fun invoke(): String =
-        format()
+    override fun invoke(): String = format()
 
-    override fun formatCrash(includeAllData: Boolean, entity: CrashEntity): String =
+    override fun formatCrash(
+        includeAllData: Boolean,
+        entity: CrashEntity,
+    ): String =
         if (includeAllData) {
             format(entity)
         } else {
             addAllData(
                 builder = StringBuilder(),
-                crashData = crash(entity)
+                crashData = crash(entity),
             )
         }
 
@@ -68,8 +78,7 @@ internal class MarkdownFormatter(
                         appendLine("$BULLET$ITALIC${entry.key}$ITALIC: ${entry.value}")
                     }
                 }
-            }
-            .toString()
+            }.toString()
 
     override fun device(): String =
         StringBuilder()
@@ -90,8 +99,7 @@ internal class MarkdownFormatter(
                         }
                     }
                 }
-            }
-            .toString()
+            }.toString()
 
     override fun crash(entity: CrashEntity): String =
         StringBuilder()
@@ -108,25 +116,31 @@ internal class MarkdownFormatter(
                                     .data
                                     .exception
                                     ?.stackTrace
-                                    ?.joinToString { "\n>> &nbsp;&nbsp;&nbsp;&nbsp; at $it" }
-                            )
+                                    ?.joinToString { "\n>> &nbsp;&nbsp;&nbsp;&nbsp; at $it" },
+                            ),
                     )
                     appendLine("\n")
-                    addLine(this, R.string.sentinel_thread_states, entity.data.threadState.orEmpty().count().toString())
+                    addLine(
+                        this,
+                        R.string.sentinel_thread_states,
+                        entity.data.threadState
+                            .orEmpty()
+                            .count()
+                            .toString(),
+                    )
                     entity.data.threadState?.forEach { process ->
                         appendLine("\n")
                         addLine(
                             this,
                             R.string.sentinel_stacktrace,
                             "\n>> ${process.name}&nbsp;&nbsp;&nbsp;&nbsp;${process.state.uppercase()}"
-                                .plus(process.stackTrace.joinToString { "\n>> &nbsp;&nbsp;&nbsp;&nbsp; at $it" })
+                                .plus(process.stackTrace.joinToString { "\n>> &nbsp;&nbsp;&nbsp;&nbsp; at $it" }),
                         )
                     }
                 } else {
                     addCrashData(this, entity)
                 }
-            }
-            .toString()
+            }.toString()
 
     private fun format(entity: CrashEntity? = null) =
         addAllData(
@@ -135,6 +149,6 @@ internal class MarkdownFormatter(
             permissions(),
             device(),
             preferences(),
-            entity?.let { crash(it) }
+            entity?.let { crash(it) },
         )
 }

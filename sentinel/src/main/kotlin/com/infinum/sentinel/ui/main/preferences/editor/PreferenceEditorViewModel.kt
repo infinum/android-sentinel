@@ -7,27 +7,32 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 internal class PreferenceEditorViewModel(
-    private val repository: Repositories.Preference
+    private val repository: Repositories.Preference,
 ) : BaseChildViewModel<PreferenceEditorState, PreferenceEditorEvent>() {
-
     override fun data() =
         launch {
-            val result = io {
-                repository.consume()
-            }
+            val result =
+                io {
+                    repository.consume()
+                }
             setState(
                 PreferenceEditorState.Cache(
                     name = result.first,
                     type = result.second.first,
                     key = result.second.second,
-                    value = result.second.third
-                )
+                    value = result.second.third,
+                ),
             )
         }
 
-    fun saveBoolean(fileName: String, key: String, currentValue: Boolean?, newValue: Boolean?) =
-        launch {
-            val result = io {
+    fun saveBoolean(
+        fileName: String,
+        key: String,
+        currentValue: Boolean?,
+        newValue: Boolean?,
+    ) = launch {
+        val result =
+            io {
                 if (currentValue == newValue) {
                     true
                 } else {
@@ -36,8 +41,8 @@ internal class PreferenceEditorViewModel(
                             PreferenceParameters.BooleanType(
                                 name = fileName,
                                 key = key,
-                                value = newValue
-                            )
+                                value = newValue,
+                            ),
                         )
                         true
                     } else {
@@ -45,12 +50,17 @@ internal class PreferenceEditorViewModel(
                     }
                 }
             }
-            onResult(result)
-        }
+        onResult(result)
+    }
 
-    fun saveFloat(fileName: String, key: String, currentValue: Float?, newValue: Float?) =
-        launch {
-            val result = io {
+    fun saveFloat(
+        fileName: String,
+        key: String,
+        currentValue: Float?,
+        newValue: Float?,
+    ) = launch {
+        val result =
+            io {
                 if (currentValue == newValue) {
                     true
                 } else {
@@ -59,8 +69,8 @@ internal class PreferenceEditorViewModel(
                             PreferenceParameters.FloatType(
                                 name = fileName,
                                 key = key,
-                                value = newValue
-                            )
+                                value = newValue,
+                            ),
                         )
                         true
                     } else {
@@ -68,12 +78,17 @@ internal class PreferenceEditorViewModel(
                     }
                 }
             }
-            onResult(result)
-        }
+        onResult(result)
+    }
 
-    fun saveInteger(fileName: String, key: String, currentValue: Int?, newValue: Int?) =
-        launch {
-            val result = io {
+    fun saveInteger(
+        fileName: String,
+        key: String,
+        currentValue: Int?,
+        newValue: Int?,
+    ) = launch {
+        val result =
+            io {
                 if (currentValue == newValue) {
                     true
                 } else {
@@ -82,8 +97,8 @@ internal class PreferenceEditorViewModel(
                             PreferenceParameters.IntType(
                                 name = fileName,
                                 key = key,
-                                value = newValue
-                            )
+                                value = newValue,
+                            ),
                         )
                         true
                     } else {
@@ -91,12 +106,17 @@ internal class PreferenceEditorViewModel(
                     }
                 }
             }
-            onResult(result)
-        }
+        onResult(result)
+    }
 
-    fun saveLong(fileName: String, key: String, currentValue: Long?, newValue: Long?) =
-        launch {
-            val result = io {
+    fun saveLong(
+        fileName: String,
+        key: String,
+        currentValue: Long?,
+        newValue: Long?,
+    ) = launch {
+        val result =
+            io {
                 if (currentValue == newValue) {
                     true
                 } else {
@@ -105,8 +125,8 @@ internal class PreferenceEditorViewModel(
                             PreferenceParameters.LongType(
                                 name = fileName,
                                 key = key,
-                                value = newValue
-                            )
+                                value = newValue,
+                            ),
                         )
                         true
                     } else {
@@ -114,12 +134,17 @@ internal class PreferenceEditorViewModel(
                     }
                 }
             }
-            onResult(result)
-        }
+        onResult(result)
+    }
 
-    fun saveString(fileName: String, key: String, currentValue: String?, newValue: String?) =
-        launch {
-            val result = io {
+    fun saveString(
+        fileName: String,
+        key: String,
+        currentValue: String?,
+        newValue: String?,
+    ) = launch {
+        val result =
+            io {
                 if (currentValue == newValue) {
                     true
                 } else {
@@ -128,8 +153,8 @@ internal class PreferenceEditorViewModel(
                             PreferenceParameters.StringType(
                                 name = fileName,
                                 key = key,
-                                value = newValue
-                            )
+                                value = newValue,
+                            ),
                         )
                         true
                     } else {
@@ -137,12 +162,17 @@ internal class PreferenceEditorViewModel(
                     }
                 }
             }
-            onResult(result)
-        }
+        onResult(result)
+    }
 
-    fun saveArray(fileName: String, key: String, currentValue: Array<String>?, newValue: Array<String>?) =
-        launch {
-            val result = io {
+    fun saveArray(
+        fileName: String,
+        key: String,
+        currentValue: Array<String>?,
+        newValue: Array<String>?,
+    ) = launch {
+        val result =
+            io {
                 if (currentValue.contentEquals(newValue)) {
                     true
                 } else {
@@ -151,8 +181,8 @@ internal class PreferenceEditorViewModel(
                             PreferenceParameters.ArrayType(
                                 name = fileName,
                                 key = key,
-                                value = newValue
-                            )
+                                value = newValue,
+                            ),
                         )
                         true
                     } else {
@@ -160,8 +190,8 @@ internal class PreferenceEditorViewModel(
                     }
                 }
             }
-            onResult(result)
-        }
+        onResult(result)
+    }
 
     private suspend fun onResult(value: Boolean) {
         if (value) {

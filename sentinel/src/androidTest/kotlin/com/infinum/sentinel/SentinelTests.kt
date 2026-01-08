@@ -23,9 +23,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 internal class SentinelTests {
-
     companion object {
-
         private lateinit var context: Context
 
         @BeforeClass

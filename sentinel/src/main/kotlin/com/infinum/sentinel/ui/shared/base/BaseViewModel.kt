@@ -18,7 +18,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 internal abstract class BaseViewModel<State, Event> : ViewModel() {
-
     private val supervisorJob = SupervisorJob()
 
     protected val runningScope = viewModelScope
@@ -33,10 +32,11 @@ internal abstract class BaseViewModel<State, Event> : ViewModel() {
     val eventFlow: SharedFlow<Event?> get() = mutableEventFlow.asSharedFlow()
     val errorFlow: StateFlow<Throwable?> get() = mutableErrorFlow.asStateFlow()
 
-    protected open val errorHandler = CoroutineExceptionHandler { _, throwable ->
-        Log.e("Sentinel", throwable.message.orEmpty())
-        mutableErrorFlow.value = throwable
-    }
+    protected open val errorHandler =
+        CoroutineExceptionHandler { _, throwable ->
+            Log.e("Sentinel", throwable.message.orEmpty())
+            mutableErrorFlow.value = throwable
+        }
 
     override fun onCleared() {
         super.onCleared()
@@ -45,12 +45,14 @@ internal abstract class BaseViewModel<State, Event> : ViewModel() {
         supervisorJob.cancel()
     }
 
-    protected fun launch(scope: CoroutineScope = runningScope, block: suspend CoroutineScope.() -> Unit) {
+    protected fun launch(
+        scope: CoroutineScope = runningScope,
+        block: suspend CoroutineScope.() -> Unit,
+    ) {
         scope.launch(errorHandler + mainDispatchers + supervisorJob) { block.invoke(this) }
     }
 
-    protected suspend fun <T> io(block: suspend CoroutineScope.() -> T) =
-        withContext(context = runningDispatchers) { block.invoke(this) }
+    protected suspend fun <T> io(block: suspend CoroutineScope.() -> T) = withContext(context = runningDispatchers) { block.invoke(this) }
 
     protected fun setState(state: State) {
         mutableStateFlow.value = state

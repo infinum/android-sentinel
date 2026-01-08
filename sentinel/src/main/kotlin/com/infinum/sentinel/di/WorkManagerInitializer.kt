@@ -6,7 +6,6 @@ import com.infinum.sentinel.ui.certificates.observer.DelegateWorker
 import com.infinum.sentinel.ui.certificates.observer.SentinelWorkerFactory
 
 internal object WorkManagerInitializer {
-
     fun init(domainComponent: DomainComponent) {
         DelegateWorker.workerFactories[CertificateCheckWorker.NAME] =
             SentinelWorkerFactory(domainComponent.collectors, domainComponent.notificationFactory)

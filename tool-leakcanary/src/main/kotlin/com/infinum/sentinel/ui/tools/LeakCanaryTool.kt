@@ -13,13 +13,13 @@ import leakcanary.LeakCanary
  * Tool Activity will launch with no additional flags.
  */
 public data class LeakCanaryTool(
-    private val listener: View.OnClickListener = View.OnClickListener {
-        LeakCanary.config = LeakCanary.config.copy(dumpHeap = true)
-        LeakCanary.dumpHeap()
-        it.context.startActivity(LeakCanary.newLeakDisplayActivityIntent())
-    }
+    private val listener: View.OnClickListener =
+        View.OnClickListener {
+            LeakCanary.config = LeakCanary.config.copy(dumpHeap = true)
+            LeakCanary.dumpHeap()
+            it.context.startActivity(LeakCanary.newLeakDisplayActivityIntent())
+        },
 ) : Sentinel.Tool {
-
     init {
         LeakCanary.showLeakDisplayActivityLauncherIcon(false)
         LeakCanary.config = LeakCanary.config.copy(dumpHeap = false)

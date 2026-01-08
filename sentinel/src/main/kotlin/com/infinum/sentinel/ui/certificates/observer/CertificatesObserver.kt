@@ -26,9 +26,8 @@ import me.tatarka.inject.annotations.Inject
 internal class CertificatesObserver(
     private val context: Context,
     private val collectors: Factories.Collector,
-    private val notificationFactory: NotificationFactory
+    private val notificationFactory: NotificationFactory,
 ) : LifecycleEventObserver {
-
     private val scope = MainScope()
     private var currentJob: Job? = null
 
@@ -45,7 +44,10 @@ internal class CertificatesObserver(
         }
     }
 
-    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+    override fun onStateChanged(
+        source: LifecycleOwner,
+        event: Lifecycle.Event,
+    ) {
         when (event) {
             Lifecycle.Event.ON_START -> start()
             Lifecycle.Event.ON_STOP -> stop()
@@ -71,52 +73,59 @@ internal class CertificatesObserver(
         stop()
 
         if (notifyInvalidNow || notifyToExpire) {
-            currentJob = scope.launch(Dispatchers.Main) {
-                val result = withContext(Dispatchers.IO) {
-                    certificateCount()
+            currentJob =
+                scope.launch(Dispatchers.Main) {
+                    val result =
+                        withContext(Dispatchers.IO) {
+                            certificateCount()
+                        }
+                    if (result.invalid > 0 && notifyInvalidNow) {
+                        notificationFactory.showExpiredCertificate(context.applicationName, result.invalid)
+                    }
+                    if (result.toExpire > 0 && notifyToExpire) {
+                        notificationFactory.showToExpireCertificate(context.applicationName, result.toExpire)
+                    }
                 }
-                if (result.invalid > 0 && notifyInvalidNow) {
-                    notificationFactory.showExpiredCertificate(context.applicationName, result.invalid)
-                }
-                if (result.toExpire > 0 && notifyToExpire) {
-                    notificationFactory.showToExpireCertificate(context.applicationName, result.toExpire)
-                }
-            }
         }
         // dont run
     }
 
-    private suspend fun certificateCount() = if (active) {
-        suspendCancellableCoroutine {
-            val userCertificates = collectors.certificates()
-                .invoke()[CertificateType.USER]
-                .orEmpty()
+    private suspend fun certificateCount() =
+        if (active) {
+            suspendCancellableCoroutine {
+                val userCertificates =
+                    collectors
+                        .certificates()
+                        .invoke()[CertificateType.USER]
+                        .orEmpty()
 
-            var invalidCertificatesCount = 0
-            var toExpireCertificatesCount = 0
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                invalidCertificatesCount = userCertificates
-                    .filterNot { certificate -> certificate.isValidNow }
-                    .count()
-                toExpireCertificatesCount = userCertificates
-                    .filterNot { certificate ->
-                        certificate.isValidIn(
-                            expireInAmount, expireInUnit.toJavaChronoUnit()
-                        )
-                    }
-                    .count()
-            }
+                var invalidCertificatesCount = 0
+                var toExpireCertificatesCount = 0
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    invalidCertificatesCount =
+                        userCertificates
+                            .filterNot { certificate -> certificate.isValidNow }
+                            .count()
+                    toExpireCertificatesCount =
+                        userCertificates
+                            .filterNot { certificate ->
+                                certificate.isValidIn(
+                                    expireInAmount,
+                                    expireInUnit.toJavaChronoUnit(),
+                                )
+                            }.count()
+                }
 
-            it.resume(
-                CertificateCount(
-                    invalidCertificatesCount,
-                    toExpireCertificatesCount
+                it.resume(
+                    CertificateCount(
+                        invalidCertificatesCount,
+                        toExpireCertificatesCount,
+                    ),
                 )
-            )
+            }
+        } else {
+            CertificateCount(0, 0)
         }
-    } else {
-        CertificateCount(0, 0)
-    }
 
     private fun stop() {
         currentJob?.cancel()

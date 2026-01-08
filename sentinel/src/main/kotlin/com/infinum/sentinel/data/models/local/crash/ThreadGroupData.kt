@@ -5,13 +5,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class ThreadGroupData(
-
     @SerialName("name")
     val name: String,
-
     @SerialName("parent")
     val parent: String,
-
     @SerialName("active_count")
-    val activeCount: Int
+    val activeCount: Int,
 )

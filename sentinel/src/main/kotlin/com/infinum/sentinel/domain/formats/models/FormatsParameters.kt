@@ -4,5 +4,5 @@ import com.infinum.sentinel.data.models.local.FormatEntity
 import com.infinum.sentinel.domain.shared.base.BaseParameters
 
 internal data class FormatsParameters(
-    val entities: List<FormatEntity>? = null
+    val entities: List<FormatEntity>? = null,
 ) : BaseParameters

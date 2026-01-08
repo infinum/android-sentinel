@@ -13,9 +13,8 @@ import me.tatarka.inject.annotations.Inject
 @Inject
 internal class PreferenceRepository(
     private val context: Context,
-    private val memoryCache: PreferenceCache
+    private val memoryCache: PreferenceCache,
 ) : Repositories.Preference {
-
     override fun cache(cache: PreferenceParameters.Cache) {
         memoryCache.save(cache.name, cache.value)
     }
@@ -28,10 +27,11 @@ internal class PreferenceRepository(
 
     @SuppressLint("ApplySharedPref")
     override suspend fun save(input: PreferenceParameters) {
-        val editor = context
-            .getSharedPreferences(input.name, Context.MODE_PRIVATE)
-            .takeIf { it.contains(input.key) }
-            ?.edit()
+        val editor =
+            context
+                .getSharedPreferences(input.name, Context.MODE_PRIVATE)
+                .takeIf { it.contains(input.key) }
+                ?.edit()
 
         when (input) {
             is PreferenceParameters.BooleanType -> editor?.putBoolean(input.key, input.value)?.commit()

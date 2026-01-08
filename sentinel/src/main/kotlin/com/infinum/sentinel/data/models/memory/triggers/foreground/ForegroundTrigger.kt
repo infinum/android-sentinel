@@ -5,9 +5,8 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 internal class ForegroundTrigger(
-    private val trigger: () -> Unit
+    private val trigger: () -> Unit,
 ) : AbstractTrigger() {
-
     override fun start() {
         if (active) {
             trigger()

@@ -9,9 +9,8 @@ import me.tatarka.inject.annotations.Inject
 @Inject
 internal class ProximityTrigger(
     context: Context,
-    trigger: () -> Unit
+    trigger: () -> Unit,
 ) : SensorTrigger(context, trigger, Sensor.TYPE_PROXIMITY, null) {
-
     companion object {
         private const val SENSITIVITY_THRESHOLD = 4
     }

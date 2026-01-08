@@ -9,7 +9,8 @@ internal enum class Level {
     ERROR,
     INFO,
     VERBOSE,
-    WARN;
+    WARN,
+    ;
 
     companion object {
         fun forLogLevel(logLevel: Int): Level =

@@ -8,7 +8,6 @@ import com.infinum.sentinel.data.models.memory.triggers.shake.ShakeTrigger
 import com.infinum.sentinel.data.models.memory.triggers.usb.UsbConnectedTrigger
 
 internal interface TriggersCache {
-
     fun manual(): ManualTrigger
 
     fun foreground(): ForegroundTrigger

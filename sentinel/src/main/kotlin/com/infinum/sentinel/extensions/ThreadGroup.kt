@@ -7,6 +7,6 @@ internal fun ThreadGroup?.asThreadGroupData(): ThreadGroupData? =
         ThreadGroupData(
             name = it.name,
             parent = it.parent.name,
-            activeCount = it.activeCount()
+            activeCount = it.activeCount(),
         )
     }

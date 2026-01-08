@@ -11,11 +11,11 @@ import com.infinum.thimble.Thimble
  * Tool Activity will launch with no additional flags.
  */
 public data class ThimbleTool(
-    private val listener: View.OnClickListener = View.OnClickListener {
-        Thimble.show()
-    }
+    private val listener: View.OnClickListener =
+        View.OnClickListener {
+            Thimble.show()
+        },
 ) : Sentinel.Tool {
-
     /**
      * An optional icon for this tool
      *

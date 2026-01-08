@@ -12,26 +12,31 @@ import java.util.Locale
 internal class LogsAdapter(
     private val onListChanged: (Boolean) -> Unit,
     private val onDelete: (File) -> Unit,
-    private val onShare: (File) -> Unit
+    private val onShare: (File) -> Unit,
 ) : ListAdapter<File, LogsViewHolder>(LogsDiffUtil()) {
-
     private val dateTimeFormat = SimpleDateFormat(LOG_DATE_TIME_FORMAT, Locale.getDefault())
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LogsViewHolder =
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): LogsViewHolder =
         LogsViewHolder(
             SentinelItemLogFileBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
-                false
-            )
+                false,
+            ),
         )
 
-    override fun onBindViewHolder(holder: LogsViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: LogsViewHolder,
+        position: Int,
+    ) {
         holder.bind(
             item = getItem(position),
             dateTimeFormat = dateTimeFormat,
             onDelete = onDelete,
-            onShare = onShare
+            onShare = onShare,
         )
     }
 
@@ -41,7 +46,6 @@ internal class LogsAdapter(
 
     override fun onCurrentListChanged(
         previousList: MutableList<File>,
-        currentList: MutableList<File>
-    ) =
-        onListChanged(currentList.isEmpty())
+        currentList: MutableList<File>,
+    ) = onListChanged(currentList.isEmpty())
 }

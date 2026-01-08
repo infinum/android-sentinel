@@ -8,5 +8,5 @@ internal data class BundleDescriptor(
     val className: String?,
     val callSite: BundleCallSite,
     val bundleTree: BundleTree,
-    val limit: Int = 0
+    val limit: Int = 0,
 )

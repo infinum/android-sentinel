@@ -8,7 +8,6 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 internal class InMemoryBundlesCache : BundlesCache {
-
     private val descriptors = mutableListOf<BundleDescriptor>()
     private val descriptorsFlow = MutableSharedFlow<List<BundleDescriptor>>(replay = 1)
 
@@ -22,6 +21,5 @@ internal class InMemoryBundlesCache : BundlesCache {
         descriptorsFlow.emit(descriptors.toList())
     }
 
-    override fun load(): SharedFlow<List<BundleDescriptor>> =
-        descriptorsFlow.asSharedFlow()
+    override fun load(): SharedFlow<List<BundleDescriptor>> = descriptorsFlow.asSharedFlow()
 }

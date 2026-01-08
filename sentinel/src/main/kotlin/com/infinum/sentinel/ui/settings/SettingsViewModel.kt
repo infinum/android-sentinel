@@ -32,40 +32,44 @@ internal class SettingsViewModel(
     private val exceptionHandler: SentinelExceptionHandler,
     private val anrObserver: SentinelAnrObserver,
     private val certificatesObserver: CertificatesObserver,
-    private val workManager: SentinelWorkManager
+    private val workManager: SentinelWorkManager,
 ) : BaseChildViewModel<Nothing, SettingsEvent>() {
-
     override fun data() {
         launch {
-            triggers.load(TriggerParameters())
+            triggers
+                .load(TriggerParameters())
                 .flowOn(runningDispatchers)
                 .collectLatest {
                     emitEvent(SettingsEvent.TriggersChanged(value = it))
                 }
         }
         launch {
-            formats.load(FormatsParameters())
+            formats
+                .load(FormatsParameters())
                 .flowOn(runningDispatchers)
                 .collectLatest {
                     emitEvent(SettingsEvent.FormatChanged(value = it))
                 }
         }
         launch {
-            bundleMonitor.load(BundleMonitorParameters())
+            bundleMonitor
+                .load(BundleMonitorParameters())
                 .flowOn(runningDispatchers)
                 .collectLatest {
                     emitEvent(SettingsEvent.BundleMonitorChanged(value = it))
                 }
         }
         launch {
-            crashMonitor.load(CrashMonitorParameters())
+            crashMonitor
+                .load(CrashMonitorParameters())
                 .flowOn(runningDispatchers)
                 .collectLatest {
                     emitEvent(SettingsEvent.CrashMonitorChanged(value = it))
                 }
         }
         launch {
-            certificateMonitor.load(CertificateMonitorParameters())
+            certificateMonitor
+                .load(CertificateMonitorParameters())
                 .flowOn(runningDispatchers)
                 .collectLatest {
                     emitEvent(SettingsEvent.CertificateMonitorChanged(value = it))
@@ -78,8 +82,8 @@ internal class SettingsViewModel(
             io {
                 triggers.save(
                     TriggerParameters(
-                        entity = entity
-                    )
+                        entity = entity,
+                    ),
                 )
             }
         }
@@ -89,8 +93,8 @@ internal class SettingsViewModel(
             io {
                 formats.save(
                     FormatsParameters(
-                        entities = entities
-                    )
+                        entities = entities,
+                    ),
                 )
             }
         }
@@ -100,8 +104,8 @@ internal class SettingsViewModel(
             io {
                 bundleMonitor.save(
                     BundleMonitorParameters(
-                        entity = entity
-                    )
+                        entity = entity,
+                    ),
                 )
             }
         }
@@ -111,8 +115,8 @@ internal class SettingsViewModel(
             io {
                 crashMonitor.save(
                     CrashMonitorParameters(
-                        entity = entity
-                    )
+                        entity = entity,
+                    ),
                 )
                 if (entity.notifyExceptions) {
                     exceptionHandler.start()
@@ -130,8 +134,7 @@ internal class SettingsViewModel(
             }
         }
 
-    private fun isAtLeastSomeCrashOptionChecked(entity: CrashMonitorEntity): Boolean =
-        entity.notifyAnrs || entity.notifyExceptions
+    private fun isAtLeastSomeCrashOptionChecked(entity: CrashMonitorEntity): Boolean = entity.notifyAnrs || entity.notifyExceptions
 
     fun updateCertificatesMonitor(entity: CertificateMonitorEntity) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
@@ -141,8 +144,8 @@ internal class SettingsViewModel(
             io {
                 certificateMonitor.save(
                     CertificateMonitorParameters(
-                        entity = entity
-                    )
+                        entity = entity,
+                    ),
                 )
                 entity.takeIf { it.runOnStart }?.let {
                     certificatesObserver.activate(it)

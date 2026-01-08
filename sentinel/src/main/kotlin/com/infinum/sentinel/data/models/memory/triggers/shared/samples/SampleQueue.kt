@@ -2,7 +2,6 @@ package com.infinum.sentinel.data.models.memory.triggers.shared.samples
 
 /** Queue of samples. Keeps a running average.  */
 internal class SampleQueue {
-
     companion object {
         /** Window size in ns. Used to compute the average.  */
         private const val MAX_WINDOW_SIZE: Long = 500000000 // 0.5s
@@ -28,15 +27,19 @@ internal class SampleQueue {
      * @param timestamp in nanoseconds of sample
      * @param triggered true if > threshold().
      */
-    fun add(timestamp: Long, triggered: Boolean) { // Purge samples that proceed window.
+    fun add(
+        timestamp: Long,
+        triggered: Boolean,
+    ) { // Purge samples that proceed window.
         purge(timestamp - MAX_WINDOW_SIZE)
 
         // Add the sample to the queue.
-        val added = pool.acquire().apply {
-            this.timestamp = timestamp
-            this.triggered = triggered
-            this.next = null
-        }
+        val added =
+            pool.acquire().apply {
+                this.timestamp = timestamp
+                this.triggered = triggered
+                this.next = null
+            }
 
         newest?.let {
             it.next = added
@@ -91,15 +94,17 @@ internal class SampleQueue {
      * are in requirement parameters.
      */
     val isTriggered: Boolean
-        get() = if (newest != null && oldest != null) {
-            hasWindowPassed(newest!!.timestamp, oldest!!.timestamp) && hasCountPassed()
-        } else {
-            false
-        }
+        get() =
+            if (newest != null && oldest != null) {
+                hasWindowPassed(newest!!.timestamp, oldest!!.timestamp) && hasCountPassed()
+            } else {
+                false
+            }
 
-    private fun hasWindowPassed(newest: Long, oldest: Long) =
-        newest - oldest >= MIN_WINDOW_SIZE
+    private fun hasWindowPassed(
+        newest: Long,
+        oldest: Long,
+    ) = newest - oldest >= MIN_WINDOW_SIZE
 
-    private fun hasCountPassed() =
-        constrainedCount >= (sampleCount shr 1) + (sampleCount shr 2)
+    private fun hasCountPassed() = constrainedCount >= (sampleCount shr 1) + (sampleCount shr 2)
 }

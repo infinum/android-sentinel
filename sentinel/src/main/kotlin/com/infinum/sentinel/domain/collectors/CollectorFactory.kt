@@ -9,9 +9,8 @@ internal class CollectorFactory(
     private val permissions: Collectors.Permissions,
     private val preferences: Collectors.Preferences,
     private val certificates: Collectors.Certificates,
-    private val tools: Collectors.Tools
+    private val tools: Collectors.Tools,
 ) : Factories.Collector {
-
     override fun device(): Collectors.Device = device
 
     override fun application(): Collectors.Application = application

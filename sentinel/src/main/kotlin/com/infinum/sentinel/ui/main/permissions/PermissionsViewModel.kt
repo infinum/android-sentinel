@@ -6,18 +6,18 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 internal class PermissionsViewModel(
-    private val collectors: Factories.Collector
+    private val collectors: Factories.Collector,
 ) : BaseChildViewModel<PermissionsState, Nothing>() {
-
     override fun data() =
         launch {
-            val result = io {
-                collectors.permissions()()
-            }
+            val result =
+                io {
+                    collectors.permissions()()
+                }
             setState(
                 PermissionsState.Data(
-                    value = result
-                )
+                    value = result,
+                ),
             )
         }
 }

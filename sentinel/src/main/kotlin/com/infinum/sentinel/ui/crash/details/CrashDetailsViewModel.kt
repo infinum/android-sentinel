@@ -17,16 +17,16 @@ internal class CrashDetailsViewModel(
     private val crashMonitor: Repositories.CrashMonitor,
     private val dao: CrashesDao,
     private val formatters: Factories.Formatter,
-    private val formats: Repositories.Formats
+    private val formats: Repositories.Formats,
 ) : BaseChildViewModel<CrashDetailsState, CrashDetailsEvent>() {
-
     private var parameters: CrashParameters = CrashParameters()
 
     override fun data() =
         launch {
-            val result = io {
-                dao.loadById(parameters.crashId!!)
-            }
+            val result =
+                io {
+                    dao.loadById(parameters.crashId!!)
+                }
             setState(CrashDetailsState.Data(value = result))
         }
 
@@ -45,15 +45,18 @@ internal class CrashDetailsViewModel(
 
     fun share() {
         launch {
-            val result = io {
-                val monitor = crashMonitor.load(CrashMonitorParameters()).firstOrNull()
-                val entity = dao.loadById(parameters.crashId!!)
-                val formatter = formats.load(FormatsParameters())
-                    .map { it.type?.formatter(formatters) }
-                    .firstOrNull()
+            val result =
+                io {
+                    val monitor = crashMonitor.load(CrashMonitorParameters()).firstOrNull()
+                    val entity = dao.loadById(parameters.crashId!!)
+                    val formatter =
+                        formats
+                            .load(FormatsParameters())
+                            .map { it.type?.formatter(formatters) }
+                            .firstOrNull()
 
-                formatter?.formatCrash(monitor?.includeAllData ?: false, entity).orEmpty()
-            }
+                    formatter?.formatCrash(monitor?.includeAllData ?: false, entity).orEmpty()
+                }
             emitEvent(CrashDetailsEvent.Formatted(result))
         }
     }

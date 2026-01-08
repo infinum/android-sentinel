@@ -14,23 +14,22 @@ import com.google.android.material.shape.ShapePath
 internal class ScissorsEdgeTreatment(
     private val count: Int,
     @Px var height: Float,
-    private val centerOrigin: Boolean
+    private val centerOrigin: Boolean,
 ) : EdgeTreatment() {
-
     override fun getEdgePath(
         length: Float,
         center: Float,
         interpolation: Float,
-        shapePath: ShapePath
+        shapePath: ShapePath,
     ) {
         val baseLength = length / count.coerceAtLeast(1)
 
         val startX1 = if (centerOrigin) 0.0f else -baseLength / 2.0f
         val startX2 = if (centerOrigin) baseLength / 2.0f else 0.0f
 
-        (0..count).forEach {
-            shapePath.lineTo(startX1 + (it * baseLength), height * interpolation)
-            shapePath.lineTo(startX2 + (it * baseLength), 0.0f)
+        for (i in 0..count) {
+            shapePath.lineTo(startX1 + (i * baseLength), height * interpolation)
+            shapePath.lineTo(startX2 + (i * baseLength), 0.0f)
         }
     }
 }

@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 internal interface BundleMonitorDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(entity: BundleMonitorEntity)
 

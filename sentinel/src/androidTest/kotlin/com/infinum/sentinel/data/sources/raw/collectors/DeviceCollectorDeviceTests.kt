@@ -16,9 +16,7 @@ import org.robolectric.util.ReflectionHelpers
 
 @RunWith(AndroidJUnit4::class)
 internal class DeviceCollectorDeviceTests {
-
     companion object {
-
         private const val FIELD_MANUFACTURER = "Samsung"
         private const val FIELD_MODEL = "SM-G965F"
         private const val FIELD_ID = "QP1A.190711.020"
@@ -41,37 +39,37 @@ internal class DeviceCollectorDeviceTests {
             ReflectionHelpers.setStaticField(
                 Build::class.java,
                 "MANUFACTURER",
-                FIELD_MANUFACTURER
+                FIELD_MANUFACTURER,
             )
             ReflectionHelpers.setStaticField(Build::class.java, "MODEL", FIELD_MODEL)
             ReflectionHelpers.setStaticField(Build::class.java, "ID", FIELD_ID)
             ReflectionHelpers.setStaticField(
                 Build::class.java,
                 "BOOTLOADER",
-                FIELD_BOOTLOADER
+                FIELD_BOOTLOADER,
             )
             ReflectionHelpers.setStaticField(Build::class.java, "DEVICE", FIELD_DEVICE)
             ReflectionHelpers.setStaticField(Build::class.java, "BOARD", FIELD_BOARD)
             ReflectionHelpers.setStaticField(
                 Build::class.java,
                 "SUPPORTED_ABIS",
-                FIELD_ARCHITECTURES
+                FIELD_ARCHITECTURES,
             )
             ReflectionHelpers.setStaticField(
                 Build.VERSION::class.java,
                 "CODENAME",
-                FIELD_CODENAME
+                FIELD_CODENAME,
             )
             ReflectionHelpers.setStaticField(
                 Build.VERSION::class.java,
                 "RELEASE",
-                FIELD_RELEASE
+                FIELD_RELEASE,
             )
             ReflectionHelpers.setStaticField(Build.VERSION::class.java, "SDK_INT", FIELD_SDK)
             ReflectionHelpers.setStaticField(
                 Build.VERSION::class.java,
                 "SECURITY_PATCH",
-                FIELD_SECURITY_PATCH
+                FIELD_SECURITY_PATCH,
             )
 
             context = ApplicationProvider.getApplicationContext<SentinelTestApplication>().applicationContext

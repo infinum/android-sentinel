@@ -7,5 +7,5 @@ internal enum class PreferenceType {
     INT,
     LONG,
     STRING,
-    SET
+    SET,
 }

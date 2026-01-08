@@ -9,23 +9,23 @@ import me.tatarka.inject.annotations.Inject
 @Inject
 internal class AirplaneModeOnTrigger(
     context: Context,
-    private val trigger: () -> Unit
+    private val trigger: () -> Unit,
 ) : BroadcastReceiverTrigger(context) {
-
     companion object {
         private const val STATE = "state"
     }
 
-    override val broadcastReceiver: BroadcastReceiver = BroadcastReceiver {
-        onAction(Intent.ACTION_AIRPLANE_MODE_CHANGED) {
-            if (active) {
-                if (it.hasExtra(STATE)) {
-                    val isEnabled = it.getBooleanExtra(STATE, false)
-                    if (isEnabled) {
-                        trigger()
+    override val broadcastReceiver: BroadcastReceiver =
+        BroadcastReceiver {
+            onAction(Intent.ACTION_AIRPLANE_MODE_CHANGED) {
+                if (active) {
+                    if (it.hasExtra(STATE)) {
+                        val isEnabled = it.getBooleanExtra(STATE, false)
+                        if (isEnabled) {
+                            trigger()
+                        }
                     }
                 }
             }
         }
-    }
 }

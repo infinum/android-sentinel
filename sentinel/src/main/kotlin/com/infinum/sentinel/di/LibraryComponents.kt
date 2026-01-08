@@ -15,14 +15,14 @@ import com.infinum.sentinel.ui.tools.CrashMonitorTool
 
 @SuppressLint("StaticFieldLeak")
 internal object LibraryComponents {
-
     internal const val DATABASE_VERSION = 5
 
-    private val DEFAULT_TOOLS = setOf(
-        CrashMonitorTool(),
-        BundleMonitorTool(),
-        AppInfoTool()
-    )
+    private val DEFAULT_TOOLS =
+        setOf(
+            CrashMonitorTool(),
+            BundleMonitorTool(),
+            AppInfoTool(),
+        )
 
     private lateinit var dataComponent: DataComponent
     private lateinit var domainComponent: DomainComponent
@@ -36,12 +36,20 @@ internal object LibraryComponents {
         presentationComponent = PresentationComponent::class.create(context, viewModelComponent)
     }
 
-    fun setup(tools: Set<Sentinel.Tool>, targetedPreferences: Map<String, List<String>>, onTriggered: () -> Unit) {
+    fun setup(
+        tools: Set<Sentinel.Tool>,
+        targetedPreferences: Map<String, List<String>>,
+        onTriggered: () -> Unit,
+    ) {
         dataComponent.setup(
             tools.plus(DEFAULT_TOOLS),
             targetedPreferences,
-            tools.filterIsInstance<CertificateTool>().firstOrNull()?.userCertificates.orEmpty(),
-            onTriggered
+            tools
+                .filterIsInstance<CertificateTool>()
+                .firstOrNull()
+                ?.userCertificates
+                .orEmpty(),
+            onTriggered,
         )
         WorkManagerInitializer.init(domainComponent)
         domainComponent.setup()

@@ -17,23 +17,28 @@ import timber.log.Timber
 
 internal class SentinelFileTree(
     context: Context,
-    val buffer: FlowBuffer<Entry>
+    val buffer: FlowBuffer<Entry>,
 ) : Timber.DebugTree() {
-
     private val logFileResolver = LogFileResolver(context)
 
-    override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+    override fun log(
+        priority: Int,
+        tag: String?,
+        message: String,
+        t: Throwable?,
+    ) {
         val dateTimeFormat = SimpleDateFormat(LOG_DATE_TIME_FORMAT, Locale.getDefault())
 
         MainScope().launch {
             withContext(Dispatchers.IO) {
-                val entry = Entry(
-                    Level.forLogLevel(priority),
-                    System.currentTimeMillis(),
-                    tag,
-                    message,
-                    t?.stackTraceToString()
-                )
+                val entry =
+                    Entry(
+                        Level.forLogLevel(priority),
+                        System.currentTimeMillis(),
+                        tag,
+                        message,
+                        t?.stackTraceToString(),
+                    )
 
                 buffer.enqueue(entry)
 
@@ -50,6 +55,6 @@ internal class SentinelFileTree(
         override val timestamp: Long,
         override val tag: String? = null,
         override val message: String? = null,
-        override val stackTrace: String? = null
+        override val stackTrace: String? = null,
     ) : BaseEntry(level, timestamp, tag, message, stackTrace)
 }

@@ -28,21 +28,20 @@ import com.infinum.sentinel.di.LibraryComponents.DATABASE_VERSION
         BundleMonitorEntity::class,
         CrashEntity::class,
         CrashMonitorEntity::class,
-        CertificateMonitorEntity::class
+        CertificateMonitorEntity::class,
     ],
     version = DATABASE_VERSION,
-    exportSchema = false
+    exportSchema = false,
 )
 @TypeConverters(
     value = [
         TriggerTypeConverter::class,
         FormatTypeConverter::class,
         CrashDataConverter::class,
-        ChronoUnitConverter::class
-    ]
+        ChronoUnitConverter::class,
+    ],
 )
 internal abstract class SentinelDatabase : RoomDatabase() {
-
     abstract fun triggers(): TriggersDao
 
     abstract fun formats(): FormatsDao

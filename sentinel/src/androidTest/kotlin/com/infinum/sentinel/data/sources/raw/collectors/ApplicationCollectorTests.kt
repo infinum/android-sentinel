@@ -17,9 +17,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 internal class ApplicationCollectorTests {
-
     companion object {
-
         private const val EXPECTED_APPLICATION_LABEL = "Sentinel"
         private const val VERSION_CODE = "100000"
         private const val VERSION_NAME = "1.0.0"
@@ -110,7 +108,7 @@ internal class ApplicationCollectorTests {
     @SmallTest
     @SdkSuppress(
         minSdkVersion = Build.VERSION_CODES.JELLY_BEAN,
-        maxSdkVersion = Build.VERSION_CODES.O
+        maxSdkVersion = Build.VERSION_CODES.O,
     )
     fun application_hasMinSdk_Before_Oreo() {
         assertNotNull(actualApplicationData.minSdk)

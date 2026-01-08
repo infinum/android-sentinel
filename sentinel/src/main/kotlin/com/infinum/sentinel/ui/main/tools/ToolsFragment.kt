@@ -13,24 +13,26 @@ import com.infinum.sentinel.ui.shared.delegates.viewBinding
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class ToolsFragment : BaseChildFragment<ToolsState, Nothing>(R.layout.sentinel_fragment_tools) {
-
     companion object {
         fun newInstance() = ToolsFragment()
+
         const val TAG: String = "ToolsFragment"
     }
 
     override val binding: SentinelFragmentToolsBinding by viewBinding(
-        SentinelFragmentToolsBinding::bind
+        SentinelFragmentToolsBinding::bind,
     )
 
     override val viewModel: ToolsViewModel by viewModels()
 
     override fun onState(state: ToolsState) =
         when (state) {
-            is ToolsState.Data -> with(binding) {
-                contentLayout.removeAllViews()
-                state.value.forEach {
-                    contentLayout.addView(createItemView(it))
+            is ToolsState.Data -> {
+                with(binding) {
+                    contentLayout.removeAllViews()
+                    state.value.forEach {
+                        contentLayout.addView(createItemView(it))
+                    }
                 }
             }
         }
@@ -38,7 +40,8 @@ internal class ToolsFragment : BaseChildFragment<ToolsState, Nothing>(R.layout.s
     override fun onEvent(event: Nothing) = Unit
 
     private fun createItemView(tool: Sentinel.Tool): View =
-        SentinelViewItemButtonBinding.inflate(layoutInflater, binding.contentLayout, false)
+        SentinelViewItemButtonBinding
+            .inflate(layoutInflater, binding.contentLayout, false)
             .apply {
                 this.buttonView.icon =
                     tool.icon()?.let { ContextCompat.getDrawable(this.buttonView.context, it) }

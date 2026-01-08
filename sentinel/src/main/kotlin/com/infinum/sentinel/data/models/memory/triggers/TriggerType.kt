@@ -6,5 +6,5 @@ internal enum class TriggerType {
     PROXIMITY,
     FOREGROUND,
     USB_CONNECTED,
-    AIRPLANE_MODE_ON
+    AIRPLANE_MODE_ON,
 }

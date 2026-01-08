@@ -44,9 +44,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 public class SentinelFragmentTests {
-
     public companion object {
-
         private lateinit var context: Context
 
         @BeforeClass
@@ -91,16 +89,16 @@ public class SentinelFragmentTests {
         onView(
             allOf(
                 withContentDescription(R.string.sentinel_settings),
-                isAssignableFrom(AppCompatImageButton::class.java)
-            )
+                isAssignableFrom(AppCompatImageButton::class.java),
+            ),
         ).check(matches(isDisplayed()))
 
         // click navigationIcon
         onView(
             allOf(
                 withContentDescription(R.string.sentinel_settings),
-                isAssignableFrom(AppCompatImageButton::class.java)
-            )
+                isAssignableFrom(AppCompatImageButton::class.java),
+            ),
         ).perform(click())
 
         Intents.intended(hasComponent(SettingsActivity::class.java.name))
@@ -137,8 +135,8 @@ public class SentinelFragmentTests {
         onView(
             allOf(
                 withId(R.id.device),
-                isDescendantOfA(withId(R.id.bottomNavigation))
-            )
+                isDescendantOfA(withId(R.id.bottomNavigation)),
+            ),
         ).perform(click())
 
         scenario.onFragment {
@@ -151,9 +149,10 @@ public class SentinelFragmentTests {
 
     @Test
     public fun sentinelFragment_showChild_Application() {
-        val scenario = launchFragmentInContainer<SentinelFragment>(
-            themeResId = R.style.Sentinel_Theme_Dialog
-        )
+        val scenario =
+            launchFragmentInContainer<SentinelFragment>(
+                themeResId = R.style.Sentinel_Theme_Dialog,
+            )
 
         onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
@@ -165,8 +164,8 @@ public class SentinelFragmentTests {
         onView(
             allOf(
                 withId(R.id.application),
-                isDescendantOfA(withId(R.id.bottomNavigation))
-            )
+                isDescendantOfA(withId(R.id.bottomNavigation)),
+            ),
         ).perform(click())
 
         scenario.onFragment {
@@ -178,9 +177,10 @@ public class SentinelFragmentTests {
 
     @Test
     public fun sentinelFragment_showChild_Permissions() {
-        val scenario = launchFragmentInContainer<SentinelFragment>(
-            themeResId = R.style.Sentinel_Theme_Dialog
-        )
+        val scenario =
+            launchFragmentInContainer<SentinelFragment>(
+                themeResId = R.style.Sentinel_Theme_Dialog,
+            )
 
         onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
@@ -191,8 +191,8 @@ public class SentinelFragmentTests {
         onView(
             allOf(
                 withId(R.id.permissions),
-                isDescendantOfA(withId(R.id.bottomNavigation))
-            )
+                isDescendantOfA(withId(R.id.bottomNavigation)),
+            ),
         ).perform(click())
 
         scenario.onFragment {
@@ -205,9 +205,10 @@ public class SentinelFragmentTests {
 
     @Test
     public fun sentinelFragment_showChild_Preferences() {
-        val scenario = launchFragmentInContainer<SentinelFragment>(
-            themeResId = R.style.Sentinel_Theme_Dialog
-        )
+        val scenario =
+            launchFragmentInContainer<SentinelFragment>(
+                themeResId = R.style.Sentinel_Theme_Dialog,
+            )
 
         onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
@@ -218,8 +219,8 @@ public class SentinelFragmentTests {
         onView(
             allOf(
                 withId(R.id.preferences),
-                isDescendantOfA(withId(R.id.bottomNavigation))
-            )
+                isDescendantOfA(withId(R.id.bottomNavigation)),
+            ),
         ).perform(lenientClick())
 
         scenario.onFragment {
@@ -232,9 +233,10 @@ public class SentinelFragmentTests {
 
     @Test
     public fun sentinelFragment_showChild_Tools() {
-        val scenario = launchFragmentInContainer<SentinelFragment>(
-            themeResId = R.style.Sentinel_Theme_Dialog
-        )
+        val scenario =
+            launchFragmentInContainer<SentinelFragment>(
+                themeResId = R.style.Sentinel_Theme_Dialog,
+            )
 
         onView(withId(R.id.applicationIconView)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
@@ -244,8 +246,8 @@ public class SentinelFragmentTests {
 
         onView(
             allOf(
-                withId(R.id.fab)
-            )
+                withId(R.id.fab),
+            ),
         ).perform(click())
 
         scenario.onFragment {
@@ -258,9 +260,10 @@ public class SentinelFragmentTests {
 
     @Test
     public fun sentinelFragment_share() {
-        val scenario = launchFragmentInContainer<SentinelFragment>(
-            themeResId = R.style.Sentinel_Theme_Dialog
-        )
+        val scenario =
+            launchFragmentInContainer<SentinelFragment>(
+                themeResId = R.style.Sentinel_Theme_Dialog,
+            )
         scenario.onFragment {
             val childFragment = it.childFragmentManager.findFragmentByTag(ToolsFragment.TAG)
             assertNotNull(childFragment)
@@ -282,19 +285,17 @@ public class SentinelFragmentTests {
         Intents.release()
     }
 
-    private fun lenientClick(): ViewAction {
-        return object : ViewAction {
-            override fun getConstraints(): Matcher<View> {
-                return ViewMatchers.isEnabled()
-            }
+    private fun lenientClick(): ViewAction =
+        object : ViewAction {
+            override fun getConstraints(): Matcher<View> = ViewMatchers.isEnabled()
 
-            override fun getDescription(): String {
-                return "Barely clicking"
-            }
+            override fun getDescription(): String = "Barely clicking"
 
-            override fun perform(uiController: UiController?, view: View) {
+            override fun perform(
+                uiController: UiController?,
+                view: View,
+            ) {
                 view.performClick()
             }
         }
-    }
 }

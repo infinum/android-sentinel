@@ -8,20 +8,24 @@ import com.infinum.sentinel.databinding.SentinelItemCrashBinding
 
 internal class CrashesAdapter(
     private val onListChanged: (Boolean) -> Unit,
-    private val onClick: (CrashEntity) -> Unit
+    private val onClick: (CrashEntity) -> Unit,
 ) : ListAdapter<CrashEntity, CrashViewHolder>(CrashesDiffUtil()) {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CrashViewHolder =
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): CrashViewHolder =
         CrashViewHolder(
             SentinelItemCrashBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
-                false
-            )
+                false,
+            ),
         )
 
-    override fun onBindViewHolder(holder: CrashViewHolder, position: Int) =
-        holder.bind(getItem(position), onClick)
+    override fun onBindViewHolder(
+        holder: CrashViewHolder,
+        position: Int,
+    ) = holder.bind(getItem(position), onClick)
 
     override fun onViewRecycled(holder: CrashViewHolder) {
         holder.unbind()
@@ -29,7 +33,6 @@ internal class CrashesAdapter(
 
     override fun onCurrentListChanged(
         previousList: MutableList<CrashEntity>,
-        currentList: MutableList<CrashEntity>
-    ) =
-        onListChanged(currentList.isEmpty())
+        currentList: MutableList<CrashEntity>,
+    ) = onListChanged(currentList.isEmpty())
 }

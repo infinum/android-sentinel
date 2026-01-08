@@ -6,18 +6,18 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 internal class DeviceViewModel(
-    private val collectors: Factories.Collector
+    private val collectors: Factories.Collector,
 ) : BaseChildViewModel<DeviceState, Nothing>() {
-
     override fun data() =
         launch {
-            val result = io {
-                collectors.device()()
-            }
+            val result =
+                io {
+                    collectors.device()()
+                }
             setState(
                 DeviceState.Data(
-                    value = result
-                )
+                    value = result,
+                ),
             )
         }
 }

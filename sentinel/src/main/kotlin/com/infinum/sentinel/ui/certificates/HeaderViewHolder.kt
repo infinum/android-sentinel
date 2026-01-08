@@ -6,10 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.infinum.sentinel.databinding.SentinelItemHeaderBinding
 
 internal class HeaderViewHolder(
-    private val binding: SentinelItemHeaderBinding
+    private val binding: SentinelItemHeaderBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
-
-    fun bind(@StringRes title: Int, count: Int) {
+    fun bind(
+        @StringRes title: Int,
+        count: Int,
+    ) {
         with(binding) {
             titleView.text = titleView.context.getString(title)
             countView.text = count.toString()

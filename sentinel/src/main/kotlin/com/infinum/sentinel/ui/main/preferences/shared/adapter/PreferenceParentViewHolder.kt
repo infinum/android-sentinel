@@ -5,9 +5,9 @@ import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelViewItemPreferenceBinding
 import com.infinum.sentinel.ui.main.preferences.shared.model.PreferencesItem
 
-internal class PreferenceParentViewHolder(private val binding: SentinelViewItemPreferenceBinding) :
-    RecyclerView.ViewHolder(binding.root) {
-
+internal class PreferenceParentViewHolder(
+    private val binding: SentinelViewItemPreferenceBinding,
+) : RecyclerView.ViewHolder(binding.root) {
     fun bind(
         data: PreferencesItem.Parent,
         onSortClicked: (String) -> Unit,
@@ -18,7 +18,7 @@ internal class PreferenceParentViewHolder(private val binding: SentinelViewItemP
         binding.hideExpandImageView.setOnClickListener { onHideExpandClicked(data.name) }
 
         binding.hideExpandImageView.setImageResource(
-            if (data.isExpanded) R.drawable.sentinel_ic_minus else R.drawable.sentinel_ic_plus
+            if (data.isExpanded) R.drawable.sentinel_ic_minus else R.drawable.sentinel_ic_plus,
         )
     }
 }

@@ -14,22 +14,22 @@ import me.tatarka.inject.annotations.Inject
 internal class CertificatesViewModel(
     private val collectors: Factories.Collector,
     private val repository: Repositories.Certificate,
-    private val monitor: Repositories.CertificateMonitor
+    private val monitor: Repositories.CertificateMonitor,
 ) : BaseChildViewModel<CertificatesState, CertificatesEvent>() {
-
     override fun data() =
         launch {
-            val result = io {
-                val certificates = collectors.certificates()()
-                val settings = monitor.load(CertificateMonitorParameters()).first()
-                certificates to settings
-            }
+            val result =
+                io {
+                    val certificates = collectors.certificates()()
+                    val settings = monitor.load(CertificateMonitorParameters()).first()
+                    certificates to settings
+                }
             setState(
                 CertificatesState.Data(
                     userCertificates = result.first[CertificateType.USER].orEmpty(),
                     systemCertificates = result.first[CertificateType.SYSTEM].orEmpty(),
-                    settings = result.second
-                )
+                    settings = result.second,
+                ),
             )
         }
 
@@ -38,8 +38,8 @@ internal class CertificatesViewModel(
             io {
                 repository.cache(
                     CertificateParameters.Cache(
-                        value = data
-                    )
+                        value = data,
+                    ),
                 )
             }
             emitEvent(CertificatesEvent.Cached())

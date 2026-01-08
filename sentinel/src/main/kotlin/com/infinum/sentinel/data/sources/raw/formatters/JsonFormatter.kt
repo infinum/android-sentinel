@@ -26,9 +26,8 @@ internal class JsonFormatter(
     private val applicationCollector: Collectors.Application,
     private val permissionsCollector: Collectors.Permissions,
     private val deviceCollector: Collectors.Device,
-    private val preferencesCollector: Collectors.Preferences
+    private val preferencesCollector: Collectors.Preferences,
 ) : Formatters.Json {
-
     companion object {
         private const val INDENT_SPACES = 4
     }
@@ -41,7 +40,10 @@ internal class JsonFormatter(
             .put(PREFERENCES, preferences())
             .toString(INDENT_SPACES)
 
-    override fun formatCrash(includeAllData: Boolean, entity: CrashEntity): String =
+    override fun formatCrash(
+        includeAllData: Boolean,
+        entity: CrashEntity,
+    ): String =
         if (includeAllData) {
             JSONObject()
                 .put(APPLICATION, application())
@@ -82,7 +84,7 @@ internal class JsonFormatter(
                         JSONObject().apply {
                             addKey(NAME, entry.key)
                             addKey(STATUS, entry.value.toString())
-                        }
+                        },
                     )
                 }
             }
@@ -128,12 +130,12 @@ internal class JsonFormatter(
                                         put(
                                             JSONObject().apply {
                                                 addKey(it.second, it.third)
-                                            }
+                                            },
                                         )
                                     }
-                                }
+                                },
                             )
-                        }
+                        },
                     )
                 }
             }
@@ -147,77 +149,146 @@ internal class JsonFormatter(
                 addKey(R.string.sentinel_exception_name, context.getString(R.string.sentinel_anr_title))
                 addKey(
                     R.string.sentinel_stacktrace,
-                    entity.data.exception?.asPrint().orEmpty()
+                    entity.data.exception
+                        ?.asPrint()
+                        .orEmpty(),
                 )
-                addKey(R.string.sentinel_thread_states, entity.data.threadState.orEmpty().count().toString())
+                addKey(
+                    R.string.sentinel_thread_states,
+                    entity.data.threadState
+                        .orEmpty()
+                        .count()
+                        .toString(),
+                )
                 addKey(
                     R.string.sentinel_stacktrace,
                     JSONArray().apply {
                         entity.data.threadState?.forEach { process ->
                             put(
                                 "${process.name}\t\t\t${process.state.uppercase()}"
-                                    .plus(process.stackTrace.joinToString { "\n\t\t\t at $it" })
+                                    .plus(process.stackTrace.joinToString { "\n\t\t\t at $it" }),
                             )
                         }
-                    }
+                    },
                 )
             } else {
-                addKey(R.string.sentinel_file, entity.data.exception?.file.orEmpty())
-                addKey(R.string.sentinel_line, entity.data.exception?.lineNumber?.toString().orEmpty())
+                addKey(
+                    R.string.sentinel_file,
+                    entity.data.exception
+                        ?.file
+                        .orEmpty(),
+                )
+                addKey(
+                    R.string.sentinel_line,
+                    entity.data.exception
+                        ?.lineNumber
+                        ?.toString()
+                        .orEmpty(),
+                )
                 addKey(R.string.sentinel_timestamp, entity.timestamp)
-                addKey(R.string.sentinel_exception_name, entity.data.exception?.name.orEmpty())
+                addKey(
+                    R.string.sentinel_exception_name,
+                    entity.data.exception
+                        ?.name
+                        .orEmpty(),
+                )
                 addKey(
                     R.string.sentinel_stacktrace,
-                    entity.data.exception?.asPrint().orEmpty()
+                    entity.data.exception
+                        ?.asPrint()
+                        .orEmpty(),
                 )
-                addKey(R.string.sentinel_thread_name, entity.data.thread?.name.orEmpty())
-                addKey(R.string.sentinel_thread_state, entity.data.thread?.state.orEmpty())
+                addKey(
+                    R.string.sentinel_thread_name,
+                    entity.data.thread
+                        ?.name
+                        .orEmpty(),
+                )
+                addKey(
+                    R.string.sentinel_thread_state,
+                    entity.data.thread
+                        ?.state
+                        .orEmpty(),
+                )
                 addKey(
                     R.string.sentinel_priority,
                     when (entity.data.thread?.priority) {
                         Thread.MAX_PRIORITY -> "maximum"
                         Thread.MIN_PRIORITY -> "minimum"
                         else -> "normal"
-                    }
+                    },
                 )
-                addKey(R.string.sentinel_id, entity.data.thread?.id?.toString().orEmpty())
-                addKey(R.string.sentinel_daemon, entity.data.thread?.isDaemon?.toString().orEmpty())
+                addKey(
+                    R.string.sentinel_id,
+                    entity.data.thread
+                        ?.id
+                        ?.toString()
+                        .orEmpty(),
+                )
+                addKey(
+                    R.string.sentinel_daemon,
+                    entity.data.thread
+                        ?.isDaemon
+                        ?.toString()
+                        .orEmpty(),
+                )
             }
         }
 
-    private fun JSONObject.addKey(@StringRes key: Int, value: String) {
+    private fun JSONObject.addKey(
+        @StringRes key: Int,
+        value: String,
+    ) {
         context.getString(key).sanitize().let {
             put(it, value)
         }
     }
 
-    private fun JSONObject.addKey(@StringRes key: Int, value: Boolean) {
+    private fun JSONObject.addKey(
+        @StringRes key: Int,
+        value: Boolean,
+    ) {
         context.getString(key).sanitize().let {
             put(it, value)
         }
     }
 
-    private fun JSONObject.addKey(@StringRes key: Int, value: Long) {
+    private fun JSONObject.addKey(
+        @StringRes key: Int,
+        value: Long,
+    ) {
         context.getString(key).sanitize().let {
             put(it, value)
         }
     }
 
-    private fun JSONObject.addKey(@StringRes key: Int, values: JSONArray) {
+    private fun JSONObject.addKey(
+        @StringRes key: Int,
+        values: JSONArray,
+    ) {
         context.getString(key).sanitize().let {
             put(it, values)
         }
     }
 
-    private fun JSONObject.addKey(key: String, value: String) {
+    private fun JSONObject.addKey(
+        key: String,
+        value: String,
+    ) {
         put(key, value)
     }
 
-    private fun JSONObject.addKey(key: String, values: JSONArray) {
+    private fun JSONObject.addKey(
+        key: String,
+        values: JSONArray,
+    ) {
         put(key, values)
     }
 
-    private fun JSONObject.addKey(key: String, value: Any?) {
+    private fun JSONObject.addKey(
+        key: String,
+        value: Any?,
+    ) {
         put(key.sanitize(), value)
     }
 }

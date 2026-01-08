@@ -12,10 +12,12 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 internal class NotificationIntentFactory(
-    private val context: Context
+    private val context: Context,
 ) : IntentFactory {
-
-    override fun crash(applicationName: String, id: Long): Array<Intent> =
+    override fun crash(
+        applicationName: String,
+        id: Long,
+    ): Array<Intent> =
         arrayOf(
             Intent(context, CrashesActivity::class.java)
                 .apply {
@@ -24,7 +26,7 @@ internal class NotificationIntentFactory(
             Intent(context, CrashDetailsActivity::class.java)
                 .apply {
                     putExtra(Constants.Keys.CRASH_ID, id)
-                }
+                },
         )
 
     override fun certificate(applicationName: String): Array<Intent> =
@@ -36,6 +38,6 @@ internal class NotificationIntentFactory(
                     }
             } else {
                 Intent(context, SettingsActivity::class.java)
-            }
+            },
         )
 }

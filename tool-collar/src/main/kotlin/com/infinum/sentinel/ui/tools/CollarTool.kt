@@ -12,15 +12,15 @@ import com.infinum.sentinel.Sentinel
  * Tool Activity will launch with FLAG_ACTIVITY_SINGLE_TOP flag.
  */
 public data class CollarTool(
-    private val listener: View.OnClickListener = View.OnClickListener {
-        it.context.startActivity(
-            CollarUi.launchIntent().apply {
-                addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            }
-        )
-    }
+    private val listener: View.OnClickListener =
+        View.OnClickListener {
+            it.context.startActivity(
+                CollarUi.launchIntent().apply {
+                    addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                },
+            )
+        },
 ) : Sentinel.Tool {
-
     /**
      * An optional icon for this tool
      *

@@ -11,22 +11,25 @@ import me.tatarka.inject.annotations.Inject
 @Inject
 internal class SentinelWorkerFactory(
     private val collectors: Factories.Collector,
-    private val notificationFactory: NotificationFactory
+    private val notificationFactory: NotificationFactory,
 ) : WorkerFactory() {
-
     override fun createWorker(
         appContext: Context,
         workerClassName: String,
-        workerParameters: WorkerParameters
+        workerParameters: WorkerParameters,
     ): ListenableWorker? =
         when (workerClassName) {
-            CertificateCheckWorker.NAME ->
+            CertificateCheckWorker.NAME -> {
                 CertificateCheckWorker(
                     appContext,
                     workerParameters,
                     collectors,
-                    notificationFactory
+                    notificationFactory,
                 )
-            else -> null
+            }
+
+            else -> {
+                null
+            }
         }
 }

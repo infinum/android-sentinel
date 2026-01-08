@@ -10,6 +10,6 @@ import org.junit.runners.Suite.SuiteClasses
     MarkdownStringBuilderTests::class,
     JsonStringBuilderTests::class,
     XmlStringBuilderTests::class,
-    HtmlStringBuilderTests::class
+    HtmlStringBuilderTests::class,
 )
 public class FormattersTestSuite

@@ -11,13 +11,12 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 internal class LoggerViewHolder(
-    private val binding: SentinelItemLogBinding
+    private val binding: SentinelItemLogBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
-
     fun bind(
         item: SentinelFileTree.Entry?,
         dateTimeFormat: SimpleDateFormat,
-        onClick: (SentinelFileTree.Entry) -> Unit
+        onClick: (SentinelFileTree.Entry) -> Unit,
     ) {
         item?.let { entry ->
             with(binding) {
@@ -32,8 +31,8 @@ internal class LoggerViewHolder(
                             Level.VERBOSE -> R.color.sentinel_log_level_verbose
                             Level.WARN -> R.color.sentinel_log_level_warn
                             Level.UNKNOWN -> R.color.sentinel_log_level_unknown
-                        }
-                    )
+                        },
+                    ),
                 )
                 timestampView.text = dateTimeFormat.format(Date(entry.timestamp))
                 tagView.text = entry.tag

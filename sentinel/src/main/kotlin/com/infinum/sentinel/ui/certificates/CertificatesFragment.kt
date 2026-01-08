@@ -21,46 +21,51 @@ import com.infinum.sentinel.ui.shared.edgefactories.bounce.BounceEdgeEffectFacto
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 @RequiresApi(Build.VERSION_CODES.O)
-internal class CertificatesFragment :
-    BaseChildFragment<CertificatesState, CertificatesEvent>(R.layout.sentinel_fragment_certificates) {
-
+internal class CertificatesFragment : BaseChildFragment<CertificatesState, CertificatesEvent>(R.layout.sentinel_fragment_certificates) {
     companion object {
         fun newInstance() = CertificatesFragment()
+
         const val TAG: String = "CertificatesFragment"
     }
 
     override val binding: SentinelFragmentCertificatesBinding by viewBinding(
-        SentinelFragmentCertificatesBinding::bind
+        SentinelFragmentCertificatesBinding::bind,
     )
 
     override val viewModel: CertificatesViewModel by viewModels()
 
     private val userHeaderAdapter = HeaderAdapter(R.string.sentinel_certificates_user, 0)
-    private val userAdapter = CertificatesAdapter(
-        onListChanged = {
-            showEmptyState()
-        },
-        onClick = {
-            viewModel.cache(it)
-        }
-    )
+    private val userAdapter =
+        CertificatesAdapter(
+            onListChanged = {
+                showEmptyState()
+            },
+            onClick = {
+                viewModel.cache(it)
+            },
+        )
     private val systemHeaderAdapter = HeaderAdapter(R.string.sentinel_certificates_system, 0)
-    private val systemAdapter = CertificatesAdapter(
-        onListChanged = {
-            showEmptyState()
-        },
-        onClick = {
-            viewModel.cache(it)
-        }
-    )
-    private val adapter = ConcatAdapter(
-        userHeaderAdapter,
-        userAdapter,
-        systemHeaderAdapter,
-        systemAdapter
-    )
+    private val systemAdapter =
+        CertificatesAdapter(
+            onListChanged = {
+                showEmptyState()
+            },
+            onClick = {
+                viewModel.cache(it)
+            },
+        )
+    private val adapter =
+        ConcatAdapter(
+            userHeaderAdapter,
+            userAdapter,
+            systemHeaderAdapter,
+            systemAdapter,
+        )
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
 
         setupToolbar()
@@ -89,7 +94,7 @@ internal class CertificatesFragment :
         when (event) {
             is CertificatesEvent.Cached -> {
                 startActivity(
-                    Intent(requireContext(), CertificateDetailsActivity::class.java)
+                    Intent(requireContext(), CertificateDetailsActivity::class.java),
                 )
             }
         }

@@ -6,5 +6,5 @@ import com.infinum.sentinel.domain.shared.base.BaseParameters
 
 internal data class BundlesParameters(
     val monitor: BundleMonitorParameters,
-    val details: BundleParameters
+    val details: BundleParameters,
 ) : BaseParameters

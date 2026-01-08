@@ -25,9 +25,7 @@ import org.robolectric.util.ReflectionHelpers
 
 @RunWith(AndroidJUnit4::class)
 internal class PlainStringBuilderTests {
-
     companion object {
-
         private const val FIELD_MANUFACTURER = "Google"
         private const val FIELD_MODEL = "Android SDK built for x86"
         private const val FIELD_ID = "QSR1.190920.001"
@@ -66,41 +64,43 @@ internal class PlainStringBuilderTests {
             ReflectionHelpers.setStaticField(
                 Build::class.java,
                 "MANUFACTURER",
-                FIELD_MANUFACTURER
+                FIELD_MANUFACTURER,
             )
             ReflectionHelpers.setStaticField(Build::class.java, "MODEL", FIELD_MODEL)
             ReflectionHelpers.setStaticField(Build::class.java, "ID", FIELD_ID)
             ReflectionHelpers.setStaticField(
                 Build::class.java,
                 "BOOTLOADER",
-                FIELD_BOOTLOADER
+                FIELD_BOOTLOADER,
             )
             ReflectionHelpers.setStaticField(Build::class.java, "DEVICE", FIELD_DEVICE)
             ReflectionHelpers.setStaticField(Build::class.java, "BOARD", FIELD_BOARD)
             ReflectionHelpers.setStaticField(
                 Build::class.java,
                 "SUPPORTED_ABIS",
-                FIELD_ARCHITECTURES
+                FIELD_ARCHITECTURES,
             )
             ReflectionHelpers.setStaticField(
                 Build.VERSION::class.java,
                 "CODENAME",
-                FIELD_CODENAME
+                FIELD_CODENAME,
             )
             ReflectionHelpers.setStaticField(
                 Build.VERSION::class.java,
                 "RELEASE",
-                FIELD_RELEASE
+                FIELD_RELEASE,
             )
             ReflectionHelpers.setStaticField(Build.VERSION::class.java, "SDK_INT", FIELD_SDK)
             ReflectionHelpers.setStaticField(
                 Build.VERSION::class.java,
                 "SECURITY_PATCH",
-                FIELD_SECURITY_PATCH
+                FIELD_SECURITY_PATCH,
             )
 
-            context = ApplicationProvider.getApplicationContext<SentinelTestApplication>()
-                .applicationContext
+            context =
+                ApplicationProvider
+                    .getApplicationContext<SentinelTestApplication>()
+                    .applicationContext
             applicationCollector = ApplicationCollector(context)
             permissionsCollector = PermissionsCollector(context)
             deviceCollector = DeviceCollector(context)
@@ -108,32 +108,36 @@ internal class PlainStringBuilderTests {
         }
     }
 
-    private val EXPECTED_DATA_NO_PREFERENCES: String = this.javaClass
-        .classLoader
-        ?.getResourceAsStream("expected_plain_no_preferences.txt")
-        ?.bufferedReader()
-        ?.use { it.readText() }
-        .orEmpty()
+    private val expectedDataNoPreferences: String =
+        this.javaClass
+            .classLoader
+            ?.getResourceAsStream("expected_plain_no_preferences.txt")
+            ?.bufferedReader()
+            ?.use { it.readText() }
+            .orEmpty()
 
-    private val EXPECTED_DATA: String = this.javaClass
-        .classLoader
-        ?.getResourceAsStream("expected_plain.txt")
-        ?.bufferedReader()
-        ?.use { it.readText() }
-        .orEmpty()
+    private val expectedData: String =
+        this.javaClass
+            .classLoader
+            ?.getResourceAsStream("expected_plain.txt")
+            ?.bufferedReader()
+            ?.use { it.readText() }
+            .orEmpty()
 
     private fun checkDeviceSpecificFields(text: String): String {
-        val fields = listOf(
-            "screen_width",
-            "screen_height",
-            "screen_size",
-            "screen_density",
-            "font_scale"
-        )
+        val fields =
+            listOf(
+                "screen_width",
+                "screen_height",
+                "screen_size",
+                "screen_density",
+                "font_scale",
+            )
 
-        val fieldPatterns = fields.map { field ->
-            field to Regex("""$field:\s*.*""")
-        }
+        val fieldPatterns =
+            fields.map { field ->
+                field to Regex("""$field:\s*.*""")
+            }
 
         var updatedText = text
 
@@ -153,9 +157,10 @@ internal class PlainStringBuilderTests {
     fun preferences_deleteDir_Before() {
         val prefsDirectory =
             File(context.applicationInfo.dataDir, PreferencesCollector.PREFS_DIRECTORY)
-        val success = (prefsDirectory.exists() && prefsDirectory.isDirectory).let {
-            prefsDirectory.deleteRecursively()
-        }
+        val success =
+            (prefsDirectory.exists() && prefsDirectory.isDirectory).let {
+                prefsDirectory.deleteRecursively()
+            }
 
         assertTrue(success)
     }
@@ -164,9 +169,10 @@ internal class PlainStringBuilderTests {
     fun preferences_deleteDir_After() {
         val prefsDirectory =
             File(context.applicationInfo.dataDir, PreferencesCollector.PREFS_DIRECTORY)
-        val success = (prefsDirectory.exists() && prefsDirectory.isDirectory).let {
-            prefsDirectory.deleteRecursively()
-        }
+        val success =
+            (prefsDirectory.exists() && prefsDirectory.isDirectory).let {
+                prefsDirectory.deleteRecursively()
+            }
 
         assertTrue(success)
     }
@@ -176,19 +182,21 @@ internal class PlainStringBuilderTests {
     fun formatter_hasDataWithoutPreferences() {
         val stringBuilder = PlainFormatter(context, applicationCollector, permissionsCollector, deviceCollector, preferencesCollector)
 
-        val actualData = stringBuilder()
-            .replace(Regex("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"), "yyyy-MM-dd HH:mm:ss")
-            .replace(Regex("(installer:)\\s"), "$1")
+        val actualData =
+            stringBuilder()
+                .replace(Regex("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"), "yyyy-MM-dd HH:mm:ss")
+                .replace(Regex("(installer:)\\s"), "$1")
         assertNotNull(actualData)
         assertTrue(actualData.isNotBlank())
         val cleanedUpData = checkDeviceSpecificFields(actualData)
-        assertEquals(EXPECTED_DATA_NO_PREFERENCES, cleanedUpData)
+        assertEquals(expectedDataNoPreferences, cleanedUpData)
     }
 
     @Test
     @SmallTest
     fun formatter_hasData() {
-        PreferenceManager.getDefaultSharedPreferences(context)
+        PreferenceManager
+            .getDefaultSharedPreferences(context)
             .edit()
             .putBoolean(KEY_BOOLEAN, VALUE_BOOLEAN)
             .putFloat(KEY_FLOAT, VALUE_FLOAT)
@@ -200,13 +208,14 @@ internal class PlainStringBuilderTests {
 
         val stringBuilder = PlainFormatter(context, applicationCollector, permissionsCollector, deviceCollector, preferencesCollector)
 
-        val actualData = stringBuilder()
-            .replace(Regex("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"), "yyyy-MM-dd HH:mm:ss")
-            .replace(Regex("(installer:)\\s"), "$1")
+        val actualData =
+            stringBuilder()
+                .replace(Regex("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"), "yyyy-MM-dd HH:mm:ss")
+                .replace(Regex("(installer:)\\s"), "$1")
 
         assertNotNull(actualData)
         assertTrue(actualData.isNotBlank())
         val cleanedUpData = checkDeviceSpecificFields(actualData)
-        assertEquals(EXPECTED_DATA, cleanedUpData)
+        assertEquals(expectedData, cleanedUpData)
     }
 }

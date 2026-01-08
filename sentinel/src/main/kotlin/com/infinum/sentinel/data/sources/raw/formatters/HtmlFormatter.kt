@@ -19,9 +19,8 @@ internal class HtmlFormatter(
     private val applicationCollector: Collectors.Application,
     private val permissionsCollector: Collectors.Permissions,
     private val deviceCollector: Collectors.Device,
-    private val preferencesCollector: Collectors.Preferences
+    private val preferencesCollector: Collectors.Preferences,
 ) : Formatters.Html {
-
     companion object {
         private const val HTML_START = "<html>"
         private const val HTML_END = "</html>"
@@ -54,7 +53,10 @@ internal class HtmlFormatter(
             .appendLine(HTML_END)
             .toString()
 
-    override fun formatCrash(includeAllData: Boolean, entity: CrashEntity): String =
+    override fun formatCrash(
+        includeAllData: Boolean,
+        entity: CrashEntity,
+    ): String =
         if (includeAllData) {
             StringBuilder()
                 .appendLine(HTML_START)
@@ -95,8 +97,7 @@ internal class HtmlFormatter(
                     addDiv(R.string.sentinel_locale_country, it.localeCountry)
                     addDiv(R.string.sentinel_installer_package, it.installerPackageId)
                 }
-            }
-            .toString()
+            }.toString()
 
     override fun permissions(): String =
         StringBuilder()
@@ -108,8 +109,7 @@ internal class HtmlFormatter(
                         addLi(entry.key, entry.value.toString())
                     }
                 }
-            }
-            .appendLine(UL_END)
+            }.appendLine(UL_END)
             .toString()
 
     override fun device(): String =
@@ -138,8 +138,7 @@ internal class HtmlFormatter(
                     addDiv(R.string.sentinel_screen_density, it.screenDpi)
                     addDiv(R.string.sentinel_font_scale, it.fontScale.toString())
                 }
-            }
-            .toString()
+            }.toString()
 
     @Suppress("NestedBlockDepth")
     override fun preferences(): String =
@@ -154,8 +153,7 @@ internal class HtmlFormatter(
                         }
                     }
                 }
-            }
-            .toString()
+            }.toString()
 
     override fun crash(entity: CrashEntity): String =
         StringBuilder()
@@ -166,50 +164,103 @@ internal class HtmlFormatter(
                     addDiv(R.string.sentinel_exception_name, context.getString(R.string.sentinel_anr_title))
                     addDiv(
                         R.string.sentinel_stacktrace,
-                        entity.data.exception?.asPrint("</br>&emsp;").orEmpty()
+                        entity.data.exception
+                            ?.asPrint("</br>&emsp;")
+                            .orEmpty(),
                     )
-                    addDiv(R.string.sentinel_thread_states, entity.data.threadState.orEmpty().count().toString())
+                    addDiv(
+                        R.string.sentinel_thread_states,
+                        entity.data.threadState
+                            .orEmpty()
+                            .count()
+                            .toString(),
+                    )
                     appendLine(UL_START)
                     entity.data.threadState?.forEach { process ->
                         addLi(
                             context.getString(R.string.sentinel_stacktrace),
                             "${process.name}&emsp;${process.state.uppercase()}"
-                                .plus(process.stackTrace.joinToString { "</br>&emsp; at $it" })
+                                .plus(process.stackTrace.joinToString { "</br>&emsp; at $it" }),
                         )
                     }
                     appendLine(UL_END)
                 } else {
                     addDiv(R.string.sentinel_timestamp, entity.timestamp.toString())
-                    addDiv(R.string.sentinel_file, entity.data.exception?.file.orEmpty())
-                    addDiv(R.string.sentinel_line, entity.data.exception?.lineNumber?.toString().orEmpty())
-                    addDiv(R.string.sentinel_exception_name, entity.data.exception?.name.orEmpty())
+                    addDiv(
+                        R.string.sentinel_file,
+                        entity.data.exception
+                            ?.file
+                            .orEmpty(),
+                    )
+                    addDiv(
+                        R.string.sentinel_line,
+                        entity.data.exception
+                            ?.lineNumber
+                            ?.toString()
+                            .orEmpty(),
+                    )
+                    addDiv(
+                        R.string.sentinel_exception_name,
+                        entity.data.exception
+                            ?.name
+                            .orEmpty(),
+                    )
                     addDiv(
                         R.string.sentinel_stacktrace,
-                        entity.data.exception?.asPrint("</br>&emsp;").orEmpty()
+                        entity.data.exception
+                            ?.asPrint("</br>&emsp;")
+                            .orEmpty(),
                     )
-                    addDiv(R.string.sentinel_thread_name, entity.data.thread?.name.orEmpty())
-                    addDiv(R.string.sentinel_thread_state, entity.data.thread?.state.orEmpty())
+                    addDiv(
+                        R.string.sentinel_thread_name,
+                        entity.data.thread
+                            ?.name
+                            .orEmpty(),
+                    )
+                    addDiv(
+                        R.string.sentinel_thread_state,
+                        entity.data.thread
+                            ?.state
+                            .orEmpty(),
+                    )
                     addDiv(
                         R.string.sentinel_priority,
                         when (entity.data.thread?.priority) {
                             Thread.MAX_PRIORITY -> "maximum"
                             Thread.MIN_PRIORITY -> "minimum"
                             else -> "normal"
-                        }
+                        },
                     )
-                    addDiv(R.string.sentinel_id, entity.data.thread?.id?.toString().orEmpty())
-                    addDiv(R.string.sentinel_daemon, entity.data.thread?.isDaemon?.toString().orEmpty())
+                    addDiv(
+                        R.string.sentinel_id,
+                        entity.data.thread
+                            ?.id
+                            ?.toString()
+                            .orEmpty(),
+                    )
+                    addDiv(
+                        R.string.sentinel_daemon,
+                        entity.data.thread
+                            ?.isDaemon
+                            ?.toString()
+                            .orEmpty(),
+                    )
                 }
-            }
-            .toString()
+            }.toString()
 
-    private fun StringBuilder.addDiv(@StringRes tag: Int, text: String) {
+    private fun StringBuilder.addDiv(
+        @StringRes tag: Int,
+        text: String,
+    ) {
         context.getString(tag).sanitize().let {
             appendLine(String.format(FORMAT_BLOCK, "$DIV_START$it", "$text$DIV_END"))
         }
     }
 
-    private fun StringBuilder.addLi(tag: String, text: String) {
+    private fun StringBuilder.addLi(
+        tag: String,
+        text: String,
+    ) {
         appendLine(String.format(FORMAT_BLOCK, "$LI_START$tag", "$text$LI_END"))
     }
 }

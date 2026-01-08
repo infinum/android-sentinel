@@ -7,7 +7,6 @@ import com.infinum.sentinel.ui.shared.base.BaseViewModel
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class SentinelActivity : BaseActivity<Nothing, Nothing>() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

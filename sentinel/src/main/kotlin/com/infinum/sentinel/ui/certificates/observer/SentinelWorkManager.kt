@@ -29,7 +29,6 @@ import me.tatarka.inject.annotations.Inject
 internal class SentinelWorkManager(
     private val context: Context,
 ) {
-
     companion object {
         private const val DEBUG_INTERVAL = 15L
         private const val RELEASE_INTERVAL = 1440L
@@ -37,16 +36,17 @@ internal class SentinelWorkManager(
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun startCertificatesCheck(entity: CertificateMonitorEntity) {
-
-        val delegatedWorkData = workDataOf(
-            WORKER_CLASS_NAME to CertificateCheckWorker::class.qualifiedName,
-            WORKER_ID to CertificateCheckWorker.NAME,
-            NOTIFY_INVALID_NOW to entity.notifyInvalidNow,
-            NOTIFY_TO_EXPIRE to entity.notifyToExpire,
-            EXPIRE_IN_AMOUNT to entity.expireInAmount,
-            EXPIRE_IN_UNIT to entity.expireInUnit.name
-        )
-        WorkManager.getInstance(context)
+        val delegatedWorkData =
+            workDataOf(
+                WORKER_CLASS_NAME to CertificateCheckWorker::class.qualifiedName,
+                WORKER_ID to CertificateCheckWorker.NAME,
+                NOTIFY_INVALID_NOW to entity.notifyInvalidNow,
+                NOTIFY_TO_EXPIRE to entity.notifyToExpire,
+                EXPIRE_IN_AMOUNT to entity.expireInAmount,
+                EXPIRE_IN_UNIT to entity.expireInUnit.name,
+            )
+        WorkManager
+            .getInstance(context)
             .enqueueUniquePeriodicWork(
                 DelegateWorker.DELEGATE_WORKER_ID,
                 ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE,
@@ -54,10 +54,11 @@ internal class SentinelWorkManager(
                     when (BuildConfig.DEBUG) {
                         true -> Duration.ofMinutes(DEBUG_INTERVAL)
                         false -> Duration.ofMinutes(RELEASE_INTERVAL)
-                    }
+                    },
                 ).setInputData(delegatedWorkData)
                     .setConstraints(
-                        Constraints.Builder()
+                        Constraints
+                            .Builder()
                             .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
                             .setRequiresCharging(false)
                             .setRequiresBatteryNotLow(true)
@@ -65,27 +66,28 @@ internal class SentinelWorkManager(
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                     setRequiresDeviceIdle(false)
                                 }
-                            }
-                            .build()
-                    )
-                    .build()
+                            }.build(),
+                    ).build(),
             )
     }
 
     fun certificatesCheckState(): Flow<Boolean> =
-        WorkManager.getInstance(context)
+        WorkManager
+            .getInstance(context)
             .getWorkInfosForUniqueWork(CertificateCheckWorker.NAME)
             .get()
             .firstOrNull()
             ?.id
             ?.let {
-                WorkManager.getInstance(context)
+                WorkManager
+                    .getInstance(context)
                     .getWorkInfoByIdLiveData(it)
                     .asFlow()
                     .map { info -> info?.state != WorkInfo.State.CANCELLED }
             } ?: flowOf(false)
 
     fun stopCertificatesCheck() =
-        WorkManager.getInstance(context)
+        WorkManager
+            .getInstance(context)
             .cancelUniqueWork(CertificateCheckWorker.NAME)
 }

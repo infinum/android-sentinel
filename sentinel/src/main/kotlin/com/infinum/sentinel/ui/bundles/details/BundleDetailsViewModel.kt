@@ -12,14 +12,14 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 internal class BundleDetailsViewModel(
-    private val bundles: Repositories.Bundles
+    private val bundles: Repositories.Bundles,
 ) : BaseChildViewModel<BundleDetailsState, Nothing>() {
-
     private var parameters: BundleParameters = BundleParameters()
 
     override fun data() =
         launch {
-            bundles.load(parameters)
+            bundles
+                .load(parameters)
                 .flowOn(runningDispatchers)
                 .map { it.single { descriptor -> descriptor.bundleTree.id == parameters.bundleId } }
                 .onEach { setState(BundleDetailsState.Data(value = it)) }

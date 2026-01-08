@@ -23,7 +23,7 @@ internal enum class ChronoUnit {
     CENTURIES,
     MILLENNIA,
     ERAS,
-    FOREVER
+    FOREVER,
 }
 
 @RequiresApi(Build.VERSION_CODES.O)

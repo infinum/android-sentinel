@@ -10,9 +10,8 @@ import me.tatarka.inject.annotations.Inject
 @Inject
 internal class ShakeTrigger(
     context: Context,
-    trigger: () -> Unit
+    trigger: () -> Unit,
 ) : SensorTrigger(context, trigger, Sensor.TYPE_ACCELEROMETER, SampleQueue()) {
-
     companion object {
         private const val MAGNITUDE_THRESHOLD = 169
     }

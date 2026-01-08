@@ -6,16 +6,15 @@ import com.infinum.sentinel.ui.shared.base.BaseChildActivity
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class PreferenceEditorActivity : BaseChildActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        supportFragmentManager.beginTransaction()
+        supportFragmentManager
+            .beginTransaction()
             .replace(
                 android.R.id.content,
                 PreferenceEditorFragment.newInstance(),
-                PreferenceEditorFragment.TAG
-            )
-            .commit()
+                PreferenceEditorFragment.TAG,
+            ).commit()
     }
 }

@@ -4,7 +4,6 @@ import androidx.room.TypeConverter
 import com.infinum.sentinel.data.models.memory.triggers.TriggerType
 
 internal class TriggerTypeConverter {
-
     @TypeConverter
     fun toEnum(name: String): TriggerType = TriggerType.valueOf(name)
 
