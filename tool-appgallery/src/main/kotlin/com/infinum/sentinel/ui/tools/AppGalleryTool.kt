@@ -13,7 +13,8 @@ import com.infinum.sentinel.Sentinel
 /**
  * Specific wrapper tool around Huawei AppGallery.
  *
- * @param appId is your Huawei application ID from Huawei developer console.
+ * @property appId is your Huawei application ID from Huawei developer console.
+ * @param listener is a callback to be invoked when this view is clicked.
  *
  * Tool Activity will launch with FLAG_ACTIVITY_RESET_TASK_IF_NEEDED, FLAG_ACTIVITY_CLEAR_TOP
  * and FLAG_ACTIVITY_NEW_TASK flags.

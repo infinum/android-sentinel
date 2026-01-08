@@ -57,7 +57,7 @@ internal class CrashDetailsFragment :
     }
 
     @SuppressLint("SetTextI18n")
-    @Suppress("NestedBlockDepth", "LongMethod")
+    @Suppress("NestedBlockDepth", "LongMethod", "CognitiveComplexMethod")
     override fun onState(state: CrashDetailsState) =
         when (state) {
             is CrashDetailsState.Data -> {

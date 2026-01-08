@@ -7,9 +7,9 @@ import com.google.android.material.shape.ShapePath
 /**
  * Used as edge treatment for repeating triangle cutout
  *
- * @property count Number of triangles. Any amount value is valid, zero will be coerced to 1.
+ * @param count Number of triangles. Any amount value is valid, zero will be coerced to 1.
  * @property height Height of each triangle. Value needs to be provided in pixels
- * @property centerOrigin Determines if the array of triangles starts at base or at height. Can be true or false.
+ * @param centerOrigin Determines if the array of triangles starts at base or at height. Can be true or false.
  */
 internal class ScissorsEdgeTreatment(
     private val count: Int,

@@ -50,6 +50,7 @@ internal class XmlFormatter(
         } else {
             StringWriter()
                 .apply {
+                    @Suppress("LabeledExpression")
                     with(Xml.newSerializer()) {
                         setFeature(FEATURE_INDENT, true)
                         setOutput(this@apply)
@@ -75,6 +76,7 @@ internal class XmlFormatter(
     private fun format(entity: CrashEntity? = null) =
         StringWriter()
             .apply {
+                @Suppress("LabeledExpression")
                 with(Xml.newSerializer()) {
                     setFeature(FEATURE_INDENT, true)
                     setOutput(this@apply)
@@ -161,6 +163,7 @@ internal class XmlFormatter(
         endTag(NAMESPACE, PREFERENCES)
     }
 
+    @Suppress("LongMethod")
     private fun XmlSerializer.addCrashNode(entity: CrashEntity) {
         startTag(NAMESPACE, CRASH)
         if (entity.data.exception?.isANRException == true) {

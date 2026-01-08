@@ -163,6 +163,7 @@ internal class SettingsFragment : BaseChildFragment<Nothing, SettingsEvent>(R.la
             }
 
             is SettingsEvent.FormatChanged -> {
+                @Suppress("NotImplementedDeclaration")
                 when (event.value.type) {
                     FormatType.PLAIN -> R.id.plainChip
                     FormatType.MARKDOWN -> R.id.markdownChip

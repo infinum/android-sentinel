@@ -23,9 +23,10 @@ import kotlin.system.exitProcess
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
+    @Suppress("LateinitUsage")
     private lateinit var viewBinding: ActivityMainBinding
 
-    @Suppress("TooGenericExceptionCaught", "LongMethod")
+    @Suppress("TooGenericExceptionCaught", "LongMethod", "CognitiveComplexMethod")
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)

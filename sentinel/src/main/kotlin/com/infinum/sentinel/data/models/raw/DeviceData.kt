@@ -30,6 +30,7 @@ internal data class DeviceData(
         } else {
             ""
         },
+    @Suppress("StringLiteralDuplication")
     val isProbablyAnEmulator: Boolean = (
         Build.FINGERPRINT.startsWith("generic") ||
             Build.FINGERPRINT.startsWith("unknown") ||

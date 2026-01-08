@@ -19,7 +19,7 @@ import me.tatarka.inject.annotations.Inject
 import org.json.JSONArray
 import org.json.JSONObject
 
-@Suppress("TooManyFunctions")
+@Suppress("TooManyFunctions", "MethodOverloading")
 @Inject
 internal class JsonFormatter(
     private val context: Context,
@@ -141,6 +141,7 @@ internal class JsonFormatter(
             }
         }
 
+    @Suppress("LongMethod")
     override fun crash(entity: CrashEntity): JSONObject =
         JSONObject().apply {
             if (entity.data.exception?.isANRException == true) {

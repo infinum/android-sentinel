@@ -34,6 +34,7 @@ public class LogsActivity : AppCompatActivity() {
         private const val MIME_TYPE_TEXT = "text/plain"
     }
 
+    @Suppress("LateinitUsage")
     private lateinit var binding: SentinelActivityLogsBinding
 
     private val adapter =

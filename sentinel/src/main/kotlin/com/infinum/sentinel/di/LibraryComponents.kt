@@ -24,9 +24,16 @@ internal object LibraryComponents {
             AppInfoTool(),
         )
 
+    @Suppress("LateinitUsage")
     private lateinit var dataComponent: DataComponent
+
+    @Suppress("LateinitUsage")
     private lateinit var domainComponent: DomainComponent
+
+    @Suppress("LateinitUsage")
     private lateinit var viewModelComponent: ViewModelComponent
+
+    @Suppress("LateinitUsage")
     private lateinit var presentationComponent: PresentationComponent
 
     fun initialize(context: Context) {

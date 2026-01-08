@@ -36,6 +36,7 @@ internal class BundleDetailsFragment : BaseChildFragment<BundleDetailsState, Not
 
     private var bundleId: String? = null
 
+    @Suppress("LateinitUsage")
     private lateinit var adapter: BundleDetailsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {

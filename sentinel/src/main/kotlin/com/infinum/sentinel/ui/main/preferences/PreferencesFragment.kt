@@ -42,8 +42,10 @@ internal class PreferencesFragment :
         private const val EXTRA_PREFERENCE_TYPE = "EXTRA_PREFERENCE_TYPE"
     }
 
+    @Suppress("LateinitUsage")
     private lateinit var contract: ActivityResultLauncher<Unit>
 
+    @Suppress("LateinitUsage")
     private lateinit var adapter: PreferencesAdapter
 
     override val binding: SentinelFragmentPreferencesBinding by viewBinding(
@@ -52,6 +54,7 @@ internal class PreferencesFragment :
 
     override val viewModel: PreferencesViewModel by viewModels()
 
+    @Suppress("LateinitUsage")
     private lateinit var preferenceType: String
 
     override fun onViewCreated(

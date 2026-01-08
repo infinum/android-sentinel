@@ -52,6 +52,7 @@ internal abstract class BaseViewModel<State, Event> : ViewModel() {
         scope.launch(errorHandler + mainDispatchers + supervisorJob) { block.invoke(this) }
     }
 
+    @Suppress("FunctionMinLength")
     protected suspend fun <T> io(block: suspend CoroutineScope.() -> T) = withContext(context = runningDispatchers) { block.invoke(this) }
 
     protected fun setState(state: State) {

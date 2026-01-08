@@ -41,8 +41,10 @@ public class LoggerActivity : AppCompatActivity() {
         private const val MIME_TYPE_TEXT = "text/plain"
     }
 
+    @Suppress("LateinitUsage")
     private lateinit var binding: SentinelActivityLoggerBinding
 
+    @Suppress("LateinitUsage")
     private lateinit var logFile: File
 
     private val buffer =

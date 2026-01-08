@@ -92,6 +92,7 @@ internal abstract class StringBuilderFormatter {
         addLine(builder, R.string.sentinel_exception_name, context.getString(R.string.sentinel_anr_title))
     }
 
+    @Suppress("LongMethod")
     internal fun addCrashData(
         builder: StringBuilder,
         entity: CrashEntity,

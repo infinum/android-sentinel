@@ -262,7 +262,7 @@ internal class PreferenceEditorFragment :
             else -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
         }
 
-    @Suppress("UNCHECKED_CAST")
+    @Suppress("UNCHECKED_CAST", "LongMethod")
     private fun handleSaving(state: PreferenceEditorState.Cache) {
         when (state.type) {
             PreferenceType.BOOLEAN -> {

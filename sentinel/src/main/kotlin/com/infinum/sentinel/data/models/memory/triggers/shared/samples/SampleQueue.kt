@@ -4,6 +4,7 @@ package com.infinum.sentinel.data.models.memory.triggers.shared.samples
 internal class SampleQueue {
     companion object {
         /** Window size in ns. Used to compute the average.  */
+        @Suppress("UnderscoresInNumericLiterals")
         private const val MAX_WINDOW_SIZE: Long = 500000000 // 0.5s
         private const val MIN_WINDOW_SIZE = MAX_WINDOW_SIZE shr 1 // 0.25s
 

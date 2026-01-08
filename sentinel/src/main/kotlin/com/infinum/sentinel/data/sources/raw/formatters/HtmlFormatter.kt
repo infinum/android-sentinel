@@ -155,6 +155,7 @@ internal class HtmlFormatter(
                 }
             }.toString()
 
+    @Suppress("LongMethod")
     override fun crash(entity: CrashEntity): String =
         StringBuilder()
             .apply {
