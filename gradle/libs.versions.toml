@@ -23,13 +23,13 @@ detekt = "1.23.8"
 ktlintplugin = "14.0.1"
 ktlint = "0.45.2"
 cpd = "3.5"
-dokka = "1.8.10"
-chucker = "4.1.0"
+dokka = "2.1.0"
+chucker = "4.2.0"
 collar = "1.4.0"
 dbinspector = "5.4.9"
-leakcanary = "2.11"
+leakcanary = "2.14"
 thimble = "1.0.1"
-binaryCompatibility = "0.17.0"
+binaryCompatibility = "0.18.1"
 
 [libraries]
 library = { module = "com.infinum.sentinel:sentinel", version.ref = "sentinel" }
