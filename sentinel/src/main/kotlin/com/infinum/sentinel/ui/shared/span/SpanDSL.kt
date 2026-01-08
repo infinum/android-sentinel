@@ -1,5 +1,6 @@
 package com.infinum.sentinel.ui.shared.span
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
 import android.text.Spannable
@@ -137,6 +138,7 @@ internal class Builder(
             update(tp)
         }
 
+        @SuppressLint("WrongConstant")
         private fun update(textPaint: TextPaint) {
             textPaint.apply {
                 val oldTypeface = typeface
