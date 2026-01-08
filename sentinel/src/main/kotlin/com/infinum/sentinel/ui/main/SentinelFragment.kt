@@ -106,6 +106,7 @@ internal class SentinelFragment :
                 true
             }
             fab.setOnClickListener { showTools() }
+            fab.elevation = bottomNavigation.elevation * 2
         }
     }
 
