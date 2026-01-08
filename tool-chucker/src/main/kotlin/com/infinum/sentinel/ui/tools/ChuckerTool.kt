@@ -3,8 +3,8 @@ package com.infinum.sentinel.ui.tools
 import android.content.Intent
 import android.view.View
 import com.chuckerteam.chucker.api.Chucker
-import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
+import com.infinum.sentinel.tool.chucker.R
 
 /**
  * Specific wrapper tool around Chucker.

@@ -3,9 +3,9 @@ package com.infinum.sentinel.ui.logger
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.infinum.sentinel.R
 import com.infinum.sentinel.SentinelFileTree
-import com.infinum.sentinel.databinding.SentinelItemLogBinding
+import com.infinum.sentinel.tool.timber.R
+import com.infinum.sentinel.tool.timber.databinding.SentinelItemLogBinding
 import com.infinum.sentinel.ui.logger.models.Level
 import java.text.SimpleDateFormat
 import java.util.Date

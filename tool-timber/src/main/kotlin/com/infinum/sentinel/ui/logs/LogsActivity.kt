@@ -16,8 +16,8 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.infinum.sentinel.R
-import com.infinum.sentinel.databinding.SentinelActivityLogsBinding
+import com.infinum.sentinel.tool.timber.R
+import com.infinum.sentinel.tool.timber.databinding.SentinelActivityLogsBinding
 import com.infinum.sentinel.ui.shared.BounceEdgeEffectFactory
 import com.infinum.sentinel.ui.shared.LogFileResolver
 import java.io.File
