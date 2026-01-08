@@ -4,7 +4,7 @@ ext {
     def patch = 1
 
     buildConfig = [
-            "minSdk"    : 23,
+            "minSdk"    : 24,
             "compileSdk": 36,
             "targetSdk" : 36,
             "buildTools": "35.0.0"

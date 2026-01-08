@@ -67,24 +67,18 @@ public class LoggerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-                Configuration.UI_MODE_NIGHT_YES -> false
-                Configuration.UI_MODE_NIGHT_NO -> true
-                else -> null
-            }?.let {
-                WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars =
-                    it
-            } ?: run {
-                WindowInsetsControllerCompat(
-                    window,
-                    window.decorView
-                ).isAppearanceLightStatusBars = true
-            }
-        } else {
-            window.statusBarColor = ContextCompat.getColor(this, android.R.color.black)
+        when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_YES -> false
+            Configuration.UI_MODE_NIGHT_NO -> true
+            else -> null
+        }?.let {
             WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars =
-                true
+                it
+        } ?: run {
+            WindowInsetsControllerCompat(
+                window,
+                window.decorView
+            ).isAppearanceLightStatusBars = true
         }
 
         binding = SentinelActivityLoggerBinding.inflate(layoutInflater)

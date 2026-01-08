@@ -20,20 +20,13 @@ internal abstract class BaseActivity<State, Event> : FragmentActivity(), BaseVie
 
         enableEdgeToEdge()
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-                Configuration.UI_MODE_NIGHT_YES -> false
-                Configuration.UI_MODE_NIGHT_NO -> true
-                else -> null
-            }?.let {
-                WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = it
-            } ?: run { WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true }
-        } else {
-            if (this !is SentinelActivity) {
-                window.statusBarColor = ContextCompat.getColor(this, android.R.color.black)
-                WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
-            }
-        }
+        when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_YES -> false
+            Configuration.UI_MODE_NIGHT_NO -> true
+            else -> null
+        }?.let {
+            WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = it
+        } ?: run { WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true }
 
         collectFlows(this)
     }

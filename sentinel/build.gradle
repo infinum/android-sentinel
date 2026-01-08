@@ -59,7 +59,8 @@ android {
         freeCompilerArgs += [
                 "-opt-in=kotlin.ExperimentalStdlibApi",
                 "-Xexplicit-api=strict",
-                '-Xjvm-default=all'
+                '-Xjvm-default=all',
+                "-Xannotation-default-target=param-property"
         ]
     }
     testOptions {
