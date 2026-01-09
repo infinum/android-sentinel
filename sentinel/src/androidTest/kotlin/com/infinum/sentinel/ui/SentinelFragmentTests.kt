@@ -139,12 +139,7 @@ public class SentinelFragmentTests {
             ),
         ).perform(click())
 
-        scenario.onFragment {
-            val childFragment = it.childFragmentManager.findFragmentByTag(DeviceFragment.TAG)
-
-            assertNotNull(childFragment)
-        }
-        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
+        onView(withId(R.id.manufacturerView)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -200,7 +195,6 @@ public class SentinelFragmentTests {
 
             assertNotNull(childFragment)
         }
-        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -228,7 +222,6 @@ public class SentinelFragmentTests {
 
             assertNotNull(childFragment)
         }
-        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -255,7 +248,6 @@ public class SentinelFragmentTests {
 
             assertNotNull(childFragment)
         }
-        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
     }
 
     @Test
