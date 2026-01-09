@@ -159,7 +159,7 @@ internal class BundleExtensionsTest {
     }
 
     @Test
-    fun sizeTree_identicalBundles_returnDifferentKeys() {
+    fun sizeTree_differentBundleInstances_generateDifferentIds() {
         val bundle1 = Bundle()
         val bundle2 = Bundle()
 
