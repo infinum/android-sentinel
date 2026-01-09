@@ -1,0 +1,18 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+
+        <activity
+            android:name="com.infinum.sentinel.ui.networkemuator.NetworkEmulatorActivity"
+            android:exported="false"
+            android:label="@string/sentinel_network_emulator"
+            android:taskAffinity="com.infinum.sentinel"
+            android:theme="@style/Sentinel.Theme.Leaf">
+            <meta-data
+                android:name="@string/sentinel_infinum_monitored"
+                android:value="false"/>
+        </activity>
+
+    </application>
+
+</manifest>

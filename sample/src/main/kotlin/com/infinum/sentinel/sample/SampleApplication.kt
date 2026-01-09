@@ -10,6 +10,7 @@ import com.infinum.sentinel.ui.tools.CollarTool
 import com.infinum.sentinel.ui.tools.DbInspectorTool
 import com.infinum.sentinel.ui.tools.GooglePlayTool
 import com.infinum.sentinel.ui.tools.LeakCanaryTool
+import com.infinum.sentinel.ui.tools.NetworkEmulatorTool
 import com.infinum.sentinel.ui.tools.ThimbleTool
 import com.infinum.sentinel.ui.tools.TimberTool
 import java.security.cert.CertificateFactory
@@ -28,6 +29,7 @@ class SampleApplication : Application() {
         tools.add(CollarTool())
         tools.add(DbInspectorTool())
         tools.add(LeakCanaryTool())
+        tools.add(NetworkEmulatorTool())
         tools.add(AppGalleryTool(appId = "102016595"))
         tools.add(GooglePlayTool())
         tools.add(ThimbleTool())

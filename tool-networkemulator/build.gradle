@@ -1,0 +1,78 @@
+plugins {
+    id "com.android.library"
+    id "kotlin-android"
+}
+
+android {
+    buildFeatures {
+        buildConfig = false
+        viewBinding = true
+    }
+
+    compileSdkVersion buildConfig.compileSdk
+    buildToolsVersion buildConfig.buildTools
+
+    defaultConfig {
+        minSdkVersion buildConfig.minSdk
+        targetSdkVersion buildConfig.targetSdk
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt"
+        }
+    }
+
+    namespace "com.infinum.sentinel"
+    resourcePrefix "sentinel_"
+
+    kotlin {
+        jvmToolchain(8)
+    }
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(8))
+        }
+    }
+
+    kotlinOptions {
+        freeCompilerArgs += [
+                '-Xexplicit-api=strict',
+                '-Xjvm-default=all'
+        ]
+    }
+
+    sourceSets.each {
+        it.java.srcDirs += "src/$it.name/kotlin"
+    }
+
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
+}
+
+dokkaJavadoc {
+    mustRunAfter(":tool-networkemulator:generateReleaseRFile")
+}
+
+dependencies {
+    implementation libs.kotlin.core
+    implementation libs.coroutines
+    api project(":sentinel") // todo revert to published artefact
+    implementation libs.androidx.activity
+    implementation libs.androidx.startup
+    implementation libs.androidx.recycler
+    implementation libs.androidx.dynamicanimation
+    implementation libs.material
+    // OkHttp is provided by the app using the network emulator
+    compileOnly "com.squareup.okhttp3:okhttp:4.12.0"
+}
+
+apply from: "publish.gradle"

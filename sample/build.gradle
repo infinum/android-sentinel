@@ -79,6 +79,7 @@ dependencies {
     debugImplementation project(":tool-dbinspector")
     debugImplementation project(":tool-googleplay")
     debugImplementation project(":tool-leakcanary")
+    debugImplementation project(":tool-networkemulator")
     debugImplementation project(":tool-thimble")
     debugImplementation project(":tool-timber")
 }

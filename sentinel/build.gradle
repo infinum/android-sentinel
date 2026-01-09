@@ -98,6 +98,8 @@ dependencies {
     implementation libs.material
     ksp libs.inject.compiler
     implementation libs.inject.runtime
+    // OkHttp for network emulation
+    api "com.squareup.okhttp3:okhttp:4.12.0"
 
     androidTestImplementation "junit:junit:4.13.2"
     androidTestImplementation "androidx.arch.core:core-testing:2.2.0"

@@ -1,0 +1,11 @@
+-keeppackagenames
+-keep public class com.infinum.sentinel.ui.tools.NetworkEmulatorTool {
+  public protected *;
+}
+-keep public class com.infinum.sentinel.domain.networkemuator.NetworkEmulatorInterceptor {
+  public protected *;
+}
+-keep public class com.infinum.sentinel.domain.networkemuator.NetworkEmulatorPreferences {
+  public protected *;
+}
+-keep public class com.infinum.sentinel.databinding.**

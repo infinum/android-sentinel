@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Network Emulator Tool -->
+    <string name="sentinel_network_emulator">Network Emulator</string>
+    <string name="sentinel_network_emulator_description">Simulate slow and flaky network conditions to test your app\'s behavior under poor connectivity.</string>
+    <string name="sentinel_network_emulator_enabled">Enable Network Emulation</string>
+    <string name="sentinel_network_emulator_reset">Reset to Defaults</string>
+    <string name="sentinel_network_delay_label">Network Delay</string>
+    <string name="sentinel_network_delay_description">Add delay to all network requests</string>
+    <string name="sentinel_network_delay_value">%d ms</string>
+    <string name="sentinel_network_fail_percentage_label">Fail Percentage</string>
+    <string name="sentinel_network_fail_percentage_description">Percentage of requests that should fail</string>
+    <string name="sentinel_network_fail_percentage_value">%d%%</string>
+    <string name="sentinel_network_variance_percentage_label">Variance Percentage</string>
+    <string name="sentinel_network_variance_percentage_description">Random variance in delay times (±percentage)</string>
+    <string name="sentinel_network_variance_percentage_value">%d%%</string>
+</resources>

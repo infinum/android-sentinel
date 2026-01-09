@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:colorBackground"
+        android:fitsSystemWindows="true"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior"
+        app:liftOnScroll="true"
+        app:liftOnScrollTargetViewId="@id/nestedScrollView">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            app:navigationIcon="@drawable/sentinel_ic_close"
+            app:subtitle="@string/sentinel_network_emulator"
+            app:title="@string/sentinel_name" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:id="@+id/contentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/sentinel_icon_size"
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="32dp">
+
+            <!-- Description -->
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="24dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/sentinel_network_emulator_description"
+                android:textColor="?android:textColorSecondary" />
+
+            <!-- Enable Switch -->
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/enableSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:minHeight="@dimen/sentinel_item_height"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/sentinel_network_emulator_enabled" />
+
+            <!-- Network Delay Section -->
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.Material3.BodySmall"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:gravity="start|bottom"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp"
+                android:text="@string/sentinel_network_delay_label"
+                android:textAllCaps="true"
+                android:textColor="@color/sentinel_primary" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/delayLabel"
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/sentinel_network_delay_description" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/delayValueText"
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="1000 ms"
+                android:textColor="@color/sentinel_primary" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/delaySlider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:stepSize="100"
+                android:valueFrom="0"
+                android:valueTo="10000" />
+
+            <!-- Fail Percentage Section -->
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.Material3.BodySmall"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:gravity="start|bottom"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp"
+                android:text="@string/sentinel_network_fail_percentage_label"
+                android:textAllCaps="true"
+                android:textColor="@color/sentinel_primary" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/failPercentageLabel"
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/sentinel_network_fail_percentage_description" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/failPercentageValueText"
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="0%"
+                android:textColor="@color/sentinel_primary" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/failPercentageSlider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:stepSize="5"
+                android:valueFrom="0"
+                android:valueTo="100" />
+
+            <!-- Variance Percentage Section -->
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.Material3.BodySmall"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:gravity="start|bottom"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp"
+                android:text="@string/sentinel_network_variance_percentage_label"
+                android:textAllCaps="true"
+                android:textColor="@color/sentinel_primary" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/variancePercentageLabel"
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/sentinel_network_variance_percentage_description" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/variancePercentageValueText"
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="0%"
+                android:textColor="@color/sentinel_primary" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/variancePercentageSlider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:stepSize="5"
+                android:valueFrom="0"
+                android:valueTo="100" />
+
+            <!-- Reset Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/resetButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/sentinel_network_emulator_reset" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
