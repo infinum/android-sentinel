@@ -1,4 +1,4 @@
-package com.infinum.sentinel.domain.networkemuator
+package com.infinum.sentinel.domain.networkemulator
 
 import android.content.Context
 import kotlin.random.Random
@@ -25,7 +25,7 @@ import okhttp3.ResponseBody.Companion.toResponseBody
  *
  * Configure the behavior through NetworkEmulatorPreferences or the NetworkEmulatorTool UI.
  *
- * IMPORTANT: It is recommended to include such code only in debug/deb builds
+ * IMPORTANT: It is recommended to include such code only in debug/dev builds
  */
 public class NetworkEmulatorInterceptor(
     context: Context,

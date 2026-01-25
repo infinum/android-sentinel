@@ -1,4 +1,4 @@
-package com.infinum.sentinel.ui.networkemuator
+package com.infinum.sentinel.ui.networkemulator
 
 import android.content.res.Configuration
 import android.os.Bundle

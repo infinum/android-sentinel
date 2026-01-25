@@ -1,7 +1,7 @@
 package com.infinum.sentinel.sample
 
 import android.content.Context
-import com.infinum.sentinel.domain.networkemuator.NetworkEmulatorInterceptor
+import com.infinum.sentinel.domain.networkemulator.NetworkEmulatorInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException

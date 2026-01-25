@@ -5,7 +5,7 @@ import android.view.View
 import androidx.annotation.StringRes
 import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
-import com.infinum.sentinel.ui.networkemuator.NetworkEmulatorActivity
+import com.infinum.sentinel.ui.networkemulator.NetworkEmulatorActivity
 
 /**
  * A tool that allows developers to emulate slow and flaky network conditions

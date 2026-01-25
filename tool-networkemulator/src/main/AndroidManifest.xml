@@ -3,7 +3,7 @@
     <application>
 
         <activity
-            android:name="com.infinum.sentinel.ui.networkemuator.NetworkEmulatorActivity"
+            android:name="com.infinum.sentinel.ui.networkemulator.NetworkEmulatorActivity"
             android:exported="false"
             android:label="@string/sentinel_network_emulator"
             android:taskAffinity="com.infinum.sentinel"

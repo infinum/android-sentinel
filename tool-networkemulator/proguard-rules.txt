@@ -2,10 +2,10 @@
 -keep public class com.infinum.sentinel.ui.tools.NetworkEmulatorTool {
   public protected *;
 }
--keep public class com.infinum.sentinel.domain.networkemuator.NetworkEmulatorInterceptor {
+-keep public class com.infinum.sentinel.domain.networkemulator.NetworkEmulatorInterceptor {
   public protected *;
 }
--keep public class com.infinum.sentinel.domain.networkemuator.NetworkEmulatorPreferences {
+-keep public class com.infinum.sentinel.domain.networkemulator.NetworkEmulatorPreferences {
   public protected *;
 }
 -keep public class com.infinum.sentinel.databinding.**

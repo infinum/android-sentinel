@@ -1,4 +1,4 @@
-package com.infinum.sentinel.ui.networkemuator
+package com.infinum.sentinel.ui.networkemulator
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentNetworkEmulatorBinding
-import com.infinum.sentinel.domain.networkemuator.NetworkEmulatorPreferences
+import com.infinum.sentinel.domain.networkemulator.NetworkEmulatorPreferences
 
 /**
  * Fragment that displays network emulator configuration controls.

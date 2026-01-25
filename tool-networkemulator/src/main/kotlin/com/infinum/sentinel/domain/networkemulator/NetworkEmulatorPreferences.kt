@@ -1,4 +1,4 @@
-package com.infinum.sentinel.domain.networkemuator
+package com.infinum.sentinel.domain.networkemulator
 
 import android.content.Context
 import android.content.SharedPreferences
