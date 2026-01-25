@@ -67,6 +67,10 @@ dependencies {
     implementation libs.androidx.crypto
     implementation libs.material
     implementation libs.timber
+    implementation libs.coroutines
+
+    // OkHttp for testing network emulator
+    implementation libs.okhttp
 
 //    debugImplementation libs.library
     debugImplementation project(":sentinel")

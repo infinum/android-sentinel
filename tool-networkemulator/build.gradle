@@ -65,14 +65,14 @@ dokkaJavadoc {
 dependencies {
     implementation libs.kotlin.core
     implementation libs.coroutines
-    api project(":sentinel") // todo revert to published artefact
+    api libs.library
     implementation libs.androidx.activity
     implementation libs.androidx.startup
     implementation libs.androidx.recycler
     implementation libs.androidx.dynamicanimation
     implementation libs.material
     // OkHttp is provided by the app using the network emulator
-    compileOnly "com.squareup.okhttp3:okhttp:4.12.0"
+    compileOnly libs.okhttp
 }
 
 apply from: "publish.gradle"

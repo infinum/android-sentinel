@@ -21,6 +21,9 @@ class SampleApplication : Application() {
         super.onCreate()
 
         Sentinel.watch(getWatchedTools(), mapOf("ENCRYPTED_SHARED_PREFERENCES" to emptyList()))
+        
+        // Initialize API client for network emulator demo
+        ApiClient.initialize(this)
     }
 
     private fun getWatchedTools(): Set<Sentinel.Tool> {
