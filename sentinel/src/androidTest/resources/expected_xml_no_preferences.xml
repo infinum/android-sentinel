@@ -8,8 +8,8 @@
             HH:mm:ss
         </n0:first_install>
         <n0:last_update>yyyy-MM-dd HH:mm:ss</n0:last_update>
-        <n0:min_sdk>21</n0:min_sdk>
-        <n0:target_sdk>34
+        <n0:min_sdk>24</n0:min_sdk>
+        <n0:target_sdk>36
         </n0:target_sdk>
         <n0:package_name>com.infinum.sentinel.test</n0:package_name>
         <n0:process_name>com.infinum.sentinel

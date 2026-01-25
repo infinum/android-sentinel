@@ -4,8 +4,8 @@ version_code: 100000
 version_name: 1.0.0
 first_install: yyyy-MM-dd HH:mm:ss
 last_update: yyyy-MM-dd HH:mm:ss
-min_sdk: 21
-target_sdk: 34
+min_sdk: 24
+target_sdk: 36
 package_name: com.infinum.sentinel.test
 process_name: com.infinum.sentinel.test
 task_affinity: com.infinum.sentinel.test

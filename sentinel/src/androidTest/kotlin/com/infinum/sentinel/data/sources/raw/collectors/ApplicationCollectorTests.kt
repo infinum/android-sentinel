@@ -21,7 +21,7 @@ internal class ApplicationCollectorTests {
         private const val EXPECTED_APPLICATION_LABEL = "Sentinel"
         private const val VERSION_CODE = "100000"
         private const val VERSION_NAME = "1.0.0"
-        private const val MIN_SDK = "21"
+        private const val MIN_SDK = "24"
         private const val PACKAGE_NAME = "com.infinum.sentinel.test"
         private const val PROCESS_NAME = "com.infinum.sentinel.test"
         private const val TASK_AFFINITY = "com.infinum.sentinel.test"
