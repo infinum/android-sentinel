@@ -24,6 +24,8 @@ import okhttp3.ResponseBody.Companion.toResponseBody
  * ```
  *
  * Configure the behavior through NetworkEmulatorPreferences or the NetworkEmulatorTool UI.
+ *
+ * IMPORTANT: It is recommended to include such code only in debug/deb builds
  */
 public class NetworkEmulatorInterceptor(
     context: Context,

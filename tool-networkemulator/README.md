@@ -10,6 +10,45 @@ The **Network Emulator Tool** is a built-in Sentinel feature that allows develop
 - **Easy UI**: Simple toggle and slider-based interface within Sentinel
 - **Persistent Settings**: Configuration is saved across app restarts
 
+## ⚠️ Important: Release Build Warning
+
+**DO NOT include the Network Emulator in release builds!**
+
+The Network Emulator is a development/debugging tool and should **never** be shipped in production releases. Including it in release builds can:
+- Expose debugging functionality to end users
+- Increase APK size unnecessarily
+- Potentially impact app performance
+- Create security concerns
+
+### Recommended Approach: Build Variants
+
+Use Android build variants to ensure the interceptor is **only included in debug builds**:
+
+1. **Add the dependency only for debug builds** in your `build.gradle`:
+```gradle
+dependencies {
+    debugImplementation "com.infinum.sentinel:tool-networkemulator:x.x.x"
+}
+```
+
+2. **Create separate source sets** for debug and release:
+
+**`src/debug/kotlin/YourApiClient.kt`** (with interceptor):
+```kotlin
+val client = OkHttpClient.Builder()
+    .addInterceptor(NetworkEmulatorInterceptor(context))
+    .build()
+```
+
+**`src/release/kotlin/YourApiClient.kt`** (without interceptor):
+```kotlin
+val client = OkHttpClient.Builder()
+    // No network emulator in release builds
+    .build()
+```
+
+This ensures the code is completely excluded from release builds at compile time.
+
 ## Setup
 
 ### 1. Add the Tool to Sentinel
@@ -48,22 +87,6 @@ val client = OkHttpClient.Builder()
 OkHttpClient client = new OkHttpClient.Builder()
     .addInterceptor(new NetworkEmulatorInterceptor(context))
     .build();
-```
-
-### 3. For Retrofit Users
-
-If you're using Retrofit, add the interceptor when building the OkHttpClient:
-
-```kotlin
-val okHttpClient = OkHttpClient.Builder()
-    .addInterceptor(NetworkEmulatorInterceptor(context))
-    .build()
-
-val retrofit = Retrofit.Builder()
-    .client(okHttpClient)
-    .baseUrl("https://api.example.com/")
-    .addConverterFactory(GsonConverterFactory.create())
-    .build()
 ```
 
 ## Usage
@@ -117,26 +140,27 @@ val retrofit = Retrofit.Builder()
 
 ## Important Notes
 
-- ⚠️ **Debug builds only**: Ensure the interceptor is only added in debug builds
 - 📱 **Device-specific**: Settings are stored per device and persist across app restarts
 - 🔄 **Reset available**: Use the "Reset to Defaults" button to restore default settings
-- 🎯 **App-specific**: Network emulation only affects your app, not the entire device
 
 ## Advanced Usage
 
-### Conditional Setup
+### Alternative: Runtime Conditional Setup
 
-Only add the interceptor in debug builds:
+While **build variants are recommended** (see warning above), you can also conditionally add the interceptor at runtime:
 
 ```kotlin
 val clientBuilder = OkHttpClient.Builder()
 
+// Note: This approach still includes the code in release builds
 if (BuildConfig.DEBUG) {
     clientBuilder.addInterceptor(NetworkEmulatorInterceptor(context))
 }
 
 val client = clientBuilder.build()
 ```
+
+⚠️ **Warning**: This approach still bundles the Network Emulator code in release builds. Prefer using build variants and `debugImplementation` for cleaner separation.
 
 ### Programmatic Access
 
@@ -165,18 +189,5 @@ preferences.variancePercentage = 30
 
 **Q: App crashes with OkHttp errors**
 - Ensure OkHttp dependency is included in your project
-- Verify you're using a compatible OkHttp version (4.x)
+- Verify you're using a compatible OkHttp version
 
-**Q: Settings don't persist**
-- Settings are stored in SharedPreferences and should persist
-- Check if your app has proper storage permissions
-- Try using "Reset to Defaults" and reconfiguring
-
-## Benefits
-
-- ✅ Test app behavior under poor network conditions
-- ✅ Validate loading states and error handling
-- ✅ Identify timeout issues
-- ✅ Improve user experience for users with slow connections
-- ✅ No need for external tools or proxy configuration
-- ✅ Works on both emulators and physical devices

@@ -10,6 +10,8 @@ import java.util.concurrent.TimeUnit
 /**
  * Simple API client for testing the Network Emulator tool.
  * Demonstrates how to integrate NetworkEmulatorInterceptor with OkHttp.
+ *
+ * This is the DEBUG variant that includes the network emulator interceptor.
  */
 object ApiClient {
     private lateinit var client: OkHttpClient
@@ -17,7 +19,7 @@ object ApiClient {
     fun initialize(context: Context) {
         client = OkHttpClient.Builder()
             .callTimeout(timeout = 10L, unit = TimeUnit.SECONDS)
-            .addInterceptor(NetworkEmulatorInterceptor(context)) // todo how to disable this for release?
+            .addInterceptor(NetworkEmulatorInterceptor(context))
             .build()
     }
 
