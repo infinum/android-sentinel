@@ -28,15 +28,15 @@ afterEvaluate {
                 groupId = releaseConfig.group
                 version = releaseConfig.version
 
-                artifactId = 'tool-networkemulator'
+                artifactId = 'tool-networkemulator-okhttp'
 
                 artifact bundleReleaseAar
                 artifact sourcesJar
                 artifact javadocsJar
 
                 pom {
-                    name = 'Sentinel Tool for Network Emulator'
-                    description = 'Sentinel Tool for Network Emulator - Simulate slow and flaky network conditions'
+                    name = 'Sentinel Tool for Network Emulator (OkHttp)'
+                    description = 'Sentinel Tool for Network Emulator - Simulate slow and flaky network conditions with OkHttp'
                     url = 'https://github.com/infinum/android-sentinel'
                     licenses {
                         license {

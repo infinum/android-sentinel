@@ -1,6 +1,6 @@
-# Network Emulator Tool
+# Network Emulator Tool (OkHttp)
 
-The **Network Emulator Tool** is a built-in Sentinel feature that allows developers to simulate slow and flaky network conditions to test how their applications behave under poor connectivity.
+The **Network Emulator Tool** is a built-in Sentinel feature that allows developers to simulate slow and flaky network conditions to test how their applications behave under poor connectivity. **This tool is specifically designed for OkHttp clients.**
 
 ## Features
 
@@ -27,7 +27,7 @@ Use Android build variants to ensure the interceptor is **only included in debug
 1. **Add the dependency only for debug builds** in your `build.gradle`:
 ```gradle
 dependencies {
-    debugImplementation "com.infinum.sentinel:tool-networkemulator:x.x.x"
+    debugImplementation "com.infinum.sentinel:tool-networkemulator-okhttp:x.x.x"
 }
 ```
 

@@ -59,7 +59,7 @@ android {
 }
 
 dokkaJavadoc {
-    mustRunAfter(":tool-networkemulator:generateReleaseRFile")
+    mustRunAfter(":tool-networkemulator-okhttp:generateReleaseRFile")
 }
 
 dependencies {
