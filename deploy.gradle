@@ -78,6 +78,16 @@ task deployToolTimber(dependsOn: [
     description = "Deploy module to repositories"
 }
 
+task deployToolNetworkEmulatorOkhttp(dependsOn: [
+        ':tool-networkemulator-okhttp:clean',
+        ':tool-networkemulator-okhttp-no-op:clean',
+        ':tool-networkemulator-okhttp:publishReleasePublicationToSonatypeRepository',
+        ':tool-networkemulator-okhttp-no-op:publishReleasePublicationToSonatypeRepository'
+]) {
+    group = "Deploy"
+    description = "Deploy module to repositories"
+}
+
 task deploySentinelAll(dependsOn: [
         'deploySentinel',
         'deploySentinelNoOp'
@@ -94,7 +104,8 @@ task deployToolsAll(dependsOn: [
         'deployToolAppGallery',
         'deployToolGooglePlay',
         'deployToolThimble',
-        'deployToolTimber'
+        'deployToolTimber',
+        'deployToolNetworkEmulatorOkhttp'
 ]) {
     group = "Deploy"
     description = "Deploy all tools modules to repositories"
