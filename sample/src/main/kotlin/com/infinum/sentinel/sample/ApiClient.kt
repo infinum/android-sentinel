@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
  * Simple API client for testing the Network Emulator tool.
  * Demonstrates how to integrate NetworkEmulatorInterceptor with OkHttp.
  *
- * This is the DEBUG variant that includes the network emulator interceptor.
+ * Keep in mind that to exclude NetworkEmulatorInterceptor for release you can either use no-op version or separate source sets
  */
 object ApiClient {
     private lateinit var client: OkHttpClient

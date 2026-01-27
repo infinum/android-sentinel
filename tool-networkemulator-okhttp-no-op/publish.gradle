@@ -1,0 +1,80 @@
+apply plugin: "maven-publish"
+apply plugin: "signing"
+
+task sourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    from android.sourceSets.main.kotlin.srcDirs
+}
+
+task javadocsJar(type: Jar, dependsOn: "dokkaJavadoc") {
+    archiveClassifier.set("javadoc")
+    from dokkaJavadoc.outputDirectory
+}
+
+afterEvaluate {
+    publishing {
+        repositories {
+            maven {
+                name sonatype.name()
+                url sonatype.url()
+                credentials {
+                    username sonatype.username()
+                    password sonatype.password()
+                }
+            }
+        }
+        publications {
+            release(MavenPublication) {
+                groupId = releaseConfig.group
+                version = releaseConfig.version
+
+                artifactId = 'tool-networkemulator-okhttp-no-op'
+
+                artifact bundleReleaseAar
+                artifact sourcesJar
+                artifact javadocsJar
+
+                pom {
+                    name = 'Sentinel Tool for Network Emulator (OkHttp) - No-op'
+                    description = 'No-op implementation of Sentinel Network Emulator Tool - Safe for release builds'
+                    url = 'https://github.com/infinum/android-sentinel'
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    organization {
+                        name = 'Infinum Inc.'
+                        url = 'https://infinum.com'
+                    }
+                    developers {
+                        developer {
+                            id = 'Infinum'
+                            name = 'Infinum Inc.'
+                            url = 'https://infinum.com'
+                        }
+                    }
+                    scm {
+                        connection = 'https://github.com/infinum/android-sentinel.git'
+                        developerConnection = 'https://github.com/infinum/android-sentinel.git'
+                        url = 'https://github.com/infinum/android-sentinel'
+                    }
+                }
+                pom.withXml {
+                    def root = asNode()
+                    def dependenciesNode = root.appendNode('dependencies')
+                    configurations.implementation.allDependencies.each {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', it.group)
+                        dependencyNode.appendNode('artifactId', it.name)
+                        dependencyNode.appendNode('version', it.version)
+                    }
+                }
+                signing {
+                    sign publishing.publications.release
+                }
+            }
+        }
+    }
+}

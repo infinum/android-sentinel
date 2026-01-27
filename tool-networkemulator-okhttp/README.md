@@ -10,28 +10,49 @@ The **Network Emulator Tool** is a built-in Sentinel feature that allows develop
 - **Easy UI**: Simple toggle and slider-based interface within Sentinel
 - **Persistent Settings**: Configuration is saved across app restarts
 
-## ⚠️ Important: Release Build Warning
+## ⚠️ Important: Release Build Considerations
 
-**DO NOT include the Network Emulator in release builds!**
+The Network Emulator is a development/debugging tool. You have **two options** for handling release builds:
 
-The Network Emulator is a development/debugging tool and should **never** be shipped in production releases. Including it in release builds can:
-- Expose debugging functionality to end users
-- Increase APK size unnecessarily
-- Potentially impact app performance
-- Create security concerns
+### Option 1: Use the No-op Module
 
-### Recommended Approach: Build Variants
+The **easiest and cleanest approach** is to use the no-op version for release builds. This gives you:
+- ✅ **Same code everywhere** - no separate source sets needed
+- ✅ **API compatibility** - identical classes and methods
+- ✅ **Zero overhead** - no functionality in release builds
+- ✅ **Smaller APK** - minimal dependencies
 
-Use Android build variants to ensure the interceptor is **only included in debug builds**:
+**1. Add both dependencies in your `build.gradle`:**
+```gradle
+dependencies {
+    debugImplementation "com.infinum.sentinel:tool-networkemulator-okhttp:x.x.x"
+    releaseImplementation "com.infinum.sentinel:tool-networkemulator-okhttp-no-op:x.x.x"
+}
+```
 
-1. **Add the dependency only for debug builds** in your `build.gradle`:
+**2. Use the same code everywhere:**
+```kotlin
+val client = OkHttpClient.Builder()
+    .addInterceptor(NetworkEmulatorInterceptor(context))
+    .build()
+```
+
+That's it! Debug builds get the full functionality, release builds get a pass-through interceptor.
+
+👉 **[See full no-op documentation](../tool-networkemulator-okhttp-no-op/README.md)**
+
+### Option 2: Separate Source Sets (Debug-Only)
+
+Alternatively, use Android build variants to **completely exclude** the tool from release builds:
+
+**1. Add the dependency only for debug builds** in your `build.gradle`:
 ```gradle
 dependencies {
     debugImplementation "com.infinum.sentinel:tool-networkemulator-okhttp:x.x.x"
 }
 ```
 
-2. **Create separate source sets** for debug and release:
+**2. Create separate source sets** for debug and release:
 
 **`src/debug/kotlin/YourApiClient.kt`** (with interceptor):
 ```kotlin
@@ -48,6 +69,7 @@ val client = OkHttpClient.Builder()
 ```
 
 This ensures the code is completely excluded from release builds at compile time.
+
 
 ## Setup
 
@@ -147,7 +169,7 @@ OkHttpClient client = new OkHttpClient.Builder()
 
 ### Alternative: Runtime Conditional Setup
 
-While **build variants are recommended** (see warning above), you can also conditionally add the interceptor at runtime:
+If you can't use build variants or the no-op module, you can conditionally add the interceptor at runtime:
 
 ```kotlin
 val clientBuilder = OkHttpClient.Builder()
@@ -160,7 +182,7 @@ if (BuildConfig.DEBUG) {
 val client = clientBuilder.build()
 ```
 
-⚠️ **Warning**: This approach still bundles the Network Emulator code in release builds. Prefer using build variants and `debugImplementation` for cleaner separation.
+⚠️ **Warning**: This approach still bundles the Network Emulator code in release builds. **Prefer using the no-op module** (Option 1 above) or build variants with `debugImplementation` for cleaner separation.
 
 ### Programmatic Access
 
