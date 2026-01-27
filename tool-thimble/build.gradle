@@ -27,7 +27,7 @@ android {
         }
     }
 
-    namespace "com.infinum.sentinel"
+    namespace "com.infinum.sentinel.tool.thimble"
 
     kotlin {
         jvmToolchain(8)

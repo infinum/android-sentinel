@@ -3,8 +3,8 @@ package com.infinum.sentinel.ui.tools
 import android.content.Intent
 import android.view.View
 import com.infinum.collar.ui.CollarUi
-import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
+import com.infinum.sentinel.tool.collar.R
 
 /**
  * Specific wrapper tool around Collar.

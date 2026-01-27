@@ -2,7 +2,7 @@ package com.infinum.sentinel.ui.shared
 
 import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
-import com.infinum.sentinel.R
+import com.infinum.sentinel.tool.timber.R
 
 internal fun SearchView.setup(
     hint: String?,

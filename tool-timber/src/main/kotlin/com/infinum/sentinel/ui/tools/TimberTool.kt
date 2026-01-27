@@ -4,8 +4,8 @@ package com.infinum.sentinel.ui.tools
 
 import android.content.Intent
 import android.view.View
-import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
+import com.infinum.sentinel.tool.timber.R
 import com.infinum.sentinel.ui.logger.LoggerActivity
 import com.infinum.sentinel.ui.logger.storage.AllowedTags
 
