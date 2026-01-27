@@ -3,7 +3,7 @@ package com.infinum.sentinel.ui.tools
 import android.content.Intent
 import android.view.View
 import androidx.annotation.StringRes
-import com.infinum.sentinel.R
+import com.infinum.sentinel.tool.networkemulator.R
 import com.infinum.sentinel.Sentinel
 import com.infinum.sentinel.ui.networkemulator.NetworkEmulatorActivity
 

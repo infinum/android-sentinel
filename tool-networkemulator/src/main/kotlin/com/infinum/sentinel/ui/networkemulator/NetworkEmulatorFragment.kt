@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.infinum.sentinel.R
-import com.infinum.sentinel.databinding.SentinelFragmentNetworkEmulatorBinding
+import com.infinum.sentinel.tool.networkemulator.R
 import com.infinum.sentinel.domain.networkemulator.NetworkEmulatorPreferences
+import com.infinum.sentinel.tool.networkemulator.databinding.SentinelFragmentNetworkEmulatorBinding
 
 /**
  * Fragment that displays network emulator configuration controls.
