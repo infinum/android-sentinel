@@ -4,7 +4,7 @@
     <application>
 
         <activity
-            android:name=".ui.logger.LoggerActivity"
+            android:name="com.infinum.sentinel.ui.logger.LoggerActivity"
             android:exported="false"
             android:label="@string/sentinel_logger"
             android:taskAffinity="com.infinum.sentinel.logger"
@@ -15,7 +15,7 @@
         </activity>
 
         <activity
-            android:name=".ui.logs.LogsActivity"
+            android:name="com.infinum.sentinel.ui.logs.LogsActivity"
             android:exported="false"
             android:label="@string/sentinel_logs"
             android:taskAffinity="com.infinum.sentinel.logger"
@@ -36,7 +36,7 @@
         </provider>
 
         <provider
-            android:name=".SentinelLogsProvider"
+            android:name="com.infinum.sentinel.SentinelLogsProvider"
             android:authorities="${applicationId}.sentinel.logprovider"
             android:exported="false"
             android:grantUriPermissions="true">
