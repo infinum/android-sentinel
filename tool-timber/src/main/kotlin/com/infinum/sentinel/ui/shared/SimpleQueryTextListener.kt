@@ -3,9 +3,8 @@ package com.infinum.sentinel.ui.shared
 import androidx.appcompat.widget.SearchView
 
 internal class SimpleQueryTextListener(
-    private val onQueryTextChanged: (String?) -> Unit
+    private val onQueryTextChanged: (String?) -> Unit,
 ) : SearchView.OnQueryTextListener {
-
     override fun onQueryTextSubmit(query: String?): Boolean {
         onQueryTextChanged(query)
         return true

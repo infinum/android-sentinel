@@ -19,7 +19,6 @@ import java.text.SimpleDateFormat
 @RequiresApi(Build.VERSION_CODES.O)
 internal class CertificateDetailsFragment :
     BaseChildFragment<CertificateDetailsState, Nothing>(R.layout.sentinel_fragment_certificate_details) {
-
     @Suppress("UNCHECKED_CAST")
     companion object {
         fun newInstance() = CertificateDetailsFragment()
@@ -28,12 +27,15 @@ internal class CertificateDetailsFragment :
     }
 
     override val binding: SentinelFragmentCertificateDetailsBinding by viewBinding(
-        SentinelFragmentCertificateDetailsBinding::bind
+        SentinelFragmentCertificateDetailsBinding::bind,
     )
 
     override val viewModel: CertificateDetailsViewModel by viewModels()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
@@ -50,7 +52,9 @@ internal class CertificateDetailsFragment :
                 with(binding) {
                     toolbar.subtitle = state.value.title
                     publicKeyAlgorithmView.text = state.value.publicKey.algorithm
-                    publicKeySizeView.text = state.value.publicKey.size.toString()
+                    publicKeySizeView.text =
+                        state.value.publicKey.size
+                            .toString()
                     serialNumberView.text = state.value.serialNumber
                     versionView.text = state.value.version.toString()
                     signatureAlgorithmView.text = state.value.signature.algorithmName
@@ -61,15 +65,16 @@ internal class CertificateDetailsFragment :
                     expiresView.text = SimpleDateFormat.getDateInstance().format(state.value.endDate)
                     if (state.value.isValidNow) {
                         if (state.value.isValidIn(
-                                state.settings.expireInAmount, state.settings.expireInUnit.toJavaChronoUnit()
+                                state.settings.expireInAmount,
+                                state.settings.expireInUnit.toJavaChronoUnit(),
                             )
                         ) {
                             expiredView.isVisible = false
                             expiredView.setBackgroundColor(
                                 ContextCompat.getColor(
                                     expiredView.context,
-                                    R.color.sentinel_primary
-                                )
+                                    R.color.sentinel_primary,
+                                ),
                             )
                             expiredView.text = getString(R.string.sentinel_expired)
                         } else {
@@ -77,8 +82,8 @@ internal class CertificateDetailsFragment :
                             expiredView.setBackgroundColor(
                                 ContextCompat.getColor(
                                     expiredView.context,
-                                    R.color.sentinel_warning
-                                )
+                                    R.color.sentinel_warning,
+                                ),
                             )
                             expiredView.text = String.format(getString(R.string.sentinel_expiring_at), expiresView.text)
                         }
@@ -87,8 +92,8 @@ internal class CertificateDetailsFragment :
                         expiredView.setBackgroundColor(
                             ContextCompat.getColor(
                                 expiredView.context,
-                                R.color.sentinel_error
-                            )
+                                R.color.sentinel_error,
+                            ),
                         )
                         expiredView.text = getString(R.string.sentinel_expired)
                     }

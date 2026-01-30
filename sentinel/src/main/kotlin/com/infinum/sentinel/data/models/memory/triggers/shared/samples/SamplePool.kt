@@ -2,7 +2,6 @@ package com.infinum.sentinel.data.models.memory.triggers.shared.samples
 
 /** Pools samples. Avoids garbage collection.  */
 internal class SamplePool {
-
     private var head: Sample? = null
 
     /** Acquires a sample from the pool.  */

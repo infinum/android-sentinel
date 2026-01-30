@@ -8,9 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 internal class BounceEdgeEffect(
     private val recyclerView: RecyclerView,
-    private val direction: Int
+    private val direction: Int,
 ) : EdgeEffect(recyclerView.context) {
-
     companion object {
         private const val OVERSCROLL_TRANSLATION_MAGNITUDE = 0.2f
 
@@ -25,7 +24,10 @@ internal class BounceEdgeEffect(
         doOnPull(deltaDistance)
     }
 
-    override fun onPull(deltaDistance: Float, displacement: Float) {
+    override fun onPull(
+        deltaDistance: Float,
+        displacement: Float,
+    ) {
         super.onPull(deltaDistance, displacement)
 
         doOnPull(deltaDistance)
@@ -45,15 +47,15 @@ internal class BounceEdgeEffect(
         val sign = if (direction == RecyclerView.EdgeEffectFactory.DIRECTION_BOTTOM) -1 else 1
         val translationVelocity = sign * velocity * FLING_TRANSLATION_MAGNITUDE
         translationAnim?.cancel()
-        translationAnim = createSpringAnimation()
-            .setStartVelocity(translationVelocity)
-            .also { it.start() }
+        translationAnim =
+            createSpringAnimation()
+                .setStartVelocity(translationVelocity)
+                .also { it.start() }
     }
 
     override fun draw(canvas: Canvas?): Boolean = false
 
-    override fun isFinished(): Boolean =
-        translationAnim?.isRunning?.not() ?: true
+    override fun isFinished(): Boolean = translationAnim?.isRunning?.not() ?: true
 
     private fun doOnPull(deltaDistance: Float) {
         val sign = if (direction == RecyclerView.EdgeEffectFactory.DIRECTION_BOTTOM) -1 else 1
@@ -69,6 +71,6 @@ internal class BounceEdgeEffect(
                 SpringForce()
                     .setFinalPosition(0.0f)
                     .setDampingRatio(SpringForce.DAMPING_RATIO_MEDIUM_BOUNCY)
-                    .setStiffness(SpringForce.STIFFNESS_LOW)
+                    .setStiffness(SpringForce.STIFFNESS_LOW),
             )
 }

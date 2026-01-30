@@ -5,13 +5,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class ProcessThread(
-
     @SerialName("name")
     val name: String,
-
     @SerialName("state")
     val state: String,
-
     @SerialName("stack_trace")
-    val stackTrace: List<String>
+    val stackTrace: List<String>,
 )

@@ -8,16 +8,19 @@ import com.infinum.sentinel.Sentinel
  *
  */
 @Suppress("UnusedPrivateMember")
-public data class AppGalleryTool @JvmOverloads constructor(
-    private val appId: String = "",
-    private val listener: View.OnClickListener = View.OnClickListener {
-        // no - op
-    }
-) : Sentinel.Tool {
+public data class AppGalleryTool
+    @JvmOverloads
+    constructor(
+        private val appId: String = "",
+        private val listener: View.OnClickListener =
+            View.OnClickListener {
+                // no - op
+            },
+    ) : Sentinel.Tool {
+        override fun name(): Int = 0
 
-    override fun name(): Int = 0
-
-    override fun listener(): View.OnClickListener = View.OnClickListener {
-        // no - op
+        override fun listener(): View.OnClickListener =
+            View.OnClickListener {
+                // no - op
+            }
     }
-}

@@ -4,9 +4,7 @@ import com.infinum.sentinel.domain.collectors.Collectors
 import com.infinum.sentinel.domain.formatters.Formatters
 
 internal interface Factories {
-
     interface Collector {
-
         fun device(): Collectors.Device
 
         fun application(): Collectors.Application
@@ -21,7 +19,6 @@ internal interface Factories {
     }
 
     interface Formatter {
-
         fun plain(): Formatters.Plain
 
         fun markdown(): Formatters.Markdown

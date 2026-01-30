@@ -13,9 +13,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 internal class ToolsCollectorTests {
-
     companion object {
-
         private lateinit var dummyTool: DummyTool
         private lateinit var noNameTool: NoNameTool
 

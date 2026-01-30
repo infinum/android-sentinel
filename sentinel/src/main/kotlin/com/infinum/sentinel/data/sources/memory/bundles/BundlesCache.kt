@@ -4,7 +4,6 @@ import com.infinum.sentinel.domain.bundle.descriptor.models.BundleDescriptor
 import kotlinx.coroutines.flow.SharedFlow
 
 internal interface BundlesCache {
-
     suspend fun clear()
 
     suspend fun save(descriptor: BundleDescriptor)

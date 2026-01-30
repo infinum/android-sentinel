@@ -11,9 +11,9 @@ internal abstract class SensorTrigger(
     private val context: Context,
     private val trigger: () -> Unit,
     private val sensorType: Int,
-    private val queue: SampleQueue?
-) : AbstractTrigger(), SensorEventListener {
-
+    private val queue: SampleQueue?,
+) : AbstractTrigger(),
+    SensorEventListener {
     private var sensorManager: SensorManager? = null
 
     abstract fun threshold(): Int
@@ -55,7 +55,10 @@ internal abstract class SensorTrigger(
         }
     }
 
-    override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) = Unit
+    override fun onAccuracyChanged(
+        sensor: Sensor,
+        accuracy: Int,
+    ) = Unit
 
     private fun registerSensor(sensorManager: SensorManager) {
         sensorManager.getDefaultSensor(sensorType)?.let {

@@ -7,20 +7,20 @@ import com.infinum.sentinel.ui.shared.base.BaseChildActivity
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class CrashDetailsActivity : BaseChildActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        intent?.getLongExtra(Constants.Keys.CRASH_ID, -1L)
+        intent
+            ?.getLongExtra(Constants.Keys.CRASH_ID, -1L)
             ?.takeUnless { it == -1L }
             ?.let {
-                supportFragmentManager.beginTransaction()
+                supportFragmentManager
+                    .beginTransaction()
                     .replace(
                         android.R.id.content,
                         CrashDetailsFragment.newInstance(it),
-                        CrashDetailsFragment.TAG
-                    )
-                    .commit()
+                        CrashDetailsFragment.TAG,
+                    ).commit()
             } ?: finish()
     }
 }

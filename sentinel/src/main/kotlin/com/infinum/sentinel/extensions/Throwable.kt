@@ -9,5 +9,5 @@ internal fun Throwable.asExceptionData(isANR: Boolean = false): ExceptionData =
         stackTrace = stackTrace.asStringArray(),
         file = stackTrace.getOrNull(0)?.fileName,
         lineNumber = stackTrace.getOrNull(0)?.lineNumber ?: Int.MIN_VALUE,
-        isANRException = isANR
+        isANRException = isANR,
     )

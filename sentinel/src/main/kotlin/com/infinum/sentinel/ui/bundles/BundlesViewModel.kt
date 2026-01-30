@@ -16,20 +16,22 @@ import me.tatarka.inject.annotations.Inject
 @Inject
 internal class BundlesViewModel(
     private val bundleMonitor: Repositories.BundleMonitor,
-    private val bundles: Repositories.Bundles
+    private val bundles: Repositories.Bundles,
 ) : BaseChildViewModel<Nothing, BundlesEvent>() {
-
-    private var parameters: BundlesParameters? = BundlesParameters(
-        monitor = BundleMonitorParameters(),
-        details = BundleParameters()
-    )
+    private var parameters: BundlesParameters? =
+        BundlesParameters(
+            monitor = BundleMonitorParameters(),
+            details = BundleParameters(),
+        )
 
     override fun data() {
-        bundleMonitor.load(parameters?.monitor ?: throw NullPointerException("Monitor cannot be null."))
+        bundleMonitor
+            .load(parameters?.monitor ?: throw NullPointerException("Monitor cannot be null."))
             .combine(
-                bundles.load(parameters?.details ?: throw NullPointerException("Details cannot be null."))
+                bundles.load(parameters?.details ?: throw NullPointerException("Details cannot be null.")),
             ) { monitor, descriptors ->
-                descriptors.map { it.copy(limit = monitor.limit) }
+                descriptors
+                    .map { it.copy(limit = monitor.limit) }
                     .filter {
                         when (it.callSite) {
                             BundleCallSite.ACTIVITY_INTENT_EXTRAS -> monitor.activityIntentExtras
@@ -37,14 +39,16 @@ internal class BundlesViewModel(
                             BundleCallSite.FRAGMENT_ARGUMENTS -> monitor.fragmentArguments
                             BundleCallSite.FRAGMENT_SAVED_STATE -> monitor.fragmentSavedState
                         }
-                    }
-                    .filter {
+                    }.filter {
                         it.className?.lowercase()?.contains(
-                            parameters?.monitor?.query?.lowercase().orEmpty()
+                            parameters
+                                ?.monitor
+                                ?.query
+                                ?.lowercase()
+                                .orEmpty(),
                         ) == true
                     }
-            }
-            .flowOn(runningDispatchers)
+            }.flowOn(runningDispatchers)
             .onEach { emitEvent(BundlesEvent.BundlesIntercepted(value = it)) }
             .launchIn(viewModelScope)
     }
@@ -57,9 +61,10 @@ internal class BundlesViewModel(
         }
 
     fun setSearchQuery(query: String?) {
-        parameters = parameters?.copy(
-            monitor = parameters?.monitor?.copy(query = query) ?: BundleMonitorParameters()
-        )
+        parameters =
+            parameters?.copy(
+                monitor = parameters?.monitor?.copy(query = query) ?: BundleMonitorParameters(),
+            )
         data()
     }
 }

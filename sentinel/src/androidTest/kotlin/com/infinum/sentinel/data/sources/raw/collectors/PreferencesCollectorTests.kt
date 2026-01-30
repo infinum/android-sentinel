@@ -21,9 +21,7 @@ import org.robolectric.annotation.Config
 
 @RunWith(AndroidJUnit4::class)
 internal class PreferencesCollectorTests {
-
     companion object {
-
         private const val NAME_SHARED_PREFERENCES = "SHARED_PREFERENCES"
         private const val NAME_PERSISTED_SHARED_PREFERENCES = "PERSISTED_SHARED_PREFERENCES"
         private const val NAME_ENCRYPTED_SHARED_PREFERENCES = "ENCRYPTED_SHARED_PREFERENCES"
@@ -53,8 +51,10 @@ internal class PreferencesCollectorTests {
         @BeforeClass
         @JvmStatic
         fun setupCollector() {
-            context = ApplicationProvider.getApplicationContext<SentinelTestApplication>()
-                .applicationContext
+            context =
+                ApplicationProvider
+                    .getApplicationContext<SentinelTestApplication>()
+                    .applicationContext
 
             collector = PreferencesCollector(context, mapOf())
         }
@@ -64,9 +64,10 @@ internal class PreferencesCollectorTests {
     fun preferences_deleteDir() {
         val prefsDirectory =
             File(context.applicationInfo.dataDir, PreferencesCollector.PREFS_DIRECTORY)
-        val success = (prefsDirectory.exists() && prefsDirectory.isDirectory).let {
-            prefsDirectory.deleteRecursively()
-        }
+        val success =
+            (prefsDirectory.exists() && prefsDirectory.isDirectory).let {
+                prefsDirectory.deleteRecursively()
+            }
 
         assertTrue(success)
     }
@@ -83,7 +84,8 @@ internal class PreferencesCollectorTests {
     @Test
     @SmallTest
     fun preferences_hasDefault() {
-        PreferenceManager.getDefaultSharedPreferences(context)
+        PreferenceManager
+            .getDefaultSharedPreferences(context)
             .edit()
             .putBoolean(KEY_BOOLEAN, VALUE_BOOLEAN)
             .putFloat(KEY_FLOAT, VALUE_FLOAT)
@@ -120,7 +122,8 @@ internal class PreferencesCollectorTests {
     @Test
     @SmallTest
     fun preferences_hasSingleNamed() {
-        context.getSharedPreferences(NAME_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+        context
+            .getSharedPreferences(NAME_SHARED_PREFERENCES, Context.MODE_PRIVATE)
             .edit()
             .putBoolean(KEY_BOOLEAN, VALUE_BOOLEAN)
             .putFloat(KEY_FLOAT, VALUE_FLOAT)
@@ -157,7 +160,8 @@ internal class PreferencesCollectorTests {
     @Test
     @SmallTest
     fun preferences_hasMultipleNamed() {
-        context.getSharedPreferences(NAME_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+        context
+            .getSharedPreferences(NAME_SHARED_PREFERENCES, Context.MODE_PRIVATE)
             .edit()
             .putBoolean(KEY_BOOLEAN, VALUE_BOOLEAN)
             .putFloat(KEY_FLOAT, VALUE_FLOAT)
@@ -166,7 +170,8 @@ internal class PreferencesCollectorTests {
             .putString(KEY_STRING, VALUE_STRING)
             .putStringSet(KEY_STRING_SET, VALUE_STRING_SET)
             .commit()
-        context.getSharedPreferences(NAME_PERSISTED_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+        context
+            .getSharedPreferences(NAME_PERSISTED_SHARED_PREFERENCES, Context.MODE_PRIVATE)
             .edit()
             .putBoolean(KEY_BOOLEAN, VALUE_BOOLEAN)
             .putFloat(KEY_FLOAT, VALUE_FLOAT)
@@ -223,13 +228,14 @@ internal class PreferencesCollectorTests {
     @SmallTest
     @Config(minSdk = Build.VERSION_CODES.M)
     fun preferences_hasEncrypted() {
-        EncryptedSharedPreferences.create(
-            NAME_ENCRYPTED_SHARED_PREFERENCES,
-            MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
-            context,
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        ).edit()
+        EncryptedSharedPreferences
+            .create(
+                NAME_ENCRYPTED_SHARED_PREFERENCES,
+                MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
+                context,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM,
+            ).edit()
             .putBoolean(KEY_BOOLEAN, VALUE_BOOLEAN)
             .putFloat(KEY_FLOAT, VALUE_FLOAT)
             .putInt(KEY_INT, VALUE_INT)

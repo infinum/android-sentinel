@@ -21,33 +21,37 @@ import com.infinum.sentinel.ui.shared.edgefactories.bounce.BounceEdgeEffectFacto
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class BundlesFragment : BaseChildFragment<Nothing, BundlesEvent>(R.layout.sentinel_fragment_bundles) {
-
     companion object {
         fun newInstance() = BundlesFragment()
+
         const val TAG: String = "BundlesFragment"
     }
 
     override val binding: SentinelFragmentBundlesBinding by viewBinding(
-        SentinelFragmentBundlesBinding::bind
+        SentinelFragmentBundlesBinding::bind,
     )
 
     override val viewModel: BundlesViewModel by viewModels()
 
-    private val adapter = BundlesAdapter(
-        onListChanged = { isEmpty ->
-            showEmptyState(isEmpty)
-        },
-        onClick = {
-            startActivity(
-                Intent(requireContext(), BundleDetailsActivity::class.java)
-                    .apply {
-                        putExtra(Constants.Keys.BUNDLE_ID, it.bundleTree.id)
-                    }
-            )
-        }
-    )
+    private val adapter =
+        BundlesAdapter(
+            onListChanged = { isEmpty ->
+                showEmptyState(isEmpty)
+            },
+            onClick = {
+                startActivity(
+                    Intent(requireContext(), BundleDetailsActivity::class.java)
+                        .apply {
+                            putExtra(Constants.Keys.BUNDLE_ID, it.bundleTree.id)
+                        },
+                )
+            },
+        )
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
 
         setupToolbar()
@@ -70,11 +74,15 @@ internal class BundlesFragment : BaseChildFragment<Nothing, BundlesEvent>(R.layo
                         toolbar.menu.findItem(R.id.clear).isVisible = false
                         true
                     }
+
                     R.id.clear -> {
                         viewModel.clearBundles()
                         true
                     }
-                    else -> false
+
+                    else -> {
+                        false
+                    }
                 }
             }
             toolbar.menu.searchView?.setup(
@@ -85,7 +93,7 @@ internal class BundlesFragment : BaseChildFragment<Nothing, BundlesEvent>(R.layo
                 },
                 onQueryTextChanged = { query ->
                     viewModel.setSearchQuery(query)
-                }
+                },
             )
         }
     }

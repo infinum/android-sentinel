@@ -10,7 +10,6 @@ import java.util.Locale
 
 @Suppress("unused")
 public object Sentinel {
-
     @JvmStatic
     @JvmOverloads
     @Suppress("UNUSED_PARAMETER")
@@ -31,7 +30,6 @@ public object Sentinel {
     public fun setAnrListener(listener: ApplicationNotRespondingListener?): Unit = Unit
 
     public interface Tool {
-
         /**
          * An optional icon for this tool
          *
@@ -58,7 +56,6 @@ public object Sentinel {
 
     @Suppress("unused")
     public interface NetworkTool : Tool {
-
         /**
          * A stub for this tool
          *
@@ -70,7 +67,6 @@ public object Sentinel {
 
     @Suppress("unused")
     public interface MemoryTool : Tool {
-
         /**
          * A stub for this tool
          *
@@ -82,7 +78,6 @@ public object Sentinel {
 
     @Suppress("unused")
     public interface AnalyticsTool : Tool {
-
         /**
          * A stub for this tool
          *
@@ -94,7 +89,6 @@ public object Sentinel {
 
     @Suppress("unused")
     public interface DatabaseTool : Tool {
-
         /**
          * A stub for this tool
          *
@@ -106,7 +100,6 @@ public object Sentinel {
 
     @Suppress("unused")
     public interface ReportTool : Tool {
-
         /**
          * A stub for this tool
          *
@@ -118,7 +111,6 @@ public object Sentinel {
 
     @Suppress("unused")
     public interface BluetoothTool : Tool {
-
         /**
          * A stub for this tool
          *
@@ -130,7 +122,6 @@ public object Sentinel {
 
     @Suppress("unused")
     public interface DistributionTool : Tool {
-
         /**
          * A stub for this tool
          *
@@ -142,7 +133,6 @@ public object Sentinel {
 
     @Suppress("unused")
     public interface DesignTool : Tool {
-
         /**
          * A stub for this tool
          *
@@ -154,7 +144,6 @@ public object Sentinel {
 
     @Suppress("unused")
     public fun interface ApplicationNotRespondingListener {
-
         public fun onAppNotResponding(exception: ApplicationNotRespondingException)
     }
 
@@ -162,8 +151,9 @@ public object Sentinel {
      * [Exception] to represent an ANR.
      * This [Exception]'s stack trace will be the current stack trace of the given [Thread]
      */
-    public class ApplicationNotRespondingException(thread: Thread) : Exception("ANR detected.") {
-
+    public class ApplicationNotRespondingException(
+        thread: Thread,
+    ) : Exception("ANR detected.") {
         public val threadStateMap: String
         internal val threadStateList: List<ProcessThread>
 
@@ -209,7 +199,12 @@ public object Sentinel {
          * @param thread the [Thread] to print
          * @param stack the [Thread]'s stack trace
          */
-        private fun printThread(ps: PrintStream, l: Locale, thread: Thread, stack: Array<StackTraceElement>) {
+        private fun printThread(
+            ps: PrintStream,
+            l: Locale,
+            thread: Thread,
+            stack: Array<StackTraceElement>,
+        ) {
             ps.println(String.format(l, "\t%s (%s)", thread.name, thread.state))
             for (element in stack) {
                 element.apply {
@@ -223,18 +218,19 @@ public object Sentinel {
             val stackTraces = Thread.getAllStackTraces()
             for (thread in stackTraces.keys) {
                 if (!stackTraces[thread].isNullOrEmpty()) {
-                    val process = ProcessThread(
-                        thread.name,
-                        thread.state.name,
-                        stackTraces[thread]!!
-                            .map {
-                                if (it.isNativeMethod) {
-                                    "${it.className}.${it.methodName}[Native Method]"
-                                } else {
-                                    "${it.className}.${it.methodName}(${it.fileName}:${it.lineNumber})"
-                                }
-                            }
-                    )
+                    val process =
+                        ProcessThread(
+                            thread.name,
+                            thread.state.name,
+                            stackTraces[thread]!!
+                                .map {
+                                    if (it.isNativeMethod) {
+                                        "${it.className}.${it.methodName}[Native Method]"
+                                    } else {
+                                        "${it.className}.${it.methodName}(${it.fileName}:${it.lineNumber})"
+                                    }
+                                },
+                        )
                     list.add(process)
                 }
             }

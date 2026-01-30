@@ -10,6 +10,6 @@ import org.junit.runners.Suite.SuiteClasses
     DeviceCollectorTestSuite::class,
     ApplicationCollectorTests::class,
     PermissionsCollectorTests::class,
-    PreferencesCollectorTests::class
+    PreferencesCollectorTests::class,
 )
 public class CollectorsTestSuite

@@ -17,9 +17,9 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.infinum.sentinel.R
 import com.infinum.sentinel.SentinelFileTree
-import com.infinum.sentinel.databinding.SentinelActivityLoggerBinding
+import com.infinum.sentinel.tool.timber.R
+import com.infinum.sentinel.tool.timber.databinding.SentinelActivityLoggerBinding
 import com.infinum.sentinel.ui.logger.models.FlowBuffer
 import com.infinum.sentinel.ui.logger.storage.AllowedTags
 import com.infinum.sentinel.ui.logs.LogsActivity
@@ -37,54 +37,54 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 public class LoggerActivity : AppCompatActivity() {
-
     private companion object {
         private const val MIME_TYPE_TEXT = "text/plain"
     }
 
+    @Suppress("LateinitUsage")
     private lateinit var binding: SentinelActivityLoggerBinding
 
+    @Suppress("LateinitUsage")
     private lateinit var logFile: File
 
-    private val buffer = Timber.forest()
-        .filterIsInstance<SentinelFileTree>()
-        .firstOrNull()?.buffer
-        ?: FlowBuffer()
+    private val buffer =
+        Timber
+            .forest()
+            .filterIsInstance<SentinelFileTree>()
+            .firstOrNull()
+            ?.buffer
+            ?: FlowBuffer()
 
-    private val adapter = LoggerAdapter(
-        onListChanged = { isEmpty ->
-            showEmptyState(isEmpty)
-        },
-        onClick = {
-            ShareCompat.IntentBuilder(this)
-                .setText(it.asJSONString())
-                .setType(MIME_TYPE_TEXT)
-                .startChooser()
-        }
-    )
+    private val adapter =
+        LoggerAdapter(
+            onListChanged = { isEmpty ->
+                showEmptyState(isEmpty)
+            },
+            onClick = {
+                ShareCompat
+                    .IntentBuilder(this)
+                    .setText(it.asJSONString())
+                    .setType(MIME_TYPE_TEXT)
+                    .startChooser()
+            },
+        )
 
     @Suppress("LongMethod", "CyclomaticComplexMethod")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-                Configuration.UI_MODE_NIGHT_YES -> false
-                Configuration.UI_MODE_NIGHT_NO -> true
-                else -> null
-            }?.let {
-                WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars =
-                    it
-            } ?: run {
-                WindowInsetsControllerCompat(
-                    window,
-                    window.decorView
-                ).isAppearanceLightStatusBars = true
-            }
-        } else {
-            window.statusBarColor = ContextCompat.getColor(this, android.R.color.black)
+        when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_YES -> false
+            Configuration.UI_MODE_NIGHT_NO -> true
+            else -> null
+        }?.let {
             WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars =
-                true
+                it
+        } ?: run {
+            WindowInsetsControllerCompat(
+                window,
+                window.decorView,
+            ).isAppearanceLightStatusBars = true
         }
 
         binding = SentinelActivityLoggerBinding.inflate(layoutInflater)
@@ -97,17 +97,17 @@ public class LoggerActivity : AppCompatActivity() {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         packageManager.getApplicationInfo(
                             packageName,
-                            PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA.toLong())
+                            PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA.toLong()),
                         )
                     } else {
                         @Suppress("DEPRECATION")
                         packageManager.getApplicationInfo(
                             packageName,
-                            PackageManager.GET_META_DATA
+                            PackageManager.GET_META_DATA,
                         )
-                    }
+                    },
                 ) as? String
-                ) ?: getString(R.string.sentinel_name)
+            ) ?: getString(R.string.sentinel_name)
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.search -> {
@@ -126,7 +126,9 @@ public class LoggerActivity : AppCompatActivity() {
                         true
                     }
 
-                    else -> false
+                    else -> {
+                        false
+                    }
                 }
             }
             (toolbar.menu.findItem(R.id.search)?.actionView as? SearchView)?.setup(
@@ -138,20 +140,21 @@ public class LoggerActivity : AppCompatActivity() {
                 },
                 onQueryTextChanged = { query ->
                     filter(query)
-                }
+                },
             )
-            recyclerView.layoutManager = LinearLayoutManager(
-                recyclerView.context,
-                LinearLayoutManager.VERTICAL,
-                false
-            )
+            recyclerView.layoutManager =
+                LinearLayoutManager(
+                    recyclerView.context,
+                    LinearLayoutManager.VERTICAL,
+                    false,
+                )
             recyclerView.adapter = adapter
             recyclerView.edgeEffectFactory = BounceEdgeEffectFactory()
             recyclerView.addItemDecoration(
                 DividerItemDecoration(
                     recyclerView.context,
-                    LinearLayoutManager.VERTICAL
-                )
+                    LinearLayoutManager.VERTICAL,
+                ),
             )
         }
 
@@ -172,8 +175,7 @@ public class LoggerActivity : AppCompatActivity() {
                 } else {
                     entries.filter { entry -> AllowedTags.value.contains(entry.tag) }
                 }
-            }
-            .onEach { entries -> adapter.submitList(entries) }
+            }.onEach { entries -> adapter.submitList(entries) }
             .launchIn(lifecycleScope)
     }
 
@@ -187,20 +189,21 @@ public class LoggerActivity : AppCompatActivity() {
 
     private fun shareToday() {
         lifecycleScope.launch {
-            val uri: Uri = withContext(Dispatchers.IO) {
-                FileProvider.getUriForFile(
-                    this@LoggerActivity,
-                    "${this@LoggerActivity.packageName}.sentinel.logprovider",
-                    logFile
-                )
-            }
-            ShareCompat.IntentBuilder(this@LoggerActivity)
+            val uri: Uri =
+                withContext(Dispatchers.IO) {
+                    FileProvider.getUriForFile(
+                        this@LoggerActivity,
+                        "${this@LoggerActivity.packageName}.sentinel.logprovider",
+                        logFile,
+                    )
+                }
+            ShareCompat
+                .IntentBuilder(this@LoggerActivity)
                 .addStream(uri)
                 .setType(MIME_TYPE_TEXT)
                 .apply {
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                }
-                .startChooser()
+                }.startChooser()
         }
     }
 

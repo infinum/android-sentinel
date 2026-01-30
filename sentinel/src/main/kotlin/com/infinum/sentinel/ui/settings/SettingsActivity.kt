@@ -6,11 +6,11 @@ import com.infinum.sentinel.ui.shared.base.BaseChildActivity
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class SettingsActivity : BaseChildActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        supportFragmentManager.beginTransaction()
+        supportFragmentManager
+            .beginTransaction()
             .replace(android.R.id.content, SettingsFragment.newInstance(), SettingsFragment.TAG)
             .commit()
     }

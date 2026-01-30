@@ -16,7 +16,6 @@ import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
 
 class SampleApplication : Application() {
-
     override fun onCreate() {
         super.onCreate()
 
@@ -43,9 +42,8 @@ class SampleApplication : Application() {
         val factory = CertificateFactory.getInstance("X.509")
         return listOf(
             "stackexchange.pem",
-            "selfsigned_knobtviker.cert"
-        )
-            .map { assets.open(it) }
+            "selfsigned_knobtviker.cert",
+        ).map { assets.open(it) }
             .map { factory.generateCertificate(it) as X509Certificate }
     }
 }

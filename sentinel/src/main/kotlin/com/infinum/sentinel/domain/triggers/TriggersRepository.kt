@@ -13,9 +13,8 @@ import me.tatarka.inject.annotations.Inject
 @Inject
 internal class TriggersRepository(
     private val dao: TriggersDao,
-    private val cache: TriggersCache
+    private val cache: TriggersCache,
 ) : Repositories.Triggers {
-
     override suspend fun save(input: TriggerParameters) =
         input.entity?.let {
             dao.save(it)
@@ -23,7 +22,8 @@ internal class TriggersRepository(
         } ?: error("Cannot save null entity")
 
     override fun load(input: TriggerParameters): Flow<List<TriggerEntity>> =
-        dao.load()
+        dao
+            .load()
             .onEach { it.forEach { entity -> updateCache(entity) } }
 
     private fun updateCache(entity: TriggerEntity) =

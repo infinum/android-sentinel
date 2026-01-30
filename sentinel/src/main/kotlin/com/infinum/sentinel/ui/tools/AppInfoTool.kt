@@ -13,20 +13,21 @@ import com.infinum.sentinel.Sentinel
  */
 internal data class AppInfoTool(
     @StringRes private val name: Int = R.string.sentinel_app_info,
-    private val listener: View.OnClickListener = View.OnClickListener {
-        it.context.startActivity(
-            Intent().apply {
-                action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                data = Uri.fromParts(
-                    it.context.getString(R.string.sentinel_package_schema),
-                    it.context.packageName,
-                    null
-                )
-            }
-        )
-    }
+    private val listener: View.OnClickListener =
+        View.OnClickListener {
+            it.context.startActivity(
+                Intent().apply {
+                    action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                    data =
+                        Uri.fromParts(
+                            it.context.getString(R.string.sentinel_package_schema),
+                            it.context.packageName,
+                            null,
+                        )
+                },
+            )
+        },
 ) : Sentinel.Tool {
-
     /**
      * A dedicated name for this tool
      *

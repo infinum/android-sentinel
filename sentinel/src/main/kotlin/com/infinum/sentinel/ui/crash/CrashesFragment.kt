@@ -21,37 +21,39 @@ import com.infinum.sentinel.ui.shared.edgefactories.bounce.BounceEdgeEffectFacto
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal class CrashesFragment : BaseChildFragment<Nothing, CrashesEvent>(R.layout.sentinel_fragment_crashes) {
-
     companion object {
-        fun newInstance(applicationName: String?) = CrashesFragment()
-            .apply {
-                arguments = Bundle().apply {
-                    putString(Constants.Keys.APPLICATION_NAME, applicationName)
+        fun newInstance(applicationName: String?) =
+            CrashesFragment()
+                .apply {
+                    arguments =
+                        Bundle().apply {
+                            putString(Constants.Keys.APPLICATION_NAME, applicationName)
+                        }
                 }
-            }
 
         const val TAG: String = "CrashesFragment"
     }
 
     override val binding: SentinelFragmentCrashesBinding by viewBinding(
-        SentinelFragmentCrashesBinding::bind
+        SentinelFragmentCrashesBinding::bind,
     )
 
     override val viewModel: CrashesViewModel by viewModels()
 
-    private val adapter = CrashesAdapter(
-        onListChanged = { isEmpty ->
-            showEmptyState(isEmpty)
-        },
-        onClick = {
-            startActivity(
-                Intent(requireContext(), CrashDetailsActivity::class.java)
-                    .apply {
-                        putExtra(Constants.Keys.CRASH_ID, it.id)
-                    }
-            )
-        }
-    )
+    private val adapter =
+        CrashesAdapter(
+            onListChanged = { isEmpty ->
+                showEmptyState(isEmpty)
+            },
+            onClick = {
+                startActivity(
+                    Intent(requireContext(), CrashDetailsActivity::class.java)
+                        .apply {
+                            putExtra(Constants.Keys.CRASH_ID, it.id)
+                        },
+                )
+            },
+        )
 
     private var applicationName: String? = null
 
@@ -61,7 +63,10 @@ internal class CrashesFragment : BaseChildFragment<Nothing, CrashesEvent>(R.layo
         applicationName = arguments?.getString(Constants.Keys.APPLICATION_NAME)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
 
         setupToolbar()
@@ -85,11 +90,15 @@ internal class CrashesFragment : BaseChildFragment<Nothing, CrashesEvent>(R.layo
                         menu.findItem(R.id.clear).isVisible = false
                         true
                     }
+
                     R.id.clear -> {
                         viewModel.clearCrashes()
                         true
                     }
-                    else -> false
+
+                    else -> {
+                        false
+                    }
                 }
             }
             menu.searchView?.setup(
@@ -100,7 +109,7 @@ internal class CrashesFragment : BaseChildFragment<Nothing, CrashesEvent>(R.layo
                 },
                 onQueryTextChanged = { query ->
                     viewModel.setSearchQuery(query)
-                }
+                },
             )
         }
     }

@@ -4,15 +4,14 @@ import android.content.Context
 import com.infinum.sentinel.data.models.memory.triggers.shared.receiver.BroadcastReceiver
 
 internal abstract class BroadcastReceiverTrigger(
-    private val context: Context
+    private val context: Context,
 ) : AbstractTrigger() {
-
     abstract val broadcastReceiver: BroadcastReceiver
 
     override fun start() {
         context.registerReceiver(
             broadcastReceiver.receiver,
-            broadcastReceiver.filter
+            broadcastReceiver.filter,
         )
         this.active = false
     }

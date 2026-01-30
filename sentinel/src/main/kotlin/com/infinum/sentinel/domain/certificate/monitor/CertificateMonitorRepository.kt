@@ -9,14 +9,12 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 internal class CertificateMonitorRepository(
-    private val dao: CertificateMonitorDao
+    private val dao: CertificateMonitorDao,
 ) : Repositories.CertificateMonitor {
-
     override suspend fun save(input: CertificateMonitorParameters) {
         input.entity?.let { dao.save(it) }
             ?: error("Cannot save null entities")
     }
 
-    override fun load(input: CertificateMonitorParameters): Flow<CertificateMonitorEntity> =
-        dao.load()
+    override fun load(input: CertificateMonitorParameters): Flow<CertificateMonitorEntity> = dao.load()
 }

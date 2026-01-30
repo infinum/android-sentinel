@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 internal interface FormatsDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(entities: List<FormatEntity>)
 

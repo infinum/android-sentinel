@@ -18,9 +18,8 @@ internal class CertificateCheckWorker(
     private val context: Context,
     parameters: WorkerParameters,
     private val collectors: Factories.Collector,
-    private val notificationFactory: NotificationFactory
+    private val notificationFactory: NotificationFactory,
 ) : CoroutineWorker(context, parameters) {
-
     companion object {
         const val NAME = "com.infinum.sentinel.ui.certificates.observer.CertificateCheckWorker"
     }
@@ -32,14 +31,17 @@ internal class CertificateCheckWorker(
         val notifyInvalidNow = inputData.getBoolean(NOTIFY_INVALID_NOW, false)
         val notifyToExpire = inputData.getBoolean(NOTIFY_TO_EXPIRE, false)
         val expireInAmount = inputData.getInt(EXPIRE_IN_AMOUNT, 0)
-        val expireInUnit = inputData.getString(EXPIRE_IN_UNIT)?.let {
-            ChronoUnit.values().single { unit -> unit.name == it }
-        } ?: ChronoUnit.DAYS
+        val expireInUnit =
+            inputData.getString(EXPIRE_IN_UNIT)?.let {
+                ChronoUnit.values().single { unit -> unit.name == it }
+            } ?: ChronoUnit.DAYS
 
         if (notifyInvalidNow || notifyToExpire) {
-            val userCertificates = collectors.certificates()
-                .invoke()[CertificateType.USER]
-                .orEmpty()
+            val userCertificates =
+                collectors
+                    .certificates()
+                    .invoke()[CertificateType.USER]
+                    .orEmpty()
 
             userCertificates
                 .filterNot { certificate -> certificate.isValidNow }

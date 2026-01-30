@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 internal interface BaseView<State, Event> {
-
     val viewModel: BaseViewModel<State, Event>?
 
     fun onState(state: State)

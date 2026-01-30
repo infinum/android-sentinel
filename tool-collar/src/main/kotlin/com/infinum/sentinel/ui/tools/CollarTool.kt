@@ -3,8 +3,8 @@ package com.infinum.sentinel.ui.tools
 import android.content.Intent
 import android.view.View
 import com.infinum.collar.ui.CollarUi
-import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
+import com.infinum.sentinel.tool.collar.R
 
 /**
  * Specific wrapper tool around Collar.
@@ -12,15 +12,15 @@ import com.infinum.sentinel.Sentinel
  * Tool Activity will launch with FLAG_ACTIVITY_SINGLE_TOP flag.
  */
 public data class CollarTool(
-    private val listener: View.OnClickListener = View.OnClickListener {
-        it.context.startActivity(
-            CollarUi.launchIntent().apply {
-                addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            }
-        )
-    }
+    private val listener: View.OnClickListener =
+        View.OnClickListener {
+            it.context.startActivity(
+                CollarUi.launchIntent().apply {
+                    addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                },
+            )
+        },
 ) : Sentinel.Tool {
-
     /**
      * An optional icon for this tool
      *

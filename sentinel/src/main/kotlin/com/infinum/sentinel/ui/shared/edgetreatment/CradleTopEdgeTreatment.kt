@@ -13,9 +13,8 @@ internal class CradleTopEdgeTreatment(
     @Px private val fabCradleMargin: Float,
     @Px private val fabCradleRoundedCornerRadius: Float,
     @Px private val cradleVerticalOffset: Float,
-    @Px private val horizontalOffset: Float = 0.0f
+    @Px private val horizontalOffset: Float = 0.0f,
 ) : EdgeTreatment() {
-
     companion object {
         private const val ARC_QUARTER = 90
         private const val ARC_HALF = 180
@@ -31,7 +30,7 @@ internal class CradleTopEdgeTreatment(
         length: Float,
         center: Float,
         interpolation: Float,
-        shapePath: ShapePath
+        shapePath: ShapePath,
     ) {
         if (fabDiameter == 0f) {
             // There is no cutout to draw.
@@ -78,27 +77,27 @@ internal class CradleTopEdgeTreatment(
         val cutoutArcOffset = ARC_QUARTER - cornerRadiusArcLength
 
         // Draw the starting line up to the left rounded corner.
-        shapePath.lineTo( /* x= */leftRoundedCornerCircleX, 0f)
+        shapePath.lineTo(leftRoundedCornerCircleX, 0f)
 
         // Draw the arc for the left rounded corner circle. The bounding box is the area around the
         // circle's center which is at `(leftRoundedCornerCircleX, roundedCornerOffset)`.
         shapePath.addArc(
-            leftRoundedCornerCircleX - roundedCornerOffset, /* left= */
-            0f, /* right= */
-            leftRoundedCornerCircleX + roundedCornerOffset, /* bottom= */
-            roundedCornerOffset * 2, /* startAngle= */
-            ANGLE_UP.toFloat(), /* sweepAngle= */
-            cornerRadiusArcLength
+            leftRoundedCornerCircleX - roundedCornerOffset, // left=
+            0f, // right=
+            leftRoundedCornerCircleX + roundedCornerOffset, // bottom=
+            roundedCornerOffset * 2, // startAngle=
+            ANGLE_UP.toFloat(), // sweepAngle=
+            cornerRadiusArcLength,
         )
 
         // Draw the cutout circle.
-        shapePath.addArc( /* left= */
-            middle - cradleRadius, /* top= */
-            -cradleRadius - verticalOffset, /* right= */
-            middle + cradleRadius, /* bottom= */
-            cradleRadius - verticalOffset, /* startAngle= */
-            ANGLE_LEFT - cutoutArcOffset, /* sweepAngle= */
-            cutoutArcOffset * 2 - ARC_HALF
+        shapePath.addArc( // left=
+            middle - cradleRadius, // top=
+            -cradleRadius - verticalOffset, // right=
+            middle + cradleRadius, // bottom=
+            cradleRadius - verticalOffset, // startAngle=
+            ANGLE_LEFT - cutoutArcOffset, // sweepAngle=
+            cutoutArcOffset * 2 - ARC_HALF,
         )
 
         // Draw an arc for the right rounded corner circle. The bounding box is the area around the
@@ -109,7 +108,7 @@ internal class CradleTopEdgeTreatment(
             rightRoundedCornerCircleX + roundedCornerOffset,
             roundedCornerOffset * 2,
             ANGLE_UP - cornerRadiusArcLength,
-            cornerRadiusArcLength
+            cornerRadiusArcLength,
         )
 
         // Draw the ending line after the right rounded corner.

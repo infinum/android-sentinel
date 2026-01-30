@@ -16,8 +16,8 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.infinum.sentinel.R
-import com.infinum.sentinel.databinding.SentinelActivityLogsBinding
+import com.infinum.sentinel.tool.timber.R
+import com.infinum.sentinel.tool.timber.databinding.SentinelActivityLogsBinding
 import com.infinum.sentinel.ui.shared.BounceEdgeEffectFactory
 import com.infinum.sentinel.ui.shared.LogFileResolver
 import java.io.File
@@ -30,46 +30,41 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 public class LogsActivity : AppCompatActivity() {
-
     private companion object {
         private const val MIME_TYPE_TEXT = "text/plain"
     }
 
+    @Suppress("LateinitUsage")
     private lateinit var binding: SentinelActivityLogsBinding
 
-    private val adapter = LogsAdapter(
-        onListChanged = { isEmpty ->
-            showEmptyState(isEmpty)
-        },
-        onDelete = {
-            deleteLog(it)
-        },
-        onShare = {
-            shareLog(it)
-        }
-    )
+    private val adapter =
+        LogsAdapter(
+            onListChanged = { isEmpty ->
+                showEmptyState(isEmpty)
+            },
+            onDelete = {
+                deleteLog(it)
+            },
+            onShare = {
+                shareLog(it)
+            },
+        )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-                Configuration.UI_MODE_NIGHT_YES -> false
-                Configuration.UI_MODE_NIGHT_NO -> true
-                else -> null
-            }?.let {
-                WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars =
-                    it
-            } ?: run {
-                WindowInsetsControllerCompat(
-                    window,
-                    window.decorView
-                ).isAppearanceLightStatusBars = true
-            }
-        } else {
-            window.statusBarColor = ContextCompat.getColor(this, android.R.color.black)
+        when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_YES -> false
+            Configuration.UI_MODE_NIGHT_NO -> true
+            else -> null
+        }?.let {
             WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars =
-                true
+                it
+        } ?: run {
+            WindowInsetsControllerCompat(
+                window,
+                window.decorView,
+            ).isAppearanceLightStatusBars = true
         }
 
         binding = SentinelActivityLogsBinding.inflate(layoutInflater)
@@ -82,30 +77,31 @@ public class LogsActivity : AppCompatActivity() {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         packageManager.getApplicationInfo(
                             packageName,
-                            PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA.toLong())
+                            PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA.toLong()),
                         )
                     } else {
                         @Suppress("DEPRECATION")
                         packageManager.getApplicationInfo(
                             packageName,
-                            PackageManager.GET_META_DATA
+                            PackageManager.GET_META_DATA,
                         )
-                    }
+                    },
                 ) as? String
-                ) ?: getString(R.string.sentinel_name)
+            ) ?: getString(R.string.sentinel_name)
 
-            recyclerView.layoutManager = LinearLayoutManager(
-                recyclerView.context,
-                LinearLayoutManager.VERTICAL,
-                false
-            )
+            recyclerView.layoutManager =
+                LinearLayoutManager(
+                    recyclerView.context,
+                    LinearLayoutManager.VERTICAL,
+                    false,
+                )
             recyclerView.adapter = adapter
             recyclerView.edgeEffectFactory = BounceEdgeEffectFactory()
             recyclerView.addItemDecoration(
                 DividerItemDecoration(
                     recyclerView.context,
-                    LinearLayoutManager.VERTICAL
-                )
+                    LinearLayoutManager.VERTICAL,
+                ),
             )
         }
 
@@ -122,8 +118,7 @@ public class LogsActivity : AppCompatActivity() {
             .onEach { files ->
                 val allFiles = adapter.currentList + files
                 adapter.submitList(allFiles.sortedByDescending { it.lastModified() })
-            }
-            .launchIn(lifecycleScope)
+            }.launchIn(lifecycleScope)
     }
 
     private fun deleteLog(logFile: File) {
@@ -136,20 +131,21 @@ public class LogsActivity : AppCompatActivity() {
 
     private fun shareLog(logFile: File) {
         lifecycleScope.launch {
-            val uri: Uri = withContext(Dispatchers.IO) {
-                FileProvider.getUriForFile(
-                    this@LogsActivity,
-                    "${this@LogsActivity.packageName}.sentinel.logprovider",
-                    logFile
-                )
-            }
-            ShareCompat.IntentBuilder(this@LogsActivity)
+            val uri: Uri =
+                withContext(Dispatchers.IO) {
+                    FileProvider.getUriForFile(
+                        this@LogsActivity,
+                        "${this@LogsActivity.packageName}.sentinel.logprovider",
+                        logFile,
+                    )
+                }
+            ShareCompat
+                .IntentBuilder(this@LogsActivity)
                 .addStream(uri)
                 .setType(MIME_TYPE_TEXT)
                 .apply {
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                }
-                .startChooser()
+                }.startChooser()
         }
     }
 

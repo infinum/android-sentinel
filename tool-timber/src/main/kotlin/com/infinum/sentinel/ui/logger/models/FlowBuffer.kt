@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 internal class FlowBuffer<T : BaseEntry> {
-
     private var queue: List<T> = listOf()
     private val flow: MutableStateFlow<List<T>> = MutableStateFlow(queue.reversed())
 
@@ -31,7 +30,7 @@ internal class FlowBuffer<T : BaseEntry> {
                         it.message?.lowercase()?.contains(query.lowercase()) == true ||
                         it.stackTrace?.lowercase()?.contains(query.lowercase()) == true
                 }
-            }
+            },
         )
     }
 }

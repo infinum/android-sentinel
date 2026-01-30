@@ -9,14 +9,12 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 internal class BundleMonitorRepository(
-    private val dao: BundleMonitorDao
+    private val dao: BundleMonitorDao,
 ) : Repositories.BundleMonitor {
-
     override suspend fun save(input: BundleMonitorParameters) {
         input.entity?.let { dao.save(it) }
             ?: error("Cannot save null entities")
     }
 
-    override fun load(input: BundleMonitorParameters): Flow<BundleMonitorEntity> =
-        dao.load()
+    override fun load(input: BundleMonitorParameters): Flow<BundleMonitorEntity> = dao.load()
 }

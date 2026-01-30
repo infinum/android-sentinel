@@ -6,18 +6,18 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 internal class ToolsViewModel(
-    private val collectors: Factories.Collector
+    private val collectors: Factories.Collector,
 ) : BaseChildViewModel<ToolsState, Nothing>() {
-
     override fun data() =
         launch {
-            val result = io {
-                collectors.tools()()
-            }
+            val result =
+                io {
+                    collectors.tools()()
+                }
             setState(
                 ToolsState.Data(
-                    value = result
-                )
+                    value = result,
+                ),
             )
         }
 }

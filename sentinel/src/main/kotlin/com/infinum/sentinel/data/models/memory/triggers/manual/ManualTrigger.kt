@@ -5,7 +5,6 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 internal class ManualTrigger : AbstractTrigger() {
-
     init {
         active = true
     }

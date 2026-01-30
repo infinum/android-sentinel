@@ -26,7 +26,6 @@ import com.infinum.sentinel.ui.shared.delegates.viewBinding
 @Suppress("TooManyFunctions")
 internal class PreferenceEditorFragment :
     BaseChildFragment<PreferenceEditorState, PreferenceEditorEvent>(R.layout.sentinel_fragment_preference_editor) {
-
     companion object {
         fun newInstance() = PreferenceEditorFragment()
 
@@ -34,12 +33,15 @@ internal class PreferenceEditorFragment :
     }
 
     override val binding: SentinelFragmentPreferenceEditorBinding by viewBinding(
-        SentinelFragmentPreferenceEditorBinding::bind
+        SentinelFragmentPreferenceEditorBinding::bind,
     )
 
     override val viewModel: PreferenceEditorViewModel by viewModels()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
@@ -71,20 +73,23 @@ internal class PreferenceEditorFragment :
                         true
                     }
 
-                    else -> false
+                    else -> {
+                        false
+                    }
                 }
             }
             preferencesView.text = state.name
             keyView.text = state.key
-            currentValueView.text = when (state.type) {
-                PreferenceType.BOOLEAN -> (state.value as? Boolean)?.toString()
-                PreferenceType.FLOAT -> (state.value as? Float)?.toString()
-                PreferenceType.INT -> (state.value as? Int)?.toString()
-                PreferenceType.LONG -> (state.value as? Long)?.toString()
-                PreferenceType.STRING -> state.value as? String
-                PreferenceType.SET -> (state.value as? Array<*>)?.contentToString()
-                else -> null
-            }
+            currentValueView.text =
+                when (state.type) {
+                    PreferenceType.BOOLEAN -> (state.value as? Boolean)?.toString()
+                    PreferenceType.FLOAT -> (state.value as? Float)?.toString()
+                    PreferenceType.INT -> (state.value as? Int)?.toString()
+                    PreferenceType.LONG -> (state.value as? Long)?.toString()
+                    PreferenceType.STRING -> state.value as? String
+                    PreferenceType.SET -> (state.value as? Array<*>)?.contentToString()
+                    else -> null
+                }
             refreshRestOfUiBasedOnType(state)
             newValueInput.inputType = handleInputType(state)
             newValueInput.doOnTextChanged { text, _, _, _ ->
@@ -93,100 +98,105 @@ internal class PreferenceEditorFragment :
             }
         }
 
-    private fun refreshRestOfUiBasedOnType(state: PreferenceEditorState.Cache) = with(binding) {
-        when (state.type) {
-            PreferenceType.BOOLEAN -> {
-                toggleGroup.isVisible = true
-                trueButton.isChecked = (state.value as? Boolean)?.equals(true) ?: false
-                falseButton.isChecked = (state.value as? Boolean)?.equals(false) ?: false
-                newValueInputLayout.isVisible = false
-                setLayout.isVisible = false
-            }
-
-            PreferenceType.FLOAT -> {
-                toggleGroup.isVisible = false
-                newValueInputLayout.isVisible = true
-                setLayout.isVisible = false
-                newValueInputLayout.editText?.setText((state.value as? Float)?.toString())
-            }
-
-            PreferenceType.INT -> {
-                toggleGroup.isVisible = false
-                newValueInputLayout.isVisible = true
-                setLayout.isVisible = false
-                newValueInputLayout.editText?.setText((state.value as? Int)?.toString())
-            }
-
-            PreferenceType.LONG -> {
-                toggleGroup.isVisible = false
-                newValueInputLayout.isVisible = true
-                setLayout.isVisible = false
-                newValueInputLayout.editText?.setText((state.value as? Long)?.toString())
-            }
-
-            PreferenceType.STRING -> {
-                toggleGroup.isVisible = false
-                newValueInputLayout.isVisible = true
-                setLayout.isVisible = false
-                newValueInputLayout.editText?.setText(state.value as? String)
-            }
-
-            PreferenceType.SET -> {
-                toggleGroup.isVisible = false
-                newValueInputLayout.isVisible = false
-                setLayout.isVisible = true
-                addButton.setOnClickListener {
-                    addButtonForSetType()
+    private fun refreshRestOfUiBasedOnType(state: PreferenceEditorState.Cache) =
+        with(binding) {
+            when (state.type) {
+                PreferenceType.BOOLEAN -> {
+                    toggleGroup.isVisible = true
+                    trueButton.isChecked = (state.value as? Boolean)?.equals(true) ?: false
+                    falseButton.isChecked = (state.value as? Boolean)?.equals(false) ?: false
+                    newValueInputLayout.isVisible = false
+                    setLayout.isVisible = false
                 }
-                addViewsForSet(state)
-            }
 
-            else -> {
-                toggleGroup.isVisible = false
-                newValueInputLayout.isVisible = false
-                setLayout.isVisible = false
+                PreferenceType.FLOAT -> {
+                    toggleGroup.isVisible = false
+                    newValueInputLayout.isVisible = true
+                    setLayout.isVisible = false
+                    newValueInputLayout.editText?.setText((state.value as? Float)?.toString())
+                }
+
+                PreferenceType.INT -> {
+                    toggleGroup.isVisible = false
+                    newValueInputLayout.isVisible = true
+                    setLayout.isVisible = false
+                    newValueInputLayout.editText?.setText((state.value as? Int)?.toString())
+                }
+
+                PreferenceType.LONG -> {
+                    toggleGroup.isVisible = false
+                    newValueInputLayout.isVisible = true
+                    setLayout.isVisible = false
+                    newValueInputLayout.editText?.setText((state.value as? Long)?.toString())
+                }
+
+                PreferenceType.STRING -> {
+                    toggleGroup.isVisible = false
+                    newValueInputLayout.isVisible = true
+                    setLayout.isVisible = false
+                    newValueInputLayout.editText?.setText(state.value as? String)
+                }
+
+                PreferenceType.SET -> {
+                    toggleGroup.isVisible = false
+                    newValueInputLayout.isVisible = false
+                    setLayout.isVisible = true
+                    addButton.setOnClickListener {
+                        addButtonForSetType()
+                    }
+                    addViewsForSet(state)
+                }
+
+                else -> {
+                    toggleGroup.isVisible = false
+                    newValueInputLayout.isVisible = false
+                    setLayout.isVisible = false
+                }
             }
         }
-    }
 
-    private fun addViewsForSet(state: PreferenceEditorState.Cache) = with(binding) {
-        (state.value as? HashSet<*>)
-            ?.mapNotNull { (it as? String) }
-            .orEmpty()
-            .forEach { value ->
-                setLayout.addView(
-                    SentinelViewItemInputBinding.inflate(layoutInflater, setLayout, false)
-                        .apply {
-                            inputLayout.editText?.setText(value)
-                            inputLayout.setStartIconOnClickListener {
-                                setLayout.removeView(this.root)
-                            }
-                            inputLayout.setEndIconOnClickListener {
-                                inputLayout.editText?.setText("")
-                            }
-                        }.root
-                )
-            }
-    }
+    private fun addViewsForSet(state: PreferenceEditorState.Cache) =
+        with(binding) {
+            (state.value as? HashSet<*>)
+                ?.mapNotNull { (it as? String) }
+                .orEmpty()
+                .forEach { value ->
+                    setLayout.addView(
+                        SentinelViewItemInputBinding
+                            .inflate(layoutInflater, setLayout, false)
+                            .apply {
+                                inputLayout.editText?.setText(value)
+                                inputLayout.setStartIconOnClickListener {
+                                    setLayout.removeView(this.root)
+                                }
+                                inputLayout.setEndIconOnClickListener {
+                                    inputLayout.editText?.setText("")
+                                }
+                            }.root,
+                    )
+                }
+        }
 
-    private fun addButtonForSetType() = with(binding) {
-        setLayout.addView(
-            SentinelViewItemInputBinding.inflate(layoutInflater, setLayout, false)
-                .apply {
-                    inputLayout.editText?.setText("")
-                    inputLayout.setStartIconOnClickListener {
-                        setLayout.removeView(this.root)
-                    }
-                    inputLayout.setEndIconOnClickListener {
+    private fun addButtonForSetType() =
+        with(binding) {
+            setLayout.addView(
+                SentinelViewItemInputBinding
+                    .inflate(layoutInflater, setLayout, false)
+                    .apply {
                         inputLayout.editText?.setText("")
-                    }
-                }.root
-        )
-    }
+                        inputLayout.setStartIconOnClickListener {
+                            setLayout.removeView(this.root)
+                        }
+                        inputLayout.setEndIconOnClickListener {
+                            inputLayout.editText?.setText("")
+                        }
+                    }.root,
+            )
+        }
 
     private fun checkForInputError(
         state: PreferenceEditorState.Cache,
-        newValue: String
+        newValue: String,
     ) = when (state.type) {
         PreferenceType.BOOLEAN -> {
             binding.newValueInputLayout.error = null
@@ -241,84 +251,117 @@ internal class PreferenceEditorFragment :
         }
     }
 
-    private fun handleInputType(state: PreferenceEditorState.Cache) = when (state.type) {
-        PreferenceType.BOOLEAN -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
-        PreferenceType.FLOAT -> InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
-        PreferenceType.INT -> InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_NORMAL
-        PreferenceType.LONG -> InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_NORMAL
-        PreferenceType.STRING -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
-        PreferenceType.SET -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
-        else -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
-    }
+    private fun handleInputType(state: PreferenceEditorState.Cache) =
+        when (state.type) {
+            PreferenceType.BOOLEAN -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
+            PreferenceType.FLOAT -> InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+            PreferenceType.INT -> InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_NORMAL
+            PreferenceType.LONG -> InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_NORMAL
+            PreferenceType.STRING -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
+            PreferenceType.SET -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
+            else -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
+        }
 
-    @Suppress("UNCHECKED_CAST")
+    @Suppress("UNCHECKED_CAST", "LongMethod")
     private fun handleSaving(state: PreferenceEditorState.Cache) {
         when (state.type) {
-            PreferenceType.BOOLEAN -> viewModel.saveBoolean(
-                state.name,
-                state.key,
-                state.value as? Boolean,
-                when {
-                    binding.trueButton.isChecked -> true
-                    binding.falseButton.isChecked -> false
-                    else -> null
-                }
-            )
+            PreferenceType.BOOLEAN -> {
+                viewModel.saveBoolean(
+                    state.name,
+                    state.key,
+                    state.value as? Boolean,
+                    when {
+                        binding.trueButton.isChecked -> true
+                        binding.falseButton.isChecked -> false
+                        else -> null
+                    },
+                )
+            }
 
-            PreferenceType.FLOAT -> viewModel.saveFloat(
-                state.name,
-                state.key,
-                state.value as? Float,
-                binding.newValueInputLayout.editText?.text?.toString().orEmpty().trim().toFloatOrNull()
-            )
+            PreferenceType.FLOAT -> {
+                viewModel.saveFloat(
+                    state.name,
+                    state.key,
+                    state.value as? Float,
+                    binding.newValueInputLayout.editText
+                        ?.text
+                        ?.toString()
+                        .orEmpty()
+                        .trim()
+                        .toFloatOrNull(),
+                )
+            }
 
-            PreferenceType.INT -> viewModel.saveInteger(
-                state.name,
-                state.key,
-                state.value as? Int,
-                binding.newValueInputLayout.editText?.text?.toString().orEmpty().trim().toIntOrNull()
-            )
+            PreferenceType.INT -> {
+                viewModel.saveInteger(
+                    state.name,
+                    state.key,
+                    state.value as? Int,
+                    binding.newValueInputLayout.editText
+                        ?.text
+                        ?.toString()
+                        .orEmpty()
+                        .trim()
+                        .toIntOrNull(),
+                )
+            }
 
-            PreferenceType.LONG -> viewModel.saveLong(
-                state.name,
-                state.key,
-                state.value as? Long,
-                binding.newValueInputLayout.editText?.text?.toString().orEmpty().trim().toLongOrNull()
-            )
+            PreferenceType.LONG -> {
+                viewModel.saveLong(
+                    state.name,
+                    state.key,
+                    state.value as? Long,
+                    binding.newValueInputLayout.editText
+                        ?.text
+                        ?.toString()
+                        .orEmpty()
+                        .trim()
+                        .toLongOrNull(),
+                )
+            }
 
-            PreferenceType.STRING -> viewModel.saveString(
-                state.name,
-                state.key,
-                state.value as? String,
-                binding.newValueInputLayout.editText?.text?.toString()?.trim()
-            )
+            PreferenceType.STRING -> {
+                viewModel.saveString(
+                    state.name,
+                    state.key,
+                    state.value as? String,
+                    binding.newValueInputLayout.editText
+                        ?.text
+                        ?.toString()
+                        ?.trim(),
+                )
+            }
 
-            PreferenceType.SET -> viewModel.saveArray(
-                state.name,
-                state.key,
-                (state.value as? HashSet<String>)?.toTypedArray(),
-                getNewSetValues()
-            )
+            PreferenceType.SET -> {
+                viewModel.saveArray(
+                    state.name,
+                    state.key,
+                    (state.value as? HashSet<String>)?.toTypedArray(),
+                    getNewSetValues(),
+                )
+            }
 
-            else -> Unit
+            else -> {
+                Unit
+            }
         }
     }
 
-    private fun getNewSetValues() = binding.setLayout
-        .children
-        .filterIsInstance<FrameLayout>()
-        .map { frameLayout -> frameLayout.getChildAt(0) }
-        .filterIsInstance<TextInputLayout>()
-        .map { textInputLayout ->
-            textInputLayout
-                .editText
-                ?.text
-                ?.toString()
-                .orEmpty()
-                .trim()
-        }
-        .toList()
-        .toTypedArray()
+    private fun getNewSetValues() =
+        binding.setLayout
+            .children
+            .filterIsInstance<FrameLayout>()
+            .map { frameLayout -> frameLayout.getChildAt(0) }
+            .filterIsInstance<TextInputLayout>()
+            .map { textInputLayout ->
+                textInputLayout
+                    .editText
+                    ?.text
+                    ?.toString()
+                    .orEmpty()
+                    .trim()
+            }.toList()
+            .toTypedArray()
 
     override fun onEvent(event: PreferenceEditorEvent) {
         when (event) {
@@ -329,7 +372,7 @@ internal class PreferenceEditorFragment :
                         Activity.RESULT_OK,
                         Intent().apply {
                             putExtra(Constants.Keys.SHOULD_REFRESH, true)
-                        }
+                        },
                     )
                     it.finish()
                 }

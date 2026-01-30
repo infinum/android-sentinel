@@ -3,8 +3,8 @@ package com.infinum.sentinel.ui.tools
 import android.content.Intent
 import android.view.View
 import com.chuckerteam.chucker.api.Chucker
-import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
+import com.infinum.sentinel.tool.chucker.R
 
 /**
  * Specific wrapper tool around Chucker.
@@ -12,16 +12,16 @@ import com.infinum.sentinel.Sentinel
  * Tool Activity will launch with FLAG_ACTIVITY_SINGLE_TOP and FLAG_ACTIVITY_NEW_TASK flags.
  */
 public data class ChuckerTool(
-    private val listener: View.OnClickListener = View.OnClickListener {
-        it.context.startActivity(
-            Chucker.getLaunchIntent(it.context).apply {
-                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            }
-        )
-    }
+    private val listener: View.OnClickListener =
+        View.OnClickListener {
+            it.context.startActivity(
+                Chucker.getLaunchIntent(it.context).apply {
+                    flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                },
+            )
+        },
 ) : Sentinel.Tool {
-
     /**
      * An optional icon for this tool
      *

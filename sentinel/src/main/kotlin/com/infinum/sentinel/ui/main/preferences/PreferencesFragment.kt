@@ -21,16 +21,18 @@ import com.infinum.sentinel.ui.shared.base.BaseChildFragment
 import com.infinum.sentinel.ui.shared.delegates.viewBinding
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class PreferencesFragment : BaseChildFragment<PreferencesState, PreferencesEvent>(
-    R.layout.sentinel_fragment_preferences
-) {
-
+internal class PreferencesFragment :
+    BaseChildFragment<PreferencesState, PreferencesEvent>(
+        R.layout.sentinel_fragment_preferences,
+    ) {
     companion object {
-        fun newInstance(preferenceType: String) = PreferencesFragment().apply {
-            arguments = bundleOf(
-                EXTRA_PREFERENCE_TYPE to preferenceType
-            )
-        }
+        fun newInstance(preferenceType: String) =
+            PreferencesFragment().apply {
+                arguments =
+                    bundleOf(
+                        EXTRA_PREFERENCE_TYPE to preferenceType,
+                    )
+            }
 
         const val TAG: String = "PreferencesFragment"
 
@@ -40,26 +42,33 @@ internal class PreferencesFragment : BaseChildFragment<PreferencesState, Prefere
         private const val EXTRA_PREFERENCE_TYPE = "EXTRA_PREFERENCE_TYPE"
     }
 
+    @Suppress("LateinitUsage")
     private lateinit var contract: ActivityResultLauncher<Unit>
 
+    @Suppress("LateinitUsage")
     private lateinit var adapter: PreferencesAdapter
 
     override val binding: SentinelFragmentPreferencesBinding by viewBinding(
-        SentinelFragmentPreferencesBinding::bind
+        SentinelFragmentPreferencesBinding::bind,
     )
 
     override val viewModel: PreferencesViewModel by viewModels()
 
+    @Suppress("LateinitUsage")
     private lateinit var preferenceType: String
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
 
-        contract = registerForActivityResult(PreferenceEditorContract()) { shouldRefresh ->
-            if (shouldRefresh) {
-                viewModel.load(preferenceType == TARGETED_PREFERENCES)
+        contract =
+            registerForActivityResult(PreferenceEditorContract()) { shouldRefresh ->
+                if (shouldRefresh) {
+                    viewModel.load(preferenceType == TARGETED_PREFERENCES)
+                }
             }
-        }
 
         preferenceType = arguments?.getString(EXTRA_PREFERENCE_TYPE)
             ?: ("Suitable preference type for PreferencesFragment is not found")
@@ -72,33 +81,39 @@ internal class PreferencesFragment : BaseChildFragment<PreferencesState, Prefere
 
     private fun initUi() {
         when (preferenceType) {
-            TARGETED_PREFERENCES -> binding.apply {
-                container.setPadding(
-                    0,
-                    0,
-                    0,
-                    resources.getDimensionPixelSize(R.dimen.sentinel_preferences_container_bottom_sheet_bottom_padding)
-                )
-                nestedScrollView.setPadding(0, 0, 0, resources.getDimensionPixelSize(R.dimen.sentinel_icon_size))
-                allPreferences.isVisible = true
-                toolbar.isGone = true
+            TARGETED_PREFERENCES -> {
+                binding.apply {
+                    container.setPadding(
+                        0,
+                        0,
+                        0,
+                        resources.getDimensionPixelSize(R.dimen.sentinel_preferences_container_bottom_sheet_bottom_padding),
+                    )
+                    nestedScrollView.setPadding(0, 0, 0, resources.getDimensionPixelSize(R.dimen.sentinel_icon_size))
+                    allPreferences.isVisible = true
+                    toolbar.isGone = true
+                }
             }
 
-            ALL_PREFERENCES -> binding.apply {
-                container.setPadding(
-                    0,
-                    0,
-                    0,
-                    resources.getDimensionPixelSize(R.dimen.sentinel_preferences_container_full_screen_bottom_padding)
-                )
-                nestedScrollView.setPadding(0, 0, 0, 0)
-                toolbar.isVisible = true
-                toolbar.setNavigationOnClickListener { requireActivity().finish() }
-                allPreferences.isGone = true
-                applyWindowInsets()
+            ALL_PREFERENCES -> {
+                binding.apply {
+                    container.setPadding(
+                        0,
+                        0,
+                        0,
+                        resources.getDimensionPixelSize(R.dimen.sentinel_preferences_container_full_screen_bottom_padding),
+                    )
+                    nestedScrollView.setPadding(0, 0, 0, 0)
+                    toolbar.isVisible = true
+                    toolbar.setNavigationOnClickListener { requireActivity().finish() }
+                    allPreferences.isGone = true
+                    applyWindowInsets()
+                }
             }
 
-            else -> throw IllegalArgumentException("Suitable preference type for PreferencesFragment is not found")
+            else -> {
+                throw IllegalArgumentException("Suitable preference type for PreferencesFragment is not found")
+            }
         }
     }
 
@@ -119,11 +134,12 @@ internal class PreferencesFragment : BaseChildFragment<PreferencesState, Prefere
     }
 
     private fun initAdapter() {
-        adapter = PreferencesAdapter(
-            onSortClicked = { name -> viewModel.onSortClicked(name) },
-            onHideExpandClick = { name -> viewModel.onHideExpandClicked(name) },
-            onPreferenceClicked = { name, tuple -> viewModel.cache(name, tuple) }
-        )
+        adapter =
+            PreferencesAdapter(
+                onSortClicked = { name -> viewModel.onSortClicked(name) },
+                onHideExpandClick = { name -> viewModel.onHideExpandClicked(name) },
+                onPreferenceClicked = { name, tuple -> viewModel.cache(name, tuple) },
+            )
         binding.recyclerView.adapter = adapter
     }
 
@@ -143,15 +159,17 @@ internal class PreferencesFragment : BaseChildFragment<PreferencesState, Prefere
     @Suppress("NestedBlockDepth")
     override fun onState(state: PreferencesState) =
         when (state) {
-            is PreferencesState.Data -> with(binding) {
-                if (state.value.isEmpty()) {
-                    recyclerView.isGone = true
-                    if (preferenceType == TARGETED_PREFERENCES) emptyStateMessage.isVisible = true
-                } else {
-                    emptyStateMessage.isGone = true
-                    recyclerView.isVisible = true
-                    val flattenedPreferences = state.value.flatten()
-                    adapter.submitList(flattenedPreferences)
+            is PreferencesState.Data -> {
+                with(binding) {
+                    if (state.value.isEmpty()) {
+                        recyclerView.isGone = true
+                        if (preferenceType == TARGETED_PREFERENCES) emptyStateMessage.isVisible = true
+                    } else {
+                        emptyStateMessage.isGone = true
+                        recyclerView.isVisible = true
+                        val flattenedPreferences = state.value.flatten()
+                        adapter.submitList(flattenedPreferences)
+                    }
                 }
             }
         }

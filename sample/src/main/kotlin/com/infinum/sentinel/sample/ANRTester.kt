@@ -5,7 +5,6 @@ import android.os.Looper
 import timber.log.Timber
 
 class ANRTester : Thread() {
-
     companion object {
         private const val SLEEP_DURATION = 8 * 1000L
         private const val DEADLOCK_DURATION = 1000L
@@ -34,7 +33,7 @@ class ANRTester : Thread() {
                             Timber.tag("ANR-Failed").e("There should be a dead lock before this message.")
                         }
                     },
-                    DEADLOCK_DURATION
+                    DEADLOCK_DURATION,
                 )
             ANRTester().start()
         }

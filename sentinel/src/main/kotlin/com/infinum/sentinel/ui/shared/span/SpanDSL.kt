@@ -1,5 +1,6 @@
 package com.infinum.sentinel.ui.shared.span
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
 import android.text.Spannable
@@ -23,7 +24,7 @@ import java.text.Normalizer
 
 internal inline fun TextView.setSpan(
     bufferType: TextView.BufferType? = null,
-    spanBuilder: Builder.() -> Unit
+    spanBuilder: Builder.() -> Unit,
 ) {
     val builder = Builder(context)
     builder.spanBuilder()
@@ -40,7 +41,7 @@ internal class Builder(
     @FontRes private val fontBold: Int? = null,
     @FontRes private val fontSemiBold: Int? = null,
     @FontRes private val fontRegular: Int? = null,
-    @FontRes private val fontLight: Int? = null
+    @FontRes private val fontLight: Int? = null,
 ) {
     private val spanBuilder = SpannableStringBuilder()
 
@@ -56,54 +57,72 @@ internal class Builder(
         spanBuilder.append(span)
     }
 
-    fun span(charSequence: CharSequence, what: Any) =
-        when (charSequence) {
-            is String -> SpannableString(charSequence).apply {
+    fun span(
+        charSequence: CharSequence,
+        what: Any,
+    ) = when (charSequence) {
+        is String -> {
+            SpannableString(charSequence).apply {
                 setSpan(what, 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
-            is SpannableStringBuilder -> charSequence.apply {
-                setSpan(what, 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            }
-            is SpannableString -> charSequence.apply {
-                setSpan(what, 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            }
-            else -> throw IllegalArgumentException("Unsuppported object type $what")
         }
 
-    fun bold(span: CharSequence): CharSequence =
-        span(span, CustomTypefaceSpan(ResourcesCompat.getFont(context, fontBold!!)!!))
+        is SpannableStringBuilder -> {
+            charSequence.apply {
+                setSpan(what, 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+        }
 
-    fun semiBold(span: CharSequence): CharSequence =
-        span(span, CustomTypefaceSpan(ResourcesCompat.getFont(context, fontSemiBold!!)!!))
+        is SpannableString -> {
+            charSequence.apply {
+                setSpan(what, 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+        }
 
-    fun regular(span: CharSequence): CharSequence =
-        span(span, CustomTypefaceSpan(ResourcesCompat.getFont(context, fontRegular!!)!!))
+        else -> {
+            throw IllegalArgumentException("Unsuppported object type $what")
+        }
+    }
 
-    fun light(span: CharSequence): CharSequence =
-        span(span, CustomTypefaceSpan(ResourcesCompat.getFont(context, fontLight!!)!!))
+    fun bold(span: CharSequence): CharSequence = span(span, CustomTypefaceSpan(ResourcesCompat.getFont(context, fontBold!!)!!))
 
-    fun italic(span: CharSequence): CharSequence =
-        span(span, StyleSpan(Typeface.ITALIC))
+    fun semiBold(span: CharSequence): CharSequence = span(span, CustomTypefaceSpan(ResourcesCompat.getFont(context, fontSemiBold!!)!!))
 
-    fun underline(span: CharSequence): CharSequence =
-        span(span, UnderlineSpan())
+    fun regular(span: CharSequence): CharSequence = span(span, CustomTypefaceSpan(ResourcesCompat.getFont(context, fontRegular!!)!!))
 
-    fun clickable(span: CharSequence, listener: ClickableSpan): CharSequence =
-        span(span, listener)
+    fun light(span: CharSequence): CharSequence = span(span, CustomTypefaceSpan(ResourcesCompat.getFont(context, fontLight!!)!!))
 
-    fun fontSize(span: CharSequence, sizeInSp: Int): CharSequence =
-        span(span, AbsoluteSizeSpan(sizeInSp, true))
+    fun italic(span: CharSequence): CharSequence = span(span, StyleSpan(Typeface.ITALIC))
 
-    fun fontColor(span: CharSequence, color: Int): CharSequence =
-        span(span, ForegroundColorSpan(color))
+    fun underline(span: CharSequence): CharSequence = span(span, UnderlineSpan())
 
-    fun highlight(span: CharSequence, search: String?): CharSequence {
+    fun clickable(
+        span: CharSequence,
+        listener: ClickableSpan,
+    ): CharSequence = span(span, listener)
+
+    fun fontSize(
+        span: CharSequence,
+        sizeInSp: Int,
+    ): CharSequence = span(span, AbsoluteSizeSpan(sizeInSp, true))
+
+    fun fontColor(
+        span: CharSequence,
+        color: Int,
+    ): CharSequence = span(span, ForegroundColorSpan(color))
+
+    fun highlight(
+        span: CharSequence,
+        search: String?,
+    ): CharSequence {
         if (search.isNullOrEmpty()) {
             return span
         } else {
-            val normalizedText = Normalizer.normalize(span, Normalizer.Form.NFD)
-                .replace("\\p{InCombiningDiacriticalMarks}+".toRegex(), "")
-                .lowercase()
+            val normalizedText =
+                Normalizer
+                    .normalize(span, Normalizer.Form.NFD)
+                    .replace("\\p{InCombiningDiacriticalMarks}+".toRegex(), "")
+                    .lowercase()
 
             val startIndexes = normalizedText.allOccurrenceIndexes(search)
             return if (startIndexes.isNotEmpty()) {
@@ -113,7 +132,7 @@ internal class Builder(
                         BackgroundColorSpan(ContextCompat.getColor(context, R.color.sentinel_primary)),
                         it,
                         it + search.length,
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
                     )
                 }
                 highlighted
@@ -126,9 +145,8 @@ internal class Builder(
     fun build(): CharSequence = spanBuilder
 
     inner class CustomTypefaceSpan(
-        private val font: Typeface
+        private val font: Typeface,
     ) : MetricAffectingSpan() {
-
         override fun updateMeasureState(p: TextPaint) {
             update(p)
         }
@@ -137,6 +155,7 @@ internal class Builder(
             update(tp)
         }
 
+        @SuppressLint("WrongConstant")
         private fun update(textPaint: TextPaint) {
             textPaint.apply {
                 val oldTypeface = typeface

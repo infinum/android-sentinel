@@ -19,7 +19,6 @@ import com.infinum.sentinel.domain.shared.base.BaseRepository
 import com.infinum.sentinel.domain.triggers.models.TriggerParameters
 
 internal interface Repositories {
-
     interface Triggers : BaseRepository<TriggerParameters, List<TriggerEntity>>
 
     interface Formats : BaseRepository<FormatsParameters, FormatEntity>
@@ -27,12 +26,10 @@ internal interface Repositories {
     interface BundleMonitor : BaseRepository<BundleMonitorParameters, BundleMonitorEntity>
 
     interface Bundles : BaseRepository<BundleParameters, List<BundleDescriptor>> {
-
         suspend fun clear()
     }
 
     interface Preference : BaseRepository<PreferenceParameters, Unit> {
-
         fun cache(cache: PreferenceParameters.Cache)
 
         fun consume(): Pair<String, Triple<PreferenceType, String, Any>>
@@ -41,7 +38,6 @@ internal interface Repositories {
     interface CrashMonitor : BaseRepository<CrashMonitorParameters, CrashMonitorEntity>
 
     interface Certificate : BaseRepository<CertificateParameters, Unit> {
-
         fun cache(cache: CertificateParameters.Cache)
 
         fun consume(): CertificateData

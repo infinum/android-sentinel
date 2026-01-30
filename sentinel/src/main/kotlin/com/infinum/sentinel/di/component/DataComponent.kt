@@ -51,7 +51,7 @@ import me.tatarka.inject.annotations.Provides
 @Component
 @DataScope
 internal abstract class DataComponent(
-    private val context: Context
+    private val context: Context,
 ) {
     private var tools: Set<Sentinel.Tool> = setOf()
     private var targetedPreferences: Map<String, List<String>> = mapOf()
@@ -62,7 +62,7 @@ internal abstract class DataComponent(
         tools: Set<Sentinel.Tool>,
         targetedPreferences: Map<String, List<String>>,
         userCertificates: List<X509Certificate>,
-        onTriggered: () -> Unit
+        onTriggered: () -> Unit,
     ) {
         this.tools = tools
         this.targetedPreferences = targetedPreferences
@@ -95,53 +95,47 @@ internal abstract class DataComponent(
     @Inject
     @DataScope
     fun database(): SentinelDatabase =
-        Room.databaseBuilder(
-            context,
-            SentinelDatabase::class.java,
-            String.format(
-                Locale.getDefault(),
-                "sentinel_%s_v%s.db",
-                context.applicationContext
-                    .packageName
-                    .replace(".", "_")
-                    .lowercase(Locale.getDefault()),
-                LibraryComponents.DATABASE_VERSION
-            )
-        )
-            .setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
-            .fallbackToDestructiveMigration()
+        Room
+            .databaseBuilder(
+                context,
+                SentinelDatabase::class.java,
+                String.format(
+                    Locale.getDefault(),
+                    "sentinel_%s_v%s.db",
+                    context.applicationContext
+                        .packageName
+                        .replace(".", "_")
+                        .lowercase(Locale.getDefault()),
+                    LibraryComponents.DATABASE_VERSION,
+                ),
+            ).setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
+            .fallbackToDestructiveMigration(dropAllTables = true)
             .addCallback(callback)
             .build()
 
     @Provides
     @DataScope
-    fun triggers(): TriggersDao =
-        database.triggers()
+    fun triggers(): TriggersDao = database.triggers()
 
     @Provides
     @DataScope
-    fun formats(): FormatsDao =
-        database.formats()
+    fun formats(): FormatsDao = database.formats()
 
     @Provides
     @DataScope
-    fun bundleMonitor(): BundleMonitorDao =
-        database.bundleMonitor()
+    fun bundleMonitor(): BundleMonitorDao = database.bundleMonitor()
 
     @Provides
     @DataScope
-    fun crashes(): CrashesDao =
-        database.crashes()
+    fun crashes(): CrashesDao = database.crashes()
 
     @Provides
     @DataScope
-    fun crashMonitor(): CrashMonitorDao =
-        database.crashMonitor()
+    fun crashMonitor(): CrashMonitorDao = database.crashMonitor()
 
     @Provides
     @DataScope
-    fun certificateMonitor(): CertificateMonitorDao =
-        database.certificateMonitor()
+    fun certificateMonitor(): CertificateMonitorDao = database.certificateMonitor()
 
     //endregion
 
@@ -170,33 +164,27 @@ internal abstract class DataComponent(
 
     @Provides
     @DataScope
-    fun deviceCollector(): Collectors.Device =
-        DeviceCollector(context)
+    fun deviceCollector(): Collectors.Device = DeviceCollector(context)
 
     @Provides
     @DataScope
-    fun applicationCollector(): Collectors.Application =
-        ApplicationCollector(context)
+    fun applicationCollector(): Collectors.Application = ApplicationCollector(context)
 
     @Provides
     @DataScope
-    fun permissionsCollector(): Collectors.Permissions =
-        PermissionsCollector(context)
+    fun permissionsCollector(): Collectors.Permissions = PermissionsCollector(context)
 
     @Provides
     @DataScope
-    fun preferencesCollector(): Collectors.Preferences =
-        PreferencesCollector(context, targetedPreferences)
+    fun preferencesCollector(): Collectors.Preferences = PreferencesCollector(context, targetedPreferences)
 
     @Provides
     @DataScope
-    fun certificatesCollector(): Collectors.Certificates =
-        CertificateCollector(userCertificates)
+    fun certificatesCollector(): Collectors.Certificates = CertificateCollector(userCertificates)
 
     @Provides
     @DataScope
-    fun toolsCollector(): Collectors.Tools =
-        ToolsCollector(tools)
+    fun toolsCollector(): Collectors.Tools = ToolsCollector(tools)
 
     @Provides
     @DataScope
@@ -206,7 +194,7 @@ internal abstract class DataComponent(
             applicationCollector,
             permissionsCollector,
             deviceCollector,
-            preferencesCollector
+            preferencesCollector,
         )
 
     @Provides
@@ -217,7 +205,7 @@ internal abstract class DataComponent(
             applicationCollector,
             permissionsCollector,
             deviceCollector,
-            preferencesCollector
+            preferencesCollector,
         )
 
     @Provides
@@ -228,7 +216,7 @@ internal abstract class DataComponent(
             applicationCollector,
             permissionsCollector,
             deviceCollector,
-            preferencesCollector
+            preferencesCollector,
         )
 
     @Provides
@@ -239,7 +227,7 @@ internal abstract class DataComponent(
             applicationCollector,
             permissionsCollector,
             deviceCollector,
-            preferencesCollector
+            preferencesCollector,
         )
 
     @Provides
@@ -250,7 +238,7 @@ internal abstract class DataComponent(
             applicationCollector,
             permissionsCollector,
             deviceCollector,
-            preferencesCollector
+            preferencesCollector,
         )
     //endregion
 
@@ -277,33 +265,27 @@ internal abstract class DataComponent(
 
     @Provides
     @DataScope
-    fun manualTrigger(): ManualTrigger =
-        ManualTrigger()
+    fun manualTrigger(): ManualTrigger = ManualTrigger()
 
     @Provides
     @DataScope
-    fun shakeTrigger(): ShakeTrigger =
-        ShakeTrigger(context, this.onTriggered)
+    fun shakeTrigger(): ShakeTrigger = ShakeTrigger(context, this.onTriggered)
 
     @Provides
     @DataScope
-    fun foregroundTrigger(): ForegroundTrigger =
-        ForegroundTrigger(this.onTriggered)
+    fun foregroundTrigger(): ForegroundTrigger = ForegroundTrigger(this.onTriggered)
 
     @Provides
     @DataScope
-    fun proximityTrigger(): ProximityTrigger =
-        ProximityTrigger(context, this.onTriggered)
+    fun proximityTrigger(): ProximityTrigger = ProximityTrigger(context, this.onTriggered)
 
     @Provides
     @DataScope
-    fun usbConnectedTrigger(): UsbConnectedTrigger =
-        UsbConnectedTrigger(context, this.onTriggered)
+    fun usbConnectedTrigger(): UsbConnectedTrigger = UsbConnectedTrigger(context, this.onTriggered)
 
     @Provides
     @DataScope
-    fun airplaneModeOnTrigger(): AirplaneModeOnTrigger =
-        AirplaneModeOnTrigger(context, this.onTriggered)
+    fun airplaneModeOnTrigger(): AirplaneModeOnTrigger = AirplaneModeOnTrigger(context, this.onTriggered)
 
     @Provides
     @DataScope
@@ -314,22 +296,19 @@ internal abstract class DataComponent(
             shakeTrigger,
             proximityTrigger,
             usbConnectedTrigger,
-            airplaneModeOnTrigger
+            airplaneModeOnTrigger,
         )
 
     @Provides
     @DataScope
-    fun bundlesCache(): BundlesCache =
-        InMemoryBundlesCache()
+    fun bundlesCache(): BundlesCache = InMemoryBundlesCache()
 
     @Provides
     @DataScope
-    fun preferenceCache(): PreferenceCache =
-        InMemoryPreferenceCache()
+    fun preferenceCache(): PreferenceCache = InMemoryPreferenceCache()
 
     @Provides
     @DataScope
-    fun certificateCache(): CertificateCache =
-        InMemoryCertificateCache()
+    fun certificateCache(): CertificateCache = InMemoryCertificateCache()
     //endregion
 }

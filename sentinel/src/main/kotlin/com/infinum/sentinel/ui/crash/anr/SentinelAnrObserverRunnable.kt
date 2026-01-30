@@ -20,9 +20,8 @@ import me.tatarka.inject.annotations.Inject
 internal class SentinelAnrObserverRunnable(
     private val context: Context,
     private val notificationFactory: NotificationFactory,
-    private val dao: CrashesDao
+    private val dao: CrashesDao,
 ) : Runnable {
-
     companion object {
         private const val ANR_OBSERVER_THREAD_NAME = "Sentinel-ANR-Observer"
         private const val ANR_OBSERVER_TIMEOUT: Long = 10_000
@@ -65,18 +64,21 @@ internal class SentinelAnrObserverRunnable(
 
                     // Check if called
                     if (callback.isCalled.not()) {
-                        val exception = Sentinel.ApplicationNotRespondingException(
-                            handler.looper.thread
-                        )
-
-                        val entity = CrashEntity(
-                            applicationName = context.applicationName,
-                            timestamp = System.currentTimeMillis(),
-                            data = CrashData(
-                                threadState = exception.threadStateList,
-                                exception = exception.asExceptionData(isANR = true)
+                        val exception =
+                            Sentinel.ApplicationNotRespondingException(
+                                handler.looper.thread,
                             )
-                        )
+
+                        val entity =
+                            CrashEntity(
+                                applicationName = context.applicationName,
+                                timestamp = System.currentTimeMillis(),
+                                data =
+                                    CrashData(
+                                        threadState = exception.threadStateList,
+                                        exception = exception.asExceptionData(isANR = true),
+                                    ),
+                            )
                         val id: Long = runBlocking { dao.save(entity) }
                         notificationFactory.showAnr(context.applicationName, id, entity)
 
@@ -135,7 +137,6 @@ internal class SentinelAnrObserverRunnable(
      * Runnable as callback that calls notifyAll on run.
      */
     internal class AnrObserverCallback : Runnable {
-
         @get:Synchronized
         var isCalled = false
             private set

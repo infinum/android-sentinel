@@ -8,20 +8,24 @@ import com.infinum.sentinel.databinding.SentinelItemHeaderBinding
 
 internal class HeaderAdapter(
     @StringRes private val title: Int,
-    private var count: Int
+    private var count: Int,
 ) : RecyclerView.Adapter<HeaderViewHolder>() {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeaderViewHolder =
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): HeaderViewHolder =
         HeaderViewHolder(
             SentinelItemHeaderBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
-                false
-            )
+                false,
+            ),
         )
 
-    override fun onBindViewHolder(holder: HeaderViewHolder, position: Int) =
-        holder.bind(title, count)
+    override fun onBindViewHolder(
+        holder: HeaderViewHolder,
+        position: Int,
+    ) = holder.bind(title, count)
 
     override fun onViewRecycled(holder: HeaderViewHolder) {
         holder.unbind()

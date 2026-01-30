@@ -9,5 +9,5 @@ internal fun Thread.asThreadData(): ThreadData =
         isDaemon = isDaemon,
         state = state.name,
         group = threadGroup.asThreadGroupData(),
-        priority = priority
+        priority = priority,
     )

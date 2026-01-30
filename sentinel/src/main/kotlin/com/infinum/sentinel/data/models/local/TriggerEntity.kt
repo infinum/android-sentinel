@@ -7,17 +7,13 @@ import com.infinum.sentinel.data.models.memory.triggers.TriggerType
 
 @Entity(tableName = "triggers")
 internal data class TriggerEntity(
-
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")
     var id: Long?,
-
     @ColumnInfo(name = "type")
     var type: TriggerType?,
-
     @ColumnInfo(name = "enabled", defaultValue = "true")
     var enabled: Boolean = true,
-
     @ColumnInfo(name = "editable", defaultValue = "true")
-    var editable: Boolean = true
+    var editable: Boolean = true,
 )

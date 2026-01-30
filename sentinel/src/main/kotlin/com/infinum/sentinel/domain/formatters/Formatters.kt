@@ -5,7 +5,6 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 internal interface Formatters {
-
     interface Plain : Formatter<String, String>
 
     interface Markdown : Formatter<String, String>

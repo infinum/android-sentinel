@@ -21,33 +21,48 @@ internal class PlainFormatter(
     private val applicationCollector: Collectors.Application,
     private val permissionsCollector: Collectors.Permissions,
     private val deviceCollector: Collectors.Device,
-    private val preferencesCollector: Collectors.Preferences
-) : StringBuilderFormatter(), Formatters.Plain {
-
+    private val preferencesCollector: Collectors.Preferences,
+) : StringBuilderFormatter(),
+    Formatters.Plain {
     companion object {
         private const val SEPARATOR = "-"
     }
 
-    override fun addLine(builder: StringBuilder, tag: String, text: String) {
+    override fun addLine(
+        builder: StringBuilder,
+        tag: String,
+        text: String,
+    ) {
         builder.appendLine("$tag: $text")
     }
 
-    override fun addLine(builder: StringBuilder, tag: Int, text: String) {
+    override fun addLine(
+        builder: StringBuilder,
+        tag: Int,
+        text: String,
+    ) {
         context.getString(tag).sanitize().let {
             builder.appendLine("$it: $text")
         }
     }
 
-    override fun invoke(): String =
-        format()
+    override fun invoke(): String = format()
 
-    override fun formatCrash(includeAllData: Boolean, entity: CrashEntity): String =
+    override fun formatCrash(
+        includeAllData: Boolean,
+        entity: CrashEntity,
+    ): String =
         when (includeAllData) {
-            true -> format(entity)
-            false -> addAllData(
-                builder = StringBuilder(),
-                crashData = crash(entity)
-            )
+            true -> {
+                format(entity)
+            }
+
+            false -> {
+                addAllData(
+                    builder = StringBuilder(),
+                    crashData = crash(entity),
+                )
+            }
         }
 
     override fun application(): String =
@@ -68,8 +83,7 @@ internal class PlainFormatter(
                         appendLine("${entry.key}: ${entry.value}")
                     }
                 }
-            }
-            .appendLine()
+            }.appendLine()
             .toString()
 
     override fun device(): String =
@@ -96,8 +110,7 @@ internal class PlainFormatter(
                         }
                     }
                 }
-            }
-            .toString()
+            }.toString()
 
     override fun crash(entity: CrashEntity): String =
         StringBuilder()
@@ -109,9 +122,18 @@ internal class PlainFormatter(
                     addLine(
                         this,
                         R.string.sentinel_stacktrace,
-                        entity.data.exception?.asPrint().orEmpty()
+                        entity.data.exception
+                            ?.asPrint()
+                            .orEmpty(),
                     )
-                    addLine(this, R.string.sentinel_thread_states, entity.data.threadState.orEmpty().count().toString())
+                    addLine(
+                        this,
+                        R.string.sentinel_thread_states,
+                        entity.data.threadState
+                            .orEmpty()
+                            .count()
+                            .toString(),
+                    )
                     entity.data.threadState?.forEach { process ->
                         appendLine()
                         appendLine(SEPARATOR.repeat(process.name.length))
@@ -119,14 +141,13 @@ internal class PlainFormatter(
                             this,
                             context.getString(R.string.sentinel_stacktrace),
                             "${process.name}\t\t\t${process.state.uppercase()}"
-                                .plus(process.stackTrace.joinToString { "\n\t\t\t at $it" })
+                                .plus(process.stackTrace.joinToString { "\n\t\t\t at $it" }),
                         )
                     }
                 } else {
                     addCrashData(this, entity)
                 }
-            }
-            .appendLine()
+            }.appendLine()
             .toString()
 
     private fun format(crash: CrashEntity? = null) =
@@ -136,6 +157,6 @@ internal class PlainFormatter(
             permissions(),
             device(),
             preferences(),
-            crash?.let { crash(it) }
+            crash?.let { crash(it) },
         )
 }

@@ -7,9 +7,7 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 internal class ToolsCollector(
-    @Assisted private val tools: Set<Sentinel.Tool>
+    @Assisted private val tools: Set<Sentinel.Tool>,
 ) : Collectors.Tools {
-
-    override fun invoke() =
-        tools.filterNot { it.name() == 0 }.toSet()
+    override fun invoke() = tools.filterNot { it.name() == 0 }.toSet()
 }

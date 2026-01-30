@@ -9,8 +9,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
-internal abstract class AbstractTrigger : LifecycleEventObserver, Trigger {
-
+internal abstract class AbstractTrigger :
+    LifecycleEventObserver,
+    Trigger {
     internal var active: Boolean = false
 
     init {
@@ -19,7 +20,10 @@ internal abstract class AbstractTrigger : LifecycleEventObserver, Trigger {
         }
     }
 
-    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+    override fun onStateChanged(
+        source: LifecycleOwner,
+        event: Lifecycle.Event,
+    ) {
         when (event) {
             Lifecycle.Event.ON_START -> start()
             Lifecycle.Event.ON_STOP -> stop()

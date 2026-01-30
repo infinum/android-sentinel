@@ -9,14 +9,12 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 internal class FormatsRepository(
-    private val dao: FormatsDao
+    private val dao: FormatsDao,
 ) : Repositories.Formats {
-
     override suspend fun save(input: FormatsParameters) {
         input.entities?.let { dao.save(it) }
             ?: error("Cannot save null entities")
     }
 
-    override fun load(input: FormatsParameters): Flow<FormatEntity> =
-        dao.load()
+    override fun load(input: FormatsParameters): Flow<FormatEntity> = dao.load()
 }

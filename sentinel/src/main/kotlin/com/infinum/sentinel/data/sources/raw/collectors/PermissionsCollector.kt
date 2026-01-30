@@ -9,23 +9,23 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 internal class PermissionsCollector(
-    private val context: Context
+    private val context: Context,
 ) : Collectors.Permissions {
-
     override fun invoke(): Map<String, Boolean> {
         with(context) {
-            val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                packageManager.getPackageInfo(
-                    packageName,
-                    PackageManager.PackageInfoFlags.of(PackageManager.GET_PERMISSIONS.toLong())
-                )
-            } else {
-                @Suppress("DEPRECATION")
-                packageManager.getPackageInfo(
-                    packageName,
-                    PackageManager.GET_PERMISSIONS
-                )
-            }
+            val packageInfo =
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    packageManager.getPackageInfo(
+                        packageName,
+                        PackageManager.PackageInfoFlags.of(PackageManager.GET_PERMISSIONS.toLong()),
+                    )
+                } else {
+                    @Suppress("DEPRECATION")
+                    packageManager.getPackageInfo(
+                        packageName,
+                        PackageManager.GET_PERMISSIONS,
+                    )
+                }
 
             return packageInfo.requestedPermissions
                 ?.toList()

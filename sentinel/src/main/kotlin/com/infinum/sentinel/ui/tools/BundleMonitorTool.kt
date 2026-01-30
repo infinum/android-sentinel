@@ -12,19 +12,19 @@ import com.infinum.sentinel.ui.bundles.BundlesActivity
  */
 internal data class BundleMonitorTool(
     @StringRes private val name: Int = R.string.sentinel_bundle_monitor,
-    private val listener: View.OnClickListener = View.OnClickListener {
-        it.context.startActivity(
-            Intent(
-                it.context,
-                BundlesActivity::class.java
-            ).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            }
-        )
-    }
+    private val listener: View.OnClickListener =
+        View.OnClickListener {
+            it.context.startActivity(
+                Intent(
+                    it.context,
+                    BundlesActivity::class.java,
+                ).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                },
+            )
+        },
 ) : Sentinel.Tool {
-
     /**
      * A dedicated name for this tool
      *

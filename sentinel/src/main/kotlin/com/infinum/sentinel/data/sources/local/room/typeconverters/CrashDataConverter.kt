@@ -7,12 +7,9 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 internal class CrashDataConverter {
+    @TypeConverter
+    fun toEntity(data: String): CrashData = Json.decodeFromString<CrashData>(data)
 
     @TypeConverter
-    fun toEntity(data: String): CrashData =
-        Json.decodeFromString<CrashData>(data)
-
-    @TypeConverter
-    fun fromEntity(data: CrashData): String =
-        Json.encodeToString(data)
+    fun fromEntity(data: CrashData): String = Json.encodeToString(data)
 }

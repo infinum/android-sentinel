@@ -1,8 +1,8 @@
 package com.infinum.sentinel.ui.tools
 
 import android.view.View
-import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
+import com.infinum.sentinel.tool.thimble.R
 import com.infinum.thimble.Thimble
 
 /**
@@ -11,11 +11,11 @@ import com.infinum.thimble.Thimble
  * Tool Activity will launch with no additional flags.
  */
 public data class ThimbleTool(
-    private val listener: View.OnClickListener = View.OnClickListener {
-        Thimble.show()
-    }
+    private val listener: View.OnClickListener =
+        View.OnClickListener {
+            Thimble.show()
+        },
 ) : Sentinel.Tool {
-
     /**
      * An optional icon for this tool
      *

@@ -10,15 +10,18 @@ import androidx.viewbinding.ViewBinding
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal abstract class BaseChildFragment<State, Event>(
-    @LayoutRes contentLayoutId: Int
-) : Fragment(contentLayoutId), BaseView<State, Event> {
-
+    @LayoutRes contentLayoutId: Int,
+) : Fragment(contentLayoutId),
+    BaseView<State, Event> {
     abstract val binding: ViewBinding
 
     abstract override val viewModel: BaseChildViewModel<State, Event>
 
     @CallSuper
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         collectFlows(viewLifecycleOwner)
 
         viewModel.data()

@@ -10,7 +10,7 @@ import me.tatarka.inject.annotations.Inject
 @Inject
 internal class SentinelUiAnrObserver(
     private val observerRunnable: SentinelAnrObserverRunnable,
-    private val executor: ExecutorService
+    private val executor: ExecutorService,
 ) : SentinelAnrObserver {
     /**
      * Start observing.
@@ -32,8 +32,7 @@ internal class SentinelUiAnrObserver(
      * There will be at least one more ANR check before the observing is stopped.
      */
     @Synchronized
-    override fun stop() =
-        observerRunnable.stop()
+    override fun stop() = observerRunnable.stop()
 
     override fun setListener(listener: Sentinel.ApplicationNotRespondingListener?) {
         observerRunnable.setListener(listener)

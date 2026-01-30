@@ -7,10 +7,13 @@ import androidx.fragment.app.FragmentManager
 import com.infinum.sentinel.extensions.isMonitoredScreen
 
 internal class BundleMonitorFragmentCallbacks(
-    private val onBundleLogged: (Activity?, Long, String?, BundleCallSite, Bundle) -> Unit
+    private val onBundleLogged: (Activity?, Long, String?, BundleCallSite, Bundle) -> Unit,
 ) : FragmentManager.FragmentLifecycleCallbacks() {
-
-    override fun onFragmentCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
+    override fun onFragmentCreated(
+        fm: FragmentManager,
+        f: Fragment,
+        savedInstanceState: Bundle?,
+    ) {
         if (f.requireActivity().isMonitoredScreen) {
             f.arguments?.let {
                 onBundleLogged(
@@ -18,23 +21,26 @@ internal class BundleMonitorFragmentCallbacks(
                     System.currentTimeMillis(),
                     f::class.simpleName,
                     BundleCallSite.FRAGMENT_ARGUMENTS,
-                    it
+                    it,
                 )
             }
         }
     }
 
-    override fun onFragmentSaveInstanceState(fm: FragmentManager, f: Fragment, outState: Bundle) =
-        if (f.requireActivity().isMonitoredScreen) {
-            onBundleLogged(
-                f.activity,
-                System.currentTimeMillis(),
-                f::class.simpleName,
-                BundleCallSite.FRAGMENT_SAVED_STATE,
-                outState
-            )
-        } else {
-            @Suppress("RedundantUnitExpression")
-            Unit
-        }
+    override fun onFragmentSaveInstanceState(
+        fm: FragmentManager,
+        f: Fragment,
+        outState: Bundle,
+    ) = if (f.requireActivity().isMonitoredScreen) {
+        onBundleLogged(
+            f.activity,
+            System.currentTimeMillis(),
+            f::class.simpleName,
+            BundleCallSite.FRAGMENT_SAVED_STATE,
+            outState,
+        )
+    } else {
+        @Suppress("RedundantUnitExpression")
+        Unit
+    }
 }

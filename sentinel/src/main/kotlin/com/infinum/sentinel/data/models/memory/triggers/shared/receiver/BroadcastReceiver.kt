@@ -6,7 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 
 internal class BroadcastReceiver(
-    builder: Builder.() -> Unit
+    builder: Builder.() -> Unit,
 ) {
     private val instructions: List<Instructions>
 
@@ -20,17 +20,18 @@ internal class BroadcastReceiver(
         }
     }
 
-    val receiver = object : AndroidBroadcastReceiver() {
-        override fun onReceive(
-            context: Context,
-            intent: Intent
-        ) {
-            for (instruction in instructions) {
-                if (instruction.matches(intent)) {
-                    instruction.execution().invoke(intent)
-                    break
+    val receiver =
+        object : AndroidBroadcastReceiver() {
+            override fun onReceive(
+                context: Context,
+                intent: Intent,
+            ) {
+                for (instruction in instructions) {
+                    if (instruction.matches(intent)) {
+                        instruction.execution().invoke(intent)
+                        break
+                    }
                 }
             }
         }
-    }
 }

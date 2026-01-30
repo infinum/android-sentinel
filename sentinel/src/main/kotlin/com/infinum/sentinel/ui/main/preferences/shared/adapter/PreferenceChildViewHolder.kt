@@ -6,9 +6,9 @@ import com.infinum.sentinel.databinding.SentinelViewItemTextBinding
 import com.infinum.sentinel.extensions.copyToClipboard
 import com.infinum.sentinel.ui.main.preferences.shared.model.PreferencesItem
 
-internal class PreferenceChildViewHolder(private val binding: SentinelViewItemTextBinding) :
-    RecyclerView.ViewHolder(binding.root) {
-
+internal class PreferenceChildViewHolder(
+    private val binding: SentinelViewItemTextBinding,
+) : RecyclerView.ViewHolder(binding.root) {
     fun bind(
         data: PreferencesItem.Child,
         onPreferenceClicked: ((String, Triple<PreferenceType, String, Any>) -> Unit)?,

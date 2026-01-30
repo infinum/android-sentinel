@@ -2,8 +2,8 @@ package com.infinum.sentinel.ui.tools
 
 import android.view.View
 import com.infinum.dbinspector.DbInspector
-import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
+import com.infinum.sentinel.tool.dbinspector.R
 
 /**
  * Specific wrapper tool around DbInspector.
@@ -11,11 +11,11 @@ import com.infinum.sentinel.Sentinel
  * Tool Activity will launch with no additional flags.
  */
 public data class DbInspectorTool(
-    private val listener: View.OnClickListener = View.OnClickListener {
-        DbInspector.show()
-    }
+    private val listener: View.OnClickListener =
+        View.OnClickListener {
+            DbInspector.show()
+        },
 ) : Sentinel.Tool {
-
     /**
      * An optional icon for this tool
      *

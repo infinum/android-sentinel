@@ -8,9 +8,8 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 internal class CertificateRepository(
-    private val memoryCache: CertificateCache
+    private val memoryCache: CertificateCache,
 ) : Repositories.Certificate {
-
     override fun cache(cache: CertificateParameters.Cache) {
         memoryCache.save(cache.value)
     }

@@ -2,6 +2,6 @@ apply plugin: "org.jlleitschuh.gradle.ktlint"
 
 ktlint {
     version = libs.versions.ktlint.get()
-    debug = false
+    debug = true
     android = true
 }

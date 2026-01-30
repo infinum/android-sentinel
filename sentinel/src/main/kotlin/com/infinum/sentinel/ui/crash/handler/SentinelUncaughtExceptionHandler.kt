@@ -17,21 +17,25 @@ internal class SentinelUncaughtExceptionHandler(
     private val notificationFactory: NotificationFactory,
     private val dao: CrashesDao,
 ) : SentinelExceptionHandler {
-
     private var catchUncaughtExceptions: Boolean = false
 
     private var currentDefaultHandler: Thread.UncaughtExceptionHandler? = Thread.getDefaultUncaughtExceptionHandler()
 
-    override fun uncaughtException(t: Thread, e: Throwable) {
+    override fun uncaughtException(
+        t: Thread,
+        e: Throwable,
+    ) {
         if (catchUncaughtExceptions) {
-            val entity = CrashEntity(
-                applicationName = context.applicationName,
-                timestamp = System.currentTimeMillis(),
-                data = CrashData(
-                    thread = t.asThreadData(),
-                    exception = e.asExceptionData()
+            val entity =
+                CrashEntity(
+                    applicationName = context.applicationName,
+                    timestamp = System.currentTimeMillis(),
+                    data =
+                        CrashData(
+                            thread = t.asThreadData(),
+                            exception = e.asExceptionData(),
+                        ),
                 )
-            )
             val id: Long = runBlocking { dao.save(entity) }
             notificationFactory.showCrash(context.applicationName, id, entity)
         }

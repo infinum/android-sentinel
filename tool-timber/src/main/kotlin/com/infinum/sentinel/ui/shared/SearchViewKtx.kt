@@ -2,12 +2,12 @@ package com.infinum.sentinel.ui.shared
 
 import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
-import com.infinum.sentinel.R
+import com.infinum.sentinel.tool.timber.R
 
 internal fun SearchView.setup(
     hint: String?,
     onSearchClosed: () -> Unit,
-    onQueryTextChanged: (String?) -> Unit
+    onQueryTextChanged: (String?) -> Unit,
 ) {
     setIconifiedByDefault(true)
     isSubmitButtonEnabled = false
@@ -19,7 +19,7 @@ internal fun SearchView.setup(
         false
     }
     setOnQueryTextListener(
-        SimpleQueryTextListener(onQueryTextChanged)
+        SimpleQueryTextListener(onQueryTextChanged),
     )
     findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)
         .setImageResource(R.drawable.sentinel_ic_clear_search)

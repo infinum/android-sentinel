@@ -9,14 +9,12 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 internal class CrashMonitorRepository(
-    private val dao: CrashMonitorDao
+    private val dao: CrashMonitorDao,
 ) : Repositories.CrashMonitor {
-
     override suspend fun save(input: CrashMonitorParameters) {
         input.entity?.let { dao.save(it) }
             ?: error("Cannot save null entities")
     }
 
-    override fun load(input: CrashMonitorParameters): Flow<CrashMonitorEntity> =
-        dao.load()
+    override fun load(input: CrashMonitorParameters): Flow<CrashMonitorEntity> = dao.load()
 }

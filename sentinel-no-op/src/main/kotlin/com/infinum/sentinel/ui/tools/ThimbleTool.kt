@@ -8,10 +8,10 @@ import com.infinum.sentinel.Sentinel
  *
  */
 public class ThimbleTool : Sentinel.Tool {
-
     override fun name(): Int = 0
 
-    override fun listener(): View.OnClickListener = View.OnClickListener {
-        // no - op
-    }
+    override fun listener(): View.OnClickListener =
+        View.OnClickListener {
+            // no - op
+        }
 }

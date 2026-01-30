@@ -17,9 +17,9 @@ import com.infinum.sentinel.R
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal abstract class BaseFragment<State, Event>(
-    @LayoutRes private val contentLayoutId: Int
-) : DialogFragment(), BaseView<State, Event> {
-
+    @LayoutRes private val contentLayoutId: Int,
+) : DialogFragment(),
+    BaseView<State, Event> {
     abstract val binding: ViewBinding
 
     override fun getTheme(): Int = R.style.Sentinel_Theme_Dialog
@@ -45,7 +45,7 @@ internal abstract class BaseFragment<State, Event>(
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? =
         when (contentLayoutId != 0) {
             true -> inflater.inflate(contentLayoutId, container, false)
@@ -53,7 +53,10 @@ internal abstract class BaseFragment<State, Event>(
         }
 
     @CallSuper
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         collectFlows(viewLifecycleOwner)
     }
 

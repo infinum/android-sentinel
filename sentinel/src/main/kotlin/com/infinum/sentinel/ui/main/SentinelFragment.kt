@@ -22,9 +22,7 @@ import com.infinum.sentinel.ui.shared.edgetreatment.ScissorsEdgeTreatment
 
 @Suppress("TooManyFunctions")
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal class SentinelFragment :
-    BaseFragment<SentinelState, SentinelEvent>(R.layout.sentinel_fragment) {
-
+internal class SentinelFragment : BaseFragment<SentinelState, SentinelEvent>(R.layout.sentinel_fragment) {
     companion object {
         const val TAG: String = "SentinelFragment"
     }
@@ -32,10 +30,13 @@ internal class SentinelFragment :
     override val viewModel: SentinelViewModel by viewModels()
 
     override val binding: SentinelFragmentBinding by viewBinding(
-        SentinelFragmentBinding::bind
+        SentinelFragmentBinding::bind,
     )
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
 
         setupToolbar()
@@ -60,8 +61,9 @@ internal class SentinelFragment :
 
     override fun onEvent(event: SentinelEvent) =
         when (event) {
-            is SentinelEvent.Formatted ->
+            is SentinelEvent.Formatted -> {
                 ShareCompat.IntentBuilder(requireActivity()).shareText(event.value)
+            }
         }
 
     private fun setupToolbar() {
@@ -81,19 +83,20 @@ internal class SentinelFragment :
 
     private fun setupContent() {
         with(binding) {
-            contentLayout.shapeAppearanceModel = ShapeAppearanceModel.Builder()
-                .setTopEdge(
-                    ScissorsEdgeTreatment(
-                        resources.getInteger(R.integer.sentinel_scissors_top_count),
-                        contentLayout
-                            .context
-                            .resources
-                            .getDimensionPixelSize(R.dimen.sentinel_triangle_height)
-                            .toFloat(),
-                        true
-                    )
-                )
-                .build()
+            contentLayout.shapeAppearanceModel =
+                ShapeAppearanceModel
+                    .Builder()
+                    .setTopEdge(
+                        ScissorsEdgeTreatment(
+                            resources.getInteger(R.integer.sentinel_scissors_top_count),
+                            contentLayout
+                                .context
+                                .resources
+                                .getDimensionPixelSize(R.dimen.sentinel_triangle_height)
+                                .toFloat(),
+                            true,
+                        ),
+                    ).build()
             bottomNavigation.elevation =
                 resources.getDimensionPixelSize(R.dimen.sentinel_cradle_margin).toFloat() * 2
             bottomNavigation.setOnItemSelectedListener { menuItem ->
@@ -106,6 +109,7 @@ internal class SentinelFragment :
                 true
             }
             fab.setOnClickListener { showTools() }
+            fab.elevation = bottomNavigation.elevation * 2
         }
     }
 
@@ -116,22 +120,40 @@ internal class SentinelFragment :
 
     private fun showFragment(tag: String) {
         childFragmentManager.findFragmentByTag(tag)?.let {
-            childFragmentManager.beginTransaction()
+            childFragmentManager
+                .beginTransaction()
                 .replace(binding.fragmentContainer.id, it, tag)
                 .commit()
         } ?: run {
             when (tag) {
-                DeviceFragment.TAG -> DeviceFragment.newInstance()
-                ApplicationFragment.TAG -> ApplicationFragment.newInstance()
-                PermissionsFragment.TAG -> PermissionsFragment.newInstance()
-                PreferencesFragment.TAG -> PreferencesFragment.newInstance(
-                    preferenceType = PreferencesFragment.TARGETED_PREFERENCES
-                )
+                DeviceFragment.TAG -> {
+                    DeviceFragment.newInstance()
+                }
 
-                ToolsFragment.TAG -> ToolsFragment.newInstance()
-                else -> null
+                ApplicationFragment.TAG -> {
+                    ApplicationFragment.newInstance()
+                }
+
+                PermissionsFragment.TAG -> {
+                    PermissionsFragment.newInstance()
+                }
+
+                PreferencesFragment.TAG -> {
+                    PreferencesFragment.newInstance(
+                        preferenceType = PreferencesFragment.TARGETED_PREFERENCES,
+                    )
+                }
+
+                ToolsFragment.TAG -> {
+                    ToolsFragment.newInstance()
+                }
+
+                else -> {
+                    null
+                }
             }?.let {
-                childFragmentManager.beginTransaction()
+                childFragmentManager
+                    .beginTransaction()
                     .replace(binding.fragmentContainer.id, it, tag)
                     .addToBackStack(null)
                     .commit()

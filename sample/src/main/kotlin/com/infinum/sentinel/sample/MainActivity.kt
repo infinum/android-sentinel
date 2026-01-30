@@ -23,10 +23,10 @@ import kotlin.system.exitProcess
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
-
+    @Suppress("LateinitUsage")
     private lateinit var viewBinding: ActivityMainBinding
 
-    @Suppress("TooGenericExceptionCaught", "LongMethod")
+    @Suppress("TooGenericExceptionCaught", "LongMethod", "CognitiveComplexMethod")
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
@@ -36,26 +36,28 @@ class MainActivity : AppCompatActivity() {
 
         applyInsetsToLastElement()
 
-        val allPrefs = listOf(
-            PreferenceManager.getDefaultSharedPreferences(applicationContext),
-            applicationContext.getSharedPreferences(
-                "SHARED_PREFERENCES",
-                Context.MODE_PRIVATE
-            ),
-            applicationContext.getSharedPreferences(
-                "PERSISTED_SHARED_PREFERENCES",
-                Context.MODE_PRIVATE
-            ),
-            EncryptedSharedPreferences.create(
-                this,
-                "ENCRYPTED_SHARED_PREFERENCES",
-                MasterKey.Builder(this)
-                    .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-                    .build(),
-                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        val allPrefs =
+            listOf(
+                PreferenceManager.getDefaultSharedPreferences(applicationContext),
+                applicationContext.getSharedPreferences(
+                    "SHARED_PREFERENCES",
+                    Context.MODE_PRIVATE,
+                ),
+                applicationContext.getSharedPreferences(
+                    "PERSISTED_SHARED_PREFERENCES",
+                    Context.MODE_PRIVATE,
+                ),
+                EncryptedSharedPreferences.create(
+                    this,
+                    "ENCRYPTED_SHARED_PREFERENCES",
+                    MasterKey
+                        .Builder(this)
+                        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                        .build(),
+                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM,
+                ),
             )
-        )
 
         Sentinel.setExceptionHandler { _, exception ->
             println("setExceptionHandler ${exception.message}")
@@ -83,11 +85,12 @@ class MainActivity : AppCompatActivity() {
                         .apply {
                             // 12000 breaks 500 kB limit
                             // 3000 strings in bundle takes 25s to measure
-                            (1..bundleItemSlider.value.roundToInt()).map { Random.nextLong() }
+                            (1..bundleItemSlider.value.roundToInt())
+                                .map { Random.nextLong() }
                                 .forEachIndexed { index, value ->
                                     putExtra("random_$index", "$value")
                                 }
-                        }
+                        },
                 )
             }
             @Suppress("TooGenericExceptionThrown")
@@ -178,7 +181,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun putRandomIntoPreferences(sharedPreferences: SharedPreferences) =
-        sharedPreferences.edit()
+        sharedPreferences
+            .edit()
             .putBoolean(randomizeName(Boolean::class.simpleName), Random.nextBoolean())
             .putFloat(randomizeName(Float::class.simpleName), Random.nextFloat())
             .putInt(randomizeName(Int::class.simpleName), Random.nextInt())
@@ -194,12 +198,10 @@ class MainActivity : AppCompatActivity() {
                     Random.nextInt().toString(),
                     Random.nextFloat().toString(),
                     Random.nextBoolean().toString(),
-                    Random.nextLong().toString()
-                )
-            )
-            .apply()
+                    Random.nextLong().toString(),
+                ),
+            ).apply()
 
     @Suppress("MagicNumber")
-    private fun randomizeName(base: String?) =
-        "my_${base.orEmpty().lowercase(Locale.getDefault())}_${Random.nextInt(0, 10)}"
+    private fun randomizeName(base: String?) = "my_${base.orEmpty().lowercase(Locale.getDefault())}_${Random.nextInt(0, 10)}"
 }

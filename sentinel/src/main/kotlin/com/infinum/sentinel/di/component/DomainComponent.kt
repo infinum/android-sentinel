@@ -75,9 +75,8 @@ import me.tatarka.inject.annotations.Provides
 @DomainScope
 internal abstract class DomainComponent(
     private val context: Context,
-    @Component val dataComponent: DataComponent
+    @Component val dataComponent: DataComponent,
 ) {
-
     private val scope = MainScope()
 
     abstract val intentFactory: IntentFactory
@@ -124,29 +123,22 @@ internal abstract class DomainComponent(
     }
 
     @Provides
-    fun executorService(): ExecutorService =
-        Executors.newSingleThreadExecutor()
+    fun executorService(): ExecutorService = Executors.newSingleThreadExecutor()
 
     @Provides
-    fun intentFactory(): IntentFactory =
-        NotificationIntentFactory(context)
+    fun intentFactory(): IntentFactory = NotificationIntentFactory(context)
 
     @Provides
-    fun notificationFactory(): NotificationFactory =
-        SystemNotificationFactory(context, intentFactory)
+    fun notificationFactory(): NotificationFactory = SystemNotificationFactory(context, intentFactory)
 
     @Provides
     @DomainScope
-    fun sentinelExceptionHandler(
-        dao: CrashesDao
-    ): SentinelExceptionHandler =
+    fun sentinelExceptionHandler(dao: CrashesDao): SentinelExceptionHandler =
         SentinelUncaughtExceptionHandler(context, notificationFactory, dao)
 
     @Provides
     @DomainScope
-    fun certificatesObserver(
-        collectors: Factories.Collector,
-    ): CertificatesObserver =
+    fun certificatesObserver(collectors: Factories.Collector): CertificatesObserver =
         CertificatesObserver(context, collectors, notificationFactory)
 
     @Provides
@@ -156,13 +148,11 @@ internal abstract class DomainComponent(
 
     @Provides
     @DomainScope
-    fun sentinelWorkManager(): SentinelWorkManager =
-        SentinelWorkManager(context)
+    fun sentinelWorkManager(): SentinelWorkManager = SentinelWorkManager(context)
 
     @Provides
     @DomainScope
-    fun sentinelAnrObserver(): SentinelAnrObserver =
-        SentinelUiAnrObserver(sentinelAnrObserverRunnable, executorService)
+    fun sentinelAnrObserver(): SentinelAnrObserver = SentinelUiAnrObserver(sentinelAnrObserverRunnable, executorService)
 
     @Provides
     @DomainScope
@@ -171,9 +161,8 @@ internal abstract class DomainComponent(
         markdown: Formatters.Markdown,
         json: Formatters.Json,
         xml: Formatters.Xml,
-        html: Formatters.Html
-    ): Factories.Formatter =
-        FormatterFactory(plain, markdown, json, xml, html)
+        html: Formatters.Html,
+    ): Factories.Formatter = FormatterFactory(plain, markdown, json, xml, html)
 
     @Suppress("LongParameterList")
     @Provides
@@ -184,49 +173,43 @@ internal abstract class DomainComponent(
         permissions: Collectors.Permissions,
         preferences: Collectors.Preferences,
         certificates: Collectors.Certificates,
-        tools: Collectors.Tools
-    ): Factories.Collector =
-        CollectorFactory(device, application, permissions, preferences, certificates, tools)
+        tools: Collectors.Tools,
+    ): Factories.Collector = CollectorFactory(device, application, permissions, preferences, certificates, tools)
 
     @Provides
     @DomainScope
-    fun triggers(dao: TriggersDao, cache: TriggersCache): Repositories.Triggers =
-        TriggersRepository(dao, cache)
+    fun triggers(
+        dao: TriggersDao,
+        cache: TriggersCache,
+    ): Repositories.Triggers = TriggersRepository(dao, cache)
 
     @Provides
     @DomainScope
-    fun formats(dao: FormatsDao): Repositories.Formats =
-        FormatsRepository(dao)
+    fun formats(dao: FormatsDao): Repositories.Formats = FormatsRepository(dao)
 
     @Provides
     @DomainScope
-    fun bundleMonitor(dao: BundleMonitorDao): Repositories.BundleMonitor =
-        BundleMonitorRepository(dao)
+    fun bundleMonitor(dao: BundleMonitorDao): Repositories.BundleMonitor = BundleMonitorRepository(dao)
 
     @Provides
     @DomainScope
-    fun bundles(cache: BundlesCache): Repositories.Bundles =
-        BundlesRepository(cache)
+    fun bundles(cache: BundlesCache): Repositories.Bundles = BundlesRepository(cache)
 
     @Provides
     @DomainScope
-    fun preferences(cache: PreferenceCache): Repositories.Preference =
-        PreferenceRepository(context, cache)
+    fun preferences(cache: PreferenceCache): Repositories.Preference = PreferenceRepository(context, cache)
 
     @Provides
     @DomainScope
-    fun crashMonitor(dao: CrashMonitorDao): Repositories.CrashMonitor =
-        CrashMonitorRepository(dao)
+    fun crashMonitor(dao: CrashMonitorDao): Repositories.CrashMonitor = CrashMonitorRepository(dao)
 
     @Provides
     @DomainScope
-    fun certificates(cache: CertificateCache): Repositories.Certificate =
-        CertificateRepository(cache)
+    fun certificates(cache: CertificateCache): Repositories.Certificate = CertificateRepository(cache)
 
     @Provides
     @DomainScope
-    fun certificateMonitor(dao: CertificateMonitorDao): Repositories.CertificateMonitor =
-        CertificateMonitorRepository(dao)
+    fun certificateMonitor(dao: CertificateMonitorDao): Repositories.CertificateMonitor = CertificateMonitorRepository(dao)
 
     private fun initializeCrashMonitor() {
         Thread.setDefaultUncaughtExceptionHandler(sentinelExceptionHandler as Thread.UncaughtExceptionHandler)
@@ -274,13 +257,14 @@ internal abstract class DomainComponent(
                             val sizeTree = bundle.sizeTree()
                             bundles.save(
                                 BundleParameters(
-                                    descriptor = BundleDescriptor(
-                                        timestamp = timestamp,
-                                        className = className,
-                                        callSite = callSite,
-                                        bundleTree = sizeTree
-                                    )
-                                )
+                                    descriptor =
+                                        BundleDescriptor(
+                                            timestamp = timestamp,
+                                            className = className,
+                                            callSite = callSite,
+                                            bundleTree = sizeTree,
+                                        ),
+                                ),
                             )
 
                             val currentMonitor =
@@ -289,77 +273,85 @@ internal abstract class DomainComponent(
                                 currentMonitor.limit * Constants.BYTE_MULTIPLIER
                             ) {
                                 notificationCallbacks.currentActivity?.let {
-                                    Snackbar.make(
-                                        it.window.decorView,
-                                        buildString {
-                                            append(className)
-                                            append(System.lineSeparator())
-                                            append(
-                                                Formatter.formatFileSize(
-                                                    activity,
-                                                    sizeTree.size.toLong()
+                                    Snackbar
+                                        .make(
+                                            it.window.decorView,
+                                            buildString {
+                                                append(className)
+                                                append(System.lineSeparator())
+                                                append(
+                                                    Formatter.formatFileSize(
+                                                        activity,
+                                                        sizeTree.size.toLong(),
+                                                    ),
                                                 )
-                                            )
-                                        },
-                                        Snackbar.LENGTH_LONG
-                                    )
-                                        .setAction(R.string.sentinel_show) { view ->
+                                            },
+                                            Snackbar.LENGTH_LONG,
+                                        ).setAction(R.string.sentinel_show) { view ->
                                             view.context.startActivity(
                                                 Intent(activity, BundleDetailsActivity::class.java)
                                                     .apply {
                                                         putExtra(
                                                             Constants.Keys.BUNDLE_ID,
-                                                            sizeTree.id
+                                                            sizeTree.id,
                                                         )
-                                                    }
+                                                    },
                                             )
-                                        }
-                                        .show()
+                                        }.show()
                                 }
                             }
                         }
                     }
-                }
+                },
             )
     }
 
     private fun initializeTriggers() {
         scope.launch {
             withContext(Dispatchers.IO) {
-                triggers.load(TriggerParameters()).first()
+                triggers
+                    .load(TriggerParameters())
+                    .first()
                     .forEach { entity ->
                         when (entity.type) {
-                            TriggerType.SHAKE ->
+                            TriggerType.SHAKE -> {
                                 context.enableShakeTrigger()?.let {
                                     entity.enabled = it
                                 }
+                            }
 
-                            TriggerType.FOREGROUND ->
+                            TriggerType.FOREGROUND -> {
                                 context.enableForegroundTrigger()?.let {
                                     entity.enabled = it
                                 }
+                            }
 
-                            TriggerType.PROXIMITY ->
+                            TriggerType.PROXIMITY -> {
                                 context.enableProximityTrigger()?.let {
                                     entity.enabled = it
                                 }
+                            }
 
-                            TriggerType.USB_CONNECTED ->
+                            TriggerType.USB_CONNECTED -> {
                                 context.enableUsbConnectedTrigger()?.let {
                                     entity.enabled = it
                                 }
+                            }
 
-                            TriggerType.AIRPLANE_MODE_ON ->
+                            TriggerType.AIRPLANE_MODE_ON -> {
                                 context.enableAirplaneModeOnTrigger()?.let {
                                     entity.enabled = it
                                 }
+                            }
 
-                            else -> null
+                            else -> {
+                                null
+                            }
                         }?.let {
                             triggers.save(
                                 TriggerParameters(
-                                    entity = entity
-                                )
+                                    entity = entity,
+                                ),
                             )
                         }
                     }

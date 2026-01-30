@@ -9,7 +9,6 @@ import com.infinum.sentinel.data.models.raw.certificates.CertificateType
 import com.infinum.sentinel.data.sources.raw.collectors.Collector
 
 internal interface Collectors {
-
     interface Device : Collector<DeviceData>
 
     interface Application : Collector<ApplicationData>
