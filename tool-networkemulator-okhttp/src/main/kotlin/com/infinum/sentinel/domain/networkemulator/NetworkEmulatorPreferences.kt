@@ -7,6 +7,7 @@ import android.content.SharedPreferences
  * Manages network emulator configuration preferences.
  * Stores settings for network delay, failure rate, and variance.
  */
+@Suppress("MagicNumber", "UnderscoresInNumericLiterals")
 public class NetworkEmulatorPreferences(
     context: Context,
 ) {

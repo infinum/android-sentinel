@@ -27,7 +27,5 @@ public class NetworkEmulatorInterceptor(
      * No-op intercept implementation that simply proceeds with the request without
      * any network emulation.
      */
-    override fun intercept(chain: Interceptor.Chain): Response {
-        return chain.proceed(chain.request())
-    }
+    override fun intercept(chain: Interceptor.Chain): Response = chain.proceed(chain.request())
 }

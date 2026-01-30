@@ -2,10 +2,10 @@ package com.infinum.sentinel.sample
 
 import android.content.Context
 import com.infinum.sentinel.domain.networkemulator.NetworkEmulatorInterceptor
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import java.io.IOException
 import java.util.concurrent.TimeUnit
+import okhttp3.OkHttpClient
+import okhttp3.Request
 
 /**
  * Simple API client for testing the Network Emulator tool.
@@ -14,13 +14,16 @@ import java.util.concurrent.TimeUnit
  * Keep in mind that to exclude NetworkEmulatorInterceptor for release you can either use no-op version or separate source sets
  */
 object ApiClient {
+    @Suppress("LateinitUsage")
     private lateinit var client: OkHttpClient
 
     fun initialize(context: Context) {
-        client = OkHttpClient.Builder()
-            .callTimeout(timeout = 10L, unit = TimeUnit.SECONDS)
-            .addInterceptor(NetworkEmulatorInterceptor(context))
-            .build()
+        client =
+            OkHttpClient
+                .Builder()
+                .callTimeout(timeout = 10L, unit = TimeUnit.SECONDS)
+                .addInterceptor(NetworkEmulatorInterceptor(context))
+                .build()
     }
 
     /**
@@ -28,9 +31,11 @@ object ApiClient {
      */
     @Throws(IOException::class)
     fun fetchRequestDetails(): String {
-        val request = Request.Builder()
-            .url("https://httpbin.org/get")
-            .build()
+        val request =
+            Request
+                .Builder()
+                .url("https://httpbin.org/get")
+                .build()
 
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) {

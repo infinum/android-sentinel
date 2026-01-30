@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.infinum.sentinel.tool.networkemulator.R
 import com.infinum.sentinel.domain.networkemulator.NetworkEmulatorPreferences
+import com.infinum.sentinel.tool.networkemulator.R
 import com.infinum.sentinel.tool.networkemulator.databinding.SentinelFragmentNetworkEmulatorBinding
 
 /**
@@ -20,9 +20,10 @@ public class NetworkEmulatorFragment : Fragment() {
         public fun newInstance(): NetworkEmulatorFragment = NetworkEmulatorFragment()
     }
 
-    private var _binding: SentinelFragmentNetworkEmulatorBinding? = null
-    private val binding get() = _binding!!
+    private var viewBinding: SentinelFragmentNetworkEmulatorBinding? = null
+    private val binding get() = viewBinding!!
 
+    @Suppress("LateinitUsage")
     private lateinit var preferences: NetworkEmulatorPreferences
 
     override fun onCreateView(
@@ -30,7 +31,7 @@ public class NetworkEmulatorFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        _binding = SentinelFragmentNetworkEmulatorBinding.inflate(inflater, container, false)
+        viewBinding = SentinelFragmentNetworkEmulatorBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -49,7 +50,7 @@ public class NetworkEmulatorFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        viewBinding = null
     }
 
     private fun setupToolbar() {
@@ -118,6 +119,7 @@ public class NetworkEmulatorFragment : Fragment() {
         loadSettings()
     }
 
+    @Suppress("MagicNumber", "CognitiveComplexMethod")
     private fun updateControlsEnabled(enabled: Boolean) {
         with(binding) {
             delaySlider.isEnabled = enabled

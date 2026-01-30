@@ -1,3 +1,5 @@
+@file:Suppress("MagicNumber")
+
 package com.infinum.sentinel.domain.networkemulator
 
 import android.content.Context

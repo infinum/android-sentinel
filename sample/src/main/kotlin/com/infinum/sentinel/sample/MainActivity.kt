@@ -180,22 +180,24 @@ class MainActivity : AppCompatActivity() {
     /**
      * Make a network request on a background thread and display the result.
      */
+    @Suppress("MagicNumber")
     private fun makeNetworkRequest(apiCall: suspend () -> String) {
         lifecycleScope.launch {
             viewBinding.networkResultText.text = "Loading..."
             viewBinding.testNetworkRequest.isEnabled = false
 
-            val result = withContext(Dispatchers.IO) {
-                try {
-                    val startTime = System.currentTimeMillis()
-                    val response = apiCall()
-                    val duration = System.currentTimeMillis() - startTime
-                    "✅ Success (${duration}ms)\n\n$response"
-                } catch (e: Exception) {
-                    "❌ Failed\n\n${e::class.simpleName}: ${e.message}"
+            val result =
+                withContext(Dispatchers.IO) {
+                    try {
+                        val startTime = System.currentTimeMillis()
+                        val response = apiCall()
+                        val duration = System.currentTimeMillis() - startTime
+                        "✅ Success (${duration}ms)\n\n$response"
+                    } catch (e: Exception) {
+                        "❌ Failed\n\n${e::class.simpleName}: ${e.message}"
+                    }
                 }
-            }
-            
+
             viewBinding.networkResultText.text = result
             viewBinding.testNetworkRequest.isEnabled = true
 
