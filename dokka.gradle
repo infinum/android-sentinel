@@ -16,7 +16,7 @@ dokka {
             remoteLineSuffix.set("#L")
         }
 
-        jdkVersion.set(17)
+        jdkVersion.set(8)
 
         perPackageOption {
             matchingRegex.set("com\\.infinum\\.sentinel\\.extensions.*")
