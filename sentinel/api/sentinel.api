@@ -69,64 +69,6 @@ public final class com/infinum/sentinel/SentinelInitializer : androidx/startup/I
 	public fun dependencies ()Ljava/util/List;
 }
 
-public final class com/infinum/sentinel/data/sources/local/room/SentinelDatabase_Impl {
-	public fun <init> ()V
-	public fun bundleMonitor ()Lcom/infinum/sentinel/data/sources/local/room/dao/BundleMonitorDao;
-	public fun certificateMonitor ()Lcom/infinum/sentinel/data/sources/local/room/dao/CertificateMonitorDao;
-	public fun clearAllTables ()V
-	public fun crashMonitor ()Lcom/infinum/sentinel/data/sources/local/room/dao/CrashMonitorDao;
-	public fun crashes ()Lcom/infinum/sentinel/data/sources/local/room/dao/CrashesDao;
-	public fun formats ()Lcom/infinum/sentinel/data/sources/local/room/dao/FormatsDao;
-	public fun getAutoMigrations (Ljava/util/Map;)Ljava/util/List;
-	public fun getRequiredAutoMigrationSpecs ()Ljava/util/Set;
-	public fun triggers ()Lcom/infinum/sentinel/data/sources/local/room/dao/TriggersDao;
-}
-
-public final class com/infinum/sentinel/data/sources/local/room/dao/BundleMonitorDao_Impl : com/infinum/sentinel/data/sources/local/room/dao/BundleMonitorDao {
-	public fun <init> (Landroidx/room/RoomDatabase;)V
-	public static fun getRequiredConverters ()Ljava/util/List;
-	public fun load ()Lkotlinx/coroutines/flow/Flow;
-	public fun save (Lcom/infinum/sentinel/data/models/local/BundleMonitorEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-}
-
-public final class com/infinum/sentinel/data/sources/local/room/dao/CertificateMonitorDao_Impl : com/infinum/sentinel/data/sources/local/room/dao/CertificateMonitorDao {
-	public fun <init> (Landroidx/room/RoomDatabase;)V
-	public static fun getRequiredConverters ()Ljava/util/List;
-	public fun load ()Lkotlinx/coroutines/flow/Flow;
-	public fun save (Lcom/infinum/sentinel/data/models/local/CertificateMonitorEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-}
-
-public final class com/infinum/sentinel/data/sources/local/room/dao/CrashMonitorDao_Impl : com/infinum/sentinel/data/sources/local/room/dao/CrashMonitorDao {
-	public fun <init> (Landroidx/room/RoomDatabase;)V
-	public static fun getRequiredConverters ()Ljava/util/List;
-	public fun load ()Lkotlinx/coroutines/flow/Flow;
-	public fun save (Lcom/infinum/sentinel/data/models/local/CrashMonitorEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-}
-
-public final class com/infinum/sentinel/data/sources/local/room/dao/CrashesDao_Impl : com/infinum/sentinel/data/sources/local/room/dao/CrashesDao {
-	public fun <init> (Landroidx/room/RoomDatabase;)V
-	public fun deleteAll (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public fun deleteById (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static fun getRequiredConverters ()Ljava/util/List;
-	public fun loadAll ()Lkotlinx/coroutines/flow/Flow;
-	public fun loadById (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public fun save (Lcom/infinum/sentinel/data/models/local/CrashEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-}
-
-public final class com/infinum/sentinel/data/sources/local/room/dao/FormatsDao_Impl : com/infinum/sentinel/data/sources/local/room/dao/FormatsDao {
-	public fun <init> (Landroidx/room/RoomDatabase;)V
-	public static fun getRequiredConverters ()Ljava/util/List;
-	public fun load ()Lkotlinx/coroutines/flow/Flow;
-	public fun save (Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-}
-
-public final class com/infinum/sentinel/data/sources/local/room/dao/TriggersDao_Impl : com/infinum/sentinel/data/sources/local/room/dao/TriggersDao {
-	public fun <init> (Landroidx/room/RoomDatabase;)V
-	public static fun getRequiredConverters ()Ljava/util/List;
-	public fun load ()Lkotlinx/coroutines/flow/Flow;
-	public fun save (Lcom/infinum/sentinel/data/models/local/TriggerEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-}
-
 public final class com/infinum/sentinel/databinding/SentinelFragmentApplicationBinding : androidx/viewbinding/ViewBinding {
 	public final field contentLayout Landroid/widget/LinearLayout;
 	public final field firstInstallView Lcom/infinum/sentinel/ui/shared/views/SentinelItemTextView;

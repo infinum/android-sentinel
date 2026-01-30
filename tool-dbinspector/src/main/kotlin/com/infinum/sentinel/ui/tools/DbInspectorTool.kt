@@ -2,8 +2,8 @@ package com.infinum.sentinel.ui.tools
 
 import android.view.View
 import com.infinum.dbinspector.DbInspector
-import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
+import com.infinum.sentinel.tool.dbinspector.R
 
 /**
  * Specific wrapper tool around DbInspector.

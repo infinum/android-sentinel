@@ -1,7 +1,7 @@
 package com.infinum.sentinel.ui.logs
 
 import androidx.recyclerview.widget.RecyclerView
-import com.infinum.sentinel.databinding.SentinelItemLogFileBinding
+import com.infinum.sentinel.tool.timber.databinding.SentinelItemLogFileBinding
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
