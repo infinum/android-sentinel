@@ -4,7 +4,7 @@ The **Network Emulator Tool** is a built-in Sentinel feature that allows develop
 
 ## Features
 
-- **Network Delay**: Add configurable delays (0-10,000ms) to all network requests
+- **Network Delay**: Add configurable delays (0-15,000ms) to all network requests
 - **Fail Percentage**: Configure what percentage of requests should fail (0-100%)
 - **Variance Percentage**: Add random variance to delays to simulate unstable connections (0-100%)
 - **Easy UI**: Simple toggle and slider-based interface within Sentinel
@@ -125,7 +125,7 @@ OkHttpClient client = new OkHttpClient.Builder()
 ## Configuration Details
 
 ### Network Delay
-- **Range**: 0 - 10,000 milliseconds
+- **Range**: 0 - 15,000 milliseconds
 - **Step**: 100ms
 - **Default**: 1,000ms
 - **Purpose**: Adds a fixed delay to every network request to simulate slow networks
