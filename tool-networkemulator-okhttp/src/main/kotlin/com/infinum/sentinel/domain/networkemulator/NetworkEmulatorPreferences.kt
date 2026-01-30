@@ -38,7 +38,7 @@ public class NetworkEmulatorPreferences(
      */
     public var delayMs: Int
         get() = prefs.getInt(KEY_DELAY_MS, DEFAULT_DELAY_MS)
-        set(value) = prefs.edit().putInt(KEY_DELAY_MS, value.coerceIn(0, 30000)).apply()
+        set(value) = prefs.edit().putInt(KEY_DELAY_MS, value.coerceIn(0, 15000)).apply()
 
     /**
      * Percentage of requests that should fail (0-100)
