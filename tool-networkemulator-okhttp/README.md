@@ -20,7 +20,6 @@ The **easiest and cleanest approach** is to use the no-op version for release bu
 - ✅ **Same code everywhere** - no separate source sets needed
 - ✅ **API compatibility** - identical classes and methods
 - ✅ **Zero overhead** - no functionality in release builds
-- ✅ **Smaller APK** - minimal dependencies
 
 **1. Add both dependencies in your `build.gradle`:**
 ```gradle
