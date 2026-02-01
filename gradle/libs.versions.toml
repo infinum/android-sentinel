@@ -39,7 +39,6 @@ room = "2.8.4"
 roomTest = "2.8.4"
 sentinel = "1.5.1"
 startup = "1.2.0"
-thimble = "1.0.1"
 timber = "5.0.1"
 workmanager = "2.11.1"
 
@@ -52,7 +51,6 @@ tooldbinspector = { module = "com.infinum.sentinel:tool-dbinspector", version.re
 toolleakcanary = { module = "com.infinum.sentinel:tool-leakcanary", version.ref = "sentinel" }
 toolappgallery = { module = "com.infinum.sentinel:tool-appgallery", version.ref = "sentinel" }
 toolgoogleplay = { module = "com.infinum.sentinel:tool-googleplay", version.ref = "sentinel" }
-toolthimble = { module = "com.infinum.sentinel:tool-thimble", version.ref = "sentinel" }
 tooltimber = { module = "com.infinum.sentinel:tool-timber", version.ref = "sentinel" }
 
 tools-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
@@ -115,8 +113,6 @@ dbinspector = { module = "com.infinum.dbinspector:dbinspector", version.ref = "d
 
 leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 
-thimble = { module = "com.infinum.thimble:thimble", version.ref = "thimble" }
-
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
 junit = { module = "junit:junit", version.ref = "junit" }
@@ -149,7 +145,6 @@ tools = [
     "toolleakcanary",
     "toolappgallery",
     "toolgoogleplay",
-    "toolthimble",
     "tooltimber"
 ]
 

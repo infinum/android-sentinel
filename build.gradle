@@ -72,8 +72,7 @@ task lintAll(dependsOn: [
         ':tool-dbinspector:lintRelease',
         ':tool-leakcanary:lintRelease',
         ':tool-appgallery:lintRelease',
-        ':tool-googleplay:lintRelease',
-        ':tool-thimble:lintRelease'
+        ':tool-googleplay:lintRelease'
 ]) {
     group = "Verification"
     description = "Run Detekt on all modules"
@@ -87,8 +86,7 @@ task detektAll(dependsOn: [
         ':tool-dbinspector:detekt',
         ':tool-leakcanary:detekt',
         ':tool-appgallery:detekt',
-        ':tool-googleplay:detekt',
-        ':tool-thimble:detekt'
+        ':tool-googleplay:detekt'
 ]) {
     group = "Verification"
     description = "Run Detekt on all modules"
@@ -102,8 +100,7 @@ task ktlintAll(dependsOn: [
         ':tool-dbinspector:ktlintCheck',
         ':tool-leakcanary:ktlintCheck',
         ':tool-appgallery:ktlintCheck',
-        ':tool-googleplay:ktlintCheck',
-        ':tool-thimble:ktlintCheck'
+        ':tool-googleplay:ktlintCheck'
 ]) {
     group = "Verification"
     description = "Run ktLint on all modules"
@@ -117,8 +114,7 @@ task cpdAll(dependsOn: [
         ':tool-dbinspector:cpdCheck',
         ':tool-leakcanary:cpdCheck',
         ':tool-appgallery:cpdCheck',
-        ':tool-googleplay:cpdCheck',
-        ':tool-thimble:cpdCheck'
+        ':tool-googleplay:cpdCheck'
 ]) {
     group = "Verification"
     description = "Run CPD on all modules"

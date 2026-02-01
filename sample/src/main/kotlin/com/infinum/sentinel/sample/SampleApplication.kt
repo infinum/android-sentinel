@@ -10,7 +10,6 @@ import com.infinum.sentinel.ui.tools.CollarTool
 import com.infinum.sentinel.ui.tools.DbInspectorTool
 import com.infinum.sentinel.ui.tools.GooglePlayTool
 import com.infinum.sentinel.ui.tools.LeakCanaryTool
-import com.infinum.sentinel.ui.tools.ThimbleTool
 import com.infinum.sentinel.ui.tools.TimberTool
 import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
@@ -30,7 +29,6 @@ class SampleApplication : Application() {
         tools.add(LeakCanaryTool())
         tools.add(AppGalleryTool(appId = "102016595"))
         tools.add(GooglePlayTool())
-        tools.add(ThimbleTool())
         tools.add(TimberTool(allowedTags = listOf("Main")))
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             tools.add(CertificateTool(userCertificates = loadDebugCertificates()))

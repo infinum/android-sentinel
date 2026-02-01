@@ -18,7 +18,6 @@ import com.infinum.sentinel.ui.tools.ChuckerTool;
 import com.infinum.sentinel.ui.tools.CollarTool;
 import com.infinum.sentinel.ui.tools.DbInspectorTool;
 import com.infinum.sentinel.ui.tools.GooglePlayTool;
-import com.infinum.sentinel.ui.tools.ThimbleTool;
 import com.infinum.sentinel.ui.tools.TimberTool;
 
 import java.util.HashSet;
@@ -38,7 +37,6 @@ public class JavaMainActivity extends AppCompatActivity {
         tools.add(new CollarTool());
         tools.add(new DbInspectorTool());
         tools.add(new GooglePlayTool());
-        tools.add(new ThimbleTool());
         tools.add(new TimberTool());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             tools.add(new CertificateTool());

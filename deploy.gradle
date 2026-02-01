@@ -62,14 +62,6 @@ task deployToolGooglePlay(dependsOn: [
     description = "Deploy module to repositories"
 }
 
-task deployToolThimble(dependsOn: [
-        ':tool-thimble:clean',
-        ':tool-thimble:publishReleasePublicationToSonatypeRepository'
-]) {
-    group = "Deploy"
-    description = "Deploy module to repositories"
-}
-
 task deployToolTimber(dependsOn: [
         ':tool-timber:clean',
         ':tool-timber:publishReleasePublicationToSonatypeRepository'
@@ -93,7 +85,6 @@ task deployToolsAll(dependsOn: [
         'deployToolDbInspector',
         'deployToolAppGallery',
         'deployToolGooglePlay',
-        'deployToolThimble',
         'deployToolTimber'
 ]) {
     group = "Deploy"
@@ -109,7 +100,6 @@ task deployAll(dependsOn: [
         'deployToolLeakCanary',
         'deployToolAppGallery',
         'deployToolGooglePlay',
-        'deployToolThimble',
         'deployToolTimber'
 ]) {
     group = "Deploy"
@@ -125,7 +115,6 @@ task deployDebug(dependsOn: [
         ':tool-leakcanary:clean',
         ':tool-appgallery:clean',
         ':tool-googleplay:clean',
-        ':tool-thimble:clean',
         ':sentinel:publishReleasePublicationToMavenLocal',
         ':sentinel-no-op:publishReleasePublicationToMavenLocal',
         ':tool-chucker:publishReleasePublicationToMavenLocal',
@@ -134,7 +123,6 @@ task deployDebug(dependsOn: [
         ':tool-leakcanary:publishReleasePublicationToMavenLocal',
         ':tool-appgallery:publishReleasePublicationToMavenLocal',
         ':tool-googleplay:publishReleasePublicationToMavenLocal',
-        ':tool-thimble:publishReleasePublicationToMavenLocal',
         ':tool-timber:publishReleasePublicationToMavenLocal'
 ]) {
     group = "Deploy"
