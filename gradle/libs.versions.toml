@@ -1,5 +1,11 @@
 [versions]
 activity = "1.12.3"
+androidxArchCore = "2.2.0"
+androidxTestCore = "1.6.1"
+androidxTestExt = "1.2.1"
+androidxTestJunitOld = "1.1.5"
+androidxTestRules = "1.6.1"
+androidxTestRunner = "1.6.2"
 appcompat = "1.7.1"
 binaryCompatibility = "0.18.1"
 chucker = "4.3.0"
@@ -8,23 +14,30 @@ core = "1.17.0"
 coroutines = "1.10.2"
 cpd = "3.5"
 crypto = "1.1.0"
+cryptoAlpha = "1.1.0-alpha06"
 dbinspector = "5.4.9"
 design = "1.13.0"
 detekt = "1.23.8"
 dokka = "2.1.0"
 dynamicanimation = "1.1.0"
+espresso = "3.5.1"
 fragment = "1.8.9"
+fragmentTest = "1.6.2"
 gradle = "8.13.2"
 inject = "0.9.0"
 json = "1.10.0"
+junit = "4.13.2"
 kotlin = "2.2.21"
+ksp = "2.2.21-2.0.4"
 ktlint = "1.8.0"
 ktlintplugin = "14.0.1"
 leakcanary = "2.14"
 lifecycle = "2.10.0"
 preference = "1.2.1"
 recycler = "1.4.0"
+robolectricShadow = "4.5.1"
 room = "2.8.4"
+roomTest = "2.6.1"
 sentinel = "1.5.1"
 startup = "1.2.0"
 thimble = "1.0.1"
@@ -68,7 +81,18 @@ androidx-dynamicanimation = { module = "androidx.dynamicanimation:dynamicanimati
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "roomTest" }
 androidx-workmanager-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workmanager" }
+androidx-arch-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "androidxArchCore" }
+androidx-test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "androidxTestCore" }
+androidx-test-rules = { module = "androidx.test:rules", version.ref = "androidxTestRules" }
+androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidxTestRunner" }
+androidx-test-ext-junit = { module = "androidx.test.ext:junit", version.ref = "androidxTestExt" }
+androidx-test-ext-junit-old = { module = "androidx.test.ext:junit", version.ref = "androidxTestJunitOld" }
+androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
+androidx-test-espresso-intents = { module = "androidx.test.espresso:espresso-intents", version.ref = "espresso" }
+androidx-fragment-testing = { module = "androidx.fragment:fragment-testing", version.ref = "fragmentTest" }
+androidx-crypto-alpha = { module = "androidx.security:security-crypto", version.ref = "cryptoAlpha" }
 
 material = { module = "com.google.android.material:material", version.ref = "design" }
 
@@ -95,6 +119,10 @@ leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.re
 thimble = { module = "com.infinum.thimble:thimble", version.ref = "thimble" }
 
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+
+junit = { module = "junit:junit", version.ref = "junit" }
+
+robolectric-shadowapi = { module = "org.robolectric:shadowapi", version.ref = "robolectricShadow" }
 
 [bundles]
 androidx = [
@@ -128,3 +156,4 @@ tools = [
 
 [plugins]
 kotlin-binary-compatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryCompatibility" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
