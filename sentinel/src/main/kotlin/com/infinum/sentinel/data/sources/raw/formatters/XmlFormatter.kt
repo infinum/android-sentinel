@@ -48,7 +48,6 @@ internal class XmlFormatter(
         if (includeAllData) {
             format(entity)
         } else {
-            // CPD-OFF
             StringWriter()
                 .apply {
                     @Suppress("LabeledExpression")
@@ -62,7 +61,6 @@ internal class XmlFormatter(
                         endDocument()
                     }
                 }.toString()
-            // CPD-ON
         }
 
     override fun application(): String = ""

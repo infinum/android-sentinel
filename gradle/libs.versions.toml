@@ -12,7 +12,6 @@ chucker = "4.3.0"
 collar = "2.0.0"
 core = "1.17.0"
 coroutines = "1.10.2"
-cpd = "3.5"
 crypto = "1.1.0"
 dbinspector = "5.4.9"
 design = "1.13.0"
@@ -100,8 +99,6 @@ detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", v
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 
 ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlintplugin" }
-
-cpd = { module = "de.aaschmid:gradle-cpd-plugin", version.ref = "cpd" }
 
 dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
 

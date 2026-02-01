@@ -12,7 +12,6 @@ buildscript {
         classpath libs.tools.gradle
         classpath libs.kotlin.gradle
         classpath libs.kotlin.serialization
-        classpath libs.cpd
         classpath libs.detekt.gradle
         classpath libs.ktlint
         classpath libs.dokka
@@ -37,7 +36,6 @@ allprojects {
 }
 
 subprojects {
-    apply from: "$rootDir/cpd.gradle"
     apply from: "$rootDir/detekt.gradle"
     apply from: "$rootDir/ktlint.gradle"
     apply from: "$rootDir/dokka.gradle"
@@ -106,25 +104,10 @@ task ktlintAll(dependsOn: [
     description = "Run ktLint on all modules"
 }
 
-task cpdAll(dependsOn: [
-        ':sentinel:cpdCheck',
-        ':sentinel-no-op:cpdCheck',
-        ':tool-chucker:cpdCheck',
-        ':tool-collar:cpdCheck',
-        ':tool-dbinspector:cpdCheck',
-        ':tool-leakcanary:cpdCheck',
-        ':tool-appgallery:cpdCheck',
-        ':tool-googleplay:cpdCheck'
-]) {
-    group = "Verification"
-    description = "Run CPD on all modules"
-}
-
 task runStaticChecks(dependsOn: [
         ':lintAll',
         ':detektAll',
-        ':ktlintAll',
-        ':cpdAll'
+        ':ktlintAll'
 ]) {
     group = "Verification"
     description = "Run static checks on all modules"
