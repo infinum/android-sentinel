@@ -22,17 +22,17 @@ internal class DeviceCollector(
     override fun invoke() =
         DeviceData(
             autoTime =
-                Settings.Global.getInt(
-                    context.contentResolver,
-                    Settings.Global.AUTO_TIME,
-                    0,
-                ) == 1,
+            Settings.Global.getInt(
+                context.contentResolver,
+                Settings.Global.AUTO_TIME,
+                0,
+            ) == 1,
             autoTimezone =
-                Settings.Global.getInt(
-                    context.contentResolver,
-                    Settings.Global.AUTO_TIME_ZONE,
-                    0,
-                ) == 1,
+            Settings.Global.getInt(
+                context.contentResolver,
+                Settings.Global.AUTO_TIME_ZONE,
+                0,
+            ) == 1,
             isRooted = checkRootPrimary() || checkRootSecondary() || checkRootTertiary(),
             screenWidth = "${context.widthPixels} px",
             screenHeight = "${context.heightPixels} px",

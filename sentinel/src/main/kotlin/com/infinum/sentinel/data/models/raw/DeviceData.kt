@@ -42,7 +42,7 @@ internal data class DeviceData(
             Build.HOST.startsWith("Build") ||
             (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic")) ||
             "google_sdk" == Build.PRODUCT
-    ),
+        ),
     val autoTime: Boolean,
     val autoTimezone: Boolean,
     val isRooted: Boolean,

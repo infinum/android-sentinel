@@ -8,7 +8,6 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isGone
@@ -87,7 +86,7 @@ public class LogsActivity : AppCompatActivity() {
                         )
                     },
                 ) as? String
-            ) ?: getString(R.string.sentinel_name)
+                ) ?: getString(R.string.sentinel_name)
 
             recyclerView.layoutManager =
                 LinearLayoutManager(
