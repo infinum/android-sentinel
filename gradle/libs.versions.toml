@@ -27,8 +27,6 @@ json = "1.10.0"
 junit = "4.13.2"
 kotlin = "2.2.21"
 ksp = "2.2.21-2.0.4"
-ktlint = "1.8.0"
-ktlintplugin = "14.0.1"
 leakcanary = "2.14"
 lifecycle = "2.10.0"
 preference = "1.2.1"
@@ -97,8 +95,6 @@ inject-runtime = { module = "me.tatarka.inject:kotlin-inject-runtime", version.r
 
 detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
-
-ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlintplugin" }
 
 dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
 

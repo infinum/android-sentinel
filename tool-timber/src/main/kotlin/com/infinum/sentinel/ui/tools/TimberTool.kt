@@ -1,5 +1,3 @@
-@file:Suppress("ktlint:standard:kdoc")
-
 package com.infinum.sentinel.ui.tools
 
 import android.content.Intent

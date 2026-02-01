@@ -13,7 +13,6 @@ buildscript {
         classpath libs.kotlin.gradle
         classpath libs.kotlin.serialization
         classpath libs.detekt.gradle
-        classpath libs.ktlint
         classpath libs.dokka
     }
 }
@@ -37,7 +36,6 @@ allprojects {
 
 subprojects {
     apply from: "$rootDir/detekt.gradle"
-    apply from: "$rootDir/ktlint.gradle"
     apply from: "$rootDir/dokka.gradle"
 }
 
@@ -90,24 +88,9 @@ task detektAll(dependsOn: [
     description = "Run Detekt on all modules"
 }
 
-task ktlintAll(dependsOn: [
-        ':sentinel:ktlintCheck',
-        ':sentinel-no-op:ktlintCheck',
-        ':tool-chucker:ktlintCheck',
-        ':tool-collar:ktlintCheck',
-        ':tool-dbinspector:ktlintCheck',
-        ':tool-leakcanary:ktlintCheck',
-        ':tool-appgallery:ktlintCheck',
-        ':tool-googleplay:ktlintCheck'
-]) {
-    group = "Verification"
-    description = "Run ktLint on all modules"
-}
-
 task runStaticChecks(dependsOn: [
         ':lintAll',
-        ':detektAll',
-        ':ktlintAll'
+        ':detektAll'
 ]) {
     group = "Verification"
     description = "Run static checks on all modules"
