@@ -4,4 +4,9 @@ detekt {
     toolVersion = libs.versions.detekt.get()
     source.setFrom(files("src/main/java", "src/main/kotlin"))
     config.setFrom(files("${rootProject.rootDir}/config/detekt.yml"))
+    autoCorrect = true
+}
+
+dependencies {
+    detektPlugins libs.detekt.formatting
 }
