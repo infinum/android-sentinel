@@ -105,7 +105,7 @@ dependencies {
     androidTestImplementation libs.androidx.test.rules
     androidTestImplementation libs.androidx.test.runner
     androidTestImplementation libs.androidx.test.ext.junit
-    androidTestImplementation libs.androidx.crypto.alpha
+    androidTestImplementation libs.androidx.crypto
     androidTestImplementation libs.robolectric.shadowapi
     androidTestImplementation libs.androidx.test.espresso.core
     androidTestImplementation libs.androidx.test.espresso.intents
@@ -114,7 +114,7 @@ dependencies {
     androidTestImplementation libs.androidx.fragment.testing
 
     testImplementation libs.junit
-    testImplementation libs.androidx.test.ext.junit.old
+    testImplementation libs.androidx.test.ext.junit
 }
 
 ksp {
