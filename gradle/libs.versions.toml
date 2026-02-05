@@ -1,36 +1,43 @@
 [versions]
-activity = "1.12.2"
+activity = "1.12.3"
+androidxArchCore = "2.2.0"
+androidxTestCore = "1.7.0"
+androidxTestExt = "1.3.0"
+androidxTestRules = "1.7.0"
+androidxTestRunner = "1.7.0"
 appcompat = "1.7.1"
 binaryCompatibility = "0.18.1"
-chucker = "4.2.0"
-collar = "1.4.0"
+chucker = "4.3.0"
+collar = "2.0.0"
 core = "1.17.0"
 coroutines = "1.10.2"
-cpd = "3.5"
 crypto = "1.1.0"
 dbinspector = "5.4.9"
 design = "1.13.0"
 detekt = "1.23.8"
 dokka = "2.1.0"
 dynamicanimation = "1.1.0"
+espresso = "3.7.0"
 fragment = "1.8.9"
+fragmentTest = "1.8.9"
 gradle = "8.13.2"
-inject = "0.8.0"
-json = "1.9.0"
+inject = "0.9.0"
+json = "1.10.0"
+junit = "4.13.2"
 kotlin = "2.2.21"
-ktlint = "1.8.0"
-ktlintplugin = "14.0.1"
+ksp = "2.2.21-2.0.4"
 leakcanary = "2.14"
 lifecycle = "2.10.0"
 okhttp = "5.3.2"
 preference = "1.2.1"
 recycler = "1.4.0"
+robolectricShadow = "4.16.1"
 room = "2.8.4"
+roomTest = "2.8.4"
 sentinel = "1.5.1"
 startup = "1.2.0"
-thimble = "1.0.1"
 timber = "5.0.1"
-workmanager = "2.11.0"
+workmanager = "2.11.1"
 
 [libraries]
 library = { module = "com.infinum.sentinel:sentinel", version.ref = "sentinel" }
@@ -41,7 +48,6 @@ tooldbinspector = { module = "com.infinum.sentinel:tool-dbinspector", version.re
 toolleakcanary = { module = "com.infinum.sentinel:tool-leakcanary", version.ref = "sentinel" }
 toolappgallery = { module = "com.infinum.sentinel:tool-appgallery", version.ref = "sentinel" }
 toolgoogleplay = { module = "com.infinum.sentinel:tool-googleplay", version.ref = "sentinel" }
-toolthimble = { module = "com.infinum.sentinel:tool-thimble", version.ref = "sentinel" }
 tooltimber = { module = "com.infinum.sentinel:tool-timber", version.ref = "sentinel" }
 toolnetworkemulatorokhttp = { module = "com.infinum.sentinel:tool-networkemulator-okhttp", version.ref = "sentinel" }
 
@@ -70,7 +76,16 @@ androidx-dynamicanimation = { module = "androidx.dynamicanimation:dynamicanimati
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "roomTest" }
 androidx-workmanager-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workmanager" }
+androidx-arch-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "androidxArchCore" }
+androidx-test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "androidxTestCore" }
+androidx-test-rules = { module = "androidx.test:rules", version.ref = "androidxTestRules" }
+androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidxTestRunner" }
+androidx-test-ext-junit = { module = "androidx.test.ext:junit", version.ref = "androidxTestExt" }
+androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
+androidx-test-espresso-intents = { module = "androidx.test.espresso:espresso-intents", version.ref = "espresso" }
+androidx-fragment-testing = { module = "androidx.fragment:fragment-testing", version.ref = "fragmentTest" }
 
 material = { module = "com.google.android.material:material", version.ref = "design" }
 
@@ -79,10 +94,6 @@ inject-runtime = { module = "me.tatarka.inject:kotlin-inject-runtime", version.r
 
 detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
-
-ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlintplugin" }
-
-cpd = { module = "de.aaschmid:gradle-cpd-plugin", version.ref = "cpd" }
 
 dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
 
@@ -94,9 +105,11 @@ dbinspector = { module = "com.infinum.dbinspector:dbinspector", version.ref = "d
 
 leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 
-thimble = { module = "com.infinum.thimble:thimble", version.ref = "thimble" }
-
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+
+junit = { module = "junit:junit", version.ref = "junit" }
+
+robolectric-shadowapi = { module = "org.robolectric:shadowapi", version.ref = "robolectricShadow" }
 
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 
@@ -126,10 +139,10 @@ tools = [
     "toolleakcanary",
     "toolappgallery",
     "toolgoogleplay",
-    "toolthimble",
     "tooltimber",
     "toolnetworkemulatorokhttp"
 ]
 
 [plugins]
 kotlin-binary-compatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryCompatibility" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

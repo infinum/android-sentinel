@@ -25,7 +25,6 @@ The project is organized in the following modules:
 - `tool-leakcanary` - contains a class wrapper for LeakCanary
 - `tool-appgallery` - contains a class wrapper for Huawei AppGallery
 - `tool-googleplay` - contains a class wrapper for Google Play
-- `tool-thimble` - contains a class wrapper for Thimble
 - `tool-timber` - contains a class wrapper for Timber
 - `sample` - a sample app for testing and developing
 
@@ -104,7 +103,6 @@ debugImplementation "com.infinum.sentinel:tool-dbinspector:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-leakcanary:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-appgallery:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-googleplay:$sentinelVersion"
-debugImplementation "com.infinum.sentinel:tool-thimble:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-timber:$sentinelVersion"
 ```
 
@@ -117,7 +115,6 @@ debugImplementation("com.infinum.sentinel:tool-dbinspector:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-leakcanary:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-appgallery:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-googleplay:$sentinelVersion")
-debugImplementation("com.infinum.sentinel:tool-thimble:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-timber:$sentinelVersion")
 ```
 
@@ -137,7 +134,6 @@ Sentinel.watch(
         LeakCanaryTool(),
         AppGalleryTool(appId = "123456789"),
         GooglePlayTool(),
-        ThimbleTool(),
         TimberTool(allowedTags = listOf("EXAMPLE")),
         CertificateTool(userCertificates = listOf())
     )
@@ -198,7 +194,6 @@ Depending of what you include as module dependencies, very specific tools are pr
 - `DbInspectorTool` - a wrapper class that
   opens [DbInspector](https://github.com/infinum/android_dbinspector)
 - `LeakCanaryTool` - a wrapper class that opens [LeakCanary](https://github.com/square/leakcanary)
-- `ThimbleTool` - a wrapper class that opens [Thimble](https://github.com/infinum/android-thimble)
 - `TimberTool` - a wrapper class that opens [Timber](https://github.com/JakeWharton/timber) . Takes in an optional list of allowed tags for filtering logged messages per tag.
 - `AppGalleryTool` - a wrapper class that opens Huawei AppGallery of a published application or a
   web page of the application if Huawei AppGallery is not found

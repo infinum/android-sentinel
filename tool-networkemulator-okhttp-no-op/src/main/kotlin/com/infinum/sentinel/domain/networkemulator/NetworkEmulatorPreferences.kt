@@ -19,7 +19,7 @@ public class NetworkEmulatorPreferences(
     public var isEnabled: Boolean
         get() = false
         set(
-            @Suppress("UNUSED_PARAMETER") value,
+        @Suppress("UNUSED_PARAMETER") value,
         ) {
             // No-op
         }
@@ -30,7 +30,7 @@ public class NetworkEmulatorPreferences(
     public var delayMs: Int
         get() = 0
         set(
-            @Suppress("UNUSED_PARAMETER") value,
+        @Suppress("UNUSED_PARAMETER") value,
         ) {
             // No-op
         }
@@ -41,7 +41,7 @@ public class NetworkEmulatorPreferences(
     public var failPercentage: Int
         get() = 0
         set(
-            @Suppress("UNUSED_PARAMETER") value,
+        @Suppress("UNUSED_PARAMETER") value,
         ) {
             // No-op
         }
@@ -52,7 +52,7 @@ public class NetworkEmulatorPreferences(
     public var variancePercentage: Int
         get() = 0
         set(
-            @Suppress("UNUSED_PARAMETER") value,
+        @Suppress("UNUSED_PARAMETER") value,
         ) {
             // No-op
         }

@@ -31,10 +31,10 @@ internal class SentinelUncaughtExceptionHandler(
                     applicationName = context.applicationName,
                     timestamp = System.currentTimeMillis(),
                     data =
-                        CrashData(
-                            thread = t.asThreadData(),
-                            exception = e.asExceptionData(),
-                        ),
+                    CrashData(
+                        thread = t.asThreadData(),
+                        exception = e.asExceptionData(),
+                    ),
                 )
             val id: Long = runBlocking { dao.save(entity) }
             notificationFactory.showCrash(context.applicationName, id, entity)

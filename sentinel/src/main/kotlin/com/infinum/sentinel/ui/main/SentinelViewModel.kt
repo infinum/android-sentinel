@@ -32,10 +32,10 @@ internal class SentinelViewModel(
                             triggers.save(
                                 TriggerParameters(
                                     entity =
-                                        it.copy(
-                                            enabled = true,
-                                            editable = false,
-                                        ),
+                                    it.copy(
+                                        enabled = true,
+                                        editable = false,
+                                    ),
                                 ),
                             )
                         }

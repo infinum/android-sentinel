@@ -12,9 +12,7 @@ buildscript {
         classpath libs.tools.gradle
         classpath libs.kotlin.gradle
         classpath libs.kotlin.serialization
-        classpath libs.cpd
         classpath libs.detekt.gradle
-        classpath libs.ktlint
         classpath libs.dokka
     }
 }
@@ -37,9 +35,7 @@ allprojects {
 }
 
 subprojects {
-    apply from: "$rootDir/cpd.gradle"
     apply from: "$rootDir/detekt.gradle"
-    apply from: "$rootDir/ktlint.gradle"
     apply from: "$rootDir/dokka.gradle"
 }
 
@@ -72,8 +68,7 @@ task lintAll(dependsOn: [
         ':tool-dbinspector:lintRelease',
         ':tool-leakcanary:lintRelease',
         ':tool-appgallery:lintRelease',
-        ':tool-googleplay:lintRelease',
-        ':tool-thimble:lintRelease'
+        ':tool-googleplay:lintRelease'
 ]) {
     group = "Verification"
     description = "Run Detekt on all modules"
@@ -87,48 +82,15 @@ task detektAll(dependsOn: [
         ':tool-dbinspector:detekt',
         ':tool-leakcanary:detekt',
         ':tool-appgallery:detekt',
-        ':tool-googleplay:detekt',
-        ':tool-thimble:detekt'
+        ':tool-googleplay:detekt'
 ]) {
     group = "Verification"
     description = "Run Detekt on all modules"
 }
 
-task ktlintAll(dependsOn: [
-        ':sentinel:ktlintCheck',
-        ':sentinel-no-op:ktlintCheck',
-        ':tool-chucker:ktlintCheck',
-        ':tool-collar:ktlintCheck',
-        ':tool-dbinspector:ktlintCheck',
-        ':tool-leakcanary:ktlintCheck',
-        ':tool-appgallery:ktlintCheck',
-        ':tool-googleplay:ktlintCheck',
-        ':tool-thimble:ktlintCheck'
-]) {
-    group = "Verification"
-    description = "Run ktLint on all modules"
-}
-
-task cpdAll(dependsOn: [
-        ':sentinel:cpdCheck',
-        ':sentinel-no-op:cpdCheck',
-        ':tool-chucker:cpdCheck',
-        ':tool-collar:cpdCheck',
-        ':tool-dbinspector:cpdCheck',
-        ':tool-leakcanary:cpdCheck',
-        ':tool-appgallery:cpdCheck',
-        ':tool-googleplay:cpdCheck',
-        ':tool-thimble:cpdCheck'
-]) {
-    group = "Verification"
-    description = "Run CPD on all modules"
-}
-
 task runStaticChecks(dependsOn: [
         ':lintAll',
-        ':detektAll',
-        ':ktlintAll',
-        ':cpdAll'
+        ':detektAll'
 ]) {
     group = "Verification"
     description = "Run static checks on all modules"

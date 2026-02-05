@@ -46,38 +46,38 @@ internal class CertificateCollector(
                 .map {
                     CertificateData(
                         publicKey =
-                            PublicKeyData(
-                                algorithm = it.publicKey.algorithm,
-                                size =
-                                    when (it.publicKey.algorithm) {
-                                        "RSA" -> (it.publicKey as RSAPublicKey).modulus.bitLength()
+                        PublicKeyData(
+                            algorithm = it.publicKey.algorithm,
+                            size =
+                            when (it.publicKey.algorithm) {
+                                "RSA" -> (it.publicKey as RSAPublicKey).modulus.bitLength()
 
-                                        "DSA" -> (it.publicKey as DSAPublicKey).params.p.bitLength()
+                                "DSA" -> (it.publicKey as DSAPublicKey).params.p.bitLength()
 
-                                        // Or P or Q or G?
-                                        "EC" -> (it.publicKey as ECPublicKey).params.order.bitLength()
+                                // Or P or Q or G?
+                                "EC" -> (it.publicKey as ECPublicKey).params.order.bitLength()
 
-                                        // Or curve or cofactor?
-                                        else -> it.publicKey.encoded.size * DEFAULT_PUBLIC_KEY_SIZE_MULTIPLIER // wild guess
-                                    },
-                            ),
+                                // Or curve or cofactor?
+                                else -> it.publicKey.encoded.size * DEFAULT_PUBLIC_KEY_SIZE_MULTIPLIER // wild guess
+                            },
+                        ),
                         serialNumber = it.serialNumber.toString(SERIAL_NUMBER_RADIX),
                         version = it.version,
                         signature =
-                            SignatureData(
-                                algorithmName = it.sigAlgName,
-                                algorithmOID = it.sigAlgOID,
-                            ),
+                        SignatureData(
+                            algorithmName = it.sigAlgName,
+                            algorithmOID = it.sigAlgOID,
+                        ),
                         issuerData = it.issuerDN.name.asASN(),
                         subjectData = it.subjectDN.name.asASN(),
                         startDate = it.notBefore,
                         endDate = it.notAfter,
                         fingerprint =
-                            FingerprintData(
-                                md5 = fingerprint(it, "MD5")?.lowercase(),
-                                sha1 = fingerprint(it, "SHA1")?.lowercase(),
-                                sha256 = fingerprint(it, "SHA-256")?.lowercase(),
-                            ),
+                        FingerprintData(
+                            md5 = fingerprint(it, "MD5")?.lowercase(),
+                            sha1 = fingerprint(it, "SHA1")?.lowercase(),
+                            sha256 = fingerprint(it, "SHA-256")?.lowercase(),
+                        ),
                     )
                 }.toList()
                 .sortedBy { it.title?.lowercase() }

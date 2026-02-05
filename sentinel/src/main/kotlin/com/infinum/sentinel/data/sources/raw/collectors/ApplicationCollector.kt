@@ -35,20 +35,20 @@ internal class ApplicationCollector(
                 applicationIcon = applicationInfo.loadIcon(packageManager),
                 applicationName = applicationInfo.loadLabel(packageManager).toString(),
                 versionCode =
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                        packageInfo.longVersionCode.toString()
-                    } else {
-                        packageInfo.versionCode.toString()
-                    },
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    packageInfo.longVersionCode.toString()
+                } else {
+                    packageInfo.versionCode.toString()
+                },
                 versionName = packageInfo.versionName,
                 firstInstall = dateFormatter.format(Date(packageInfo.firstInstallTime)),
                 lastUpdate = dateFormatter.format(Date(packageInfo.lastUpdateTime)),
                 minSdk =
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        "${applicationInfo.minSdkVersion}"
-                    } else {
-                        ""
-                    },
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    "${applicationInfo.minSdkVersion}"
+                } else {
+                    ""
+                },
                 targetSdk = "${applicationInfo.targetSdkVersion}",
                 packageName = packageName,
                 processName = applicationInfo.processName,

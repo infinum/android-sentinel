@@ -9,18 +9,18 @@ import java.security.cert.X509Certificate
  */
 @Suppress("UnusedPrivateMember")
 public data class CertificateTool
-    @JvmOverloads
-    constructor(
-        private val userCertificates: List<X509Certificate> = listOf(),
-        private val listener: View.OnClickListener =
-            View.OnClickListener {
-                // no - op
-            },
-    ) : Sentinel.Tool {
-        override fun name(): Int = 0
+@JvmOverloads
+constructor(
+    private val userCertificates: List<X509Certificate> = listOf(),
+    private val listener: View.OnClickListener =
+        View.OnClickListener {
+            // no - op
+        },
+) : Sentinel.Tool {
+    override fun name(): Int = 0
 
-        override fun listener(): View.OnClickListener =
-            View.OnClickListener {
-                // no - op
-            }
-    }
+    override fun listener(): View.OnClickListener =
+        View.OnClickListener {
+            // no - op
+        }
+}

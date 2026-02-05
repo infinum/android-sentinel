@@ -74,10 +74,10 @@ internal class SentinelAnrObserverRunnable(
                                 applicationName = context.applicationName,
                                 timestamp = System.currentTimeMillis(),
                                 data =
-                                    CrashData(
-                                        threadState = exception.threadStateList,
-                                        exception = exception.asExceptionData(isANR = true),
-                                    ),
+                                CrashData(
+                                    threadState = exception.threadStateList,
+                                    exception = exception.asExceptionData(isANR = true),
+                                ),
                             )
                         val id: Long = runBlocking { dao.save(entity) }
                         notificationFactory.showAnr(context.applicationName, id, entity)

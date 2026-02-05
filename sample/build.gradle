@@ -86,6 +86,5 @@ dependencies {
     debugImplementation project(":tool-leakcanary")
     debugImplementation project(":tool-networkemulator-okhttp")
     releaseImplementation project(":tool-networkemulator-okhttp-no-op")
-    debugImplementation project(":tool-thimble")
     debugImplementation project(":tool-timber")
 }

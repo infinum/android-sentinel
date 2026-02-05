@@ -258,12 +258,12 @@ internal abstract class DomainComponent(
                             bundles.save(
                                 BundleParameters(
                                     descriptor =
-                                        BundleDescriptor(
-                                            timestamp = timestamp,
-                                            className = className,
-                                            callSite = callSite,
-                                            bundleTree = sizeTree,
-                                        ),
+                                    BundleDescriptor(
+                                        timestamp = timestamp,
+                                        className = className,
+                                        callSite = callSite,
+                                        bundleTree = sizeTree,
+                                    ),
                                 ),
                             )
 
