@@ -259,6 +259,49 @@
             android:text="Generate Timber exception"
             app:cornerRadius="16dp" />
 
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/TextAppearance.Material3.BodySmall"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/listPreferredItemHeightSmall"
+            android:gravity="start|bottom"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="8dp"
+            android:text="Network Emulator"
+            android:textAllCaps="true"
+            android:textColor="@color/colorAccent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/TextAppearance.Material3.BodySmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="8dp"
+            android:text="Test network requests with slow and flaky network conditions. Configure delay, failure rate, and variance in Sentinel Network emulator."
+            android:textColor="?android:attr/textColorSecondary" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/testNetworkRequest"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fetch request details (HTTPBin)"
+            app:cornerRadius="16dp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/networkResultText"
+            style="@style/TextAppearance.Material3.BodySmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="8dp"
+            android:text="Network response will appear here..."
+            android:textColor="?android:attr/textColorSecondary"
+            android:fontFamily="monospace" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

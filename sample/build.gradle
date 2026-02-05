@@ -56,7 +56,6 @@ android {
 
     sourceSets {
         main.java.srcDirs += "src/main/kotlin"
-        release.java.srcDirs += "src/release/kotlin"
     }
 }
 
@@ -67,10 +66,16 @@ dependencies {
     implementation libs.androidx.crypto
     implementation libs.material
     implementation libs.timber
+    implementation libs.coroutines
+
+    // OkHttp for testing network emulator
+    implementation libs.okhttp
 
 //    debugImplementation libs.library
+//    releaseImplementation libs.librarynoop
+
     debugImplementation project(":sentinel")
-    releaseImplementation libs.librarynoop
+    releaseImplementation project(":sentinel-no-op")
 
 //    debugImplementation libs.bundles.tools
     debugImplementation project(":tool-appgallery")
@@ -79,5 +84,7 @@ dependencies {
     debugImplementation project(":tool-dbinspector")
     debugImplementation project(":tool-googleplay")
     debugImplementation project(":tool-leakcanary")
+    debugImplementation project(":tool-networkemulator-okhttp")
+    releaseImplementation project(":tool-networkemulator-okhttp-no-op")
     debugImplementation project(":tool-timber")
 }

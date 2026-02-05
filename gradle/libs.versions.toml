@@ -48,6 +48,7 @@ toolleakcanary = { module = "com.infinum.sentinel:tool-leakcanary", version.ref 
 toolappgallery = { module = "com.infinum.sentinel:tool-appgallery", version.ref = "sentinel" }
 toolgoogleplay = { module = "com.infinum.sentinel:tool-googleplay", version.ref = "sentinel" }
 tooltimber = { module = "com.infinum.sentinel:tool-timber", version.ref = "sentinel" }
+toolnetworkemulatorokhttp = { module = "com.infinum.sentinel:tool-networkemulator-okhttp", version.ref = "sentinel" }
 
 tools-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 
@@ -109,6 +110,8 @@ junit = { module = "junit:junit", version.ref = "junit" }
 
 robolectric-shadowapi = { module = "org.robolectric:shadowapi", version.ref = "robolectricShadow" }
 
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+
 [bundles]
 androidx = [
     "androidx-core",
@@ -135,7 +138,8 @@ tools = [
     "toolleakcanary",
     "toolappgallery",
     "toolgoogleplay",
-    "tooltimber"
+    "tooltimber",
+    "toolnetworkemulatorokhttp"
 ]
 
 [plugins]

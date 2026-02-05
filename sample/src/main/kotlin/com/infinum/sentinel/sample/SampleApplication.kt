@@ -10,6 +10,8 @@ import com.infinum.sentinel.ui.tools.CollarTool
 import com.infinum.sentinel.ui.tools.DbInspectorTool
 import com.infinum.sentinel.ui.tools.GooglePlayTool
 import com.infinum.sentinel.ui.tools.LeakCanaryTool
+import com.infinum.sentinel.ui.tools.NetworkEmulatorTool
+import com.infinum.sentinel.ui.tools.ThimbleTool
 import com.infinum.sentinel.ui.tools.TimberTool
 import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
@@ -19,6 +21,9 @@ class SampleApplication : Application() {
         super.onCreate()
 
         Sentinel.watch(getWatchedTools(), mapOf("ENCRYPTED_SHARED_PREFERENCES" to emptyList()))
+
+        // Initialize API client for network emulator demo
+        ApiClient.initialize(this)
     }
 
     private fun getWatchedTools(): Set<Sentinel.Tool> {
@@ -27,6 +32,7 @@ class SampleApplication : Application() {
         tools.add(CollarTool())
         tools.add(DbInspectorTool())
         tools.add(LeakCanaryTool())
+        tools.add(NetworkEmulatorTool())
         tools.add(AppGalleryTool(appId = "102016595"))
         tools.add(GooglePlayTool())
         tools.add(TimberTool(allowedTags = listOf("Main")))
