@@ -1,0 +1,5 @@
+# Network Emulator No-op - ProGuard Rules
+
+# Keep public API classes - no-op implementations should be preserved
+-keep public class com.infinum.sentinel.domain.networkemulator.NetworkEmulatorInterceptor { *; }
+-keep public class com.infinum.sentinel.domain.networkemulator.NetworkEmulatorPreferences { *; }

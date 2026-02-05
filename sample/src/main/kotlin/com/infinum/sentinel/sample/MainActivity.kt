@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
@@ -20,6 +21,9 @@ import java.util.Locale
 import kotlin.math.roundToInt
 import kotlin.random.Random
 import kotlin.system.exitProcess
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
@@ -163,10 +167,41 @@ class MainActivity : AppCompatActivity() {
                     if (tagView.isChecked) {
                         Timber.tag("Main").e(exception)
                     } else {
-                        Timber.e("Some exception message", exception)
+                        Timber.e(exception, "Some exception message")
                     }
                 }
             }
+            testNetworkRequest.setOnClickListener {
+                makeNetworkRequest { ApiClient.fetchRequestDetails() }
+            }
+        }
+    }
+
+    /**
+     * Make a network request on a background thread and display the result.
+     */
+    @Suppress("MagicNumber")
+    private fun makeNetworkRequest(apiCall: suspend () -> String) {
+        lifecycleScope.launch {
+            viewBinding.networkResultText.text = "Loading..."
+            viewBinding.testNetworkRequest.isEnabled = false
+
+            val result =
+                withContext(Dispatchers.IO) {
+                    try {
+                        val startTime = System.currentTimeMillis()
+                        val response = apiCall()
+                        val duration = System.currentTimeMillis() - startTime
+                        "✅ Success (${duration}ms)\n\n$response"
+                    } catch (e: Exception) {
+                        "❌ Failed\n\n${e::class.simpleName}: ${e.message}"
+                    }
+                }
+
+            viewBinding.networkResultText.text = result
+            viewBinding.testNetworkRequest.isEnabled = true
+
+            Timber.d("Network request completed: ${result.take(100)}")
         }
     }
 
