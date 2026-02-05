@@ -11,7 +11,6 @@ import com.infinum.sentinel.ui.tools.DbInspectorTool
 import com.infinum.sentinel.ui.tools.GooglePlayTool
 import com.infinum.sentinel.ui.tools.LeakCanaryTool
 import com.infinum.sentinel.ui.tools.NetworkEmulatorTool
-import com.infinum.sentinel.ui.tools.ThimbleTool
 import com.infinum.sentinel.ui.tools.TimberTool
 import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
