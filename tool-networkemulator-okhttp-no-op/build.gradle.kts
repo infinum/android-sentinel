@@ -1,9 +1,12 @@
 @Suppress("UNCHECKED_CAST")
 val buildConfig = extra["buildConfig"] as Map<String, Any>
+@Suppress("UNCHECKED_CAST")
+val releaseConfig = extra["releaseConfig"] as Map<String, Any>
 
 plugins {
     id("com.android.library")
     id("kotlin-android")
+    alias(libs.plugins.gradle.maven.publish)
 }
 
 android {
@@ -53,13 +56,6 @@ android {
     sourceSets.all {
         java.srcDir("src/$name/kotlin")
     }
-
-    publishing {
-        singleVariant("release") {
-            withSourcesJar()
-            withJavadocJar()
-        }
-    }
 }
 
 tasks.named("dokkaGenerate") {
@@ -72,4 +68,12 @@ dependencies {
     compileOnly(libs.okhttp)
 }
 
-apply(from = "publish.gradle")
+val groupId: String by project
+
+mavenPublishing {
+    coordinates(
+        groupId = groupId,
+        artifactId = "tool-networkemulator-okhttp-no-op",
+        version = releaseConfig["version"] as String
+    )
+}

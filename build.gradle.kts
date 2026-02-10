@@ -16,11 +16,10 @@ buildscript {
 // Build configuration - centralized in config.gradle.kts
 apply(from = "config.gradle.kts")
 
-// Maven/Sonatype configuration
-apply(from = "maven.gradle.kts")
 
 plugins {
     alias(libs.plugins.kotlin.binary.compatibility)
+    alias(libs.plugins.gradle.maven.publish) apply false
 }
 
 // Note: apiValidation configuration should be here

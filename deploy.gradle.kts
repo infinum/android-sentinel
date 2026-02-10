@@ -1,93 +1,93 @@
 tasks.register("deploySentinel") {
     dependsOn(
         ":sentinel:clean",
-        ":sentinel:publishReleasePublicationToSonatypeRepository"
+        ":sentinel:publishMavenPublicationToMavenCentralRepository"
     )
     group = "Deploy"
-    description = "Deploy module to repositories"
+    description = "Deploy Sentinel module to Maven Central repository"
 }
 
 tasks.register("deploySentinelNoOp") {
     dependsOn(
         ":sentinel-no-op:clean",
-        ":sentinel-no-op:publishReleasePublicationToSonatypeRepository"
+        ":sentinel-no-op:publishMavenPublicationToMavenCentralRepository"
     )
     group = "Deploy"
-    description = "Deploy module to repositories"
+    description = "Deploy Sentinel No-Op module to Maven Central repository"
 }
 
 tasks.register("deployToolChucker") {
     dependsOn(
         ":tool-chucker:clean",
-        ":tool-chucker:publishReleasePublicationToSonatypeRepository"
+        ":tool-chucker:publishMavenPublicationToMavenCentralRepository"
     )
     group = "Deploy"
-    description = "Deploy module to repositories"
+    description = "Deploy Tool Chucker module to Maven Central repository"
 }
 
 tasks.register("deployToolCollar") {
     dependsOn(
         ":tool-collar:clean",
-        ":tool-collar:publishReleasePublicationToSonatypeRepository"
+        ":tool-collar:publishMavenPublicationToMavenCentralRepository"
     )
     group = "Deploy"
-    description = "Deploy module to repositories"
+    description = "Deploy Tool Collar module to Maven Central repository"
 }
 
 tasks.register("deployToolDbInspector") {
     dependsOn(
         ":tool-dbinspector:clean",
-        ":tool-dbinspector:publishReleasePublicationToSonatypeRepository"
+        ":tool-dbinspector:publishMavenPublicationToMavenCentralRepository"
     )
     group = "Deploy"
-    description = "Deploy module to repositories"
+    description = "Deploy Tool DbInspector module to Maven Central repository"
 }
 
 tasks.register("deployToolLeakCanary") {
     dependsOn(
         ":tool-leakcanary:clean",
-        ":tool-leakcanary:publishReleasePublicationToSonatypeRepository"
+        ":tool-leakcanary:publishMavenPublicationToMavenCentralRepository"
     )
     group = "Deploy"
-    description = "Deploy module to repositories"
+    description = "Deploy Tool LeakCanary module to Maven Central repository"
 }
 
 tasks.register("deployToolAppGallery") {
     dependsOn(
         ":tool-appgallery:clean",
-        ":tool-appgallery:publishReleasePublicationToSonatypeRepository"
+        ":tool-appgallery:publishMavenPublicationToMavenCentralRepository"
     )
     group = "Deploy"
-    description = "Deploy module to repositories"
+    description = "Deploy Tool AppGallery module to Maven Central repository"
 }
 
 tasks.register("deployToolGooglePlay") {
     dependsOn(
         ":tool-googleplay:clean",
-        ":tool-googleplay:publishReleasePublicationToSonatypeRepository"
+        ":tool-googleplay:publishMavenPublicationToMavenCentralRepository"
     )
     group = "Deploy"
-    description = "Deploy module to repositories"
+    description = "Deploy Tool GooglePlay module to Maven Central repository"
 }
 
 tasks.register("deployToolTimber") {
     dependsOn(
         ":tool-timber:clean",
-        ":tool-timber:publishReleasePublicationToSonatypeRepository"
+        ":tool-timber:publishMavenPublicationToMavenCentralRepository"
     )
     group = "Deploy"
-    description = "Deploy module to repositories"
+    description = "Deploy Tool Timber module to Maven Central repository"
 }
 
 tasks.register("deployToolNetworkEmulatorOkhttp") {
     dependsOn(
         ":tool-networkemulator-okhttp:clean",
         ":tool-networkemulator-okhttp-no-op:clean",
-        ":tool-networkemulator-okhttp:publishReleasePublicationToSonatypeRepository",
-        ":tool-networkemulator-okhttp-no-op:publishReleasePublicationToSonatypeRepository"
+        ":tool-networkemulator-okhttp:publishMavenPublicationToMavenCentralRepository",
+        ":tool-networkemulator-okhttp-no-op:publishMavenPublicationToMavenCentralRepository"
     )
     group = "Deploy"
-    description = "Deploy module to repositories"
+    description = "Deploy Tool NetworkEmulator OkHttp modules to Maven Central repository"
 }
 
 tasks.register("deploySentinelAll") {
@@ -124,10 +124,11 @@ tasks.register("deployAll") {
         "deployToolLeakCanary",
         "deployToolAppGallery",
         "deployToolGooglePlay",
-        "deployToolTimber"
+        "deployToolTimber",
+        "deployToolNetworkEmulatorOkhttp"
     )
     group = "Deploy"
-    description = "Deploy all modules to repositories"
+    description = "Deploy all modules to Maven Central repository"
 }
 
 tasks.register("deployDebug") {
@@ -140,16 +141,21 @@ tasks.register("deployDebug") {
         ":tool-leakcanary:clean",
         ":tool-appgallery:clean",
         ":tool-googleplay:clean",
-        ":sentinel:publishReleasePublicationToMavenLocal",
-        ":sentinel-no-op:publishReleasePublicationToMavenLocal",
-        ":tool-chucker:publishReleasePublicationToMavenLocal",
-        ":tool-collar:publishReleasePublicationToMavenLocal",
-        ":tool-dbinspector:publishReleasePublicationToMavenLocal",
-        ":tool-leakcanary:publishReleasePublicationToMavenLocal",
-        ":tool-appgallery:publishReleasePublicationToMavenLocal",
-        ":tool-googleplay:publishReleasePublicationToMavenLocal",
-        ":tool-timber:publishReleasePublicationToMavenLocal"
+        ":tool-timber:clean",
+        ":tool-networkemulator-okhttp:clean",
+        ":tool-networkemulator-okhttp-no-op:clean",
+        ":sentinel:publishMavenPublicationToMavenLocal",
+        ":sentinel-no-op:publishMavenPublicationToMavenLocal",
+        ":tool-chucker:publishMavenPublicationToMavenLocal",
+        ":tool-collar:publishMavenPublicationToMavenLocal",
+        ":tool-dbinspector:publishMavenPublicationToMavenLocal",
+        ":tool-leakcanary:publishMavenPublicationToMavenLocal",
+        ":tool-appgallery:publishMavenPublicationToMavenLocal",
+        ":tool-googleplay:publishMavenPublicationToMavenLocal",
+        ":tool-timber:publishMavenPublicationToMavenLocal",
+        ":tool-networkemulator-okhttp:publishMavenPublicationToMavenLocal",
+        ":tool-networkemulator-okhttp-no-op:publishMavenPublicationToMavenLocal"
     )
     group = "Deploy"
-    description = "Deploy all modules to Maven Local repository"
+    description = "Deploy all modules to Maven Local repository for debugging"
 }

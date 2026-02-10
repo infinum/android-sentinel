@@ -1,11 +1,14 @@
 @Suppress("UNCHECKED_CAST")
 val buildConfig = extra["buildConfig"] as Map<String, Any>
+@Suppress("UNCHECKED_CAST")
+val releaseConfig = extra["releaseConfig"] as Map<String, Any>
 
 plugins {
     id("com.android.library")
     id("kotlin-android")
     id("org.jetbrains.kotlin.plugin.serialization")
     alias(libs.plugins.ksp)
+    alias(libs.plugins.gradle.maven.publish)
 }
 
 apply(from = "jacoco.gradle")
@@ -78,13 +81,6 @@ android {
         viewBinding = true
         buildConfig = true
     }
-
-    publishing {
-        singleVariant("release") {
-            withSourcesJar()
-            withJavadocJar()
-        }
-    }
 }
 
 tasks.named("dokkaGenerate") {
@@ -124,7 +120,15 @@ dependencies {
 // Note: Injekt extension configuration removed during Kotlin DSL migration
 // Original config: arg("me.tatarka.inject.dumpGraph", "false")
 
-apply(from = "publish.gradle")
+val groupId: String by project
+
+mavenPublishing {
+    coordinates(
+        groupId = groupId,
+        artifactId = "sentinel",
+        version = releaseConfig["version"] as String
+    )
+}
 
 gradle.taskGraph.whenReady {
     allTasks.find { it.path == ":sentinel:connectedDebugAndroidTest" }?.apply {

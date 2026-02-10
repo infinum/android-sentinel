@@ -21,6 +21,7 @@ espresso = "3.7.0"
 fragment = "1.8.9"
 fragmentTest = "1.8.9"
 gradle = "9.0.0-rc01"
+gradle-maven-publish = "0.36.0"
 inject = "0.9.0"
 jacoco = "0.8.14"
 json = "1.10.0"
@@ -145,5 +146,6 @@ tools = [
 ]
 
 [plugins]
+gradle-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "gradle-maven-publish" }
 kotlin-binary-compatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryCompatibility" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

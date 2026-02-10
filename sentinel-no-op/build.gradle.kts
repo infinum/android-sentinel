@@ -1,9 +1,12 @@
 @Suppress("UNCHECKED_CAST")
 val buildConfig = extra["buildConfig"] as Map<String, Any>
+@Suppress("UNCHECKED_CAST")
+val releaseConfig = extra["releaseConfig"] as Map<String, Any>
 
 plugins {
     id("com.android.library")
     id("kotlin-android")
+    alias(libs.plugins.gradle.maven.publish)
 }
 
 android {
@@ -53,13 +56,6 @@ android {
     buildFeatures {
         viewBinding = true
     }
-
-    publishing {
-        singleVariant("release") {
-            withSourcesJar()
-            withJavadocJar()
-        }
-    }
 }
 
 tasks.named("dokkaGenerate") {
@@ -71,4 +67,12 @@ dependencies {
     implementation(libs.androidx.startup)
 }
 
-apply(from = "publish.gradle")
+val groupId: String by project
+
+mavenPublishing {
+    coordinates(
+        groupId = groupId,
+        artifactId = "sentinel-no-op",
+        version = releaseConfig["version"] as String
+    )
+}
