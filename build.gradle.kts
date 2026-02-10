@@ -13,25 +13,8 @@ buildscript {
     }
 }
 
-// Build configuration - must be defined early for all projects
-allprojects {
-    val major = 1
-    val minor = 5
-    val patch = 1
-
-    extra["buildConfig"] = mapOf(
-        "minSdk" to 24,
-        "compileSdk" to 36,
-        "targetSdk" to 36,
-        "buildTools" to "35.0.0"
-    )
-
-    extra["releaseConfig"] = mapOf(
-        "group" to "com.infinum.sentinel",
-        "version" to "$major.$minor.$patch",
-        "versionCode" to (major * 100 * 100 + minor * 100 + patch)
-    )
-}
+// Build configuration - centralized in config.gradle.kts
+apply(from = "config.gradle.kts")
 
 // Maven/Sonatype configuration
 apply(from = "maven.gradle.kts")
