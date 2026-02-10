@@ -1,9 +1,11 @@
-apply plugin: "io.gitlab.arturbosch.detekt"
+// Detekt configuration script (Groovy)
+// Applied to modules to configure static code analysis
+apply plugin: 'io.gitlab.arturbosch.detekt'
 
 detekt {
     toolVersion = libs.versions.detekt.get()
-    source.setFrom(files("src/main/java", "src/main/kotlin"))
-    config.setFrom(files("${rootProject.rootDir}/config/detekt.yml"))
+    source = files('src/main/java', 'src/main/kotlin')
+    config = files("${rootProject.rootDir}/config/detekt.yml")
     autoCorrect = true
 }
 

@@ -1,25 +1,31 @@
-apply plugin: "maven-publish"
-apply plugin: "signing"
+// Maven publishing configuration for Tool Timber module (Groovy)
+// Configures artifact publication to Maven Central via Sonatype
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+def releaseConfig = rootProject.ext.releaseConfig
+def sonatype = rootProject.ext.sonatype
 
 task sourcesJar(type: Jar) {
-    archiveClassifier.set('sources')
+    archiveClassifier = 'sources'
     from android.sourceSets.main.kotlin.srcDirs
 }
 
-task javadocsJar(type: Jar, dependsOn: "dokkaGenerate") {
-    getArchiveClassifier().set("javadoc")
-    from layout.buildDirectory.dir("javadoc")
+task javadocsJar(type: Jar) {
+    dependsOn 'dokkaGenerate'
+    archiveClassifier = 'javadoc'
+    from "$buildDir/javadoc"
 }
 
 afterEvaluate {
     publishing {
         repositories {
             maven {
-                name sonatype.name()
-                url sonatype.url()
+                name = sonatype.name()
+                url = sonatype.url()
                 credentials {
-                    username sonatype.username()
-                    password sonatype.password()
+                    username = sonatype.username()
+                    password = sonatype.password()
                 }
             }
         }
@@ -35,8 +41,8 @@ afterEvaluate {
                 artifact javadocsJar
 
                 pom {
-                    name = 'Sentinel Tool for Timber'
-                    description = 'Sentinel Tool for Timber'
+                    name = 'Sentinel Tool - Timber'
+                    description = 'Sentinel tool integration for Timber logging.'
                     url = 'https://github.com/infinum/android-sentinel'
                     licenses {
                         license {
@@ -71,10 +77,10 @@ afterEvaluate {
                         dependencyNode.appendNode('version', it.version)
                     }
                 }
-                signing {
-                    sign publishing.publications.release
-                }
             }
         }
+    }
+    signing {
+        sign publishing.publications.release
     }
 }

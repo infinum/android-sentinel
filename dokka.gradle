@@ -1,38 +1,42 @@
-apply plugin: "org.jetbrains.dokka"
+// Dokka configuration script (Groovy)
+// Applied to modules to configure documentation generation
+apply plugin: 'org.jetbrains.dokka'
 
 dokka {
-    dokkaPublications.named("html") {
-        outputDirectory.set(project.layout.buildDirectory.dir("javadoc"))
+    dokkaPublications.html {
+        outputDirectory = layout.buildDirectory.dir("javadoc")
     }
 
-    dokkaSourceSets.configureEach {
-        skipDeprecated.set(false)
-        reportUndocumented.set(true)
-        skipEmptyPackages.set(true)
+    dokkaSourceSets {
+        configureEach {
+            skipDeprecated = false
+            reportUndocumented = true
+            skipEmptyPackages = true
 
-        sourceLink {
-            localDirectory.set(file("src/main/kotlin"))
-            remoteUrl.set(uri("https://github.com/infinum/android-sentinel/"))
-            remoteLineSuffix.set("#L")
-        }
+            sourceLink {
+                localDirectory = file("src/main/kotlin")
+                remoteUrl = uri("https://github.com/infinum/android-sentinel/")
+                remoteLineSuffix = "#L"
+            }
 
-        jdkVersion.set(8)
+            jdkVersion = 8
 
-        perPackageOption {
-            matchingRegex.set("com\\.infinum\\.sentinel\\.extensions.*")
-            suppress.set(true)
-        }
-        perPackageOption {
-            matchingRegex.set("com\\.infinum\\.sentinel\\.ui\\.shared\\.edgetreatment.*")
-            suppress.set(true)
-        }
-        perPackageOption {
-            matchingRegex.set("com\\.infinum\\.sentinel\\.ui\\.shared.*")
-            suppress.set(true)
-        }
-        perPackageOption {
-            matchingRegex.set("com\\.infinum\\.sentinel\\.sample.*")
-            suppress.set(true)
+            perPackageOption {
+                matchingRegex = "com\\.infinum\\.sentinel\\.extensions.*"
+                suppress = true
+            }
+            perPackageOption {
+                matchingRegex = "com\\.infinum\\.sentinel\\.ui\\.shared\\.edgetreatment.*"
+                suppress = true
+            }
+            perPackageOption {
+                matchingRegex = "com\\.infinum\\.sentinel\\.ui\\.shared.*"
+                suppress = true
+            }
+            perPackageOption {
+                matchingRegex = "com\\.infinum\\.sentinel\\.sample.*"
+                suppress = true
+            }
         }
     }
 }
