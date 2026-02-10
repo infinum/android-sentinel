@@ -505,6 +505,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:paddingTop="12dp"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 app:selectionRequired="true"
