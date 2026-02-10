@@ -17,7 +17,6 @@ android {
 
     defaultConfig {
         minSdk = buildConfig["minSdk"] as Int
-        targetSdk = buildConfig["targetSdk"] as Int
     }
 
     buildTypes {
@@ -34,19 +33,21 @@ android {
 
     kotlin {
         jvmToolchain(8)
+        
+        compilerOptions {
+            freeCompilerArgs.addAll(
+                listOf(
+                    "-Xexplicit-api=strict",
+                    "-Xjvm-default=all"
+                )
+            )
+        }
     }
     
     java {
         toolchain {
             languageVersion.set(JavaLanguageVersion.of(8))
         }
-    }
-
-    kotlinOptions {
-        freeCompilerArgs = listOf(
-            "-Xexplicit-api=strict",
-            "-Xjvm-default=all"
-        )
     }
 
     sourceSets.all {

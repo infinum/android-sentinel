@@ -16,7 +16,6 @@ android {
 
     defaultConfig {
         minSdk = buildConfig["minSdk"] as Int
-        targetSdk = buildConfig["targetSdk"] as Int
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -44,6 +43,17 @@ android {
 
     kotlin {
         jvmToolchain(8)
+        
+        compilerOptions {
+            freeCompilerArgs.addAll(
+                listOf(
+                    "-opt-in=kotlin.ExperimentalStdlibApi",
+                    "-Xexplicit-api=strict",
+                    "-Xjvm-default=all",
+                    "-Xannotation-default-target=param-property"
+                )
+            )
+        }
     }
     
     java {
@@ -57,15 +67,6 @@ android {
     }
     
     compileOptions {
-    }
-    
-    kotlinOptions {
-        freeCompilerArgs = listOf(
-            "-opt-in=kotlin.ExperimentalStdlibApi",
-            "-Xexplicit-api=strict",
-            "-Xjvm-default=all",
-            "-Xannotation-default-target=param-property"
-        )
     }
     
     testOptions {
