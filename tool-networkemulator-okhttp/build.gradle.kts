@@ -63,7 +63,7 @@ android {
     }
 }
 
-tasks.named("dokkaJavadoc") {
+tasks.named("dokkaGenerate") {
     mustRunAfter(":tool-networkemulator-okhttp:generateReleaseRFile")
 }
 

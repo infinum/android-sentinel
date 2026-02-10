@@ -62,7 +62,7 @@ android {
     }
 }
 
-tasks.named("dokkaJavadoc") {
+tasks.named("dokkaGenerate") {
     mustRunAfter(":sentinel-no-op:generateReleaseRFile")
 }
 

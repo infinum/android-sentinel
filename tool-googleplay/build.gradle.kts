@@ -61,7 +61,7 @@ android {
     }
 }
 
-tasks.named("dokkaJavadoc") {
+tasks.named("dokkaGenerate") {
     mustRunAfter(":tool-googleplay:generateReleaseRFile")
 }
 

@@ -90,7 +90,7 @@ android {
     }
 }
 
-tasks.named("dokkaJavadoc") {
+tasks.named("dokkaGenerate") {
     mustRunAfter(":sentinel:generateReleaseRFile")
     mustRunAfter(":sentinel:kspReleaseKotlin")
 }
