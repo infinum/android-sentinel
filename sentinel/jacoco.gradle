@@ -15,7 +15,7 @@ android {
 
 jacoco {
     toolVersion = libs.versions.jacoco.get()
-    reportsDirectory = file("${buildDir}/reports/jacoco")
+    reportsDirectory.set(file("${buildDir}/reports/jacoco"))
 }
 
 tasks.register('jacocoTestReport', JacocoReport) {

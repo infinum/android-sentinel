@@ -66,9 +66,6 @@ android {
         disable.addAll(listOf("RtlEnabled", "VectorPath"))
     }
     
-    compileOptions {
-    }
-    
     testOptions {
         animationsDisabled = true
     }

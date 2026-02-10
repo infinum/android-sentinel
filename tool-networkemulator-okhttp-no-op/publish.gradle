@@ -7,13 +7,13 @@ def releaseConfig = rootProject.ext.releaseConfig
 def sonatype = rootProject.ext.sonatype
 
 task sourcesJar(type: Jar) {
-    archiveClassifier = 'sources'
+    archiveClassifier.set('sources')
     from android.sourceSets.main.kotlin.srcDirs
 }
 
 task javadocsJar(type: Jar) {
     dependsOn 'dokkaGenerate'
-    archiveClassifier = 'javadoc'
+    archiveClassifier.set('javadoc')
     from "$buildDir/javadoc"
 }
 
