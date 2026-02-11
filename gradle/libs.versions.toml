@@ -1,5 +1,5 @@
 [versions]
-activity = "1.12.3"
+activity = "1.12.4"
 androidxArchCore = "2.2.0"
 androidxTestCore = "1.7.0"
 androidxTestExt = "1.3.0"
