@@ -64,8 +64,14 @@ tasks.named("dokkaGenerate") {
 
 dependencies {
     implementation(libs.kotlin.core)
+    implementation(libs.coroutines)
     api(libs.library)
     api(libs.timber)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.startup)
+    implementation(libs.androidx.recycler)
+    implementation(libs.androidx.dynamicanimation)
+    implementation(libs.material)
 }
 
 val groupId: String by project
