@@ -116,10 +116,6 @@ dependencies {
     testImplementation(libs.androidx.test.ext.junit)
 }
 
-// KSP configuration for inject
-// Note: Injekt extension configuration removed during Kotlin DSL migration
-// Original config: arg("me.tatarka.inject.dumpGraph", "false")
-
 val groupId: String by project
 
 mavenPublishing {
