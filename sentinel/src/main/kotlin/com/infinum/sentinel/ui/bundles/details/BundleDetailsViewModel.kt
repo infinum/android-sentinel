@@ -21,7 +21,7 @@ internal class BundleDetailsViewModel(
             bundles
                 .load(parameters)
                 .flowOn(runningDispatchers)
-                .map { it.single { descriptor -> descriptor.bundleTree.id == parameters.bundleId } }
+                .map { it.first { descriptor -> descriptor.bundleTree.id == parameters.bundleId } }
                 .onEach { setState(BundleDetailsState.Data(value = it)) }
                 .launchIn(viewModelScope)
         }
