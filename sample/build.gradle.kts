@@ -78,13 +78,15 @@ dependencies {
     // OkHttp for testing network emulator
     implementation(libs.okhttp)
 
-    // debugImplementation(libs.library)
-    // releaseImplementation(libs.librarynoop)
+//    debugImplementation(libs.library)
+//    releaseImplementation(libs.librarynoop)
 
     debugImplementation(project(":sentinel"))
     releaseImplementation(project(":sentinel-no-op"))
 
-    // debugImplementation(libs.bundles.tools)
+//    debugImplementation(libs.bundles.tools)
+//    releaseImplementation(libs.toolnetworkemulatorokhttpnoop)
+
     debugImplementation(project(":tool-appgallery"))
     debugImplementation(project(":tool-chucker"))
     debugImplementation(project(":tool-collar"))

@@ -52,6 +52,8 @@ toolappgallery = { module = "com.infinum.sentinel:tool-appgallery", version.ref 
 toolgoogleplay = { module = "com.infinum.sentinel:tool-googleplay", version.ref = "sentinel" }
 tooltimber = { module = "com.infinum.sentinel:tool-timber", version.ref = "sentinel" }
 toolnetworkemulatorokhttp = { module = "com.infinum.sentinel:tool-networkemulator-okhttp", version.ref = "sentinel" }
+toolnetworkemulatorokhttpnoop = { module = "com.infinum.sentinel:tool-networkemulator-okhttp-no-op", version.ref = "sentinel" }
+
 
 tools-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 
