@@ -1,0 +1,75 @@
+public final class com/infinum/sentinel/domain/networkemulator/NetworkEmulatorInterceptor : okhttp3/Interceptor {
+	public fun <init> (Landroid/content/Context;)V
+	public fun intercept (Lokhttp3/Interceptor$Chain;)Lokhttp3/Response;
+}
+
+public final class com/infinum/sentinel/domain/networkemulator/NetworkEmulatorPreferences {
+	public static final field Companion Lcom/infinum/sentinel/domain/networkemulator/NetworkEmulatorPreferences$Companion;
+	public fun <init> (Landroid/content/Context;)V
+	public final fun getDelayMs ()I
+	public final fun getFailPercentage ()I
+	public final fun getVariancePercentage ()I
+	public final fun isEnabled ()Z
+	public final fun reset ()V
+	public final fun setDelayMs (I)V
+	public final fun setEnabled (Z)V
+	public final fun setFailPercentage (I)V
+	public final fun setVariancePercentage (I)V
+}
+
+public final class com/infinum/sentinel/domain/networkemulator/NetworkEmulatorPreferences$Companion {
+}
+
+public final class com/infinum/sentinel/tool/networkemulator/databinding/SentinelFragmentNetworkEmulatorBinding : androidx/viewbinding/ViewBinding {
+	public final field contentLayout Landroid/widget/LinearLayout;
+	public final field delayLabel Lcom/google/android/material/textview/MaterialTextView;
+	public final field delaySlider Lcom/google/android/material/slider/Slider;
+	public final field delayValueText Lcom/google/android/material/textview/MaterialTextView;
+	public final field enableSwitch Lcom/google/android/material/switchmaterial/SwitchMaterial;
+	public final field failPercentageLabel Lcom/google/android/material/textview/MaterialTextView;
+	public final field failPercentageSlider Lcom/google/android/material/slider/Slider;
+	public final field failPercentageValueText Lcom/google/android/material/textview/MaterialTextView;
+	public final field nestedScrollView Landroidx/core/widget/NestedScrollView;
+	public final field resetButton Lcom/google/android/material/button/MaterialButton;
+	public final field toolbar Lcom/google/android/material/appbar/MaterialToolbar;
+	public final field variancePercentageLabel Lcom/google/android/material/textview/MaterialTextView;
+	public final field variancePercentageSlider Lcom/google/android/material/slider/Slider;
+	public final field variancePercentageValueText Lcom/google/android/material/textview/MaterialTextView;
+	public static fun bind (Landroid/view/View;)Lcom/infinum/sentinel/tool/networkemulator/databinding/SentinelFragmentNetworkEmulatorBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Landroidx/coordinatorlayout/widget/CoordinatorLayout;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/infinum/sentinel/tool/networkemulator/databinding/SentinelFragmentNetworkEmulatorBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/infinum/sentinel/tool/networkemulator/databinding/SentinelFragmentNetworkEmulatorBinding;
+}
+
+public final class com/infinum/sentinel/ui/networkemulator/NetworkEmulatorActivity : androidx/appcompat/app/AppCompatActivity {
+	public fun <init> ()V
+}
+
+public final class com/infinum/sentinel/ui/networkemulator/NetworkEmulatorFragment : androidx/fragment/app/Fragment {
+	public static final field Companion Lcom/infinum/sentinel/ui/networkemulator/NetworkEmulatorFragment$Companion;
+	public static final field TAG Ljava/lang/String;
+	public fun <init> ()V
+	public fun onCreateView (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Landroid/os/Bundle;)Landroid/view/View;
+	public fun onDestroyView ()V
+	public fun onViewCreated (Landroid/view/View;Landroid/os/Bundle;)V
+}
+
+public final class com/infinum/sentinel/ui/networkemulator/NetworkEmulatorFragment$Companion {
+	public final fun newInstance ()Lcom/infinum/sentinel/ui/networkemulator/NetworkEmulatorFragment;
+}
+
+public final class com/infinum/sentinel/ui/tools/NetworkEmulatorTool : com/infinum/sentinel/Sentinel$NetworkTool {
+	public fun <init> ()V
+	public fun <init> (ILandroid/view/View$OnClickListener;)V
+	public synthetic fun <init> (ILandroid/view/View$OnClickListener;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (ILandroid/view/View$OnClickListener;)Lcom/infinum/sentinel/ui/tools/NetworkEmulatorTool;
+	public static synthetic fun copy$default (Lcom/infinum/sentinel/ui/tools/NetworkEmulatorTool;ILandroid/view/View$OnClickListener;ILjava/lang/Object;)Lcom/infinum/sentinel/ui/tools/NetworkEmulatorTool;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun icon ()Ljava/lang/Integer;
+	public fun listener ()Landroid/view/View$OnClickListener;
+	public fun name ()I
+	public fun toString ()Ljava/lang/String;
+}
+
