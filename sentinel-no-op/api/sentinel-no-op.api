@@ -121,8 +121,17 @@ public final class com/infinum/sentinel/ui/tools/LeakCanaryTool : com/infinum/se
 	public fun name ()I
 }
 
+public final class com/infinum/sentinel/ui/tools/NetworkEmulatorTool : com/infinum/sentinel/Sentinel$Tool {
+	public fun <init> ()V
+	public fun listener ()Landroid/view/View$OnClickListener;
+	public fun name ()I
+}
+
 public final class com/infinum/sentinel/ui/tools/TimberTool : com/infinum/sentinel/Sentinel$Tool {
 	public fun <init> ()V
+	public fun <init> (Ljava/util/List;)V
+	public fun <init> (Ljava/util/List;Landroid/view/View$OnClickListener;)V
+	public synthetic fun <init> (Ljava/util/List;Landroid/view/View$OnClickListener;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun listener ()Landroid/view/View$OnClickListener;
 	public fun name ()I
 }

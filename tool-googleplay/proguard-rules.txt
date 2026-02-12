@@ -2,4 +2,7 @@
 -keep public class com.infinum.sentinel.ui.tools.GooglePlayTool {
   public protected *;
 }
+-keep class com.infinum.sentinel.ui.tools.GooglePlayTool$Companion {
+  *;
+}
 -keep public class com.infinum.sentinel.databinding.**

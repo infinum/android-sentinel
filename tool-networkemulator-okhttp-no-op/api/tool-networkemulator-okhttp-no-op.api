@@ -1,0 +1,18 @@
+public final class com/infinum/sentinel/domain/networkemulator/NetworkEmulatorInterceptor : okhttp3/Interceptor {
+	public fun <init> (Landroid/content/Context;)V
+	public fun intercept (Lokhttp3/Interceptor$Chain;)Lokhttp3/Response;
+}
+
+public final class com/infinum/sentinel/domain/networkemulator/NetworkEmulatorPreferences {
+	public fun <init> (Landroid/content/Context;)V
+	public final fun getDelayMs ()I
+	public final fun getFailPercentage ()I
+	public final fun getVariancePercentage ()I
+	public final fun isEnabled ()Z
+	public final fun reset ()V
+	public final fun setDelayMs (I)V
+	public final fun setEnabled (Z)V
+	public final fun setFailPercentage (I)V
+	public final fun setVariancePercentage (I)V
+}
+
