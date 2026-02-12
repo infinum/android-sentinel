@@ -26,6 +26,7 @@ The project is organized in the following modules:
 - `tool-appgallery` - contains a class wrapper for Huawei AppGallery
 - `tool-googleplay` - contains a class wrapper for Google Play
 - `tool-timber` - contains a class wrapper for Timber
+- `tool-networkemulator-okhttp` - contains a class wrapper for NetworkEmulator
 - `sample` - a sample app for testing and developing
 
 
@@ -104,6 +105,7 @@ debugImplementation "com.infinum.sentinel:tool-leakcanary:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-appgallery:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-googleplay:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-timber:$sentinelVersion"
+debugImplementation "com.infinum.sentinel:tool-networkemulator-okhttp:$sentinelVersion"
 ```
 
 **KotlinDSL**
@@ -116,6 +118,7 @@ debugImplementation("com.infinum.sentinel:tool-leakcanary:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-appgallery:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-googleplay:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-timber:$sentinelVersion")
+debugImplementation("com.infinum.sentinel:tool-networkemulator-okhttp:$sentinelVersion")
 ```
 
 Now you can sync your project.
@@ -199,6 +202,8 @@ Depending of what you include as module dependencies, very specific tools are pr
   web page of the application if Huawei AppGallery is not found
 - `GooglePlayTool` - a wrapper class that opens Google Play of a published application or a web page
   of the application if Google Play is not found
+- `NetworkEmulatorTool` - a wrapper class that opens [NetworkEmulator](https://github.com/infinum/android-sentinel/tree/master/tool-networkemulator-okhttp). Enables user to modify network conditions.
+
 
 #### Source abstractions
 
