@@ -33,6 +33,7 @@ android {
     }
 
     namespace = "com.infinum.sentinel.tool.timber"
+    resourcePrefix = "sentinel_"
 
     kotlin {
         jvmToolchain(8)
