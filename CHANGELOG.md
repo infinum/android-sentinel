@@ -1,6 +1,17 @@
 Change Log
 ==========
 
+## Version 2.0.0
+
+_2026-02-13_
+
+* Bump minSdk to 24
+* Bump compileSdk to 36
+* Bump dependencies to latest stable versions
+* New Sentinel tool: Network Emulator tool (OkHttp) - for modifying network conditions
+* Fix duplicated namespace warnings
+
+
 ## Version 1.5.1
 
 _2025-03-31_

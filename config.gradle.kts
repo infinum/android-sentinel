@@ -1,8 +1,8 @@
 // Centralized build configuration for all projects
 allprojects {
-    val major = 1
-    val minor = 5
-    val patch = 1
+    val major = 2
+    val minor = 0
+    val patch = 0
 
     extra["buildConfig"] = mapOf(
         "minSdk" to 24,

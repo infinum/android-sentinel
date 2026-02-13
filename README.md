@@ -26,6 +26,7 @@ The project is organized in the following modules:
 - `tool-appgallery` - contains a class wrapper for Huawei AppGallery
 - `tool-googleplay` - contains a class wrapper for Google Play
 - `tool-timber` - contains a class wrapper for Timber
+- `tool-networkemulator-okhttp` - contains a class wrapper for NetworkEmulator
 - `sample` - a sample app for testing and developing
 
 
@@ -41,8 +42,7 @@ The project is organized in the following modules:
 ## Requirements
 
 This plugin has been written in Kotlin but works both inside Kotlin and Java projects. Minimum
-required API level to use _Sentinel_ is *21* known
-as [Android 5.0, Lollipop](https://www.android.com/versions/lollipop-5-0/).
+required API level to use _Sentinel_ is *24*.
 _Sentinel_ is built with and for AndroidX projects.
 
 ## Usage
@@ -78,7 +78,7 @@ Then add the following dependencies in your app `build.gradle` or `build.gradle.
     If format of version definition is changed, make sure to update `generateReadme` task
 -->
 ```groovy
-def sentinelVersion = "1.5.1"
+def sentinelVersion = "2.0.0"
 debugImplementation "com.infinum.sentinel:sentinel:$sentinelVersion"
 releaseImplementation "com.infinum.sentinel:sentinel-no-op:$sentinelVersion"
 ```
@@ -86,7 +86,7 @@ releaseImplementation "com.infinum.sentinel:sentinel-no-op:$sentinelVersion"
 **KotlinDSL**
 
 ```kotlin
-val sentinelVersion = "1.5.1"
+val sentinelVersion = "2.0.0"
 debugImplementation("com.infinum.sentinel:sentinel:$sentinelVersion")
 releaseImplementation("com.infinum.sentinel:sentinel-no-op:$sentinelVersion")
 ```
@@ -104,6 +104,7 @@ debugImplementation "com.infinum.sentinel:tool-leakcanary:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-appgallery:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-googleplay:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-timber:$sentinelVersion"
+debugImplementation "com.infinum.sentinel:tool-networkemulator-okhttp:$sentinelVersion"
 ```
 
 **KotlinDSL**
@@ -116,6 +117,7 @@ debugImplementation("com.infinum.sentinel:tool-leakcanary:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-appgallery:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-googleplay:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-timber:$sentinelVersion")
+debugImplementation("com.infinum.sentinel:tool-networkemulator-okhttp:$sentinelVersion")
 ```
 
 Now you can sync your project.
@@ -199,6 +201,8 @@ Depending of what you include as module dependencies, very specific tools are pr
   web page of the application if Huawei AppGallery is not found
 - `GooglePlayTool` - a wrapper class that opens Google Play of a published application or a web page
   of the application if Google Play is not found
+- `NetworkEmulatorTool` - a wrapper class that opens [NetworkEmulator](https://github.com/infinum/android-sentinel/tree/master/tool-networkemulator-okhttp). Enables user to modify network conditions.
+
 
 #### Source abstractions
 
