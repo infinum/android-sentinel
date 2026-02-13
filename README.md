@@ -42,8 +42,7 @@ The project is organized in the following modules:
 ## Requirements
 
 This plugin has been written in Kotlin but works both inside Kotlin and Java projects. Minimum
-required API level to use _Sentinel_ is *21* known
-as [Android 5.0, Lollipop](https://www.android.com/versions/lollipop-5-0/).
+required API level to use _Sentinel_ is *24*.
 _Sentinel_ is built with and for AndroidX projects.
 
 ## Usage

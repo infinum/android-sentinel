@@ -8,7 +8,7 @@ _2026-02-13_
 * Bump minSdk to 24
 * Bump compileSdk to 36
 * Bump dependencies to latest stable versions
-* New Sentinel tool: Network tool - for modifying network conditions
+* New Sentinel tool: Network Emulator tool (OkHttp) - for modifying network conditions
 * Fix duplicated namespace warnings
 
 
