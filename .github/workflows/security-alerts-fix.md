@@ -81,3 +81,4 @@ If no changes were necessary (no affected dependencies found in project files), 
 - If an alert has no fix available, create a PR that adds a comment in `gradle/libs.versions.toml`
   documenting the known vulnerability and tracks it for future resolution.
 - Do not modify unrelated dependencies or perform general version bumps.
+- If transitive dependencies are causing security alerts, don't use resolutionStrategy.force to solve issue. 
