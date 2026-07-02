@@ -34,7 +34,7 @@ android {
     namespace = "com.infinum.sentinel.tool.appgallery"
 
     kotlin {
-        jvmToolchain(8)
+        jvmToolchain(11)
         
         compilerOptions {
             freeCompilerArgs.addAll(
@@ -48,7 +48,7 @@ android {
     
     java {
         toolchain {
-            languageVersion.set(JavaLanguageVersion.of(8))
+            languageVersion.set(JavaLanguageVersion.of(11))
         }
     }
 

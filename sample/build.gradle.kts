@@ -52,12 +52,12 @@ android {
     }
 
     kotlin {
-        jvmToolchain(8)
+        jvmToolchain(11)
     }
     
     java {
         toolchain {
-            languageVersion.set(JavaLanguageVersion.of(8))
+            languageVersion.set(JavaLanguageVersion.of(11))
         }
     }
 

@@ -57,7 +57,7 @@ gradle.projectsEvaluated {
 apply(from = "deploy.gradle.kts")
 
 tasks.withType<JavaCompile> {
-    options.compilerArgs.addAll(listOf("--release", "8"))
+    options.compilerArgs.addAll(listOf("--release", "11"))
 }
 
 tasks.register<Delete>("clean") {
