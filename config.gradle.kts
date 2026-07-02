@@ -6,9 +6,9 @@ allprojects {
 
     extra["buildConfig"] = mapOf(
         "minSdk" to 24,
-        "compileSdk" to 36,
-        "targetSdk" to 36,
-        "buildTools" to "36.0.0"
+        "compileSdk" to 37,
+        "targetSdk" to 37,
+        "buildTools" to "37.0.0"
     )
 
     extra["releaseConfig"] = mapOf(
