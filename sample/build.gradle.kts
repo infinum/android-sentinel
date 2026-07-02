@@ -6,7 +6,7 @@ val releaseConfig = extra["releaseConfig"] as Map<String, Any>
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
@@ -61,9 +61,6 @@ android {
         }
     }
 
-    sourceSets {
-        getByName("main").java.srcDirs("src/main/kotlin")
-    }
 }
 
 dependencies {
