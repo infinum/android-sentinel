@@ -73,9 +73,6 @@ android {
         animationsDisabled = true
     }
 
-    sourceSets.all {
-        java.srcDir("src/$name/kotlin")
-    }
 
     buildFeatures {
         viewBinding = true

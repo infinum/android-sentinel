@@ -53,9 +53,6 @@ android {
         }
     }
 
-    sourceSets.all {
-        java.srcDir("src/$name/kotlin")
-    }
 }
 
 tasks.named("dokkaGenerate") {
