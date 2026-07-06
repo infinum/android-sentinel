@@ -5,7 +5,7 @@ val releaseConfig = extra["releaseConfig"] as Map<String, Any>
 
 plugins {
     id("com.android.library")
-    id("kotlin-android")
+    id("org.jetbrains.kotlin.android")
     alias(libs.plugins.gradle.maven.publish)
 }
 
@@ -35,7 +35,7 @@ android {
     resourcePrefix = "sentinel_"
 
     kotlin {
-        jvmToolchain(8)
+        jvmToolchain(11)
         
         compilerOptions {
             freeCompilerArgs.addAll(
@@ -49,13 +49,10 @@ android {
     
     java {
         toolchain {
-            languageVersion.set(JavaLanguageVersion.of(8))
+            languageVersion.set(JavaLanguageVersion.of(11))
         }
     }
 
-    sourceSets.all {
-        java.srcDir("src/$name/kotlin")
-    }
 }
 
 tasks.named("dokkaGenerate") {

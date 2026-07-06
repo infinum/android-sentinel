@@ -3,8 +3,6 @@
     android:versionCode="100000"
     android:versionName="1.0.0">
 
-    <uses-sdk tools:overrideLibrary="androidx.security"/>
-
     <application
         android:name="com.infinum.sentinel.ui.SentinelTestApplication"
         android:label="@string/sentinel_name">
