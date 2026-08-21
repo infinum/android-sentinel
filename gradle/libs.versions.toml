@@ -37,6 +37,7 @@ robolectricShadow = "4.16.1"
 room = "2.8.4"
 roomTest = "2.8.4"
 sentinel = "2.0.0"
+showkase = "1.0.5"
 startup = "1.2.0"
 timber = "5.0.1"
 workmanager = "2.11.2"
@@ -53,6 +54,8 @@ toolgoogleplay = { module = "com.infinum.sentinel:tool-googleplay", version.ref 
 tooltimber = { module = "com.infinum.sentinel:tool-timber", version.ref = "sentinel" }
 toolnetworkemulatorokhttp = { module = "com.infinum.sentinel:tool-networkemulator-okhttp", version.ref = "sentinel" }
 toolnetworkemulatorokhttpnoop = { module = "com.infinum.sentinel:tool-networkemulator-okhttp-no-op", version.ref = "sentinel" }
+toolshowkase = { module = "com.infinum.sentinel:tool-showkase", version.ref = "sentinel" }
+toolshowkasenoop = { module = "com.infinum.sentinel:tool-showkase-no-op", version.ref = "sentinel" }
 
 
 tools-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
@@ -116,6 +119,9 @@ junit = { module = "junit:junit", version.ref = "junit" }
 robolectric-shadowapi = { module = "org.robolectric:shadowapi", version.ref = "robolectricShadow" }
 
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+
+showkase = { module = "com.airbnb.android:showkase", version.ref = "showkase" }
+showkase-annotation = { module = "com.airbnb.android:showkase-annotation", version.ref = "showkase" }
 
 [bundles]
 androidx = [
