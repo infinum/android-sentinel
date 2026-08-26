@@ -12,18 +12,16 @@ the Showkase build setup stays in your app.
 **`app/build.gradle`**
 
 ```groovy
-def sentinelVersion = "2.0.0"
-def showkaseVersion = "1.0.5"
-
 dependencies {
-    debugImplementation   "com.infinum.sentinel:tool-showkase:$sentinelVersion"
-    releaseImplementation "com.infinum.sentinel:tool-showkase-no-op:$sentinelVersion"
+    debugImplementation   "com.infinum.sentinel:tool-showkase:x.x.x"
+    releaseImplementation "com.infinum.sentinel:tool-showkase-no-op:x.x.x"
 
     // The browser runtime. It carries the whole Compose stack, so keep it out of release.
-    debugImplementation   "com.airbnb.android:showkase:$showkaseVersion"
+    debugImplementation   "com.airbnb.android:showkase:x.x.x"
 
-    // The processor. Use a variant-scoped configuration, never the project-wide `ksp`.
-    kspDebug              "com.airbnb.android:showkase-processor:$showkaseVersion"
+    // The processor. Use a variant-scoped configuration, never the project-wide `ksp`,
+    // and keep it on the same version as the runtime above.
+    kspDebug              "com.airbnb.android:showkase-processor:x.x.x"
 }
 ```
 
@@ -59,7 +57,7 @@ configuration per source set, so flavor, build type and combined variants are al
 
 ```groovy
 // Wrong: applies the processor to every variant, production included.
-ksp "com.airbnb.android:showkase-processor:1.0.5"
+ksp "com.airbnb.android:showkase-processor:x.x.x"
 ```
 
 Code generated for production references the browser runtime, so either the Compose payload ships
