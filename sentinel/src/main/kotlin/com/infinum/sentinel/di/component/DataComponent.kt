@@ -18,6 +18,8 @@ import com.infinum.sentinel.data.sources.local.room.dao.CrashMonitorDao
 import com.infinum.sentinel.data.sources.local.room.dao.CrashesDao
 import com.infinum.sentinel.data.sources.local.room.dao.FormatsDao
 import com.infinum.sentinel.data.sources.local.room.dao.TriggersDao
+import com.infinum.sentinel.data.sources.memory.annotations.AnnotationCache
+import com.infinum.sentinel.data.sources.memory.annotations.InMemoryAnnotationCache
 import com.infinum.sentinel.data.sources.memory.bundles.BundlesCache
 import com.infinum.sentinel.data.sources.memory.bundles.InMemoryBundlesCache
 import com.infinum.sentinel.data.sources.memory.certificate.CertificateCache
@@ -259,6 +261,8 @@ internal abstract class DataComponent(
 
     abstract val bundlesCache: BundlesCache
 
+    abstract val annotationCache: AnnotationCache
+
     abstract val preferenceCache: PreferenceCache
 
     abstract val certificateCache: CertificateCache
@@ -302,6 +306,10 @@ internal abstract class DataComponent(
     @Provides
     @DataScope
     fun bundlesCache(): BundlesCache = InMemoryBundlesCache()
+
+    @Provides
+    @DataScope
+    fun annotationCache(): AnnotationCache = InMemoryAnnotationCache()
 
     @Provides
     @DataScope

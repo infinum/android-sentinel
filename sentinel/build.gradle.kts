@@ -111,6 +111,7 @@ dependencies {
 
     testImplementation(libs.junit)
     testImplementation(libs.androidx.test.ext.junit)
+    testImplementation(libs.coroutines.test)
 }
 
 val groupId: String by project
