@@ -6,6 +6,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
+import org.junit.Assert.assertSame
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -50,6 +51,19 @@ internal class InMemoryAnnotationCacheTest {
     }
 
     @Test
+    fun `add preserves target across the id-assignment copy`() = runTest {
+        val cache = InMemoryAnnotationCache()
+        val note = annotation()
+        val sentinelTarget = Any()
+        note.target = sentinelTarget
+
+        val stored = cache.add(note)
+
+        assertSame(sentinelTarget, stored.target)
+        assertSame(sentinelTarget, cache.load().value.single().target)
+    }
+
+    @Test
     fun `updateNote replaces text in place`() = runTest {
         val cache = InMemoryAnnotationCache()
         val stored = cache.add(annotation("before"))
@@ -58,6 +72,19 @@ internal class InMemoryAnnotationCacheTest {
         cache.updateNote(stored.id, "after")
 
         assertEquals(listOf("after", "other"), cache.load().value.map { it.note })
+    }
+
+    @Test
+    fun `updateNote preserves target across the copy`() = runTest {
+        val cache = InMemoryAnnotationCache()
+        val note = annotation("before")
+        val sentinelTarget = Any()
+        note.target = sentinelTarget
+        val stored = cache.add(note)
+
+        cache.updateNote(stored.id, "after")
+
+        assertSame(sentinelTarget, cache.load().value.single().target)
     }
 
     @Test
@@ -93,6 +120,28 @@ internal class InMemoryAnnotationCacheTest {
     }
 
     @Test
+    fun `rebind updates target for a known id`() = runTest {
+        val cache = InMemoryAnnotationCache()
+        val stored = cache.add(annotation())
+        val newTarget = Any()
+
+        cache.rebind(stored.id, newTarget)
+
+        assertSame(newTarget, cache.load().value.single().target)
+    }
+
+    @Test
+    fun `rebind on an unknown id is a no-op`() = runTest {
+        val cache = InMemoryAnnotationCache()
+        cache.add(annotation())
+        val before = cache.load().value
+
+        cache.rebind("missing", Any())
+
+        assertSame(before, cache.load().value)
+    }
+
+    @Test
     fun `markSent flags every unsent note`() = runTest {
         val cache = InMemoryAnnotationCache()
         cache.add(annotation("first"))
@@ -101,6 +150,19 @@ internal class InMemoryAnnotationCacheTest {
         cache.markSent()
 
         assertTrue(cache.load().value.all { it.isSent })
+    }
+
+    @Test
+    fun `markSent preserves target across the copy`() = runTest {
+        val cache = InMemoryAnnotationCache()
+        val note = annotation()
+        val sentinelTarget = Any()
+        note.target = sentinelTarget
+        cache.add(note)
+
+        cache.markSent()
+
+        assertSame(sentinelTarget, cache.load().value.single().target)
     }
 
     @Test
