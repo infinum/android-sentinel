@@ -518,6 +518,19 @@ public final class com/infinum/sentinel/databinding/SentinelViewItemThreadStateB
 	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/infinum/sentinel/databinding/SentinelViewItemThreadStateBinding;
 }
 
+public abstract interface class com/infinum/sentinel/domain/annotations/AnnotationExporter {
+	public abstract fun export (Landroid/content/Context;Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun icon ()I
+	public abstract fun label ()I
+}
+
+public final class com/infinum/sentinel/domain/annotations/ClipboardAnnotationExporter : com/infinum/sentinel/domain/annotations/AnnotationExporter {
+	public fun <init> ()V
+	public fun export (Landroid/content/Context;Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun icon ()I
+	public fun label ()I
+}
+
 public final class com/infinum/sentinel/ui/tools/CertificateTool : com/infinum/sentinel/Sentinel$Tool {
 	public fun <init> ()V
 	public fun <init> (Ljava/util/List;)V
