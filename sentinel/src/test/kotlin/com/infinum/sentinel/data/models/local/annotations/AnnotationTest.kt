@@ -29,7 +29,8 @@ internal class AnnotationTest {
             """{"id":"a3k9x2m1","note":"button too small","toolkit":"view","targetType":"MaterialButton",""" +
                 """"targetPath":"CoordinatorLayout>MaterialCardView>MaterialButton","viewId":"submitButton",""" +
                 """"testTag":null,"sourceLocation":null,"ordinal":1,"ordinalCount":3,"text":"Submit",""" +
-                """"screen":"MainActivity","fragment":"CheckoutFragment","route":null,"isSent":false}"""
+                """"screen":"MainActivity","fragment":"CheckoutFragment","route":null,"rebindX":0,"rebindY":0,""" +
+                """"isSent":false}"""
 
         val actual = viewAnnotation().toExportJson()
 

@@ -41,6 +41,10 @@ public data class Annotation(
     public val fragment: String? = null,
     /** Navigation destination route when androidx-navigation is present. */
     public val route: String? = null,
+    /** Screen x of the target's centre when captured. Anchors re-binding after navigation. */
+    public val rebindX: Int = 0,
+    /** Screen y of the target's centre when captured. Anchors re-binding after navigation. */
+    public val rebindY: Int = 0,
     /** Whether this note has already been exported. */
     public val isSent: Boolean = false,
 ) {

@@ -16,6 +16,8 @@ public data class Annotation(
     public val screen: String? = null,
     public val fragment: String? = null,
     public val route: String? = null,
+    public val rebindX: Int = 0,
+    public val rebindY: Int = 0,
     public val isSent: Boolean = false,
 ) {
     public fun toExportJson(): String = ""
