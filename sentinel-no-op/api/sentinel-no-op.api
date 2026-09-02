@@ -123,6 +123,13 @@ public abstract interface class com/infinum/sentinel/domain/annotations/Annotati
 	public abstract fun label ()I
 }
 
+public final class com/infinum/sentinel/domain/annotations/ClaudeRoutineExporter : com/infinum/sentinel/domain/annotations/AnnotationExporter {
+	public fun <init> (Lkotlin/jvm/functions/Function0;Ljava/lang/String;)V
+	public fun export (Landroid/content/Context;Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun icon ()I
+	public fun label ()I
+}
+
 public final class com/infinum/sentinel/domain/annotations/ClipboardAnnotationExporter : com/infinum/sentinel/domain/annotations/AnnotationExporter {
 	public fun <init> ()V
 	public fun export (Landroid/content/Context;Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
