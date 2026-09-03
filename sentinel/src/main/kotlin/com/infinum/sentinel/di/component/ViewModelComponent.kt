@@ -1,6 +1,7 @@
 package com.infinum.sentinel.di.component
 
 import androidx.lifecycle.ViewModel
+import com.infinum.sentinel.ui.annotations.AnnotationsViewModel
 import com.infinum.sentinel.ui.bundles.BundlesViewModel
 import com.infinum.sentinel.ui.bundles.details.BundleDetailsViewModel
 import com.infinum.sentinel.ui.certificates.CertificatesViewModel
@@ -53,6 +54,8 @@ internal abstract class ViewModelComponent(
     abstract val certificates: CertificatesViewModel
 
     abstract val certificateDetails: CertificateDetailsViewModel
+
+    abstract val annotations: AnnotationsViewModel
 
     @IntoMap
     @Provides
@@ -109,4 +112,8 @@ internal abstract class ViewModelComponent(
     @IntoMap
     @Provides
     fun certificateDetails(): Pair<Class<*>, ViewModel> = CertificateDetailsViewModel::class.java to certificateDetails
+
+    @IntoMap
+    @Provides
+    fun annotations(): Pair<Class<*>, ViewModel> = AnnotationsViewModel::class.java to annotations
 }
