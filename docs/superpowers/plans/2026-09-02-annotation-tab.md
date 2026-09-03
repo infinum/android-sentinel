@@ -1833,10 +1833,12 @@ The reflection stays inside `ComposeSupport` and is intentionally thin. Everythi
 
 - [ ] **Step 1: Add the compileOnly dependencies**
 
-In `gradle/libs.versions.toml` under `[versions]`:
+In `gradle/libs.versions.toml` under `[versions]` (corrected from the original 1.9.1: this
+project sets `android.dependency.useConstraints=true` and its pinned activity/lifecycle versions
+force a Compose runtime line 1.9.x cannot satisfy):
 
 ```toml
-compose = "1.9.1"
+compose = "1.11.4"
 ```
 
 Under `[libraries]`:
