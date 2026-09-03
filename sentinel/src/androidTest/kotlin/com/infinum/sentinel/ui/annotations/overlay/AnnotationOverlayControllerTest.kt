@@ -70,6 +70,14 @@ internal class AnnotationOverlayControllerTest {
      * function. `@JvmName` renames the method itself but not that inner class, so a backtick name
      * with spaces here still fails D8 with "Space characters ... are not allowed prior to DEX
      * version 040" even with `@JvmName` present.
+     *
+     * The assertion runs directly inside `onActivity`, not inside a `decorView.post { }`.
+     * `onActivity` blocks the test thread until its block has run on the main thread, so an
+     * `AssertionError` thrown here is attributed to this test — a posted one would run after
+     * `onActivity` had already returned, and could not fail the test at all. Nothing needs to be
+     * waited for: the controller collects on `Dispatchers.Main.immediate`, so setting
+     * `cache.active` from the main thread has already attached the overlay by the time
+     * `onActivity` runs.
      */
     @Test
     fun armingCaptureAttachesTheOverlayToTheResumedActivity() = runTest {
@@ -80,13 +88,17 @@ internal class AnnotationOverlayControllerTest {
 
         ActivityScenario.launch(AnnotationHostTestActivity::class.java).use { scenario ->
             cache.active.value = true
-            scenario.onActivity { activity ->
-                activity.window.decorView.post { assertEquals(1, overlayCount(activity)) }
-            }
+            scenario.onActivity { activity -> assertEquals(1, overlayCount(activity)) }
         }
     }
 
-    /** See [armingCaptureAttachesTheOverlayToTheResumedActivity] for why this isn't a backtick name. */
+    /**
+     * See [armingCaptureAttachesTheOverlayToTheResumedActivity] for why this isn't a backtick
+     * name, and why the assertion is not posted.
+     *
+     * Arming first is what gives this test teeth: asserting `0` on an Activity that was never
+     * armed would pass whatever `detach` did.
+     */
     @Test
     fun disarmingCaptureWithNoNotesDetachesTheOverlay() = runTest {
         val cache = InMemoryAnnotationCache()
@@ -96,10 +108,10 @@ internal class AnnotationOverlayControllerTest {
 
         ActivityScenario.launch(AnnotationHostTestActivity::class.java).use { scenario ->
             cache.active.value = true
+            scenario.onActivity { activity -> assertEquals(1, overlayCount(activity)) }
+
             cache.active.value = false
-            scenario.onActivity { activity ->
-                activity.window.decorView.post { assertEquals(0, overlayCount(activity)) }
-            }
+            scenario.onActivity { activity -> assertEquals(0, overlayCount(activity)) }
         }
     }
 
@@ -113,16 +125,15 @@ internal class AnnotationOverlayControllerTest {
      * saved `targetType`.
      *
      * This calls the private `stepUpTarget` directly via reflection rather than driving
-     * `handleCaptureTap` end to end through a real attached overlay. Driving it end to end turned
-     * out to be blocked by a separate, pre-existing defect this test's development uncovered:
-     * `AnnotationOverlayView` is added as the *last* child of `decorView` and covers the whole
-     * screen, so once it is attached, `ViewTargetResolver.resolve(host.window.decorView, x, y)`
-     * always resolves *every* tap to the overlay's own (non-annotatable, childless) node before
-     * ever reaching the real content underneath — `deepestAt` finds the overlay first because it
-     * draws on top, and having no children of its own it returns immediately without descending
-     * into its siblings. That defect is real, independent of the bug this test targets, and out
-     * of scope for this test-only change (see the fix report) — reflection is the fallback this
-     * task's review explicitly allowed for exactly this situation.
+     * `handleCaptureTap` end to end through a real attached overlay. When this test was written,
+     * driving it end to end was blocked by a separate defect it uncovered: an attached
+     * `AnnotationOverlayView` is the last `decorView` child and covers the whole screen, so
+     * `deepestAt` resolved *every* tap to the overlay's own childless node before reaching real
+     * content. That defect is fixed — commit 08440fa excludes Sentinel's own overlays from the
+     * resolver's tree, and [resolveReachesRealContentThroughAllThreeSentinelViews] guards it — so
+     * this is now only a note on why the test is shaped this way, not a live warning. Reflection
+     * is kept because it isolates `stepUpTarget`'s handle-broadening contract, which is what this
+     * test is actually about.
      */
     @Test
     @JvmName("stepUpTargetUsesTheBroadenedNodesOwnHandleNotTheNarrowerOnes")
