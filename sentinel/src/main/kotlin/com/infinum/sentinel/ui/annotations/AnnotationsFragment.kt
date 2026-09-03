@@ -3,6 +3,7 @@ package com.infinum.sentinel.ui.annotations
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.RestrictTo
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentAnnotationsBinding
@@ -32,6 +33,7 @@ internal class AnnotationsFragment : BaseChildFragment<AnnotationsState, Annotat
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
+            recyclerView.layoutManager = LinearLayoutManager(recyclerView.context, LinearLayoutManager.VERTICAL, false)
             recyclerView.adapter = adapter
             toolbar.setOnMenuItemClickListener { item ->
                 if (item.itemId == R.id.clear) viewModel.clear()
