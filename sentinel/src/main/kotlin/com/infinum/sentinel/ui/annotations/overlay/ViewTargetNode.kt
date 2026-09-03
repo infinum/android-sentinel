@@ -1,6 +1,7 @@
 package com.infinum.sentinel.ui.annotations.overlay
 
 import android.content.res.Resources
+import android.text.InputType
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Checkable
@@ -33,9 +34,14 @@ internal class ViewTargetNode(
 
     override val sourceLocation: String? = null
 
+    /**
+     * The element's live visible text — what the user is looking at right now, not a static
+     * label from the layout. A password field is the one exception: [isPasswordInput]. Its
+     * `contentDescription`, being developer-authored, is still safe to fall through to.
+     */
     override val text: String? =
         when {
-            view is TextView && view.text.isNotEmpty() -> view.text.toString()
+            view is TextView && !isPasswordInput(view) && view.text.isNotEmpty() -> view.text.toString()
             view.contentDescription != null -> view.contentDescription.toString()
             else -> null
         }
@@ -97,6 +103,31 @@ internal class ViewTargetNode(
                 "ViewStubCompat",
                 "FitWindowsLinearLayout",
             )
+
+        /**
+         * Whether [view] is a password entry field, whose live contents must never be captured.
+         *
+         * `EditText` extends `TextView`, so without this the export payload would carry whatever
+         * the user has typed into the host app's form — and [com.infinum.sentinel.annotations
+         * .ClaudeRoutineExporter] POSTs that payload to an external endpoint.
+         *
+         * The class bits have to be checked alongside the variation bits: `TYPE_NUMBER_VARIATION_
+         * PASSWORD` and `TYPE_TEXT_VARIATION_URI` are the same value, and only the class tells
+         * them apart.
+         */
+        private fun isPasswordInput(view: View): Boolean {
+            if (view !is EditText) return false
+            val inputClass = view.inputType and InputType.TYPE_MASK_CLASS
+            val variation = view.inputType and InputType.TYPE_MASK_VARIATION
+            return when (inputClass) {
+                InputType.TYPE_CLASS_TEXT ->
+                    variation == InputType.TYPE_TEXT_VARIATION_PASSWORD ||
+                        variation == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD ||
+                        variation == InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD
+                InputType.TYPE_CLASS_NUMBER -> variation == InputType.TYPE_NUMBER_VARIATION_PASSWORD
+                else -> false
+            }
+        }
 
         private fun isFrameworkChrome(view: View): Boolean =
             view.javaClass.simpleName in CHROME_TYPES || view.javaClass.name.startsWith("com.android.internal")

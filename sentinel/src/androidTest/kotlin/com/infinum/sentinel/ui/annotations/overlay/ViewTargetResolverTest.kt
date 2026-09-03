@@ -1,6 +1,8 @@
 package com.infinum.sentinel.ui.annotations.overlay
 
+import android.text.InputType
 import android.widget.Button
+import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -9,6 +11,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.infinum.sentinel.annotations.AnnotationToolkit
 import com.infinum.sentinel.annotations.SentinelAnnotation
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -194,5 +197,73 @@ internal class ViewTargetResolverTest {
         val rebound = ViewTargetResolver().rebind(annotation, root)
 
         assertTrue(rebound == null)
+    }
+
+    /**
+     * `EditText` extends `TextView`, so the plain "is it a TextView" capture used to lift a
+     * password field's live contents into the export payload — which `ClaudeRoutineExporter`
+     * POSTs to an external endpoint. Every password variation the platform defines is covered,
+     * including the number one, whose bit value collides with `TYPE_TEXT_VARIATION_URI`.
+     */
+    @Test
+    @JvmName("aPasswordFieldsLiveTextIsNeverCaptured")
+    fun `a password field's live text is never captured`() {
+        val variations =
+            listOf(
+                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD,
+                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD,
+                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD,
+                InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD,
+            )
+
+        for (type in variations) {
+            val field =
+                EditText(context).apply {
+                    inputType = type
+                    setText("hunter2")
+                }
+            val root = laidOut(FrameLayout(context).apply { addView(field) })
+
+            val leaf = TargetSelection.deepestAt(root.toTargetNode(parent = null), 10, 10)!!
+
+            assertEquals("EditText", leaf.type)
+            assertNull("inputType 0x${Integer.toHexString(type)} leaked its text", leaf.text)
+        }
+    }
+
+    /** The exclusion is scoped to passwords: an ordinary field still identifies itself by text. */
+    @Test
+    @JvmName("anOrdinaryTextFieldStillReportsItsText")
+    fun `an ordinary text field still reports its text`() {
+        val field =
+            EditText(context).apply {
+                inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+                setText("me@example.com")
+            }
+        val root = laidOut(FrameLayout(context).apply { addView(field) })
+
+        val leaf = TargetSelection.deepestAt(root.toTargetNode(parent = null), 10, 10)!!
+
+        assertEquals("me@example.com", leaf.text)
+    }
+
+    /**
+     * A password field's `contentDescription` is authored by the developer, never typed by the
+     * user, so it stays available as a locator when the live text is withheld.
+     */
+    @Test
+    @JvmName("aPasswordFieldStillFallsBackToItsContentDescription")
+    fun `a password field still falls back to its content description`() {
+        val field =
+            EditText(context).apply {
+                inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                setText("hunter2")
+                contentDescription = "Password"
+            }
+        val root = laidOut(FrameLayout(context).apply { addView(field) })
+
+        val leaf = TargetSelection.deepestAt(root.toTargetNode(parent = null), 10, 10)!!
+
+        assertEquals("Password", leaf.text)
     }
 }

@@ -181,9 +181,10 @@
     <string name="sentinel_annotations_add_note">Add note</string>
     <string name="sentinel_annotations_stop">Stop annotating</string>
     <string name="sentinel_annotations_missing_token">No Claude token configured</string>
-    <string name="sentinel_annotations_compose_unsupported">Compose version not supported: source locations unavailable</string>
     <string name="sentinel_annotations_row">#%1$d %2$s</string>
     <string name="sentinel_cancel">Cancel</string>
     <string name="sentinel_delete">Delete</string>
+    <string name="sentinel_annotations_clear_title">Clear all annotations?</string>
+    <string name="sentinel_annotations_clear_message">This will remove all %1$d annotations. Notes are kept in memory only, so this cannot be undone.</string>
 
 </resources>

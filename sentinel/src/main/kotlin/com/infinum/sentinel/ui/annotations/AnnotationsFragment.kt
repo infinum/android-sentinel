@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.RestrictTo
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelFragmentAnnotationsBinding
@@ -36,7 +37,7 @@ internal class AnnotationsFragment : BaseChildFragment<AnnotationsState, Annotat
             recyclerView.layoutManager = LinearLayoutManager(recyclerView.context, LinearLayoutManager.VERTICAL, false)
             recyclerView.adapter = adapter
             toolbar.setOnMenuItemClickListener { item ->
-                if (item.itemId == R.id.clear) viewModel.clear()
+                if (item.itemId == R.id.clear) confirmClearAll()
                 true
             }
             startButton.setOnClickListener { viewModel.arm() }
@@ -61,12 +62,32 @@ internal class AnnotationsFragment : BaseChildFragment<AnnotationsState, Annotat
     override fun onEvent(event: AnnotationsEvent) =
         when (event) {
             // Finishing this Activity alone would only pop back to SentinelActivity, which shares
-            // the com.infinum.sentinel task affinity — the overlay would then arm over Sentinel's
-            // own panel instead of the app. Removing the whole task lands the user on the app.
-            is AnnotationsEvent.CaptureArmed -> requireActivity().finishAndRemoveTask()
+            // the com.infinum.sentinel task affinity — the user would be left staring at Sentinel's
+            // own panel with capture armed behind it. finishAffinity finishes SentinelActivity too,
+            // emptying the Sentinel task so the host app's task comes forward. (finishAndRemoveTask
+            // does not: verified on device, it removes the task only from its root activity, so
+            // from here it behaves exactly like a plain finish.)
+            is AnnotationsEvent.CaptureArmed -> requireActivity().finishAffinity()
             is AnnotationsEvent.ExportFinished -> showMessage(event.message)
             is AnnotationsEvent.ExportFailed -> showMessage(event.message)
         }
+
+    /**
+     * Confirms before dropping every note, exactly as deleting a single one does
+     * (see `AnnotationsAdapter`). Notes live in memory only and there is no
+     * undo, so a stray tap on the toolbar's Clear must not be able to destroy the batch.
+     */
+    private fun confirmClearAll() {
+        val count = adapter.itemCount
+        // Nothing to confirm, and "remove all 0 annotations" would read as nonsense.
+        if (count == 0) return
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.sentinel_annotations_clear_title)
+            .setMessage(getString(R.string.sentinel_annotations_clear_message, count))
+            .setNegativeButton(R.string.sentinel_cancel, null)
+            .setPositiveButton(R.string.sentinel_clear) { _, _ -> viewModel.clear() }
+            .show()
+    }
 
     private fun showMessage(message: String) {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()

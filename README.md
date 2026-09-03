@@ -315,8 +315,8 @@ apply the changes.
 - Navigate the host app to the screen you want to annotate **first**. Once capture is armed it
   consumes every touch, so there is no way to navigate the app after arming it — see below.
 - Open **Tools** and tap **Annotations**, then **Enable annotations** (or **Start annotating**
-  once notes already exist). Sentinel closes and the live app returns with capture armed. Tap
-  any element to select it and write a note.
+  once notes already exist). The whole Sentinel panel closes — not just the Annotations screen —
+  and the live app returns with capture armed. Tap any element to select it and write a note.
 - Tapping the already-selected element widens the selection to its parent, so a note can target a
   whole card rather than the label inside it.
 - While capture is armed the overlay consumes every touch, so the host app cannot be navigated.
@@ -332,7 +332,9 @@ apply the changes.
 
 Each note records the element's type, its `R.id` resource entry name (Views), its position among
 same-type siblings, the Activity and Fragment it belongs to and — for Compose — the composable
-name, its `Modifier.testTag` and its `file:line` when Compose exposes them. See
+name, its `Modifier.testTag` and its `file:line` when Compose exposes them. The `text` field
+captures the element's live visible text, so a note on a filled-in field carries what that field
+currently shows; password fields are the exception and contribute no `text` at all. See
 [Compose support](#compose-support) below: on Compose builds verified so far this per-composable
 data is not available, and a Compose note instead identifies the hosting Compose view.
 
