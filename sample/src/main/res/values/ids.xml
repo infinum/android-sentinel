@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+    Declared so ComposeSampleActivity can give its root ComposeView an app id, exercising the
+    fallback documented in ComposeHostFallbackTest: when Compose's own resolver can't read the
+    composition, the View resolver's leaf-at-the-Compose-host rule stops at the internal
+    AndroidComposeView, which never carries an app id itself, and TargetSelection.nearestAnnotatable
+    climbs one level to this id-bearing ComposeView instead.
+    -->
+    <item name="compose_root" type="id"/>
+</resources>

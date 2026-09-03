@@ -12,11 +12,18 @@ import android.widget.TextView
  * Adapts an Android [View] subtree to [TargetNode].
  *
  * Built eagerly on tap. Invisible and zero-size views are dropped, so what the tree contains
- * is what the user can actually see.
+ * is what the user can actually see. A Compose host is walked as a leaf — see [children] — so
+ * this doubles as the fallback used when Compose's own resolver cannot read the composition.
+ *
+ * [isOpaqueHost] defaults to [ComposeSupport.isComposeHost] and exists as a constructor
+ * parameter, rather than a direct call, purely so tests can stand in a plain `ViewGroup` for a
+ * Compose host: Compose is `compileOnly` for this module, so the real detection can never fire
+ * where there is no real `AndroidComposeView` on the classpath to find.
  */
 internal class ViewTargetNode(
     val view: View,
     override val parent: TargetNode?,
+    private val isOpaqueHost: (View) -> Boolean = ComposeSupport::isComposeHost,
 ) : TargetNode {
     override val type: String = view.javaClass.simpleName
 
@@ -56,13 +63,20 @@ internal class ViewTargetNode(
      * `AnnotationOverlayView` is the last `decorView` child and covers the whole screen, so
      * leaving it in the tree would make it the deepest hit for every tap — it has no children of
      * its own — before the real content underneath it is ever considered.
+     *
+     * A Compose host (see [ComposeSupport.isComposeHost], reached here through [isOpaqueHost]) is
+     * a different case: its own node stays in the tree so it can be selected, but this walk does
+     * not descend into it. Compose's internal interop views — `AndroidViewsHandler` and whatever
+     * else lives under an `AndroidComposeView` — are meaningless to a coding agent, so treating
+     * the host as a leaf keeps them out of the tree entirely rather than letting one of them win
+     * as the "deepest" hit when Compose's own resolver cannot read the composition.
      */
     override val children: List<TargetNode> =
-        if (view is ViewGroup) {
+        if (view is ViewGroup && !isOpaqueHost(view)) {
             (0 until view.childCount)
                 .map { view.getChildAt(it) }
                 .filter { it.visibility == View.VISIBLE && it.width > 0 && it.height > 0 && it !is SentinelOverlayView }
-                .map { ViewTargetNode(it, this) }
+                .map { ViewTargetNode(it, this, isOpaqueHost) }
         } else {
             emptyList()
         }
@@ -113,4 +127,7 @@ internal class ViewTargetNode(
     }
 }
 
-internal fun View.toTargetNode(parent: TargetNode?): ViewTargetNode = ViewTargetNode(this, parent)
+internal fun View.toTargetNode(
+    parent: TargetNode?,
+    isOpaqueHost: (View) -> Boolean = ComposeSupport::isComposeHost,
+): ViewTargetNode = ViewTargetNode(this, parent, isOpaqueHost)

@@ -4,9 +4,15 @@ import android.view.View
 import com.infinum.sentinel.data.models.local.annotations.Annotation
 import com.infinum.sentinel.data.models.local.annotations.AnnotationToolkit
 
-internal class ViewTargetResolver : TargetResolver {
+/**
+ * [isOpaqueHost] defaults to [ComposeSupport.isComposeHost] — see [ViewTargetNode] for why it is
+ * threaded through as a parameter instead of called directly.
+ */
+internal class ViewTargetResolver(
+    private val isOpaqueHost: (View) -> Boolean = ComposeSupport::isComposeHost,
+) : TargetResolver {
     override fun resolve(root: View, x: Int, y: Int): ResolvedTarget? {
-        val tree = root.toTargetNode(parent = null)
+        val tree = root.toTargetNode(parent = null, isOpaqueHost = isOpaqueHost)
         val deepest = TargetSelection.deepestAt(tree, x, y) ?: return null
         val selected = TargetSelection.nearestAnnotatable(deepest) ?: deepest
         return ResolvedTarget(selected, (selected as ViewTargetNode).view, AnnotationToolkit.VIEW)
