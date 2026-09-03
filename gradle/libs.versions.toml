@@ -109,6 +109,9 @@ collar = { module = "com.infinum.collar:collar-ui", version.ref = "collar" }
 
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-ui-tooling-data = { module = "androidx.compose.ui:ui-tooling-data", version.ref = "compose" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+compose-material3 = { module = "androidx.compose.material3:material3", version = "1.4.0" }
+compose-activity = { module = "androidx.activity:activity-compose", version = "1.11.0" }
 
 dbinspector = { module = "com.infinum.dbinspector:dbinspector", version.ref = "dbinspector" }
 
@@ -156,3 +159,4 @@ tools = [
 gradle-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "gradle-maven-publish" }
 kotlin-binary-compatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryCompatibility" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

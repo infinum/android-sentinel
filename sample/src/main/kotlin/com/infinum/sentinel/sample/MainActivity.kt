@@ -83,6 +83,9 @@ class MainActivity : AppCompatActivity() {
             showJavaScreen.setOnClickListener {
                 startActivity(Intent(this@MainActivity, JavaMainActivity::class.java))
             }
+            showComposeScreen.setOnClickListener {
+                startActivity(Intent(this@MainActivity, ComposeSampleActivity::class.java))
+            }
             showBundleScreen.setOnClickListener {
                 startActivity(
                     Intent(this@MainActivity, BundleActivity::class.java)

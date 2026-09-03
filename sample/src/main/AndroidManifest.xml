@@ -35,6 +35,9 @@
         <activity
             android:name=".BundleActivity"
             android:exported="false"/>
+        <activity
+            android:name=".ComposeSampleActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>
