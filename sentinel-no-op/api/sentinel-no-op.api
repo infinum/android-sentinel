@@ -141,6 +141,16 @@ public final class com/infinum/sentinel/domain/annotations/ClipboardAnnotationEx
 	public fun label ()I
 }
 
+public final class com/infinum/sentinel/ui/tools/AnnotationsTool : com/infinum/sentinel/Sentinel$Tool {
+	public fun <init> ()V
+	public fun <init> (Lcom/infinum/sentinel/domain/annotations/AnnotationExporter;)V
+	public synthetic fun <init> (Lcom/infinum/sentinel/domain/annotations/AnnotationExporter;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getExporter ()Lcom/infinum/sentinel/domain/annotations/AnnotationExporter;
+	public fun icon ()Ljava/lang/Integer;
+	public fun listener ()Landroid/view/View$OnClickListener;
+	public fun name ()I
+}
+
 public final class com/infinum/sentinel/ui/tools/AppGalleryTool : com/infinum/sentinel/Sentinel$Tool {
 	public fun <init> ()V
 	public fun <init> (Ljava/lang/String;)V

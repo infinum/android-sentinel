@@ -41,8 +41,11 @@ import com.infinum.sentinel.data.sources.raw.formatters.PlainFormatter
 import com.infinum.sentinel.data.sources.raw.formatters.XmlFormatter
 import com.infinum.sentinel.di.LibraryComponents
 import com.infinum.sentinel.di.scope.DataScope
+import com.infinum.sentinel.domain.annotations.AnnotationExporter
+import com.infinum.sentinel.domain.annotations.ClipboardAnnotationExporter
 import com.infinum.sentinel.domain.collectors.Collectors
 import com.infinum.sentinel.domain.formatters.Formatters
+import com.infinum.sentinel.ui.tools.AnnotationsTool
 import java.security.cert.X509Certificate
 import java.util.Locale
 import me.tatarka.inject.annotations.Component
@@ -310,6 +313,11 @@ internal abstract class DataComponent(
     @Provides
     @DataScope
     fun annotationCache(): AnnotationCache = InMemoryAnnotationCache()
+
+    @Provides
+    @DataScope
+    fun annotationExporter(): AnnotationExporter =
+        tools.filterIsInstance<AnnotationsTool>().firstOrNull()?.exporter ?: ClipboardAnnotationExporter()
 
     @Provides
     @DataScope

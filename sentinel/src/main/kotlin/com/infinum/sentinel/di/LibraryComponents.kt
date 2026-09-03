@@ -8,10 +8,24 @@ import com.infinum.sentinel.di.component.DomainComponent
 import com.infinum.sentinel.di.component.PresentationComponent
 import com.infinum.sentinel.di.component.ViewModelComponent
 import com.infinum.sentinel.di.component.create
+import com.infinum.sentinel.ui.tools.AnnotationsTool
 import com.infinum.sentinel.ui.tools.AppInfoTool
 import com.infinum.sentinel.ui.tools.BundleMonitorTool
 import com.infinum.sentinel.ui.tools.CertificateTool
 import com.infinum.sentinel.ui.tools.CrashMonitorTool
+
+/**
+ * The tools Sentinel shows: the defaults, with any default replaced by a user-supplied tool of
+ * the same type. This lets a configurable tool such as [com.infinum.sentinel.ui.tools.AnnotationsTool]
+ * ship enabled by default while still accepting configuration through [Sentinel.watch].
+ */
+internal fun resolveTools(
+    userTools: Set<Sentinel.Tool>,
+    defaults: Set<Sentinel.Tool>,
+): Set<Sentinel.Tool> {
+    val overriddenTypes = userTools.map { it::class }.toSet()
+    return userTools + defaults.filterNot { it::class in overriddenTypes }
+}
 
 @SuppressLint("StaticFieldLeak")
 internal object LibraryComponents {
@@ -22,6 +36,7 @@ internal object LibraryComponents {
             CrashMonitorTool(),
             BundleMonitorTool(),
             AppInfoTool(),
+            AnnotationsTool(),
         )
 
     @Suppress("LateinitUsage")
@@ -49,7 +64,7 @@ internal object LibraryComponents {
         onTriggered: () -> Unit,
     ) {
         dataComponent.setup(
-            tools.plus(DEFAULT_TOOLS),
+            resolveTools(tools, DEFAULT_TOOLS),
             targetedPreferences,
             tools
                 .filterIsInstance<CertificateTool>()
