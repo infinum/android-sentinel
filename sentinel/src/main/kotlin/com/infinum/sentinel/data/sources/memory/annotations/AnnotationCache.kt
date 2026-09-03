@@ -18,6 +18,16 @@ internal interface AnnotationCache {
     /** Re-points the note at a freshly created element after navigating back to its screen. */
     suspend fun rebind(id: String, target: Any?)
 
+    /**
+     * Drops the live handle of every stored note matching [owned], keeping the note itself.
+     *
+     * Not `suspend`: the caller is `onActivityDestroyed`, and the whole point is that the handle
+     * is gone before that Activity would otherwise stay reachable from this process-lifetime
+     * cache. Nothing observable changes — `target` is outside the note's `equals` — so this
+     * publishes nothing.
+     */
+    fun releaseTargets(owned: (Annotation) -> Boolean)
+
     suspend fun remove(id: String)
 
     /** Flags only the annotations whose id is in [ids] as sent. Everything else is untouched. */

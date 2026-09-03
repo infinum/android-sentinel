@@ -39,6 +39,17 @@ internal class InMemoryAnnotationCache : AnnotationCache {
         publish()
     }
 
+    /**
+     * Mutates `target` in place. `target` is a class-body property, so `copy()` would silently
+     * drop it — every `copy()` in this class re-assigns it for exactly that reason, and this
+     * path avoids the trap by never copying at all.
+     */
+    override fun releaseTargets(owned: (Annotation) -> Boolean) {
+        annotations.forEach { annotation ->
+            if (annotation.target != null && owned(annotation)) annotation.target = null
+        }
+    }
+
     override suspend fun remove(id: String) {
         if (annotations.removeAll { it.id == id }) publish()
     }

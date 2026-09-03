@@ -2,6 +2,8 @@ package com.infinum.sentinel.ui.annotations.overlay
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
+import android.content.ContextWrapper
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +15,7 @@ import androidx.fragment.app.FragmentActivity
 import com.infinum.sentinel.data.models.local.annotations.Annotation
 import com.infinum.sentinel.data.models.local.annotations.AnnotationToolkit
 import com.infinum.sentinel.data.sources.memory.annotations.AnnotationCache
+import com.infinum.sentinel.extensions.isSentinelOwnScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -30,6 +33,8 @@ import kotlinx.coroutines.launch
  * scrolling, keyboard insets and rotation without special cases. [detach] removes that listener
  * again — otherwise every [attach] would leave one more of them firing on that Activity's
  * `ViewTreeObserver`, forever, even after the overlay itself was gone.
+ *
+ * Sentinel's own screens are never hosts: see [Activity.isSentinelOwnScreen].
  */
 internal class AnnotationOverlayController(
     private val cache: AnnotationCache,
@@ -46,7 +51,19 @@ internal class AnnotationOverlayController(
     private var card: AnnotationInspectCard? = null
     private var stopButton: AnnotationStopButton? = null
     private var preDrawListener: ViewTreeObserver.OnPreDrawListener? = null
+    private var globalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
     private var selected: ResolvedTarget? = null
+
+    /**
+     * Ids of the notes whose [TargetResolver.rebind] already failed during the current layout
+     * pass. [refreshMarkers] runs from a pre-draw listener, so without this a note that cannot
+     * re-bind on this screen — the ordinary "annotated in one Fragment, navigated to another
+     * inside the same Activity" case, which [Annotation.screen] cannot filter because it names
+     * the Activity — would re-walk the whole view tree on every single frame. Cleared by the
+     * global-layout listener [attach] installs, so a retry costs at most one tree walk per
+     * layout pass, and by [sync] whenever the stored notes themselves change.
+     */
+    private val failedRebinds = mutableSetOf<String>()
 
     fun start(application: Application) {
         application.registerActivityLifecycleCallbacks(this)
@@ -55,7 +72,17 @@ internal class AnnotationOverlayController(
             .launchIn(scope)
     }
 
+    /**
+     * Two Activities of the same app can be RESUMED at once on API 29+ in multi-window, and the
+     * previous host is then never paused while this controller still points at it. Detaching
+     * whenever the resumed Activity is not the one already hosting the overlay is what stops the
+     * overlay, card, stop button and pre-draw listener from being stranded on it forever — [sync]
+     * only attaches when [overlay] is null, and [onActivityPaused]'s identity check would no
+     * longer match.
+     */
     override fun onActivityResumed(activity: Activity) {
+        if (activity.isSentinelOwnScreen) return
+        if (this.activity !== activity) detach()
         this.activity = activity
         sync(cache.active.value, cache.load().value)
     }
@@ -75,7 +102,41 @@ internal class AnnotationOverlayController(
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) = Unit
 
-    override fun onActivityDestroyed(activity: Activity) = Unit
+    /**
+     * Drops the live handles that belonged to [activity]. [Annotation.target] is held for the
+     * cache's — that is, the process's — whole life, and a `View` handle reaches its Activity
+     * through `mContext`, so without this a destroyed Activity stays reachable forever and
+     * LeakCanary, which consumers commonly run in the same debug build, reports it against
+     * *their* app. [boundsOf] re-binds the note the next time its screen is on top, so clearing
+     * the handle costs nothing but a tree walk that would happen anyway.
+     */
+    override fun onActivityDestroyed(activity: Activity) {
+        if (this.activity === activity) {
+            detach()
+            this.activity = null
+        }
+        cache.releaseTargets { annotation -> annotation.isHostedBy(activity) }
+    }
+
+    /**
+     * Whether [activity] owns this note's live handle.
+     *
+     * A `View` handle is decided precisely, by walking its context chain: a View's context is
+     * often a `ContextThemeWrapper` around the Activity rather than the Activity itself. A
+     * Compose `Group` handle exposes no such chain, so it falls back to the screen name the note
+     * recorded — worst case that releases a handle a same-named Activity instance still owns,
+     * which the rebind path restores.
+     */
+    private fun Annotation.isHostedBy(activity: Activity): Boolean {
+        val handle = target ?: return false
+        if (handle !is View) return screen == activity.javaClass.simpleName
+        var context: Context? = handle.context
+        while (context is ContextWrapper) {
+            if (context === activity) return true
+            context = context.baseContext
+        }
+        return false
+    }
 
     private fun sync(active: Boolean, annotations: List<Annotation>) {
         val host = activity ?: return
@@ -90,6 +151,9 @@ internal class AnnotationOverlayController(
             selected = null
             card?.hide()
         }
+        // The stored notes changed, so a rebind that failed against the previous list may now
+        // succeed. Cheap: sync runs on cache emissions and resumes, never per frame.
+        failedRebinds.clear()
         refreshMarkers(annotations)
     }
 
@@ -147,6 +211,10 @@ internal class AnnotationOverlayController(
             }
         host.window.decorView.viewTreeObserver.addOnPreDrawListener(listener)
         preDrawListener = listener
+
+        val onLayout = ViewTreeObserver.OnGlobalLayoutListener { failedRebinds.clear() }
+        host.window.decorView.viewTreeObserver.addOnGlobalLayoutListener(onLayout)
+        globalLayoutListener = onLayout
         return view
     }
 
@@ -159,11 +227,16 @@ internal class AnnotationOverlayController(
      */
     private fun detach() {
         val view = overlay ?: return
+        val observer = view.viewTreeObserver
         preDrawListener?.let { listener ->
-            val observer = view.viewTreeObserver
             if (observer.isAlive) observer.removeOnPreDrawListener(listener)
         }
         preDrawListener = null
+        globalLayoutListener?.let { listener ->
+            if (observer.isAlive) observer.removeOnGlobalLayoutListener(listener)
+        }
+        globalLayoutListener = null
+        failedRebinds.clear()
         listOfNotNull(overlay, card, stopButton).forEach { (it.parent as? ViewGroup)?.removeView(it) }
         overlay = null
         card = null
@@ -345,7 +418,12 @@ internal class AnnotationOverlayController(
             liveHandle.getLocationOnScreen(location)
             return Bounds(location[0], location[1], location[0] + liveHandle.width, location[1] + liveHandle.height)
         }
-        val rebound = resolver.rebind(annotation, root) ?: return null
+        if (annotation.id in failedRebinds) return null
+        val rebound = resolver.rebind(annotation, root)
+        if (rebound == null) {
+            failedRebinds += annotation.id
+            return null
+        }
         scope.launch { cache.rebind(annotation.id, rebound.handle) }
         return rebound.node.bounds
     }

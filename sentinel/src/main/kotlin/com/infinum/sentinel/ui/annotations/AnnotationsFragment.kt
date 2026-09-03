@@ -60,8 +60,10 @@ internal class AnnotationsFragment : BaseChildFragment<AnnotationsState, Annotat
 
     override fun onEvent(event: AnnotationsEvent) =
         when (event) {
-            // Close so the user lands on the live app with capture armed.
-            is AnnotationsEvent.CaptureArmed -> requireActivity().finish()
+            // Finishing this Activity alone would only pop back to SentinelActivity, which shares
+            // the com.infinum.sentinel task affinity — the overlay would then arm over Sentinel's
+            // own panel instead of the app. Removing the whole task lands the user on the app.
+            is AnnotationsEvent.CaptureArmed -> requireActivity().finishAndRemoveTask()
             is AnnotationsEvent.ExportFinished -> showMessage(event.message)
             is AnnotationsEvent.ExportFailed -> showMessage(event.message)
         }

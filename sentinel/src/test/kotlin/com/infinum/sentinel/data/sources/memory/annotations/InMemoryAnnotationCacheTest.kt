@@ -6,6 +6,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertSame
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -204,5 +205,47 @@ internal class InMemoryAnnotationCacheTest {
     @Test
     fun `capture flag starts inactive`() {
         assertFalse(InMemoryAnnotationCache().active.value)
+    }
+
+    @Test
+    fun `releaseTargets clears only the matching notes' handles`() = runTest {
+        val cache = InMemoryAnnotationCache()
+        val doomed = annotation("doomed").apply { target = Any() }
+        val kept = annotation("kept").apply { target = Any() }
+        val keptTarget = kept.target
+        cache.add(doomed)
+        cache.add(kept)
+
+        cache.releaseTargets { it.note == "doomed" }
+
+        val byNote = cache.load().value.associateBy { it.note }
+        assertNull(byNote.getValue("doomed").target)
+        assertSame(keptTarget, byNote.getValue("kept").target)
+    }
+
+    @Test
+    fun `releaseTargets keeps the notes themselves`() = runTest {
+        val cache = InMemoryAnnotationCache()
+        cache.add(annotation("first").apply { target = Any() })
+        cache.add(annotation("second").apply { target = Any() })
+
+        cache.releaseTargets { true }
+
+        assertEquals(listOf("first", "second"), cache.load().value.map { it.note })
+    }
+
+    /**
+     * The note the handle was cleared from must still round-trip through the copy sites, so a
+     * later `updateNote` cannot resurrect a stale Activity by copying a target back in.
+     */
+    @Test
+    fun `a released target stays null across updateNote`() = runTest {
+        val cache = InMemoryAnnotationCache()
+        val stored = cache.add(annotation("before").apply { target = Any() })
+
+        cache.releaseTargets { true }
+        cache.updateNote(stored.id, "after")
+
+        assertNull(cache.load().value.single().target)
     }
 }
