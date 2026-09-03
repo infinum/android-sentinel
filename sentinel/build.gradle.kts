@@ -126,7 +126,7 @@ mavenPublishing {
 
 gradle.taskGraph.whenReady {
     allTasks.find { it.path == ":sentinel:connectedDebugAndroidTest" }?.apply {
-        (this as AbstractTestTask).ignoreFailures = true
+        (this as org.gradle.api.tasks.VerificationTask).ignoreFailures = true
     }
 }
 
