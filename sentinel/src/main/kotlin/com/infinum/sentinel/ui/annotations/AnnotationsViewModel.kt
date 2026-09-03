@@ -52,7 +52,7 @@ internal class AnnotationsViewModel(
             }
             try {
                 val message = exporter.export(context, pending)
-                cache.markSent()
+                cache.markSent(pending.map { it.id })
                 emitEvent(AnnotationsEvent.ExportFinished(message))
             } catch (error: Exception) {
                 emitEvent(

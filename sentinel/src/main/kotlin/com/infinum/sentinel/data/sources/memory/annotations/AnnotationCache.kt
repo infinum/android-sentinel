@@ -20,7 +20,8 @@ internal interface AnnotationCache {
 
     suspend fun remove(id: String)
 
-    suspend fun markSent()
+    /** Flags only the annotations whose id is in [ids] as sent. Everything else is untouched. */
+    suspend fun markSent(ids: Collection<String>)
 
     suspend fun clear()
 }

@@ -142,14 +142,40 @@ internal class InMemoryAnnotationCacheTest {
     }
 
     @Test
-    fun `markSent flags every unsent note`() = runTest {
+    fun `markSent flags every id passed`() = runTest {
         val cache = InMemoryAnnotationCache()
-        cache.add(annotation("first"))
-        cache.add(annotation("second"))
+        val first = cache.add(annotation("first"))
+        val second = cache.add(annotation("second"))
 
-        cache.markSent()
+        cache.markSent(listOf(first.id, second.id))
 
         assertTrue(cache.load().value.all { it.isSent })
+    }
+
+    @Test
+    fun `markSent marks only the ids passed, leaving other unsent notes unsent`() = runTest {
+        val cache = InMemoryAnnotationCache()
+        val first = cache.add(annotation("first"))
+        val second = cache.add(annotation("second"))
+
+        cache.markSent(listOf(first.id))
+
+        val byNote = cache.load().value.associateBy { it.note }
+        assertTrue(byNote.getValue("first").isSent)
+        assertFalse(byNote.getValue("second").isSent)
+        assertEquals(second, cache.load().value.first { it.note == "second" })
+    }
+
+    @Test
+    fun `markSent with an id that is not in the cache is a no-op and does not emit`() = runTest {
+        val cache = InMemoryAnnotationCache()
+        cache.add(annotation("kept"))
+        val before = cache.load().value
+
+        cache.markSent(listOf("missing"))
+
+        assertSame(before, cache.load().value)
+        assertFalse(cache.load().value.single().isSent)
     }
 
     @Test
@@ -158,9 +184,9 @@ internal class InMemoryAnnotationCacheTest {
         val note = annotation()
         val sentinelTarget = Any()
         note.target = sentinelTarget
-        cache.add(note)
+        val stored = cache.add(note)
 
-        cache.markSent()
+        cache.markSent(listOf(stored.id))
 
         assertSame(sentinelTarget, cache.load().value.single().target)
     }

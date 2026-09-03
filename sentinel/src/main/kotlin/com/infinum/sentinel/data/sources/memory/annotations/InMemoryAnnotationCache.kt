@@ -43,10 +43,10 @@ internal class InMemoryAnnotationCache : AnnotationCache {
         if (annotations.removeAll { it.id == id }) publish()
     }
 
-    override suspend fun markSent() {
+    override suspend fun markSent(ids: Collection<String>) {
         var changed = false
         annotations.forEachIndexed { index, annotation ->
-            if (!annotation.isSent) {
+            if (!annotation.isSent && annotation.id in ids) {
                 val sent = annotation.copy(isSent = true)
                 sent.target = annotation.target
                 annotations[index] = sent
