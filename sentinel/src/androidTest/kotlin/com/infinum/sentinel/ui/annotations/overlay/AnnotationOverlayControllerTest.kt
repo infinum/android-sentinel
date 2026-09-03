@@ -194,4 +194,58 @@ internal class AnnotationOverlayControllerTest {
             }
         }
     }
+
+    /**
+     * Generalises [resolveReachesRealContentThroughAnAttachedOverlay] to all three views Task 10
+     * adds to `decorView`: the capture overlay, the inspect card and the stop button. Each one is
+     * a full-bleed-or-large, childless-from-the-resolver's-perspective `decorView` child added on
+     * top of real content, so if any of them forgot to implement [SentinelOverlayView] it would
+     * be handed back here instead of [content] — exactly the Task 9 defect this task's brief
+     * warns is only prevented by convention, never enforced by the type system.
+     */
+    @Test
+    @JvmName("resolveReachesRealContentThroughAllThreeSentinelViews")
+    fun `resolve reaches real content through all three Sentinel views`() {
+        lateinit var content: TextView
+        val instrumentation = InstrumentationRegistry.getInstrumentation()
+
+        ActivityScenario.launch(AnnotationHostTestActivity::class.java).use { scenario ->
+            scenario.onActivity { activity ->
+                content = TextView(activity).apply { text = "Target" }
+                activity.setContentView(content)
+
+                val decor = activity.window.decorView as ViewGroup
+                decor.addView(
+                    AnnotationOverlayView(activity),
+                    FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT),
+                )
+                decor.addView(
+                    AnnotationInspectCard(activity),
+                    FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT),
+                )
+                // The card starts View.GONE (see AnnotationInspectCard's init) so it is invisible
+                // and zero-sized until shown. Forcing it visible here is what makes this a real
+                // test of the marker interface: a GONE card would already be excluded from
+                // ViewTargetNode.children on its own, without SentinelOverlayView doing anything.
+                (decor.getChildAt(decor.childCount - 1) as AnnotationInspectCard).visibility = View.VISIBLE
+                decor.addView(
+                    AnnotationStopButton(activity),
+                    FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT),
+                )
+            }
+            instrumentation.waitForIdleSync()
+
+            scenario.onActivity { activity ->
+                val location = IntArray(2)
+                content.getLocationOnScreen(location)
+                val x = location[0] + content.width / 2
+                val y = location[1] + content.height / 2
+
+                val resolved = CompositeTargetResolver().resolve(activity.window.decorView, x, y)
+
+                assertEquals("TextView", resolved?.node?.type)
+                assertSame(content, resolved?.handle)
+            }
+        }
+    }
 }

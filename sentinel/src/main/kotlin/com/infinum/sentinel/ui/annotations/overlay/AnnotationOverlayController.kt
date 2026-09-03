@@ -34,11 +34,17 @@ import kotlinx.coroutines.launch
 internal class AnnotationOverlayController(
     private val cache: AnnotationCache,
 ) : Application.ActivityLifecycleCallbacks {
+    private companion object {
+        private const val STOP_BUTTON_MARGIN = 48
+    }
+
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private val resolver = CompositeTargetResolver()
 
     private var activity: Activity? = null
     private var overlay: AnnotationOverlayView? = null
+    private var card: AnnotationInspectCard? = null
+    private var stopButton: AnnotationStopButton? = null
     private var preDrawListener: ViewTreeObserver.OnPreDrawListener? = null
     private var selected: ResolvedTarget? = null
 
@@ -79,23 +85,61 @@ internal class AnnotationOverlayController(
         }
         val view = overlay ?: attach(host)
         view.captureActive = active
-        if (!active) selected = null
+        stopButton?.visibility = AnnotationStopButton.visibilityFor(active)
+        if (!active) {
+            selected = null
+            card?.hide()
+        }
         refreshMarkers(annotations)
     }
 
     private fun attach(host: Activity): AnnotationOverlayView {
+        val decor = host.window.decorView as ViewGroup
         val view =
             AnnotationOverlayView(host).apply {
                 onCaptureTap = { x, y -> handleCaptureTap(host, x, y) }
                 onBadgeTapped = { annotation -> editNote(host, annotation) }
             }
-        (host.window.decorView as ViewGroup).addView(
+        decor.addView(
             view,
             FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT,
             ),
         )
+        overlay = view
+
+        val inspectCard =
+            AnnotationInspectCard(host).apply {
+                onAddNote = {
+                    hide()
+                    addNoteForSelection()
+                }
+            }
+        decor.addView(
+            inspectCard,
+            FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+            ),
+        )
+        card = inspectCard
+
+        val stop =
+            AnnotationStopButton(host).apply {
+                onStop = { cache.active.value = false }
+                onReopen = { com.infinum.sentinel.Sentinel.show() }
+            }
+        decor.addView(
+            stop,
+            FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                android.view.Gravity.BOTTOM or android.view.Gravity.END,
+            ).apply { setMargins(0, 0, STOP_BUTTON_MARGIN, STOP_BUTTON_MARGIN) },
+        )
+        stopButton = stop
+
         val listener =
             ViewTreeObserver.OnPreDrawListener {
                 refreshMarkers(cache.load().value)
@@ -103,7 +147,6 @@ internal class AnnotationOverlayController(
             }
         host.window.decorView.viewTreeObserver.addOnPreDrawListener(listener)
         preDrawListener = listener
-        overlay = view
         return view
     }
 
@@ -121,8 +164,10 @@ internal class AnnotationOverlayController(
             if (observer.isAlive) observer.removeOnPreDrawListener(listener)
         }
         preDrawListener = null
-        (view.parent as? ViewGroup)?.removeView(view)
+        listOfNotNull(overlay, card, stopButton).forEach { (it.parent as? ViewGroup)?.removeView(it) }
         overlay = null
+        card = null
+        stopButton = null
         selected = null
     }
 
@@ -149,6 +194,15 @@ internal class AnnotationOverlayController(
 
         selected = next
         overlay?.selection = next.node.bounds
+
+        val decorBounds = boundsOfView(host.window.decorView)
+        card?.showFor(next.node, decorBounds)
+    }
+
+    private fun boundsOfView(view: View): Bounds {
+        val location = IntArray(2)
+        view.getLocationOnScreen(location)
+        return Bounds(location[0], location[1], location[0] + view.width, location[1] + view.height)
     }
 
     /**
