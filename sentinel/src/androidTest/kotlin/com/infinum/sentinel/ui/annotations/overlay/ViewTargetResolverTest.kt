@@ -6,6 +6,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.infinum.sentinel.data.models.local.annotations.Annotation
+import com.infinum.sentinel.data.models.local.annotations.AnnotationToolkit
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -23,6 +25,31 @@ internal class ViewTargetResolverTest {
         root.layout(0, 0, width, height)
         return root
     }
+
+    /**
+     * An annotation capturing [captured], overridable per test so each `rebind` scenario can
+     * diverge from what was actually captured (a different [targetType] or [viewId]) without
+     * repeating every other field.
+     */
+    private fun annotationFor(
+        captured: ResolvedTarget,
+        rebindX: Int,
+        rebindY: Int,
+        targetType: String = captured.node.type,
+        viewId: String? = captured.node.viewId,
+        text: String? = captured.node.text,
+    ): Annotation =
+        Annotation(
+            id = "test-annotation",
+            note = "note",
+            toolkit = AnnotationToolkit.VIEW,
+            targetType = targetType,
+            targetPath = TargetSelection.pathOf(captured.node),
+            viewId = viewId,
+            text = text,
+            rebindX = rebindX,
+            rebindY = rebindY,
+        )
 
     @Test
     @JvmName("aTextViewIsAnnotatableAndReportsItsText")
@@ -79,5 +106,93 @@ internal class ViewTargetResolverTest {
 
         assertEquals("Button", resolved.node.type)
         assertTrue(resolved.handle === button)
+    }
+
+    @Test
+    @JvmName("resolveReturnsTheLastAddedChildWhenChildrenOverlap")
+    fun `resolve returns the last-added child when children overlap`() {
+        val below = Button(context).apply { setText("Below") }
+        val above = Button(context).apply { setText("Above") }
+        val root =
+            laidOut(
+                FrameLayout(context).apply {
+                    addView(below, FrameLayout.LayoutParams(100, 100))
+                    addView(above, FrameLayout.LayoutParams(100, 100))
+                },
+            )
+
+        val resolved = ViewTargetResolver().resolve(root, 5, 5)!!
+
+        assertTrue(resolved.handle === above)
+    }
+
+    @Test
+    @JvmName("rebindReturnsTheTargetWhenTypeAndViewIdMatch")
+    fun `rebind returns the target when type and viewId match`() {
+        val button =
+            Button(context).apply {
+                id = com.infinum.sentinel.R.id.fab
+                setText("Go")
+            }
+        val root = laidOut(FrameLayout(context).apply { addView(button) })
+        val captured = ViewTargetResolver().resolve(root, 5, 5)!!
+        val annotation = annotationFor(captured, rebindX = 5, rebindY = 5, viewId = "fab")
+
+        val rebound = ViewTargetResolver().rebind(annotation, root)
+
+        assertTrue(rebound != null)
+        assertTrue(rebound!!.handle === button)
+    }
+
+    @Test
+    @JvmName("rebindReturnsNullOnATypeMismatch")
+    fun `rebind returns null on a type mismatch`() {
+        val button =
+            Button(context).apply {
+                id = com.infinum.sentinel.R.id.fab
+                setText("Go")
+            }
+        val root = laidOut(FrameLayout(context).apply { addView(button) })
+        val captured = ViewTargetResolver().resolve(root, 5, 5)!!
+        val annotation =
+            annotationFor(captured, rebindX = 5, rebindY = 5, viewId = "fab", targetType = "TextView")
+
+        val rebound = ViewTargetResolver().rebind(annotation, root)
+
+        assertTrue(rebound == null)
+    }
+
+    @Test
+    @JvmName("rebindReturnsNullOnAViewIdMismatch")
+    fun `rebind returns null on a viewId mismatch`() {
+        val button =
+            Button(context).apply {
+                id = com.infinum.sentinel.R.id.fab
+                setText("Go")
+            }
+        val root = laidOut(FrameLayout(context).apply { addView(button) })
+        val captured = ViewTargetResolver().resolve(root, 5, 5)!!
+        val annotation = annotationFor(captured, rebindX = 5, rebindY = 5, viewId = "someOtherId")
+
+        val rebound = ViewTargetResolver().rebind(annotation, root)
+
+        assertTrue(rebound == null)
+    }
+
+    @Test
+    @JvmName("rebindReturnsNullOnATextMismatchWhenTheTargetHasNoViewId")
+    fun `rebind returns null on a text mismatch when the target has no viewId`() {
+        // No viewId is set on this view, so rebind must fall back to matching by text. A
+        // positive-only test here couldn't tell a real fallback from an implementation that
+        // just accepts any candidate once viewId is null, so this asserts the rejection side:
+        // a differing text must still fail the match.
+        val text = TextView(context).apply { setText("Submit") }
+        val root = laidOut(FrameLayout(context).apply { addView(text) })
+        val captured = ViewTargetResolver().resolve(root, 5, 5)!!
+        val annotation = annotationFor(captured, rebindX = 5, rebindY = 5, viewId = null, text = "Different")
+
+        val rebound = ViewTargetResolver().rebind(annotation, root)
+
+        assertTrue(rebound == null)
     }
 }
