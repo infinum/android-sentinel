@@ -111,6 +111,7 @@ dependencies {
     androidTestImplementation(libs.androidx.room.testing)
     androidTestImplementation(libs.androidx.fragment)
     androidTestImplementation(libs.androidx.fragment.testing)
+    androidTestImplementation(libs.coroutines.test)
 
     testImplementation(libs.junit)
     testImplementation(libs.androidx.test.ext.junit)

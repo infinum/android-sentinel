@@ -14,6 +14,7 @@ import com.infinum.sentinel.data.sources.local.room.dao.CrashMonitorDao
 import com.infinum.sentinel.data.sources.local.room.dao.CrashesDao
 import com.infinum.sentinel.data.sources.local.room.dao.FormatsDao
 import com.infinum.sentinel.data.sources.local.room.dao.TriggersDao
+import com.infinum.sentinel.data.sources.memory.annotations.AnnotationCache
 import com.infinum.sentinel.data.sources.memory.bundles.BundlesCache
 import com.infinum.sentinel.data.sources.memory.certificate.CertificateCache
 import com.infinum.sentinel.data.sources.memory.preference.PreferenceCache
@@ -45,6 +46,7 @@ import com.infinum.sentinel.extensions.enableProximityTrigger
 import com.infinum.sentinel.extensions.enableShakeTrigger
 import com.infinum.sentinel.extensions.enableUsbConnectedTrigger
 import com.infinum.sentinel.extensions.sizeTree
+import com.infinum.sentinel.ui.annotations.overlay.AnnotationOverlayController
 import com.infinum.sentinel.ui.bundles.callbacks.BundleMonitorActivityCallbacks
 import com.infinum.sentinel.ui.bundles.callbacks.BundleMonitorNotificationCallbacks
 import com.infinum.sentinel.ui.bundles.details.BundleDetailsActivity
@@ -115,11 +117,14 @@ internal abstract class DomainComponent(
 
     abstract val certificateMonitor: Repositories.CertificateMonitor
 
+    abstract val annotationOverlayController: AnnotationOverlayController
+
     fun setup() {
         initializeCrashMonitor()
         initializeBundleMonitor()
         initializeCertificateMonitor()
         initializeTriggers()
+        initializeAnnotations()
     }
 
     @Provides
@@ -210,6 +215,11 @@ internal abstract class DomainComponent(
     @Provides
     @DomainScope
     fun certificateMonitor(dao: CertificateMonitorDao): Repositories.CertificateMonitor = CertificateMonitorRepository(dao)
+
+    @Provides
+    @DomainScope
+    fun annotationOverlayController(cache: AnnotationCache): AnnotationOverlayController =
+        AnnotationOverlayController(cache)
 
     private fun initializeCrashMonitor() {
         Thread.setDefaultUncaughtExceptionHandler(sentinelExceptionHandler as Thread.UncaughtExceptionHandler)
@@ -304,6 +314,10 @@ internal abstract class DomainComponent(
                     }
                 },
             )
+    }
+
+    private fun initializeAnnotations() {
+        (this.context as? Application)?.let { annotationOverlayController.start(it) }
     }
 
     private fun initializeTriggers() {
