@@ -59,6 +59,12 @@ internal class AnnotationStopButton(
                     (kotlin.math.abs(dx - translationX) > touchSlop || kotlin.math.abs(dy - translationY) > touchSlop)
                 ) {
                     dragging = true
+                    // super.onTouchEvent is never reached once dragging starts (see below), so
+                    // its own ACTION_MOVE handling never gets the chance to cancel the
+                    // long-press check View scheduled on ACTION_DOWN. Without this, a slow drag
+                    // held past the long-press timeout fired it anyway and reopened the panel
+                    // mid-drag.
+                    cancelLongPress()
                 }
                 if (dragging) {
                     translationX = dx
