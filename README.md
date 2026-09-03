@@ -186,6 +186,8 @@ _Sentinel_ provides several different levels of tools for a developer to impleme
 - `Preference Editor` - by tapping any preference _Sentinel_ opens a screen where you can edit
   current value
 - `CertificateTool` - opens a list of system and user provided X.509 certificates with details    
+- `AnnotationsTool` - attach free-text notes to elements on the running app and export them to
+  the clipboard or to a Claude Code routine
 
 #### Dependency wrappers
 
@@ -304,6 +306,110 @@ _Plain_ formatter is selected by default, but selecting any other is persisted b
 - `JSON`
 - `XML`
 - `HTML`
+
+### Annotations
+
+Attach free-text notes to elements on the running app, then export them so a coding agent can
+apply the changes.
+
+- Navigate the host app to the screen you want to annotate **first**. Once capture is armed it
+  consumes every touch, so there is no way to navigate the app after arming it — see below.
+- Open **Tools** and tap **Annotations**, then **Enable annotations** (or **Start annotating**
+  once notes already exist). Sentinel closes and the live app returns with capture armed. Tap
+  any element to select it and write a note.
+- Tapping the already-selected element widens the selection to its parent, so a note can target a
+  whole card rather than the label inside it.
+- While capture is armed the overlay consumes every touch, so the host app cannot be navigated.
+  To annotate a different screen, stop capture with the draggable **✕** control, navigate to the
+  new screen, then re-arm from **Tools** > **Annotations**. A long press on the **✕** reopens the
+  Sentinel panel with capture still armed, instead of stopping it.
+- Saved notes stay on screen as a numbered badge and an outline. They follow the element as the
+  screen scrolls and are re-bound after navigating away and back. Tap a badge to edit or delete
+  that note.
+- The export button copies every unsent note as JSON, or sends it to a Claude Code routine.
+- Notes live in memory only, for the app process's lifetime. Killing the process — including a
+  plain app kill from Recents — discards every unexported note, so export before you do.
+
+Each note records the element's type, its `R.id` resource entry name (Views), its position among
+same-type siblings, the Activity and Fragment it belongs to and — for Compose — the composable
+name, its `Modifier.testTag` and its `file:line` when Compose exposes them. See
+[Compose support](#compose-support) below: on Compose builds verified so far this per-composable
+data is not available, and a Compose note instead identifies the hosting Compose view.
+
+#### Compose support
+
+Compose targets are resolved through the Compose tooling data API. Source locations require
+`androidx.compose.ui:ui-tooling` on the debug runtime classpath:
+
+```kotlin
+debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
+```
+
+Without it, or when the Compose version cannot be read, resolution falls back to the hosting
+`ComposeView` instead of crashing.
+
+**Limitation: per-composable resolution does not currently work.** Verified on device against
+Compose 1.11.4: Compose replaced the classic `SlotTable` with a dual composer architecture
+(`GapComposer`/`LinkComposer`), and source information no longer reaches the tooling `Group` tree
+— every group comes back with `name = null` and `location = null`. Sentinel's reflection chain
+itself works correctly: the composition is found and the group tree is built and correctly
+bounded. The data it depends on simply isn't there any more. This is an upstream Compose
+regression, not a Sentinel defect. The recipe above is expected to still work on Compose versions
+before 1.11 — that is untested, since only 1.11.4 was checked on device — and
+`androidx.compose.ui:ui-tooling` on the debug runtime classpath is required for source locations
+to work at all, on any version. In practice, tapping a composable today resolves the annotation
+to its hosting Compose view, not the composable itself.
+
+**Workaround: give your `ComposeView` an id.** Because resolution falls back to the hosting view,
+giving the root `ComposeView` an `android:id` turns an unusable result into a merely coarse, but
+still greppable, one:
+
+```kotlin
+ComposeView(context).apply {
+    id = R.id.compose_root
+    setContent { /* ... */ }
+}
+```
+
+Verified on device: with an id set, the note records `ComposeView` as its type and
+`compose_root` as its `viewId`, which an agent can find by searching for `@+id/compose_root`.
+Without an id, the note records `AndroidComposeView` as its type and nothing else to search by.
+Setting an id on your `ComposeView` is the single most useful thing you can do for Compose
+screens today.
+
+#### Sending to Claude
+
+```kotlin
+Sentinel.watch(
+    setOf(
+        AnnotationsTool(
+            exporter = ClaudeRoutineExporter(
+                token = { BuildConfig.CLAUDE_CODE_TOKEN },
+                fireUrl = "https://api.anthropic.com/v1/claude_code/routines/<trigger-id>/fire",
+            ),
+        ),
+    ),
+)
+```
+
+`token` is a lambda so the credential can come from `local.properties` through `BuildConfig`
+rather than a string literal. **Treat this token as a secret.** It is a long-lived Claude Code
+OAuth credential with your full permissions, and anyone holding the APK can extract a value
+compiled into it. Never commit one.
+
+`claude-annotations-instructions.md` in this repository is the routine prompt: it parses the
+exported batch, groups the notes by screen, applies each change and opens a pull request.
+
+#### Permissions
+
+Sending to Claude needs network access, so the `sentinel` module declares:
+
+```xml
+<uses-permission android:name="android.permission.INTERNET"/>
+```
+
+This merges into your app's debug manifest. `sentinel-no-op`, used for release builds, declares
+nothing.
 
 ### Crash monitor
 

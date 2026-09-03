@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+## Unreleased
+
+* New Sentinel tool: `AnnotationsTool` - attach notes to elements on the running app and export
+  them to the clipboard or to a Claude Code routine. Supports both Views and Compose.
+
 ## Version 2.0.0
 
 _2026-02-13_
