@@ -22,7 +22,8 @@ import com.infinum.sentinel.data.models.local.annotations.Annotation
 @SuppressLint("ViewConstructor")
 internal class AnnotationOverlayView(
     context: Context,
-) : View(context) {
+) : View(context),
+    SentinelOverlayView {
     private val badgeSize = resources.getDimensionPixelSize(R.dimen.sentinel_annotation_badge_size)
     private val markerColor = ContextCompat.getColor(context, R.color.sentinel_annotation_marker)
 

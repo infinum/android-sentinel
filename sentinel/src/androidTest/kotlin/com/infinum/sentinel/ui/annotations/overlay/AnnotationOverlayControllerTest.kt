@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.infinum.sentinel.data.sources.memory.annotations.InMemoryAnnotationCache
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -149,5 +150,48 @@ internal class AnnotationOverlayControllerTest {
 
         assertEquals("FrameLayout", broadened?.node?.type)
         assertSame(container, broadened?.handle)
+    }
+
+    /**
+     * Reproduces the real arrangement `AnnotationOverlayController.attach` creates — the overlay
+     * as the *last* child of `decorView`, laid on top of and covering real app content — rather
+     * than the hand-built, overlay-free `FrameLayout` root every other resolver test uses. None
+     * of those other tests could have caught the bug this one is written against: once a
+     * full-screen, childless overlay is a `decorView` child, `deepestAt` used to hit it first (it
+     * draws on top) and stop there — it has no children to descend into — before ever reaching
+     * the real content underneath. Every tap in capture mode resolved to the overlay itself, never
+     * the app.
+     */
+    @Test
+    @JvmName("resolveReachesRealContentThroughAnAttachedOverlay")
+    fun `resolve reaches real content through an attached overlay`() {
+        lateinit var content: TextView
+        val instrumentation = InstrumentationRegistry.getInstrumentation()
+
+        ActivityScenario.launch(AnnotationHostTestActivity::class.java).use { scenario ->
+            scenario.onActivity { activity ->
+                content = TextView(activity).apply { text = "Target" }
+                activity.setContentView(content)
+
+                val overlay = AnnotationOverlayView(activity)
+                (activity.window.decorView as ViewGroup).addView(
+                    overlay,
+                    FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT),
+                )
+            }
+            instrumentation.waitForIdleSync()
+
+            scenario.onActivity { activity ->
+                val location = IntArray(2)
+                content.getLocationOnScreen(location)
+                val x = location[0] + content.width / 2
+                val y = location[1] + content.height / 2
+
+                val resolved = CompositeTargetResolver().resolve(activity.window.decorView, x, y)
+
+                assertEquals("TextView", resolved?.node?.type)
+                assertSame(content, resolved?.handle)
+            }
+        }
     }
 }

@@ -50,17 +50,30 @@ internal class ViewTargetNode(
                     view.isClickable
                 )
 
+    /**
+     * Children that are Sentinel's own overlays (see [SentinelOverlayView]) are dropped before a
+     * node is ever built for them, not merely marked non-annotatable: an overlay such as
+     * `AnnotationOverlayView` is the last `decorView` child and covers the whole screen, so
+     * leaving it in the tree would make it the deepest hit for every tap — it has no children of
+     * its own — before the real content underneath it is ever considered.
+     */
     override val children: List<TargetNode> =
         if (view is ViewGroup) {
             (0 until view.childCount)
                 .map { view.getChildAt(it) }
-                .filter { it.visibility == View.VISIBLE && it.width > 0 && it.height > 0 }
+                .filter { it.visibility == View.VISIBLE && it.width > 0 && it.height > 0 && it !is SentinelOverlayView }
                 .map { ViewTargetNode(it, this) }
         } else {
             emptyList()
         }
 
     private companion object {
+        /**
+         * `AnnotationOverlayView` (and any other [SentinelOverlayView]) is deliberately absent
+         * here: [children] drops those before a node is ever built for one, which makes this
+         * list redundant for them — nothing in this codebase ever builds a [ViewTargetNode] for
+         * a Sentinel overlay by any other path, so there is no node left for this to catch.
+         */
         private val CHROME_TYPES =
             setOf(
                 "DecorView",
@@ -69,7 +82,6 @@ internal class ViewTargetNode(
                 "ActionBarContainer",
                 "ViewStubCompat",
                 "FitWindowsLinearLayout",
-                "AnnotationOverlayView",
             )
 
         private fun isFrameworkChrome(view: View): Boolean =
