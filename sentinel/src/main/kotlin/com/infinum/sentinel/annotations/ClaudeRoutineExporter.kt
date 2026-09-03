@@ -37,14 +37,21 @@ public class ClaudeRoutineExporter internal constructor(
     override fun label(): Int = R.string.sentinel_annotations_send
 
     override suspend fun export(context: Context, annotations: List<SentinelAnnotation>): String {
-        val count = send(annotations)
+        val count = send(annotations, context.getString(R.string.sentinel_annotations_missing_token))
         return context.getString(R.string.sentinel_annotations_sent, count)
     }
 
-    /** Posts [annotations] and returns how many were sent. Throws [IllegalStateException] on failure. */
-    internal suspend fun send(annotations: List<SentinelAnnotation>): Int {
+    /**
+     * Posts [annotations] and returns how many were sent. Throws [IllegalStateException] on
+     * failure.
+     *
+     * [missingTokenMessage] is passed in rather than read from resources here so this stays a
+     * plain, `Context`-free unit under test — and so the user-visible wording lives in
+     * `strings.xml` exactly once instead of being duplicated as an English literal.
+     */
+    internal suspend fun send(annotations: List<SentinelAnnotation>, missingTokenMessage: String): Int {
         val bearer = token()
-        check(!bearer.isNullOrBlank()) { "No Claude token configured" }
+        check(!bearer.isNullOrBlank()) { missingTokenMessage }
 
         val payload =
             Json.encodeToString(

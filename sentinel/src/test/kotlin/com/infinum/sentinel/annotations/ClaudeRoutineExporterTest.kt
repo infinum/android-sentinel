@@ -9,6 +9,11 @@ import org.junit.Assert.fail
 import org.junit.Test
 
 internal class ClaudeRoutineExporterTest {
+    private companion object {
+        /** Stands in for R.string.sentinel_annotations_missing_token, which needs a Context. */
+        private const val MISSING_TOKEN = "No Claude token configured"
+    }
+
     private val fireUrl = "https://api.anthropic.com/v1/claude_code/routines/trig_test/fire"
 
     private val annotations =
@@ -42,7 +47,7 @@ internal class ClaudeRoutineExporterTest {
         val poster = RecordingPoster(HttpResponse(200, ""))
         val exporter = ClaudeRoutineExporter({ "sk-ant-test" }, fireUrl, poster)
 
-        exporter.send(annotations)
+        exporter.send(annotations, MISSING_TOKEN)
 
         assertEquals(fireUrl, poster.url)
         assertTrue(poster.body!!.startsWith("""{"text":"["""))
@@ -54,7 +59,7 @@ internal class ClaudeRoutineExporterTest {
         val poster = RecordingPoster(HttpResponse(200, ""))
         val exporter = ClaudeRoutineExporter({ "sk-ant-test" }, fireUrl, poster)
 
-        exporter.send(annotations)
+        exporter.send(annotations, MISSING_TOKEN)
 
         assertEquals("Bearer sk-ant-test", poster.headers["Authorization"])
         assertEquals("2023-06-01", poster.headers["anthropic-version"])
@@ -67,7 +72,7 @@ internal class ClaudeRoutineExporterTest {
         val poster = RecordingPoster(HttpResponse(200, ""))
         val exporter = ClaudeRoutineExporter({ "sk-ant-test" }, fireUrl, poster)
 
-        assertEquals(1, exporter.send(annotations))
+        assertEquals(1, exporter.send(annotations, MISSING_TOKEN))
     }
 
     @Test
@@ -76,10 +81,11 @@ internal class ClaudeRoutineExporterTest {
         val exporter = ClaudeRoutineExporter({ "   " }, fireUrl, poster)
 
         try {
-            exporter.send(annotations)
+            exporter.send(annotations, MISSING_TOKEN)
             fail("Expected an IllegalStateException")
         } catch (expected: IllegalStateException) {
             assertEquals(0, poster.calls)
+            assertEquals(MISSING_TOKEN, expected.message)
         }
     }
 
@@ -89,7 +95,7 @@ internal class ClaudeRoutineExporterTest {
         val exporter = ClaudeRoutineExporter({ null }, fireUrl, poster)
 
         try {
-            exporter.send(annotations)
+            exporter.send(annotations, MISSING_TOKEN)
             fail("Expected an IllegalStateException")
         } catch (expected: IllegalStateException) {
             assertEquals(0, poster.calls)
@@ -102,7 +108,7 @@ internal class ClaudeRoutineExporterTest {
         val exporter = ClaudeRoutineExporter({ "sk-ant-test" }, fireUrl, poster)
 
         try {
-            exporter.send(annotations)
+            exporter.send(annotations, MISSING_TOKEN)
             fail("Expected an IllegalStateException")
         } catch (expected: IllegalStateException) {
             assertTrue(expected.message!!.contains("401"))

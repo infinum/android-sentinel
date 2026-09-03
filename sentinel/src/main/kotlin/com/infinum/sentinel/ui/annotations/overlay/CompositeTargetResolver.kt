@@ -10,22 +10,19 @@ import com.infinum.sentinel.annotations.SentinelAnnotation
  *
  * When Compose is present but unreadable — an unsupported version, or `ui-tooling-data` absent —
  * the Compose resolver returns `null` and the View resolver still yields the hosting
- * `ComposeView`, so the element stays annotatable with no source location. [composeUnreadable]
- * records that so the screen can say so once.
+ * `ComposeView`, so the element stays annotatable with no source location. That fallback is
+ * silent by design: it is the normal outcome on current Compose versions (see the README), so
+ * surfacing it would be a warning shown on every single tap.
  */
 internal class CompositeTargetResolver(
     private val views: TargetResolver = ViewTargetResolver(),
     private val compose: TargetResolver = ComposeTargetResolver(),
 ) : TargetResolver {
-    var composeUnreadable: Boolean = false
-        private set
-
     override fun resolve(root: View, x: Int, y: Int): ResolvedTarget? {
         val host = composeHostAt(root, x, y)
         if (host != null) {
             val resolved = compose.resolve(host, x, y)
             if (resolved != null) return resolved
-            composeUnreadable = true
         }
         return views.resolve(root, x, y)
     }

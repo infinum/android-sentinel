@@ -35,6 +35,10 @@ internal class UrlConnectionHttpPoster : HttpPoster {
             val connection = URL(url).openConnection() as HttpURLConnection
             try {
                 connection.requestMethod = "POST"
+                // HttpURLConnection re-sends every request property across a same-protocol
+                // redirect, so a redirecting fireUrl would hand the bearer token to whatever host
+                // the redirect names. A redirect is surfaced as its 3xx status instead.
+                connection.instanceFollowRedirects = false
                 connection.connectTimeout = CONNECT_TIMEOUT_MILLIS
                 connection.readTimeout = READ_TIMEOUT_MILLIS
                 connection.doOutput = true
