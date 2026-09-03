@@ -21,4 +21,8 @@
     <dimen name="sentinel_preferences_container_full_screen_bottom_padding">4dp</dimen>
 
     <dimen name="sentinel_blur_radius">13dp</dimen>
+
+    <dimen name="sentinel_annotation_badge_size">24dp</dimen>
+    <dimen name="sentinel_annotation_outline_width">2dp</dimen>
+    <dimen name="sentinel_annotation_badge_text_size">12sp</dimen>
 </resources>
