@@ -12,8 +12,8 @@ import android.widget.FrameLayout
 import androidx.compose.ui.tooling.data.UiToolingDataApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.infinum.sentinel.data.models.local.annotations.Annotation
-import com.infinum.sentinel.data.models.local.annotations.AnnotationToolkit
+import com.infinum.sentinel.annotations.AnnotationToolkit
+import com.infinum.sentinel.annotations.SentinelAnnotation
 import com.infinum.sentinel.data.sources.memory.annotations.AnnotationCache
 import com.infinum.sentinel.extensions.isSentinelOwnScreen
 import kotlinx.coroutines.CoroutineScope
@@ -58,7 +58,7 @@ internal class AnnotationOverlayController(
      * Ids of the notes whose [TargetResolver.rebind] already failed during the current layout
      * pass. [refreshMarkers] runs from a pre-draw listener, so without this a note that cannot
      * re-bind on this screen — the ordinary "annotated in one Fragment, navigated to another
-     * inside the same Activity" case, which [Annotation.screen] cannot filter because it names
+     * inside the same Activity" case, which [SentinelAnnotation.screen] cannot filter because it names
      * the Activity — would re-walk the whole view tree on every single frame. Cleared by the
      * global-layout listener [attach] installs, so a retry costs at most one tree walk per
      * layout pass, and by [sync] whenever the stored notes themselves change.
@@ -103,7 +103,7 @@ internal class AnnotationOverlayController(
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) = Unit
 
     /**
-     * Drops the live handles that belonged to [activity]. [Annotation.target] is held for the
+     * Drops the live handles that belonged to [activity]. [SentinelAnnotation.target] is held for the
      * cache's — that is, the process's — whole life, and a `View` handle reaches its Activity
      * through `mContext`, so without this a destroyed Activity stays reachable forever and
      * LeakCanary, which consumers commonly run in the same debug build, reports it against
@@ -127,7 +127,7 @@ internal class AnnotationOverlayController(
      * recorded — worst case that releases a handle a same-named Activity instance still owns,
      * which the rebind path restores.
      */
-    private fun Annotation.isHostedBy(activity: Activity): Boolean {
+    private fun SentinelAnnotation.isHostedBy(activity: Activity): Boolean {
         val handle = target ?: return false
         if (handle !is View) return screen == activity.javaClass.simpleName
         var context: Context? = handle.context
@@ -138,7 +138,7 @@ internal class AnnotationOverlayController(
         return false
     }
 
-    private fun sync(active: Boolean, annotations: List<Annotation>) {
+    private fun sync(active: Boolean, annotations: List<SentinelAnnotation>) {
         val host = activity ?: return
         if (!active && annotations.isEmpty()) {
             detach()
@@ -329,7 +329,7 @@ internal class AnnotationOverlayController(
         scope.launch {
             val stored =
                 cache.add(
-                    Annotation(
+                    SentinelAnnotation(
                         id = "",
                         note = note,
                         toolkit = target.toolkit,
@@ -354,7 +354,7 @@ internal class AnnotationOverlayController(
         }
     }
 
-    private fun editNote(host: Activity, annotation: Annotation) {
+    private fun editNote(host: Activity, annotation: SentinelAnnotation) {
         AnnotationNoteDialog.show(
             context = host,
             targetType = annotation.targetType,
@@ -386,7 +386,7 @@ internal class AnnotationOverlayController(
      * Recomputes marker positions from the live handles, and re-binds notes whose element was
      * recreated. Only bounds are read here — no tree walk — so this stays cheap per frame.
      */
-    private fun refreshMarkers(annotations: List<Annotation>) {
+    private fun refreshMarkers(annotations: List<SentinelAnnotation>) {
         val host = activity ?: return
         val view = overlay ?: return
         val root = host.window.decorView
@@ -411,7 +411,7 @@ internal class AnnotationOverlayController(
      * paid only for the annotations that actually need it.
      */
     @Suppress("ReturnCount")
-    private fun boundsOf(annotation: Annotation, root: View): Bounds? {
+    private fun boundsOf(annotation: SentinelAnnotation, root: View): Bounds? {
         val liveHandle = annotation.target as? View
         if (liveHandle != null && liveHandle.isAttachedToWindow && liveHandle.width > 0) {
             val location = IntArray(2)

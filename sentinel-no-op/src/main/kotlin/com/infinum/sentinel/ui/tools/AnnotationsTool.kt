@@ -2,8 +2,8 @@ package com.infinum.sentinel.ui.tools
 
 import android.view.View
 import com.infinum.sentinel.Sentinel
-import com.infinum.sentinel.domain.annotations.AnnotationExporter
-import com.infinum.sentinel.domain.annotations.ClipboardAnnotationExporter
+import com.infinum.sentinel.annotations.AnnotationExporter
+import com.infinum.sentinel.annotations.ClipboardAnnotationExporter
 
 @Suppress("unused")
 public class AnnotationsTool(

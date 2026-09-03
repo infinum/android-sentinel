@@ -1,7 +1,7 @@
 package com.infinum.sentinel.data.sources.memory.annotations
 
-import com.infinum.sentinel.data.models.local.annotations.Annotation
-import com.infinum.sentinel.data.models.local.annotations.AnnotationToolkit
+import com.infinum.sentinel.annotations.AnnotationToolkit
+import com.infinum.sentinel.annotations.SentinelAnnotation
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -13,7 +13,7 @@ import org.junit.Test
 
 internal class InMemoryAnnotationCacheTest {
     private fun annotation(note: String = "note") =
-        Annotation(
+        SentinelAnnotation(
             id = "",
             note = note,
             toolkit = AnnotationToolkit.VIEW,

@@ -1,7 +1,7 @@
-package com.infinum.sentinel.domain.annotations
+package com.infinum.sentinel.annotations
 
-import com.infinum.sentinel.data.models.local.annotations.Annotation
-import com.infinum.sentinel.data.models.local.annotations.AnnotationToolkit
+import com.infinum.sentinel.domain.annotations.HttpPoster
+import com.infinum.sentinel.domain.annotations.HttpResponse
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -13,7 +13,7 @@ internal class ClaudeRoutineExporterTest {
 
     private val annotations =
         listOf(
-            Annotation(
+            SentinelAnnotation(
                 id = "a3k9x2m1",
                 note = "button too small",
                 toolkit = AnnotationToolkit.VIEW,

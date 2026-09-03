@@ -2,7 +2,7 @@ package com.infinum.sentinel.ui.annotations.overlay
 
 import android.view.View
 import android.view.ViewGroup
-import com.infinum.sentinel.data.models.local.annotations.Annotation
+import com.infinum.sentinel.annotations.SentinelAnnotation
 
 /**
  * Routes a tap to the Compose resolver when it lands inside a composition, and to the View
@@ -30,7 +30,7 @@ internal class CompositeTargetResolver(
         return views.resolve(root, x, y)
     }
 
-    override fun rebind(annotation: Annotation, root: View): ResolvedTarget? {
+    override fun rebind(annotation: SentinelAnnotation, root: View): ResolvedTarget? {
         val host = composeHostAt(root, annotation.rebindX, annotation.rebindY)
         if (host != null) {
             val rebound = compose.rebind(annotation, host)

@@ -3,7 +3,7 @@ package com.infinum.sentinel.sample
 import android.app.Application
 import android.os.Build
 import com.infinum.sentinel.Sentinel
-import com.infinum.sentinel.domain.annotations.ClaudeRoutineExporter
+import com.infinum.sentinel.annotations.ClaudeRoutineExporter
 import com.infinum.sentinel.ui.tools.AnnotationsTool
 import com.infinum.sentinel.ui.tools.AppGalleryTool
 import com.infinum.sentinel.ui.tools.CertificateTool

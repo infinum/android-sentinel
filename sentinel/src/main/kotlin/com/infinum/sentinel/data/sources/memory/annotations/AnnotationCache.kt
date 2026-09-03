@@ -1,6 +1,6 @@
 package com.infinum.sentinel.data.sources.memory.annotations
 
-import com.infinum.sentinel.data.models.local.annotations.Annotation
+import com.infinum.sentinel.annotations.SentinelAnnotation
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -8,10 +8,10 @@ internal interface AnnotationCache {
     /** Single source of truth for whether capture mode is armed. */
     val active: MutableStateFlow<Boolean>
 
-    fun load(): StateFlow<List<Annotation>>
+    fun load(): StateFlow<List<SentinelAnnotation>>
 
     /** Stores [annotation], assigning an id when it has none. Returns the stored copy. */
-    suspend fun add(annotation: Annotation): Annotation
+    suspend fun add(annotation: SentinelAnnotation): SentinelAnnotation
 
     suspend fun updateNote(id: String, note: String)
 
@@ -26,7 +26,7 @@ internal interface AnnotationCache {
      * cache. Nothing observable changes — `target` is outside the note's `equals` — so this
      * publishes nothing.
      */
-    fun releaseTargets(owned: (Annotation) -> Boolean)
+    fun releaseTargets(owned: (SentinelAnnotation) -> Boolean)
 
     suspend fun remove(id: String)
 

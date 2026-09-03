@@ -5,8 +5,8 @@ import android.view.View
 import androidx.annotation.StringRes
 import com.infinum.sentinel.R
 import com.infinum.sentinel.Sentinel
-import com.infinum.sentinel.domain.annotations.AnnotationExporter
-import com.infinum.sentinel.domain.annotations.ClipboardAnnotationExporter
+import com.infinum.sentinel.annotations.AnnotationExporter
+import com.infinum.sentinel.annotations.ClipboardAnnotationExporter
 import com.infinum.sentinel.ui.annotations.AnnotationsActivity
 
 /**

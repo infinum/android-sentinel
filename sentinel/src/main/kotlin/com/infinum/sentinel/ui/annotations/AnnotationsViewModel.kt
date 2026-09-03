@@ -3,8 +3,8 @@ package com.infinum.sentinel.ui.annotations
 import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.infinum.sentinel.R
+import com.infinum.sentinel.annotations.AnnotationExporter
 import com.infinum.sentinel.data.sources.memory.annotations.AnnotationCache
-import com.infinum.sentinel.domain.annotations.AnnotationExporter
 import com.infinum.sentinel.ui.shared.base.BaseChildViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

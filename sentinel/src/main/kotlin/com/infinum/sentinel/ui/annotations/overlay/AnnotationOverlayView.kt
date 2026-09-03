@@ -10,7 +10,7 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.infinum.sentinel.R
-import com.infinum.sentinel.data.models.local.annotations.Annotation
+import com.infinum.sentinel.annotations.SentinelAnnotation
 
 /**
  * The layer that draws saved notes over the running app and, while capture is armed, takes
@@ -79,7 +79,7 @@ internal class AnnotationOverlayView(
     var onCaptureTap: ((x: Int, y: Int) -> Unit)? = null
 
     /** Called when a saved note's badge is tapped. */
-    var onBadgeTapped: ((Annotation) -> Unit)? = null
+    var onBadgeTapped: ((SentinelAnnotation) -> Unit)? = null
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)

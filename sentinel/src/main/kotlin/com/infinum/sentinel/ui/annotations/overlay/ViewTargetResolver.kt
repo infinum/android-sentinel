@@ -1,8 +1,8 @@
 package com.infinum.sentinel.ui.annotations.overlay
 
 import android.view.View
-import com.infinum.sentinel.data.models.local.annotations.Annotation
-import com.infinum.sentinel.data.models.local.annotations.AnnotationToolkit
+import com.infinum.sentinel.annotations.AnnotationToolkit
+import com.infinum.sentinel.annotations.SentinelAnnotation
 
 /**
  * [isOpaqueHost] defaults to [ComposeSupport.isComposeHost] — see [ViewTargetNode] for why it is
@@ -25,7 +25,7 @@ internal class ViewTargetResolver(
      * value never orphans a note.
      */
     @Suppress("ReturnCount")
-    override fun rebind(annotation: Annotation, root: View): ResolvedTarget? {
+    override fun rebind(annotation: SentinelAnnotation, root: View): ResolvedTarget? {
         val candidate = resolve(root, annotation.rebindX, annotation.rebindY) ?: return null
         val node = candidate.node
         if (node.type != annotation.targetType) return null

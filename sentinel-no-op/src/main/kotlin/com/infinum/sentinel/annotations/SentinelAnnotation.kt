@@ -1,7 +1,7 @@
-package com.infinum.sentinel.data.models.local.annotations
+package com.infinum.sentinel.annotations
 
 @Suppress("LongParameterList", "unused", "FunctionOnlyReturningConstant")
-public data class Annotation(
+public data class SentinelAnnotation(
     public val id: String,
     public val note: String,
     public val toolkit: AnnotationToolkit,
@@ -24,6 +24,6 @@ public data class Annotation(
 
     public companion object {
         @Suppress("UNUSED_PARAMETER")
-        public fun toExportJson(annotations: List<Annotation>): String = ""
+        public fun toExportJson(annotations: List<SentinelAnnotation>): String = ""
     }
 }

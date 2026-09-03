@@ -1,6 +1,6 @@
 package com.infinum.sentinel.ui.annotations.overlay
 
-import com.infinum.sentinel.data.models.local.annotations.Annotation
+import com.infinum.sentinel.annotations.SentinelAnnotation
 
 /**
  * A saved note resolved to its current on-screen position, ready to draw.
@@ -11,5 +11,5 @@ import com.infinum.sentinel.data.models.local.annotations.Annotation
 internal data class AnnotationMarker(
     val number: Int,
     val bounds: Bounds,
-    val annotation: Annotation,
+    val annotation: SentinelAnnotation,
 )

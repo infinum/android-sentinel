@@ -1,4 +1,4 @@
-package com.infinum.sentinel.data.models.local.annotations
+package com.infinum.sentinel.annotations
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
@@ -9,10 +9,14 @@ import kotlinx.serialization.json.Json
  *
  * Every field except `target` is part of the export payload a Claude Code routine reads
  * to locate the element in source.
+ *
+ * Named `SentinelAnnotation` rather than `Annotation` so it does not shadow `kotlin.Annotation`
+ * in a consumer's file — implementing [AnnotationExporter] would otherwise silently take the
+ * unqualified name away from the language's own.
  */
 @Suppress("LongParameterList")
 @Serializable
-public data class Annotation(
+public data class SentinelAnnotation(
     /** Session-unique id assigned by the cache. Links a fix back to its note. */
     public val id: String,
     /** The free-text note the user typed. */
@@ -57,7 +61,7 @@ public data class Annotation(
     public companion object {
         private val json = Json { encodeDefaults = true }
 
-        public fun toExportJson(annotations: List<Annotation>): String =
+        public fun toExportJson(annotations: List<SentinelAnnotation>): String =
             json.encodeToString(ListSerializer, annotations)
 
         private val ListSerializer = kotlinx.serialization.builtins.ListSerializer(serializer())

@@ -1,8 +1,8 @@
 package com.infinum.sentinel.ui.annotations.overlay
 
 import android.view.View
-import com.infinum.sentinel.data.models.local.annotations.Annotation
-import com.infinum.sentinel.data.models.local.annotations.AnnotationToolkit
+import com.infinum.sentinel.annotations.AnnotationToolkit
+import com.infinum.sentinel.annotations.SentinelAnnotation
 
 /**
  * A resolved selection: the toolkit-independent description plus the live handle used to
@@ -19,5 +19,5 @@ internal interface TargetResolver {
     fun resolve(root: View, x: Int, y: Int): ResolvedTarget?
 
     /** The live element [annotation] should now point at after its screen was recreated. */
-    fun rebind(annotation: Annotation, root: View): ResolvedTarget?
+    fun rebind(annotation: SentinelAnnotation, root: View): ResolvedTarget?
 }

@@ -1,9 +1,9 @@
 package com.infinum.sentinel.ui.annotations.overlay
 
 import android.content.Context
+import android.view.View
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import android.view.View
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test

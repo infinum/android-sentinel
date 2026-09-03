@@ -1,12 +1,12 @@
-package com.infinum.sentinel.data.models.local.annotations
+package com.infinum.sentinel.annotations
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
-internal class AnnotationTest {
+internal class SentinelAnnotationTest {
     private fun viewAnnotation() =
-        Annotation(
+        SentinelAnnotation(
             id = "a3k9x2m1",
             note = "button too small",
             toolkit = AnnotationToolkit.VIEW,
@@ -58,7 +58,7 @@ internal class AnnotationTest {
 
     @Test
     fun `a list serializes as a json array`() {
-        val actual = Annotation.toExportJson(listOf(viewAnnotation(), viewAnnotation().copy(id = "b4l0y3n2")))
+        val actual = SentinelAnnotation.toExportJson(listOf(viewAnnotation(), viewAnnotation().copy(id = "b4l0y3n2")))
 
         assertTrue(actual.startsWith("[{"))
         assertTrue(actual.endsWith("}]"))
@@ -67,6 +67,6 @@ internal class AnnotationTest {
 
     @Test
     fun `an empty list serializes as an empty json array`() {
-        assertEquals("[]", Annotation.toExportJson(emptyList()))
+        assertEquals("[]", SentinelAnnotation.toExportJson(emptyList()))
     }
 }

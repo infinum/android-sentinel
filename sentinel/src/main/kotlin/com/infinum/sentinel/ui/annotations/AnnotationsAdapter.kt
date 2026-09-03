@@ -8,21 +8,21 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.infinum.sentinel.R
-import com.infinum.sentinel.data.models.local.annotations.Annotation
+import com.infinum.sentinel.annotations.SentinelAnnotation
 import com.infinum.sentinel.databinding.SentinelItemAnnotationBinding
 
 internal class AnnotationsAdapter(
-    private val onDelete: (Annotation) -> Unit,
-) : ListAdapter<Annotation, AnnotationsAdapter.ViewHolder>(DIFF) {
+    private val onDelete: (SentinelAnnotation) -> Unit,
+) : ListAdapter<SentinelAnnotation, AnnotationsAdapter.ViewHolder>(DIFF) {
     private companion object {
         private const val SENT_ALPHA = 0.6f
         private const val ACTIVE_ALPHA = 1.0f
 
         private val DIFF =
-            object : DiffUtil.ItemCallback<Annotation>() {
-                override fun areItemsTheSame(oldItem: Annotation, newItem: Annotation): Boolean = oldItem.id == newItem.id
+            object : DiffUtil.ItemCallback<SentinelAnnotation>() {
+                override fun areItemsTheSame(oldItem: SentinelAnnotation, newItem: SentinelAnnotation): Boolean = oldItem.id == newItem.id
 
-                override fun areContentsTheSame(oldItem: Annotation, newItem: Annotation): Boolean = oldItem == newItem
+                override fun areContentsTheSame(oldItem: SentinelAnnotation, newItem: SentinelAnnotation): Boolean = oldItem == newItem
             }
     }
 
@@ -36,9 +36,9 @@ internal class AnnotationsAdapter(
 
     internal class ViewHolder(
         private val binding: SentinelItemAnnotationBinding,
-        private val onDelete: (Annotation) -> Unit,
+        private val onDelete: (SentinelAnnotation) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(annotation: Annotation, position: Int) {
+        fun bind(annotation: SentinelAnnotation, position: Int) {
             with(binding) {
                 root.alpha = if (annotation.isSent) SENT_ALPHA else ACTIVE_ALPHA
                 noteView.text = root.context.getString(R.string.sentinel_annotations_row, position + 1, annotation.note)
@@ -53,7 +53,7 @@ internal class AnnotationsAdapter(
         }
 
         /** Confirms first, so a stray tap cannot silently drop a note. */
-        private fun confirmDelete(annotation: Annotation, position: Int) {
+        private fun confirmDelete(annotation: SentinelAnnotation, position: Int) {
             MaterialAlertDialogBuilder(binding.root.context)
                 .setTitle(R.string.sentinel_annotations_delete_title)
                 .setMessage(binding.root.context.getString(R.string.sentinel_annotations_delete_message, position + 1))

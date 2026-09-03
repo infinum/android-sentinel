@@ -1,6 +1,6 @@
 package com.infinum.sentinel.data.sources.memory.annotations
 
-import com.infinum.sentinel.data.models.local.annotations.Annotation
+import com.infinum.sentinel.annotations.SentinelAnnotation
 import kotlin.random.Random
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,14 +14,14 @@ internal class InMemoryAnnotationCache : AnnotationCache {
         private const val ID_LENGTH = 8
     }
 
-    private val annotations = mutableListOf<Annotation>()
-    private val annotationsFlow = MutableStateFlow<List<Annotation>>(emptyList())
+    private val annotations = mutableListOf<SentinelAnnotation>()
+    private val annotationsFlow = MutableStateFlow<List<SentinelAnnotation>>(emptyList())
 
     override val active = MutableStateFlow(false)
 
-    override fun load(): StateFlow<List<Annotation>> = annotationsFlow.asStateFlow()
+    override fun load(): StateFlow<List<SentinelAnnotation>> = annotationsFlow.asStateFlow()
 
-    override suspend fun add(annotation: Annotation): Annotation {
+    override suspend fun add(annotation: SentinelAnnotation): SentinelAnnotation {
         val stored = if (annotation.id.isEmpty()) annotation.copy(id = generateId()) else annotation
         stored.target = annotation.target
         annotations.add(stored)
@@ -44,7 +44,7 @@ internal class InMemoryAnnotationCache : AnnotationCache {
      * drop it — every `copy()` in this class re-assigns it for exactly that reason, and this
      * path avoids the trap by never copying at all.
      */
-    override fun releaseTargets(owned: (Annotation) -> Boolean) {
+    override fun releaseTargets(owned: (SentinelAnnotation) -> Boolean) {
         annotations.forEach { annotation ->
             if (annotation.target != null && owned(annotation)) annotation.target = null
         }
@@ -72,7 +72,7 @@ internal class InMemoryAnnotationCache : AnnotationCache {
         publish()
     }
 
-    private fun replace(id: String, transform: (Annotation) -> Annotation) {
+    private fun replace(id: String, transform: (SentinelAnnotation) -> SentinelAnnotation) {
         val index = annotations.indexOfFirst { it.id == id }
         if (index < 0) return
         val previous = annotations[index]

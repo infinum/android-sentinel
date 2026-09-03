@@ -1,8 +1,9 @@
-package com.infinum.sentinel.domain.annotations
+package com.infinum.sentinel.annotations
 
 import android.content.Context
 import com.infinum.sentinel.R
-import com.infinum.sentinel.data.models.local.annotations.Annotation
+import com.infinum.sentinel.domain.annotations.HttpPoster
+import com.infinum.sentinel.domain.annotations.UrlConnectionHttpPoster
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -35,20 +36,20 @@ public class ClaudeRoutineExporter internal constructor(
 
     override fun label(): Int = R.string.sentinel_annotations_send
 
-    override suspend fun export(context: Context, annotations: List<Annotation>): String {
+    override suspend fun export(context: Context, annotations: List<SentinelAnnotation>): String {
         val count = send(annotations)
         return context.getString(R.string.sentinel_annotations_sent, count)
     }
 
     /** Posts [annotations] and returns how many were sent. Throws [IllegalStateException] on failure. */
-    internal suspend fun send(annotations: List<Annotation>): Int {
+    internal suspend fun send(annotations: List<SentinelAnnotation>): Int {
         val bearer = token()
         check(!bearer.isNullOrBlank()) { "No Claude token configured" }
 
         val payload =
             Json.encodeToString(
                 JsonObject.serializer(),
-                JsonObject(mapOf("text" to JsonPrimitive(Annotation.toExportJson(annotations)))),
+                JsonObject(mapOf("text" to JsonPrimitive(SentinelAnnotation.toExportJson(annotations)))),
             )
 
         val response =

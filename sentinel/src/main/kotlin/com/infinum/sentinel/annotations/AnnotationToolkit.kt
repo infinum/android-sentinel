@@ -1,4 +1,4 @@
-package com.infinum.sentinel.data.models.local.annotations
+package com.infinum.sentinel.annotations
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

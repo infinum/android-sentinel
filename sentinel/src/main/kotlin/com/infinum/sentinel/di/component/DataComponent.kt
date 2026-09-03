@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.infinum.sentinel.Sentinel
+import com.infinum.sentinel.annotations.AnnotationExporter
+import com.infinum.sentinel.annotations.ClipboardAnnotationExporter
 import com.infinum.sentinel.data.models.memory.triggers.airplanemode.AirplaneModeOnTrigger
 import com.infinum.sentinel.data.models.memory.triggers.foreground.ForegroundTrigger
 import com.infinum.sentinel.data.models.memory.triggers.manual.ManualTrigger
@@ -41,8 +43,6 @@ import com.infinum.sentinel.data.sources.raw.formatters.PlainFormatter
 import com.infinum.sentinel.data.sources.raw.formatters.XmlFormatter
 import com.infinum.sentinel.di.LibraryComponents
 import com.infinum.sentinel.di.scope.DataScope
-import com.infinum.sentinel.domain.annotations.AnnotationExporter
-import com.infinum.sentinel.domain.annotations.ClipboardAnnotationExporter
 import com.infinum.sentinel.domain.collectors.Collectors
 import com.infinum.sentinel.domain.formatters.Formatters
 import com.infinum.sentinel.ui.tools.AnnotationsTool

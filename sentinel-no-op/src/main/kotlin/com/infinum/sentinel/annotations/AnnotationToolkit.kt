@@ -1,4 +1,4 @@
-package com.infinum.sentinel.data.models.local.annotations
+package com.infinum.sentinel.annotations
 
 public enum class AnnotationToolkit {
     VIEW,

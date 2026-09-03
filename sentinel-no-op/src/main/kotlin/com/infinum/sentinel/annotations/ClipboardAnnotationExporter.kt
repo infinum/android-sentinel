@@ -1,7 +1,6 @@
-package com.infinum.sentinel.domain.annotations
+package com.infinum.sentinel.annotations
 
 import android.content.Context
-import com.infinum.sentinel.data.models.local.annotations.Annotation
 
 @Suppress("unused")
 public class ClipboardAnnotationExporter : AnnotationExporter {
@@ -10,5 +9,5 @@ public class ClipboardAnnotationExporter : AnnotationExporter {
     override fun label(): Int = 0
 
     @Suppress("UNUSED_PARAMETER")
-    override suspend fun export(context: Context, annotations: List<Annotation>): String = ""
+    override suspend fun export(context: Context, annotations: List<SentinelAnnotation>): String = ""
 }

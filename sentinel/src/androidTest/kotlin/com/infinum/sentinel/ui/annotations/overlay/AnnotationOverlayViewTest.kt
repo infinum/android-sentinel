@@ -5,8 +5,8 @@ import android.os.SystemClock
 import android.view.MotionEvent
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.infinum.sentinel.data.models.local.annotations.Annotation
-import com.infinum.sentinel.data.models.local.annotations.AnnotationToolkit
+import com.infinum.sentinel.annotations.AnnotationToolkit
+import com.infinum.sentinel.annotations.SentinelAnnotation
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -19,7 +19,7 @@ internal class AnnotationOverlayViewTest {
     private val context = ApplicationProvider.getApplicationContext<Context>()
 
     private fun annotation(id: String = "a1") =
-        Annotation(
+        SentinelAnnotation(
             id = id,
             note = "note",
             toolkit = AnnotationToolkit.VIEW,
@@ -66,7 +66,7 @@ internal class AnnotationOverlayViewTest {
     @Test
     @JvmName("passiveModeReportsTheTappedBadge")
     fun `passive mode reports the tapped badge`() {
-        var tapped: Annotation? = null
+        var tapped: SentinelAnnotation? = null
         val view =
             AnnotationOverlayView(context).apply {
                 captureActive = false
