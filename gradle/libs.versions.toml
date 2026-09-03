@@ -9,6 +9,7 @@ appcompat = "1.8.0"
 binaryCompatibility = "0.18.1"
 chucker = "4.3.1"
 collar = "2.1.0"
+compose = "1.11.4"
 core = "1.19.0"
 coroutines = "1.11.0"
 crypto = "1.1.0"
@@ -105,6 +106,9 @@ dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dok
 chucker = { module = "com.github.chuckerteam.chucker:library", version.ref = "chucker" }
 
 collar = { module = "com.infinum.collar:collar-ui", version.ref = "collar" }
+
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose-ui-tooling-data = { module = "androidx.compose.ui:ui-tooling-data", version.ref = "compose" }
 
 dbinspector = { module = "com.infinum.dbinspector:dbinspector", version.ref = "dbinspector" }
 

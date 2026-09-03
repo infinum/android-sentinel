@@ -95,6 +95,9 @@ dependencies {
     ksp(libs.inject.compiler)
     implementation(libs.inject.runtime)
 
+    compileOnly(libs.compose.ui)
+    compileOnly(libs.compose.ui.tooling.data)
+
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.androidx.arch.core.testing)
     androidTestImplementation(libs.androidx.test.core.ktx)
