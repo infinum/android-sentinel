@@ -36,6 +36,7 @@ internal class AnnotationsFragment : BaseChildFragment<AnnotationsState, Annotat
         with(binding) {
             recyclerView.layoutManager = LinearLayoutManager(recyclerView.context, LinearLayoutManager.VERTICAL, false)
             recyclerView.adapter = adapter
+            toolbar.setNavigationOnClickListener { requireActivity().finish() }
             toolbar.setOnMenuItemClickListener { item ->
                 if (item.itemId == R.id.clear) confirmClearAll()
                 true
