@@ -69,8 +69,8 @@ internal class ViewTargetResolverTest {
     }
 
     @Test
-    @JvmName("aPlainContainerWithoutAnAppIdIsNotAnnotatable")
-    fun `a plain container without an app id is not annotatable`() {
+    @JvmName("aPlainContainerWithoutAnAppIdIsNotTheInitialPickButCanBeBroadenedTo")
+    fun `a plain container without an app id is not the initial pick but can be broadened to`() {
         val container = LinearLayout(context)
         val root = laidOut(FrameLayout(context).apply { addView(container) })
 
@@ -78,7 +78,33 @@ internal class ViewTargetResolverTest {
         val child = node.children.first()
 
         assertEquals("LinearLayout", child.type)
+        // Not worth picking outright — an id-bearing ancestor or a Compose host outranks it...
         assertTrue(!child.annotatable)
+        // ...but broadening must be able to stop here, or a leaf under id-less wrappers has
+        // nowhere to broaden to and tapping it again does nothing.
+        assertTrue(child.broadenable)
+    }
+
+    @Test
+    @JvmName("aLeafUnderIdlessContainersCanBroadenUpTheTree")
+    fun `a leaf under id-less containers can broaden up the tree`() {
+        // Mirrors a real screen: a button wrapped in anonymous layout containers, none of which
+        // carries an app id.
+        val leaf = Button(context).apply { setText("Go") }
+        val inner = LinearLayout(context).apply { addView(leaf) }
+        val outer = LinearLayout(context).apply { addView(inner) }
+        val root = laidOut(FrameLayout(context).apply { addView(outer) })
+
+        val selected = ViewTargetResolver().resolve(root, 5, 5)!!.node
+        assertEquals("Button", selected.type)
+
+        val first = TargetSelection.stepUp(selected)
+        val second = first?.let { TargetSelection.stepUp(it) }
+
+        assertEquals("LinearLayout", first?.type)
+        assertTrue(first !== selected)
+        assertEquals("LinearLayout", second?.type)
+        assertTrue(second !== first)
     }
 
     @Test

@@ -34,7 +34,7 @@ internal object TargetSelection {
     fun stepUp(node: TargetNode): TargetNode? {
         var current = node.parent
         while (current != null) {
-            if (current.annotatable) return current
+            if (current.broadenable) return current
             current = current.parent
         }
         return null

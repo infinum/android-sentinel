@@ -51,6 +51,11 @@ internal class ViewTargetNode(
     /**
      * A view is worth selecting when the app declared its id, when it draws content, or when
      * it is interactive. Framework scaffolding is excluded outright.
+     *
+     * Containers are deliberately NOT included here. This predicate decides the *initial* pick,
+     * and admitting anonymous wrappers would let one outrank the two targets that actually carry
+     * information: an id-bearing ancestor, and a Compose host. Broadening the selection uses
+     * [broadenable] instead.
      */
     override val annotatable: Boolean =
         !isFrameworkChrome(view) &&
@@ -62,6 +67,20 @@ internal class ViewTargetNode(
                     view is Checkable ||
                     view.isClickable
                 )
+
+    /**
+     * Whether broadening the selection may stop here.
+     *
+     * Wider than [annotatable]: a layout container counts as a whole section, which is what makes
+     * repeated taps walk up the tree. Real layouts nest content in anonymous `LinearLayout` /
+     * `FrameLayout` wrappers carrying no id, so without this a leaf has no ancestor to broaden to
+     * and tapping it again does nothing at all. The source library admits `Flex`, `Wrap`, `Stack`,
+     * `Container` and `Padding` to its own whitelist for the same reason.
+     *
+     * A Compose host is excluded: it is walked as a leaf, so it is never an intermediate step.
+     */
+    override val broadenable: Boolean =
+        annotatable || (view is ViewGroup && !isOpaqueHost(view) && !isFrameworkChrome(view))
 
     /**
      * Children that are Sentinel's own overlays (see [SentinelOverlayView]) are dropped before a

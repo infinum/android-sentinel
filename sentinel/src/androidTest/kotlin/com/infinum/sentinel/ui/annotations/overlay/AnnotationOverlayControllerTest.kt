@@ -164,6 +164,57 @@ internal class AnnotationOverlayControllerTest {
     }
 
     /**
+     * Repeated taps on one spot must keep broadening up the tree, not flip between two nodes.
+     *
+     * The original guard compared the fresh hit's type against the *current* selection's. Since
+     * `resolve` always returns the deepest node, that matched only for the very first step: after
+     * broadening once the two types differed, so every later tap reset to the leaf and the
+     * selection oscillated between leaf and parent forever. The fix anchors the chain to the
+     * element it started from, which is why this walks three distinct levels.
+     */
+    @Test
+    @JvmName("repeatedTapsOnTheSameSpotKeepBroadeningUpTheTree")
+    fun `repeated taps on the same spot keep broadening up the tree`() {
+        val context = ApplicationProvider.getApplicationContext<android.content.Context>()
+        val leaf = TextView(context).apply { text = "Leaf" }
+        val inner = FrameLayout(context).apply { addView(leaf, FrameLayout.LayoutParams(100, 100)) }
+        val outer = FrameLayout(context).apply { addView(inner, FrameLayout.LayoutParams(100, 100)) }
+        val root = FrameLayout(context).apply { addView(outer, FrameLayout.LayoutParams(100, 100)) }
+
+        val controller = AnnotationOverlayController(InMemoryAnnotationCache())
+        val handleCaptureTap =
+            AnnotationOverlayController::class.java
+                .getDeclaredMethod("handleCaptureTap", Activity::class.java, Int::class.java, Int::class.java)
+                .apply { isAccessible = true }
+        val selectedField =
+            AnnotationOverlayController::class.java
+                .getDeclaredField("selected")
+                .apply { isAccessible = true }
+
+        val handles = mutableListOf<Any?>()
+        ActivityScenario.launch(AnnotationHostTestActivity::class.java).use { scenario ->
+            scenario.onActivity { activity ->
+                activity.window.decorView.findViewById<ViewGroup>(android.R.id.content).addView(root)
+            }
+            // Off the main thread: the views must be laid out before their on-screen bounds mean
+            // anything, and waitForIdleSync cannot be called from the main thread.
+            InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+            scenario.onActivity { activity ->
+                val location = IntArray(2)
+                leaf.getLocationOnScreen(location)
+                repeat(3) {
+                    handleCaptureTap.invoke(controller, activity, location[0] + 5, location[1] + 5)
+                    handles += (selectedField.get(controller) as ResolvedTarget?)?.handle
+                }
+            }
+        }
+
+        assertSame(leaf, handles[0])
+        assertSame(inner, handles[1])
+        assertSame(outer, handles[2])
+    }
+
+    /**
      * Reproduces the real arrangement `AnnotationOverlayController.attach` creates — the overlay
      * as the *last* child of `decorView`, laid on top of and covering real app content — rather
      * than the hand-built, overlay-free `FrameLayout` root every other resolver test uses. None

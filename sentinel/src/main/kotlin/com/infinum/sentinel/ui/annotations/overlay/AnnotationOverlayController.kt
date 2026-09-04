@@ -55,6 +55,15 @@ internal class AnnotationOverlayController(
     private var selected: ResolvedTarget? = null
 
     /**
+     * The element the current selection chain started from — the deepest hit of the tap that began
+     * it — kept so repeated taps on the same spot keep broadening instead of resetting.
+     *
+     * Held as the live handle rather than a [TargetNode]: each tap rebuilds the node tree, so node
+     * identity is not stable across taps, while the underlying `View` is.
+     */
+    private var selectionAnchor: Any? = null
+
+    /**
      * Ids of the notes whose [TargetResolver.rebind] already failed during the current layout
      * pass. [refreshMarkers] runs from a pre-draw listener, so without this a note that cannot
      * re-bind on this screen — the ordinary "annotated in one Fragment, navigated to another
@@ -149,6 +158,7 @@ internal class AnnotationOverlayController(
         stopButton?.visibility = AnnotationStopButton.visibilityFor(active)
         if (!active) {
             selected = null
+            selectionAnchor = null
             card?.hide()
         }
         // The stored notes changed, so a rebind that failed against the previous list may now
@@ -242,6 +252,7 @@ internal class AnnotationOverlayController(
         card = null
         stopButton = null
         selected = null
+        selectionAnchor = null
     }
 
     /**
@@ -258,10 +269,15 @@ internal class AnnotationOverlayController(
         val fresh = resolver.resolve(root, x, y) ?: return
         val current = selected
 
+        // Broaden only when this tap resolves to the same element the chain started from.
+        // Comparing the fresh hit against the *current* selection cannot work: `resolve` always
+        // returns the deepest node, so after one step up the two never match again and every
+        // further tap would reset instead of continuing up the tree.
         val next =
-            if (current != null && current.node.bounds.contains(x, y) && current.node.type == fresh.node.type) {
+            if (current != null && fresh.handle === selectionAnchor) {
                 stepUpTarget(current) ?: fresh
             } else {
+                selectionAnchor = fresh.handle
                 fresh
             }
 
@@ -350,6 +366,7 @@ internal class AnnotationOverlayController(
                 )
             stored.target = target.handle
             selected = null
+            selectionAnchor = null
             overlay?.selection = null
         }
     }
