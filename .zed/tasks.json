@@ -1,14 +1,14 @@
 [
   {
     "label": "Sample: install and run",
-    "command": "./gradlew :sample:installDebug && adb shell monkey -p com.infinum.sentinel.sample.debug -c android.intent.category.LAUNCHER 1",
+    "command": "./gradlew :sample:installDebug && adb shell am start -n com.infinum.sentinel.sample.debug/com.infinum.sentinel.sample.MainActivity",
     "cwd": "$ZED_WORKTREE_ROOT",
     "reveal": "always",
     "save": "all"
   },
   {
     "label": "Sample: install, run and tail logs",
-    "command": "./gradlew :sample:installDebug && adb shell monkey -p com.infinum.sentinel.sample.debug -c android.intent.category.LAUNCHER 1 && adb logcat --pid=$(adb shell pidof -s com.infinum.sentinel.sample.debug)",
+    "command": "./gradlew :sample:installDebug && adb shell am start -n com.infinum.sentinel.sample.debug/com.infinum.sentinel.sample.MainActivity && adb logcat --pid=$(adb shell pidof -s com.infinum.sentinel.sample.debug)",
     "cwd": "$ZED_WORKTREE_ROOT",
     "use_new_terminal": true,
     "reveal": "always",
