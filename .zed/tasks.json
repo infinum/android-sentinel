@@ -1,0 +1,71 @@
+[
+  {
+    "label": "Sample: install and run",
+    "command": "./gradlew :sample:installDebug && adb shell monkey -p com.infinum.sentinel.sample.debug -c android.intent.category.LAUNCHER 1",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "reveal": "always",
+    "save": "all"
+  },
+  {
+    "label": "Sample: install, run and tail logs",
+    "command": "./gradlew :sample:installDebug && adb shell monkey -p com.infinum.sentinel.sample.debug -c android.intent.category.LAUNCHER 1 && adb logcat --pid=$(adb shell pidof -s com.infinum.sentinel.sample.debug)",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": true,
+    "reveal": "always",
+    "save": "all"
+  },
+  {
+    "label": "Sample: install only",
+    "command": "./gradlew :sample:installDebug",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "reveal": "always",
+    "save": "all"
+  },
+  {
+    "label": "Sample: uninstall",
+    "command": "adb uninstall com.infinum.sentinel.sample.debug",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "reveal": "always"
+  },
+  {
+    "label": "Sentinel: unit tests",
+    "command": "./gradlew :sentinel:testDebugUnitTest",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "reveal": "always",
+    "save": "all"
+  },
+  {
+    "label": "Sentinel: instrumented tests (needs a device)",
+    "command": "./gradlew :sentinel:connectedDebugAndroidTest && echo '--- real counts, since ignoreFailures=true makes the exit code meaningless ---' && grep -ho 'tests=\"[0-9]*\" failures=\"[0-9]*\" errors=\"[0-9]*\" skipped=\"[0-9]*\"' sentinel/build/outputs/androidTest-results/connected/debug/*.xml",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "reveal": "always",
+    "save": "all"
+  },
+  {
+    "label": "Sentinel: annotation overlay tests",
+    "command": "./gradlew :sentinel:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.package=com.infinum.sentinel.ui.annotations.overlay && grep -ho 'tests=\"[0-9]*\" failures=\"[0-9]*\" errors=\"[0-9]*\" skipped=\"[0-9]*\"' sentinel/build/outputs/androidTest-results/connected/debug/*.xml",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "reveal": "always",
+    "save": "all"
+  },
+  {
+    "label": "Sentinel: full check (build, tests, detekt, lint, api parity)",
+    "command": "./gradlew :sentinel:assembleDebug :sentinel-no-op:assembleDebug :sentinel:testDebugUnitTest :sentinel:detekt :sentinel:lintDebug compareSentinelApis",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "reveal": "always",
+    "save": "all"
+  },
+  {
+    "label": "Sentinel: apiDump (after changing public API)",
+    "command": "./gradlew :sentinel:apiDump :sentinel-no-op:apiDump && ./gradlew compareSentinelApis",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "reveal": "always",
+    "save": "all"
+  },
+  {
+    "label": "Devices: list",
+    "command": "adb devices -l",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "reveal": "always"
+  }
+]
