@@ -55,6 +55,20 @@ internal object TargetSelection {
      * Position of [node] among same-type nodes under [root], as `(ordinal, count)`, ordered top
      * to bottom then left to right. `(1, count)` when [node] cannot be located among the matches.
      */
+    /**
+     * The root of the tree [node] belongs to.
+     *
+     * [ordinalOf] locates its target by node identity, so it must be counted against the very tree
+     * the target came from — a freshly built one holds different node objects for the same views
+     * and the target would never be found in it.
+     */
+    fun rootOf(node: TargetNode): TargetNode {
+        var current = node
+        while (true) {
+            current = current.parent ?: return current
+        }
+    }
+
     fun ordinalOf(root: TargetNode, node: TargetNode): Pair<Int, Int> {
         val matches = mutableListOf<TargetNode>()
         collectByType(root, node.type, matches)

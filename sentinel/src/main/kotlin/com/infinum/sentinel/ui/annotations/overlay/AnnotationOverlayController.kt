@@ -12,7 +12,6 @@ import android.widget.FrameLayout
 import androidx.compose.ui.tooling.data.UiToolingDataApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.infinum.sentinel.annotations.AnnotationToolkit
 import com.infinum.sentinel.annotations.SentinelAnnotation
 import com.infinum.sentinel.data.sources.memory.annotations.AnnotationCache
 import com.infinum.sentinel.extensions.isSentinelOwnScreen
@@ -333,14 +332,13 @@ internal class AnnotationOverlayController(
     }
 
     private fun saveNote(host: Activity, target: ResolvedTarget, note: String) {
-        val root = host.window.decorView
-        val tree =
-            if (target.toolkit == AnnotationToolkit.COMPOSE) {
-                ComposeSupport.rootNodeOf(root)
-            } else {
-                root.toTargetNode(parent = null)
-            }
-        val (ordinal, ordinalCount) = tree?.let { TargetSelection.ordinalOf(it, target.node) } ?: (1 to 1)
+        // Counted against the target's OWN tree, walked up from the node itself. Building a fresh
+        // tree here instead would hold different node objects for the same views, so ordinalOf —
+        // which finds its target by identity — would never locate it and every annotation would be
+        // stamped as position 1. Deriving the root also drops a redundant whole-tree rebuild, and
+        // works the same for both toolkits.
+        val (ordinal, ordinalCount) =
+            TargetSelection.ordinalOf(TargetSelection.rootOf(target.node), target.node)
 
         scope.launch {
             val stored =

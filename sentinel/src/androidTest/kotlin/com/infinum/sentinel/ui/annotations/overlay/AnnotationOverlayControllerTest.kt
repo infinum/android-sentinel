@@ -164,6 +164,55 @@ internal class AnnotationOverlayControllerTest {
     }
 
     /**
+     * The saved ordinal must be the element's real position among its same-type siblings.
+     *
+     * `saveNote` used to resolve the target from one tree and then build a *second* tree to count
+     * against. `ordinalOf` locates the target by node identity, which cannot hold across two
+     * separately-built trees, so it always fell through to its not-found branch and stamped every
+     * annotation as position 1 — no matter where on the screen the element actually was.
+     */
+    @Test
+    @JvmName("theSavedOrdinalIsTheElementsRealPosition")
+    fun `the saved ordinal is the element's real position`() {
+        val context = ApplicationProvider.getApplicationContext<android.content.Context>()
+        val first = TextView(context).apply { text = "first" }
+        val second = TextView(context).apply { text = "second" }
+        val column =
+            android.widget.LinearLayout(context).apply {
+                orientation = android.widget.LinearLayout.VERTICAL
+                addView(first, android.widget.LinearLayout.LayoutParams(300, 60))
+                addView(second, android.widget.LinearLayout.LayoutParams(300, 60))
+            }
+        val root = FrameLayout(context).apply { addView(column) }
+
+        val cache = InMemoryAnnotationCache()
+        val controller = AnnotationOverlayController(cache)
+        val saveNote =
+            AnnotationOverlayController::class.java
+                .getDeclaredMethod("saveNote", Activity::class.java, ResolvedTarget::class.java, String::class.java)
+                .apply { isAccessible = true }
+
+        ActivityScenario.launch(AnnotationHostTestActivity::class.java).use { scenario ->
+            scenario.onActivity { activity ->
+                activity.window.decorView.findViewById<ViewGroup>(android.R.id.content).addView(root)
+            }
+            InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+            scenario.onActivity { activity ->
+                val location = IntArray(2)
+                second.getLocationOnScreen(location)
+                val target = ViewTargetResolver().resolve(activity.window.decorView, location[0] + 5, location[1] + 5)!!
+                assertEquals("second", target.node.text)
+                saveNote.invoke(controller, activity, target, "note on the second one")
+            }
+            InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        }
+
+        val saved = cache.load().value.single()
+        assertEquals(2, saved.ordinal)
+        assertEquals(2, saved.ordinalCount)
+    }
+
+    /**
      * Repeated taps on one spot must keep broadening up the tree, not flip between two nodes.
      *
      * The original guard compared the fresh hit's type against the *current* selection's. Since
