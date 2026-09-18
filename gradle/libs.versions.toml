@@ -155,7 +155,8 @@ tools = [
     "toolappgallery",
     "toolgoogleplay",
     "tooltimber",
-    "toolnetworkemulatorokhttp"
+    "toolnetworkemulatorokhttp",
+    "toolshowkase"
 ]
 
 [plugins]
