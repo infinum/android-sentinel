@@ -27,6 +27,8 @@ The project is organized in the following modules:
 - `tool-googleplay` - contains a class wrapper for Google Play
 - `tool-timber` - contains a class wrapper for Timber
 - `tool-networkemulator-okhttp` - contains a class wrapper for NetworkEmulator
+- `tool-showkase` - contains a class wrapper for Showkase
+- `tool-showkase-no-op` - contains stubs for easy release implementation of the Showkase wrapper
 - `sample` - a sample app for testing and developing
 
 
@@ -105,6 +107,8 @@ debugImplementation "com.infinum.sentinel:tool-appgallery:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-googleplay:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-timber:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-networkemulator-okhttp:$sentinelVersion"
+debugImplementation "com.infinum.sentinel:tool-showkase:$sentinelVersion"
+releaseImplementation "com.infinum.sentinel:tool-showkase-no-op:$sentinelVersion"
 ```
 
 **KotlinDSL**
@@ -118,6 +122,8 @@ debugImplementation("com.infinum.sentinel:tool-appgallery:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-googleplay:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-timber:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-networkemulator-okhttp:$sentinelVersion")
+debugImplementation("com.infinum.sentinel:tool-showkase:$sentinelVersion")
+releaseImplementation("com.infinum.sentinel:tool-showkase-no-op:$sentinelVersion")
 ```
 
 Now you can sync your project.
@@ -202,6 +208,36 @@ Depending of what you include as module dependencies, very specific tools are pr
 - `GooglePlayTool` - a wrapper class that opens Google Play of a published application or a web page
   of the application if Google Play is not found
 - `NetworkEmulatorTool` - a wrapper class that opens [NetworkEmulator](https://github.com/infinum/android-sentinel/tree/master/tool-networkemulator-okhttp). Enables user to modify network conditions.
+- `ShowkaseTool` - a wrapper class that opens [Showkase](https://github.com/airbnb/Showkase), Airbnb's
+  Compose component browser. Requires additional setup, see [Showkase](#showkase) below.
+
+##### Showkase
+
+Unlike the other wrappers, Showkase needs build configuration in your project, because its
+annotation processor has to run over your own sources. The short version:
+
+```groovy
+debugImplementation   "com.infinum.sentinel:tool-showkase:$sentinelVersion"
+releaseImplementation "com.infinum.sentinel:tool-showkase-no-op:$sentinelVersion"
+debugImplementation   "com.airbnb.android:showkase:1.0.5"
+kspDebug              "com.airbnb.android:showkase-processor:1.0.5"
+```
+
+Use a variant-scoped `ksp` configuration such as `kspDebug`, never the project-wide `ksp`
+configuration: that one applies the processor to every variant, production included.
+
+Register the tool with your app's `@ShowkaseRoot` module:
+
+```kotlin
+Sentinel.watch(
+    setOf(
+        ShowkaseTool(MyRootModule::class),
+    ),
+)
+```
+
+[tool-showkase/README.md](tool-showkase/README.md) covers the full setup, flavored projects,
+minified builds and troubleshooting.
 
 
 #### Source abstractions

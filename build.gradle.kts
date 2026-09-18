@@ -73,7 +73,9 @@ tasks.register("lintAll") {
         ":tool-dbinspector:lintRelease",
         ":tool-leakcanary:lintRelease",
         ":tool-appgallery:lintRelease",
-        ":tool-googleplay:lintRelease"
+        ":tool-googleplay:lintRelease",
+        ":tool-showkase:lintRelease",
+        ":tool-showkase-no-op:lintRelease"
     )
     group = "Verification"
     description = "Run Detekt on all modules"
@@ -88,7 +90,9 @@ tasks.register("detektAll") {
         ":tool-dbinspector:detekt",
         ":tool-leakcanary:detekt",
         ":tool-appgallery:detekt",
-        ":tool-googleplay:detekt"
+        ":tool-googleplay:detekt",
+        ":tool-showkase:detekt",
+        ":tool-showkase-no-op:detekt"
     )
     group = "Verification"
     description = "Run Detekt on all modules"

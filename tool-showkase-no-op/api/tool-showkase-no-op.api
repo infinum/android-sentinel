@@ -1,0 +1,12 @@
+public final class com/infinum/sentinel/ui/tools/ShowkaseTool : com/infinum/sentinel/Sentinel$Tool {
+	public fun <init> (Lkotlin/reflect/KClass;)V
+	public final fun copy (Lkotlin/reflect/KClass;)Lcom/infinum/sentinel/ui/tools/ShowkaseTool;
+	public static synthetic fun copy$default (Lcom/infinum/sentinel/ui/tools/ShowkaseTool;Lkotlin/reflect/KClass;ILjava/lang/Object;)Lcom/infinum/sentinel/ui/tools/ShowkaseTool;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun icon ()Ljava/lang/Integer;
+	public fun listener ()Landroid/view/View$OnClickListener;
+	public fun name ()I
+	public fun toString ()Ljava/lang/String;
+}
+
