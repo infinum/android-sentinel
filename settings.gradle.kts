@@ -15,6 +15,8 @@ include(":tool-googleplay")
 include(":tool-appgallery")
 include(":tool-networkemulator-okhttp")
 include(":tool-networkemulator-okhttp-no-op")
+include(":tool-showkase")
+include(":tool-showkase-no-op")
 include(":tool-timber")
 
 gradle.startParameter.excludedTaskNames.add(":buildSrc:testClasses")
