@@ -1,0 +1,5 @@
+-keeppackagenames
+-keep public class com.infinum.sentinel.ui.tools.ShowkaseTool {
+  public protected *;
+}
+-keep public class com.infinum.sentinel.databinding.**

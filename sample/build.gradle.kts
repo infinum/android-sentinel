@@ -7,6 +7,8 @@ val releaseConfig = extra["releaseConfig"] as Map<String, Any>
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -93,4 +95,19 @@ dependencies {
     debugImplementation(project(":tool-networkemulator-okhttp"))
     releaseImplementation(project(":tool-networkemulator-okhttp-no-op"))
     debugImplementation(project(":tool-timber"))
+
+    debugImplementation(project(":tool-showkase"))
+    releaseImplementation(project(":tool-showkase-no-op"))
+
+    debugImplementation(libs.showkase)
+    debugImplementation(libs.compose.runtime)
+    debugImplementation(libs.compose.material)
+
+    // The Compose compiler plugin applies to every variant and refuses to run without the
+    // runtime on the compile classpath, even though release has no composables
+    releaseCompileOnly(libs.compose.runtime)
+
+    // Variant-scoped on purpose. The project-wide `ksp` configuration would run the
+    // processor for release, where the browser runtime does not exist.
+    kspDebug(libs.showkase.processor)
 }
