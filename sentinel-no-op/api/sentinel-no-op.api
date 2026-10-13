@@ -127,6 +127,12 @@ public final class com/infinum/sentinel/ui/tools/NetworkEmulatorTool : com/infin
 	public fun name ()I
 }
 
+public final class com/infinum/sentinel/ui/tools/NetworkProxyTool : com/infinum/sentinel/Sentinel$Tool {
+	public fun <init> ()V
+	public fun listener ()Landroid/view/View$OnClickListener;
+	public fun name ()I
+}
+
 public final class com/infinum/sentinel/ui/tools/TimberTool : com/infinum/sentinel/Sentinel$Tool {
 	public fun <init> ()V
 	public fun <init> (Ljava/util/List;)V

@@ -1,0 +1,87 @@
+@Suppress("UNCHECKED_CAST")
+val buildConfig = extra["buildConfig"] as Map<String, Any>
+@Suppress("UNCHECKED_CAST")
+val releaseConfig = extra["releaseConfig"] as Map<String, Any>
+
+plugins {
+    id("com.android.library")
+    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.gradle.maven.publish)
+}
+
+android {
+    buildFeatures {
+        buildConfig = false
+        viewBinding = true
+    }
+
+    compileSdk = buildConfig["compileSdk"] as Int
+    buildToolsVersion = buildConfig["buildTools"] as String
+
+    defaultConfig {
+        minSdk = buildConfig["minSdk"] as Int
+    }
+
+    buildTypes {
+        debug {
+            isMinifyEnabled = false
+        }
+        release {
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.txt")
+        }
+    }
+
+    namespace = "com.infinum.sentinel.tool.networkproxy"
+    resourcePrefix = "sentinel_"
+
+    kotlin {
+        jvmToolchain(11)
+
+        compilerOptions {
+            freeCompilerArgs.addAll(
+                listOf(
+                    "-Xexplicit-api=strict",
+                    "-Xjvm-default=all"
+                )
+            )
+        }
+    }
+
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(11))
+        }
+    }
+}
+
+tasks.named("dokkaGenerate") {
+    mustRunAfter(":tool-networkproxy-okhttp:generateReleaseRFile")
+}
+
+dependencies {
+    implementation(libs.kotlin.core)
+    api(libs.library)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.recycler)
+    implementation(libs.material)
+    // OkHttp is provided by the app using the network proxy
+    compileOnly(libs.okhttp)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.okhttp)
+    testImplementation(libs.okhttp.mockwebserver)
+    // The real artifact makes the codec testable on the JVM
+    testImplementation(libs.orgjson)
+}
+
+val groupId: String by project
+
+mavenPublishing {
+    coordinates(
+        groupId = groupId,
+        artifactId = "tool-networkproxy-okhttp",
+        version = releaseConfig["version"] as String
+    )
+}

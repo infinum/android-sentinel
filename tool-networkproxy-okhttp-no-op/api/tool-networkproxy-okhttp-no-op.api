@@ -1,0 +1,5 @@
+public final class com/infinum/sentinel/domain/networkproxy/NetworkProxyInterceptor : okhttp3/Interceptor {
+	public fun <init> (Landroid/content/Context;)V
+	public fun intercept (Lokhttp3/Interceptor$Chain;)Lokhttp3/Response;
+}
+
