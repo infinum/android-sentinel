@@ -33,4 +33,7 @@
 -keep public class com.infinum.sentinel.ui.tools.NetworkEmulatorTool {
   public protected *;
 }
+-keep public class com.infinum.sentinel.ui.tools.NetworkProxyTool {
+  public protected *;
+}
 -keep public class com.infinum.sentinel.databinding.**
