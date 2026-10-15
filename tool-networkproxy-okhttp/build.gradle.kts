@@ -64,6 +64,7 @@ dependencies {
     api(libs.library)
     implementation(libs.androidx.core)
     implementation(libs.androidx.activity)
+    implementation(libs.androidx.fragment)
     implementation(libs.androidx.recycler)
     implementation(libs.material)
     // OkHttp is provided by the app using the network proxy
