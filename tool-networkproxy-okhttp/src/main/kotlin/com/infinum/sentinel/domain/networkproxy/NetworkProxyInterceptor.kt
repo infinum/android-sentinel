@@ -10,7 +10,9 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Protocol
 import okhttp3.Request
 import okhttp3.Response
+import okhttp3.ResponseBody.Companion.asResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
+import okio.buffer
 
 public class NetworkProxyInterceptor internal constructor(
     private val ruleSource: RuleSource,
@@ -35,23 +37,33 @@ public class NetworkProxyInterceptor internal constructor(
                     mocked
                 }
             }
-            RuleMode.MODIFY -> {
-                val real = chain.proceed(request)
-                // Captured before modify() so the recorded call always holds the real body
-                val captured = safely { capture(real) }
-                val modified = safely { modify(real, rule) }
-                if (captured != null) {
-                    safely { recentCalls.record(captured.copy(mocked = modified != null)) }
-                }
-                modified ?: real
-            }
+            RuleMode.MODIFY -> proceedAndModify(chain, request, rule)
         }
     }
 
     private fun proceedAndRecord(
         chain: Interceptor.Chain,
         request: Request,
-    ): Response = chain.proceed(request).also { real -> safely { capture(real)?.let(recentCalls::record) } }
+    ): Response = recording(chain.proceed(request), mocked = false)
+
+    private fun proceedAndModify(
+        chain: Interceptor.Chain,
+        request: Request,
+        rule: ProxyRule,
+    ): Response {
+        val real = chain.proceed(request)
+        // The app never reads a replaced real body, so it is read here for the recording, before modify() closes it
+        val realBody = rule.body?.let { safely { readBody(real) } }
+        val modified = safely { modify(real, rule) }
+        return when {
+            modified == null -> recording(real, mocked = false)
+            rule.body == null -> recording(modified, statusCode = real.code, mocked = true)
+            else -> {
+                safely { recentCalls.record(recentCall(real, real.code, mocked = true).copy(body = realBody)) }
+                modified
+            }
+        }
+    }
 
     private fun findRule(request: Request): ProxyRule? {
         if (!ruleSource.isEnabled) return null
@@ -102,36 +114,62 @@ public class NetworkProxyInterceptor internal constructor(
         return modified
     }
 
-    private fun capture(real: Response): RecentCall {
-        val request = real.request
-        val contentType = real.body.contentType()
-        return RecentCall(
-            method = request.method,
-            path = request.url.encodedPath,
-            statusCode = real.code,
-            timestamp = System.currentTimeMillis(),
-            body = captureBody(real, contentType),
-            contentType = contentType?.toString(),
-            mocked = false,
-        )
-    }
-
-    // Unknown length (-1) is still captured: OkHttp drops Content-Length, so most real API
-    // responses report it. Streaming types are excluded by name instead, since peeking one would block the
-    // caller until the stream ends
-    private fun captureBody(
+    // The body is captured while the app reads it and never read here, since reading it would hold the response
+    // back until the whole body has downloaded
+    private fun recording(
         response: Response,
-        contentType: MediaType?,
-    ): String? {
-        val capturable =
-            contentType != null &&
-                contentType.isTextLike() &&
-                !contentType.isStreaming() &&
-                response.body.contentLength() <= MAX_BODY_BYTES
-        if (!capturable) return null
+        statusCode: Int = response.code,
+        mocked: Boolean,
+    ): Response =
+        safely {
+            val call = recentCall(response, statusCode, mocked)
+            val contentType = response.body.contentType()
+            if (contentType == null || !isCapturable(response, contentType)) {
+                recentCalls.record(call)
+                response
+            } else {
+                val source =
+                    CapturingSource(response.body.source(), MAX_BODY_BYTES) { captured ->
+                        safely {
+                            val body = captured?.readString(contentType.charset() ?: Charsets.UTF_8)
+                            recentCalls.record(call.copy(timestamp = System.currentTimeMillis(), body = body))
+                        }
+                    }
+                response
+                    .newBuilder()
+                    .body(source.buffer().asResponseBody(contentType, response.body.contentLength()))
+                    .build()
+            }
+        } ?: response
+
+    private fun recentCall(
+        response: Response,
+        statusCode: Int,
+        mocked: Boolean,
+    ): RecentCall =
+        RecentCall(
+            method = response.request.method,
+            path = response.request.url.encodedPath,
+            statusCode = statusCode,
+            timestamp = System.currentTimeMillis(),
+            body = null,
+            contentType = response.body.contentType()?.toString(),
+            mocked = mocked,
+        )
+
+    // Unknown length (-1) is still captured: OkHttp drops Content-Length, so most real API responses report it.
+    // Streaming types are recorded right away without a body, since a stream may never reach its end
+    private fun isCapturable(
+        response: Response,
+        contentType: MediaType,
+    ): Boolean = contentType.isTextLike() && !contentType.isStreaming() && response.body.contentLength() <= MAX_BODY_BYTES
+
+    private fun readBody(response: Response): String? {
+        val contentType = response.body.contentType()
+        if (contentType == null || !isCapturable(response, contentType)) return null
         // Peeking one byte past the limit tells a chunked body apart from one that fits exactly
         val peeked = response.peekBody(MAX_BODY_BYTES + 1)
-        return if (peeked.contentLength() > MAX_BODY_BYTES) null else peeked.string()
+        return peeked.takeIf { it.contentLength() <= MAX_BODY_BYTES }?.string()
     }
 
     private fun MediaType.isTextLike(): Boolean =

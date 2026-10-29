@@ -3,6 +3,7 @@ package com.infinum.sentinel.domain.networkproxy
 import com.infinum.sentinel.domain.networkproxy.models.HttpMethod
 import com.infinum.sentinel.domain.networkproxy.models.ProxyRule
 import com.infinum.sentinel.domain.networkproxy.models.RuleMode
+import java.util.concurrent.TimeUnit
 import mockwebserver3.MockResponse
 import mockwebserver3.MockWebServer
 import okhttp3.OkHttpClient
@@ -90,6 +91,11 @@ internal class NetworkProxyInterceptorTest {
             assertEquals(realBody, response.body.string())
         }
         assertEquals(1, server.requestCount)
+
+        val call = recentCalls.snapshot().single()
+        assertEquals(200, call.statusCode)
+        assertEquals(realBody, call.body)
+        assertTrue(call.mocked)
     }
 
     @Test
@@ -150,7 +156,7 @@ internal class NetworkProxyInterceptorTest {
     @Test
     fun `mock mode does not overwrite a previously captured real response`() {
         enqueueReal()
-        client.newCall(request("/users")).execute().close()
+        client.newCall(request("/users")).execute().use { it.body.string() }
         ruleSource.rules = listOf(ProxyRule(pathPattern = "/users", mode = RuleMode.MOCK, statusCode = 404, body = "{}"))
 
         client.newCall(request("/users")).execute().close()
@@ -193,6 +199,56 @@ internal class NetworkProxyInterceptorTest {
         assertEquals(null, recentCalls.snapshot().single().body)
     }
 
+    @Test
+    fun `the response is returned before its body has downloaded`() {
+        ruleSource.isEnabled = false
+        server.enqueue(
+            MockResponse
+                .Builder()
+                .addHeader("Content-Type", "application/json")
+                .body("x".repeat(2_000))
+                .throttleBody(200, 300, TimeUnit.MILLISECONDS)
+                .build(),
+        )
+
+        val start = System.nanoTime()
+        val response = client.newCall(request("/stream")).execute()
+        val elapsedMillis = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start)
+        response.close()
+
+        assertTrue("execute() took $elapsedMillis ms", elapsedMillis < 1_000)
+    }
+
+    @Test
+    fun `a body closed before it was read to the end is recorded without it`() {
+        enqueueReal()
+
+        client.newCall(request("/users")).execute().close()
+
+        val call = recentCalls.snapshot().single()
+        assertEquals(200, call.statusCode)
+        assertEquals(null, call.body)
+    }
+
+    @Test
+    fun `a chunked body of exactly the capture limit is recorded with it`() {
+        val body = "x".repeat(256 * 1024)
+        enqueueChunked(body)
+
+        client.newCall(request("/large")).execute().use { it.body.string() }
+
+        assertEquals(body, recentCalls.snapshot().single().body)
+    }
+
+    @Test
+    fun `a chunked body over the capture limit is recorded without it`() {
+        enqueueChunked("x".repeat(256 * 1024 + 1))
+
+        client.newCall(request("/large")).execute().use { it.body.string() }
+
+        assertEquals(null, recentCalls.snapshot().single().body)
+    }
+
     private fun enqueueReal() {
         server.enqueue(
             MockResponse
@@ -200,6 +256,16 @@ internal class NetworkProxyInterceptorTest {
                 .code(200)
                 .addHeader("Content-Type", "application/json")
                 .body(realBody)
+                .build(),
+        )
+    }
+
+    private fun enqueueChunked(body: String) {
+        server.enqueue(
+            MockResponse
+                .Builder()
+                .addHeader("Content-Type", "application/json")
+                .chunkedBody(body, 8 * 1024)
                 .build(),
         )
     }
