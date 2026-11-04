@@ -1,6 +1,7 @@
 package com.infinum.sentinel.domain.networkproxy
 
 import android.content.Context
+import android.util.Log
 import com.infinum.sentinel.domain.networkproxy.models.ProxyRule
 import com.infinum.sentinel.domain.networkproxy.models.RecentCall
 import com.infinum.sentinel.domain.networkproxy.models.RuleMode
@@ -25,6 +26,10 @@ public class NetworkProxyInterceptor internal constructor(
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
+        if (chain.connection() != null) {
+            Log.w("Sentinel", NETWORK_INTERCEPTOR_WARNING)
+            return chain.proceed(request)
+        }
         val rule = safely { findRule(request) }
         return when (rule?.mode) {
             null -> proceedAndRecord(chain, request)
@@ -191,6 +196,9 @@ public class NetworkProxyInterceptor internal constructor(
         private const val MAX_BODY_BYTES: Long = 256L * 1024L
         private const val HEADER_CONTENT_TYPE = "Content-Type"
         private const val HEADER_CONTENT_LENGTH = "Content-Length"
+        private const val NETWORK_INTERCEPTOR_WARNING =
+            "NetworkProxyInterceptor was added with addNetworkInterceptor(), so its rules are ignored. " +
+                "Add it with addInterceptor() instead."
         private val STREAMING_TYPES =
             listOf(
                 "text" to "event-stream",

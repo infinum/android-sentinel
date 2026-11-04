@@ -23,6 +23,9 @@ Sentinel.watch(setOf(NetworkProxyTool()))
 
 Add the proxy interceptor after Chucker so Chucker records what the app actually received.
 
+Use `addInterceptor()`, not `addNetworkInterceptor()`. Added as a network interceptor, the proxy ignores its rules,
+passes every call through and logs a warning.
+
 ## Usage
 
 1. Make the calls you want to alter. They appear under **Seen recently** even while the proxy is off.
