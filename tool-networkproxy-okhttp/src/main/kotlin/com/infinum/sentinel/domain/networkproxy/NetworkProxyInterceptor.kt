@@ -49,7 +49,7 @@ public class NetworkProxyInterceptor internal constructor(
     private fun proceedAndRecord(
         chain: Interceptor.Chain,
         request: Request,
-    ): Response = recording(chain.proceed(request), mocked = false)
+    ): Response = recording(request, chain.proceed(request), mocked = false)
 
     private fun proceedAndModify(
         chain: Interceptor.Chain,
@@ -61,10 +61,10 @@ public class NetworkProxyInterceptor internal constructor(
         val realBody = rule.body?.let { safely { readBody(real) } }
         val modified = safely { modify(real, rule) }
         return when {
-            modified == null -> recording(real, mocked = false)
-            rule.body == null -> recording(modified, statusCode = real.code, mocked = true)
+            modified == null -> recording(request, real, mocked = false)
+            rule.body == null -> recording(request, modified, statusCode = real.code, mocked = true)
             else -> {
-                safely { recentCalls.record(recentCall(real, real.code, mocked = true).copy(body = realBody)) }
+                safely { recentCalls.record(recentCall(request, real, real.code, mocked = true).copy(body = realBody)) }
                 modified
             }
         }
@@ -122,12 +122,13 @@ public class NetworkProxyInterceptor internal constructor(
     // The body is captured while the app reads it and never read here, since reading it would hold the response
     // back until the whole body has downloaded
     private fun recording(
+        request: Request,
         response: Response,
         statusCode: Int = response.code,
         mocked: Boolean,
     ): Response =
         safely {
-            val call = recentCall(response, statusCode, mocked)
+            val call = recentCall(request, response, statusCode, mocked)
             val contentType = response.body.contentType()
             if (contentType == null || !isCapturable(response, contentType)) {
                 recentCalls.record(call)
@@ -148,13 +149,14 @@ public class NetworkProxyInterceptor internal constructor(
         } ?: response
 
     private fun recentCall(
+        request: Request,
         response: Response,
         statusCode: Int,
         mocked: Boolean,
     ): RecentCall =
         RecentCall(
-            method = response.request.method,
-            path = response.request.url.encodedPath,
+            method = request.method,
+            path = request.url.encodedPath,
             statusCode = statusCode,
             timestamp = System.currentTimeMillis(),
             body = null,

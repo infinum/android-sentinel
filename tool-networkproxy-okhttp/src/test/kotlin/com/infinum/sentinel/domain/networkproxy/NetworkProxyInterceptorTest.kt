@@ -8,6 +8,7 @@ import mockwebserver3.MockResponse
 import mockwebserver3.MockWebServer
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -137,6 +138,21 @@ internal class NetworkProxyInterceptorTest {
     }
 
     @Test
+    fun `a redirected call is recorded under the method and path the app requested`() {
+        server.enqueue(MockResponse.Builder().code(303).addHeader("Location", "/orders/1").build())
+        enqueueReal()
+        val post = Request.Builder().url(server.url("/orders")).post("{}".toRequestBody()).build()
+
+        client.newCall(post).execute().use { it.body.string() }
+
+        val call = recentCalls.snapshot().single()
+        assertEquals("POST", call.method)
+        assertEquals("/orders", call.path)
+        assertEquals(200, call.statusCode)
+        assertEquals(realBody, call.body)
+    }
+
+    @Test
     fun `modify mode records the real body and status, not the served ones`() {
         ruleSource.rules =
             listOf(ProxyRule(pathPattern = "/users", mode = RuleMode.MODIFY, statusCode = 500, body = """{"replaced":true}"""))
@@ -151,6 +167,19 @@ internal class NetworkProxyInterceptorTest {
         assertEquals(200, call.statusCode)
         assertEquals(realBody, call.body)
         assertTrue(call.mocked)
+    }
+
+    @Test
+    fun `a redirected call with a replaced body is recorded under the path the app requested`() {
+        ruleSource.rules = listOf(ProxyRule(pathPattern = "/api/me", mode = RuleMode.MODIFY, body = """{"replaced":true}"""))
+        server.enqueue(MockResponse.Builder().code(302).addHeader("Location", "/api/users/42").build())
+        enqueueReal()
+
+        client.newCall(request("/api/me")).execute().use { it.body.string() }
+
+        val call = recentCalls.snapshot().single()
+        assertEquals("/api/me", call.path)
+        assertEquals(realBody, call.body)
     }
 
     @Test
