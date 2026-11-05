@@ -7,5 +7,5 @@ This module is the release stub for [`tool-networkemulator-okhttp`](../tool-netw
 - There is no manifest and no resources. Dependencies are `kotlin.core` and `compileOnly(libs.okhttp)`. It does **not** depend on `sentinel`.
 - `NetworkEmulatorTool`'s stub is in `sentinel-no-op`, not here.
 - Any public signature change in the real module must be mirrored here. Then run `./gradlew apiDump` and keep `api/tool-networkemulator-okhttp-no-op.api` consistent with the real module's dump. Both classes are kept in `proguard-rules.txt`.
-- Not in root `lintAll`/`detektAll`. Run its checks directly: `./gradlew :tool-networkemulator-okhttp-no-op:lintRelease :tool-networkemulator-okhttp-no-op:detekt :tool-networkemulator-okhttp-no-op:apiCheck`.
+- Verify with `./gradlew :tool-networkemulator-okhttp-no-op:lintRelease :tool-networkemulator-okhttp-no-op:detekt :tool-networkemulator-okhttp-no-op:apiCheck`.
 - There are no tests.

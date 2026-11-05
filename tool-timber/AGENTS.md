@@ -16,5 +16,5 @@ This is an in-app log viewer built on [Timber](https://github.com/JakeWharton/ti
 
 - Both activities use `Sentinel.Theme.Leaf`, taskAffinity `com.infinum.sentinel.logger`, and the `sentinel_infinum_monitored=false` meta-data. Keep these for any new activity.
 - Release stub: `sentinel-no-op/.../ui/tools/TimberTool.kt`. It takes `allowedTags`, so keep the constructor in sync.
-- Not in root `lintAll`/`detektAll`. Run its checks directly: `./gradlew :tool-timber:lintRelease :tool-timber:detekt :tool-timber:apiCheck`.
+- Verify with `./gradlew :tool-timber:lintRelease :tool-timber:detekt :tool-timber:apiCheck`.
 - There are no tests.

@@ -24,7 +24,6 @@ Each module has its own `AGENTS.md` with the details. **Read it before changing 
 - Requires JDK 17+ to run Gradle; modules compile with a JVM 11 toolchain. minSdk 24, compile/targetSdk 37.
 - Static checks (what CI runs, `.github/workflows/code-analysis.yml`): `./gradlew lintAll detektAll` (or `runStaticChecks`).
   - `detekt` has `autoCorrect = true` and **rewrites files**. Config: `config/detekt.yml` (maxIssues 0).
-  - Neither covers `tool-timber`, `tool-networkemulator-okhttp` or `tool-networkemulator-okhttp-no-op`, so a green CI run says nothing about them. Run their checks directly (commands in each module's `AGENTS.md`).
 - Build the sample: `./gradlew :sample:assembleDebug :sample:assembleRelease`.
 - Tests exist only in `sentinel`. See [sentinel/AGENTS.md](sentinel/AGENTS.md). CI does not run tests or `apiCheck`, so run them locally.
 - Public API dumps: `./gradlew apiDump` / `apiCheck` (binary-compatibility-validator). Every library module commits `api/<module>.api`, and `publish*` tasks depend on `apiCheck`.

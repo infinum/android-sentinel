@@ -24,5 +24,5 @@ This module simulates slow or flaky networking through an OkHttp interceptor, co
   - Update the stubs and re-run `apiDump` for both modules.
 - The activity uses `Sentinel.Theme.Leaf` and the `sentinel_infinum_monitored=false` meta-data.
 - If you change slider ranges or behaviour, update `README.md` too.
-- Not in root `lintAll`/`detektAll`. Run its checks directly: `./gradlew :tool-networkemulator-okhttp:lintRelease :tool-networkemulator-okhttp:detekt :tool-networkemulator-okhttp:apiCheck`.
+- Verify with `./gradlew :tool-networkemulator-okhttp:lintRelease :tool-networkemulator-okhttp:detekt :tool-networkemulator-okhttp:apiCheck`.
 - There are no tests.
