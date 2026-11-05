@@ -17,8 +17,6 @@ Each module has its own `AGENTS.md` with the details. **Read it before changing 
 | [`tool-networkemulator-okhttp`](tool-networkemulator-okhttp/AGENTS.md) (+ [`-no-op`](tool-networkemulator-okhttp-no-op/AGENTS.md)) | OkHttp interceptor that adds delay/failures, with a settings UI |
 | [`tool-showkase`](tool-showkase/AGENTS.md) (+ [`-no-op`](tool-showkase-no-op/AGENTS.md)) | Launcher for the Airbnb Showkase browser |
 
-`tool-networkproxy-okhttp*` directories contain only stale build output and are not part of the build; ignore them.
-
 ## Build and verify
 
 - Requires JDK 17+ to run Gradle; modules compile with a JVM 11 toolchain. minSdk 24, compile/targetSdk 37.

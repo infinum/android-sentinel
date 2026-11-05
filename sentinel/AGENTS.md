@@ -27,7 +27,7 @@ Any change here must be mirrored in `sentinel-no-op` (see [../sentinel-no-op/AGE
 - **Domain**: `domain/` holds repositories and factories (`Repositories.kt`, `Factories.kt`) per feature: collectors, formatters, triggers, formats, preference, crash, bundle and certificate.
   - The crash and ANR monitors are in `domain/crash/monitor`.
 - **Data**: `data/`.
-  - Room `SentinelDatabase`, with `exportSchema = false` and no migrations. **Bump `DATABASE_VERSION` in `di/LibraryComponents.kt` whenever an entity or DAO changes.**
+  - Room `SentinelDatabase`, with `exportSchema = false` and no migrations. **Bump `DATABASE_VERSION` in `di/LibraryComponents.kt` when the persisted database schema changes, not for query-only DAO edits.** The version is part of the database filename, so a bump starts a fresh database.
   - In-memory caches are in `data/sources/memory`.
   - `data/sources/raw/collectors`: one collector per screen section.
   - `data/sources/raw/formatters`: Plain, Markdown, JSON, XML and HTML.
