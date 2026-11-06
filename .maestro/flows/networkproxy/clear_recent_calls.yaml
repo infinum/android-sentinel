@@ -1,0 +1,24 @@
+appId: com.infinum.sentinel.sample.debug
+name: Network Proxy - clearing recent calls empties the list
+tags:
+  - regression
+  - network   # needs internet: the sample calls https://httpbin.org/get
+properties:
+  junitClassname: e2e.networkproxy
+---
+- runFlow: ../../subflows/launch_clean.yaml
+- runFlow: ../../subflows/dismiss_sentinel.yaml
+- runFlow: ../../subflows/fetch_httpbin.yaml
+- assertVisible:
+    id: "networkResultText"
+    text: ".*Success.*"
+- runFlow: ../../subflows/reopen_network_proxy.yaml
+- assertVisible:
+    id: "path"
+    text: "/get"
+- tapOn: "More options"
+- tapOn: "Clear recent calls"
+- assertVisible: "No calls captured yet.*"
+- assertNotVisible:
+    id: "path"
+    text: "/get"

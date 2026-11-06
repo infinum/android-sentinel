@@ -1,0 +1,31 @@
+appId: com.infinum.sentinel.sample.debug
+---
+# Expects env: RULE_PATH, RULE_STATUS, RULE_BODY (empty string for no body)
+# Starts on the Network Proxy list and ends on it, with the new rule listed.
+- tapOn:
+    id: "addRuleButton"
+- tapOn:
+    id: "pathInput"
+- eraseText
+- inputText: ${RULE_PATH}
+- tapOn:
+    id: "modeMock"
+- tapOn:
+    id: "statusCodeInput"
+- eraseText
+- inputText: ${RULE_STATUS}
+- hideKeyboard
+- runFlow:
+    when:
+      true: ${RULE_BODY != ''}
+    commands:
+      - tapOn:
+          id: "bodyPreview"
+      - inputText: ${RULE_BODY}
+      - hideKeyboard
+      - back
+- tapOn:
+    id: "save"
+- assertVisible:
+    id: "path"
+    text: ${RULE_PATH}

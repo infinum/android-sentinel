@@ -1,0 +1,48 @@
+appId: com.infinum.sentinel.sample.debug
+name: Network Proxy - disabling one rule stops it from applying
+tags:
+  - regression
+properties:
+  junitClassname: e2e.networkproxy
+---
+- runFlow: ../../subflows/launch_clean.yaml
+- runFlow: ../../subflows/open_network_proxy.yaml
+- runFlow: ../../subflows/enable_proxy.yaml
+- runFlow:
+    file: ../../subflows/add_mock_rule.yaml
+    env:
+      RULE_PATH: "/get"
+      RULE_STATUS: "200"
+      RULE_BODY: '{"qa":"mocked"}'
+# Rule on: it answers
+- runFlow: ../../subflows/close_sentinel.yaml
+- runFlow: ../../subflows/fetch_httpbin.yaml
+- assertVisible:
+    id: "networkResultText"
+    text: ".*\\{\"qa\":\"mocked\"\\}.*"
+# Rule off: the proxy itself stays on, but the call is no longer answered by the rule
+- runFlow: ../../subflows/reopen_network_proxy.yaml
+- tapOn:
+    id: "enabledSwitch"
+    childOf:
+      id: "recyclerView"
+- assertVisible:
+    id: "enabledSwitch"
+    childOf:
+      id: "recyclerView"
+    checked: false
+# ...while the proxy switch is still on
+- assertVisible:
+    id: "enabledSwitch"
+    childOf:
+      id: "toolbar"
+    checked: true
+- runFlow: ../../subflows/close_sentinel.yaml
+- runFlow: ../../subflows/fetch_httpbin.yaml
+# Wait for the call to finish, "Loading..." would pass the check below on its own
+- assertVisible:
+    id: "networkResultText"
+    text: ".*(Success|Failed).*"
+- assertNotVisible:
+    id: "networkResultText"
+    text: ".*\\{\"qa\":\"mocked\"\\}.*"

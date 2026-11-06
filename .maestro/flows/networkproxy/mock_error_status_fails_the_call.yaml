@@ -1,0 +1,25 @@
+appId: com.infinum.sentinel.sample.debug
+name: Network Proxy - mock rule with an error status fails the call
+tags:
+  - smoke
+  - regression
+properties:
+  junitClassname: e2e.networkproxy
+---
+- runFlow: ../../subflows/launch_clean.yaml
+- runFlow: ../../subflows/open_network_proxy.yaml
+- runFlow: ../../subflows/enable_proxy.yaml
+- runFlow:
+    file: ../../subflows/add_mock_rule.yaml
+    env:
+      RULE_PATH: "/get"
+      RULE_STATUS: "503"
+      RULE_BODY: ""
+- assertVisible:
+    id: "statusCode"
+    text: "503"
+- runFlow: ../../subflows/close_sentinel.yaml
+- runFlow: ../../subflows/fetch_httpbin.yaml
+- assertVisible:
+    id: "networkResultText"
+    text: ".*Failed.*HTTP 503: Service Unavailable.*"

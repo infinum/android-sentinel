@@ -1,0 +1,39 @@
+appId: com.infinum.sentinel.sample.debug
+name: Network Proxy - a recent call opens as a prefilled rule
+tags:
+  - regression
+  - network   # needs internet: the sample calls https://httpbin.org/get
+properties:
+  junitClassname: e2e.networkproxy
+---
+- runFlow: ../../subflows/launch_clean.yaml
+- runFlow: ../../subflows/dismiss_sentinel.yaml
+- runFlow: ../../subflows/fetch_httpbin.yaml
+- assertVisible:
+    id: "networkResultText"
+    text: ".*Success.*"
+- runFlow: ../../subflows/reopen_network_proxy.yaml
+- assertVisible: "Seen recently"
+- assertVisible:
+    id: "path"
+    text: "/get"
+- assertVisible:
+    id: "statusCode"
+    text: "200"
+- tapOn:
+    id: "path"
+    text: "/get"
+- assertVisible:
+    id: "pathInput"
+    text: "/get"
+- assertVisible:
+    id: "statusCodeInput"
+    text: "200"
+- assertVisible:
+    id: "modeModify"
+    checked: true
+# The captured real response is what the body starts from. "args" is the first key of httpbin's response,
+# so it is always within the preview's first lines
+- assertVisible:
+    id: "bodyPreview"
+    text: '.*"args".*'

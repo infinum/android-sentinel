@@ -1,0 +1,73 @@
+appId: com.infinum.sentinel.sample.debug
+name: Network Proxy - the rule editor rejects invalid input
+tags:
+  - regression
+properties:
+  junitClassname: e2e.networkproxy
+---
+- runFlow: ../../subflows/launch_clean.yaml
+- runFlow: ../../subflows/open_network_proxy.yaml
+- tapOn:
+    id: "addRuleButton"
+# Path
+- tapOn:
+    id: "pathInput"
+- eraseText
+- inputText: "no-slash"
+- tapOn:
+    id: "save"
+- assertVisible: "Path must start with /"
+- tapOn:
+    id: "pathInput"
+- eraseText
+- inputText: "/has space"
+- tapOn:
+    id: "save"
+- assertVisible: "Path must not contain spaces"
+- tapOn:
+    id: "pathInput"
+- eraseText
+- inputText: "/ok"
+# Status code
+- tapOn:
+    id: "statusCodeInput"
+- eraseText
+- inputText: "99"
+- tapOn:
+    id: "save"
+- assertVisible: "Enter a status code between 100 and 599"
+- tapOn:
+    id: "statusCodeInput"
+- eraseText
+- inputText: "600"
+- tapOn:
+    id: "save"
+- assertVisible: "Enter a status code between 100 and 599"
+- tapOn:
+    id: "statusCodeInput"
+- eraseText
+- tapOn:
+    id: "save"
+- assertVisible: "Enter a status code between 100 and 599"
+- tapOn:
+    id: "statusCodeInput"
+- eraseText
+- inputText: "201"
+- hideKeyboard
+# Replace body without a body
+- tapOn:
+    id: "replaceBodySwitch"
+- tapOn:
+    id: "save"
+- assertVisible: "Enter a body or turn off Replace body"
+# Fixing the input lets the rule through
+- tapOn:
+    id: "replaceBodySwitch"
+- tapOn:
+    id: "save"
+- assertVisible:
+    id: "path"
+    text: "/ok"
+- assertVisible:
+    id: "statusCode"
+    text: "201"

@@ -1,0 +1,6 @@
+appId: com.infinum.sentinel.sample.debug
+---
+# Right after a cold start, Sentinel's sheet is already open
+- tapOn: "Network Proxy"
+- assertVisible:
+    id: "addRuleButton"
