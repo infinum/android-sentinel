@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sentinel_network_proxy">Network Proxy</string>
+    <string name="sentinel_network_proxy_enabled">Enabled</string>
+    <string name="sentinel_network_proxy_clear_recent">Clear recent calls</string>
+    <string name="sentinel_network_proxy_add_rule">Add rule</string>
+
+    <string name="sentinel_network_proxy_rules">Rules</string>
+    <string name="sentinel_network_proxy_rules_empty">No rules yet. Tap Add rule, or tap a recent call to turn it into one.</string>
+    <string name="sentinel_network_proxy_recent">Seen recently</string>
+    <string name="sentinel_network_proxy_recent_empty">No calls captured yet. Calls made through the client with the interceptor show up here.</string>
+    <string name="sentinel_network_proxy_mode_modified">modified</string>
+    <string name="sentinel_network_proxy_mode_mocked">mocked</string>
+
+    <string name="sentinel_network_proxy_delete_title">Delete rule?</string>
+    <string name="sentinel_network_proxy_delete_message">%1$s %2$s will no longer be altered.</string>
+    <string name="sentinel_network_proxy_delete">Delete</string>
+
+    <string name="sentinel_network_proxy_rule">Rule</string>
+    <string name="sentinel_network_proxy_save">Save</string>
+    <string name="sentinel_network_proxy_method">Method</string>
+    <string name="sentinel_network_proxy_path">Path</string>
+    <string name="sentinel_network_proxy_path_helper">Use * for one path segment. Query string is ignored.</string>
+    <string name="sentinel_network_proxy_mode">Mode</string>
+    <string name="sentinel_network_proxy_mode_modify">Modify real response</string>
+    <string name="sentinel_network_proxy_mode_mock">Mock, skip network</string>
+    <string name="sentinel_network_proxy_status_code">Status code</string>
+    <string name="sentinel_network_proxy_replace_body">Replace body</string>
+    <string name="sentinel_network_proxy_body">Body</string>
+    <string name="sentinel_network_proxy_body_not_captured">The last response body was not captured: it was binary or larger than 256 KB.</string>
+    <string name="sentinel_network_proxy_load_response">Load last real response</string>
+    <string name="sentinel_network_proxy_paste">Paste</string>
+    <string name="sentinel_network_proxy_format">Format</string>
+    <string name="sentinel_network_proxy_clear">Clear</string>
+    <string name="sentinel_network_proxy_body_helper">Tap to edit</string>
+    <string name="sentinel_network_proxy_body_hint">Type or paste a response body</string>
+    <string name="sentinel_network_proxy_rule_enabled">Rule enabled</string>
+
+    <string name="sentinel_network_proxy_error_path_slash">Path must start with /</string>
+    <string name="sentinel_network_proxy_error_path_whitespace">Path must not contain spaces</string>
+    <string name="sentinel_network_proxy_error_status">Enter a status code between 100 and 599</string>
+    <string name="sentinel_network_proxy_error_body">Enter a body or turn off Replace body</string>
+    <string name="sentinel_network_proxy_clipboard_empty">Clipboard is empty</string>
+    <string name="sentinel_network_proxy_not_json">Body is not valid JSON</string>
+</resources>

@@ -1,0 +1,29 @@
+appId: com.infinum.sentinel.sample.debug
+name: Network Proxy - body editor formats JSON and leaves invalid JSON unchanged
+tags:
+  - regression
+properties:
+  junitClassname: e2e.networkproxy
+---
+- runFlow: ../../subflows/launch_clean.yaml
+- runFlow: ../../subflows/open_network_proxy.yaml
+- tapOn:
+    id: "addRuleButton"
+- tapOn:
+    id: "modeMock"
+- tapOn:
+    id: "bodyPreview"
+- inputText: '{"a":1,"b":[1,2]}'
+- runFlow: ../../subflows/format_body.yaml
+- assertVisible:
+    id: "bodyInput"
+    text: '(?s).*"a": 1,.*"b": \[.*'
+# Start over with text that is not JSON: it is left alone
+- tapOn: "More options"
+- tapOn: "Clear"
+- assertVisible: "Type or paste a response body"
+- inputText: "{bad"
+- runFlow: ../../subflows/format_body.yaml
+- assertVisible:
+    id: "bodyInput"
+    text: "\\{bad"

@@ -1,0 +1,6 @@
+appId: com.infinum.sentinel.sample.debug
+---
+# After a cold start: close Sentinel's sheet to get to the sample's main screen
+- back
+- assertVisible:
+    id: "showSentinel"

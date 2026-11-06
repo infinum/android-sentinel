@@ -1,0 +1,4 @@
+-keeppackagenames
+-keep public class com.infinum.sentinel.domain.networkproxy.NetworkProxyInterceptor {
+  public protected *;
+}

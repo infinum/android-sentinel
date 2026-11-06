@@ -94,6 +94,8 @@ dependencies {
     debugImplementation(project(":tool-leakcanary"))
     debugImplementation(project(":tool-networkemulator-okhttp"))
     releaseImplementation(project(":tool-networkemulator-okhttp-no-op"))
+    debugImplementation(project(":tool-networkproxy-okhttp"))
+    releaseImplementation(project(":tool-networkproxy-okhttp-no-op"))
     debugImplementation(project(":tool-timber"))
 
     debugImplementation(project(":tool-showkase"))
