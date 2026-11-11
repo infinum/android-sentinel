@@ -114,7 +114,10 @@ tasks.register("lintAll") {
         ":tool-appgallery:lintRelease",
         ":tool-googleplay:lintRelease",
         ":tool-showkase:lintRelease",
-        ":tool-showkase-no-op:lintRelease"
+        ":tool-showkase-no-op:lintRelease",
+        ":tool-timber:lintRelease",
+        ":tool-networkemulator-okhttp:lintRelease",
+        ":tool-networkemulator-okhttp-no-op:lintRelease"
     )
     group = "Verification"
     description = "Run Detekt on all modules"
@@ -131,7 +134,10 @@ tasks.register("detektAll") {
         ":tool-appgallery:detekt",
         ":tool-googleplay:detekt",
         ":tool-showkase:detekt",
-        ":tool-showkase-no-op:detekt"
+        ":tool-showkase-no-op:detekt",
+        ":tool-timber:detekt",
+        ":tool-networkemulator-okhttp:detekt",
+        ":tool-networkemulator-okhttp-no-op:detekt"
     )
     group = "Verification"
     description = "Run Detekt on all modules"
