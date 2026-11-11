@@ -90,6 +90,17 @@ tasks.register("deployToolNetworkEmulatorOkhttp") {
     description = "Deploy Tool NetworkEmulator OkHttp modules to Maven Central repository"
 }
 
+tasks.register("deployToolNetworkProxyOkhttp") {
+    dependsOn(
+        ":tool-networkproxy-okhttp:clean",
+        ":tool-networkproxy-okhttp-no-op:clean",
+        ":tool-networkproxy-okhttp:publishMavenPublicationToMavenCentralRepository",
+        ":tool-networkproxy-okhttp-no-op:publishMavenPublicationToMavenCentralRepository"
+    )
+    group = "Deploy"
+    description = "Deploy Tool NetworkProxy OkHttp modules to Maven Central repository"
+}
+
 tasks.register("deployToolShowkase") {
     dependsOn(
         ":tool-showkase:clean",
@@ -120,6 +131,7 @@ tasks.register("deployToolsAll") {
         "deployToolGooglePlay",
         "deployToolTimber",
         "deployToolNetworkEmulatorOkhttp",
+        "deployToolNetworkProxyOkhttp",
         "deployToolShowkase"
     )
     group = "Deploy"
@@ -138,6 +150,7 @@ tasks.register("deployAll") {
         "deployToolGooglePlay",
         "deployToolTimber",
         "deployToolNetworkEmulatorOkhttp",
+        "deployToolNetworkProxyOkhttp",
         "deployToolShowkase"
     )
     group = "Deploy"
@@ -157,6 +170,8 @@ tasks.register("deployDebug") {
         ":tool-timber:clean",
         ":tool-networkemulator-okhttp:clean",
         ":tool-networkemulator-okhttp-no-op:clean",
+        ":tool-networkproxy-okhttp:clean",
+        ":tool-networkproxy-okhttp-no-op:clean",
         ":tool-showkase:clean",
         ":tool-showkase-no-op:clean",
         ":sentinel:publishMavenPublicationToMavenLocal",
@@ -170,6 +185,8 @@ tasks.register("deployDebug") {
         ":tool-timber:publishMavenPublicationToMavenLocal",
         ":tool-networkemulator-okhttp:publishMavenPublicationToMavenLocal",
         ":tool-networkemulator-okhttp-no-op:publishMavenPublicationToMavenLocal",
+        ":tool-networkproxy-okhttp:publishMavenPublicationToMavenLocal",
+        ":tool-networkproxy-okhttp-no-op:publishMavenPublicationToMavenLocal",
         ":tool-showkase:publishMavenPublicationToMavenLocal",
         ":tool-showkase-no-op:publishMavenPublicationToMavenLocal"
     )

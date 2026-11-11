@@ -1,0 +1,12 @@
+appId: com.infinum.sentinel.sample.debug
+---
+# From the sample's main screen, with Sentinel's sheet closed. The screen may be scrolled down after a request.
+- scrollUntilVisible:
+    element:
+      id: "showSentinel"
+    direction: UP
+- tapOn:
+    id: "showSentinel"
+- tapOn: "Network Proxy"
+- assertVisible:
+    id: "addRuleButton"

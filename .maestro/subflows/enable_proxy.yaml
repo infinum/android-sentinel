@@ -1,0 +1,12 @@
+appId: com.infinum.sentinel.sample.debug
+---
+# The toolbar switch and the per-rule switches share the id "enabledSwitch", so the toolbar one is picked by its parent
+- tapOn:
+    id: "enabledSwitch"
+    childOf:
+      id: "toolbar"
+- assertVisible:
+    id: "enabledSwitch"
+    childOf:
+      id: "toolbar"
+    checked: true

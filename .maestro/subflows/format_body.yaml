@@ -1,0 +1,17 @@
+appId: com.infinum.sentinel.sample.debug
+---
+# On the body editor. Format is shown in the toolbar only if there is room, otherwise it is in the overflow menu
+- runFlow:
+    when:
+      visible:
+        id: "format"
+    commands:
+      - tapOn:
+          id: "format"
+- runFlow:
+    when:
+      notVisible:
+        id: "format"
+    commands:
+      - tapOn: "More options"
+      - tapOn: "Format"

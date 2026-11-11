@@ -27,6 +27,8 @@ The project is organized in the following modules:
 - `tool-googleplay` - contains a class wrapper for Google Play
 - `tool-timber` - contains a class wrapper for Timber
 - `tool-networkemulator-okhttp` - contains a class wrapper for NetworkEmulator
+- `tool-networkproxy-okhttp` - contains a class wrapper for NetworkProxy
+- `tool-networkproxy-okhttp-no-op` - contains stubs for easy release implementation of the NetworkProxy wrapper
 - `tool-showkase` - contains a class wrapper for Showkase
 - `tool-showkase-no-op` - contains stubs for easy release implementation of the Showkase wrapper
 - `sample` - a sample app for testing and developing
@@ -107,6 +109,8 @@ debugImplementation "com.infinum.sentinel:tool-appgallery:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-googleplay:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-timber:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-networkemulator-okhttp:$sentinelVersion"
+debugImplementation "com.infinum.sentinel:tool-networkproxy-okhttp:$sentinelVersion"
+releaseImplementation "com.infinum.sentinel:tool-networkproxy-okhttp-no-op:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-showkase:$sentinelVersion"
 releaseImplementation "com.infinum.sentinel:tool-showkase-no-op:$sentinelVersion"
 ```
@@ -122,6 +126,8 @@ debugImplementation("com.infinum.sentinel:tool-appgallery:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-googleplay:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-timber:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-networkemulator-okhttp:$sentinelVersion")
+debugImplementation("com.infinum.sentinel:tool-networkproxy-okhttp:$sentinelVersion")
+releaseImplementation("com.infinum.sentinel:tool-networkproxy-okhttp-no-op:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-showkase:$sentinelVersion")
 releaseImplementation("com.infinum.sentinel:tool-showkase-no-op:$sentinelVersion")
 ```
@@ -208,8 +214,26 @@ Depending of what you include as module dependencies, very specific tools are pr
 - `GooglePlayTool` - a wrapper class that opens Google Play of a published application or a web page
   of the application if Google Play is not found
 - `NetworkEmulatorTool` - a wrapper class that opens [NetworkEmulator](https://github.com/infinum/android-sentinel/tree/master/tool-networkemulator-okhttp). Enables user to modify network conditions.
+- `NetworkProxyTool` - a wrapper class that opens [NetworkProxy](https://github.com/infinum/android-sentinel/tree/master/tool-networkproxy-okhttp). Lets the user alter the status code and body of API responses, or mock them, from inside the app. Requires the interceptor, see [Network Proxy](#network-proxy) below.
 - `ShowkaseTool` - a wrapper class that opens [Showkase](https://github.com/airbnb/Showkase), Airbnb's
   Compose component browser. Requires additional setup, see [Showkase](#showkase) below.
+
+##### Network Proxy
+
+Add the interceptor to your OkHttp client, after Chucker if you use it, so Chucker records what the app
+actually received:
+
+```kotlin
+OkHttpClient.Builder()
+    .addInterceptor(ChuckerInterceptor(context))
+    .addInterceptor(NetworkProxyInterceptor(context))
+    .build()
+```
+
+Rules match on method and path with `*` as a one-segment wildcard, and either modify the real response
+or mock it without hitting the network. Because the interceptor runs inside the process after TLS, it works
+with certificate pinning. [tool-networkproxy-okhttp/README.md](tool-networkproxy-okhttp/README.md) covers
+the details.
 
 ##### Showkase
 

@@ -1,0 +1,9 @@
+appId: com.infinum.sentinel.sample.debug
+---
+# Sentinel opens its own sheet on every cold start of the sample, so the tools list is what shows up.
+# A cold start with cleared data can take longer than the default wait on a slow emulator.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Network Proxy"
+    timeout: 60000

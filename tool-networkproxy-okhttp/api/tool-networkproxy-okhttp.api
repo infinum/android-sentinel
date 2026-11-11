@@ -1,0 +1,108 @@
+public final class com/infinum/sentinel/domain/networkproxy/NetworkProxyInterceptor : okhttp3/Interceptor {
+	public fun <init> (Landroid/content/Context;)V
+	public fun intercept (Lokhttp3/Interceptor$Chain;)Lokhttp3/Response;
+}
+
+public final class com/infinum/sentinel/tool/networkproxy/databinding/SentinelFragmentNetworkProxyBinding : androidx/viewbinding/ViewBinding {
+	public final field addRuleButton Lcom/google/android/material/floatingactionbutton/ExtendedFloatingActionButton;
+	public final field enabledSwitch Lcom/google/android/material/switchmaterial/SwitchMaterial;
+	public final field recyclerView Landroidx/recyclerview/widget/RecyclerView;
+	public final field toolbar Lcom/google/android/material/appbar/MaterialToolbar;
+	public static fun bind (Landroid/view/View;)Lcom/infinum/sentinel/tool/networkproxy/databinding/SentinelFragmentNetworkProxyBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Landroidx/coordinatorlayout/widget/CoordinatorLayout;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/infinum/sentinel/tool/networkproxy/databinding/SentinelFragmentNetworkProxyBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/infinum/sentinel/tool/networkproxy/databinding/SentinelFragmentNetworkProxyBinding;
+}
+
+public final class com/infinum/sentinel/tool/networkproxy/databinding/SentinelFragmentNetworkProxyBodyBinding : androidx/viewbinding/ViewBinding {
+	public final field bodyInput Landroid/widget/EditText;
+	public final field toolbar Lcom/google/android/material/appbar/MaterialToolbar;
+	public static fun bind (Landroid/view/View;)Lcom/infinum/sentinel/tool/networkproxy/databinding/SentinelFragmentNetworkProxyBodyBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Landroidx/coordinatorlayout/widget/CoordinatorLayout;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/infinum/sentinel/tool/networkproxy/databinding/SentinelFragmentNetworkProxyBodyBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/infinum/sentinel/tool/networkproxy/databinding/SentinelFragmentNetworkProxyBodyBinding;
+}
+
+public final class com/infinum/sentinel/tool/networkproxy/databinding/SentinelFragmentNetworkProxyRuleBinding : androidx/viewbinding/ViewBinding {
+	public final field bodyLayout Lcom/google/android/material/textfield/TextInputLayout;
+	public final field bodyPreview Lcom/google/android/material/textfield/TextInputEditText;
+	public final field methodInput Lcom/google/android/material/textfield/MaterialAutoCompleteTextView;
+	public final field methodLayout Lcom/google/android/material/textfield/TextInputLayout;
+	public final field modeGroup Lcom/google/android/material/button/MaterialButtonToggleGroup;
+	public final field modeMock Lcom/google/android/material/button/MaterialButton;
+	public final field modeModify Lcom/google/android/material/button/MaterialButton;
+	public final field nestedScrollView Landroidx/core/widget/NestedScrollView;
+	public final field pathInput Lcom/google/android/material/textfield/TextInputEditText;
+	public final field pathLayout Lcom/google/android/material/textfield/TextInputLayout;
+	public final field replaceBodySwitch Lcom/google/android/material/switchmaterial/SwitchMaterial;
+	public final field ruleEnabledSwitch Lcom/google/android/material/switchmaterial/SwitchMaterial;
+	public final field statusCodeInput Lcom/google/android/material/textfield/TextInputEditText;
+	public final field statusCodeLayout Lcom/google/android/material/textfield/TextInputLayout;
+	public final field toolbar Lcom/google/android/material/appbar/MaterialToolbar;
+	public static fun bind (Landroid/view/View;)Lcom/infinum/sentinel/tool/networkproxy/databinding/SentinelFragmentNetworkProxyRuleBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Landroidx/coordinatorlayout/widget/CoordinatorLayout;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/infinum/sentinel/tool/networkproxy/databinding/SentinelFragmentNetworkProxyRuleBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/infinum/sentinel/tool/networkproxy/databinding/SentinelFragmentNetworkProxyRuleBinding;
+}
+
+public final class com/infinum/sentinel/tool/networkproxy/databinding/SentinelItemNetworkProxyEmptyBinding : androidx/viewbinding/ViewBinding {
+	public final field message Lcom/google/android/material/textview/MaterialTextView;
+	public static fun bind (Landroid/view/View;)Lcom/infinum/sentinel/tool/networkproxy/databinding/SentinelItemNetworkProxyEmptyBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Lcom/google/android/material/textview/MaterialTextView;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/infinum/sentinel/tool/networkproxy/databinding/SentinelItemNetworkProxyEmptyBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/infinum/sentinel/tool/networkproxy/databinding/SentinelItemNetworkProxyEmptyBinding;
+}
+
+public final class com/infinum/sentinel/tool/networkproxy/databinding/SentinelItemNetworkProxyHeaderBinding : androidx/viewbinding/ViewBinding {
+	public final field title Lcom/google/android/material/textview/MaterialTextView;
+	public static fun bind (Landroid/view/View;)Lcom/infinum/sentinel/tool/networkproxy/databinding/SentinelItemNetworkProxyHeaderBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Lcom/google/android/material/textview/MaterialTextView;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/infinum/sentinel/tool/networkproxy/databinding/SentinelItemNetworkProxyHeaderBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/infinum/sentinel/tool/networkproxy/databinding/SentinelItemNetworkProxyHeaderBinding;
+}
+
+public final class com/infinum/sentinel/tool/networkproxy/databinding/SentinelItemNetworkProxyRecentBinding : androidx/viewbinding/ViewBinding {
+	public final field method Lcom/google/android/material/textview/MaterialTextView;
+	public final field mockedTag Lcom/google/android/material/textview/MaterialTextView;
+	public final field path Lcom/google/android/material/textview/MaterialTextView;
+	public final field statusCode Lcom/google/android/material/textview/MaterialTextView;
+	public final field time Lcom/google/android/material/textview/MaterialTextView;
+	public static fun bind (Landroid/view/View;)Lcom/infinum/sentinel/tool/networkproxy/databinding/SentinelItemNetworkProxyRecentBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Landroid/widget/LinearLayout;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/infinum/sentinel/tool/networkproxy/databinding/SentinelItemNetworkProxyRecentBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/infinum/sentinel/tool/networkproxy/databinding/SentinelItemNetworkProxyRecentBinding;
+}
+
+public final class com/infinum/sentinel/tool/networkproxy/databinding/SentinelItemNetworkProxyRuleBinding : androidx/viewbinding/ViewBinding {
+	public final field enabledSwitch Lcom/google/android/material/switchmaterial/SwitchMaterial;
+	public final field method Lcom/google/android/material/textview/MaterialTextView;
+	public final field mode Lcom/google/android/material/textview/MaterialTextView;
+	public final field path Lcom/google/android/material/textview/MaterialTextView;
+	public final field statusCode Lcom/google/android/material/textview/MaterialTextView;
+	public static fun bind (Landroid/view/View;)Lcom/infinum/sentinel/tool/networkproxy/databinding/SentinelItemNetworkProxyRuleBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Landroid/widget/LinearLayout;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/infinum/sentinel/tool/networkproxy/databinding/SentinelItemNetworkProxyRuleBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/infinum/sentinel/tool/networkproxy/databinding/SentinelItemNetworkProxyRuleBinding;
+}
+
+public final class com/infinum/sentinel/ui/tools/NetworkProxyTool : com/infinum/sentinel/Sentinel$NetworkTool {
+	public fun <init> ()V
+	public fun <init> (ILandroid/view/View$OnClickListener;)V
+	public synthetic fun <init> (ILandroid/view/View$OnClickListener;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (ILandroid/view/View$OnClickListener;)Lcom/infinum/sentinel/ui/tools/NetworkProxyTool;
+	public static synthetic fun copy$default (Lcom/infinum/sentinel/ui/tools/NetworkProxyTool;ILandroid/view/View$OnClickListener;ILjava/lang/Object;)Lcom/infinum/sentinel/ui/tools/NetworkProxyTool;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun icon ()Ljava/lang/Integer;
+	public fun listener ()Landroid/view/View$OnClickListener;
+	public fun name ()I
+	public fun toString ()Ljava/lang/String;
+}
+

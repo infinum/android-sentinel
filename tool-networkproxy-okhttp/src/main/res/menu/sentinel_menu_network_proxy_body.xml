@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/paste"
+        android:title="@string/sentinel_network_proxy_paste"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/format"
+        android:title="@string/sentinel_network_proxy_format"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/loadResponse"
+        android:title="@string/sentinel_network_proxy_load_response"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/clear"
+        android:title="@string/sentinel_network_proxy_clear"
+        app:showAsAction="never" />
+</menu>

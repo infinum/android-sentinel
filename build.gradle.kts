@@ -113,6 +113,8 @@ tasks.register("lintAll") {
         ":tool-leakcanary:lintRelease",
         ":tool-appgallery:lintRelease",
         ":tool-googleplay:lintRelease",
+        ":tool-networkproxy-okhttp:lintRelease",
+        ":tool-networkproxy-okhttp-no-op:lintRelease",
         ":tool-showkase:lintRelease",
         ":tool-showkase-no-op:lintRelease"
     )
@@ -130,6 +132,8 @@ tasks.register("detektAll") {
         ":tool-leakcanary:detekt",
         ":tool-appgallery:detekt",
         ":tool-googleplay:detekt",
+        ":tool-networkproxy-okhttp:detekt",
+        ":tool-networkproxy-okhttp-no-op:detekt",
         ":tool-showkase:detekt",
         ":tool-showkase-no-op:detekt"
     )
