@@ -40,8 +40,9 @@ Each module has its own `AGENTS.md` with the details. **Read it before changing 
 
 ## Cross-module rules
 
-- **Public API change in `sentinel`**: mirror it in `sentinel-no-op`, then run `./gradlew apiDump` and commit both `.api` files. `:sentinel:apiCheck` runs `compareSentinelApis` (`apiComparison.gradle.kts`), which fails if the no-op misses anything from `Sentinel`, `SentinelInitializer` or `Sentinel$Tool`.
+- **Public API change in `sentinel`**: mirror it in `sentinel-no-op`, then run `./gradlew apiDump` and commit both `.api` files.
 - **Tool public API change**: update the matching no-op stub (in `sentinel-no-op` or the tool's own `-no-op` module) so app code compiles in release, and re-dump `.api`.
+- Both are enforced by `:sentinel:apiCheck`, which runs `compareSentinelApis` (`apiComparison.gradle.kts`). It reads the committed `.api` files and fails if a public class in `sentinel` or any `tool-*` module has no counterpart in a `-no-op` module, or if any of its lines are missing there. Details and exclusions are in [sentinel-no-op/AGENTS.md](sentinel-no-op/AGENTS.md).
 - **Version bump**: keep three places in sync:
   - `major`/`minor`/`patch` in `config.gradle.kts`
   - `sentinel` in `libs.versions.toml`
