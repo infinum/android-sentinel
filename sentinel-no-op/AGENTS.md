@@ -14,7 +14,8 @@ This is the release-variant replacement for `sentinel`. Apps use `debugImplement
 
 1. Change the API in `sentinel` (or a tool module) and here together.
 2. Run `./gradlew apiDump` and commit `api/sentinel-no-op.api` together with the changed real module's `.api`.
-3. Run `./gradlew :sentinel:apiCheck`. It runs `compareSentinelApis` (`../apiComparison.gradle.kts`), which fails if a public class in `sentinel` or any `tool-*` module has no counterpart in a `-no-op` module, or if any of its `.api` lines are missing there.
+3. Run `./gradlew apiCheck`. It checks every module's committed `.api` against its source, and `:sentinel:apiCheck` also runs `compareSentinelApis` (`../apiComparison.gradle.kts`). That task fails if a public class in `sentinel` or any `tool-*` module has no counterpart in a `-no-op` module, if any of its `.api` lines are missing there, or if the same class is defined in more than one real (or more than one no-op) module.
+   - Running only `:sentinel:apiCheck` is not enough: the comparison reads the committed `.api` files, so a stale tool dump would go unnoticed.
    - The comparison is line-by-line, so generated members count too: a real `data class` needs a `data class` stub to produce the same `copy`, `componentN`, `equals`, `hashCode` and `toString`.
    - Excluded: `databinding` classes, `BuildConfig`, `Activity`/`Fragment` screens (and their nested classes), and `TimberInitializer`.
    - The comparison is one-way: extra API in the no-op is not reported. Public resources are not checked, so keep `public.xml` in sync by hand.

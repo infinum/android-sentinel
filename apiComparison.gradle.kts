@@ -1,14 +1,16 @@
 tasks.register("compareSentinelApis") {
-    doFirst {
-        val apiFiles = rootDir.listFiles().orEmpty()
-            .filter { it.isDirectory && (it.name == "sentinel" || it.name.startsWith("sentinel-") || it.name.startsWith("tool-")) }
-            .map { file("${it.path}/api/${it.name}.api") }
-            .filter { it.exists() }
-        val (noOpApiFiles, realApiFiles) = apiFiles.partition { it.name.endsWith("-no-op.api") }
+    val apiFiles = rootProject.subprojects
+        .filter { it.name == "sentinel" || it.name.startsWith("sentinel-") || it.name.startsWith("tool-") }
+        .map { File(it.projectDir, "api/${it.name}.api") }
 
-        if (realApiFiles.isEmpty() || noOpApiFiles.isEmpty()) {
-            throw GradleException("API dump files not found. Run `apiDump` task first.")
+    doFirst {
+        val missingApiFiles = apiFiles.filterNot { it.exists() }
+        if (missingApiFiles.isNotEmpty()) {
+            throw GradleException(
+                "API dump files not found: ${missingApiFiles.joinToString { it.name }}. Run `apiDump` task first."
+            )
         }
+        val (noOpApiFiles, realApiFiles) = apiFiles.partition { it.name.endsWith("-no-op.api") }
 
         // Class blocks keyed by class name, e.g. "com/infinum/sentinel/ui/tools/ChuckerTool"
         fun extractClassBlocks(apiFile: File): Map<String, Set<String>> {
@@ -31,8 +33,23 @@ tasks.register("compareSentinelApis") {
             return classBlocks
         }
 
-        val realClasses = realApiFiles.map { extractClassBlocks(it) }.fold(emptyMap<String, Set<String>>()) { acc, it -> acc + it }
-        val noOpClasses = noOpApiFiles.map { extractClassBlocks(it) }.fold(emptyMap<String, Set<String>>()) { acc, it -> acc + it }
+        // A class defined in more than one module would clash on the app's classpath, and merging would hide one of its blocks
+        fun mergeClassBlocks(apiFiles: List<File>): Map<String, Set<String>> {
+            val blocksPerFile = apiFiles.associate { it.name to extractClassBlocks(it) }
+            val duplicateClasses = blocksPerFile
+                .flatMap { (fileName, blocks) -> blocks.keys.map { it to fileName } }
+                .groupBy({ it.first }, { it.second })
+                .filterValues { it.size > 1 }
+            if (duplicateClasses.isNotEmpty()) {
+                println("🚨 The following classes are defined in more than one module:")
+                duplicateClasses.forEach { (name, fileNames) -> println("❌ $name in ${fileNames.joinToString()}") }
+                throw GradleException("Duplicate classes detected across modules!")
+            }
+            return blocksPerFile.values.fold(emptyMap()) { acc, it -> acc + it }
+        }
+
+        val realClasses = mergeClassBlocks(realApiFiles)
+        val noOpClasses = mergeClassBlocks(noOpApiFiles)
 
         // Generated classes and internal UI screens are not meant to be referenced by consumers
         val uiScreens = realClasses
@@ -62,9 +79,9 @@ tasks.register("compareSentinelApis") {
                 println("🚨 API mismatch detected! The following APIs in `$name` are missing in its no-op:")
                 lines.forEach { println("❌ $it") }
             }
-            throw GradleException("API mismatch detected between Sentinel and Sentinel no-op!")
+            throw GradleException("API mismatch detected between real and no-op modules!")
         } else {
-            println("✅ API is identical between Sentinel and Sentinel no-op!")
+            println("✅ API is identical between real and no-op modules!")
         }
     }
 }
