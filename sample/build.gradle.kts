@@ -6,7 +6,6 @@ val releaseConfig = extra["releaseConfig"] as Map<String, Any>
 
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
 }

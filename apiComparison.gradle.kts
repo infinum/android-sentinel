@@ -1,8 +1,8 @@
 tasks.register("compareSentinelApis") {
-    doFirst {
-        val sentinelApi = file("${project.rootDir}/sentinel/api/sentinel.api")
-        val noOpApi = file("${project.rootDir}/sentinel-no-op/api/sentinel-no-op.api")
+    val sentinelApi = file("${project.rootDir}/sentinel/api/sentinel.api")
+    val noOpApi = file("${project.rootDir}/sentinel-no-op/api/sentinel-no-op.api")
 
+    doFirst {
         if (!sentinelApi.exists() || !noOpApi.exists()) {
             throw GradleException("API dump files not found. Run `apiDump` task first.")
         }

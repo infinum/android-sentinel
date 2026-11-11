@@ -1,3 +1,7 @@
+import kotlinx.validation.KotlinApiBuildTask
+import kotlinx.validation.KotlinApiCompareTask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompileTool
+
 buildscript {
     repositories {
         google()
@@ -22,13 +26,6 @@ plugins {
     alias(libs.plugins.gradle.maven.publish) apply false
 }
 
-// Note: apiValidation configuration should be here
-// For now, commented out to allow build to proceed
-// This will need to be configured properly after successful migration
-// apiValidation {
-//     ignoredProjects.add("sample")
-// }
-
 allprojects {
 
     repositories {
@@ -41,6 +38,48 @@ allprojects {
 subprojects {
     apply(from = "$rootDir/detekt.gradle")
     apply(from = "$rootDir/dokka.gradle")
+    pluginManager.withPlugin("com.android.library") {
+        configureApiValidation()
+    }
+}
+
+// BCV only configures itself when the kotlin-android plugin is applied, which AGP built-in Kotlin replaces,
+// so the apiBuild, apiCheck and apiDump tasks it would create for the release compilation are registered here
+fun Project.configureApiValidation() {
+    // The BCV plugin creates this configuration but adds kotlin-metadata-jvm only when it sees a Kotlin plugin
+    dependencies {
+        add("bcv-rt-jvm-cp", "org.jetbrains.kotlin:kotlin-metadata-jvm:${libs.versions.kotlin.get()}")
+    }
+
+    val apiDir = layout.projectDirectory.dir("api")
+
+    val apiBuild = tasks.register<KotlinApiBuildTask>("apiBuild") {
+        description = "Builds Kotlin API for the release compilation of ${project.name}"
+        inputClassesDirs.from(
+            tasks.named<KotlinCompileTool>("compileReleaseKotlin").flatMap { it.destinationDirectory },
+            tasks.named<JavaCompile>("compileReleaseJavaWithJavac").flatMap { it.destinationDirectory }
+        )
+        outputApiFile.set(layout.buildDirectory.file("api/${project.name}.api"))
+        runtimeClasspath.from(configurations.named("bcv-rt-jvm-cp-resolver"))
+    }
+
+    val apiCheck = tasks.register<KotlinApiCompareTask>("apiCheck") {
+        group = "verification"
+        description = "Checks signatures of public API against the golden value in API folder for ${project.name}"
+        projectApiFile.set(apiDir.file("${project.name}.api"))
+        generatedApiFile.set(apiBuild.flatMap { it.outputApiFile })
+    }
+
+    tasks.register<Copy>("apiDump") {
+        group = "other"
+        description = "Syncs the API file for ${project.name}"
+        from(apiBuild.flatMap { it.outputApiFile })
+        into(apiDir)
+    }
+
+    tasks.named("check") {
+        dependsOn(apiCheck)
+    }
 }
 
 gradle.projectsEvaluated {

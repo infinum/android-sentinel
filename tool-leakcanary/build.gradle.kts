@@ -5,7 +5,6 @@ val releaseConfig = extra["releaseConfig"] as Map<String, Any>
 
 plugins {
     id("com.android.library")
-    id("org.jetbrains.kotlin.android")
     alias(libs.plugins.gradle.maven.publish)
 }
 
@@ -40,7 +39,7 @@ android {
             freeCompilerArgs.addAll(
                 listOf(
                     "-Xexplicit-api=strict",
-                    "-Xjvm-default=all"
+                    "-jvm-default=no-compatibility"
                 )
             )
         }
@@ -64,7 +63,7 @@ dependencies {
     api(libs.leakcanary)
 }
 
-val groupId: String by project
+val groupId = project.property("groupId") as String
 
 mavenPublishing {
     coordinates(
