@@ -8,6 +8,9 @@ dokka {
     }
 
     dokkaSourceSets {
+        create("main") {
+            sourceRoots.from(file("src/main/kotlin"))
+        }
         configureEach {
             skipDeprecated = false
             reportUndocumented = true
@@ -37,6 +40,18 @@ dokka {
                 matchingRegex = "com\\.infinum\\.sentinel\\.sample.*"
                 suppress = true
             }
+        }
+    }
+}
+
+pluginManager.withPlugin("com.android.library") {
+    dokka.dokkaSourceSets.named("main") {
+        analysisPlatform = "androidJvm"
+        classpath.from(androidComponents.sdkComponents.bootClasspath)
+    }
+    androidComponents.onVariants(androidComponents.selector().withBuildType("release")) { variant ->
+        dokka.dokkaSourceSets.named("main") {
+            classpath.from(variant.compileClasspath)
         }
     }
 }
