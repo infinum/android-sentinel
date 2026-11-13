@@ -9,6 +9,9 @@ import mockwebserver3.MockWebServer
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import okio.Buffer
+import okio.GzipSink
+import okio.buffer
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -108,6 +111,30 @@ internal class NetworkProxyInterceptorTest {
         client.newCall(request("/users")).execute().use { response ->
             assertEquals("""{"replaced":true}""", response.body.string())
             assertEquals("""{"replaced":true}""".length.toString(), response.header("Content-Length"))
+        }
+    }
+
+    @Test
+    fun `a replaced body drops the encoding headers of the real response`() {
+        ruleSource.rules =
+            listOf(ProxyRule(pathPattern = "/users", mode = RuleMode.MODIFY, statusCode = 200, body = """{"replaced":true}"""))
+        val gzipped = Buffer()
+        GzipSink(gzipped).buffer().use { it.writeUtf8(realBody) }
+        server.enqueue(
+            MockResponse
+                .Builder()
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Content-Encoding", "gzip")
+                .chunkedBody(gzipped, 8 * 1024)
+                .build(),
+        )
+        // An explicit Accept-Encoding stops OkHttp from decompressing the response itself
+        val request = Request.Builder().url(server.url("/users")).header("Accept-Encoding", "gzip").build()
+
+        client.newCall(request).execute().use { response ->
+            assertEquals(null, response.header("Content-Encoding"))
+            assertEquals(null, response.header("Transfer-Encoding"))
+            assertEquals("""{"replaced":true}""", response.body.string())
         }
     }
 

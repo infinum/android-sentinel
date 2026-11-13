@@ -108,6 +108,8 @@ public class NetworkProxyInterceptor internal constructor(
         if (body != null) {
             val bytes = body.toByteArray()
             builder
+                .removeHeader(HEADER_CONTENT_ENCODING)
+                .removeHeader(HEADER_TRANSFER_ENCODING)
                 .header(HEADER_CONTENT_TYPE, rule.contentType)
                 .header(HEADER_CONTENT_LENGTH, bytes.size.toString())
                 .body(bytes.toResponseBody(rule.contentType.toMediaTypeOrNull()))
@@ -198,6 +200,8 @@ public class NetworkProxyInterceptor internal constructor(
         private const val MAX_BODY_BYTES: Long = 256L * 1024L
         private const val HEADER_CONTENT_TYPE = "Content-Type"
         private const val HEADER_CONTENT_LENGTH = "Content-Length"
+        private const val HEADER_CONTENT_ENCODING = "Content-Encoding"
+        private const val HEADER_TRANSFER_ENCODING = "Transfer-Encoding"
         private const val NETWORK_INTERCEPTOR_WARNING =
             "NetworkProxyInterceptor was added with addNetworkInterceptor(), so its rules are ignored. " +
                 "Add it with addInterceptor() instead."
