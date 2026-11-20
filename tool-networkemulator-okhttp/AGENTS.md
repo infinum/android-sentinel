@@ -20,7 +20,7 @@ This module simulates slow or flaky networking through an OkHttp interceptor, co
 - OkHttp is `compileOnly`, so the app supplies it. Don't change it to `api` or `implementation`.
 - Public API parity:
   - `NetworkEmulatorInterceptor` and `NetworkEmulatorPreferences` are mirrored in [`tool-networkemulator-okhttp-no-op`](../tool-networkemulator-okhttp-no-op/AGENTS.md).
-  - `NetworkEmulatorTool` is mirrored in `sentinel-no-op`. That stub currently has no constructor parameters.
+  - `NetworkEmulatorTool` is mirrored in `sentinel-no-op`, with the same `name` and `listener` constructor parameters.
   - Update the stubs and re-run `apiDump` for both modules.
 - The activity uses `Sentinel.Theme.Leaf` and the `sentinel_infinum_monitored=false` meta-data.
 - If you change slider ranges or behaviour, update `README.md` too.
