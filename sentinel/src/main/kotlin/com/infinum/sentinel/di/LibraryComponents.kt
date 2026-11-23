@@ -8,10 +8,12 @@ import com.infinum.sentinel.di.component.DomainComponent
 import com.infinum.sentinel.di.component.PresentationComponent
 import com.infinum.sentinel.di.component.ViewModelComponent
 import com.infinum.sentinel.di.component.create
+import com.infinum.sentinel.domain.deeplinks.models.ExampleLinkData
 import com.infinum.sentinel.ui.tools.AppInfoTool
 import com.infinum.sentinel.ui.tools.BundleMonitorTool
 import com.infinum.sentinel.ui.tools.CertificateTool
 import com.infinum.sentinel.ui.tools.CrashMonitorTool
+import com.infinum.sentinel.ui.tools.DeepLinkTool
 
 @SuppressLint("StaticFieldLeak")
 internal object LibraryComponents {
@@ -56,6 +58,12 @@ internal object LibraryComponents {
                 .firstOrNull()
                 ?.userCertificates
                 .orEmpty(),
+            tools
+                .filterIsInstance<DeepLinkTool>()
+                .firstOrNull()
+                ?.exampleLinks
+                .orEmpty()
+                .map { ExampleLinkData(it.uri, it.label) },
             onTriggered,
         )
         WorkManagerInitializer.init(domainComponent)

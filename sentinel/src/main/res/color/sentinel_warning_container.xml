@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A pale background made from sentinel_warning. colorOnSurface text stays readable on it in light and dark themes. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:alpha="0.32" android:color="@color/sentinel_warning" />
+</selector>

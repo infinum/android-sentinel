@@ -143,7 +143,8 @@ Sentinel.watch(
         AppGalleryTool(appId = "123456789"),
         GooglePlayTool(),
         TimberTool(allowedTags = listOf("EXAMPLE")),
-        CertificateTool(userCertificates = listOf())
+        CertificateTool(userCertificates = listOf()),
+        DeepLinkTool()
     )
 )
 ```
@@ -192,6 +193,8 @@ _Sentinel_ provides several different levels of tools for a developer to impleme
 - `Preference Editor` - by tapping any preference _Sentinel_ opens a screen where you can edit
   current value
 - `CertificateTool` - opens a list of system and user provided X.509 certificates with details    
+- `DeepLinkTool` - lists the deep links the application declares in its manifest, and lets you build,
+  save and launch variants of them with your own query parameters
 
 #### Dependency wrappers
 
@@ -379,6 +382,42 @@ for a specific screen, you can do so in the _AndroidManifest.xml_ by adding a _m
       android:value="false" />
 </activity>
 ```
+
+### Deep links
+
+_Sentinel_ reads the intent filters declared in the application's manifest and lists the deep links they accept (content and file schemes,
+MIME-type filters and non-exported screens are left out), grouped by the screen that declares them. Add `DeepLinkTool`
+to the watched tools:
+
+```kotlin
+DeepLinkTool(
+    exampleLinks = listOf(
+        DeepLinkTool.ExampleLink("myapp://product/123?ref=push", "Product 123")
+    )
+)
+```
+
+Example links are optional. Use them for links with realistic IDs or parameters that the manifest can't describe.
+They are listed in an "Example links" section above the declared links.
+
+For every link you can:
+
+- create variants with your own query parameters, and fill in pattern links such as `/product/*`. Variants are saved
+  on the device. Pattern links (templates) can't be launched, copied or shared as they are: you launch, copy and share
+  them through a variant that fills them in.
+- launch the link the way a tap in another app would ("Real tap"), or, for web links, directly into the application ("Open in this app"). Web links ask which one; other links open with Real tap
+- open a breakdown of the link's parts, and copy or share it
+- on Android 12 and later, see whether a web link's domain is verified, and open the system link settings
+
+When you test with the tool:
+
+- Every launch from the tool is a warm start, because the application is already running. To test a cold start, copy
+  the link, force-stop the application with `adb shell am force-stop <applicationId>`, then open the link from another
+  app, such as a notes or chat app.
+- Only one installed app can own a web link's domain or receive a custom scheme without a chooser. If a second build of
+  the application is installed, for example a debug and a release build, links can open in that build instead.
+- On Android 17 and later, `adb shell am start --debug-link -a android.intent.action.VIEW -d "<link>"` shows how the
+  system resolved a link, including Dynamic App Links rules that the tool can't read.
 
 ## Contributing
 

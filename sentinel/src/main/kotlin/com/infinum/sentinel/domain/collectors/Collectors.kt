@@ -6,6 +6,8 @@ import com.infinum.sentinel.data.models.raw.CertificateData
 import com.infinum.sentinel.data.models.raw.DeviceData
 import com.infinum.sentinel.data.models.raw.PreferencesData
 import com.infinum.sentinel.data.models.raw.certificates.CertificateType
+import com.infinum.sentinel.data.models.raw.deeplinks.DeepLinksData
+import com.infinum.sentinel.data.models.raw.deeplinks.DomainVerificationData
 import com.infinum.sentinel.data.sources.raw.collectors.Collector
 
 internal interface Collectors {
@@ -20,4 +22,8 @@ internal interface Collectors {
     interface Certificates : Collector<Map<CertificateType, List<CertificateData>>>
 
     interface Tools : Collector<Set<Sentinel.Tool>>
+
+    interface DeepLinks : Collector<DeepLinksData>
+
+    interface DomainVerification : Collector<DomainVerificationData?>
 }

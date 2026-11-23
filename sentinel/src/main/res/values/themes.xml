@@ -101,5 +101,53 @@
         <item name="android:textColor">@color/sentinel_primary</item>
     </style>
 
+    <!--
+        Filled chips without a border. Every chip keeps the 48dp touch target, even where it isn't clickable,
+        so that chips of different styles line up in one ChipGroup row.
+    -->
+    <style name="Sentinel.Widget.Chip" parent="Widget.Material3.Chip.Assist">
+        <item name="chipStrokeWidth">0dp</item>
+        <item name="ensureMinTouchTargetSize">true</item>
+        <item name="chipMinTouchTargetSize">48dp</item>
+    </style>
+
+    <!--
+        A plain tag such as Web or Template, so it doesn't read as a button. No ripple either: a pressed row
+        passes its pressed state to children that aren't clickable.
+    -->
+    <style name="Sentinel.Widget.Chip.Label" parent="Sentinel.Widget.Chip">
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="chipBackgroundColor">?attr/colorSecondaryContainer</item>
+        <item name="android:textColor">?attr/colorOnSecondaryContainer</item>
+        <item name="rippleColor">@android:color/transparent</item>
+    </style>
+
+    <!-- A declaration problem that breaks real links. Red, like an expired certificate. -->
+    <style name="Sentinel.Widget.Chip.Warning" parent="Sentinel.Widget.Chip.Label">
+        <item name="chipBackgroundColor">?attr/colorErrorContainer</item>
+        <item name="android:textColor">?attr/colorOnErrorContainer</item>
+    </style>
+
+    <!-- A clickable verification status where Real tap opens the app. Green, like a valid certificate. -->
+    <style name="Sentinel.Widget.Chip.Status" parent="Sentinel.Widget.Chip">
+        <item name="chipBackgroundColor">?attr/colorPrimaryContainer</item>
+        <item name="android:textColor">?attr/colorOnPrimaryContainer</item>
+        <item name="chipIcon">@drawable/sentinel_ic_status_ok</item>
+        <item name="chipIconTint">?attr/colorOnPrimaryContainer</item>
+        <item name="chipIconVisible">true</item>
+    </style>
+
+    <!--
+        A clickable verification status where Real tap doesn't open the app. Yellow, like a certificate that
+        expires soon: it is often expected, for example on debug builds, so red stays for broken declarations.
+    -->
+    <style name="Sentinel.Widget.Chip.StatusWarning" parent="Sentinel.Widget.Chip">
+        <item name="chipBackgroundColor">@color/sentinel_warning_container</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="chipIcon">@drawable/sentinel_ic_status_info</item>
+        <item name="chipIconTint">?attr/colorOnSurface</item>
+        <item name="chipIconVisible">true</item>
+    </style>
 
 </resources>

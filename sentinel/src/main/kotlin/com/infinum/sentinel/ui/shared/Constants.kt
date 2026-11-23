@@ -7,6 +7,7 @@ internal object Constants {
 
     object Keys {
         const val BUNDLE_ID = "KEY_BUNDLE_ID"
+        const val DEEP_LINK = "KEY_DEEP_LINK"
         const val SHOULD_REFRESH: String = "KEY_SHOULD_REFRESH"
         const val APPLICATION_NAME: String = "KEY_APPLICATION_NAME"
         const val CRASH_ID: String = "KEY_CRASH_ID"
