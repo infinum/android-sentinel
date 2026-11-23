@@ -8,6 +8,7 @@ import com.infinum.sentinel.ui.tools.CertificateTool
 import com.infinum.sentinel.ui.tools.ChuckerTool
 import com.infinum.sentinel.ui.tools.CollarTool
 import com.infinum.sentinel.ui.tools.DbInspectorTool
+import com.infinum.sentinel.ui.tools.DeepLinkTool
 import com.infinum.sentinel.ui.tools.GooglePlayTool
 import com.infinum.sentinel.ui.tools.LeakCanaryTool
 import com.infinum.sentinel.ui.tools.NetworkEmulatorTool
@@ -37,6 +38,16 @@ class SampleApplication : Application() {
         tools.add(GooglePlayTool())
         tools.add(TimberTool(allowedTags = listOf("Main")))
         tools.add(ShowkaseTool(SampleShowkaseRootModule::class))
+        tools.add(
+            DeepLinkTool(
+                exampleLinks =
+                listOf(
+                    DeepLinkTool.ExampleLink("sentinelsample://catalog/product/123?ref=sentinel", "Product 123"),
+                    // A domain the sample doesn't declare, to show the "Not registered" status on Android 12+.
+                    DeepLinkTool.ExampleLink("https://example.org/promo?code=SUMMER", "Promo on an undeclared domain"),
+                ),
+            ),
+        )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             tools.add(CertificateTool(userCertificates = loadDebugCertificates()))
         }

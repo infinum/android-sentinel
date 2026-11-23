@@ -35,6 +35,60 @@
         <activity
             android:name=".BundleActivity"
             android:exported="false"/>
+
+        <!-- Deep links for the Sentinel Deep links tool demo. -->
+        <activity
+            android:name=".DeepLinkActivity"
+            android:exported="true"
+            android:label="@string/deep_link_title">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:scheme="sentinelsample"
+                    android:host="home"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:scheme="sentinelsample"
+                    android:host="catalog"
+                    android:pathPrefix="/product/"/>
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="http"/>
+                <data android:scheme="https"/>
+                <data android:host="example.com"/>
+                <data android:path="/offers"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SearchDeepLinkActivity"
+            android:exported="true"
+            android:label="@string/deep_link_search_title">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:scheme="sentinelsample"
+                    android:host="search"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
