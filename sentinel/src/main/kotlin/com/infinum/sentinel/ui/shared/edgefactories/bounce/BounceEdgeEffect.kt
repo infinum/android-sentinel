@@ -35,6 +35,7 @@ internal class BounceEdgeEffect(
 
     override fun onRelease() {
         super.onRelease()
+        resetPlatformStretch()
 
         if (recyclerView.translationY != 0f) {
             translationAnim = createSpringAnimation().also { it.start() }
@@ -43,6 +44,7 @@ internal class BounceEdgeEffect(
 
     override fun onAbsorb(velocity: Int) {
         super.onAbsorb(velocity)
+        resetPlatformStretch()
 
         val sign = if (direction == RecyclerView.EdgeEffectFactory.DIRECTION_BOTTOM) -1 else 1
         val translationVelocity = sign * velocity * FLING_TRANSLATION_MAGNITUDE
@@ -56,6 +58,15 @@ internal class BounceEdgeEffect(
     override fun draw(canvas: Canvas?): Boolean = false
 
     override fun isFinished(): Boolean = translationAnim?.isRunning?.not() ?: true
+
+    /**
+     * Clears the stretch distance the platform effect records on API 31+. It only decays in [EdgeEffect.draw],
+     * which this effect replaces, so without this RecyclerView sees a stretch in progress at the edge and
+     * intercepts every later tap there as a drag.
+     */
+    private fun resetPlatformStretch() {
+        super.finish()
+    }
 
     private fun doOnPull(deltaDistance: Float) {
         val sign = if (direction == RecyclerView.EdgeEffectFactory.DIRECTION_BOTTOM) -1 else 1
