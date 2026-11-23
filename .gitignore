@@ -23,3 +23,4 @@
 
 publish.properties
 *.gpg
+.kotlin/
