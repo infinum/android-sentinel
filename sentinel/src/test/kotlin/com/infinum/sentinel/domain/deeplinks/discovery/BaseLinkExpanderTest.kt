@@ -42,6 +42,13 @@ internal class BaseLinkExpanderTest {
     private val site = DeclaredData(scheme = "https", host = "example.com")
 
     @Test
+    fun `expand keeps schemes that differ only in case as separate links`() {
+        val result = texts(filter(DeclaredData(scheme = "myapp"), DeclaredData(scheme = "MyApp"), DeclaredData(host = "h")))
+
+        assertEquals(listOf("myapp://h", "MyApp://h"), result)
+    }
+
+    @Test
     fun `expand makes one link per scheme`() {
         val result = links(filter(DeclaredData(scheme = "http"), DeclaredData(scheme = "https"), DeclaredData(host = "example.com")))
 

@@ -14,13 +14,13 @@ internal object BaseLinkKeys {
     private const val SEPARATOR = "|"
 
     /**
-     * Key of a declared link: `declared|scheme|host|port|path`. Scheme and host compare
-     * case-insensitively (as in Android's matching), path values are kept verbatim.
+     * Key of a declared link: `declared|scheme|host|port|path`. The host compares case-insensitively and the
+     * scheme and path values are kept verbatim, as in Android's matching.
      */
     internal fun declared(spec: LinkSpec): String =
         listOf(
             DECLARED_PREFIX,
-            spec.scheme.lowercase(),
+            spec.scheme,
             hostKey(spec.host),
             spec.port?.toString().orEmpty(),
             pathKey(spec.path),

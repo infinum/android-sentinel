@@ -69,8 +69,8 @@ internal class BaseLinkKeysTest {
     }
 
     @Test
-    fun `declared lowercases scheme`() {
-        assertEquals("declared|https|lit:example.com||none", key(scheme = "HTTPS"))
+    fun `declared keeps scheme case`() {
+        assertEquals("declared|HTTPS|lit:example.com||none", key(scheme = "HTTPS"))
     }
 
     @Test
