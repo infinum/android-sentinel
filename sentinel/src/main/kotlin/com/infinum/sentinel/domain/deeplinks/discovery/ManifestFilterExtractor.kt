@@ -100,7 +100,7 @@ internal object ManifestFilterExtractor {
                 componentName = componentName,
                 title = title,
                 categories = filter.children.filter { it.name == TAG_CATEGORY }.mapNotNull { it.attributes["name"] },
-                data = dataNodes.map(::toData),
+                data = dataNodes.map(::toData).map(::withoutFileScheme),
                 groups =
                 filter.children.filter { it.name == TAG_GROUP }.map { group ->
                     DeclaredGroup(
@@ -114,12 +114,22 @@ internal object ManifestFilterExtractor {
         }
     }
 
+    /**
+     * True when the filter declares at least one scheme other than `file` and `content`, has no MIME type and isn't
+     * opaque. A filter that mixes `file` or `content` with other schemes still matches links of the other schemes,
+     * so it stays; [withoutFileScheme] drops only those two schemes.
+     */
     private fun isLinkFilter(dataNodes: List<ManifestNodeData>): Boolean {
-        val schemes = dataNodes.mapNotNull { it.attributes["scheme"] }
+        val linkSchemes = dataNodes.mapNotNull { it.attributes["scheme"] }.filterNot(::isFileScheme)
         val hasMime = dataNodes.any { node -> MIME_ATTRIBUTES.any { it in node.attributes } }
-        val isFileLike = schemes.any { it.equals(SCHEME_CONTENT, true) || it.equals(SCHEME_FILE, true) }
-        return schemes.isNotEmpty() && !hasMime && !isFileLike && !isOpaque(dataNodes)
+        return linkSchemes.isNotEmpty() && !hasMime && !isOpaque(dataNodes)
     }
+
+    private fun isFileScheme(scheme: String): Boolean = scheme.equals(SCHEME_CONTENT, true) || scheme.equals(SCHEME_FILE, true)
+
+    /** [data] without its scheme when that is `file` or `content`; its host and path still apply to the other schemes. */
+    private fun withoutFileScheme(data: DeclaredData): DeclaredData =
+        if (data.scheme?.let(::isFileScheme) == true) data.copy(scheme = null) else data
 
     private fun isOpaque(dataNodes: List<ManifestNodeData>): Boolean =
         dataNodes.any { node -> SSP_ATTRIBUTES.any { it in node.attributes } } &&

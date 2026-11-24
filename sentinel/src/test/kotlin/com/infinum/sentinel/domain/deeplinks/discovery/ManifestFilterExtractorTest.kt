@@ -121,6 +121,14 @@ internal class ManifestFilterExtractorTest {
     }
 
     @Test
+    fun `extract keeps the other schemes of a filter that also declares content or file`() {
+        val result = extractFilter(data("scheme" to "https", "host" to "a.com"), data("scheme" to "content"), data("scheme" to "file")).single()
+
+        assertEquals(listOf("https"), result.data.mapNotNull { it.scheme })
+        assertEquals(listOf("a.com"), result.data.mapNotNull { it.host })
+    }
+
+    @Test
     fun `extract drops an opaque filter with ssp and no host`() {
         assertTrue(extractFilter(data("scheme" to "tel", "ssp" to "123")).isEmpty())
     }
