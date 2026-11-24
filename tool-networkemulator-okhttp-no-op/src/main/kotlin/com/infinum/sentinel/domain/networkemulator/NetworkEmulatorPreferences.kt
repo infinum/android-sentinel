@@ -63,4 +63,6 @@ public class NetworkEmulatorPreferences(
     public fun reset() {
         // No-op
     }
+
+    public companion object
 }

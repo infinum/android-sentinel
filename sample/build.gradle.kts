@@ -8,8 +8,8 @@ val releaseConfig = extra["releaseConfig"] as Map<String, Any>
 
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -97,6 +97,9 @@ dependencies {
     implementation(libs.okhttp)
 
     // Compose screen used to exercise Sentinel's Compose annotation-target resolution.
+    // Declared directly so both variants resolve the catalog's runtime version instead of the
+    // older one material3 and activity-compose pull in transitively.
+    implementation(libs.compose.runtime)
     implementation(libs.compose.material3)
     implementation(libs.compose.activity)
     // ui-tooling is what puts ui-tooling-data on the runtime classpath, which is what lets
@@ -122,4 +125,14 @@ dependencies {
     debugImplementation(project(":tool-networkemulator-okhttp"))
     releaseImplementation(project(":tool-networkemulator-okhttp-no-op"))
     debugImplementation(project(":tool-timber"))
+
+    debugImplementation(project(":tool-showkase"))
+    releaseImplementation(project(":tool-showkase-no-op"))
+
+    debugImplementation(libs.showkase)
+    debugImplementation(libs.compose.material)
+
+    // Variant-scoped on purpose. The project-wide `ksp` configuration would run the
+    // processor for release, where the browser runtime does not exist.
+    kspDebug(libs.showkase.processor)
 }

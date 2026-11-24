@@ -90,6 +90,17 @@ tasks.register("deployToolNetworkEmulatorOkhttp") {
     description = "Deploy Tool NetworkEmulator OkHttp modules to Maven Central repository"
 }
 
+tasks.register("deployToolShowkase") {
+    dependsOn(
+        ":tool-showkase:clean",
+        ":tool-showkase-no-op:clean",
+        ":tool-showkase:publishMavenPublicationToMavenCentralRepository",
+        ":tool-showkase-no-op:publishMavenPublicationToMavenCentralRepository"
+    )
+    group = "Deploy"
+    description = "Deploy Tool Showkase modules to Maven Central repository"
+}
+
 tasks.register("deploySentinelAll") {
     dependsOn(
         "deploySentinel",
@@ -108,7 +119,8 @@ tasks.register("deployToolsAll") {
         "deployToolAppGallery",
         "deployToolGooglePlay",
         "deployToolTimber",
-        "deployToolNetworkEmulatorOkhttp"
+        "deployToolNetworkEmulatorOkhttp",
+        "deployToolShowkase"
     )
     group = "Deploy"
     description = "Deploy all tools modules to repositories"
@@ -125,7 +137,8 @@ tasks.register("deployAll") {
         "deployToolAppGallery",
         "deployToolGooglePlay",
         "deployToolTimber",
-        "deployToolNetworkEmulatorOkhttp"
+        "deployToolNetworkEmulatorOkhttp",
+        "deployToolShowkase"
     )
     group = "Deploy"
     description = "Deploy all modules to Maven Central repository"
@@ -144,6 +157,8 @@ tasks.register("deployDebug") {
         ":tool-timber:clean",
         ":tool-networkemulator-okhttp:clean",
         ":tool-networkemulator-okhttp-no-op:clean",
+        ":tool-showkase:clean",
+        ":tool-showkase-no-op:clean",
         ":sentinel:publishMavenPublicationToMavenLocal",
         ":sentinel-no-op:publishMavenPublicationToMavenLocal",
         ":tool-chucker:publishMavenPublicationToMavenLocal",
@@ -154,7 +169,9 @@ tasks.register("deployDebug") {
         ":tool-googleplay:publishMavenPublicationToMavenLocal",
         ":tool-timber:publishMavenPublicationToMavenLocal",
         ":tool-networkemulator-okhttp:publishMavenPublicationToMavenLocal",
-        ":tool-networkemulator-okhttp-no-op:publishMavenPublicationToMavenLocal"
+        ":tool-networkemulator-okhttp-no-op:publishMavenPublicationToMavenLocal",
+        ":tool-showkase:publishMavenPublicationToMavenLocal",
+        ":tool-showkase-no-op:publishMavenPublicationToMavenLocal"
     )
     group = "Deploy"
     description = "Deploy all modules to Maven Local repository for debugging"

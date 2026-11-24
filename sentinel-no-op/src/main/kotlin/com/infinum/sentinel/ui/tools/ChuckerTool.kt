@@ -7,7 +7,15 @@ import com.infinum.sentinel.Sentinel
  * Specific wrapper tool around Chucker in no-op.
  *
  */
-public class ChuckerTool : Sentinel.Tool {
+@Suppress("UnusedPrivateMember")
+public data class ChuckerTool(
+    private val listener: View.OnClickListener =
+        View.OnClickListener {
+            // no - op
+        },
+) : Sentinel.Tool {
+    override fun icon(): Int? = null
+
     override fun name(): Int = 0
 
     override fun listener(): View.OnClickListener =

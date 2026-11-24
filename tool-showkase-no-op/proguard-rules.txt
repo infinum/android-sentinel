@@ -1,0 +1,4 @@
+# Showkase No-op - ProGuard Rules
+
+# Keep the public API class - no-op implementations should be preserved
+-keep public class com.infinum.sentinel.ui.tools.ShowkaseTool { *; }
