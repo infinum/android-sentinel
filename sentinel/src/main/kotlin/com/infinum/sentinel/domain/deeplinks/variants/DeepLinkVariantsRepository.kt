@@ -20,7 +20,8 @@ import kotlinx.coroutines.withContext
  * Keeps tester-made variants in a [DeepLinksStore].
  *
  * Storage is read once, on first use. Every mutation runs under a mutex, writes to storage first
- * and updates the observed state only when the write succeeded.
+ * and updates the observed state only when the write succeeded. An unreadable stored document is backed up
+ * before any write can replace it.
  */
 internal class DeepLinkVariantsRepository(
     private val store: DeepLinksStore,
@@ -30,6 +31,9 @@ internal class DeepLinkVariantsRepository(
     // Null means the storage has not been read yet.
     private val state = MutableStateFlow<List<Variant>?>(null)
     private val mutex = Mutex()
+
+    // An unreadable stored document whose backup failed. Guarded by [mutex]; the next write retries the backup.
+    private var pendingBackup: String? = null
 
     override fun observe(): Flow<List<Variant>> =
         flow {
@@ -104,13 +108,15 @@ internal class DeepLinkVariantsRepository(
         val raw = withContext(ioDispatcher) { store.readVariants() }
         val decoded = raw?.let { DeepLinkVariantsSerializer.decode(it) }
         if (raw != null && decoded == null) {
-            withContext(ioDispatcher) { store.backupCorrupt(raw) }
+            val isBackedUp = withContext(ioDispatcher) { store.backupCorrupt(raw) }
+            if (!isBackedUp) pendingBackup = raw
         }
         return decoded ?: emptyList()
     }
 
     /**
-     * Persists [list] and only then publishes it. Throws [VariantsWriteException] when the write fails.
+     * Persists [list] and only then publishes it. Throws [VariantsWriteException] when the write fails, or when
+     * an unreadable stored document still can't be backed up, so a write never replaces its only copy.
      *
      * The write and the publish can't be cancelled: once storage holds [list], the observed state must hold it
      * too, or the next mutation would build on the old list and write it back.
@@ -118,8 +124,18 @@ internal class DeepLinkVariantsRepository(
     private suspend fun persist(list: List<Variant>) {
         val json = DeepLinkVariantsSerializer.encode(list)
         withContext(ioDispatcher + NonCancellable) {
+            backUpPending()
             if (!store.writeVariants(json)) throw VariantsWriteException()
             state.value = list
         }
+    }
+
+    /**
+     * Must be called with [mutex] held. Retries a failed backup and throws [VariantsWriteException] if it fails again.
+     */
+    private fun backUpPending() {
+        val raw = pendingBackup ?: return
+        if (!store.backupCorrupt(raw)) throw VariantsWriteException()
+        pendingBackup = null
     }
 }
