@@ -11,7 +11,7 @@ import java.security.cert.X509Certificate
 public data class CertificateTool
 @JvmOverloads
 constructor(
-    private val userCertificates: List<X509Certificate> = listOf(),
+    public val userCertificates: List<X509Certificate> = listOf(),
     private val listener: View.OnClickListener =
         View.OnClickListener {
             // no - op

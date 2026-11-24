@@ -9,15 +9,17 @@ import com.infinum.sentinel.Sentinel
  * Tool Activity will launch with no additional flags.
  */
 @Suppress("UnusedPrivateMember")
-public class TimberTool
+public data class TimberTool
 @JvmOverloads
 constructor(
-    private val allowedTags: List<String> = emptyList(),
+    public val allowedTags: List<String> = emptyList(),
     private val listener: View.OnClickListener =
         View.OnClickListener {
             // no - op
         },
 ) : Sentinel.Tool {
+    override fun icon(): Int? = null
+
     override fun name(): Int = 0
 
     override fun listener(): View.OnClickListener =

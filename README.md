@@ -27,6 +27,7 @@ The project is organized in the following modules:
 - `tool-googleplay` - contains a class wrapper for Google Play
 - `tool-timber` - contains a class wrapper for Timber
 - `tool-networkemulator-okhttp` - contains a class wrapper for NetworkEmulator
+- `tool-networkemulator-okhttp-no-op` - contains stubs for easy release implementation of the NetworkEmulator interceptor
 - `tool-networkproxy-okhttp` - contains a class wrapper for NetworkProxy
 - `tool-networkproxy-okhttp-no-op` - contains stubs for easy release implementation of the NetworkProxy wrapper
 - `tool-showkase` - contains a class wrapper for Showkase
@@ -109,6 +110,7 @@ debugImplementation "com.infinum.sentinel:tool-appgallery:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-googleplay:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-timber:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-networkemulator-okhttp:$sentinelVersion"
+releaseImplementation "com.infinum.sentinel:tool-networkemulator-okhttp-no-op:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-networkproxy-okhttp:$sentinelVersion"
 releaseImplementation "com.infinum.sentinel:tool-networkproxy-okhttp-no-op:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-showkase:$sentinelVersion"
@@ -126,11 +128,16 @@ debugImplementation("com.infinum.sentinel:tool-appgallery:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-googleplay:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-timber:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-networkemulator-okhttp:$sentinelVersion")
+releaseImplementation("com.infinum.sentinel:tool-networkemulator-okhttp-no-op:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-networkproxy-okhttp:$sentinelVersion")
 releaseImplementation("com.infinum.sentinel:tool-networkproxy-okhttp-no-op:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-showkase:$sentinelVersion")
 releaseImplementation("com.infinum.sentinel:tool-showkase-no-op:$sentinelVersion")
 ```
+
+Tool wrappers are stubbed in `sentinel-no-op`, but the libraries they wrap (Chucker, Collar, DbInspector,
+LeakCanary, Timber) are only exposed in debug. If your shared code uses one of them directly, for example
+`ChuckerInterceptor` or `Timber.plant()`, add that library yourself (or its own no-op artifact) for release builds.
 
 Now you can sync your project.
 
