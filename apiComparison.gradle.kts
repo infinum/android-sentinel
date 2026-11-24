@@ -57,12 +57,29 @@ tasks.register("compareSentinelApis") {
             .keys
         // Registered automatically through the tool's manifest, consumers are not expected to reference it
         val autoRegisteredInitializers = setOf("com/infinum/sentinel/TimberInitializer")
-        val checkedClasses = realClasses.filterKeys { name ->
-            !name.contains("/databinding/") &&
-                !name.endsWith("/BuildConfig") &&
-                name.substringBefore("$") !in uiScreens &&
-                name !in autoRegisteredInitializers
-        }
+        // kotlinx.serialization generates public API (`serializer()`, `$$serializer` classes and companions that only
+        // hold `serializer()`), which a no-op stub would need the serialization plugin to reproduce
+        fun isSerializationMember(line: String) = line.contains("Lkotlinx/serialization/")
+        fun isMemberLine(line: String) = line.trim().let { it.isNotEmpty() && it != "}" && !it.endsWith("{") }
+        val serializerOnlyCompanions = realClasses
+            .filter { (name, lines) ->
+                name.endsWith("\$Companion") && lines.filter(::isMemberLine).all(::isSerializationMember)
+            }
+            .keys
+        fun isGeneratedBySerialization(line: String) =
+            isSerializationMember(line) ||
+                serializerOnlyCompanions.any { line.trim().endsWith("field Companion L$it;") }
+
+        val checkedClasses = realClasses
+            .filterKeys { name ->
+                !name.contains("/databinding/") &&
+                    !name.endsWith("/BuildConfig") &&
+                    name.substringBefore("$") !in uiScreens &&
+                    name !in autoRegisteredInitializers &&
+                    !name.endsWith("\$\$serializer") &&
+                    name !in serializerOnlyCompanions
+            }
+            .mapValues { (_, lines) -> lines.filterNot(::isGeneratedBySerialization).toSet() }
 
         val missingClasses = checkedClasses.keys - noOpClasses.keys
         val missingLines = checkedClasses
