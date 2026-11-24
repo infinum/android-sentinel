@@ -233,7 +233,7 @@ private val previewWebRow =
     }
 
 private val previewTemplateRow =
-    previewBaseLink(spec = LinkSpec("https", HostSpec.Wildcard("example.com"), null, PathSpec.Prefix("/orders"))).let {
+    previewBaseLink(spec = LinkSpec("https", HostSpec.Wildcard(".example.com"), null, PathSpec.Prefix("/orders"))).let {
         DeepLinksItem.BaseLinkRow(
             baseLink = it,
             variantCount = 0,

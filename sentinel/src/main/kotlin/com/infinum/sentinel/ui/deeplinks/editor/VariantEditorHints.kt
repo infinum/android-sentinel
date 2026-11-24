@@ -13,7 +13,7 @@ import com.infinum.sentinel.domain.deeplinks.models.PathSpec
 @Composable
 internal fun hostHint(host: HostSpec): String? =
     when (host) {
-        is HostSpec.Wildcard -> stringResource(R.string.sentinel_deep_links_editor_hint_any_subdomain, host.suffix)
+        is HostSpec.Wildcard -> stringResource(R.string.sentinel_deep_links_editor_hint_host_suffix, host.suffix)
         HostSpec.AnyHost -> stringResource(R.string.sentinel_deep_links_editor_hint_any_host)
         HostSpec.None -> stringResource(R.string.sentinel_deep_links_editor_hint_optional_host)
         is HostSpec.Literal -> null

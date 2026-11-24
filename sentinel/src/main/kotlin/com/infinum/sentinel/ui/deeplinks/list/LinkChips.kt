@@ -103,7 +103,7 @@ private fun LinkChipsPreview() {
         BaseLink(
             key = "shop",
             origin = BaseLinkOrigin.Declared("com.example.ShopActivity"),
-            spec = LinkSpec("https", HostSpec.Wildcard("example.com"), null, PathSpec.Prefix("/orders")),
+            spec = LinkSpec("https", HostSpec.Wildcard(".example.com"), null, PathSpec.Prefix("/orders")),
             exampleUri = null,
             warnings = warnings,
         )
