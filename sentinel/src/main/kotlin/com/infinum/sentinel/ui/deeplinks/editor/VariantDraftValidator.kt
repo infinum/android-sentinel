@@ -18,13 +18,9 @@ internal object VariantDraftValidator {
     ): VariantDraftValidation {
         val isHostMissing = form.hostMode == FieldMode.REQUIRED && draft.host.isBlank()
         val isPathMissing = form.pathMode == FieldMode.REQUIRED && draft.path.isBlank()
-        val spec = form.spec
-        val isPatternMismatch =
-            spec != null &&
-                spec.isTemplate &&
-                !isHostMissing &&
-                !isPathMissing &&
-                matcher.matches(spec, VariantDraftMapper.toLink(draft, form)) == false
+        val template = form.spec?.takeIf { it.isTemplate }
+        val isFilledIn = !isHostMissing && !isPathMissing
+        val isPatternMismatch = template != null && isFilledIn && matcher.matches(template, VariantDraftMapper.toLink(draft, form)) == false
         return VariantDraftValidation(
             emptyKeyRowIds = draft.rows.filter { it.key.isBlank() && it.value.isNotBlank() }.map { it.rowId }.toSet(),
             isHostMissing = isHostMissing,

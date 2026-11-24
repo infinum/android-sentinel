@@ -27,10 +27,15 @@ internal data class LinkSpec(
      * True when the link cannot be launched as is: wildcard host or any non-literal path.
      */
     val isTemplate: Boolean
-        get() =
-            host is HostSpec.AnyHost || host is HostSpec.Wildcard ||
-                path is PathSpec.Prefix || path is PathSpec.Pattern ||
-                path is PathSpec.AdvancedPattern || path is PathSpec.Suffix
+        get() = isHostTemplate() || isPathTemplate()
+
+    private fun isHostTemplate(): Boolean = host is HostSpec.AnyHost || host is HostSpec.Wildcard
+
+    private fun isPathTemplate(): Boolean =
+        when (path) {
+            PathSpec.None, is PathSpec.Literal -> false
+            is PathSpec.Prefix, is PathSpec.Pattern, is PathSpec.AdvancedPattern, is PathSpec.Suffix -> true
+        }
 
     private fun hostText(): String =
         when (host) {
