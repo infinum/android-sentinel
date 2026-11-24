@@ -22,7 +22,7 @@ import com.infinum.sentinel.domain.deeplinks.models.VerificationStatus
 import com.infinum.sentinel.ui.shared.compose.SentinelTheme
 
 /**
- * Shows a variant: its name, built link, status chip, orphan chip and actions (FR-18, FR-19, FR-47).
+ * Shows a variant: its name, built link, status chip, orphan chip and actions.
  *
  * [launchMenu] and [moreMenu] are drawn inside the box of their button, so a DropdownMenu placed there anchors to it.
  */

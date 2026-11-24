@@ -66,6 +66,7 @@ internal class ManifestReader(
                 android.R.attr.name to "name",
                 android.R.attr.label to "label",
                 android.R.attr.exported to "exported",
+                android.R.attr.enabled to "enabled",
                 android.R.attr.scheme to "scheme",
                 android.R.attr.host to "host",
                 android.R.attr.port to "port",

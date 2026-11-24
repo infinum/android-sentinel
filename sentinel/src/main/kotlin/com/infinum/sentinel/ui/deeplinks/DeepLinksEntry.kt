@@ -7,20 +7,24 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.infinum.sentinel.ui.deeplinks.launch.LaunchRequest
 import com.infinum.sentinel.ui.shared.compose.injectedViewModel
 
 /**
  * The list entry of [DeepLinksNavDisplay]: connects [DeepLinksScreen] to its view model, the activity's [host]
- * calls and navigation through [onOpen].
+ * calls and navigation through [onOpen]. [pendingLaunch] is a launch the editor asked for; the list runs it and
+ * calls [onPendingLaunchDone].
  */
 @Composable
 internal fun DeepLinksEntry(
     host: DeepLinksHostActions,
     onOpen: (DeepLinksKey) -> Unit,
+    pendingLaunch: LaunchRequest?,
+    onPendingLaunchDone: () -> Unit,
 ) {
     val viewModel = injectedViewModel<DeepLinksViewModel> { it.data() }
     val currentOnOpen by rememberUpdatedState(onOpen)
-    // Coming back from system settings must update the statuses without reopening the tool (FR-43). The entry's
+    // Coming back from system settings must update the statuses without reopening the tool. The entry's
     // lifecycle also resumes when the editor or the breakdown closes.
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) { viewModel.refreshVerification() }
     // The view model's flow getters return a new wrapper on every read, so read them once. A new instance on each
@@ -32,7 +36,7 @@ internal fun DeepLinksEntry(
             DeepLinksScreenActions(
                 close = host.close,
                 openBreakdown = { link -> currentOnOpen(DeepLinksKey.Breakdown(link)) },
-                openEditor = { target, focus -> currentOnOpen(DeepLinksKey.Editor(target, focus)) },
+                openEditor = { target -> currentOnOpen(DeepLinksKey.Editor(target)) },
                 launch = host.launch,
                 openLinkSettings = host.openLinkSettings,
                 copy = host.copy,
@@ -42,5 +46,11 @@ internal fun DeepLinksEntry(
                 deleteAll = viewModel::deleteAll,
             )
         }
-    DeepLinksScreen(state = states.collectAsStateWithLifecycle().value, events = events, actions = actions)
+    DeepLinksScreen(
+        state = states.collectAsStateWithLifecycle().value,
+        events = events,
+        actions = actions,
+        pendingLaunch = pendingLaunch,
+        onPendingLaunchDone = onPendingLaunchDone,
+    )
 }

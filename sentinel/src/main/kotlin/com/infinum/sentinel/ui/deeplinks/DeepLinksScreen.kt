@@ -7,10 +7,12 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -23,7 +25,6 @@ import com.infinum.sentinel.domain.deeplinks.models.BaseLink
 import com.infinum.sentinel.domain.deeplinks.models.BaseLinkOrigin
 import com.infinum.sentinel.domain.deeplinks.models.DeepLinkUri
 import com.infinum.sentinel.domain.deeplinks.models.HostSpec
-import com.infinum.sentinel.domain.deeplinks.models.LaunchMode
 import com.infinum.sentinel.domain.deeplinks.models.LinkSpec
 import com.infinum.sentinel.domain.deeplinks.models.PathSpec
 import com.infinum.sentinel.domain.deeplinks.models.Variant
@@ -32,7 +33,9 @@ import com.infinum.sentinel.domain.deeplinks.overview.DeepLinksNotice
 import com.infinum.sentinel.domain.deeplinks.overview.DeepLinksOverview
 import com.infinum.sentinel.domain.deeplinks.overview.DeepLinksSection
 import com.infinum.sentinel.domain.deeplinks.overview.VariantEntry
+import com.infinum.sentinel.ui.deeplinks.launch.LaunchChoice
 import com.infinum.sentinel.ui.deeplinks.launch.LaunchModeMenu
+import com.infinum.sentinel.ui.deeplinks.launch.LaunchRequest
 import com.infinum.sentinel.ui.deeplinks.launch.LaunchResult
 import com.infinum.sentinel.ui.deeplinks.list.DeepLinksEmptyState
 import com.infinum.sentinel.ui.deeplinks.list.DeepLinksItem
@@ -51,13 +54,16 @@ import kotlinx.coroutines.flow.emptyFlow
  * The Deep links screen: notices, example links, the declared links grouped by screen, and saved variants.
  *
  * The open dialog is kept in saved state, so it survives rotation and process death. Menus close on rotation,
- * as the XML popups did. [actions] do everything that needs the activity.
+ * as the XML popups did. [actions] do everything that needs the activity. [pendingLaunch], from the editor's
+ * Launch action, runs once and then [onPendingLaunchDone] is called.
  */
 @Composable
 internal fun DeepLinksScreen(
     state: DeepLinksState?,
     events: Flow<DeepLinksEvent?>,
     actions: DeepLinksScreenActions,
+    pendingLaunch: LaunchRequest? = null,
+    onPendingLaunchDone: () -> Unit = {},
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -67,6 +73,7 @@ internal fun DeepLinksScreen(
     val listState = rememberLazyListState()
     val data = state as? DeepLinksState.Data
     EventEffect(flow = events, onEvent = handler::onEvent)
+    PendingLaunchEffect(pendingLaunch = pendingLaunch, handler = handler, onDone = onPendingLaunchDone)
     SentinelScaffold(
         title = stringResource(R.string.sentinel_deep_links),
         navigationIcon = painterResource(R.drawable.sentinel_ic_close),
@@ -100,7 +107,23 @@ internal fun DeepLinksScreen(
     }
 }
 
-/** The list, or the empty state when discovery worked and there is nothing to show (FR-49). */
+/** Runs [pendingLaunch] once, with the list's Snackbars for the outcome, then calls [onDone]. */
+@Composable
+private fun PendingLaunchEffect(
+    pendingLaunch: LaunchRequest?,
+    handler: DeepLinksScreenHandler,
+    onDone: () -> Unit,
+) {
+    val currentOnDone by rememberUpdatedState(onDone)
+    LaunchedEffect(pendingLaunch) {
+        if (pendingLaunch != null) {
+            handler.launchSaved(pendingLaunch.link, pendingLaunch.mode)
+            currentOnDone()
+        }
+    }
+}
+
+/** The list, or the empty state when discovery worked and there is nothing to show. */
 @Composable
 private fun DeepLinksContent(
     overview: DeepLinksOverview,
@@ -121,7 +144,11 @@ private fun DeepLinksContent(
         DeepLinksListCallbacks(
             onRowClick = handler::openBreakdown,
             onLaunchClick = { row ->
-                if (handler.asksLaunchMode(row)) launchMenuKey = DeepLinksItemKeys.rowKey(row) else handler.launch(row, LaunchMode.REAL_TAP)
+                when (val choice = handler.launchChoice(row)) {
+                    LaunchChoice.Ask -> launchMenuKey = DeepLinksItemKeys.rowKey(row)
+                    is LaunchChoice.Direct -> handler.launch(row, choice.mode)
+                    null -> Unit
+                }
             },
             onMoreClick = { row -> moreMenuKey = DeepLinksItemKeys.rowKey(row) },
             onAddVariantClick = handler::addVariant,
@@ -155,7 +182,7 @@ private val previewActions =
     DeepLinksScreenActions(
         close = {},
         openBreakdown = {},
-        openEditor = { _, _ -> },
+        openEditor = {},
         launch = { _, _ -> LaunchResult.Launched },
         openLinkSettings = { true },
         copy = { _, _ -> },

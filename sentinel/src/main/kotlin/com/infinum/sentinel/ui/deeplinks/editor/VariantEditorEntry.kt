@@ -8,6 +8,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.createSavedStateHandle
 import com.infinum.sentinel.ui.deeplinks.DeepLinksKey
+import com.infinum.sentinel.ui.deeplinks.launch.LaunchRequest
 import com.infinum.sentinel.ui.shared.compose.injectedViewModel
 
 private const val KEY_DRAFT = "KEY_VARIANT_EDITOR_DRAFT"
@@ -21,13 +22,12 @@ private const val KEY_DRAFT = "KEY_VARIANT_EDITOR_DRAFT"
 @Composable
 internal fun VariantEditorEntry(
     key: DeepLinksKey.Editor,
-    onClose: () -> Unit,
+    onClose: (LaunchRequest?) -> Unit,
 ) {
     val viewModel =
         injectedViewModel<VariantEditorViewModel> { created ->
             val savedState = createSavedStateHandle()
             created.setTarget(key.target)
-            created.setFocus(key.focus)
             savedState.get<Bundle>(KEY_DRAFT)?.getString(KEY_DRAFT)?.let(created::restore)
             savedState.setSavedStateProvider(KEY_DRAFT) { Bundle().apply { putString(KEY_DRAFT, created.savedStateJson()) } }
             created.data()
@@ -46,15 +46,15 @@ internal fun VariantEditorEntry(
                 onValueChanged = viewModel::onValueChanged,
                 onAddRow = viewModel::addRow,
                 onRemoveRow = viewModel::removeRow,
-                onSave = viewModel::save,
-                onClose = { currentOnClose() },
+                onSave = { viewModel.save() },
+                onSaveAndLaunch = { mode -> viewModel.save(mode) },
+                onClose = { launch -> currentOnClose(launch) },
             )
         }
     VariantEditorScreen(
         state = states.collectAsStateWithLifecycle().value,
         events = events,
         callbacks = callbacks,
-        initialFocus = key.focus,
         isNewVariant = key.target is VariantEditorTarget.NewFromBase,
     )
 }

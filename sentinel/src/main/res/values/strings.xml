@@ -133,6 +133,7 @@
     <string name="sentinel_deep_links_web">Web</string>
     <string name="sentinel_deep_links_template">Template</string>
     <string name="sentinel_deep_links_template_hint">Add a variant to launch it</string>
+    <string name="sentinel_deep_links_warning_disabled">Screen disabled</string>
     <string name="sentinel_deep_links_warning_no_default">Links can\'t open this</string>
     <string name="sentinel_deep_links_warning_no_browsable">Browsers can\'t open this</string>
     <string name="sentinel_deep_links_warning_duplicate">Also declared in %s</string>
@@ -179,6 +180,7 @@
     <string name="sentinel_deep_links_editor_key_required">Key is required</string>
     <string name="sentinel_deep_links_editor_part_required">Required to launch this link</string>
     <string name="sentinel_deep_links_editor_final_link">Final link</string>
+    <string name="sentinel_deep_links_editor_save_and_launch">Save and launch</string>
     <string name="sentinel_deep_links_editor_mismatch">This doesn\'t match the declared pattern, so the app may not open it. You can still save and launch it.</string>
     <string name="sentinel_deep_links_editor_hint_host_suffix">Any host ending in %s</string>
     <string name="sentinel_deep_links_editor_hint_any_host">Any host</string>
@@ -201,8 +203,6 @@
     <string name="sentinel_deep_links_menu_copy">Copy link</string>
     <string name="sentinel_deep_links_menu_share">Share link</string>
     <string name="sentinel_deep_links_menu_edit">Edit</string>
-    <string name="sentinel_deep_links_menu_add_parameter">Add parameter</string>
-    <string name="sentinel_deep_links_menu_rename">Rename</string>
     <string name="sentinel_deep_links_menu_duplicate">Duplicate</string>
     <string name="sentinel_deep_links_menu_delete">Delete</string>
     <string name="sentinel_deep_links_menu_delete_all">Delete all variants</string>

@@ -42,7 +42,7 @@ internal class DeepLinksActivity : BaseChildActivity() {
         )
 
     /**
-     * Opens the system "Open by default" settings of this app, or its app details when that fails (FR-41, FR-44).
+     * Opens the system "Open by default" settings of this app, or its app details when that fails.
      * Below Android 12 there is nothing to open, which counts as done. False when neither screen could be opened.
      */
     private fun openLinkSettings(): Boolean {

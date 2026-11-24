@@ -33,6 +33,7 @@ internal object VariantDraftMapper {
             pathMode = if (example != null) FieldMode.READ_ONLY else pathModeOf(spec.path),
             fixedPath = example?.path,
             baseText = baseLink.displayText,
+            warnings = baseLink.warnings,
         )
     }
 

@@ -1,7 +1,6 @@
 package com.infinum.sentinel.ui.deeplinks
 
 import androidx.navigation3.runtime.NavKey
-import com.infinum.sentinel.ui.deeplinks.editor.VariantEditorFocus
 import com.infinum.sentinel.ui.deeplinks.editor.VariantEditorTarget
 import kotlinx.serialization.Serializable
 
@@ -21,10 +20,9 @@ internal sealed interface DeepLinksKey : NavKey {
         val link: String,
     ) : DeepLinksKey
 
-    /** The variant editor for [target], focusing the field named by [focus] when it opens. */
+    /** The variant editor for [target]. */
     @Serializable
     data class Editor(
         val target: VariantEditorTarget,
-        val focus: VariantEditorFocus,
     ) : DeepLinksKey
 }

@@ -54,9 +54,11 @@ internal object ManifestFilterExtractor {
             val title =
                 component.attributes["label"]?.takeIf { it.isNotBlank() }
                     ?: componentName.substringAfterLast('.')
+            // A disabled screen is still listed, with a warning, because the app can enable it at runtime.
+            val isEnabled = component.attributes["enabled"] != VALUE_FALSE
             component.children
                 .filter { it.name == TAG_INTENT_FILTER }
-                .mapNotNull { toFilter(it, componentName, title) }
+                .mapNotNull { toFilter(it, componentName, title)?.copy(isEnabled = isEnabled) }
         }
     }
 

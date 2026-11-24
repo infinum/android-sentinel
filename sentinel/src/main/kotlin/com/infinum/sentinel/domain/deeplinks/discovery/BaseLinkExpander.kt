@@ -54,7 +54,8 @@ internal object BaseLinkExpander {
         val schemes = filter.data.mapNotNull { it.scheme }.distinct()
         val authorities = authorities(filter.data)
         val paths = paths(filter, sdkInt)
-        val warnings = ConfigurationWarnings.categoryWarnings(filter.categories)
+        val categoryWarnings = ConfigurationWarnings.categoryWarnings(filter.categories)
+        val warnings = if (filter.isEnabled) categoryWarnings else categoryWarnings + ConfigurationWarning.Disabled
         val specs =
             when {
                 authorities.isEmpty() -> schemes.map { LinkSpec(it, HostSpec.None, null, PathSpec.None) }
@@ -141,13 +142,24 @@ internal object BaseLinkExpander {
             }
 
     /**
-     * Merges the warnings of declarations of one link. Open in this app needs DEFAULT, and Real tap needs
+     * Merges the warnings of declarations of one link. The declarations come from one screen, so they are all
+     * enabled or all disabled, and [ConfigurationWarning.Disabled] stays exactly when the screen is disabled. The
+     * category warnings merge by capability, see [mergeCategoryWarnings].
+     */
+    private fun mergeWarnings(declarations: List<Set<ConfigurationWarning>>): Set<ConfigurationWarning> {
+        val categoryWarnings = mergeCategoryWarnings(declarations.map { it - ConfigurationWarning.Disabled })
+        val isDisabled = declarations.all { ConfigurationWarning.Disabled in it }
+        return if (isDisabled) categoryWarnings + ConfigurationWarning.Disabled else categoryWarnings
+    }
+
+    /**
+     * Merges the category warnings of declarations of one link. Open in this app needs DEFAULT, and Real tap needs
      * DEFAULT and BROWSABLE in the same filter, so a plain intersection would hide a real problem:
      * - a declaration without warnings makes the link work fully, so nothing remains;
      * - otherwise a declaration with DEFAULT makes Open in this app work, so only the missing BROWSABLE remains;
      * - otherwise no declaration has DEFAULT, and the warnings every declaration shares remain.
      */
-    private fun mergeWarnings(declarations: List<Set<ConfigurationWarning>>): Set<ConfigurationWarning> =
+    private fun mergeCategoryWarnings(declarations: List<Set<ConfigurationWarning>>): Set<ConfigurationWarning> =
         when {
             declarations.any { it.isEmpty() } -> setOf()
             declarations.any { ConfigurationWarning.MissingDefault !in it } -> setOf(ConfigurationWarning.MissingBrowsable)

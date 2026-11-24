@@ -22,25 +22,28 @@ internal object ConfigurationWarnings {
 
     /**
      * Adds [ConfigurationWarning.DuplicateDeclaration] to each link whose key is also declared by
-     * other screens. Existing warnings, order of screens and order of links are kept.
+     * other screens. Existing warnings, order of screens and order of links are kept. Disabled screens don't
+     * count, because Android only chooses between enabled ones, and their own links get no duplicate warning.
      */
     internal fun attachDuplicates(screens: List<DeclaredScreen>): List<DeclaredScreen> {
-        val keysPerScreen = screens.map { screen -> screen.links.map { it.key }.toSet() }
+        val keysPerScreen = screens.map { screen -> if (screen.isDisabled()) setOf() else screen.links.map { it.key }.toSet() }
         return screens.mapIndexed { index, screen ->
-            screen.copy(
-                links =
+            val links =
                 screen.links.map { link ->
                     val others =
                         screens
                             .filterIndexed { other, _ -> other != index && link.key in keysPerScreen[other] }
                             .map { it.title }
-                    if (others.isEmpty()) {
+                    if (others.isEmpty() || screen.isDisabled()) {
                         link
                     } else {
                         link.copy(warnings = link.warnings + ConfigurationWarning.DuplicateDeclaration(others))
                     }
-                },
-            )
+                }
+            screen.copy(links = links)
         }
     }
+
+    /** Every link of a disabled screen carries [ConfigurationWarning.Disabled], see BaseLinkExpander. */
+    private fun DeclaredScreen.isDisabled(): Boolean = links.isNotEmpty() && links.all { ConfigurationWarning.Disabled in it.warnings }
 }

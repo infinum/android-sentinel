@@ -1,7 +1,6 @@
 package com.infinum.sentinel.ui.deeplinks
 
 import com.infinum.sentinel.domain.deeplinks.models.LaunchMode
-import com.infinum.sentinel.ui.deeplinks.editor.VariantEditorFocus
 import com.infinum.sentinel.ui.deeplinks.editor.VariantEditorTarget
 import com.infinum.sentinel.ui.deeplinks.launch.LaunchResult
 
@@ -13,7 +12,7 @@ import com.infinum.sentinel.ui.deeplinks.launch.LaunchResult
 internal data class DeepLinksScreenActions(
     val close: () -> Unit,
     val openBreakdown: (link: String) -> Unit,
-    val openEditor: (target: VariantEditorTarget, focus: VariantEditorFocus) -> Unit,
+    val openEditor: (target: VariantEditorTarget) -> Unit,
     /** Launches a link and reports the outcome, which the screen turns into a Snackbar. */
     val launch: (link: String, mode: LaunchMode) -> LaunchResult,
     /** Opens the system link settings. False when no settings screen could be opened. */

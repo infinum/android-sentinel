@@ -3,9 +3,11 @@ package com.infinum.sentinel.ui.deeplinks.editor
 import com.infinum.sentinel.domain.Repositories
 import com.infinum.sentinel.domain.deeplinks.models.BaseLink
 import com.infinum.sentinel.domain.deeplinks.models.DeepLinksDiscovery
+import com.infinum.sentinel.domain.deeplinks.models.LaunchMode
 import com.infinum.sentinel.domain.deeplinks.models.Variant
 import com.infinum.sentinel.domain.deeplinks.templates.LinkSpecMatcher
 import com.infinum.sentinel.domain.deeplinks.variants.VariantsWriteException
+import com.infinum.sentinel.ui.deeplinks.launch.LaunchRequest
 import com.infinum.sentinel.ui.shared.base.BaseChildViewModel
 import java.util.UUID
 import kotlinx.serialization.SerializationException
@@ -30,7 +32,6 @@ internal class VariantEditorViewModel(
 
     private val matcher: LinkSpecMatcher = AndroidLinkSpecMatcher()
     private var target: VariantEditorTarget? = null
-    private var focus: VariantEditorFocus = VariantEditorFocus.NONE
     private var form: VariantEditorForm? = null
     private var initial: VariantDraft? = null
     private var current: VariantDraft? = null
@@ -41,11 +42,6 @@ internal class VariantEditorViewModel(
     /** Sets what the editor opens for. Call before [data]. */
     fun setTarget(value: VariantEditorTarget?) {
         target = value
-    }
-
-    /** Sets the field to focus on the first load. Call before [data]. */
-    fun setFocus(value: VariantEditorFocus) {
-        focus = value
     }
 
     /**
@@ -85,18 +81,14 @@ internal class VariantEditorViewModel(
         }
     }
 
-    private suspend fun onLoaded(loaded: Loaded) {
+    private fun onLoaded(loaded: Loaded) {
         form = loaded.form
-        val isRestored = current != null
-        if (!isRestored) {
+        // A draft restored after process death wins over the loaded one.
+        if (current == null) {
             initial = loaded.draft
             current = loaded.draft
         }
-        val newRowId = if (!isRestored && focus == VariantEditorFocus.NEW_PARAMETER) appendRow() else null
-        // The empty row opened by "Add parameter" isn't a change yet, so Back closes without asking.
-        if (newRowId != null) initial = current
         publish()
-        newRowId?.let { emitEvent(VariantEditorEvent.FocusRow(it)) }
     }
 
     /** Sets the variant name as typed. */
@@ -132,15 +124,16 @@ internal class VariantEditorViewModel(
     fun removeRow(rowId: Long) = edit { draft -> draft.copy(rows = draft.rows.filterNot { it.rowId == rowId }) }
 
     /**
-     * Saves the variant. When the draft has errors, nothing is saved, the errors are shown and
+     * Saves the variant and, when [launchMode] is set, asks the list to launch its link in that mode once the editor
+     * closed. When the draft has errors, nothing is saved, the errors are shown and
      * [VariantEditorEvent.ValidationFailed] is emitted.
      */
-    fun save() {
+    fun save(launchMode: LaunchMode? = null) {
         val currentForm = form
         val draft = current
         if (currentForm != null && draft != null && !isSaving) {
             if (VariantDraftValidator.validate(draft, currentForm, matcher).canSave) {
-                persist(draft, currentForm)
+                persist(draft, currentForm, launchMode)
             } else {
                 isShowingErrors = true
                 publish()
@@ -152,6 +145,7 @@ internal class VariantEditorViewModel(
     private fun persist(
         draft: VariantDraft,
         currentForm: VariantEditorForm,
+        launchMode: LaunchMode?,
     ) {
         isSaving = true
         launch {
@@ -160,7 +154,7 @@ internal class VariantEditorViewModel(
                 val variant = VariantDraftMapper.toVariant(draft, currentForm) { UUID.randomUUID().toString() }
                 io { variants.upsert(variant) }
                 isSaved = true
-                setState(VariantEditorState.Saved)
+                setState(VariantEditorState.Saved(launchMode?.let { LaunchRequest(VariantDraftMapper.toLink(draft, currentForm), it) }))
             } catch (ignored: VariantsWriteException) {
                 emitEvent(VariantEditorEvent.SaveFailed)
             } finally {

@@ -1,5 +1,6 @@
 package com.infinum.sentinel.ui.deeplinks.editor
 
+import com.infinum.sentinel.domain.deeplinks.models.ConfigurationWarning
 import com.infinum.sentinel.domain.deeplinks.models.LinkSpec
 
 /**
@@ -17,6 +18,8 @@ import com.infinum.sentinel.domain.deeplinks.models.LinkSpec
  * gone. When set, the link uses it unchanged, so encoded characters such as `%2F` survive. Null when the path is
  * built from the draft.
  * @property baseText the base link's display text, or the variant's link when the base is gone.
+ * @property warnings the base link's configuration warnings, which decide how Launch starts. Empty when the base link
+ * is an example or is gone.
  */
 internal data class VariantEditorForm(
     val scheme: String,
@@ -28,4 +31,5 @@ internal data class VariantEditorForm(
     val pathMode: FieldMode,
     val fixedPath: String?,
     val baseText: String,
+    val warnings: Set<ConfigurationWarning> = emptySet(),
 )

@@ -47,6 +47,9 @@ internal fun LinkChips(
         if (baseLink.isTemplate) {
             SentinelTagChip(text = stringResource(R.string.sentinel_deep_links_template), tag = "templateChip")
         }
+        if (ConfigurationWarning.Disabled in baseLink.warnings) {
+            SentinelTagChip(text = stringResource(R.string.sentinel_deep_links_warning_disabled), tag = "disabledChip", isWarning = true)
+        }
         if (ConfigurationWarning.MissingDefault in baseLink.warnings) {
             SentinelTagChip(
                 text = stringResource(R.string.sentinel_deep_links_warning_no_default),
@@ -76,11 +79,7 @@ internal fun hasChips(
     baseLink.spec != null ||
         status != null ||
         baseLink.isTemplate ||
-        baseLink.warnings.any {
-            it == ConfigurationWarning.MissingDefault ||
-                it == ConfigurationWarning.MissingBrowsable ||
-                it is ConfigurationWarning.DuplicateDeclaration
-        }
+        baseLink.warnings.isNotEmpty()
 
 @StringRes
 private fun typeLabel(type: LinkType): Int =
@@ -95,6 +94,7 @@ private fun typeLabel(type: LinkType): Int =
 private fun LinkChipsPreview() {
     val warnings =
         setOf(
+            ConfigurationWarning.Disabled,
             ConfigurationWarning.MissingDefault,
             ConfigurationWarning.MissingBrowsable,
             ConfigurationWarning.DuplicateDeclaration(listOf("Promo")),

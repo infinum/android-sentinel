@@ -17,7 +17,7 @@ internal class DeepLinksViewModel(
     private val repository: Repositories.DeepLinks,
     private val variants: Repositories.DeepLinkVariants,
 ) : BaseChildViewModel<DeepLinksState, DeepLinksEvent>() {
-    /** One read of the App Links verification state. [data] is null when it can't be read (FR-44). */
+    /** One read of the App Links verification state. [data] is null when it can't be read. */
     private data class VerificationRead(
         val data: DomainVerificationData?,
     )
@@ -31,8 +31,8 @@ internal class DeepLinksViewModel(
     private val verification = MutableStateFlow<VerificationRead?>(null)
 
     /**
-     * Reads the verification snapshot again, so statuses follow what the tester changed in system settings
-     * (FR-43). It never runs discovery again.
+     * Reads the verification snapshot again, so statuses follow what the tester changed in system settings.
+     * It never runs discovery again.
      */
     fun refreshVerification() {
         launch { verification.value = VerificationRead(io { repository.verification() }) }

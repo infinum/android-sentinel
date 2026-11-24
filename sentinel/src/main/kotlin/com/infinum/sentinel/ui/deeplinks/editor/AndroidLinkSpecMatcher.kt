@@ -54,8 +54,10 @@ internal class AndroidLinkSpecMatcher : LinkSpecMatcher {
             is PathSpec.Literal -> filter.addDataPath(path.value, PatternMatcher.PATTERN_LITERAL)
             is PathSpec.Prefix -> filter.addDataPath(path.value, PatternMatcher.PATTERN_PREFIX)
             is PathSpec.Pattern -> filter.addDataPath(path.value, PatternMatcher.PATTERN_SIMPLE_GLOB)
+            // The manifest attributes pathAdvancedPattern and pathSuffix exist from Android 12, so discovery only
+            // makes these specs there (BaseLinkExpander). PATTERN_ADVANCED_GLOB itself exists from Android 8.
             is PathSpec.AdvancedPattern ->
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     filter.addDataPath(path.value, PatternMatcher.PATTERN_ADVANCED_GLOB)
                 } else {
                     isSupported = false

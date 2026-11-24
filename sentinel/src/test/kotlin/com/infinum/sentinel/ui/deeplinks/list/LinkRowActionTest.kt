@@ -29,8 +29,6 @@ internal class LinkRowActionTest {
         assertEquals(
             listOf(
                 LinkRowAction.EDIT,
-                LinkRowAction.ADD_PARAMETER,
-                LinkRowAction.RENAME,
                 LinkRowAction.DUPLICATE,
                 LinkRowAction.BREAKDOWN,
                 LinkRowAction.COPY,

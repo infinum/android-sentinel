@@ -10,7 +10,7 @@ import com.infinum.sentinel.domain.deeplinks.uri.DeepLinkUriEncoder
  * @property origin where the link comes from: a declared screen or an integrator example.
  * @property spec the parsed shape. Null only for an example that could not be parsed.
  * @property exampleUri the parsed example, null for declared links and unparseable examples.
- * @property warnings configuration problems found in the manifest (FR-56). Always empty for examples.
+ * @property warnings configuration problems found in the manifest. Always empty for examples.
  */
 internal data class BaseLink(
     val key: String,

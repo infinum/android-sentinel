@@ -3,10 +3,7 @@ package com.infinum.sentinel.ui.deeplinks.editor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 
@@ -20,45 +17,6 @@ internal fun firstInvalidFieldId(state: VariantEditorState.Data): String? {
         validation.isHostMissing -> VariantEditorFocusRequesters.HOST
         validation.isPathMissing -> VariantEditorFocusRequesters.PATH
         else -> state.draft.rows.firstOrNull { it.rowId in validation.emptyKeyRowIds }?.let { VariantEditorFocusRequesters.key(it.rowId) }
-    }
-}
-
-/**
- * The id of the field the editor focuses on its first load: the name for Rename, and for Add parameter the key of
- * the row the view model appended before its first state. Null when nothing is focused.
- */
-internal fun initialFocusFieldId(
-    initialFocus: VariantEditorFocus,
-    state: VariantEditorState.Data,
-): String? =
-    when (initialFocus) {
-        VariantEditorFocus.NAME -> VariantEditorFocusRequesters.NAME
-        VariantEditorFocus.NEW_PARAMETER -> state.draft.rows.lastOrNull()?.let { VariantEditorFocusRequesters.key(it.rowId) }
-        VariantEditorFocus.NONE -> null
-    }
-
-/**
- * Focuses the field of [initialFocusFieldId] and shows the keyboard, once per screen: the flag is saved, so neither
- * a rotation nor a restore after process death focuses it again. This reads the first state rather than waiting
- * for the view model's focus event, which is emitted before the screen subscribes.
- */
-@Composable
-internal fun InitialFocusEffect(
-    initialFocus: VariantEditorFocus,
-    data: VariantEditorState.Data,
-    focusRequesters: VariantEditorFocusRequesters,
-) {
-    var isFocusHandled by rememberSaveable { mutableStateOf(false) }
-    val keyboard = LocalSoftwareKeyboardController.current
-    LaunchedEffect(Unit) {
-        val fieldId = if (isFocusHandled) null else initialFocusFieldId(initialFocus, data)
-        isFocusHandled = true
-        if (fieldId != null) {
-            // Wait one frame, so the field is composed and has registered its focus requester.
-            withFrameNanos { }
-            focusRequesters.find(fieldId)?.requestFocus()
-            keyboard?.show()
-        }
     }
 }
 

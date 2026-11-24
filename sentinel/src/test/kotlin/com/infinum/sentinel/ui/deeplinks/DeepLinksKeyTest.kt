@@ -1,6 +1,5 @@
 package com.infinum.sentinel.ui.deeplinks
 
-import com.infinum.sentinel.ui.deeplinks.editor.VariantEditorFocus
 import com.infinum.sentinel.ui.deeplinks.editor.VariantEditorTarget
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
@@ -28,7 +27,6 @@ internal class DeepLinksKeyTest {
         val key =
             DeepLinksKey.Editor(
                 target = VariantEditorTarget.NewFromBase(baseKey = "base-1", componentName = "com.example.MainActivity"),
-                focus = VariantEditorFocus.NEW_PARAMETER,
             )
 
         assertEquals(key, roundTrip(key))
@@ -39,7 +37,6 @@ internal class DeepLinksKeyTest {
         val key =
             DeepLinksKey.Editor(
                 target = VariantEditorTarget.NewFromBase(baseKey = "base-2", componentName = null),
-                focus = VariantEditorFocus.NONE,
             )
 
         assertEquals(key, roundTrip(key))
@@ -47,7 +44,7 @@ internal class DeepLinksKeyTest {
 
     @Test
     fun `an editor key for a saved variant survives saving`() {
-        val key = DeepLinksKey.Editor(target = VariantEditorTarget.Existing(variantId = "v1"), focus = VariantEditorFocus.NAME)
+        val key = DeepLinksKey.Editor(target = VariantEditorTarget.Existing(variantId = "v1"))
 
         assertEquals(key, roundTrip(key))
     }
@@ -57,7 +54,7 @@ internal class DeepLinksKeyTest {
         val backStack =
             listOf(
                 DeepLinksKey.Links,
-                DeepLinksKey.Editor(target = VariantEditorTarget.Existing(variantId = "v1"), focus = VariantEditorFocus.NONE),
+                DeepLinksKey.Editor(target = VariantEditorTarget.Existing(variantId = "v1")),
             )
         val serializer = ListSerializer(DeepLinksKey.serializer())
 

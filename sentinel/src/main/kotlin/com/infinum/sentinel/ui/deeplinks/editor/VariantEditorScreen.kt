@@ -48,8 +48,8 @@ import kotlinx.coroutines.launch
  * The variant editor: a new variant from a base link when [isNewVariant], or an existing variant. The title follows
  * [isNewVariant] from the first frame, so the pane title TalkBack announces doesn't change once the draft loads.
  *
- * Back and the close button ask before discarding unsaved changes; that dialog survives recreation. The field
- * named by [initialFocus] is focused once, on the first load. Content stays above the keyboard: the scaffold
+ * Back and the close button ask before discarding unsaved changes; that dialog survives recreation. Content stays
+ * above the keyboard: the scaffold
  * pads it by the larger of the system bars and the IME, which needs `adjustResize` below Android 11.
  */
 @Composable
@@ -57,7 +57,6 @@ internal fun VariantEditorScreen(
     state: VariantEditorState?,
     events: Flow<VariantEditorEvent?>,
     callbacks: VariantEditorCallbacks,
-    initialFocus: VariantEditorFocus,
     isNewVariant: Boolean,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -72,12 +71,12 @@ internal fun VariantEditorScreen(
     val shownState = rememberLastShownState(state)
     val data = shownState as? VariantEditorState.Data
     val isDirty = state is VariantEditorState.Data && state.isDirty
-    val requestClose = { if (isDirty) isDiscardShown = true else callbacks.onClose() }
+    val requestClose = { if (isDirty) isDiscardShown = true else callbacks.onClose(null) }
 
     BackHandler(enabled = isDirty) { isDiscardShown = true }
     VariantEditorEventEffect(events, data, snackbarHostState, focusRequesters) { rowId -> pendingFocusRowId = rowId }
     // Keyed, so it runs once when Saved arrives and not again while the screen fades out.
-    if (state == VariantEditorState.Saved) SideEffect(Unit) { callbacks.onClose() }
+    if (state is VariantEditorState.Saved) SideEffect(Unit) { callbacks.onClose(state.launch) }
 
     val titleRes = if (isNewVariant) R.string.sentinel_deep_links_editor_new_title else R.string.sentinel_deep_links_editor_edit_title
     SentinelScaffold(
@@ -86,20 +85,20 @@ internal fun VariantEditorScreen(
         navigationContentDescription = stringResource(R.string.sentinel_deep_links_editor_close),
         onNavigationClick = requestClose,
         isContentScrolled = scrollState.canScrollBackward,
-        actions = { if (shownState !is VariantEditorState.Missing) SaveButton(onClick = callbacks.onSave) },
+        actions = { EditorActions(shownState = shownState, callbacks = callbacks) },
         snackbarHostState = snackbarHostState,
         contentWindowInsets = WindowInsets.systemBars.union(WindowInsets.displayCutout).union(WindowInsets.ime),
     ) { padding ->
         VariantEditorBody(shownState, callbacks, focus, scrollState, Modifier.padding(padding))
     }
     if (data != null) {
-        EditorFocusEffects(data, initialFocus, restoredFocusFieldId, pendingFocusRowId, focusRequesters) { pendingFocusRowId = null }
+        EditorFocusEffects(data, restoredFocusFieldId, pendingFocusRowId, focusRequesters) { pendingFocusRowId = null }
     }
     if (isDiscardShown) {
         DiscardChangesDialog(
             onDiscard = {
                 isDiscardShown = false
-                callbacks.onClose()
+                callbacks.onClose(null)
             },
             onKeepEditing = { isDiscardShown = false },
         )
@@ -138,17 +137,15 @@ private fun VariantEditorEventEffect(
     }
 }
 
-/** The initial, restored and pending-row focus of the editor; see the effects for each rule. */
+/** The restored and pending-row focus of the editor; see the effects for each rule. */
 @Composable
 private fun EditorFocusEffects(
     data: VariantEditorState.Data,
-    initialFocus: VariantEditorFocus,
     restoredFocusFieldId: String?,
     pendingFocusRowId: Long?,
     focusRequesters: VariantEditorFocusRequesters,
     onPendingRowFocused: () -> Unit,
 ) {
-    InitialFocusEffect(initialFocus = initialFocus, data = data, focusRequesters = focusRequesters)
     RestoreFocusEffect(focusedFieldId = restoredFocusFieldId, focusRequesters = focusRequesters)
     PendingRowFocusEffect(rowId = pendingFocusRowId, data = data, focusRequesters = focusRequesters, onFocused = onPendingRowFocused)
 }
@@ -177,7 +174,7 @@ private fun VariantEditorBody(
                 modifier = modifier.padding(all = 16.dp).testTag("missingView"),
                 style = MaterialTheme.typography.bodyMedium,
             )
-        VariantEditorState.Saved, null -> Unit
+        is VariantEditorState.Saved, null -> Unit
     }
 }
 
@@ -204,8 +201,20 @@ private fun DiscardChangesDialog(
 @Composable
 private fun rememberLastShownState(state: VariantEditorState?): VariantEditorState? {
     val lastShown = remember { arrayOfNulls<VariantEditorState>(1) }
-    if (state != VariantEditorState.Saved) lastShown[0] = state
+    if (state !is VariantEditorState.Saved) lastShown[0] = state
     return lastShown[0]
+}
+
+/** The toolbar actions: Launch once the form is there, then Save, except when the base link or variant is gone. */
+@Composable
+private fun EditorActions(
+    shownState: VariantEditorState?,
+    callbacks: VariantEditorCallbacks,
+) {
+    if (shownState is VariantEditorState.Data) {
+        SaveAndLaunchButton(data = shownState, onSave = callbacks.onSave, onSaveAndLaunch = callbacks.onSaveAndLaunch)
+    }
+    if (shownState !is VariantEditorState.Missing) SaveButton(onClick = callbacks.onSave)
 }
 
 /** The toolbar's Save action, drawn in capitals like an XML action menu item. */
@@ -230,6 +239,7 @@ private val previewCallbacks =
         onAddRow = {},
         onRemoveRow = {},
         onSave = {},
+        onSaveAndLaunch = {},
         onClose = {},
     )
 
@@ -261,7 +271,6 @@ private fun VariantEditorScreenPreview() {
             state = state,
             events = emptyFlow(),
             callbacks = previewCallbacks,
-            initialFocus = VariantEditorFocus.NONE,
             isNewVariant = true,
         )
     }

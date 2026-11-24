@@ -10,6 +10,7 @@ import com.infinum.sentinel.domain.deeplinks.discovery.BaseLinkExpander
 import com.infinum.sentinel.domain.deeplinks.discovery.ConfigurationWarnings
 import com.infinum.sentinel.domain.deeplinks.discovery.ExampleLinkMapper
 import com.infinum.sentinel.domain.deeplinks.discovery.ManifestFilterExtractor
+import com.infinum.sentinel.domain.deeplinks.models.DeclaredFilter
 import com.infinum.sentinel.domain.deeplinks.models.DeclaredScreen
 import com.infinum.sentinel.domain.deeplinks.models.DeepLinksDiscovery
 import kotlinx.coroutines.CoroutineDispatcher
@@ -29,6 +30,7 @@ internal class DeepLinksRepository(
     private val verificationCollector: Collectors.DomainVerification,
     private val packageName: String,
     private val sdkInt: Int,
+    private val componentStates: Collectors.ComponentStates = Collectors.ComponentStates { null },
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : Repositories.DeepLinks {
     private companion object {
@@ -78,14 +80,19 @@ internal class DeepLinksRepository(
         )
     }
 
+    /**
+     * [filters] with the enabled state the app set at runtime, where it set one. Discovery runs once per process,
+     * so a component the app enables or disables later keeps the state it had then.
+     */
+    private fun withRuntimeState(filters: List<DeclaredFilter>): List<DeclaredFilter> {
+        val runtime = filters.map { it.componentName }.distinct().associateWith { componentStates.runtimeEnabled(it) }
+        return filters.map { filter -> runtime[filter.componentName]?.let { filter.copy(isEnabled = it) } ?: filter }
+    }
+
     private fun declaredScreens(manifest: ManifestReadResult.Success): List<DeclaredScreen>? =
         try {
-            ConfigurationWarnings.attachDuplicates(
-                BaseLinkExpander.expand(
-                    ManifestFilterExtractor.extract(manifest.root, packageName),
-                    sdkInt,
-                ),
-            )
+            val filters = withRuntimeState(ManifestFilterExtractor.extract(manifest.root, packageName))
+            ConfigurationWarnings.attachDuplicates(BaseLinkExpander.expand(filters, sdkInt))
         } catch (e: Exception) {
             warn("Expanding the manifest filters failed", e)
             null

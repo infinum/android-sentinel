@@ -50,7 +50,7 @@ internal sealed interface DeepLinksItem {
         /** The link Launch, Copy and Share use. Null only for a declared template, which can't be launched. */
         val launchLink: String?
 
-        /** The App Links verification status of the row's host. Null when there is none (FR-38, FR-44). */
+        /** The App Links verification status of the row's host. Null when there is none. */
         val status: VerificationStatus?
     }
 

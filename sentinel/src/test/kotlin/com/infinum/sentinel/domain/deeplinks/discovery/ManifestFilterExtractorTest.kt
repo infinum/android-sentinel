@@ -129,6 +129,18 @@ internal class ManifestFilterExtractorTest {
     }
 
     @Test
+    fun `extract marks the filters of a disabled component`() {
+        val result = extract(activity("com.example.app.A", httpsFilter(), attributes = mapOf("enabled" to "false")))
+
+        assertEquals(listOf(false), result.map { it.isEnabled })
+    }
+
+    @Test
+    fun `extract treats a component without enabled as enabled`() {
+        assertEquals(listOf(true), extract(activity("com.example.app.A", httpsFilter())).map { it.isEnabled })
+    }
+
+    @Test
     fun `extract drops an opaque filter with ssp and no host`() {
         assertTrue(extractFilter(data("scheme" to "tel", "ssp" to "123")).isEmpty())
     }

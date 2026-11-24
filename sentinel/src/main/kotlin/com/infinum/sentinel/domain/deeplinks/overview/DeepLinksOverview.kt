@@ -5,7 +5,7 @@ package com.infinum.sentinel.domain.deeplinks.overview
  *
  * @property notices the notices shown above every section.
  * @property sections the sections, in display order.
- * @property isEmpty true when discovery worked and there are no example links, declared screens or saved variants (FR-49).
+ * @property isEmpty true when discovery worked and there are no example links, declared screens or saved variants.
  */
 internal data class DeepLinksOverview(
     val notices: List<DeepLinksNotice>,

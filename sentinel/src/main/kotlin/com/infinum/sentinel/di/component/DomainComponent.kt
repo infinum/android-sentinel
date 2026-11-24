@@ -223,8 +223,9 @@ internal abstract class DomainComponent(
     fun deepLinks(
         collector: Collectors.DeepLinks,
         verificationCollector: Collectors.DomainVerification,
+        componentStates: Collectors.ComponentStates,
     ): Repositories.DeepLinks =
-        DeepLinksRepository(collector, verificationCollector, context.packageName, Build.VERSION.SDK_INT)
+        DeepLinksRepository(collector, verificationCollector, context.packageName, Build.VERSION.SDK_INT, componentStates)
 
     @Provides
     @DomainScope

@@ -409,7 +409,11 @@ For every link you can:
 - create variants with your own query parameters, and fill in pattern links such as `/product/*`. Variants are saved
   on the device. Pattern links (templates) can't be launched, copied or shared as they are: you launch, copy and share
   them through a variant that fills them in.
-- launch the link the way a tap in another app would ("Real tap"), or, for web links, directly into the application ("Open in this app"). Web links ask which one; other links open with Real tap
+- launch the link the way a tap in another app would ("Real tap"), or, for web links, directly into the application ("Open in this app"). Web links ask which one; other links open with Real tap.
+  A link whose screen lacks the `BROWSABLE` category can't take a Real tap, so it opens in the application directly.
+  The variant editor's Launch action saves the variant and launches it in one step.
+- see warnings for declarations that break real links, such as a missing `DEFAULT` or `BROWSABLE` category, a link
+  declared by two screens, or a disabled screen
 - open a breakdown of the link's parts, and copy or share it
 - on Android 12 and later, see whether a web link's domain is verified, and open the system link settings
 

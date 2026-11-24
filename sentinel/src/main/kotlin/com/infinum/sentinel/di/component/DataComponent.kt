@@ -30,6 +30,7 @@ import com.infinum.sentinel.data.sources.memory.triggers.TriggersCache
 import com.infinum.sentinel.data.sources.memory.triggers.TriggersCacheFactory
 import com.infinum.sentinel.data.sources.raw.collectors.ApplicationCollector
 import com.infinum.sentinel.data.sources.raw.collectors.CertificateCollector
+import com.infinum.sentinel.data.sources.raw.collectors.ComponentStatesCollector
 import com.infinum.sentinel.data.sources.raw.collectors.DeepLinksCollector
 import com.infinum.sentinel.data.sources.raw.collectors.DeviceCollector
 import com.infinum.sentinel.data.sources.raw.collectors.DomainVerificationCollector
@@ -165,6 +166,8 @@ internal abstract class DataComponent(
 
     abstract val domainVerificationCollector: Collectors.DomainVerification
 
+    abstract val componentStatesCollector: Collectors.ComponentStates
+
     abstract val deepLinksStore: DeepLinksStore
 
     abstract val plainFormatter: Formatters.Plain
@@ -208,6 +211,10 @@ internal abstract class DataComponent(
     @Provides
     @DataScope
     fun domainVerificationCollector(): Collectors.DomainVerification = DomainVerificationCollector(context)
+
+    @Provides
+    @DataScope
+    fun componentStatesCollector(): Collectors.ComponentStates = ComponentStatesCollector(context)
 
     @Provides
     @DataScope

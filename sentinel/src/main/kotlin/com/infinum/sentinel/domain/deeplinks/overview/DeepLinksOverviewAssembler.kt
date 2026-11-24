@@ -20,7 +20,7 @@ import com.infinum.sentinel.domain.deeplinks.verification.VerificationStatusReso
 internal object DeepLinksOverviewAssembler {
     /**
      * Assembles the overview. [variants] are in storage order, and every list in the result keeps that order.
-     * [verification] adds a status to every web link and a notice when link handling is off. Null adds neither (FR-44).
+     * [verification] adds a status to every web link and a notice when link handling is off. Null adds neither.
      */
     internal fun assemble(
         discovery: DeepLinksDiscovery,

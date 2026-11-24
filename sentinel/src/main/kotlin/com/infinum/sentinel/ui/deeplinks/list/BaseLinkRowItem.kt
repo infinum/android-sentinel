@@ -39,7 +39,7 @@ import com.infinum.sentinel.domain.deeplinks.models.VerificationStatus
 import com.infinum.sentinel.ui.shared.compose.SentinelTheme
 
 /**
- * Shows a base link: example label, link text, chips, variant count and actions (FR-9, FR-17, FR-56).
+ * Shows a base link: example label, link text, chips, variant count and actions.
  *
  * Add variant sits at the end of the chip line, centred on the chips. The variant count, or a template's hint, gets
  * its own line below only when there is one, so a row without variants doesn't end in an empty band.

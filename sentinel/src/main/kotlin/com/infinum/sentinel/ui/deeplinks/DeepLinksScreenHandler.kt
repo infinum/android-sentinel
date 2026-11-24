@@ -2,14 +2,12 @@ package com.infinum.sentinel.ui.deeplinks
 
 import android.content.res.Resources
 import androidx.compose.material3.SnackbarHostState
-import androidx.core.net.toUri
 import com.infinum.sentinel.R
 import com.infinum.sentinel.domain.deeplinks.models.BaseLinkOrigin
 import com.infinum.sentinel.domain.deeplinks.models.LaunchMode
-import com.infinum.sentinel.domain.deeplinks.models.LinkType
 import com.infinum.sentinel.domain.deeplinks.overview.DeepLinksNotice
-import com.infinum.sentinel.ui.deeplinks.editor.VariantEditorFocus
 import com.infinum.sentinel.ui.deeplinks.editor.VariantEditorTarget
+import com.infinum.sentinel.ui.deeplinks.launch.LaunchChoice
 import com.infinum.sentinel.ui.deeplinks.launch.LaunchResult
 import com.infinum.sentinel.ui.deeplinks.list.DeepLinksItem
 import com.infinum.sentinel.ui.deeplinks.list.LinkRowAction
@@ -48,16 +46,18 @@ internal class DeepLinksScreenHandler(
                 baseKey = row.baseLink.key,
                 componentName = (row.baseLink.origin as? BaseLinkOrigin.Declared)?.componentName,
             )
-        actions.openEditor(target, VariantEditorFocus.NONE)
+        actions.openEditor(target)
     }
 
-    /**
-     * True when launching [row] asks for a launch mode first. Only web links ask, because App Links verification
-     * decides where they open. Any other link opens the way a user's tap would. If another app or a saved
-     * "Always" choice takes it, the launch counts as successful and Open in this app isn't offered: an accepted
-     * trade-off.
-     */
-    fun asksLaunchMode(row: DeepLinksItem.LinkRow): Boolean = row.launchLink?.let { LinkType.from(it.toUri().scheme) } == LinkType.WEB
+    /** How launching [row] starts, see [LaunchChoice.forLink]. Null for a row without a launch link, a declared template. */
+    fun launchChoice(row: DeepLinksItem.LinkRow): LaunchChoice? {
+        val warnings =
+            when (row) {
+                is DeepLinksItem.BaseLinkRow -> row.baseLink.warnings
+                is DeepLinksItem.VariantRow -> row.baseLink?.warnings.orEmpty()
+            }
+        return row.launchLink?.let { LaunchChoice.forLink(it, warnings) }
+    }
 
     /** Launches [row] in [mode]. A row without a launch link, a declared template, does nothing. */
     fun launch(
@@ -66,6 +66,12 @@ internal class DeepLinksScreenHandler(
     ) {
         row.launchLink?.let { launch(it, mode, isRetry = false) }
     }
+
+    /** Launches [link] in [mode], for a variant the editor saved with its Launch action. */
+    fun launchSaved(
+        link: String,
+        mode: LaunchMode,
+    ) = launch(link, mode, isRetry = false)
 
     fun onNoticeAction(notice: DeepLinksNotice) {
         if (notice == DeepLinksNotice.LINK_HANDLING_OFF) openLinkSettings()
@@ -98,9 +104,7 @@ internal class DeepLinksScreenHandler(
     ) {
         val target = VariantEditorTarget.Existing(row.variant.id)
         when (action) {
-            LinkRowAction.EDIT -> actions.openEditor(target, VariantEditorFocus.NONE)
-            LinkRowAction.ADD_PARAMETER -> actions.openEditor(target, VariantEditorFocus.NEW_PARAMETER)
-            LinkRowAction.RENAME -> actions.openEditor(target, VariantEditorFocus.NAME)
+            LinkRowAction.EDIT -> actions.openEditor(target)
             LinkRowAction.DUPLICATE -> actions.duplicate(row.variant.id, resources.getString(R.string.sentinel_deep_links_copy_suffix))
             LinkRowAction.DELETE -> showDialog(DeepLinksDialog.DeleteVariant(variantId = row.variant.id, link = row.link))
             else -> Unit

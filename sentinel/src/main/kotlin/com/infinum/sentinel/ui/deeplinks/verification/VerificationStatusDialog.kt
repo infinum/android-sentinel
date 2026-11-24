@@ -15,7 +15,7 @@ import com.infinum.sentinel.domain.deeplinks.models.VerificationStatus
 import com.infinum.sentinel.ui.shared.compose.SentinelTheme
 
 /**
- * Explains a verification status: what it means for Real tap, plus the shared footer (FR-40).
+ * Explains a verification status: what it means for Real tap, plus the shared footer.
  *
  * The text scrolls when it doesn't fit, for example in landscape or at a large font scale. A Not verified status
  * also offers Open link settings, which calls [onOpenLinkSettings]. The caller keeps the shown status in saved

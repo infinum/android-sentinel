@@ -26,4 +26,10 @@ internal interface Collectors {
     interface DeepLinks : Collector<DeepLinksData>
 
     interface DomainVerification : Collector<DomainVerificationData?>
+
+    /** Whether the app enabled or disabled one of its components at runtime. */
+    fun interface ComponentStates {
+        /** True or false when the app set [componentName]'s state at runtime, null when the manifest decides. */
+        fun runtimeEnabled(componentName: String): Boolean?
+    }
 }
