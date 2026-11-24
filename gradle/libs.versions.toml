@@ -9,7 +9,8 @@ appcompat = "1.8.0"
 binaryCompatibility = "0.18.2"
 chucker = "4.3.1"
 collar = "2.1.0"
-compose = "1.12.0"
+compose = "1.12.1"
+composeMaterial3 = "1.4.0"
 core = "1.19.0"
 coroutines = "1.11.0"
 crypto = "1.1.0"
@@ -31,6 +32,7 @@ kotlin = "2.4.20"
 ksp = "2.3.12"
 leakcanary = "2.14"
 lifecycle = "2.11.0"
+navigation3 = "1.2.2"
 okhttp = "5.5.0"
 preference = "1.2.1"
 recycler = "1.4.0"
@@ -127,8 +129,32 @@ showkase-processor = { module = "com.airbnb.android:showkase-processor", version
 
 compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
+compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "composeMaterial3" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
+androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "lifecycle" }
+androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "navigation3" }
+androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "navigation3" }
 
 [bundles]
+compose = [
+    "compose-runtime",
+    "compose-ui",
+    "compose-foundation",
+    "compose-material3",
+    "compose-ui-tooling-preview",
+    "androidx-activity-compose",
+    "androidx-lifecycle-runtime-compose",
+    "androidx-lifecycle-viewmodel-compose",
+    "androidx-lifecycle-viewmodel-navigation3",
+    "androidx-navigation3-runtime",
+    "androidx-navigation3-ui"
+]
 androidx = [
     "androidx-core",
     "androidx-appcompat",

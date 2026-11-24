@@ -7,6 +7,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.serialization")
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.gradle.maven.publish)
 }
@@ -77,6 +78,7 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        compose = true
     }
 }
 
@@ -94,6 +96,8 @@ dependencies {
     implementation(libs.material)
     ksp(libs.inject.compiler)
     implementation(libs.inject.runtime)
+    implementation(libs.bundles.compose)
+    debugImplementation(libs.compose.ui.tooling)
 
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.androidx.arch.core.testing)

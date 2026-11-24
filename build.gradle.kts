@@ -29,6 +29,12 @@ plugins {
 //     ignoredProjects.add("sample")
 // }
 
+apiValidation {
+    // The Compose compiler makes public ComposableSingletons classes in these internal UI packages. Their members
+    // are renamed on every UI edit and aren't API, so they stay out of the dumps.
+    ignoredPackages.addAll(listOf("com.infinum.sentinel.ui.deeplinks", "com.infinum.sentinel.ui.shared.compose"))
+}
+
 allprojects {
 
     repositories {

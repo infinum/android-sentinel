@@ -22,9 +22,13 @@ internal sealed interface DeepLinksItem {
         val notice: DeepLinksNotice,
     ) : DeepLinksItem
 
-    /** The header of a section with a fixed title: Example links, No longer declared or Saved variants. */
+    /**
+     * The header of a section with a fixed title: Example links, No longer declared or Saved variants. [sourceRes]
+     * says where the section's links come from, when that isn't clear from the title.
+     */
     data class SectionHeader(
         @StringRes val titleRes: Int,
+        @StringRes val sourceRes: Int? = null,
     ) : DeepLinksItem
 
     /** The header of the section of the screen named [componentName]. */
@@ -90,7 +94,7 @@ internal fun DeepLinksOverview.flatten(): List<DeepLinksItem> =
 private fun MutableList<DeepLinksItem>.addSection(section: DeepLinksSection) {
     when (section) {
         is DeepLinksSection.Examples -> {
-            add(DeepLinksItem.SectionHeader(R.string.sentinel_deep_links_examples))
+            add(DeepLinksItem.SectionHeader(R.string.sentinel_deep_links_examples, R.string.sentinel_deep_links_source_examples))
             section.entries.forEach { addEntry(it) }
         }
 

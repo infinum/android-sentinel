@@ -124,6 +124,8 @@
     <string name="sentinel_certificates_empty">No certificates collected.</string>
     <string name="sentinel_deep_links_empty">No deep links yet. Declare intent filters in your app manifest or pass example links to DeepLinkTool.</string>
     <string name="sentinel_deep_links_examples">Example links</string>
+    <string name="sentinel_deep_links_source_examples">Passed to DeepLinkTool by the app</string>
+    <string name="sentinel_deep_links_source_manifest">Declared in the app\'s manifest</string>
     <string name="sentinel_deep_links_no_longer_declared">No longer declared</string>
     <string name="sentinel_deep_links_saved_variants">Saved variants</string>
     <string name="sentinel_deep_links_discovery_failed">Couldn\'t read the links declared in this app\'s manifest. Example links and saved variants are still listed.</string>
@@ -194,6 +196,8 @@
     <string name="sentinel_deep_links_editor_fix_errors">Fill in the highlighted fields to save.</string>
     <string name="sentinel_deep_links_editor_missing">This link is no longer available.</string>
     <string name="sentinel_deep_links_menu_breakdown">Breakdown</string>
+    <string name="sentinel_deep_links_action_show_breakdown">Show link breakdown</string>
+    <string name="sentinel_deep_links_action_copy_value">Copy</string>
     <string name="sentinel_deep_links_menu_copy">Copy link</string>
     <string name="sentinel_deep_links_menu_share">Share link</string>
     <string name="sentinel_deep_links_menu_edit">Edit</string>
