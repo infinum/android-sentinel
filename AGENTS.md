@@ -15,6 +15,7 @@ Each module has its own `AGENTS.md` with the details. **Read it before changing 
 | [`tool-googleplay`](tool-googleplay/AGENTS.md), [`tool-appgallery`](tool-appgallery/AGENTS.md) | Open the app's store listing |
 | [`tool-timber`](tool-timber/AGENTS.md) | In-app log viewer backed by a Timber tree |
 | [`tool-networkemulator-okhttp`](tool-networkemulator-okhttp/AGENTS.md) (+ [`-no-op`](tool-networkemulator-okhttp-no-op/AGENTS.md)) | OkHttp interceptor that adds delay/failures, with a settings UI |
+| [`tool-networkproxy-okhttp`](tool-networkproxy-okhttp/AGENTS.md) (+ [`-no-op`](tool-networkproxy-okhttp-no-op/AGENTS.md)) | OkHttp interceptor that modifies or mocks responses by method and path, with a rules UI |
 | [`tool-showkase`](tool-showkase/AGENTS.md) (+ [`-no-op`](tool-showkase-no-op/AGENTS.md)) | Launcher for the Airbnb Showkase browser |
 
 ## Build and verify
@@ -23,7 +24,8 @@ Each module has its own `AGENTS.md` with the details. **Read it before changing 
 - Static checks (what CI runs, `.github/workflows/code-analysis.yml`): `./gradlew lintAll detektAll` (or `runStaticChecks`).
   - `detekt` has `autoCorrect = true` and **rewrites files**. Config: `config/detekt.yml` (maxIssues 0).
 - Build the sample: `./gradlew :sample:assembleDebug :sample:assembleRelease`.
-- Tests exist only in `sentinel`. See [sentinel/AGENTS.md](sentinel/AGENTS.md). CI does not run tests or `apiCheck`, so run them locally.
+- Unit tests exist only in `sentinel` and `tool-networkproxy-okhttp`. See each module's `AGENTS.md`. CI does not run tests or `apiCheck`, so run them locally.
+- End-to-end Maestro flows for the sample app are in `.maestro/` (today only the network proxy). See [.maestro/README.md](.maestro/README.md).
 - Public API dumps: `./gradlew apiDump` / `apiCheck` (binary-compatibility-validator). Every library module commits `api/<module>.api`, and `publish*` tasks depend on `apiCheck`.
 - Publish locally: `./gradlew deployDebug` (Maven Local). Release publishing (`deployAll`) is done by maintainers only.
 

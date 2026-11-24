@@ -7,7 +7,7 @@ This is the demo and dev app for exercising Sentinel and all tools. It is not pu
 - `debugImplementation(project(":sentinel"))` and `releaseImplementation(project(":sentinel-no-op"))`.
 - Every tool module is `debugImplementation(project(...))`.
   - Release stubs come from `sentinel-no-op`.
-  - The exceptions are network emulator and Showkase, which use their own `-no-op` modules in release.
+  - The exceptions are network emulator, network proxy and Showkase, which use their own `-no-op` modules in release.
 - Commented-out `libs.library` / `libs.librarynoop` lines show the published-artifact alternative.
 - Showkase:
   - `kspDebug(libs.showkase.processor)` only. Never use the project-wide `ksp` configuration.
@@ -21,7 +21,7 @@ This is the demo and dev app for exercising Sentinel and all tools. It is not pu
 - Feature demos:
   - `BundleActivity` / `BundleTree`: Bundle Monitor
   - `ANRTester`: ANR monitor
-  - `ApiClient`: OkHttp, with Chucker and the network emulator interceptors
+  - `ApiClient`: OkHttp, with the Chucker, network emulator and network proxy interceptors
   - `SampleShowkaseRootModule`, plus the debug-only `src/debug/.../ShowkaseSamples.kt`
 - `assets/` holds the certificates used by `CertificateTool` (API 26+).
 
