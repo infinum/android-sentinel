@@ -186,7 +186,7 @@ public final class com/infinum/sentinel/databinding/SentinelFragmentAnnotationsB
 	public final field toolbar Lcom/google/android/material/appbar/MaterialToolbar;
 	public static fun bind (Landroid/view/View;)Lcom/infinum/sentinel/databinding/SentinelFragmentAnnotationsBinding;
 	public synthetic fun getRoot ()Landroid/view/View;
-	public fun getRoot ()Landroidx/constraintlayout/widget/ConstraintLayout;
+	public fun getRoot ()Landroidx/coordinatorlayout/widget/CoordinatorLayout;
 	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/infinum/sentinel/databinding/SentinelFragmentAnnotationsBinding;
 	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/infinum/sentinel/databinding/SentinelFragmentAnnotationsBinding;
 }
