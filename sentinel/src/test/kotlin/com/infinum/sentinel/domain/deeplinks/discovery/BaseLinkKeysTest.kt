@@ -27,7 +27,13 @@ internal class BaseLinkKeysTest {
 
     @Test
     fun `declared lowercases wildcard suffix`() {
-        assertEquals("declared|https|wild:example.com||none", key(host = HostSpec.Wildcard("Example.com")))
+        assertEquals("declared|https|wild:.example.com||none", key(host = HostSpec.Wildcard(".Example.com")))
+    }
+
+    @Test
+    fun `declared keeps wildcards with and without a dot apart`() {
+        assertEquals("declared|https|wild:.example.com||none", key(host = HostSpec.Wildcard(".example.com")))
+        assertEquals("declared|https|wild:example.com||none", key(host = HostSpec.Wildcard("example.com")))
     }
 
     @Test

@@ -16,8 +16,7 @@ import com.infinum.sentinel.domain.deeplinks.models.PathSpec
  * data elements of one filter: every scheme combines with every authority and every path.
  */
 internal object BaseLinkExpander {
-    private const val WILDCARD_HOST = "*"
-    private const val WILDCARD_PREFIX = "*."
+    private const val WILDCARD = "*"
 
     private data class Authority(
         val host: HostSpec,
@@ -92,8 +91,8 @@ internal object BaseLinkExpander {
 
     private fun hostSpec(host: String): HostSpec =
         when {
-            host == WILDCARD_HOST -> HostSpec.AnyHost
-            host.startsWith(WILDCARD_PREFIX) -> HostSpec.Wildcard(host.removePrefix(WILDCARD_PREFIX))
+            host == WILDCARD -> HostSpec.AnyHost
+            host.startsWith(WILDCARD) -> HostSpec.Wildcard(host.removePrefix(WILDCARD))
             else -> HostSpec.Literal(host)
         }
 

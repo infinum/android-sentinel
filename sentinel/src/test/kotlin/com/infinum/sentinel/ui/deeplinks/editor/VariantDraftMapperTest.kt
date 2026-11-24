@@ -110,7 +110,7 @@ internal class VariantDraftMapperTest {
 
     @Test
     fun `a wildcard host and a path prefix are required and the prefix is pre-filled`() {
-        val base = declared(LinkSpec("https", HostSpec.Wildcard("example.com"), null, PathSpec.Prefix("/orders/")))
+        val base = declared(LinkSpec("https", HostSpec.Wildcard(".example.com"), null, PathSpec.Prefix("/orders/")))
 
         val form = formOf(base)
         val draft = VariantDraftMapper.newDraft(base, form)

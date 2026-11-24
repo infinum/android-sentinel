@@ -178,7 +178,7 @@
     <string name="sentinel_deep_links_editor_part_required">Required to launch this link</string>
     <string name="sentinel_deep_links_editor_final_link">Final link</string>
     <string name="sentinel_deep_links_editor_mismatch">This doesn\'t match the declared pattern, so the app may not open it. You can still save and launch it.</string>
-    <string name="sentinel_deep_links_editor_hint_any_subdomain">Any subdomain of %s</string>
+    <string name="sentinel_deep_links_editor_hint_host_suffix">Any host ending in %s</string>
     <string name="sentinel_deep_links_editor_hint_any_host">Any host</string>
     <string name="sentinel_deep_links_editor_hint_optional_host">Optional: any host</string>
     <string name="sentinel_deep_links_editor_hint_path_prefix">Path starting with %s</string>

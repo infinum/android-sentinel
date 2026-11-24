@@ -397,12 +397,12 @@ internal class DeepLinksOverviewAssemblerTest {
 
     @Test
     fun `a wildcard host link and its variant take the status of the wildcard key`() {
-        val key = "declared|https|wild:example.com||pattern:/orders/*"
+        val key = "declared|https|wild:.example.com||pattern:/orders/*"
         val link =
             BaseLink(
                 key,
                 BaseLinkOrigin.Declared(mainScreen),
-                LinkSpec("https", HostSpec.Wildcard("example.com"), null, PathSpec.Pattern("/orders/*")),
+                LinkSpec("https", HostSpec.Wildcard(".example.com"), null, PathSpec.Pattern("/orders/*")),
                 null,
             )
         val v1 = webVariant("v1", key, mainScreen, "shop.example.com")

@@ -264,7 +264,7 @@ internal class VariantEditorFragment :
 
     private fun hostHint(host: HostSpec): String? =
         when (host) {
-            is HostSpec.Wildcard -> getString(R.string.sentinel_deep_links_editor_hint_any_subdomain, host.suffix)
+            is HostSpec.Wildcard -> getString(R.string.sentinel_deep_links_editor_hint_host_suffix, host.suffix)
             HostSpec.AnyHost -> getString(R.string.sentinel_deep_links_editor_hint_any_host)
             HostSpec.None -> getString(R.string.sentinel_deep_links_editor_hint_optional_host)
             is HostSpec.Literal -> null

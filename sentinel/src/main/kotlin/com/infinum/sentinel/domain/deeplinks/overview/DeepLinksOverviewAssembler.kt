@@ -105,7 +105,7 @@ internal object DeepLinksOverviewAssembler {
         }
 
     /**
-     * A wildcard host looks up its own `*.suffix` key. Any host and no host have no status to look up.
+     * A wildcard host looks up its own declared host, `*` and the suffix. Any host and no host have no status to look up.
      */
     private fun linkStatus(
         link: BaseLink,
@@ -115,7 +115,7 @@ internal object DeepLinksOverviewAssembler {
             val host =
                 when (val hostSpec = spec.host) {
                     is HostSpec.Literal -> hostSpec.host
-                    is HostSpec.Wildcard -> "*.${hostSpec.suffix}"
+                    is HostSpec.Wildcard -> "*${hostSpec.suffix}"
                     HostSpec.AnyHost, HostSpec.None -> null
                 }
             VerificationStatusResolver.resolve(spec.scheme, host, verification)

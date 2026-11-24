@@ -16,7 +16,7 @@ internal data class LinkSpec(
     }
 
     /**
-     * Text shown to the user: the scheme and `://`, then the host (`*` for any host, `*.` before a
+     * Text shown to the user: the scheme and `://`, then the host (`*` for any host, `*` before a
      * wildcard suffix), the port and the path. A path that lacks a leading slash gets one. A prefix path ends in `*`; a suffix path starts with `/` and `*`.
      * (No literal example here: a slash followed by a star would open a nested Kotlin comment.)
      */
@@ -42,7 +42,7 @@ internal data class LinkSpec(
             HostSpec.None -> ""
             HostSpec.AnyHost -> "*"
             is HostSpec.Literal -> host.host
-            is HostSpec.Wildcard -> "*.${host.suffix}"
+            is HostSpec.Wildcard -> "*${host.suffix}"
         }
 
     private fun pathText(): String =

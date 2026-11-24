@@ -29,7 +29,7 @@ internal class AndroidLinkSpecMatcherTests {
 
     @Test
     fun wildcardHost_matchesSubdomainsButNotTheBareDomain() {
-        val spec = LinkSpec("https", HostSpec.Wildcard("example.com"), null, PathSpec.None)
+        val spec = LinkSpec("https", HostSpec.Wildcard(".example.com"), null, PathSpec.None)
 
         assertEquals(true, matcher.matches(spec, "https://shop.example.com"))
         assertEquals(false, matcher.matches(spec, "https://example.com"))

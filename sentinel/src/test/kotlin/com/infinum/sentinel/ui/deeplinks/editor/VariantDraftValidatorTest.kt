@@ -28,7 +28,7 @@ internal class VariantDraftValidatorTest {
     }
 
     private val literalSpec = LinkSpec("myapp", HostSpec.Literal("shop"), null, PathSpec.Literal("/cart"))
-    private val templateSpec = LinkSpec("https", HostSpec.Wildcard("example.com"), null, PathSpec.None)
+    private val templateSpec = LinkSpec("https", HostSpec.Wildcard(".example.com"), null, PathSpec.None)
 
     private fun form(
         spec: LinkSpec? = literalSpec,

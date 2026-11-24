@@ -33,7 +33,7 @@ internal class AndroidLinkSpecMatcher : LinkSpecMatcher {
                 HostSpec.None -> null
                 HostSpec.AnyHost -> "*"
                 is HostSpec.Literal -> host.host
-                is HostSpec.Wildcard -> "*.${host.suffix}"
+                is HostSpec.Wildcard -> "*${host.suffix}"
             }
         return if (authority == null) {
             filter

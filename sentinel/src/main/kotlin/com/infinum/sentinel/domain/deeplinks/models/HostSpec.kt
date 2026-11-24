@@ -13,6 +13,9 @@ internal sealed interface HostSpec {
     /** A fixed host, kept as declared. */
     data class Literal(val host: String) : HostSpec
 
-    /** Declared as `*.suffix`: [suffix] is the text after `*.`. */
+    /**
+     * Declared with a leading `*`, as in `*.example.com` or `*example.com`: any host that ends in [suffix] matches,
+     * the way Android reads it. [suffix] is the text after the `*`, so it keeps the dot of `*.example.com`.
+     */
     data class Wildcard(val suffix: String) : HostSpec
 }

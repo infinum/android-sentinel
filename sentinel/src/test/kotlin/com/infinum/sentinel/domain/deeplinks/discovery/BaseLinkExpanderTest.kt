@@ -93,9 +93,20 @@ internal class BaseLinkExpanderTest {
         assertEquals("https://*.example.com/orders/*", link.displayText)
         assertTrue(link.isTemplate)
         assertNull(link.launchLink)
-        assertEquals("declared|https|wild:example.com||prefix:/orders/", link.key)
-        assertEquals(HostSpec.Wildcard("example.com"), link.spec?.host)
+        assertEquals("declared|https|wild:.example.com||prefix:/orders/", link.key)
+        assertEquals(HostSpec.Wildcard(".example.com"), link.spec?.host)
         assertEquals(PathSpec.Prefix("/orders/"), link.spec?.path)
+    }
+
+    @Test
+    fun `expand marks a leading star without a dot as a wildcard template`() {
+        val link = links(filter(DeclaredData(scheme = "https", host = "*example.com"))).single()
+
+        assertEquals("https://*example.com", link.displayText)
+        assertTrue(link.isTemplate)
+        assertNull(link.launchLink)
+        assertEquals("declared|https|wild:example.com||none", link.key)
+        assertEquals(HostSpec.Wildcard("example.com"), link.spec?.host)
     }
 
     @Test
