@@ -41,6 +41,8 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/startButton"
                 android:layout_width="0dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/sentinel_annotations_start"
@@ -49,6 +51,8 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/exportButton"
                 android:layout_width="0dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_weight="1" />

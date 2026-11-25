@@ -165,8 +165,14 @@
     <string name="sentinel_annotations">Annotations</string>
     <string name="sentinel_annotations_copy">Copy to clipboard</string>
     <string name="sentinel_annotations_send">Send to Claude</string>
-    <string name="sentinel_annotations_copied">Copied %1$d annotations</string>
-    <string name="sentinel_annotations_sent">Sent %1$d annotations</string>
+    <plurals name="sentinel_annotations_copied">
+        <item quantity="one">Copied %1$d annotation</item>
+        <item quantity="other">Copied %1$d annotations</item>
+    </plurals>
+    <plurals name="sentinel_annotations_sent">
+        <item quantity="one">Sent %1$d annotation</item>
+        <item quantity="other">Sent %1$d annotations</item>
+    </plurals>
     <string name="sentinel_annotations_enable">Enable annotations</string>
     <string name="sentinel_annotations_start">Start annotating</string>
     <string name="sentinel_annotations_hint">Tap an element on the current screen to attach a note.</string>

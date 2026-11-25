@@ -38,7 +38,7 @@ public class ClaudeRoutineExporter internal constructor(
 
     override suspend fun export(context: Context, annotations: List<SentinelAnnotation>): String {
         val count = send(annotations, context.getString(R.string.sentinel_annotations_missing_token))
-        return context.getString(R.string.sentinel_annotations_sent, count)
+        return context.resources.getQuantityString(R.plurals.sentinel_annotations_sent, count, count)
     }
 
     /**

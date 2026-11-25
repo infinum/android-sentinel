@@ -27,6 +27,6 @@ public class ClipboardAnnotationExporter : AnnotationExporter {
         val clipboard =
             checkNotNull(context.getSystemService<ClipboardManager>()) { "Clipboard is unavailable" }
         clipboard.setPrimaryClip(ClipData.newPlainText(CLIP_LABEL, SentinelAnnotation.toExportJson(annotations)))
-        return context.getString(R.string.sentinel_annotations_copied, annotations.size)
+        return context.resources.getQuantityString(R.plurals.sentinel_annotations_copied, annotations.size, annotations.size)
     }
 }
