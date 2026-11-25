@@ -85,4 +85,29 @@ internal class ConfigurationWarningsTest {
 
         assertEquals(unique, result[0].links[0])
     }
+
+    @Test
+    fun `a disabled screen gets no duplicate warning, keeps its own and doesn't count for others`() {
+        val disabled = link("K", setOf(ConfigurationWarning.Disabled, ConfigurationWarning.MissingBrowsable))
+        val result = ConfigurationWarnings.attachDuplicates(listOf(screen("Main", link("K")), screen("Promo", disabled)))
+
+        assertEquals(setOf<ConfigurationWarning>(), result[0].links[0].warnings)
+        assertEquals(setOf(ConfigurationWarning.Disabled, ConfigurationWarning.MissingBrowsable), result[1].links[0].warnings)
+    }
+
+    @Test
+    fun `enabled screens name only each other when a disabled screen declares the same link`() {
+        val result =
+            ConfigurationWarnings.attachDuplicates(
+                listOf(
+                    screen("Main", link("K")),
+                    screen("Promo", link("K")),
+                    screen("Sale", link("K", setOf(ConfigurationWarning.Disabled))),
+                ),
+            )
+
+        assertEquals(setOf(ConfigurationWarning.DuplicateDeclaration(listOf("Promo"))), result[0].links[0].warnings)
+        assertEquals(setOf(ConfigurationWarning.DuplicateDeclaration(listOf("Main"))), result[1].links[0].warnings)
+        assertEquals(setOf(ConfigurationWarning.Disabled), result[2].links[0].warnings)
+    }
 }

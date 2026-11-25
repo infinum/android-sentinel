@@ -39,6 +39,9 @@ internal class VariantEditorViewModel(
     private var isStarted = false
     private var isSaving = false
 
+    // Once saved, the screen is closing: the state stays Saved, whatever arrives before it closes.
+    private var isSaved = false
+
     /** Sets what the editor opens for. Call before [data]. */
     fun setTarget(value: VariantEditorTarget?) {
         target = value
@@ -149,7 +152,6 @@ internal class VariantEditorViewModel(
     ) {
         isSaving = true
         launch {
-            var isSaved = false
             try {
                 val variant = VariantDraftMapper.toVariant(draft, currentForm) { UUID.randomUUID().toString() }
                 io { variants.upsert(variant) }
@@ -178,6 +180,7 @@ internal class VariantEditorViewModel(
     }
 
     private fun publish() {
+        if (isSaved) return
         val currentForm = form
         val draft = current
         val start = initial

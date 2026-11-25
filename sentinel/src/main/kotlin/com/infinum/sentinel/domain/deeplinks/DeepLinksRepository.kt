@@ -20,10 +20,10 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
 /**
- * Discovers deep links once and keeps the result for the process lifetime.
+ * Discovers deep links and keeps a successful result for the process lifetime.
  *
- * Discovery runs under a mutex on [ioDispatcher], the collector is invoked at most once and
- * [discover] never throws. Construction does no work.
+ * Discovery runs under a mutex on [ioDispatcher] and [discover] never throws. A failed discovery isn't kept, so the
+ * next call reads the manifest again. Construction does no work.
  */
 internal class DeepLinksRepository(
     private val collector: Collectors.DeepLinks,
@@ -42,7 +42,7 @@ internal class DeepLinksRepository(
 
     override suspend fun discover(): DeepLinksDiscovery =
         mutex.withLock {
-            cached ?: withContext(ioDispatcher) { compute() }.also { cached = it }
+            cached ?: withContext(ioDispatcher) { compute() }.also { if (!it.isDiscoveryFailed) cached = it }
         }
 
     override suspend fun verification(): DomainVerificationData? =
@@ -81,8 +81,8 @@ internal class DeepLinksRepository(
     }
 
     /**
-     * [filters] with the enabled state the app set at runtime, where it set one. Discovery runs once per process,
-     * so a component the app enables or disables later keeps the state it had then.
+     * [filters] with the enabled state the app set at runtime, where it set one. A successful discovery is kept for the
+     * process, so a component the app enables or disables later keeps the state it had then.
      */
     private fun withRuntimeState(filters: List<DeclaredFilter>): List<DeclaredFilter> {
         val runtime = filters.map { it.componentName }.distinct().associateWith { componentStates.runtimeEnabled(it) }

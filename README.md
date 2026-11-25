@@ -93,9 +93,11 @@ debugImplementation("com.infinum.sentinel:sentinel:$sentinelVersion")
 releaseImplementation("com.infinum.sentinel:sentinel-no-op:$sentinelVersion")
 ```
 
-The Deep links tool is built with Jetpack Compose 1.12, Material 3 1.4 and Navigation 3 1.2, so `sentinel` brings them
-into your debug build. If your app also uses Compose, Gradle resolves the higher of the two versions, so your debug build
-can run a newer Compose than your release build. `sentinel-no-op` doesn't add them.
+<!-- TODO: generateReadme only fills in Sentinel's own version. Extend it to read composeBom and navigation3 from
+     gradle/libs.versions.toml, so this note can't fall behind a dependency update. -->
+The Deep links tool is built with Jetpack Compose 1.12 and Material 3 1.4 (Compose BOM 2026.09.00) and Navigation 3
+1.2, so `sentinel` brings them into your debug build. If your app also uses Compose, Gradle resolves the higher of the
+two versions, so your debug build can run a newer Compose than your release build. `sentinel-no-op` doesn't add them.
 
 Basic tools are provided inside the main package but depending on requirements you might want to add
 specific tools:

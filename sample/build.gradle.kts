@@ -100,11 +100,13 @@ dependencies {
     releaseImplementation(project(":tool-showkase-no-op"))
 
     debugImplementation(libs.showkase)
+    debugImplementation(platform(libs.compose.bom))
     debugImplementation(libs.compose.runtime)
     debugImplementation(libs.compose.material)
 
     // The Compose compiler plugin applies to every variant and refuses to run without the
     // runtime on the compile classpath, even though release has no composables
+    releaseCompileOnly(platform(libs.compose.bom))
     releaseCompileOnly(libs.compose.runtime)
 
     // Variant-scoped on purpose. The project-wide `ksp` configuration would run the

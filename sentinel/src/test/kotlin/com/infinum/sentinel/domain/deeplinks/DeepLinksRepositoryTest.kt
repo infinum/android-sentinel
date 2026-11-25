@@ -30,8 +30,10 @@ internal class DeepLinksRepositoryTest {
         }
     }
 
-    private fun repository(collector: Collectors.DeepLinks) =
-        DeepLinksRepository(
+    private fun repository(
+        collector: Collectors.DeepLinks,
+        runtimeStates: Map<String, Boolean> = mapOf(),
+    ) = DeepLinksRepository(
             collector = collector,
             verificationCollector =
                 object : Collectors.DomainVerification {
@@ -39,6 +41,7 @@ internal class DeepLinksRepositoryTest {
                 },
             packageName = "com.example.app",
             sdkInt = 37,
+            componentStates = Collectors.ComponentStates { runtimeStates[it] },
             ioDispatcher = Dispatchers.Unconfined,
         )
 
@@ -53,9 +56,10 @@ internal class DeepLinksRepositoryTest {
         label: String,
         host: String,
         path: String,
+        enabled: String? = null,
     ) = node(
         "activity",
-        mapOf("name" to name, "exported" to "true", "label" to label),
+        mapOf("name" to name, "exported" to "true", "label" to label) + enabled?.let { mapOf("enabled" to it) }.orEmpty(),
         node(
             "intent-filter",
             mapOf(),
@@ -147,5 +151,64 @@ internal class DeepLinksRepositoryTest {
                 setOf(ConfigurationWarning.DuplicateDeclaration(listOf("Main"))),
                 result.screens[1].links[0].warnings,
             )
+        }
+
+    @Test
+    fun `a failed discovery is read again and a successful one is kept`() =
+        runBlocking {
+            val manifest = success(activity("com.example.app.DeepLinkActivity", "Deep link", "example.com", "/offers"))
+            val results = ArrayDeque(listOf(ManifestReadResult.Failure(IllegalStateException()), manifest))
+            var invocations = 0
+            val collector =
+                object : Collectors.DeepLinks {
+                    override fun invoke(): DeepLinksData {
+                        invocations++
+                        return DeepLinksData(results.removeFirst(), listOf())
+                    }
+                }
+            val repository = repository(collector)
+
+            val first = repository.discover()
+            val second = repository.discover()
+            val third = repository.discover()
+
+            assertEquals(true, first.isDiscoveryFailed)
+            assertEquals(false, second.isDiscoveryFailed)
+            assertEquals(second, third)
+            assertEquals(2, invocations)
+        }
+
+    @Test
+    fun `runtime disabled state overrides an enabled manifest component`() =
+        runBlocking {
+            val manifest = success(activity("com.example.app.DeepLinkActivity", "Deep link", "example.com", "/a"))
+            val states = mapOf("com.example.app.DeepLinkActivity" to false)
+            val result = repository(FakeCollector(DeepLinksData(manifest, listOf())), states).discover()
+
+            assertEquals(setOf(ConfigurationWarning.Disabled), result.screens.single().links.single().warnings)
+        }
+
+    @Test
+    fun `runtime enabled state overrides a manifest component declared disabled`() =
+        runBlocking {
+            val manifest = success(activity("com.example.app.DeepLinkActivity", "Deep link", "example.com", "/a", "false"))
+            val states = mapOf("com.example.app.DeepLinkActivity" to true)
+            val result = repository(FakeCollector(DeepLinksData(manifest, listOf())), states).discover()
+
+            assertEquals(setOf<ConfigurationWarning>(), result.screens.single().links.single().warnings)
+        }
+
+    @Test
+    fun `no runtime state keeps the manifest value`() =
+        runBlocking {
+            val manifest =
+                success(
+                    activity("com.example.app.MainActivity", "Main", "example.com", "/a"),
+                    activity("com.example.app.PromoActivity", "Promo", "example.com", "/b", "false"),
+                )
+            val result = repository(FakeCollector(DeepLinksData(manifest, listOf()))).discover()
+
+            assertEquals(setOf<ConfigurationWarning>(), result.screens[0].links.single().warnings)
+            assertEquals(setOf(ConfigurationWarning.Disabled), result.screens[1].links.single().warnings)
         }
 }

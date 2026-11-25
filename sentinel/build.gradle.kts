@@ -96,6 +96,7 @@ dependencies {
     implementation(libs.material)
     ksp(libs.inject.compiler)
     implementation(libs.inject.runtime)
+    implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
     debugImplementation(libs.compose.ui.tooling)
 
