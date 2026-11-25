@@ -75,7 +75,7 @@ internal class AnnotationStopButton(
 
             MotionEvent.ACTION_UP -> consumed = dragging
         }
-        return if (consumed) true else super.onTouchEvent(event)
+        return consumed || super.onTouchEvent(event)
     }
 
     private val touchSlop: Int

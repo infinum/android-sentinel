@@ -1,7 +1,7 @@
 package com.infinum.sentinel.domain.annotations
 
 import java.net.HttpURLConnection
-import java.net.URL
+import java.net.URI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -32,7 +32,7 @@ internal class UrlConnectionHttpPoster : HttpPoster {
 
     override suspend fun post(url: String, headers: Map<String, String>, body: String): HttpResponse =
         withContext(Dispatchers.IO) {
-            val connection = URL(url).openConnection() as HttpURLConnection
+            val connection = URI(url).toURL().openConnection() as HttpURLConnection
             try {
                 connection.requestMethod = "POST"
                 // HttpURLConnection re-sends every request property across a same-protocol

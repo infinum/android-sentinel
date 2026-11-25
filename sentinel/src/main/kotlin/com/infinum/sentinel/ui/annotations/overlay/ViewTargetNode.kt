@@ -58,15 +58,7 @@ internal class ViewTargetNode(
      * [broadenable] instead.
      */
     override val annotatable: Boolean =
-        !isFrameworkChrome(view) &&
-            (
-                viewId != null ||
-                    view is TextView ||
-                    view is ImageView ||
-                    view is EditText ||
-                    view is Checkable ||
-                    view.isClickable
-                )
+        !isFrameworkChrome(view) && (viewId != null || drawsContent(view) || view.isClickable)
 
     /**
      * Whether broadening the selection may stop here.
@@ -147,6 +139,9 @@ internal class ViewTargetNode(
                 else -> false
             }
         }
+
+        /** `EditText` is covered as a `TextView`; `Checkable` covers check boxes, switches and radio buttons. */
+        private fun drawsContent(view: View): Boolean = view is TextView || view is ImageView || view is Checkable
 
         private fun isFrameworkChrome(view: View): Boolean =
             view.javaClass.simpleName in CHROME_TYPES || view.javaClass.name.startsWith("com.android.internal")
