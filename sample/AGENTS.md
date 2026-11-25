@@ -11,12 +11,13 @@ This is the demo and dev app for exercising Sentinel and all tools. It is not pu
 - Commented-out `libs.library` / `libs.librarynoop` lines show the published-artifact alternative.
 - Showkase:
   - `kspDebug(libs.showkase.processor)` only. Never use the project-wide `ksp` configuration.
-  - `releaseCompileOnly(libs.compose.runtime)`, because the Compose compiler plugin applies to all variants.
+- Compose: `implementation(libs.compose.runtime)` for both variants. The annotations demo screen lives in `main`, and declaring the runtime directly keeps release on the catalog version instead of the older one `material3` pulls in.
 - Release is minified and signed with the bundled `dummy.jks`.
 
 ## Code
 
 - `SampleApplication.kt`: `getWatchedTools()` registers every tool and calls `Sentinel.watch(...)`. Add new tools here.
+  - `annotationsTool()` uses the default clipboard exporter. It switches to `ClaudeRoutineExporter` only when both `claude.code.token` and `claude.routine.fireUrl` are set in `local.properties` (read into `BuildConfig`).
 - `JavaMainActivity.java` registers tools from Java. Keep it compiling to verify Java interop (`@JvmOverloads`, defaults).
 - Feature demos:
   - `BundleActivity` / `BundleTree`: Bundle Monitor

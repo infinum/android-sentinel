@@ -369,7 +369,8 @@ apply the changes.
 - Saved notes stay on screen as a numbered badge and an outline. They follow the element as the
   screen scrolls and are re-bound after navigating away and back. Tap a badge to edit or delete
   that note.
-- The export button copies every unsent note as JSON, or sends it to a Claude Code routine.
+- The export button copies every unsent note to the clipboard as JSON. The destination can be
+  changed: see [Export destination](#export-destination).
 - Notes live in memory only, for the app process's lifetime. Killing the process — including a
   plain app kill from Recents — discards every unexported note, so export before you do.
 
@@ -421,6 +422,29 @@ Verified on device: with an id set, the note records `ComposeView` as its type a
 Without an id, the note records `AndroidComposeView` as its type and nothing else to search by.
 Setting an id on your `ComposeView` is the single most useful thing you can do for Compose
 screens today.
+
+#### Export destination
+
+`AnnotationsTool()` uses `ClipboardAnnotationExporter`, which copies the JSON to the clipboard
+and labels the button **Copy to clipboard**. To send the notes somewhere else, pass an
+`AnnotationExporter`. It supplies the button's icon and label and does the export:
+
+```kotlin
+class IssueTrackerExporter : AnnotationExporter {
+    override fun icon(): Int = R.drawable.ic_upload
+    override fun label(): Int = R.string.send_to_tracker
+
+    override suspend fun export(context: Context, annotations: List<SentinelAnnotation>): String {
+        tracker.post(SentinelAnnotation.toExportJson(annotations))
+        return "Sent ${annotations.size} notes"
+    }
+}
+
+Sentinel.watch(setOf(AnnotationsTool(exporter = IssueTrackerExporter())))
+```
+
+Return a short status message, or throw to report a failure. Sentinel ships one other exporter,
+for Claude Code routines.
 
 #### Sending to Claude
 
