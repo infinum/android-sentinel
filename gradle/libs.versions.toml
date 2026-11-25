@@ -54,6 +54,7 @@ toolleakcanary = { module = "com.infinum.sentinel:tool-leakcanary", version.ref 
 toolappgallery = { module = "com.infinum.sentinel:tool-appgallery", version.ref = "sentinel" }
 toolgoogleplay = { module = "com.infinum.sentinel:tool-googleplay", version.ref = "sentinel" }
 tooltimber = { module = "com.infinum.sentinel:tool-timber", version.ref = "sentinel" }
+tooldeeplinks = { module = "com.infinum.sentinel:tool-deeplinks", version.ref = "sentinel" }
 toolnetworkemulatorokhttp = { module = "com.infinum.sentinel:tool-networkemulator-okhttp", version.ref = "sentinel" }
 toolnetworkemulatorokhttpnoop = { module = "com.infinum.sentinel:tool-networkemulator-okhttp-no-op", version.ref = "sentinel" }
 toolshowkase = { module = "com.infinum.sentinel:tool-showkase", version.ref = "sentinel" }
@@ -182,6 +183,7 @@ tools = [
     "toolappgallery",
     "toolgoogleplay",
     "tooltimber",
+    "tooldeeplinks",
     "toolnetworkemulatorokhttp",
     "toolshowkase"
 ]

@@ -18,5 +18,6 @@ include(":tool-networkemulator-okhttp-no-op")
 include(":tool-showkase")
 include(":tool-showkase-no-op")
 include(":tool-timber")
+include(":tool-deeplinks")
 
 gradle.startParameter.excludedTaskNames.add(":buildSrc:testClasses")

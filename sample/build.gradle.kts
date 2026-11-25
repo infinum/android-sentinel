@@ -95,6 +95,7 @@ dependencies {
     debugImplementation(project(":tool-networkemulator-okhttp"))
     releaseImplementation(project(":tool-networkemulator-okhttp-no-op"))
     debugImplementation(project(":tool-timber"))
+    debugImplementation(project(":tool-deeplinks"))
 
     debugImplementation(project(":tool-showkase"))
     releaseImplementation(project(":tool-showkase-no-op"))

@@ -30,9 +30,9 @@ plugins {
 // }
 
 apiValidation {
-    // The Compose compiler makes public ComposableSingletons classes in these internal UI packages. Their members
-    // are renamed on every UI edit and aren't API, so they stay out of the dumps.
-    ignoredPackages.addAll(listOf("com.infinum.sentinel.ui.deeplinks", "com.infinum.sentinel.ui.shared.compose"))
+    // The Compose compiler makes public ComposableSingletons classes in the Deep links tool's internal UI packages.
+    // Their members are renamed on every UI edit and aren't API, so they stay out of the dumps.
+    ignoredPackages.add("com.infinum.sentinel.ui.deeplinks")
 }
 
 allprojects {
@@ -81,7 +81,8 @@ tasks.register("lintAll") {
         ":tool-appgallery:lintRelease",
         ":tool-googleplay:lintRelease",
         ":tool-showkase:lintRelease",
-        ":tool-showkase-no-op:lintRelease"
+        ":tool-showkase-no-op:lintRelease",
+        ":tool-deeplinks:lintRelease"
     )
     group = "Verification"
     description = "Run Detekt on all modules"
@@ -98,7 +99,8 @@ tasks.register("detektAll") {
         ":tool-appgallery:detekt",
         ":tool-googleplay:detekt",
         ":tool-showkase:detekt",
-        ":tool-showkase-no-op:detekt"
+        ":tool-showkase-no-op:detekt",
+        ":tool-deeplinks:detekt"
     )
     group = "Verification"
     description = "Run Detekt on all modules"

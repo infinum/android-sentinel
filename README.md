@@ -26,6 +26,7 @@ The project is organized in the following modules:
 - `tool-appgallery` - contains a class wrapper for Huawei AppGallery
 - `tool-googleplay` - contains a class wrapper for Google Play
 - `tool-timber` - contains a class wrapper for Timber
+- `tool-deeplinks` - contains the Deep links tool, built with Jetpack Compose
 - `tool-networkemulator-okhttp` - contains a class wrapper for NetworkEmulator
 - `tool-showkase` - contains a class wrapper for Showkase
 - `tool-showkase-no-op` - contains stubs for easy release implementation of the Showkase wrapper
@@ -93,12 +94,6 @@ debugImplementation("com.infinum.sentinel:sentinel:$sentinelVersion")
 releaseImplementation("com.infinum.sentinel:sentinel-no-op:$sentinelVersion")
 ```
 
-<!-- TODO: generateReadme only fills in Sentinel's own version. Extend it to read composeBom and navigation3 from
-     gradle/libs.versions.toml, so this note can't fall behind a dependency update. -->
-The Deep links tool is built with Jetpack Compose 1.12 and Material 3 1.4 (Compose BOM 2026.09.00) and Navigation 3
-1.2, so `sentinel` brings them into your debug build. If your app also uses Compose, Gradle resolves the higher of the
-two versions, so your debug build can run a newer Compose than your release build. `sentinel-no-op` doesn't add them.
-
 Basic tools are provided inside the main package but depending on requirements you might want to add
 specific tools:
 
@@ -112,6 +107,7 @@ debugImplementation "com.infinum.sentinel:tool-leakcanary:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-appgallery:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-googleplay:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-timber:$sentinelVersion"
+debugImplementation "com.infinum.sentinel:tool-deeplinks:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-networkemulator-okhttp:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-showkase:$sentinelVersion"
 releaseImplementation "com.infinum.sentinel:tool-showkase-no-op:$sentinelVersion"
@@ -127,6 +123,7 @@ debugImplementation("com.infinum.sentinel:tool-leakcanary:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-appgallery:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-googleplay:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-timber:$sentinelVersion")
+debugImplementation("com.infinum.sentinel:tool-deeplinks:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-networkemulator-okhttp:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-showkase:$sentinelVersion")
 releaseImplementation("com.infinum.sentinel:tool-showkase-no-op:$sentinelVersion")
@@ -199,8 +196,6 @@ _Sentinel_ provides several different levels of tools for a developer to impleme
 - `Preference Editor` - by tapping any preference _Sentinel_ opens a screen where you can edit
   current value
 - `CertificateTool` - opens a list of system and user provided X.509 certificates with details    
-- `DeepLinkTool` - lists the deep links the application declares in its manifest, and lets you build,
-  save and launch variants of them with your own query parameters
 
 #### Dependency wrappers
 
@@ -219,6 +214,8 @@ Depending of what you include as module dependencies, very specific tools are pr
 - `NetworkEmulatorTool` - a wrapper class that opens [NetworkEmulator](https://github.com/infinum/android-sentinel/tree/master/tool-networkemulator-okhttp). Enables user to modify network conditions.
 - `ShowkaseTool` - a wrapper class that opens [Showkase](https://github.com/airbnb/Showkase), Airbnb's
   Compose component browser. Requires additional setup, see [Showkase](#showkase) below.
+- `DeepLinkTool` - lists the deep links the application declares in its manifest, and lets you build, save and launch
+  variants of them with your own query parameters. Requires `tool-deeplinks`, see [Deep links](#deep-links) below.
 
 ##### Showkase
 
@@ -390,6 +387,19 @@ for a specific screen, you can do so in the _AndroidManifest.xml_ by adding a _m
 ```
 
 ### Deep links
+
+The Deep links tool lives in its own module. Add it to your debug build; the `DeepLinkTool` stub for release builds is
+already in `sentinel-no-op`:
+
+```kotlin
+debugImplementation("com.infinum.sentinel:tool-deeplinks:$sentinelVersion")
+```
+
+<!-- TODO: generateReadme only fills in Sentinel's own version. Extend it to read composeBom and navigation3 from
+     gradle/libs.versions.toml, so this note can't fall behind a dependency update. -->
+The tool is built with Jetpack Compose 1.12 and Material 3 1.4 (Compose BOM 2026.09.00) and Navigation 3 1.2, so
+`tool-deeplinks` brings them into your debug build; `sentinel` doesn't. If your app also uses Compose, Gradle resolves
+the higher of the two versions, so your debug build can run a newer Compose than your release build.
 
 _Sentinel_ reads the intent filters declared in the application's manifest and lists the deep links they accept (content and file schemes,
 MIME-type filters and non-exported screens are left out), grouped by the screen that declares them. Add `DeepLinkTool`

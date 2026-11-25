@@ -7,9 +7,6 @@ import com.infinum.sentinel.ui.certificates.CertificatesViewModel
 import com.infinum.sentinel.ui.certificates.details.CertificateDetailsViewModel
 import com.infinum.sentinel.ui.crash.CrashesViewModel
 import com.infinum.sentinel.ui.crash.details.CrashDetailsViewModel
-import com.infinum.sentinel.ui.deeplinks.DeepLinksViewModel
-import com.infinum.sentinel.ui.deeplinks.breakdown.LinkBreakdownViewModel
-import com.infinum.sentinel.ui.deeplinks.editor.VariantEditorViewModel
 import com.infinum.sentinel.ui.main.SentinelViewModel
 import com.infinum.sentinel.ui.main.application.ApplicationViewModel
 import com.infinum.sentinel.ui.main.device.DeviceViewModel
@@ -56,12 +53,6 @@ internal abstract class ViewModelComponent(
     abstract val certificates: CertificatesViewModel
 
     abstract val certificateDetails: CertificateDetailsViewModel
-
-    abstract val deepLinks: DeepLinksViewModel
-
-    abstract val linkBreakdown: LinkBreakdownViewModel
-
-    abstract val variantEditor: VariantEditorViewModel
 
     @IntoMap
     @Provides
@@ -118,16 +109,4 @@ internal abstract class ViewModelComponent(
     @IntoMap
     @Provides
     fun certificateDetails(): Pair<Class<*>, ViewModel> = CertificateDetailsViewModel::class.java to certificateDetails
-
-    @IntoMap
-    @Provides
-    fun deepLinks(): Pair<Class<*>, ViewModel> = DeepLinksViewModel::class.java to deepLinks
-
-    @IntoMap
-    @Provides
-    fun linkBreakdown(): Pair<Class<*>, ViewModel> = LinkBreakdownViewModel::class.java to linkBreakdown
-
-    @IntoMap
-    @Provides
-    fun variantEditor(): Pair<Class<*>, ViewModel> = VariantEditorViewModel::class.java to variantEditor
 }

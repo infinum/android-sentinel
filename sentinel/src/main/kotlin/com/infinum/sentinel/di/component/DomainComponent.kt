@@ -8,7 +8,6 @@ import android.text.format.Formatter
 import com.google.android.material.snackbar.Snackbar
 import com.infinum.sentinel.R
 import com.infinum.sentinel.data.models.memory.triggers.TriggerType
-import com.infinum.sentinel.data.sources.local.preferences.DeepLinksStore
 import com.infinum.sentinel.data.sources.local.room.dao.BundleMonitorDao
 import com.infinum.sentinel.data.sources.local.room.dao.CertificateMonitorDao
 import com.infinum.sentinel.data.sources.local.room.dao.CrashMonitorDao
@@ -34,8 +33,6 @@ import com.infinum.sentinel.domain.collectors.CollectorFactory
 import com.infinum.sentinel.domain.collectors.Collectors
 import com.infinum.sentinel.domain.crash.monitor.CrashMonitorRepository
 import com.infinum.sentinel.domain.crash.monitor.models.CrashMonitorParameters
-import com.infinum.sentinel.domain.deeplinks.DeepLinksRepository
-import com.infinum.sentinel.domain.deeplinks.variants.DeepLinkVariantsRepository
 import com.infinum.sentinel.domain.formats.FormatsRepository
 import com.infinum.sentinel.domain.formatters.FormatterFactory
 import com.infinum.sentinel.domain.formatters.Formatters
@@ -117,10 +114,6 @@ internal abstract class DomainComponent(
     abstract val certificates: Repositories.Certificate
 
     abstract val certificateMonitor: Repositories.CertificateMonitor
-
-    abstract val deepLinks: Repositories.DeepLinks
-
-    abstract val deepLinkVariants: Repositories.DeepLinkVariants
 
     fun setup() {
         initializeCrashMonitor()
@@ -217,19 +210,6 @@ internal abstract class DomainComponent(
     @Provides
     @DomainScope
     fun certificateMonitor(dao: CertificateMonitorDao): Repositories.CertificateMonitor = CertificateMonitorRepository(dao)
-
-    @Provides
-    @DomainScope
-    fun deepLinks(
-        collector: Collectors.DeepLinks,
-        verificationCollector: Collectors.DomainVerification,
-        componentStates: Collectors.ComponentStates,
-    ): Repositories.DeepLinks =
-        DeepLinksRepository(collector, verificationCollector, context.packageName, Build.VERSION.SDK_INT, componentStates)
-
-    @Provides
-    @DomainScope
-    fun deepLinkVariants(store: DeepLinksStore): Repositories.DeepLinkVariants = DeepLinkVariantsRepository(store)
 
     private fun initializeCrashMonitor() {
         Thread.setDefaultUncaughtExceptionHandler(sentinelExceptionHandler as Thread.UncaughtExceptionHandler)

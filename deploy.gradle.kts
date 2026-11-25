@@ -79,6 +79,15 @@ tasks.register("deployToolTimber") {
     description = "Deploy Tool Timber module to Maven Central repository"
 }
 
+tasks.register("deployToolDeepLinks") {
+    dependsOn(
+        ":tool-deeplinks:clean",
+        ":tool-deeplinks:publishMavenPublicationToMavenCentralRepository"
+    )
+    group = "Deploy"
+    description = "Deploy Tool Deep links module to Maven Central repository"
+}
+
 tasks.register("deployToolNetworkEmulatorOkhttp") {
     dependsOn(
         ":tool-networkemulator-okhttp:clean",
@@ -119,6 +128,7 @@ tasks.register("deployToolsAll") {
         "deployToolAppGallery",
         "deployToolGooglePlay",
         "deployToolTimber",
+        "deployToolDeepLinks",
         "deployToolNetworkEmulatorOkhttp",
         "deployToolShowkase"
     )
@@ -137,6 +147,7 @@ tasks.register("deployAll") {
         "deployToolAppGallery",
         "deployToolGooglePlay",
         "deployToolTimber",
+        "deployToolDeepLinks",
         "deployToolNetworkEmulatorOkhttp",
         "deployToolShowkase"
     )
@@ -155,6 +166,7 @@ tasks.register("deployDebug") {
         ":tool-appgallery:clean",
         ":tool-googleplay:clean",
         ":tool-timber:clean",
+        ":tool-deeplinks:clean",
         ":tool-networkemulator-okhttp:clean",
         ":tool-networkemulator-okhttp-no-op:clean",
         ":tool-showkase:clean",
@@ -168,6 +180,7 @@ tasks.register("deployDebug") {
         ":tool-appgallery:publishMavenPublicationToMavenLocal",
         ":tool-googleplay:publishMavenPublicationToMavenLocal",
         ":tool-timber:publishMavenPublicationToMavenLocal",
+        ":tool-deeplinks:publishMavenPublicationToMavenLocal",
         ":tool-networkemulator-okhttp:publishMavenPublicationToMavenLocal",
         ":tool-networkemulator-okhttp-no-op:publishMavenPublicationToMavenLocal",
         ":tool-showkase:publishMavenPublicationToMavenLocal",

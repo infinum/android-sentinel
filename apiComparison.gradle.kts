@@ -24,9 +24,7 @@ tasks.register("compareSentinelApis") {
                     insideTargetBlock = true
                 }
 
-                // The Compose compiler adds a `$stable` field to every public class in `sentinel`.
-                // It isn't API a host calls, and the no-op has no Compose, so it isn't compared.
-                if (insideTargetBlock && !trimmed.startsWith("public static final field \$stable")) {
+                if (insideTargetBlock) {
                     relevantLines.add(line)
                 }
 

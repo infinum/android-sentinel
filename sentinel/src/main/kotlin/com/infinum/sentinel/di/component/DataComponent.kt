@@ -10,8 +10,6 @@ import com.infinum.sentinel.data.models.memory.triggers.manual.ManualTrigger
 import com.infinum.sentinel.data.models.memory.triggers.proximity.ProximityTrigger
 import com.infinum.sentinel.data.models.memory.triggers.shake.ShakeTrigger
 import com.infinum.sentinel.data.models.memory.triggers.usb.UsbConnectedTrigger
-import com.infinum.sentinel.data.sources.local.preferences.DeepLinksStore
-import com.infinum.sentinel.data.sources.local.preferences.SharedPreferencesDeepLinksStore
 import com.infinum.sentinel.data.sources.local.room.SentinelDatabase
 import com.infinum.sentinel.data.sources.local.room.callbacks.SentinelDefaultValuesCallback
 import com.infinum.sentinel.data.sources.local.room.dao.BundleMonitorDao
@@ -30,14 +28,10 @@ import com.infinum.sentinel.data.sources.memory.triggers.TriggersCache
 import com.infinum.sentinel.data.sources.memory.triggers.TriggersCacheFactory
 import com.infinum.sentinel.data.sources.raw.collectors.ApplicationCollector
 import com.infinum.sentinel.data.sources.raw.collectors.CertificateCollector
-import com.infinum.sentinel.data.sources.raw.collectors.ComponentStatesCollector
-import com.infinum.sentinel.data.sources.raw.collectors.DeepLinksCollector
 import com.infinum.sentinel.data.sources.raw.collectors.DeviceCollector
-import com.infinum.sentinel.data.sources.raw.collectors.DomainVerificationCollector
 import com.infinum.sentinel.data.sources.raw.collectors.PermissionsCollector
 import com.infinum.sentinel.data.sources.raw.collectors.PreferencesCollector
 import com.infinum.sentinel.data.sources.raw.collectors.ToolsCollector
-import com.infinum.sentinel.data.sources.raw.deeplinks.ManifestReader
 import com.infinum.sentinel.data.sources.raw.formatters.HtmlFormatter
 import com.infinum.sentinel.data.sources.raw.formatters.JsonFormatter
 import com.infinum.sentinel.data.sources.raw.formatters.MarkdownFormatter
@@ -46,7 +40,6 @@ import com.infinum.sentinel.data.sources.raw.formatters.XmlFormatter
 import com.infinum.sentinel.di.LibraryComponents
 import com.infinum.sentinel.di.scope.DataScope
 import com.infinum.sentinel.domain.collectors.Collectors
-import com.infinum.sentinel.domain.deeplinks.models.ExampleLinkData
 import com.infinum.sentinel.domain.formatters.Formatters
 import java.security.cert.X509Certificate
 import java.util.Locale
@@ -63,20 +56,17 @@ internal abstract class DataComponent(
     private var tools: Set<Sentinel.Tool> = setOf()
     private var targetedPreferences: Map<String, List<String>> = mapOf()
     private var userCertificates: List<X509Certificate> = listOf()
-    private var exampleLinks: List<ExampleLinkData> = listOf()
     private var onTriggered: () -> Unit = {}
 
     fun setup(
         tools: Set<Sentinel.Tool>,
         targetedPreferences: Map<String, List<String>>,
         userCertificates: List<X509Certificate>,
-        exampleLinks: List<ExampleLinkData>,
         onTriggered: () -> Unit,
     ) {
         this.tools = tools
         this.targetedPreferences = targetedPreferences
         this.userCertificates = userCertificates
-        this.exampleLinks = exampleLinks
         this.onTriggered = onTriggered
     }
 
@@ -162,14 +152,6 @@ internal abstract class DataComponent(
 
     abstract val toolsCollector: Collectors.Tools
 
-    abstract val deepLinksCollector: Collectors.DeepLinks
-
-    abstract val domainVerificationCollector: Collectors.DomainVerification
-
-    abstract val componentStatesCollector: Collectors.ComponentStates
-
-    abstract val deepLinksStore: DeepLinksStore
-
     abstract val plainFormatter: Formatters.Plain
 
     abstract val markdownFormatter: Formatters.Markdown
@@ -203,22 +185,6 @@ internal abstract class DataComponent(
     @Provides
     @DataScope
     fun toolsCollector(): Collectors.Tools = ToolsCollector(tools)
-
-    @Provides
-    @DataScope
-    fun deepLinksCollector(): Collectors.DeepLinks = DeepLinksCollector(ManifestReader(context), exampleLinks)
-
-    @Provides
-    @DataScope
-    fun domainVerificationCollector(): Collectors.DomainVerification = DomainVerificationCollector(context)
-
-    @Provides
-    @DataScope
-    fun componentStatesCollector(): Collectors.ComponentStates = ComponentStatesCollector(context)
-
-    @Provides
-    @DataScope
-    fun deepLinksStore(): DeepLinksStore = SharedPreferencesDeepLinksStore(context)
 
     @Provides
     @DataScope
