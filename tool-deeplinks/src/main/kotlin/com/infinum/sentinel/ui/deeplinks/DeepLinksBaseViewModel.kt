@@ -23,7 +23,7 @@ internal abstract class DeepLinksBaseViewModel<State, Event> : ViewModel() {
 
     protected val runningScope = viewModelScope
     protected val runningDispatchers = Dispatchers.IO
-    private var mainDispatchers = Dispatchers.Main
+    private val mainDispatchers = Dispatchers.Main
 
     private val mutableStateFlow: MutableStateFlow<State?> = MutableStateFlow(null)
     private val mutableEventFlow: MutableSharedFlow<Event?> = MutableSharedFlow(replay = 0)
