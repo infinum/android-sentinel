@@ -60,7 +60,7 @@ private fun SnackbarAction(
     TextButton(
         onClick = onClick,
         modifier = Modifier.testTag("snackbar_action"),
-        colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.primary),
+        colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.inversePrimary),
     ) {
         Text(text = label)
     }
