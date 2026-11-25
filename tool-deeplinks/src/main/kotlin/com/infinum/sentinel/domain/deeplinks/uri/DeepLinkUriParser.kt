@@ -18,7 +18,7 @@ internal object DeepLinkUriParser {
 
     /**
      * Parses [raw] with the RFC 3986 appendix B expression. Returns null when there is no scheme.
-     * Query keys and values are decoded (`+` reads as a space); path and fragment stay raw.
+     * Query keys and values are decoded (`+` reads as a space); path, fragment and user info stay raw.
      */
     internal fun parse(raw: String): DeepLinkUri? {
         val groups = URI_REGEX.matchEntire(raw)?.groups
@@ -26,7 +26,8 @@ internal object DeepLinkUriParser {
         return if (groups == null || scheme == null) {
             null
         } else {
-            val (host, port) = parseAuthority(groups[GROUP_AUTHORITY]?.value.orEmpty())
+            val authority = groups[GROUP_AUTHORITY]?.value.orEmpty()
+            val (host, port) = parseHostAndPort(authority.substringAfterLast('@'))
             DeepLinkUri(
                 scheme = scheme,
                 hasAuthority = groups[GROUP_AUTHORITY_PART] != null,
@@ -35,12 +36,12 @@ internal object DeepLinkUriParser {
                 path = groups[GROUP_PATH]?.value.orEmpty(),
                 params = parseQuery(groups[GROUP_QUERY]?.value),
                 fragment = groups[GROUP_FRAGMENT]?.value,
+                userInfo = authority.substringBeforeLast('@', missingDelimiterValue = "").ifEmpty { null },
             )
         }
     }
 
-    private fun parseAuthority(authority: String): Pair<String?, Int?> {
-        val hostAndPort = authority.substringAfterLast('@')
+    private fun parseHostAndPort(hostAndPort: String): Pair<String?, Int?> {
         val portText = hostAndPort.substringAfterLast(':', "")
         val port = if (portText.isNotEmpty() && portText.all { it in '0'..'9' }) portText.toIntOrNull() else null
         val host = if (port == null) hostAndPort else hostAndPort.substringBeforeLast(':')

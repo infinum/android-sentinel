@@ -66,4 +66,11 @@ internal class DeepLinkUriBuilderTest {
 
         assertEquals("mailto:a@b.c", DeepLinkUriBuilder.build(uri))
     }
+
+    @Test
+    fun `build writes user info before the host`() {
+        val uri = productUri().copy(scheme = "https", host = "example.com", path = "/offers", userInfo = "tester")
+
+        assertEquals("https://tester@example.com/offers", DeepLinkUriBuilder.build(uri))
+    }
 }

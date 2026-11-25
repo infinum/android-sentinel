@@ -6,6 +6,7 @@ package com.infinum.sentinel.domain.deeplinks.models
  * [path] and [fragment] are stored percent-encoded, exactly as they appear in the link.
  * [params] hold decoded plain text and are encoded again when the link is built.
  * [hasAuthority] is true when the link contains the `//` part, even if the host is empty.
+ * [userInfo] is the part before `@` in the authority, kept percent-encoded as written; null when there is none.
  */
 internal data class DeepLinkUri(
     val scheme: String,
@@ -15,4 +16,5 @@ internal data class DeepLinkUri(
     val path: String,
     val params: List<QueryParam>,
     val fragment: String?,
+    val userInfo: String? = null,
 )

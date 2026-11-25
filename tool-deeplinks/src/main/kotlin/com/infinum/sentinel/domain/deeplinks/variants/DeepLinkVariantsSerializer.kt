@@ -66,6 +66,7 @@ internal object DeepLinkVariantsSerializer {
             path = uri.path,
             fragment = uri.fragment,
             params = uri.params.map { DeepLinkQueryParamEntity(key = it.key, value = it.value) },
+            userInfo = uri.userInfo,
         )
 
     private fun DeepLinkVariantEntity.toVariant(): Variant =
@@ -82,6 +83,7 @@ internal object DeepLinkVariantsSerializer {
                 path = path,
                 params = params.map { QueryParam(key = it.key, value = it.value) },
                 fragment = fragment,
+                userInfo = userInfo,
             ),
         )
 }

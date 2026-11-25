@@ -20,6 +20,7 @@ import com.infinum.sentinel.domain.deeplinks.models.LinkSpec
  * @property baseText the base link's display text, or the variant's link when the base is gone.
  * @property warnings the base link's configuration warnings, which decide how Launch starts. Empty when the base link
  * is an example or is gone.
+ * @property userInfo the user info of an example link or a variant, kept as written; null when it has none.
  */
 internal data class VariantEditorForm(
     val scheme: String,
@@ -32,4 +33,5 @@ internal data class VariantEditorForm(
     val fixedPath: String?,
     val baseText: String,
     val warnings: Set<ConfigurationWarning> = emptySet(),
+    val userInfo: String? = null,
 )

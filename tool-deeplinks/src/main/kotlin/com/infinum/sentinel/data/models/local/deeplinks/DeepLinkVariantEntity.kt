@@ -18,4 +18,5 @@ internal data class DeepLinkVariantEntity(
     val path: String,
     val fragment: String? = null,
     val params: List<DeepLinkQueryParamEntity> = listOf(),
+    val userInfo: String? = null,
 )

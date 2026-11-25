@@ -91,4 +91,19 @@ internal class DeepLinkUriParserTest {
 
         assertEquals(link, uri?.let { DeepLinkUriBuilder.build(it) })
     }
+
+    @Test
+    fun `parse keeps user info apart from host and port`() {
+        val uri = DeepLinkUriParser.parse("https://tester@example.com:8080/offers")
+
+        assertEquals("tester", uri?.userInfo)
+        assertEquals("example.com", uri?.host)
+        assertEquals(8080, uri?.port)
+        assertEquals("/offers", uri?.path)
+    }
+
+    @Test
+    fun `parse gives no user info when the authority has no at sign`() {
+        assertNull(DeepLinkUriParser.parse("https://example.com/offers")?.userInfo)
+    }
 }

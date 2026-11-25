@@ -7,14 +7,16 @@ import com.infinum.sentinel.domain.deeplinks.models.DeepLinkUri
  */
 internal object DeepLinkUriBuilder {
     /**
-     * Joins the parts of [uri] into a link. Path and fragment are used as-is (already encoded),
+     * Joins the parts of [uri] into a link. Path, fragment and user info are used as-is (already encoded),
      * query keys and values are encoded. Parameter order, duplicates and empty values are preserved.
      */
     internal fun build(uri: DeepLinkUri): String =
         buildString {
             append(uri.scheme).append(':')
             if (uri.hasAuthority) {
-                append("//").append(uri.host.orEmpty())
+                append("//")
+                uri.userInfo?.let { append(it).append('@') }
+                append(uri.host.orEmpty())
                 uri.port?.let { append(':').append(it) }
             }
             append(uri.path)

@@ -34,6 +34,7 @@ internal object VariantDraftMapper {
             fixedPath = example?.path,
             baseText = baseLink.displayText,
             warnings = baseLink.warnings,
+            userInfo = example?.userInfo,
         )
     }
 
@@ -47,7 +48,11 @@ internal object VariantDraftMapper {
     ): VariantEditorForm {
         val fromBase = baseLink?.let { formFor(it) }
         // A fixed path keeps the saved text, so editing a variant never encodes its path again.
-        return fromBase?.copy(fragment = variant.uri.fragment, fixedPath = fromBase.fixedPath?.let { variant.uri.path })
+        return fromBase?.copy(
+            fragment = variant.uri.fragment,
+            fixedPath = fromBase.fixedPath?.let { variant.uri.path },
+            userInfo = variant.uri.userInfo,
+        )
             ?: VariantEditorForm(
                 scheme = variant.uri.scheme,
                 hasAuthority = variant.uri.hasAuthority,
@@ -58,6 +63,7 @@ internal object VariantDraftMapper {
                 pathMode = FieldMode.READ_ONLY,
                 fixedPath = variant.uri.path,
                 baseText = DeepLinkUriBuilder.build(variant.uri),
+                userInfo = variant.uri.userInfo,
             )
     }
 
@@ -128,6 +134,7 @@ internal object VariantDraftMapper {
             path = path,
             params = draft.rows.filterNot { it.isBlank }.map { QueryParam(it.key.trim(), it.value) },
             fragment = form.fragment,
+            userInfo = form.userInfo,
         )
     }
 
