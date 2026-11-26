@@ -402,6 +402,10 @@ already in `sentinel-no-op`:
 debugImplementation("com.infinum.sentinel:tool-deeplinks:$sentinelVersion")
 ```
 
+If testers get another build type with `sentinel`, such as a `qa` or `staging` build from Firebase App Distribution,
+add the tool to that build type too, for example with `qaImplementation(...)`. Builds that use `sentinel-no-op` get
+the stub, and the tool doesn't appear in them.
+
 <!-- TODO: generateReadme only fills in Sentinel's own version. Extend it to read composeBom and navigation3 from
      gradle/libs.versions.toml, so this note can't fall behind a dependency update. -->
 The tool is built with Jetpack Compose 1.12 and Material 3 1.4 (Compose BOM 2026.09.00) and Navigation 3 1.2, so
@@ -439,8 +443,8 @@ For every link you can:
 When you test with the tool:
 
 - Every launch from the tool is a warm start, because the application is already running. To test a cold start, copy
-  the link, force-stop the application with `adb shell am force-stop <applicationId>`, then open the link from another
-  app, such as a notes or chat app.
+  the link, force-stop the application in Settings > Apps > (the application) > Force stop, or with
+  `adb shell am force-stop <applicationId>`, then open the link from another app, such as a notes or chat app.
 - Only one installed app can own a web link's domain or receive a custom scheme without a chooser. If a second build of
   the application is installed, for example a debug and a release build, links can open in that build instead.
 - On Android 17 and later, `adb shell am start --debug-link -a android.intent.action.VIEW -d "<link>"` shows how the
