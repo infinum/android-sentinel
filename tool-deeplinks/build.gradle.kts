@@ -5,7 +5,6 @@ val releaseConfig = extra["releaseConfig"] as Map<String, Any>
 
 plugins {
     id("com.android.library")
-    id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.serialization")
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.gradle.maven.publish)
@@ -42,8 +41,7 @@ android {
                 listOf(
                     "-opt-in=kotlin.ExperimentalStdlibApi",
                     "-Xexplicit-api=strict",
-                    "-Xjvm-default=all",
-                    "-Xannotation-default-target=param-property"
+                    "-jvm-default=no-compatibility"
                 )
             )
         }
@@ -97,7 +95,7 @@ dependencies {
     testImplementation(libs.junit)
 }
 
-val groupId: String by project
+val groupId = project.property("groupId") as String
 
 mavenPublishing {
     coordinates(

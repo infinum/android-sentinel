@@ -4,6 +4,7 @@ public final class com/infinum/sentinel/domain/networkemulator/NetworkEmulatorIn
 }
 
 public final class com/infinum/sentinel/domain/networkemulator/NetworkEmulatorPreferences {
+	public static final field Companion Lcom/infinum/sentinel/domain/networkemulator/NetworkEmulatorPreferences$Companion;
 	public fun <init> (Landroid/content/Context;)V
 	public final fun getDelayMs ()I
 	public final fun getFailPercentage ()I
@@ -14,5 +15,8 @@ public final class com/infinum/sentinel/domain/networkemulator/NetworkEmulatorPr
 	public final fun setEnabled (Z)V
 	public final fun setFailPercentage (I)V
 	public final fun setVariancePercentage (I)V
+}
+
+public final class com/infinum/sentinel/domain/networkemulator/NetworkEmulatorPreferences$Companion {
 }
 

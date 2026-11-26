@@ -11,12 +11,14 @@ import com.infinum.sentinel.Sentinel
 public data class AppGalleryTool
 @JvmOverloads
 constructor(
-    private val appId: String = "",
+    public val appId: String = "",
     private val listener: View.OnClickListener =
         View.OnClickListener {
             // no - op
         },
 ) : Sentinel.Tool {
+    override fun icon(): Int? = null
+
     override fun name(): Int = 0
 
     override fun listener(): View.OnClickListener =
