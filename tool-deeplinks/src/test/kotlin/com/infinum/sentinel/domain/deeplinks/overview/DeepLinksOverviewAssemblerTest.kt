@@ -429,6 +429,51 @@ internal class DeepLinksOverviewAssemblerTest {
     }
 
     @Test
+    fun `with link handling off verified and allowed hosts are off in settings and the others keep their status`() {
+        fun webLink(host: String) =
+            BaseLink(
+                "declared|https|lit:$host||lit:/offers",
+                BaseLinkOrigin.Declared(mainScreen),
+                LinkSpec("https", HostSpec.Literal(host), null, PathSpec.Literal("/offers")),
+                null,
+            )
+        val verified = webLink("verified.example.com")
+        val allowed = webLink("allowed.example.com")
+        val unverified = webLink("unverified.example.com")
+        val v1 = webVariant("v1", verified.key, mainScreen, "verified.example.com")
+        val v2 = webVariant("v2", verified.key, mainScreen, "other.example.org")
+
+        val overview =
+            DeepLinksOverviewAssembler.assemble(
+                discovery(screens = listOf(screen(mainScreen, "Main", verified, allowed, unverified))),
+                listOf(v1, v2),
+                verification(false, "verified.example.com" to 2, "allowed.example.com" to 1, "unverified.example.com" to 0),
+            )
+
+        assertEquals(
+            listOf(
+                DeepLinksSection.Screen(
+                    mainScreen,
+                    "Main",
+                    listOf(
+                        BaseLinkEntry(
+                            verified,
+                            listOf(
+                                VariantEntry(v1, VerificationStatus.VERIFIED_HANDLING_OFF),
+                                VariantEntry(v2, VerificationStatus.NOT_REGISTERED),
+                            ),
+                            VerificationStatus.VERIFIED_HANDLING_OFF,
+                        ),
+                        BaseLinkEntry(allowed, listOf(), VerificationStatus.ENABLED_HANDLING_OFF),
+                        BaseLinkEntry(unverified, listOf(), VerificationStatus.NOT_VERIFIED),
+                    ),
+                ),
+            ),
+            overview.sections,
+        )
+    }
+
+    @Test
     fun `a custom scheme link and its variant have no status`() {
         val key = "declared|myapp|lit:home||none"
         val link =

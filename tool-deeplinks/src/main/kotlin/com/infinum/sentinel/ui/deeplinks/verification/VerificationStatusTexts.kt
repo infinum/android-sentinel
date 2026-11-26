@@ -14,6 +14,9 @@ internal object VerificationStatusTexts {
         when (status) {
             VerificationStatus.VERIFIED -> R.string.sentinel_deep_links_status_verified
             VerificationStatus.ENABLED_IN_SETTINGS -> R.string.sentinel_deep_links_status_enabled
+            VerificationStatus.VERIFIED_HANDLING_OFF,
+            VerificationStatus.ENABLED_HANDLING_OFF,
+            -> R.string.sentinel_deep_links_status_handling_off
             VerificationStatus.NOT_VERIFIED -> R.string.sentinel_deep_links_status_not_verified
             VerificationStatus.NOT_REGISTERED -> R.string.sentinel_deep_links_status_not_registered
         }
@@ -24,6 +27,8 @@ internal object VerificationStatusTexts {
         when (status) {
             VerificationStatus.VERIFIED -> R.string.sentinel_deep_links_status_verified_explanation
             VerificationStatus.ENABLED_IN_SETTINGS -> R.string.sentinel_deep_links_status_enabled_explanation
+            VerificationStatus.VERIFIED_HANDLING_OFF -> R.string.sentinel_deep_links_status_verified_handling_off_explanation
+            VerificationStatus.ENABLED_HANDLING_OFF -> R.string.sentinel_deep_links_status_enabled_handling_off_explanation
             VerificationStatus.NOT_VERIFIED -> R.string.sentinel_deep_links_status_not_verified_explanation
             VerificationStatus.NOT_REGISTERED -> R.string.sentinel_deep_links_status_not_registered_explanation
         }

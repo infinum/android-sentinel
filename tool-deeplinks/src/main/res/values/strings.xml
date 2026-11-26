@@ -92,9 +92,12 @@
     <string name="sentinel_deep_links_status_enabled">Enabled in settings</string>
     <string name="sentinel_deep_links_status_not_verified">Not verified</string>
     <string name="sentinel_deep_links_status_not_registered">Not registered</string>
+    <string name="sentinel_deep_links_status_handling_off">Off in settings</string>
     <string name="sentinel_deep_links_status_content_description">Verification status: %s</string>
     <string name="sentinel_deep_links_status_verified_explanation">Android confirmed that this app owns the domain. Real tap opens the app, unless the website\'s Dynamic App Links rules (Android 15 and later) keep this link out of the app. The tool can\'t read those rules.</string>
     <string name="sentinel_deep_links_status_enabled_explanation">The domain isn\'t verified, but it was allowed for this app in system settings on this device. Real tap opens the app on this device only.</string>
+    <string name="sentinel_deep_links_status_verified_handling_off_explanation">Android confirmed that this app owns the domain, but Open supported links is turned off for this app in system settings. Real tap opens the browser instead. Turn Open supported links back on in link settings.</string>
+    <string name="sentinel_deep_links_status_enabled_handling_off_explanation">The domain isn\'t verified, but it was allowed for this app in system settings. Open supported links is turned off for this app, though, so Real tap opens the browser instead. Turn Open supported links back on in link settings.</string>
     <string name="sentinel_deep_links_status_not_verified_explanation">The app declares this domain, but it isn\'t verified or allowed. Real tap opens the browser or a chooser instead of the app. Debug and internal builds often fail verification because they\'re signed with a different key than the one the website lists.</string>
     <string name="sentinel_deep_links_status_not_registered_explanation">The system doesn\'t link this domain to the app. Either the app doesn\'t declare it, or the declaring filter lacks BROWSABLE or DEFAULT. Real tap never opens the app.</string>
     <string name="sentinel_deep_links_status_footer">Only one app on a device can own a domain. If another build of this app is installed and owns it, Real tap opens that build.</string>

@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -13,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,7 +23,8 @@ import com.infinum.sentinel.tool.deeplinks.R
 import com.infinum.sentinel.ui.deeplinks.compose.SentinelTheme
 
 /**
- * Shows a notice above the sections. A new [DeepLinksNotice] entry doesn't compile until both mappings handle it.
+ * Shows a notice above the sections, in the warning color of the status chips. A new [DeepLinksNotice] entry doesn't
+ * compile until both mappings handle it.
  */
 @Composable
 internal fun DeepLinksNoticeItem(
@@ -33,19 +36,20 @@ internal fun DeepLinksNoticeItem(
     val noticeModifier =
         modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.secondaryContainer)
+            .background(colorResource(R.color.sentinel_warning_container))
             .padding(horizontal = 16.dp, vertical = 12.dp)
     Column(modifier = noticeModifier) {
         Text(
             text = stringResource(messageOf(notice)),
             modifier = Modifier.testTag("messageView"),
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
+            color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.bodyMedium,
         )
         if (action != null) {
             TextButton(
                 onClick = { onActionClick(notice) },
                 modifier = Modifier.align(Alignment.End).testTag("actionButton"),
+                colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.onSurface),
             ) {
                 Text(text = stringResource(action))
             }

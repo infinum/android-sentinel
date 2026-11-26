@@ -22,7 +22,7 @@ import com.infinum.sentinel.tool.deeplinks.R
 import com.infinum.sentinel.ui.deeplinks.compose.SentinelTheme
 
 /**
- * Shows a variant: its name, built link, status chip, orphan chip and actions.
+ * Shows a variant: its name, the readable form of its link, status chip, orphan chip and actions.
  *
  * [launchMenu] and [moreMenu] are drawn inside the box of their button, so a DropdownMenu placed there anchors to it.
  */
@@ -43,7 +43,7 @@ internal fun VariantRowItem(
     Row(modifier = rowModifier, verticalAlignment = Alignment.CenterVertically) {
         Column(modifier = Modifier.weight(1f).padding(vertical = 4.dp)) {
             LinkTitleText(title = row.title)
-            LinkText(text = row.link)
+            LinkText(text = row.displayLink)
             if (row.status != null || row.isOrphan) {
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     row.status?.let { VerificationStatusChip(status = it, onClick = { callbacks.onStatusClick(row) }) }
@@ -86,6 +86,7 @@ private fun previewVariantRow(
     title = "Summer promo",
     link = "myapp://shop/orders/42?promo=SUMMER",
     status = status,
+    displayLink = "myapp://shop/orders/42?promo=SUMMER",
 )
 
 @Preview(name = "Light")

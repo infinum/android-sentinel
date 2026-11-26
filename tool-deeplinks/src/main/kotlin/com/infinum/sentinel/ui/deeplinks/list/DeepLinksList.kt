@@ -135,6 +135,7 @@ private fun previewItems(): List<DeepLinksItem> {
             title = "Summer promo",
             link = "https://example.com/orders?promo=SUMMER",
             status = VerificationStatus.NOT_VERIFIED,
+            displayLink = "https://example.com/orders?promo=SUMMER",
         ),
     )
 }

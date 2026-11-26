@@ -106,7 +106,7 @@ internal class DeepLinksScreenHandler(
         when (action) {
             LinkRowAction.EDIT -> actions.openEditor(target)
             LinkRowAction.DUPLICATE -> actions.duplicate(row.variant.id, resources.getString(R.string.sentinel_deep_links_copy_suffix))
-            LinkRowAction.DELETE -> showDialog(DeepLinksDialog.DeleteVariant(variantId = row.variant.id, link = row.link))
+            LinkRowAction.DELETE -> showDialog(DeepLinksDialog.DeleteVariant(variantId = row.variant.id, link = row.displayLink))
             else -> Unit
         }
     }

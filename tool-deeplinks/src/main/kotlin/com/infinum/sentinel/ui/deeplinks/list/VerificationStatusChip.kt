@@ -25,9 +25,9 @@ import com.infinum.sentinel.ui.deeplinks.compose.SentinelTheme
 import com.infinum.sentinel.ui.deeplinks.verification.VerificationStatusTexts
 
 /**
- * A clickable verification status. A good status is green, like a valid certificate. NOT_VERIFIED and
- * NOT_REGISTERED are yellow and carry an info icon: they are often expected, for example on debug builds, so red
- * stays for broken declarations. The text carries the meaning, so color is never the only signal.
+ * A clickable verification status. A good status is green, like a valid certificate. Every status that keeps Real tap
+ * out of the app is yellow and carries an info icon: such a status is often expected, for example on debug builds, so
+ * red stays for broken declarations. The text carries the meaning, so color is never the only signal.
  */
 @Composable
 internal fun VerificationStatusChip(
@@ -35,7 +35,7 @@ internal fun VerificationStatusChip(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val isWarning = status == VerificationStatus.NOT_VERIFIED || status == VerificationStatus.NOT_REGISTERED
+    val isWarning = status != VerificationStatus.VERIFIED && status != VerificationStatus.ENABLED_IN_SETTINGS
     val label = stringResource(VerificationStatusTexts.labelOf(status))
     val description = stringResource(R.string.sentinel_deep_links_status_content_description, label)
     val icon = if (isWarning) R.drawable.sentinel_ic_status_info else R.drawable.sentinel_ic_status_ok

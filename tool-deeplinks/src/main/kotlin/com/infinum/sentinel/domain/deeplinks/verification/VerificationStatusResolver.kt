@@ -17,7 +17,8 @@ internal object VerificationStatusResolver {
     /**
      * Returns null when the scheme is not http or https, the host is null or blank, or there is no
      * snapshot. Otherwise returns the best status among the host's own key and the wildcard keys that apply to it,
-     * or [VerificationStatus.NOT_REGISTERED] when none is declared.
+     * or [VerificationStatus.NOT_REGISTERED] when none is declared. When opening supported links is turned off, Android
+     * approves no host, so a verified or allowed host gets its handling-off status.
      */
     fun resolve(
         scheme: String,
@@ -27,7 +28,9 @@ internal object VerificationStatusResolver {
         if (!isWeb(scheme) || host.isNullOrBlank() || snapshot == null) {
             null
         } else {
-            statusOf(findState(host.lowercase(), snapshot.hostStates))
+            statusOf(findState(host.lowercase(), snapshot.hostStates)).let { status ->
+                if (snapshot.isLinkHandlingAllowed) status else whenHandlingOff(status)
+            }
         }
 
     private fun isWeb(scheme: String): Boolean =
@@ -66,6 +69,13 @@ internal object VerificationStatusResolver {
             STATE_VERIFIED -> 2
             STATE_SELECTED -> 1
             else -> 0
+        }
+
+    private fun whenHandlingOff(status: VerificationStatus): VerificationStatus =
+        when (status) {
+            VerificationStatus.VERIFIED -> VerificationStatus.VERIFIED_HANDLING_OFF
+            VerificationStatus.ENABLED_IN_SETTINGS -> VerificationStatus.ENABLED_HANDLING_OFF
+            else -> status
         }
 
     private fun statusOf(state: Int?): VerificationStatus =

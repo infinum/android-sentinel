@@ -121,5 +121,6 @@ internal class DeepLinksItemKeysTest {
         title = null,
         link = "scheme://host/path",
         status = null,
+        displayLink = "scheme://host/path",
     )
 }

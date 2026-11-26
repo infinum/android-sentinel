@@ -10,6 +10,7 @@ import com.infinum.sentinel.domain.deeplinks.overview.DeepLinksNotice
 import com.infinum.sentinel.domain.deeplinks.overview.DeepLinksOverview
 import com.infinum.sentinel.domain.deeplinks.overview.DeepLinksSection
 import com.infinum.sentinel.domain.deeplinks.overview.VariantEntry
+import com.infinum.sentinel.domain.deeplinks.uri.DeepLinkDisplayText
 import com.infinum.sentinel.domain.deeplinks.uri.DeepLinkUriBuilder
 import com.infinum.sentinel.tool.deeplinks.R
 
@@ -66,7 +67,7 @@ internal sealed interface DeepLinksItem {
 
     /**
      * A variant and its built link. [baseLink] is null in the No longer declared and Saved variants sections,
-     * and [isOrphan] is true only in No longer declared.
+     * and [isOrphan] is true only in No longer declared. [displayLink] is the readable form the row shows.
      */
     data class VariantRow(
         val variant: Variant,
@@ -75,6 +76,7 @@ internal sealed interface DeepLinksItem {
         override val title: String?,
         override val link: String,
         override val status: VerificationStatus?,
+        val displayLink: String,
     ) : LinkRow {
         override val launchLink: String
             get() = link
@@ -145,5 +147,6 @@ private fun variantRow(
         title = variant.name?.takeUnless { it.isBlank() },
         link = DeepLinkUriBuilder.build(variant.uri),
         status = entry.status,
+        displayLink = DeepLinkDisplayText.format(variant.uri),
     )
 }

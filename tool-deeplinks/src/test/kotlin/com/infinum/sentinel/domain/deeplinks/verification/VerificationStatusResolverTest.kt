@@ -166,6 +166,14 @@ internal class VerificationStatusResolverTest {
     }
 
     @Test
+    fun `with link handling off a host verified through a wildcard key is off in settings`() {
+        val snapshot = DomainVerificationData(isLinkHandlingAllowed = false, hostStates = mapOf("*.example.com" to 2, "a.example.org" to 0))
+
+        assertEquals(VerificationStatus.VERIFIED_HANDLING_OFF, VerificationStatusResolver.resolve("https", "shop.example.com", snapshot))
+        assertEquals(VerificationStatus.NOT_VERIFIED, VerificationStatusResolver.resolve("https", "a.example.org", snapshot))
+    }
+
+    @Test
     fun `custom scheme returns null`() {
         assertNull(VerificationStatusResolver.resolve("myapp", "example.com", snapshot("example.com" to 2)))
     }

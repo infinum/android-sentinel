@@ -17,9 +17,9 @@ import com.infinum.sentinel.ui.deeplinks.compose.SentinelTheme
 /**
  * Explains a verification status: what it means for Real tap, plus the shared footer.
  *
- * The text scrolls when it doesn't fit, for example in landscape or at a large font scale. A Not verified status
- * also offers Open link settings, which calls [onOpenLinkSettings]. The caller keeps the shown status in saved
- * state and hides the dialog in [onDismiss].
+ * The text scrolls when it doesn't fit, for example in landscape or at a large font scale. A Not verified status and
+ * the two link-handling-off statuses also offer Open link settings, which calls [onOpenLinkSettings]. The caller keeps
+ * the shown status in saved state and hides the dialog in [onDismiss].
  */
 @Composable
 internal fun VerificationStatusDialog(
@@ -32,7 +32,10 @@ internal fun VerificationStatusDialog(
     val closeButton: @Composable () -> Unit = {
         TextButton(onClick = onDismiss) { Text(text = stringResource(R.string.sentinel_deep_links_status_close)) }
     }
-    val isSettingsOffered = status == VerificationStatus.NOT_VERIFIED
+    val isSettingsOffered =
+        status == VerificationStatus.NOT_VERIFIED ||
+            status == VerificationStatus.VERIFIED_HANDLING_OFF ||
+            status == VerificationStatus.ENABLED_HANDLING_OFF
     AlertDialog(
         onDismissRequest = onDismiss,
         confirmButton = if (isSettingsOffered) settingsButton(onOpenLinkSettings) else closeButton,

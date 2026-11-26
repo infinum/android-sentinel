@@ -68,5 +68,6 @@ internal class LinkRowActionTest {
             title = null,
             link = "myapp://home",
             status = null,
+            displayLink = "myapp://home",
         )
 }
