@@ -4,9 +4,8 @@ This is the release-variant replacement for `sentinel`. Apps use `debugImplement
 
 - Depends only on kotlin-stdlib and androidx-startup. Do not add Room, DI, UI or any real behaviour.
 - `Sentinel.kt` and `SentinelInitializer.kt` mirror the core API with empty bodies. `watch` returns `this`, and `name()` defaults return `0`.
-- `ui/tools/` holds stubs for most tool modules: AppGallery, GooglePlay, Chucker, Collar, DbInspector, LeakCanary, Timber and NetworkEmulator, plus `CertificateTool`.
-  - The Showkase stub lives in `tool-showkase-no-op` instead.
-  - Each stub matches its real tool exactly: `data class` when the real one is, the same constructor parameters and defaults, the same `public val` properties, the same supertype (`NetworkEmulatorTool` implements `Sentinel.NetworkTool`) and an `icon()` override returning `null`. Unused `private val` parameters need `@Suppress("UnusedPrivateMember")`.
+- `ui/tools/` holds stubs for most tool modules: AppGallery, GooglePlay, Chucker, Collar, DbInspector, LeakCanary, Timber, NetworkEmulator and NetworkProxy, plus `CertificateTool`.
+  - The Showkase stub lives in `tool-showkase-no-op` instead.  - Each stub matches its real tool exactly: `data class` when the real one is, the same constructor parameters and defaults, the same `public val` properties, the same supertype (`NetworkEmulatorTool` implements `Sentinel.NetworkTool`) and an `icon()` override returning `null`. Unused `private val` parameters need `@Suppress("UnusedPrivateMember")`.
 - Public resources in `res/values/public.xml` mirror the core's (`sentinel_name`, `sentinel_infinum_monitored`), with the strings defined in `res/values/strings.xml`.
 - Every stub class must be kept in `proguard-rules.txt`.
 
