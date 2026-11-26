@@ -70,7 +70,7 @@ internal class VerificationStatusResolverTest {
     }
 
     @Test
-    fun `longest wildcard key wins`() {
+    fun `the best state among matching wildcard keys wins`() {
         assertEquals(
             VerificationStatus.VERIFIED,
             VerificationStatusResolver.resolve(
@@ -78,6 +78,66 @@ internal class VerificationStatusResolverTest {
                 "a.shop.example.com",
                 snapshot("*.example.com" to 0, "*.shop.example.com" to 2),
             ),
+        )
+        assertEquals(
+            VerificationStatus.VERIFIED,
+            VerificationStatusResolver.resolve(
+                "https",
+                "a.shop.example.com",
+                snapshot("*.example.com" to 2, "*.shop.example.com" to 0),
+            ),
+        )
+    }
+
+    @Test
+    fun `a verified wildcard key wins over an unverified exact key`() {
+        assertEquals(
+            VerificationStatus.VERIFIED,
+            VerificationStatusResolver.resolve("https", "shop.example.com", snapshot("shop.example.com" to 0, "*.example.com" to 2)),
+        )
+    }
+
+    @Test
+    fun `a verified wildcard key approves the declared bare domain`() {
+        assertEquals(
+            VerificationStatus.VERIFIED,
+            VerificationStatusResolver.resolve("https", "example.com", snapshot("example.com" to 0, "*.example.com" to 2)),
+        )
+    }
+
+    @Test
+    fun `a selected exact key wins over an unverified wildcard key`() {
+        assertEquals(
+            VerificationStatus.ENABLED_IN_SETTINGS,
+            VerificationStatusResolver.resolve("https", "shop.example.com", snapshot("shop.example.com" to 1, "*.example.com" to 0)),
+        )
+    }
+
+    @Test
+    fun `verified wins over selected whichever key holds it`() {
+        assertEquals(
+            VerificationStatus.VERIFIED,
+            VerificationStatusResolver.resolve("https", "shop.example.com", snapshot("shop.example.com" to 1, "*.example.com" to 2)),
+        )
+        assertEquals(
+            VerificationStatus.VERIFIED,
+            VerificationStatusResolver.resolve("https", "shop.example.com", snapshot("shop.example.com" to 2, "*.example.com" to 1)),
+        )
+    }
+
+    @Test
+    fun `a selected wildcard key wins over an unverified exact key`() {
+        assertEquals(
+            VerificationStatus.ENABLED_IN_SETTINGS,
+            VerificationStatusResolver.resolve("https", "shop.example.com", snapshot("shop.example.com" to 0, "*.example.com" to 1)),
+        )
+    }
+
+    @Test
+    fun `a subdomain only a wildcard key covers is declared`() {
+        assertEquals(
+            VerificationStatus.NOT_VERIFIED,
+            VerificationStatusResolver.resolve("https", "shop.example.com", snapshot("*.example.com" to 0)),
         )
     }
 

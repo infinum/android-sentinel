@@ -53,6 +53,11 @@ internal class DeepLinkUriParserTest {
     }
 
     @Test
+    fun `parse keeps plus in query keys`() {
+        assertEquals(listOf(QueryParam("first+name", "a b")), DeepLinkUriParser.parse("myapp://h?first+name=a+b")?.params)
+    }
+
+    @Test
     fun `parse keeps invalid escape literal`() {
         assertEquals(listOf(QueryParam("q", "%zz")), DeepLinkUriParser.parse("myapp://h?q=%zz")?.params)
     }

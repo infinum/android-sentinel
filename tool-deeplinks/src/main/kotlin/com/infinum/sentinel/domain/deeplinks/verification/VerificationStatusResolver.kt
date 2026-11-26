@@ -16,8 +16,8 @@ internal object VerificationStatusResolver {
 
     /**
      * Returns null when the scheme is not http or https, the host is null or blank, or there is no
-     * snapshot. Otherwise returns the status of the exact host, or of the longest matching
-     * wildcard host, or [VerificationStatus.NOT_REGISTERED] when none is declared.
+     * snapshot. Otherwise returns the best status among the host's own key and the wildcard keys that apply to it,
+     * or [VerificationStatus.NOT_REGISTERED] when none is declared.
      */
     fun resolve(
         scheme: String,
@@ -33,17 +33,40 @@ internal object VerificationStatusResolver {
     private fun isWeb(scheme: String): Boolean =
         scheme.equals("http", ignoreCase = true) || scheme.equals("https", ignoreCase = true)
 
+    /**
+     * A host is declared when it is a key itself or a wildcard key covers it the way intent filters match:
+     * `*.example.com` covers `shop.example.com` but not `example.com`. Its state is the best one among its own key and
+     * the wildcard keys Android applies to it, because Android approves a host through any verified or selected key
+     * (DomainVerificationService.approvalLevelForDomainInternal). That check also lets `*.example.com` cover
+     * `example.com`.
+     */
     private fun findState(
         host: String,
         states: Map<String, Int>,
     ): Int? {
         val lowered = states.mapKeys { it.key.lowercase() }
-        return lowered[host]
-            ?: lowered.keys
-                .filter { it.startsWith(WILDCARD_PREFIX) && host.endsWith(it.drop(1)) }
-                .maxByOrNull { it.length }
-                ?.let { lowered[it] }
+        val wildcards = lowered.keys.filter { it.startsWith(WILDCARD_PREFIX) }
+        val isDeclared = host in lowered || wildcards.any { host.endsWith(filterSuffix(it)) }
+        return if (isDeclared) {
+            val applied = wildcards.filter { host.endsWith(approvalSuffix(it)) }.map { lowered.getValue(it) }
+            (listOfNotNull(lowered[host]) + applied).maxByOrNull(::rankOf)
+        } else {
+            null
+        }
     }
+
+    /** `.example.com` for `*.example.com`: the suffix an intent filter's wildcard host matches. */
+    private fun filterSuffix(wildcard: String): String = wildcard.drop(1)
+
+    /** `example.com` for `*.example.com`: the suffix Android's approval check matches, with no dot boundary. */
+    private fun approvalSuffix(wildcard: String): String = wildcard.drop(WILDCARD_PREFIX.length)
+
+    private fun rankOf(state: Int): Int =
+        when (state) {
+            STATE_VERIFIED -> 2
+            STATE_SELECTED -> 1
+            else -> 0
+        }
 
     private fun statusOf(state: Int?): VerificationStatus =
         when (state) {

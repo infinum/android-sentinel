@@ -14,13 +14,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.infinum.sentinel.ui.deeplinks.compose.SentinelTheme
 
 /**
- * A plain tag such as Web or Template. It is neither clickable nor focusable, so it doesn't read as a button.
+ * A plain tag such as Web or Template. It is neither clickable nor focusable, so it doesn't read as a button. Its text
+ * wraps, so a long warning such as a duplicate declaration stays readable.
  * A warning tag is red, like an expired certificate. The 8dp of vertical padding lines the tag up with the 48dp
  * touch target of the status chip.
  */
@@ -42,9 +42,7 @@ internal fun SentinelTagChip(
         Box(modifier = Modifier.heightIn(min = 32.dp), contentAlignment = Alignment.CenterStart) {
             Text(
                 text = text,
-                modifier = Modifier.padding(horizontal = 16.dp).testTag(tag),
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp).testTag(tag),
                 style = MaterialTheme.typography.labelLarge,
             )
         }

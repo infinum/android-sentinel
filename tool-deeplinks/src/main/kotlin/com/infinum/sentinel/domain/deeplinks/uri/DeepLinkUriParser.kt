@@ -18,7 +18,8 @@ internal object DeepLinkUriParser {
 
     /**
      * Parses [raw] with the RFC 3986 appendix B expression. Returns null when there is no scheme.
-     * Query keys and values are decoded (`+` reads as a space); path, fragment and user info stay raw.
+     * Query keys and values are decoded, and `+` reads as a space only in values, as Android's `Uri` reads them;
+     * path, fragment and user info stay raw.
      */
     internal fun parse(raw: String): DeepLinkUri? {
         val groups = URI_REGEX.matchEntire(raw)?.groups
@@ -55,7 +56,7 @@ internal object DeepLinkUriParser {
             .filter { it.isNotEmpty() }
             .map { segment ->
                 QueryParam(
-                    key = DeepLinkUriEncoder.decodeComponent(segment.substringBefore('='), plusAsSpace = true),
+                    key = DeepLinkUriEncoder.decodeComponent(segment.substringBefore('='), plusAsSpace = false),
                     value = DeepLinkUriEncoder.decodeComponent(segment.substringAfter('=', ""), plusAsSpace = true),
                 )
             }

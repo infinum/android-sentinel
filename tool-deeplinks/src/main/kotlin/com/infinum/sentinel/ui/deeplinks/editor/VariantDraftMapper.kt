@@ -116,14 +116,15 @@ internal object VariantDraftMapper {
 
     /**
      * Builds the link parts from [draft]: host trimmed, keys trimmed, values untouched. The path is the form's
-     * fixed path when it has one, otherwise the draft's path trimmed and encoded. Blank rows are left out.
+     * fixed path when it has one, otherwise the draft's path encoded. An editable path is trimmed first; a read-only
+     * one is the declared literal, and Android matches its spaces too. Blank rows are left out.
      */
     internal fun toUri(
         draft: VariantDraft,
         form: VariantEditorForm,
     ): DeepLinkUri {
         val path =
-            form.fixedPath ?: draft.path.trim().let { typed ->
+            form.fixedPath ?: (if (form.pathMode == FieldMode.READ_ONLY) draft.path else draft.path.trim()).let { typed ->
                 DeepLinkUriEncoder.encodePath(if (form.hasAuthority) LinkSpec.withLeadingSlash(typed) else typed)
             }
         return DeepLinkUri(

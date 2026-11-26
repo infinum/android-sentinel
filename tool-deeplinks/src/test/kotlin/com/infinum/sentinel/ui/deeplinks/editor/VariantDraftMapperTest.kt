@@ -134,6 +134,23 @@ internal class VariantDraftMapperTest {
     }
 
     @Test
+    fun `an editable path is trimmed`() {
+        val form = literalForm("catalog", PathSpec.Prefix("/orders/"))
+
+        assertEquals("myapp://catalog/orders/1", VariantDraftMapper.toLink(draft(host = "catalog", path = " /orders/1 "), form))
+    }
+
+    @Test
+    fun `a declared literal path keeps its spaces`() {
+        val base = declared(LinkSpec("myapp", HostSpec.Literal("shop"), null, PathSpec.Literal("/offer ")))
+        val form = formOf(base)
+
+        val link = VariantDraftMapper.toLink(VariantDraftMapper.newDraft(base, form), form)
+
+        assertEquals("myapp://shop/offer%20", link)
+    }
+
+    @Test
     fun `a path without a leading slash gets one`() {
         val form = literalForm("open", PathSpec.None)
 

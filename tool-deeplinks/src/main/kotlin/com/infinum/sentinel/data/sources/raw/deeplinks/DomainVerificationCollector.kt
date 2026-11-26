@@ -36,5 +36,8 @@ internal class DomainVerificationCollector(
                 }
         } catch (ignored: PackageManager.NameNotFoundException) {
             null
+        } catch (ignored: RuntimeException) {
+            // The system service call failed.
+            null
         }
 }
