@@ -39,8 +39,12 @@ passes every call through and logs a warning.
 Path patterns start with `/`. `*` matches exactly one path segment (`/users/*/posts`). Query string and host
 are ignored. Rules are checked in list order and the first enabled match wins.
 
-## Limits
+## Limitations
 
-- Request modification, header overrides and regex matching are not supported.
-- Bodies over 256 KB or with a non-text content type are recorded without a body.
-- Rules are stored in SharedPreferences on the device and survive app restarts. Recent calls live in memory.
+This is an MVP, so the scope is narrow.
+
+- Only the status code, body and `Content-Type` of a response can be changed. Other headers can't be
+  added, removed or edited.
+- Bodies over 256 KB, with a non-text content type, or streamed (`text/event-stream`, NDJSON) are recorded
+  without a body.
+- Rules are stored in SharedPreferences on the device and survive app restarts.
