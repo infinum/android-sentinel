@@ -267,7 +267,7 @@
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:paddingBottom="8dp"
-            android:text="Network Emulator"
+            android:text="Network Emulator and Proxy"
             android:textAllCaps="true"
             android:textColor="@color/colorAccent" />
 
@@ -278,7 +278,7 @@
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:paddingBottom="8dp"
-            android:text="Test network requests with slow and flaky network conditions. Configure delay, failure rate, and variance in Sentinel Network emulator."
+            android:text="Test network requests with slow and flaky network conditions, or alter the response. Configure delay, failure rate and variance in Network Emulator. Add a rule for GET /get in Network Proxy to change the status code or body."
             android:textColor="?android:attr/textColorSecondary" />
 
         <com.google.android.material.button.MaterialButton

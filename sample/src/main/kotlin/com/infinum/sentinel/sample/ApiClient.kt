@@ -2,16 +2,17 @@ package com.infinum.sentinel.sample
 
 import android.content.Context
 import com.infinum.sentinel.domain.networkemulator.NetworkEmulatorInterceptor
+import com.infinum.sentinel.domain.networkproxy.NetworkProxyInterceptor
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
 /**
- * Simple API client for testing the Network Emulator tool.
- * Demonstrates how to integrate NetworkEmulatorInterceptor with OkHttp.
+ * Simple API client for testing the Network Emulator and Network Proxy tools.
+ * Demonstrates how to integrate NetworkEmulatorInterceptor and NetworkProxyInterceptor with OkHttp.
  *
- * Keep in mind that to exclude NetworkEmulatorInterceptor for release you can either use no-op version or separate source sets
+ * Keep in mind that to exclude both interceptors for release you can either use their no-op versions or separate source sets
  */
 object ApiClient {
     @Suppress("LateinitUsage")
@@ -23,6 +24,7 @@ object ApiClient {
                 .Builder()
                 .callTimeout(timeout = 10L, unit = TimeUnit.SECONDS)
                 .addInterceptor(NetworkEmulatorInterceptor(context))
+                .addInterceptor(NetworkProxyInterceptor(context))
                 .build()
     }
 

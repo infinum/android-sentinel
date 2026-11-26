@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="sentinel_network_proxy_status_success">#2E7D32</color>
+    <color name="sentinel_network_proxy_status_client_error">#EF6C00</color>
+    <color name="sentinel_network_proxy_status_server_error">#C62828</color>
+    <color name="sentinel_network_proxy_status_other">#616161</color>
+    <color name="sentinel_network_proxy_status_text">#FFFFFF</color>
+</resources>
