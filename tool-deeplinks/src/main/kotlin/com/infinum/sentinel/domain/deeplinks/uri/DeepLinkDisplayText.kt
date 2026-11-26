@@ -11,7 +11,7 @@ import java.nio.charset.CodingErrorAction
  * Percent escapes in the path and the query are decoded, except where the decoded character would change how the link
  * reads or would hide in the text:
  * - in the path `/ ? # %`, and in query keys and values `& = # % +` (Android reads a `+` in a value as a space);
- * - a space at the start or end of the path, a key or a value;
+ * - every space in the run at the start or end of the path, a key or a value, whether it was escaped or not;
  * - control, format (bidi and zero-width marks), separator, private-use and unassigned characters, and letters that
  *   render blank, such as the Hangul fillers and the Braille blank;
  * - a run of escapes that isn't valid UTF-8, which stays exactly as it was.
@@ -22,6 +22,7 @@ internal object DeepLinkDisplayText {
     private const val PATH_KEPT = "/?#%"
     private const val QUERY_KEPT = "&=#%+"
     private const val SPACE = ' '.code
+    private const val ENCODED_SPACE = "%20"
     private const val ESCAPE_LENGTH = 3
     private const val HEX_RADIX = 16
 
@@ -89,20 +90,22 @@ internal object DeepLinkDisplayText {
         kept: String,
     ): String =
         buildString {
+            val leading = tokens.takeWhile(::isSpace).size
+            val trailingStart = tokens.size - tokens.takeLastWhile(::isSpace).size
             tokens.forEachIndexed { index, token ->
-                when (token) {
-                    is Token.Raw -> append(token.text)
-                    is Token.Decoded -> {
-                        val isEdge = index == 0 || index == tokens.lastIndex
-                        if (isKept(token.codePoint, kept) || (isEdge && token.codePoint == SPACE)) {
-                            append(DeepLinkUriEncoder.encodeQueryComponent(String(Character.toChars(token.codePoint))))
-                        } else {
-                            appendCodePoint(token.codePoint)
-                        }
-                    }
+                when {
+                    index < leading || index >= trailingStart -> append(ENCODED_SPACE)
+                    token is Token.Raw -> append(token.text)
+                    token is Token.Decoded && isKept(token.codePoint, kept) ->
+                        append(DeepLinkUriEncoder.encodeQueryComponent(String(Character.toChars(token.codePoint))))
+                    token is Token.Decoded -> appendCodePoint(token.codePoint)
                 }
             }
         }
+
+    /** A space, escaped or not. */
+    private fun isSpace(token: Token): Boolean =
+        (token is Token.Decoded && token.codePoint == SPACE) || (token is Token.Raw && token.text == " ")
 
     private fun isKept(
         codePoint: Int,

@@ -142,18 +142,26 @@ internal class VerificationStatusResolverTest {
     }
 
     @Test
-    fun `host is matched case-insensitively`() {
+    fun `a host in another case is declared but not approved`() {
         assertEquals(
-            VerificationStatus.VERIFIED,
+            VerificationStatus.NOT_VERIFIED,
             VerificationStatusResolver.resolve("https", "EXAMPLE.com", snapshot("example.com" to 2)),
+        )
+        assertEquals(
+            VerificationStatus.NOT_VERIFIED,
+            VerificationStatusResolver.resolve("https", "example.com", snapshot("Example.COM" to 1)),
         )
     }
 
     @Test
-    fun `snapshot keys are matched case-insensitively`() {
+    fun `a wildcard key approves only a host whose suffix has the same case`() {
         assertEquals(
-            VerificationStatus.ENABLED_IN_SETTINGS,
-            VerificationStatusResolver.resolve("https", "example.com", snapshot("Example.COM" to 1)),
+            VerificationStatus.NOT_VERIFIED,
+            VerificationStatusResolver.resolve("https", "shop.EXAMPLE.com", snapshot("*.example.com" to 2)),
+        )
+        assertEquals(
+            VerificationStatus.VERIFIED,
+            VerificationStatusResolver.resolve("https", "SHOP.example.com", snapshot("*.example.com" to 2)),
         )
     }
 

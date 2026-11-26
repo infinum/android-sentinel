@@ -28,7 +28,7 @@ internal object VerificationStatusResolver {
         if (!isWeb(scheme) || host.isNullOrBlank() || snapshot == null) {
             null
         } else {
-            statusOf(findState(host.lowercase(), snapshot.hostStates)).let { status ->
+            statusOf(findState(host, snapshot.hostStates)).let { status ->
                 if (snapshot.isLinkHandlingAllowed) status else whenHandlingOff(status)
             }
         }
@@ -37,22 +37,24 @@ internal object VerificationStatusResolver {
         scheme.equals("http", ignoreCase = true) || scheme.equals("https", ignoreCase = true)
 
     /**
-     * A host is declared when it is a key itself or a wildcard key covers it the way intent filters match:
+     * A host is declared when a key or a wildcard key covers it the way intent filters match: ignoring case, and
      * `*.example.com` covers `shop.example.com` but not `example.com`. Its state is the best one among its own key and
      * the wildcard keys Android applies to it, because Android approves a host through any verified or selected key
-     * (DomainVerificationService.approvalLevelForDomainInternal). That check also lets `*.example.com` cover
-     * `example.com`.
+     * (DomainVerificationService.approvalLevelForDomainInternal). That check compares the host as written, so it is
+     * case-sensitive, and it also lets `*.example.com` cover `example.com`. A declared host that no key approves, such
+     * as `EXAMPLE.com` for the key `example.com`, has no approval.
      */
     private fun findState(
         host: String,
         states: Map<String, Int>,
     ): Int? {
-        val lowered = states.mapKeys { it.key.lowercase() }
-        val wildcards = lowered.keys.filter { it.startsWith(WILDCARD_PREFIX) }
-        val isDeclared = host in lowered || wildcards.any { host.endsWith(filterSuffix(it)) }
+        val wildcards = states.keys.filter { it.startsWith(WILDCARD_PREFIX) }
+        val isDeclared =
+            states.keys.any { it.equals(host, ignoreCase = true) } ||
+                wildcards.any { host.endsWith(filterSuffix(it), ignoreCase = true) }
         return if (isDeclared) {
-            val applied = wildcards.filter { host.endsWith(approvalSuffix(it)) }.map { lowered.getValue(it) }
-            (listOfNotNull(lowered[host]) + applied).maxByOrNull(::rankOf)
+            val applied = wildcards.filter { host.endsWith(approvalSuffix(it)) }.map { states.getValue(it) }
+            (listOfNotNull(states[host]) + applied).maxByOrNull(::rankOf) ?: STATE_NONE
         } else {
             null
         }

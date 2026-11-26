@@ -3,10 +3,12 @@ package com.infinum.sentinel.domain.deeplinks.overview
 import com.infinum.sentinel.data.models.raw.deeplinks.DomainVerificationData
 import com.infinum.sentinel.domain.deeplinks.discovery.BaseLinkKeys
 import com.infinum.sentinel.domain.deeplinks.models.BaseLink
+import com.infinum.sentinel.domain.deeplinks.models.BaseLinkOrigin
 import com.infinum.sentinel.domain.deeplinks.models.DeepLinksDiscovery
 import com.infinum.sentinel.domain.deeplinks.models.HostSpec
 import com.infinum.sentinel.domain.deeplinks.models.Variant
 import com.infinum.sentinel.domain.deeplinks.models.VerificationStatus
+import com.infinum.sentinel.domain.deeplinks.uri.DeepLinkUriEncoder
 import com.infinum.sentinel.domain.deeplinks.verification.VerificationStatusResolver
 
 /**
@@ -101,11 +103,18 @@ internal object DeepLinksOverviewAssembler {
         verification: DomainVerificationData?,
     ): List<VariantEntry> =
         variants.map {
-            VariantEntry(it, VerificationStatusResolver.resolve(it.uri.scheme, it.uri.host, verification))
+            VariantEntry(it, VerificationStatusResolver.resolve(it.uri.scheme, it.uri.host?.let(::linkHost), verification))
         }
 
     /**
+     * The host of a link as Android's `Uri.getHost()` returns it, with percent escapes decoded. Declared hosts come from
+     * the manifest, where Android doesn't decode them.
+     */
+    private fun linkHost(host: String): String = DeepLinkUriEncoder.decodeComponent(host, plusAsSpace = false)
+
+    /**
      * A wildcard host looks up its own declared host, `*` and the suffix. Any host and no host have no status to look up.
+     * An example's host is written in a link, so it is decoded first.
      */
     private fun linkStatus(
         link: BaseLink,
@@ -114,7 +123,7 @@ internal object DeepLinksOverviewAssembler {
         link.spec?.let { spec ->
             val host =
                 when (val hostSpec = spec.host) {
-                    is HostSpec.Literal -> hostSpec.host
+                    is HostSpec.Literal -> if (link.origin is BaseLinkOrigin.Example) linkHost(hostSpec.host) else hostSpec.host
                     is HostSpec.Wildcard -> "*${hostSpec.suffix}"
                     HostSpec.AnyHost, HostSpec.None -> null
                 }

@@ -83,6 +83,13 @@ internal class DeepLinkDisplayTextTest {
     }
 
     @Test
+    fun `every space at either end stays encoded and inner spaces read as spaces`() {
+        assertEquals("myapp://search/offers%20%20", DeepLinkDisplayText.format(link("/offers%20%20")))
+        assertEquals("myapp://search/offer%20%20", DeepLinkDisplayText.format(link("/offer%20 ")))
+        assertEquals("myapp://search?q=%20%20a  b%20%20", DeepLinkDisplayText.format(link("", "q" to "  a  b  ")))
+    }
+
+    @Test
     fun `a value that is a single space stays encoded`() {
         assertEquals("myapp://search?q=%20", DeepLinkDisplayText.format(link("", "q" to " ")))
     }

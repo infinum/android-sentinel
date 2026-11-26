@@ -474,6 +474,54 @@ internal class DeepLinksOverviewAssemblerTest {
     }
 
     @Test
+    fun `an escaped host in an example or a variant is decoded before its status is looked up`() {
+        val link =
+            BaseLink(
+                "example|https://%65xample.com/offers",
+                BaseLinkOrigin.Example(null, "https://%65xample.com/offers"),
+                LinkSpec("https", HostSpec.Literal("%65xample.com"), null, PathSpec.Literal("/offers")),
+                null,
+            )
+        val v1 = webVariant("v1", link.key, null, "%65xample.com")
+
+        val overview =
+            DeepLinksOverviewAssembler.assemble(discovery(examples = listOf(link)), listOf(v1), verification(true, "example.com" to 2))
+
+        assertEquals(
+            listOf(
+                DeepLinksSection.Examples(
+                    listOf(BaseLinkEntry(link, listOf(VariantEntry(v1, VerificationStatus.VERIFIED)), VerificationStatus.VERIFIED)),
+                ),
+            ),
+            overview.sections,
+        )
+    }
+
+    @Test
+    fun `a declared host is looked up as written while a variant host is decoded`() {
+        val key = "declared|https|lit:%65xample.com||lit:/offers"
+        val link =
+            BaseLink(
+                key,
+                BaseLinkOrigin.Declared(mainScreen),
+                LinkSpec("https", HostSpec.Literal("%65xample.com"), null, PathSpec.Literal("/offers")),
+                null,
+            )
+        val v1 = webVariant("v1", key, mainScreen, "%65xample.com")
+
+        val overview =
+            DeepLinksOverviewAssembler.assemble(
+                discovery(screens = listOf(screen(mainScreen, "Main", link))),
+                listOf(v1),
+                verification(true, "example.com" to 2),
+            )
+
+        val entry = (overview.sections.single() as DeepLinksSection.Screen).entries.single()
+        assertEquals(VerificationStatus.NOT_REGISTERED, entry.status)
+        assertEquals(VerificationStatus.VERIFIED, entry.variants.single().status)
+    }
+
+    @Test
     fun `a custom scheme link and its variant have no status`() {
         val key = "declared|myapp|lit:home||none"
         val link =
