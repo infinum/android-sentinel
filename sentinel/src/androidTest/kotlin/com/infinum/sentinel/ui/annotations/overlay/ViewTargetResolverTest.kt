@@ -1,6 +1,7 @@
 package com.infinum.sentinel.ui.annotations.overlay
 
 import android.text.InputType
+import android.text.method.PasswordTransformationMethod
 import android.widget.Button
 import android.widget.EditText
 import android.widget.FrameLayout
@@ -78,7 +79,7 @@ internal class ViewTargetResolverTest {
         val child = node.children.first()
 
         assertEquals("LinearLayout", child.type)
-        // Not worth picking outright — an id-bearing ancestor or a Compose host outranks it...
+        // Not worth picking outright: an id-bearing ancestor or a Compose host outranks it...
         assertTrue(!child.annotatable)
         // ...but broadening must be able to stop here, or a leaf under id-less wrappers has
         // nowhere to broaden to and tapping it again does nothing.
@@ -211,10 +212,8 @@ internal class ViewTargetResolverTest {
     @Test
     @JvmName("rebindReturnsNullOnATextMismatchWhenTheTargetHasNoViewId")
     fun `rebind returns null on a text mismatch when the target has no viewId`() {
-        // No viewId is set on this view, so rebind must fall back to matching by text. A
-        // positive-only test here couldn't tell a real fallback from an implementation that
-        // just accepts any candidate once viewId is null, so this asserts the rejection side:
-        // a differing text must still fail the match.
+        // No viewId is set on this view, so rebind falls back to matching by text, and a
+        // differing text must fail the match.
         val text = TextView(context).apply { setText("Submit") }
         val root = laidOut(FrameLayout(context).apply { addView(text) })
         val captured = ViewTargetResolver().resolve(root, 5, 5)!!
@@ -226,10 +225,9 @@ internal class ViewTargetResolverTest {
     }
 
     /**
-     * `EditText` extends `TextView`, so the plain "is it a TextView" capture used to lift a
-     * password field's live contents into the export payload — which `ClaudeRoutineExporter`
-     * POSTs to an external endpoint. Every password variation the platform defines is covered,
-     * including the number one, whose bit value collides with `TYPE_TEXT_VARIATION_URI`.
+     * A password field's live contents never reach the export payload. Every password variation
+     * the platform defines is covered, including the number one, whose bit value collides with
+     * `TYPE_TEXT_VARIATION_URI`.
      */
     @Test
     @JvmName("aPasswordFieldsLiveTextIsNeverCaptured")
@@ -291,5 +289,63 @@ internal class ViewTargetResolverTest {
         val leaf = TargetSelection.deepestAt(root.toTargetNode(parent = null), 10, 10)!!
 
         assertEquals("Password", leaf.text)
+    }
+
+    /** Masking with a transformation method alone, without a password input type, also hides the text. */
+    @Test
+    @JvmName("aTextMaskedByAPasswordTransformationIsNeverCaptured")
+    fun `a text masked by a password transformation is never captured`() {
+        val masked =
+            TextView(context).apply {
+                setText("hunter2")
+                transformationMethod = PasswordTransformationMethod.getInstance()
+            }
+        val root = laidOut(FrameLayout(context).apply { addView(masked) })
+
+        val leaf = TargetSelection.deepestAt(root.toTargetNode(parent = null), 10, 10)!!
+
+        assertNull(leaf.text)
+    }
+
+    /** An elevated child draws above later siblings, so a tap on the overlap resolves to it. */
+    @Test
+    @JvmName("anElevatedEarlierSiblingWinsTheTapOverALaterOne")
+    fun `an elevated earlier sibling wins the tap over a later one`() {
+        val elevated = Button(context).apply { text = "Top"; elevation = 10f }
+        val below = Button(context).apply { text = "Bottom" }
+        val root = laidOut(FrameLayout(context).apply {
+            addView(elevated, FrameLayout.LayoutParams(100, 100))
+            addView(below, FrameLayout.LayoutParams(100, 100))
+        })
+
+        val resolved = ViewTargetResolver().resolve(root, 50, 50)!!
+
+        assertEquals("Top", resolved.node.text)
+    }
+
+    /** A broadened note captured its container's centre, which a child now covers. */
+    @Test
+    @JvmName("rebindFindsABroadenedContainerWhoseCentreAChildCovers")
+    fun `rebind finds a broadened container whose centre a child covers`() {
+        val button = Button(context).apply { text = "Inner" }
+        val card = FrameLayout(context).apply {
+            addView(button, FrameLayout.LayoutParams(60, 60, android.view.Gravity.CENTER))
+        }
+        val root = laidOut(FrameLayout(context).apply { addView(card, FrameLayout.LayoutParams(150, 150)) })
+        val annotation =
+            SentinelAnnotation(
+                id = "card",
+                note = "note",
+                toolkit = AnnotationToolkit.VIEW,
+                targetType = "FrameLayout",
+                targetPath = "FrameLayout",
+                text = null,
+                rebindX = 75,
+                rebindY = 75,
+            )
+
+        val rebound = ViewTargetResolver().rebind(annotation, root)
+
+        assertTrue(rebound?.handle === card)
     }
 }

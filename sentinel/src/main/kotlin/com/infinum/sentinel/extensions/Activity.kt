@@ -41,11 +41,9 @@ internal val Activity.isMonitoredScreen: Boolean
 /**
  * Whether this is one of Sentinel's own screens rather than a screen of the app being debugged.
  *
- * [isMonitoredScreen] cannot answer this: it short-circuits to `true` whenever the library
- * itself was built as debug, which is exactly how Sentinel is consumed, so the
- * `sentinel_infinum_monitored=false` metadata on Sentinel's own activities never gets read.
- * Every Sentinel screen extends [BaseActivity], and it is `internal`, so no host app can, which
- * makes this both complete and impossible to get wrong by renaming a package.
+ * [isMonitoredScreen] cannot answer this: it returns `true` whenever the library is a debug build,
+ * so it never reads the `sentinel_infinum_monitored=false` metadata on Sentinel's own activities.
+ * Every Sentinel screen extends the `internal` [BaseActivity], and no host app screen can.
  */
 internal val Activity.isSentinelOwnScreen: Boolean
     get() = this is BaseActivity<*, *>

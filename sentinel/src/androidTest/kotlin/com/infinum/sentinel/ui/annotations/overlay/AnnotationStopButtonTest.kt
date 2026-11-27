@@ -14,13 +14,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 /**
- * Regression coverage for a bug the plan's Step 5 snippet carried verbatim: `View`'s own
- * `CheckForLongPress` runnable is scheduled on `ACTION_DOWN` and normally cancelled by `View`'s
- * own `ACTION_MOVE`/`ACTION_UP` handling once movement crosses touch slop. `AnnotationStopButton`
- * stops delegating to `super.onTouchEvent` the moment a drag starts (it returns `true` itself
- * instead), so that cancellation never ran — the pending long-press fired anyway, roughly 500ms
- * after the original `ACTION_DOWN`, regardless of the drag in progress. A slow, deliberate drag
- * to reposition the button — a completely ordinary action — reopened the Sentinel panel mid-drag.
+ * A drag held past the long-press timeout must not reopen the panel. `AnnotationStopButton` stops
+ * calling `super.onTouchEvent` once a drag starts, so it cancels `View`'s pending long-press check
+ * itself.
  */
 @RunWith(AndroidJUnit4::class)
 internal class AnnotationStopButtonTest {
@@ -56,8 +52,7 @@ internal class AnnotationStopButtonTest {
                 button.dispatchTouchEvent(motionEvent(MotionEvent.ACTION_MOVE, (slop + 20).toFloat(), 0f, downTime))
             }
 
-            // Hold the drag well past the long-press timeout before releasing — this is where the
-            // stray CheckForLongPress used to fire.
+            // Hold the drag well past the long-press timeout before releasing.
             Thread.sleep(ViewConfiguration.getLongPressTimeout() * 2L)
 
             instrumentation.runOnMainSync {
@@ -70,8 +65,7 @@ internal class AnnotationStopButtonTest {
     }
 
     /**
-     * Guards against a fix that over-corrects by disabling long-press reopening outright: a real
-     * press-and-hold with no movement must still invoke [AnnotationStopButton.onReopen].
+     * A press-and-hold with no movement still invokes [AnnotationStopButton.onReopen].
      */
     @Test
     @JvmName("aGenuineLongPressWithoutMovementReopensTheSentinelPanel")

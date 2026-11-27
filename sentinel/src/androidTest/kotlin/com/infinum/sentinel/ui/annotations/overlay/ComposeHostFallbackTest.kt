@@ -12,24 +12,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 /**
- * Covers the fallback that fires when Compose's own resolver returns nothing — an unreadable
- * composition, such as on Compose 1.11.4 where the tooling `Group` tree comes back with every
- * `name`/`location` null (see the C5 report). [ViewTargetResolver] then walks the plain
- * `View` hierarchy instead, and it used to walk straight into Compose's own interop internals
- * (`AndroidViewsHandler` and friends), reporting one of those as the annotated target. A note
- * naming `AndroidViewsHandler` sends a coding agent looking for a class that exists nowhere in
- * the app's source, so [ViewTargetNode.children] now stops descending once it reaches the
- * Compose host, per [ComposeSupport.isComposeHost].
+ * Covers the fallback used when Compose's own resolver cannot read the composition:
+ * [ViewTargetResolver] walks the `View` hierarchy and stops at the Compose host, so Compose's
+ * interop internals such as `AndroidViewsHandler` are never reported as the target.
  *
- * Compose is `compileOnly` for this module (see `sentinel/build.gradle.kts`) and is not on the
- * `androidTest` classpath at all, so [ComposeSupport.isComposeHost] can never see a real
- * `AndroidComposeView` here — [ComposeSupport.isAvailable] is permanently `false` in this
- * process because `Class.forName` can't find it. These tests stand in a plain `ViewGroup` for the
- * Compose host, substituted through the `isOpaqueHost` seam both [ViewTargetNode] and
- * [ViewTargetResolver] default to [ComposeSupport.isComposeHost] for, to exercise the exact same
- * traversal-stops-here rule the production code runs. The real `AndroidComposeView` case was
- * verified by hand on a device, tapping into `ComposeSampleActivity` in the `sample` app with
- * capture armed — see the C5 fallback-fix report for the exact type string observed there.
+ * Compose is not on the `androidTest` classpath, so these tests stand in a plain `ViewGroup` for
+ * the Compose host through the `isOpaqueHost` parameter of [ViewTargetNode] and [ViewTargetResolver].
  */
 @RunWith(AndroidJUnit4::class)
 internal class ComposeHostFallbackTest {
@@ -85,15 +73,9 @@ internal class ComposeHostFallbackTest {
     }
 
     /**
-     * Mirrors the real shape found on device: the app-visible `ComposeView` (here, a plain
-     * `FrameLayout` standing in for it) carries the id the app declared in XML, while the
-     * Compose host nested inside it — internally, `AndroidComposeView` — never carries an id of
-     * its own (confirmed by inspecting the Compose 1.11.4 `Wrapper_androidKt.setContent`
-     * bytecode: it constructs `AndroidComposeView` and adds it via `addView`, with no `setId`
-     * call anywhere). Since the host itself is not annotatable, [TargetSelection.nearestAnnotatable]
-     * climbs to its parent and picks up that id — the same mechanism [ViewTargetResolver] already
-     * used for any other id-less leaf under an id-bearing ancestor. No special-casing was added
-     * for Compose to make this work.
+     * The app-visible `ComposeView` (here a `FrameLayout`) carries the id declared in XML, while
+     * the Compose host inside it has no id. The host is not annotatable, so
+     * [TargetSelection.nearestAnnotatable] climbs to its parent and picks up that id.
      */
     @Test
     @JvmName("resolveReportsTheWrappingViewsIdWhenTheHostItselfHasNone")

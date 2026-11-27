@@ -18,9 +18,8 @@ import com.infinum.sentinel.databinding.SentinelViewAnnotationInspectBinding
  * the viewport so it is never partly off screen. Built against Sentinel's own theme because the
  * host Activity's theme is arbitrary.
  *
- * Implements [SentinelOverlayView] so target resolution's tree walk skips it, the same as
- * [AnnotationOverlayView] — without that, this card would be added as a `decorView` child and
- * would itself be returned as the resolved tap target instead of the app underneath it.
+ * Implements [SentinelOverlayView] so target resolution skips it and taps resolve to the app
+ * underneath.
  */
 @SuppressLint("ViewConstructor")
 internal class AnnotationInspectCard(
@@ -74,9 +73,7 @@ internal class AnnotationInspectCard(
         val maxLeft = (viewport.right - measuredWidth - MARGIN).coerceAtLeast(MARGIN)
         val left = node.bounds.left.coerceIn(viewport.left + MARGIN, maxLeft)
 
-        // updateLayoutParams from core-ktx would crash here when the card has never been
-        // attached to a parent yet (its layoutParams is still null) — build fresh params in
-        // that case instead of assuming attach() already gave it FrameLayout.LayoutParams.
+        // layoutParams is null until the card is first attached, so fresh params are built then.
         val params = (layoutParams as? FrameLayout.LayoutParams) ?: FrameLayout.LayoutParams(0, 0)
         params.width = measuredWidth
         params.height = measuredHeight

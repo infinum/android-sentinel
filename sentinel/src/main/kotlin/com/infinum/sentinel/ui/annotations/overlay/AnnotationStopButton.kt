@@ -11,13 +11,10 @@ import com.infinum.sentinel.R
 /**
  * The draggable control that ends capture.
  *
- * Borealis turns its floating debug button into a close button while capture runs; Sentinel has
- * no floating button, so capture brings its own. A long press reopens the Sentinel panel with
- * capture still armed, matching that behaviour.
+ * A tap ends capture. A long press reopens the Sentinel panel with capture still armed.
  *
- * Implements [SentinelOverlayView] so target resolution's tree walk skips it, the same as
- * [AnnotationOverlayView] — without that, this button would be added as a `decorView` child and
- * would itself be returned as the resolved tap target instead of the app underneath it.
+ * Implements [SentinelOverlayView] so target resolution skips it and taps resolve to the app
+ * underneath.
  */
 @SuppressLint("ViewConstructor")
 internal class AnnotationStopButton(
@@ -59,11 +56,8 @@ internal class AnnotationStopButton(
                     (kotlin.math.abs(dx - translationX) > touchSlop || kotlin.math.abs(dy - translationY) > touchSlop)
                 ) {
                     dragging = true
-                    // super.onTouchEvent is never reached once dragging starts (see below), so
-                    // its own ACTION_MOVE handling never gets the chance to cancel the
-                    // long-press check View scheduled on ACTION_DOWN. Without this, a slow drag
-                    // held past the long-press timeout fired it anyway and reopened the panel
-                    // mid-drag.
+                    // super.onTouchEvent is not called while dragging (see below), so the
+                    // long-press check View scheduled on ACTION_DOWN is cancelled here.
                     cancelLongPress()
                 }
                 if (dragging) {

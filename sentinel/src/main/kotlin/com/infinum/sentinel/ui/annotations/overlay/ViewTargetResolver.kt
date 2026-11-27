@@ -5,8 +5,8 @@ import com.infinum.sentinel.annotations.AnnotationToolkit
 import com.infinum.sentinel.annotations.SentinelAnnotation
 
 /**
- * [isOpaqueHost] defaults to [ComposeSupport.isComposeHost] — see [ViewTargetNode] for why it is
- * threaded through as a parameter instead of called directly.
+ * [isOpaqueHost] defaults to [ComposeSupport.isComposeHost]. See [ViewTargetNode] for why it is a
+ * parameter.
  */
 internal class ViewTargetResolver(
     private val isOpaqueHost: (View) -> Boolean = ComposeSupport::isComposeHost,
@@ -19,18 +19,19 @@ internal class ViewTargetResolver(
     }
 
     /**
-     * Re-points [annotation] at the element now painted where it was captured. Accepts only a
-     * same-type match that also matches the captured id, or — when the element has no id — the
-     * captured text. Fields that did not resolve on either side stay permissive, so a missing
-     * value never orphans a note.
+     * Re-points [annotation] at the element now painted where it was captured, searching from the
+     * deepest hit up through its ancestors. Accepts only a same-type element that also matches the
+     * captured id, or, when the element has no id, the captured text. A field that was not captured
+     * does not constrain the match, so a missing value never orphans a note.
      */
-    @Suppress("ReturnCount")
     override fun rebind(annotation: SentinelAnnotation, root: View): ResolvedTarget? {
-        val candidate = resolve(root, annotation.rebindX, annotation.rebindY) ?: return null
-        val node = candidate.node
-        if (node.type != annotation.targetType) return null
-        if (annotation.viewId != null && node.viewId != annotation.viewId) return null
-        if (annotation.viewId == null && annotation.text != null && node.text != annotation.text) return null
-        return candidate
+        val tree = root.toTargetNode(parent = null, isOpaqueHost = isOpaqueHost)
+        val node = TargetSelection.ancestorAt(tree, annotation.rebindX, annotation.rebindY) { it.matches(annotation) }
+        return node?.let { ResolvedTarget(it, (it as ViewTargetNode).view, AnnotationToolkit.VIEW) }
     }
+
+    private fun TargetNode.matches(annotation: SentinelAnnotation): Boolean =
+        type == annotation.targetType &&
+            (annotation.viewId == null || viewId == annotation.viewId) &&
+            (annotation.viewId != null || annotation.text == null || text == annotation.text)
 }

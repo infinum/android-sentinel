@@ -1,7 +1,9 @@
 package com.infinum.sentinel.ui.annotations.overlay
 
 import android.content.res.Resources
+import android.os.Build
 import android.text.InputType
+import android.text.method.PasswordTransformationMethod
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Checkable
@@ -13,13 +15,11 @@ import android.widget.TextView
  * Adapts an Android [View] subtree to [TargetNode].
  *
  * Built eagerly on tap. Invisible and zero-size views are dropped, so what the tree contains
- * is what the user can actually see. A Compose host is walked as a leaf — see [children] — so
+ * is what the user can actually see. A Compose host is walked as a leaf (see [children]), so
  * this doubles as the fallback used when Compose's own resolver cannot read the composition.
  *
- * [isOpaqueHost] defaults to [ComposeSupport.isComposeHost] and exists as a constructor
- * parameter, rather than a direct call, purely so tests can stand in a plain `ViewGroup` for a
- * Compose host: Compose is `compileOnly` for this module, so the real detection can never fire
- * where there is no real `AndroidComposeView` on the classpath to find.
+ * [isOpaqueHost] defaults to [ComposeSupport.isComposeHost]. It is a parameter so tests, which
+ * have no real `AndroidComposeView` on the classpath, can stand in a plain `ViewGroup` for it.
  */
 internal class ViewTargetNode(
     val view: View,
@@ -35,9 +35,9 @@ internal class ViewTargetNode(
     override val sourceLocation: String? = null
 
     /**
-     * The element's live visible text — what the user is looking at right now, not a static
-     * label from the layout. A password field is the one exception: [isPasswordInput]. Its
-     * `contentDescription`, being developer-authored, is still safe to fall through to.
+     * The element's live visible text, not a static label from the layout. A password field's
+     * text is withheld (see [isPasswordInput]), but its developer-authored `contentDescription`
+     * is still used.
      */
     override val text: String? =
         when {
@@ -52,9 +52,8 @@ internal class ViewTargetNode(
      * A view is worth selecting when the app declared its id, when it draws content, or when
      * it is interactive. Framework scaffolding is excluded outright.
      *
-     * Containers are deliberately NOT included here. This predicate decides the *initial* pick,
-     * and admitting anonymous wrappers would let one outrank the two targets that actually carry
-     * information: an id-bearing ancestor, and a Compose host. Broadening the selection uses
+     * Containers are not included. This predicate decides the initial pick, and an anonymous
+     * wrapper must not outrank an id-bearing ancestor or a Compose host. Broadening uses
      * [broadenable] instead.
      */
     override val annotatable: Boolean =
@@ -63,11 +62,8 @@ internal class ViewTargetNode(
     /**
      * Whether broadening the selection may stop here.
      *
-     * Wider than [annotatable]: a layout container counts as a whole section, which is what makes
-     * repeated taps walk up the tree. Real layouts nest content in anonymous `LinearLayout` /
-     * `FrameLayout` wrappers carrying no id, so without this a leaf has no ancestor to broaden to
-     * and tapping it again does nothing at all. The source library admits `Flex`, `Wrap`, `Stack`,
-     * `Container` and `Padding` to its own whitelist for the same reason.
+     * Wider than [annotatable]: a layout container counts as a whole section, so repeated taps
+     * can walk up through anonymous `LinearLayout` / `FrameLayout` wrappers that carry no id.
      *
      * A Compose host is excluded: it is walked as a leaf, so it is never an intermediate step.
      */
@@ -75,23 +71,18 @@ internal class ViewTargetNode(
         annotatable || (view is ViewGroup && !isOpaqueHost(view) && !isFrameworkChrome(view))
 
     /**
-     * Children that are Sentinel's own overlays (see [SentinelOverlayView]) are dropped before a
-     * node is ever built for them, not merely marked non-annotatable: an overlay such as
-     * `AnnotationOverlayView` is the last `decorView` child and covers the whole screen, so
-     * leaving it in the tree would make it the deepest hit for every tap — it has no children of
-     * its own — before the real content underneath it is ever considered.
+     * Sentinel's own overlays (see [SentinelOverlayView]) are left out of the tree, so a
+     * full-screen overlay never becomes the deepest hit for a tap.
      *
-     * A Compose host (see [ComposeSupport.isComposeHost], reached here through [isOpaqueHost]) is
-     * a different case: its own node stays in the tree so it can be selected, but this walk does
-     * not descend into it. Compose's internal interop views — `AndroidViewsHandler` and whatever
-     * else lives under an `AndroidComposeView` — are meaningless to a coding agent, so treating
-     * the host as a leaf keeps them out of the tree entirely rather than letting one of them win
-     * as the "deepest" hit when Compose's own resolver cannot read the composition.
+     * A Compose host (detected through [isOpaqueHost]) stays in the tree so it can be selected,
+     * but the walk does not descend into it. Compose's internal interop views, such as
+     * `AndroidViewsHandler`, mean nothing in the app's source.
+     *
+     * Children are listed in drawing order, as [TargetNode.children] requires: see [drawingOrder].
      */
     override val children: List<TargetNode> =
         if (view is ViewGroup && !isOpaqueHost(view)) {
-            (0 until view.childCount)
-                .map { view.getChildAt(it) }
+            drawingOrder(view)
                 .filter { it.visibility == View.VISIBLE && it.width > 0 && it.height > 0 && it !is SentinelOverlayView }
                 .map { ViewTargetNode(it, this, isOpaqueHost) }
         } else {
@@ -99,12 +90,7 @@ internal class ViewTargetNode(
         }
 
     private companion object {
-        /**
-         * `AnnotationOverlayView` (and any other [SentinelOverlayView]) is deliberately absent
-         * here: [children] drops those before a node is ever built for one, which makes this
-         * list redundant for them — nothing in this codebase ever builds a [ViewTargetNode] for
-         * a Sentinel overlay by any other path, so there is no node left for this to catch.
-         */
+        /** [SentinelOverlayView]s are not listed here because [children] already drops them. */
         private val CHROME_TYPES =
             setOf(
                 "DecorView",
@@ -116,17 +102,35 @@ internal class ViewTargetNode(
             )
 
         /**
-         * Whether [view] is a password entry field, whose live contents must never be captured.
-         *
-         * `EditText` extends `TextView`, so without this the export payload would carry whatever
-         * the user has typed into the host app's form — and [com.infinum.sentinel.annotations
-         * .ClaudeRoutineExporter] POSTs that payload to an external endpoint.
+         * [group]'s children back to front, the way the framework draws them: in custom drawing
+         * order where the group defines one (readable from API 29), then by Z, so an elevated
+         * child sorts after the siblings it covers. The Z sort is stable, like the framework's.
+         */
+        private fun drawingOrder(group: ViewGroup): List<View> {
+            val count = group.childCount
+            val ordered =
+                (0 until count).map { position ->
+                    val index =
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            group.getChildDrawingOrder(position).takeIf { it in 0 until count } ?: position
+                        } else {
+                            position
+                        }
+                    group.getChildAt(index)
+                }
+            return ordered.sortedBy { it.z }
+        }
+
+        /**
+         * Whether [view] shows a password, whose live contents must never be captured: masked
+         * with a [PasswordTransformationMethod], or an `EditText` with a password input type.
          *
          * The class bits have to be checked alongside the variation bits: `TYPE_NUMBER_VARIATION_
          * PASSWORD` and `TYPE_TEXT_VARIATION_URI` are the same value, and only the class tells
          * them apart.
          */
-        private fun isPasswordInput(view: View): Boolean {
+        private fun isPasswordInput(view: TextView): Boolean {
+            if (view.transformationMethod is PasswordTransformationMethod) return true
             if (view !is EditText) return false
             val inputClass = view.inputType and InputType.TYPE_MASK_CLASS
             val variation = view.inputType and InputType.TYPE_MASK_VARIATION

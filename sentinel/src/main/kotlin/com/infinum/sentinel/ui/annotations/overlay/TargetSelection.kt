@@ -29,7 +29,7 @@ internal object TargetSelection {
 
     /**
      * The selection broadened one annotatable node toward the root, or `null` when [node] is
-     * already the outermost one — the caller then wraps back to the deepest target.
+     * already the outermost one. The caller then wraps back to the deepest target.
      */
     fun stepUp(node: TargetNode): TargetNode? {
         var current = node.parent
@@ -40,27 +40,40 @@ internal object TargetSelection {
         return null
     }
 
-    /** The chain of annotatable types from the outermost ancestor down to [node]. */
+    /**
+     * The chain of annotatable types from the outermost ancestor down to [node]. [node] itself is
+     * always included, even when it was reached by broadening to a container that is not
+     * annotatable on its own.
+     */
     fun pathOf(node: TargetNode): String {
         val types = mutableListOf<String>()
         var current: TargetNode? = node
         while (current != null) {
-            if (current.annotatable) types.add(current.type)
+            if (current === node || current.annotatable) types.add(current.type)
             current = current.parent
         }
         return types.reversed().joinToString(">")
     }
 
     /**
-     * Position of [node] among same-type nodes under [root], as `(ordinal, count)`, ordered top
-     * to bottom then left to right. `(1, count)` when [node] cannot be located among the matches.
+     * The first node, from the deepest hit at ([x], [y]) up through its ancestors, that satisfies
+     * [matches]. A broadened note captured the container's centre, where a child may now be the
+     * deepest hit, so re-binding has to look above the hit, not only at it.
      */
+    fun ancestorAt(root: TargetNode, x: Int, y: Int, matches: (TargetNode) -> Boolean): TargetNode? {
+        var current = deepestAt(root, x, y)
+        while (current != null) {
+            if (matches(current)) return current
+            current = current.parent
+        }
+        return null
+    }
+
     /**
      * The root of the tree [node] belongs to.
      *
-     * [ordinalOf] locates its target by node identity, so it must be counted against the very tree
-     * the target came from — a freshly built one holds different node objects for the same views
-     * and the target would never be found in it.
+     * [ordinalOf] locates its target by node identity, so it must count against the tree the target
+     * came from. A freshly built tree holds different node objects for the same views.
      */
     fun rootOf(node: TargetNode): TargetNode {
         var current = node
@@ -69,6 +82,10 @@ internal object TargetSelection {
         }
     }
 
+    /**
+     * Position of [node] among same-type nodes under [root], as `(ordinal, count)`, ordered top
+     * to bottom then left to right. `(1, count)` when [node] cannot be located among the matches.
+     */
     fun ordinalOf(root: TargetNode, node: TargetNode): Pair<Int, Int> {
         val matches = mutableListOf<TargetNode>()
         collectByType(root, node.type, matches)

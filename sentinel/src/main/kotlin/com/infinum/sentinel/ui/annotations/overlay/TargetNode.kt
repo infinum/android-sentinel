@@ -7,7 +7,7 @@ package com.infinum.sentinel.ui.annotations.overlay
  * Compose tooling `Group`. Every selection rule in [TargetSelection] is written against this
  * interface so it is shared by both and testable without a device.
  *
- * [children] must be ordered back to front — the last child draws on top.
+ * [children] must be ordered back to front: the last child draws on top.
  */
 internal interface TargetNode {
     /** View class simple name, or the composable function name. */

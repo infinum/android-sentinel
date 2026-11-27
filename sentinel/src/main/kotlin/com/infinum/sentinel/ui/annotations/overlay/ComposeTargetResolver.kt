@@ -16,16 +16,19 @@ internal class ComposeTargetResolver : TargetResolver {
 
     /**
      * Compose recreates its node objects on every recomposition, so a saved group handle is
-     * never reusable. Re-binding therefore re-resolves at the captured point and accepts a match
-     * on source location, which is stable across recomposition, or on the test tag.
+     * never reusable. Re-binding searches from the deepest hit at the captured point up through
+     * its ancestors, and accepts a match on source location, which is stable across
+     * recomposition, and on the test tag.
      */
-    @Suppress("ReturnCount")
+    @OptIn(UiToolingDataApi::class)
     override fun rebind(annotation: SentinelAnnotation, root: View): ResolvedTarget? {
-        val candidate = resolve(root, annotation.rebindX, annotation.rebindY) ?: return null
-        val node = candidate.node
-        if (node.type != annotation.targetType) return null
-        if (annotation.sourceLocation != null && node.sourceLocation != annotation.sourceLocation) return null
-        if (annotation.testTag != null && node.testTag != annotation.testTag) return null
-        return candidate
+        val tree = ComposeSupport.rootNodeOf(root) ?: return null
+        val node = TargetSelection.ancestorAt(tree, annotation.rebindX, annotation.rebindY) { it.matches(annotation) }
+        return node?.let { ResolvedTarget(it, (it as ComposeTargetNode).group, AnnotationToolkit.COMPOSE) }
     }
+
+    private fun TargetNode.matches(annotation: SentinelAnnotation): Boolean =
+        type == annotation.targetType &&
+            (annotation.sourceLocation == null || sourceLocation == annotation.sourceLocation) &&
+            (annotation.testTag == null || testTag == annotation.testTag)
 }

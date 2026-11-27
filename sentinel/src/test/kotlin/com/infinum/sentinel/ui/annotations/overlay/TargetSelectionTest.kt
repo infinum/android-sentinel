@@ -98,6 +98,33 @@ internal class TargetSelectionTest {
     }
 
     @Test
+    fun `pathOf keeps a selected container that is not annotatable on its own`() {
+        val button = FakeNode("Button", Bounds(10, 10, 50, 50))
+        val wrapper = FakeNode("LinearLayout", Bounds(0, 0, 80, 80), annotatable = false, children = listOf(button))
+        val root = FakeNode("Root", Bounds(0, 0, 100, 100), annotatable = false, children = listOf(wrapper))
+
+        assertEquals("LinearLayout", TargetSelection.pathOf(wrapper))
+        assertEquals("Root", TargetSelection.pathOf(root))
+    }
+
+    @Test
+    fun `ancestorAt finds a container whose centre is covered by a child`() {
+        val button = FakeNode("Button", Bounds(30, 30, 70, 70))
+        val card = FakeNode("Card", Bounds(0, 0, 100, 100), viewId = "card", children = listOf(button))
+        val root = FakeNode("Root", Bounds(0, 0, 200, 200), children = listOf(card))
+
+        assertEquals(card, TargetSelection.ancestorAt(root, 50, 50) { it.viewId == "card" })
+    }
+
+    @Test
+    fun `ancestorAt returns null when nothing on the hit chain matches`() {
+        val button = FakeNode("Button", Bounds(30, 30, 70, 70))
+        val root = FakeNode("Root", Bounds(0, 0, 200, 200), children = listOf(button))
+
+        assertNull(TargetSelection.ancestorAt(root, 50, 50) { it.type == "Card" })
+    }
+
+    @Test
     fun `ordinalOf counts same type nodes top to bottom then left to right`() {
         val topLeft = FakeNode("Chip", Bounds(0, 0, 10, 10))
         val topRight = FakeNode("Chip", Bounds(20, 0, 30, 10))

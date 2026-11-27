@@ -7,11 +7,9 @@ import androidx.fragment.app.FragmentActivity
 /**
  * Stand-in host Activity for instrumented tests in this package.
  *
- * `AnnotationOverlayController` attaches its overlay to `window.decorView` of whichever
- * Activity is resumed, and `fragmentNameOf` walks `supportFragmentManager` — so the test host
- * must be a real, manifest-declared [FragmentActivity], not a bare `android.app.Activity` (the
- * androidTest manifest declares no such component, so `ActivityScenario.launch(Activity::class
- * .java)` cannot launch one).
+ * `AnnotationOverlayController` attaches to the resumed Activity's `decorView` and
+ * `fragmentNameOf` walks `supportFragmentManager`, so the host is a manifest-declared
+ * [FragmentActivity].
  */
 internal class AnnotationHostTestActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

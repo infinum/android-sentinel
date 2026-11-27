@@ -8,11 +8,10 @@ import com.infinum.sentinel.annotations.SentinelAnnotation
  * Routes a tap to the Compose resolver when it lands inside a composition, and to the View
  * resolver otherwise.
  *
- * When Compose is present but unreadable — an unsupported version, or `ui-tooling-data` absent —
- * the Compose resolver returns `null` and the View resolver still yields the hosting
- * `ComposeView`, so the element stays annotatable with no source location. That fallback is
- * silent by design: it is the normal outcome on current Compose versions (see the README), so
- * surfacing it would be a warning shown on every single tap.
+ * When Compose is present but unreadable (an unsupported version, or `ui-tooling-data` absent),
+ * the Compose resolver returns `null` and the View resolver yields the hosting `ComposeView`, so
+ * the element stays annotatable with no source location. The fallback is silent because it is
+ * the normal outcome on current Compose versions (see the README).
  */
 internal class CompositeTargetResolver(
     private val views: TargetResolver = ViewTargetResolver(),

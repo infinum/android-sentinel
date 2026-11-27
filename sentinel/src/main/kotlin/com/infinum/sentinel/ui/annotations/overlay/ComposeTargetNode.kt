@@ -6,7 +6,7 @@ import androidx.compose.ui.tooling.data.UiToolingDataApi
 /**
  * Adapts a Compose tooling [Group] to [TargetNode].
  *
- * A group is annotatable when it has both a name and a source location — that is, it is a
+ * A group is annotatable when it has both a name and a source location, that is, it is a
  * composable the developer wrote rather than an anonymous framework group.
  */
 @OptIn(UiToolingDataApi::class)

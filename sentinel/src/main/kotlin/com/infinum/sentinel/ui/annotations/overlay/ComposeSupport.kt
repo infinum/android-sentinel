@@ -40,14 +40,10 @@ internal object ComposeSupport {
 
     /**
      * The composition under [view] adapted to [TargetNode], or `null` when the composition
-     * cannot be read — an unsupported Compose version, or `ui-tooling-data` missing.
+     * cannot be read: an unsupported Compose version, or `ui-tooling-data` missing.
      *
-     * The catch here is deliberately wide: everything in [groupTreeOf] is reflection against
-     * non-public internals, so a changed field name surfaces as [NoSuchFieldException], a changed
-     * field type as [ClassCastException], a changed nullability as [NullPointerException], and a
-     * changed class hierarchy as [LinkageError]. All of them mean the same thing — this Compose
-     * version doesn't match what this code expects — and all of them should degrade to `null`
-     * rather than crash the host app.
+     * The catch is wide on purpose. [groupTreeOf] reflects on non-public internals, and any of
+     * these errors means the Compose version does not match, so the result is `null`.
      */
     @OptIn(UiToolingDataApi::class)
     fun rootNodeOf(view: View): TargetNode? =
