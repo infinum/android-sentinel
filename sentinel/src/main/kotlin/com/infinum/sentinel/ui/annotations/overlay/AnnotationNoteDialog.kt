@@ -5,6 +5,7 @@ import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.infinum.sentinel.R
 import com.infinum.sentinel.databinding.SentinelDialogAnnotationNoteBinding
@@ -46,7 +47,13 @@ internal object AnnotationNoteDialog {
     ): Sheet {
         val themed = ContextThemeWrapper(context, R.style.Sentinel_Theme)
         val binding = SentinelDialogAnnotationNoteBinding.inflate(LayoutInflater.from(themed))
-        val dialog = BottomSheetDialog(themed).apply { setContentView(binding.root) }
+        val dialog =
+            BottomSheetDialog(themed).apply {
+                setContentView(binding.root)
+                // Fully open, so the input and buttons are visible in landscape too.
+                behavior.skipCollapsed = true
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            }
 
         val editing = initial != null
         binding.sentinelTitleView.text =
