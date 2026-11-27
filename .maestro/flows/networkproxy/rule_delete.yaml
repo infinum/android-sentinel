@@ -1,0 +1,36 @@
+appId: com.infinum.sentinel.sample.debug
+name: Network Proxy - deleting a rule asks first and removes it
+tags:
+  - regression
+properties:
+  junitClassname: e2e.networkproxy
+---
+- runFlow: ../../subflows/launch_clean.yaml
+- runFlow: ../../subflows/open_network_proxy.yaml
+- assertVisible: "No rules yet.*"
+- runFlow:
+    file: ../../subflows/add_mock_rule.yaml
+    env:
+      RULE_PATH: "/get"
+      RULE_STATUS: "200"
+      RULE_BODY: '{"qa":"mocked"}'
+- assertNotVisible: "No rules yet.*"
+# Cancel keeps the rule
+- longPressOn:
+    id: "path"
+    text: "/get"
+- assertVisible: "Delete rule?"
+- assertVisible: "GET /get will no longer be altered."
+- tapOn: "Cancel"
+- assertVisible:
+    id: "path"
+    text: "/get"
+# Delete removes it
+- longPressOn:
+    id: "path"
+    text: "/get"
+- tapOn: "Delete"
+- assertVisible: "No rules yet.*"
+- assertNotVisible:
+    id: "path"
+    text: "/get"

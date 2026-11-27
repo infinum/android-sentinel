@@ -1,0 +1,10 @@
+appId: com.infinum.sentinel.sample.debug
+---
+# From the sample's main screen: fire the sample's GET https://httpbin.org/get request
+- scrollUntilVisible:
+    element:
+      id: "testNetworkRequest"
+    direction: DOWN
+    timeout: 60000
+- tapOn:
+    id: "testNetworkRequest"
