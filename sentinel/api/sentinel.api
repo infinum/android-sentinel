@@ -69,6 +69,47 @@ public final class com/infinum/sentinel/SentinelInitializer : androidx/startup/I
 	public fun dependencies ()Ljava/util/List;
 }
 
+public abstract interface class com/infinum/sentinel/annotations/AnnotationExporter {
+	public abstract fun export (Landroid/content/Context;Ljava/lang/String;ILkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun icon ()I
+	public abstract fun label ()I
+}
+
+public final class com/infinum/sentinel/annotations/ClipboardAnnotationExporter : com/infinum/sentinel/annotations/AnnotationExporter {
+	public fun <init> ()V
+	public fun export (Landroid/content/Context;Ljava/lang/String;ILkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun icon ()I
+	public fun label ()I
+}
+
+public final class com/infinum/sentinel/databinding/SentinelDialogAnnotationNoteBinding : androidx/viewbinding/ViewBinding {
+	public final field sentinelCancelButton Lcom/google/android/material/button/MaterialButton;
+	public final field sentinelDeleteButton Lcom/google/android/material/button/MaterialButton;
+	public final field sentinelNoteInput Lcom/google/android/material/textfield/TextInputEditText;
+	public final field sentinelSaveButton Lcom/google/android/material/button/MaterialButton;
+	public final field sentinelTitleView Landroid/widget/TextView;
+	public static fun bind (Landroid/view/View;)Lcom/infinum/sentinel/databinding/SentinelDialogAnnotationNoteBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Landroid/widget/LinearLayout;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/infinum/sentinel/databinding/SentinelDialogAnnotationNoteBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/infinum/sentinel/databinding/SentinelDialogAnnotationNoteBinding;
+}
+
+public final class com/infinum/sentinel/databinding/SentinelFragmentAnnotationsBinding : androidx/viewbinding/ViewBinding {
+	public final field actionsLayout Landroid/widget/LinearLayout;
+	public final field emptyLayout Landroid/widget/LinearLayout;
+	public final field enableButton Lcom/google/android/material/button/MaterialButton;
+	public final field exportButton Lcom/google/android/material/button/MaterialButton;
+	public final field recyclerView Landroidx/recyclerview/widget/RecyclerView;
+	public final field startButton Lcom/google/android/material/button/MaterialButton;
+	public final field toolbar Lcom/google/android/material/appbar/MaterialToolbar;
+	public static fun bind (Landroid/view/View;)Lcom/infinum/sentinel/databinding/SentinelFragmentAnnotationsBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Landroidx/coordinatorlayout/widget/CoordinatorLayout;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/infinum/sentinel/databinding/SentinelFragmentAnnotationsBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/infinum/sentinel/databinding/SentinelFragmentAnnotationsBinding;
+}
+
 public final class com/infinum/sentinel/databinding/SentinelFragmentApplicationBinding : androidx/viewbinding/ViewBinding {
 	public final field contentLayout Landroid/widget/LinearLayout;
 	public final field firstInstallView Lcom/infinum/sentinel/ui/shared/views/SentinelItemTextView;
@@ -329,6 +370,19 @@ public final class com/infinum/sentinel/databinding/SentinelFragmentToolsBinding
 	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/infinum/sentinel/databinding/SentinelFragmentToolsBinding;
 }
 
+public final class com/infinum/sentinel/databinding/SentinelItemAnnotationBinding : androidx/viewbinding/ViewBinding {
+	public final field deleteButton Lcom/google/android/material/button/MaterialButton;
+	public final field locationView Landroid/widget/TextView;
+	public final field noteView Landroid/widget/TextView;
+	public final field sentView Landroid/widget/TextView;
+	public final field targetView Landroid/widget/TextView;
+	public static fun bind (Landroid/view/View;)Lcom/infinum/sentinel/databinding/SentinelItemAnnotationBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Landroid/widget/LinearLayout;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/infinum/sentinel/databinding/SentinelItemAnnotationBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/infinum/sentinel/databinding/SentinelItemAnnotationBinding;
+}
+
 public final class com/infinum/sentinel/databinding/SentinelItemBundleBinding : androidx/viewbinding/ViewBinding {
 	public final field callClassNameView Lcom/google/android/material/textview/MaterialTextView;
 	public final field iconView Landroid/widget/ImageView;
@@ -385,6 +439,15 @@ public final class com/infinum/sentinel/databinding/SentinelItemHeaderBinding : 
 	public fun getRoot ()Landroid/widget/LinearLayout;
 	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/infinum/sentinel/databinding/SentinelItemHeaderBinding;
 	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/infinum/sentinel/databinding/SentinelItemHeaderBinding;
+}
+
+public final class com/infinum/sentinel/databinding/SentinelViewAnnotationInspectBinding : androidx/viewbinding/ViewBinding {
+	public final field addNoteButton Lcom/google/android/material/button/MaterialButton;
+	public final field detailView Landroid/widget/TextView;
+	public final field typeView Landroid/widget/TextView;
+	public static fun bind (Landroid/view/View;)Lcom/infinum/sentinel/databinding/SentinelViewAnnotationInspectBinding;
+	public fun getRoot ()Landroid/view/View;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;)Lcom/infinum/sentinel/databinding/SentinelViewAnnotationInspectBinding;
 }
 
 public final class com/infinum/sentinel/databinding/SentinelViewItemButtonBinding : androidx/viewbinding/ViewBinding {
@@ -446,6 +509,16 @@ public final class com/infinum/sentinel/databinding/SentinelViewItemThreadStateB
 	public fun getRoot ()Landroid/widget/LinearLayout;
 	public static fun inflate (Landroid/view/LayoutInflater;)Lcom/infinum/sentinel/databinding/SentinelViewItemThreadStateBinding;
 	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lcom/infinum/sentinel/databinding/SentinelViewItemThreadStateBinding;
+}
+
+public final class com/infinum/sentinel/ui/tools/AnnotationsTool : com/infinum/sentinel/Sentinel$Tool {
+	public fun <init> ()V
+	public fun <init> (Lcom/infinum/sentinel/annotations/AnnotationExporter;)V
+	public synthetic fun <init> (Lcom/infinum/sentinel/annotations/AnnotationExporter;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getExporter ()Lcom/infinum/sentinel/annotations/AnnotationExporter;
+	public fun icon ()Ljava/lang/Integer;
+	public fun listener ()Landroid/view/View$OnClickListener;
+	public fun name ()I
 }
 
 public final class com/infinum/sentinel/ui/tools/CertificateTool : com/infinum/sentinel/Sentinel$Tool {

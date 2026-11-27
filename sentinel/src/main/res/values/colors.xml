@@ -34,4 +34,6 @@
 
     <color name="sentinel_warning">#edd607</color>
 
+    <color name="sentinel_annotation_marker">#FFE53935</color>
+
 </resources>

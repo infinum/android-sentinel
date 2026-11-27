@@ -93,6 +93,10 @@ dependencies {
     ksp(libs.inject.compiler)
     implementation(libs.inject.runtime)
 
+    compileOnly(platform(libs.compose.bom))
+    compileOnly(libs.compose.ui)
+    compileOnly(libs.compose.ui.tooling.data)
+
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.androidx.arch.core.testing)
     androidTestImplementation(libs.androidx.test.core.ktx)
@@ -106,9 +110,11 @@ dependencies {
     androidTestImplementation(libs.androidx.room.testing)
     androidTestImplementation(libs.androidx.fragment)
     androidTestImplementation(libs.androidx.fragment.testing)
+    androidTestImplementation(libs.coroutines.test)
 
     testImplementation(libs.junit)
     testImplementation(libs.androidx.test.ext.junit)
+    testImplementation(libs.coroutines.test)
 }
 
 val groupId = project.property("groupId") as String
@@ -123,7 +129,7 @@ mavenPublishing {
 
 gradle.taskGraph.whenReady {
     allTasks.find { it.path == ":sentinel:connectedDebugAndroidTest" }?.apply {
-        (this as AbstractTestTask).ignoreFailures = true
+        (this as org.gradle.api.tasks.VerificationTask).ignoreFailures = true
     }
 }
 

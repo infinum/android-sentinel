@@ -50,6 +50,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        compose = true
     }
 
     kotlin {
@@ -76,6 +77,14 @@ dependencies {
     // OkHttp for testing network emulator
     implementation(libs.okhttp)
 
+    // Compose screen used to exercise Sentinel's Compose annotation-target resolution.
+    implementation(platform(libs.compose.bom))
+    implementation(libs.bundles.compose)
+    // ui-tooling is what puts ui-tooling-data on the runtime classpath, which is what lets
+    // Sentinel read composable source locations. Without it annotations still work, but with
+    // no file:line.
+    debugImplementation(libs.compose.ui.tooling)
+
 //    debugImplementation(libs.library)
 //    releaseImplementation(libs.librarynoop)
 
@@ -101,12 +110,7 @@ dependencies {
     releaseImplementation(project(":tool-showkase-no-op"))
 
     debugImplementation(libs.showkase)
-    debugImplementation(libs.compose.runtime)
     debugImplementation(libs.compose.material)
-
-    // The Compose compiler plugin applies to every variant and refuses to run without the
-    // runtime on the compile classpath, even though release has no composables
-    releaseCompileOnly(libs.compose.runtime)
 
     // Variant-scoped on purpose. The project-wide `ksp` configuration would run the
     // processor for release, where the browser runtime does not exist.

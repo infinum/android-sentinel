@@ -205,6 +205,8 @@ _Sentinel_ provides several different levels of tools for a developer to impleme
 - `Preference Editor` - by tapping any preference _Sentinel_ opens a screen where you can edit
   current value
 - `CertificateTool` - opens a list of system and user provided X.509 certificates with details    
+- `AnnotationsTool` - attach free-text notes to elements on the running app and copy them to
+  the clipboard as JSON for a coding agent, or send them anywhere with your own exporter
 
 #### Dependency wrappers
 
@@ -371,6 +373,110 @@ _Plain_ formatter is selected by default, but selecting any other is persisted b
 - `JSON`
 - `XML`
 - `HTML`
+
+### Annotations
+
+Attach free-text notes to elements on the running app, then export them so a coding agent can
+apply the changes.
+
+- Navigate the host app to the screen you want to annotate **first**, and scroll to the part you
+  want to annotate. Once capture is armed it consumes every touch, so the app can't be navigated
+  or scrolled until capture stops. See below.
+- Open **Tools** and tap **Annotations**, then **Enable annotations** (or **Start annotating**
+  once notes already exist). The whole Sentinel panel closes — not just the Annotations screen —
+  and the live app returns with capture armed. Tap any element to select it and write a note.
+- Tapping the already-selected element widens the selection to its parent, so a note can target a
+  whole card rather than the label inside it.
+- While capture is armed the overlay consumes every touch, including scrolls, so the host app
+  can't be navigated or scrolled. To annotate a different screen or a part further down, stop
+  capture with the draggable **✕** control, navigate or scroll, then re-arm from **Tools** >
+  **Annotations**. A long press on the **✕** reopens the
+  Sentinel panel with capture still armed, instead of stopping it.
+- Saved notes stay on screen as a numbered badge and an outline. They follow the element as the
+  screen scrolls and are re-bound after navigating away and back. Tap a badge to edit or delete
+  that note.
+- The export button copies every unsent note to the clipboard as JSON. The destination can be
+  changed: see [Export destination](#export-destination).
+- Exported notes stay in the list, marked **Sent**, and are skipped by the next export. Editing a
+  sent note's text makes it pending again. Delete notes one by one, or clear them all from the
+  toolbar.
+- Notes live in memory only, for the app process's lifetime. Killing the process — including a
+  plain app kill from Recents — discards every unexported note, so export before you do.
+
+Each note records the element's type, its `R.id` resource entry name (Views), its position among
+same-type siblings, the Activity and Fragment it belongs to and — for Compose — the composable
+name, its `Modifier.testTag` and its `file:line` when Compose exposes them. The `text` field
+captures the element's live visible text, so a note on a filled-in field carries what that field
+currently shows; password fields are the exception and contribute no `text` at all. See
+[Compose support](#compose-support) below: on Compose builds verified so far this per-composable
+data is not available, and a Compose note instead identifies the hosting Compose view.
+
+#### Compose support
+
+Compose targets are resolved through the Compose tooling data API. Source locations require
+`androidx.compose.ui:ui-tooling` on the debug runtime classpath:
+
+```kotlin
+debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
+```
+
+Without it, or when the Compose version cannot be read, resolution falls back to the hosting
+`ComposeView` instead of crashing.
+
+**Limitation: per-composable resolution does not currently work.** Verified on device against
+Compose 1.11.4: Compose replaced the classic `SlotTable` with a dual composer architecture
+(`GapComposer`/`LinkComposer`), and source information no longer reaches the tooling `Group` tree
+— every group comes back with `name = null` and `location = null`. Sentinel's reflection chain
+itself works correctly: the composition is found and the group tree is built and correctly
+bounded. The data it depends on simply isn't there any more. This is an upstream Compose
+regression, not a Sentinel defect. The recipe above is expected to still work on Compose versions
+before 1.11 — that is untested, since only 1.11.4 was checked on device — and
+`androidx.compose.ui:ui-tooling` on the debug runtime classpath is required for source locations
+to work at all, on any version. In practice, tapping a composable today resolves the annotation
+to its hosting Compose view, not the composable itself.
+
+**Workaround: give your `ComposeView` an id.** Because resolution falls back to the hosting view,
+giving the root `ComposeView` an `android:id` turns an unusable result into a merely coarse, but
+still greppable, one:
+
+```kotlin
+ComposeView(context).apply {
+    id = R.id.compose_root
+    setContent { /* ... */ }
+}
+```
+
+Verified on device: with an id set, the note records `ComposeView` as its type and
+`compose_root` as its `viewId`, which an agent can find by searching for `@+id/compose_root`.
+Without an id, the note records `AndroidComposeView` as its type and nothing else to search by.
+Setting an id on your `ComposeView` is the single most useful thing you can do for Compose
+screens today.
+
+#### Export destination
+
+`AnnotationsTool()` uses `ClipboardAnnotationExporter`, which copies the JSON to the clipboard
+and labels the button **Copy to clipboard**. To send the notes somewhere else, such as an issue
+tracker or a coding agent's API, pass your own `AnnotationExporter`. It supplies the button's icon
+and label, and receives the finished JSON array and the number of notes in it:
+
+```kotlin
+class IssueTrackerExporter : AnnotationExporter {
+    override fun icon(): Int = R.drawable.ic_upload
+    override fun label(): Int = R.string.send_to_tracker
+
+    override suspend fun export(context: Context, json: String, count: Int): String {
+        withContext(Dispatchers.IO) { tracker.post(json) }
+        return "Sent $count notes"
+    }
+}
+
+Sentinel.watch(setOf(AnnotationsTool(exporter = IssueTrackerExporter())))
+```
+
+Return a short status message, or throw to report a failure; failed notes stay pending.
+`export` is called on the main thread, so move network or disk work to another dispatcher. An
+exporter that uses the network needs the `INTERNET` permission in your app: Sentinel itself does
+not declare it.
 
 ### Crash monitor
 

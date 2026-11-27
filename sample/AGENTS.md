@@ -11,7 +11,7 @@ This is the demo and dev app for exercising Sentinel and all tools. It is not pu
 - Commented-out `libs.library` / `libs.librarynoop` lines show the published-artifact alternative.
 - Showkase:
   - `kspDebug(libs.showkase.processor)` only. Never use the project-wide `ksp` configuration.
-  - `releaseCompileOnly(libs.compose.runtime)`, because the Compose compiler plugin applies to all variants.
+- Compose: `implementation(platform(libs.compose.bom))` and `implementation(libs.bundles.compose)` for both variants, because the annotations demo screen lives in `main`. The BOM keeps every Compose artifact on one version.
 - Release is minified and signed with the bundled `dummy.jks`.
 
 ## Code

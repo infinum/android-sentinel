@@ -63,6 +63,29 @@ public final class com/infinum/sentinel/SentinelInitializer : androidx/startup/I
 	public fun dependencies ()Ljava/util/List;
 }
 
+public abstract interface class com/infinum/sentinel/annotations/AnnotationExporter {
+	public abstract fun export (Landroid/content/Context;Ljava/lang/String;ILkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun icon ()I
+	public abstract fun label ()I
+}
+
+public final class com/infinum/sentinel/annotations/ClipboardAnnotationExporter : com/infinum/sentinel/annotations/AnnotationExporter {
+	public fun <init> ()V
+	public fun export (Landroid/content/Context;Ljava/lang/String;ILkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun icon ()I
+	public fun label ()I
+}
+
+public final class com/infinum/sentinel/ui/tools/AnnotationsTool : com/infinum/sentinel/Sentinel$Tool {
+	public fun <init> ()V
+	public fun <init> (Lcom/infinum/sentinel/annotations/AnnotationExporter;)V
+	public synthetic fun <init> (Lcom/infinum/sentinel/annotations/AnnotationExporter;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getExporter ()Lcom/infinum/sentinel/annotations/AnnotationExporter;
+	public fun icon ()Ljava/lang/Integer;
+	public fun listener ()Landroid/view/View$OnClickListener;
+	public fun name ()I
+}
+
 public final class com/infinum/sentinel/ui/tools/AppGalleryTool : com/infinum/sentinel/Sentinel$Tool {
 	public fun <init> ()V
 	public fun <init> (Ljava/lang/String;)V

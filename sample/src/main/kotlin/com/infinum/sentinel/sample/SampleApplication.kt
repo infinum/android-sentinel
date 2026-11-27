@@ -3,6 +3,7 @@ package com.infinum.sentinel.sample
 import android.app.Application
 import android.os.Build
 import com.infinum.sentinel.Sentinel
+import com.infinum.sentinel.ui.tools.AnnotationsTool
 import com.infinum.sentinel.ui.tools.AppGalleryTool
 import com.infinum.sentinel.ui.tools.CertificateTool
 import com.infinum.sentinel.ui.tools.ChuckerTool
@@ -29,6 +30,7 @@ class SampleApplication : Application() {
 
     private fun getWatchedTools(): Set<Sentinel.Tool> {
         val tools = mutableSetOf<Sentinel.Tool>()
+        tools.add(AnnotationsTool())
         tools.add(ChuckerTool())
         tools.add(CollarTool())
         tools.add(DbInspectorTool())

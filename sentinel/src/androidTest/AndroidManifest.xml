@@ -10,6 +10,10 @@
             android:name="com.infinum.sentinel.ui.main.SentinelActivity"
             android:label="@string/sentinel_name"
             android:theme="@style/Sentinel.Theme"/>
+        <activity
+            android:name="com.infinum.sentinel.ui.annotations.overlay.AnnotationHostTestActivity"
+            android:label="@string/sentinel_name"
+            android:theme="@style/Sentinel.Theme"/>
     </application>
 
 </manifest>

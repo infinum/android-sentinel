@@ -162,4 +162,30 @@
     <string name="sentinel_all_preferences">All preferences</string>
     <string name="sentinel_empty_preferences_message">You are currently not targeting any specific preferences. Add them during Sentinel initialization.</string>
 
+    <string name="sentinel_annotations">Annotations</string>
+    <string name="sentinel_annotations_copy">Copy to clipboard</string>
+    <plurals name="sentinel_annotations_copied">
+        <item quantity="one">Copied %1$d annotation</item>
+        <item quantity="other">Copied %1$d annotations</item>
+    </plurals>
+    <string name="sentinel_annotations_enable">Enable annotations</string>
+    <string name="sentinel_annotations_start">Start annotating</string>
+    <string name="sentinel_annotations_hint">Tap an element on the current screen to attach a note.</string>
+    <string name="sentinel_annotations_empty_export">No annotations to export</string>
+    <string name="sentinel_annotations_all_exported">All annotations were already exported. Edit a note to export it again.</string>
+    <string name="sentinel_annotations_export_failed">Export failed: %1$s</string>
+    <string name="sentinel_annotations_sent_label">Sent</string>
+    <string name="sentinel_annotations_delete_title">Delete annotation?</string>
+    <string name="sentinel_annotations_delete_message">This will remove annotation %1$d.</string>
+    <string name="sentinel_annotations_note_new">Note for %1$s</string>
+    <string name="sentinel_annotations_note_edit">Edit note for %1$s</string>
+    <string name="sentinel_annotations_note_hint">Describe the issue here</string>
+    <string name="sentinel_annotations_add_note">Add note</string>
+    <string name="sentinel_annotations_stop">Stop annotating</string>
+    <string name="sentinel_annotations_row">#%1$d %2$s</string>
+    <string name="sentinel_cancel">Cancel</string>
+    <string name="sentinel_delete">Delete</string>
+    <string name="sentinel_annotations_clear_title">Clear all annotations?</string>
+    <string name="sentinel_annotations_clear_message">This will remove all %1$d annotations. Notes are kept in memory only, so this cannot be undone.</string>
+
 </resources>
