@@ -13,6 +13,7 @@ internal interface AnnotationCache {
     /** Stores [annotation], assigning an id when it has none. Returns the stored copy. */
     suspend fun add(annotation: SentinelAnnotation): SentinelAnnotation
 
+    /** Replaces the note text. A changed text makes an exported note pending again. */
     suspend fun updateNote(id: String, note: String)
 
     /** Re-points the note at a freshly created element after navigating back to its screen. */
@@ -21,17 +22,18 @@ internal interface AnnotationCache {
     /**
      * Drops the live handle of every stored note matching [owned], keeping the note itself.
      *
-     * Not `suspend`: the caller is `onActivityDestroyed`, and the whole point is that the handle
-     * is gone before that Activity would otherwise stay reachable from this process-lifetime
-     * cache. Nothing observable changes — `target` is outside the note's `equals` — so this
-     * publishes nothing.
+     * Not `suspend`: it is called from `onActivityDestroyed` and must clear the handles before it
+     * returns. `target` is outside the note's `equals`, so this publishes nothing.
      */
     fun releaseTargets(owned: (SentinelAnnotation) -> Boolean)
 
     suspend fun remove(id: String)
 
-    /** Flags only the annotations whose id is in [ids] as sent. Everything else is untouched. */
-    suspend fun markSent(ids: Collection<String>)
+    /**
+     * Flags the stored notes that still equal one of [exported] as sent. A note edited after the
+     * snapshot was taken no longer matches, so it stays pending.
+     */
+    suspend fun markSent(exported: Collection<SentinelAnnotation>)
 
     suspend fun clear()
 }

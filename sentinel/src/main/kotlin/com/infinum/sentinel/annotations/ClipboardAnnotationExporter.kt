@@ -19,14 +19,13 @@ public class ClipboardAnnotationExporter : AnnotationExporter {
     override fun label(): Int = R.string.sentinel_annotations_copy
 
     /**
-     * Throws when there is no `ClipboardManager`, rather than reporting a copy that never
-     * happened: the caller marks every exported note as sent the moment this returns, so a
-     * silent no-op would flag the whole batch as delivered with nothing on the clipboard.
+     * Throws when there is no `ClipboardManager`. The caller marks the notes as sent when this
+     * returns, so returning without copying would flag them as delivered with nothing copied.
      */
-    override suspend fun export(context: Context, annotations: List<SentinelAnnotation>): String {
+    override suspend fun export(context: Context, json: String, count: Int): String {
         val clipboard =
             checkNotNull(context.getSystemService<ClipboardManager>()) { "Clipboard is unavailable" }
-        clipboard.setPrimaryClip(ClipData.newPlainText(CLIP_LABEL, SentinelAnnotation.toExportJson(annotations)))
-        return context.resources.getQuantityString(R.plurals.sentinel_annotations_copied, annotations.size, annotations.size)
+        clipboard.setPrimaryClip(ClipData.newPlainText(CLIP_LABEL, json))
+        return context.resources.getQuantityString(R.plurals.sentinel_annotations_copied, count, count)
     }
 }

@@ -1,6 +1,6 @@
 # sentinel (core library)
 
-Namespace `com.infinum.sentinel`. Sources are in `src/main/kotlin/com/infinum/sentinel/`. There is no Compose and no Java.
+Namespace `com.infinum.sentinel`. Sources are in `src/main/kotlin/com/infinum/sentinel/`. There is no Java. Compose is `compileOnly` and used only by the Annotations tool's target resolution (`ui/annotations/overlay`), behind `ComposeSupport.isAvailable`, so apps without Compose never load it.
 
 ## Public API
 
@@ -11,7 +11,8 @@ Everything else is `internal`.
   - the `Sentinel.Tool` interface and its typed sub-interfaces (`NetworkTool`, `MemoryTool`, `AnalyticsTool`, `DatabaseTool`, `ReportTool`, `BluetoothTool`, `DistributionTool`, `DesignTool`), which supply a default `name()` string
   - `ApplicationNotRespondingListener` and `ApplicationNotRespondingException`
 - `SentinelInitializer.kt`: an `androidx.startup` initializer declared in the manifest. It calls `LibraryComponents.initialize(context)`.
-- `ui/tools/CertificateTool.kt`: the only public built-in tool.
+- `ui/tools/CertificateTool.kt` and `ui/tools/AnnotationsTool.kt`: the public built-in tools.
+- `annotations/AnnotationExporter.kt` and `ClipboardAnnotationExporter.kt`. The note model `SentinelAnnotation` is internal on purpose: exporters receive the JSON, so new fields never break binary compatibility.
 - `res/values/public.xml`: exposes only `sentinel_name` and `sentinel_infinum_monitored`.
 
 Any change here must be mirrored in `sentinel-no-op` (see [../sentinel-no-op/AGENTS.md](../sentinel-no-op/AGENTS.md)). Then run `./gradlew apiDump` and commit `api/sentinel.api`.

@@ -12,9 +12,8 @@ import com.infinum.sentinel.ui.annotations.AnnotationsActivity
 /**
  * Attaches free-text notes to elements on the running app and exports them.
  *
- * Ships enabled with [ClipboardAnnotationExporter]. Pass an instance to [Sentinel.watch] to
- * change the destination, for example
- * `AnnotationsTool(ClaudeRoutineExporter({ BuildConfig.CLAUDE_CODE_TOKEN }, fireUrl))`.
+ * Ships enabled with [ClipboardAnnotationExporter]. Pass an instance with your own
+ * [AnnotationExporter] to [Sentinel.watch] to send the notes somewhere else.
  */
 public class AnnotationsTool(
     public val exporter: AnnotationExporter = ClipboardAnnotationExporter(),

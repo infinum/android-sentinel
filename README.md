@@ -199,8 +199,8 @@ _Sentinel_ provides several different levels of tools for a developer to impleme
 - `Preference Editor` - by tapping any preference _Sentinel_ opens a screen where you can edit
   current value
 - `CertificateTool` - opens a list of system and user provided X.509 certificates with details    
-- `AnnotationsTool` - attach free-text notes to elements on the running app and export them to
-  the clipboard or to a Claude Code routine
+- `AnnotationsTool` - attach free-text notes to elements on the running app and copy them to
+  the clipboard as JSON for a coding agent, or send them anywhere with your own exporter
 
 #### Dependency wrappers
 
@@ -355,22 +355,27 @@ _Plain_ formatter is selected by default, but selecting any other is persisted b
 Attach free-text notes to elements on the running app, then export them so a coding agent can
 apply the changes.
 
-- Navigate the host app to the screen you want to annotate **first**. Once capture is armed it
-  consumes every touch, so there is no way to navigate the app after arming it — see below.
+- Navigate the host app to the screen you want to annotate **first**, and scroll to the part you
+  want to annotate. Once capture is armed it consumes every touch, so the app can't be navigated
+  or scrolled until capture stops. See below.
 - Open **Tools** and tap **Annotations**, then **Enable annotations** (or **Start annotating**
   once notes already exist). The whole Sentinel panel closes — not just the Annotations screen —
   and the live app returns with capture armed. Tap any element to select it and write a note.
 - Tapping the already-selected element widens the selection to its parent, so a note can target a
   whole card rather than the label inside it.
-- While capture is armed the overlay consumes every touch, so the host app cannot be navigated.
-  To annotate a different screen, stop capture with the draggable **✕** control, navigate to the
-  new screen, then re-arm from **Tools** > **Annotations**. A long press on the **✕** reopens the
+- While capture is armed the overlay consumes every touch, including scrolls, so the host app
+  can't be navigated or scrolled. To annotate a different screen or a part further down, stop
+  capture with the draggable **✕** control, navigate or scroll, then re-arm from **Tools** >
+  **Annotations**. A long press on the **✕** reopens the
   Sentinel panel with capture still armed, instead of stopping it.
 - Saved notes stay on screen as a numbered badge and an outline. They follow the element as the
   screen scrolls and are re-bound after navigating away and back. Tap a badge to edit or delete
   that note.
 - The export button copies every unsent note to the clipboard as JSON. The destination can be
   changed: see [Export destination](#export-destination).
+- Exported notes stay in the list, marked **Sent**, and are skipped by the next export. Editing a
+  sent note's text makes it pending again. Delete notes one by one, or clear them all from the
+  toolbar.
 - Notes live in memory only, for the app process's lifetime. Killing the process — including a
   plain app kill from Recents — discards every unexported note, so export before you do.
 
@@ -426,59 +431,28 @@ screens today.
 #### Export destination
 
 `AnnotationsTool()` uses `ClipboardAnnotationExporter`, which copies the JSON to the clipboard
-and labels the button **Copy to clipboard**. To send the notes somewhere else, pass an
-`AnnotationExporter`. It supplies the button's icon and label and does the export:
+and labels the button **Copy to clipboard**. To send the notes somewhere else, such as an issue
+tracker or a coding agent's API, pass your own `AnnotationExporter`. It supplies the button's icon
+and label, and receives the finished JSON array and the number of notes in it:
 
 ```kotlin
 class IssueTrackerExporter : AnnotationExporter {
     override fun icon(): Int = R.drawable.ic_upload
     override fun label(): Int = R.string.send_to_tracker
 
-    override suspend fun export(context: Context, annotations: List<SentinelAnnotation>): String {
-        tracker.post(SentinelAnnotation.toExportJson(annotations))
-        return "Sent ${annotations.size} notes"
+    override suspend fun export(context: Context, json: String, count: Int): String {
+        withContext(Dispatchers.IO) { tracker.post(json) }
+        return "Sent $count notes"
     }
 }
 
 Sentinel.watch(setOf(AnnotationsTool(exporter = IssueTrackerExporter())))
 ```
 
-Return a short status message, or throw to report a failure. Sentinel ships one other exporter,
-for Claude Code routines.
-
-#### Sending to Claude
-
-```kotlin
-Sentinel.watch(
-    setOf(
-        AnnotationsTool(
-            exporter = ClaudeRoutineExporter(
-                token = { BuildConfig.CLAUDE_CODE_TOKEN },
-                fireUrl = "https://api.anthropic.com/v1/claude_code/routines/<trigger-id>/fire",
-            ),
-        ),
-    ),
-)
-```
-
-`token` is a lambda so the credential can come from `local.properties` through `BuildConfig`
-rather than a string literal. **Treat this token as a secret.** It is a long-lived Claude Code
-OAuth credential with your full permissions, and anyone holding the APK can extract a value
-compiled into it. Never commit one.
-
-`claude-annotations-instructions.md` in this repository is the routine prompt: it parses the
-exported batch, groups the notes by screen, applies each change and opens a pull request.
-
-#### Permissions
-
-Sending to Claude needs network access, so the `sentinel` module declares:
-
-```xml
-<uses-permission android:name="android.permission.INTERNET"/>
-```
-
-This merges into your app's debug manifest. `sentinel-no-op`, used for release builds, declares
-nothing.
+Return a short status message, or throw to report a failure; failed notes stay pending.
+`export` is called on the main thread, so move network or disk work to another dispatcher. An
+exporter that uses the network needs the `INTERNET` permission in your app: Sentinel itself does
+not declare it.
 
 ### Crash monitor
 

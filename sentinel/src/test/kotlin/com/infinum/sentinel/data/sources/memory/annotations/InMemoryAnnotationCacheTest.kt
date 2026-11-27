@@ -148,7 +148,7 @@ internal class InMemoryAnnotationCacheTest {
         val first = cache.add(annotation("first"))
         val second = cache.add(annotation("second"))
 
-        cache.markSent(listOf(first.id, second.id))
+        cache.markSent(listOf(first, second))
 
         assertTrue(cache.load().value.all { it.isSent })
     }
@@ -159,7 +159,7 @@ internal class InMemoryAnnotationCacheTest {
         val first = cache.add(annotation("first"))
         val second = cache.add(annotation("second"))
 
-        cache.markSent(listOf(first.id))
+        cache.markSent(listOf(first))
 
         val byNote = cache.load().value.associateBy { it.note }
         assertTrue(byNote.getValue("first").isSent)
@@ -168,15 +168,50 @@ internal class InMemoryAnnotationCacheTest {
     }
 
     @Test
-    fun `markSent with an id that is not in the cache is a no-op and does not emit`() = runTest {
+    fun `markSent with a note that is not in the cache is a no-op and does not emit`() = runTest {
         val cache = InMemoryAnnotationCache()
         cache.add(annotation("kept"))
         val before = cache.load().value
 
-        cache.markSent(listOf("missing"))
+        cache.markSent(listOf(annotation("missing").copy(id = "missing")))
 
         assertSame(before, cache.load().value)
         assertFalse(cache.load().value.single().isSent)
+    }
+
+    @Test
+    fun `markSent leaves a note edited after the snapshot pending`() = runTest {
+        val cache = InMemoryAnnotationCache()
+        val snapshot = cache.add(annotation("before"))
+        cache.updateNote(snapshot.id, "after")
+
+        cache.markSent(listOf(snapshot))
+
+        val stored = cache.load().value.single()
+        assertEquals("after", stored.note)
+        assertFalse(stored.isSent)
+    }
+
+    @Test
+    fun `updateNote with new text makes a sent note pending again`() = runTest {
+        val cache = InMemoryAnnotationCache()
+        val stored = cache.add(annotation("before"))
+        cache.markSent(listOf(stored))
+
+        cache.updateNote(stored.id, "after")
+
+        assertFalse(cache.load().value.single().isSent)
+    }
+
+    @Test
+    fun `updateNote with unchanged text keeps a sent note sent`() = runTest {
+        val cache = InMemoryAnnotationCache()
+        val stored = cache.add(annotation("same"))
+        cache.markSent(listOf(stored))
+
+        cache.updateNote(stored.id, "same")
+
+        assertTrue(cache.load().value.single().isSent)
     }
 
     @Test
@@ -187,7 +222,7 @@ internal class InMemoryAnnotationCacheTest {
         note.target = sentinelTarget
         val stored = cache.add(note)
 
-        cache.markSent(listOf(stored.id))
+        cache.markSent(listOf(stored))
 
         assertSame(sentinelTarget, cache.load().value.single().target)
     }
@@ -235,8 +270,8 @@ internal class InMemoryAnnotationCacheTest {
     }
 
     /**
-     * The note the handle was cleared from must still round-trip through the copy sites, so a
-     * later `updateNote` cannot resurrect a stale Activity by copying a target back in.
+     * A released handle stays cleared through later copies, so `updateNote` does not restore a
+     * stale target.
      */
     @Test
     fun `a released target stays null across updateNote`() = runTest {

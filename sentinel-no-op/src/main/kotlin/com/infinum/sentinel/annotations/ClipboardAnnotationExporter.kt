@@ -9,5 +9,5 @@ public class ClipboardAnnotationExporter : AnnotationExporter {
     override fun label(): Int = 0
 
     @Suppress("UNUSED_PARAMETER")
-    override suspend fun export(context: Context, annotations: List<SentinelAnnotation>): String = ""
+    override suspend fun export(context: Context, json: String, count: Int): String = ""
 }

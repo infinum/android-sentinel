@@ -164,19 +164,15 @@
 
     <string name="sentinel_annotations">Annotations</string>
     <string name="sentinel_annotations_copy">Copy to clipboard</string>
-    <string name="sentinel_annotations_send">Send to Claude</string>
     <plurals name="sentinel_annotations_copied">
         <item quantity="one">Copied %1$d annotation</item>
         <item quantity="other">Copied %1$d annotations</item>
-    </plurals>
-    <plurals name="sentinel_annotations_sent">
-        <item quantity="one">Sent %1$d annotation</item>
-        <item quantity="other">Sent %1$d annotations</item>
     </plurals>
     <string name="sentinel_annotations_enable">Enable annotations</string>
     <string name="sentinel_annotations_start">Start annotating</string>
     <string name="sentinel_annotations_hint">Tap an element on the current screen to attach a note.</string>
     <string name="sentinel_annotations_empty_export">No annotations to export</string>
+    <string name="sentinel_annotations_all_exported">All annotations were already exported. Edit a note to export it again.</string>
     <string name="sentinel_annotations_export_failed">Export failed: %1$s</string>
     <string name="sentinel_annotations_sent_label">Sent</string>
     <string name="sentinel_annotations_delete_title">Delete annotation?</string>
@@ -186,7 +182,6 @@
     <string name="sentinel_annotations_note_hint">Describe the issue here</string>
     <string name="sentinel_annotations_add_note">Add note</string>
     <string name="sentinel_annotations_stop">Stop annotating</string>
-    <string name="sentinel_annotations_missing_token">No Claude token configured</string>
     <string name="sentinel_annotations_row">#%1$d %2$s</string>
     <string name="sentinel_cancel">Cancel</string>
     <string name="sentinel_delete">Delete</string>

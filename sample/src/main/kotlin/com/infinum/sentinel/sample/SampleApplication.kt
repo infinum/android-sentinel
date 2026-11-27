@@ -3,7 +3,6 @@ package com.infinum.sentinel.sample
 import android.app.Application
 import android.os.Build
 import com.infinum.sentinel.Sentinel
-import com.infinum.sentinel.annotations.ClaudeRoutineExporter
 import com.infinum.sentinel.ui.tools.AnnotationsTool
 import com.infinum.sentinel.ui.tools.AppGalleryTool
 import com.infinum.sentinel.ui.tools.CertificateTool
@@ -28,26 +27,9 @@ class SampleApplication : Application() {
         ApiClient.initialize(this)
     }
 
-    /**
-     * Copies annotations to the clipboard by default. Setting both `claude.code.token` and
-     * `claude.routine.fireUrl` in `local.properties` swaps in [ClaudeRoutineExporter] instead.
-     */
-    private fun annotationsTool(): AnnotationsTool =
-        if (BuildConfig.CLAUDE_CODE_TOKEN.isNotBlank() && BuildConfig.CLAUDE_ROUTINE_FIRE_URL.isNotBlank()) {
-            AnnotationsTool(
-                exporter =
-                    ClaudeRoutineExporter(
-                        token = { BuildConfig.CLAUDE_CODE_TOKEN },
-                        fireUrl = BuildConfig.CLAUDE_ROUTINE_FIRE_URL,
-                    ),
-            )
-        } else {
-            AnnotationsTool()
-        }
-
     private fun getWatchedTools(): Set<Sentinel.Tool> {
         val tools = mutableSetOf<Sentinel.Tool>()
-        tools.add(annotationsTool())
+        tools.add(AnnotationsTool())
         tools.add(ChuckerTool())
         tools.add(CollarTool())
         tools.add(DbInspectorTool())

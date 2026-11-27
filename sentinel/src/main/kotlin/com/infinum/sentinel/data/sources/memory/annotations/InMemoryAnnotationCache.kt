@@ -30,7 +30,7 @@ internal class InMemoryAnnotationCache : AnnotationCache {
     }
 
     override suspend fun updateNote(id: String, note: String) =
-        replace(id) { it.copy(note = note) }
+        replace(id) { it.copy(note = note, isSent = it.isSent && it.note == note) }
 
     override suspend fun rebind(id: String, target: Any?) {
         val index = annotations.indexOfFirst { it.id == id }
@@ -40,9 +40,8 @@ internal class InMemoryAnnotationCache : AnnotationCache {
     }
 
     /**
-     * Mutates `target` in place. `target` is a class-body property, so `copy()` would silently
-     * drop it — every `copy()` in this class re-assigns it for exactly that reason, and this
-     * path avoids the trap by never copying at all.
+     * Mutates `target` in place. `target` is a class-body property that `copy()` does not carry,
+     * so every `copy()` in this class re-assigns it explicitly.
      */
     override fun releaseTargets(owned: (SentinelAnnotation) -> Boolean) {
         annotations.forEach { annotation ->
@@ -54,10 +53,10 @@ internal class InMemoryAnnotationCache : AnnotationCache {
         if (annotations.removeAll { it.id == id }) publish()
     }
 
-    override suspend fun markSent(ids: Collection<String>) {
+    override suspend fun markSent(exported: Collection<SentinelAnnotation>) {
         var changed = false
         annotations.forEachIndexed { index, annotation ->
-            if (!annotation.isSent && annotation.id in ids) {
+            if (!annotation.isSent && annotation in exported) {
                 val sent = annotation.copy(isSent = true)
                 sent.target = annotation.target
                 annotations[index] = sent

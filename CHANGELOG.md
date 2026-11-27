@@ -3,8 +3,9 @@ Change Log
 
 ## Unreleased
 
-* New Sentinel tool: `AnnotationsTool` - attach notes to elements on the running app and export
-  them to the clipboard or to a Claude Code routine. Supports both Views and Compose.
+* New Sentinel tool: `AnnotationsTool` - attach notes to elements on the running app and copy
+  them to the clipboard as JSON, or send them anywhere with a custom `AnnotationExporter`.
+  Supports both Views and Compose.
 
 ## Version 2.0.0
 

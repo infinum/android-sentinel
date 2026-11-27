@@ -52,7 +52,8 @@ internal class AnnotationsFragment : BaseChildFragment<AnnotationsState, Annotat
     override fun onState(state: AnnotationsState) =
         when (state) {
             is AnnotationsState.Data -> {
-                adapter.submitList(state.annotations)
+                adapter.submitList(state.annotations.mapIndexed { index, annotation -> AnnotationRow(index + 1, annotation) })
+                binding.exportButton.isEnabled = !state.isExporting
                 val empty = state.annotations.isEmpty()
                 binding.emptyLayout.visibility = if (empty) View.VISIBLE else View.GONE
                 binding.actionsLayout.visibility = if (empty) View.GONE else View.VISIBLE
@@ -62,25 +63,21 @@ internal class AnnotationsFragment : BaseChildFragment<AnnotationsState, Annotat
 
     override fun onEvent(event: AnnotationsEvent) =
         when (event) {
-            // Finishing this Activity alone would only pop back to SentinelActivity, which shares
-            // the com.infinum.sentinel task affinity — the user would be left staring at Sentinel's
-            // own panel with capture armed behind it. finishAffinity finishes SentinelActivity too,
-            // emptying the Sentinel task so the host app's task comes forward. (finishAndRemoveTask
-            // does not: verified on device, it removes the task only from its root activity, so
-            // from here it behaves exactly like a plain finish.)
+            // This Activity and SentinelActivity share a task affinity. finishAffinity finishes both,
+            // so the host app comes forward. finishAndRemoveTask only removes the task when called
+            // from its root activity, so here it would act like a plain finish.
             is AnnotationsEvent.CaptureArmed -> requireActivity().finishAffinity()
             is AnnotationsEvent.ExportFinished -> showMessage(event.message)
             is AnnotationsEvent.ExportFailed -> showMessage(event.message)
         }
 
     /**
-     * Confirms before dropping every note, exactly as deleting a single one does
-     * (see `AnnotationsAdapter`). Notes live in memory only and there is no
-     * undo, so a stray tap on the toolbar's Clear must not be able to destroy the batch.
+     * Confirms before dropping every note, as deleting a single one does (see `AnnotationsAdapter`).
+     * Notes live in memory only and there is no undo.
      */
     private fun confirmClearAll() {
         val count = adapter.itemCount
-        // Nothing to confirm, and "remove all 0 annotations" would read as nonsense.
+        // Nothing to confirm when the list is empty.
         if (count == 0) return
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.sentinel_annotations_clear_title)

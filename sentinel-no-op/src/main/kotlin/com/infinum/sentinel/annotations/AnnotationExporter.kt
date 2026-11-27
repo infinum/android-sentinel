@@ -11,5 +11,5 @@ public interface AnnotationExporter {
     @StringRes
     public fun label(): Int
 
-    public suspend fun export(context: Context, annotations: List<SentinelAnnotation>): String
+    public suspend fun export(context: Context, json: String, count: Int): String
 }

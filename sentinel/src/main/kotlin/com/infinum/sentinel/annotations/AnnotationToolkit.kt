@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
  * The UI toolkit an annotated element belongs to.
  */
 @Serializable
-public enum class AnnotationToolkit {
+internal enum class AnnotationToolkit {
     @SerialName("view")
     VIEW,
 
