@@ -33,6 +33,7 @@ leakcanary = "2.14"
 lifecycle = "2.11.0"
 navigation3 = "1.2.2"
 okhttp = "5.5.1"
+orgjson = "20250517"
 preference = "1.2.1"
 recycler = "1.4.0"
 robolectricShadow = "4.18"
@@ -57,6 +58,8 @@ tooltimber = { module = "com.infinum.sentinel:tool-timber", version.ref = "senti
 tooldeeplinks = { module = "com.infinum.sentinel:tool-deeplinks", version.ref = "sentinel" }
 toolnetworkemulatorokhttp = { module = "com.infinum.sentinel:tool-networkemulator-okhttp", version.ref = "sentinel" }
 toolnetworkemulatorokhttpnoop = { module = "com.infinum.sentinel:tool-networkemulator-okhttp-no-op", version.ref = "sentinel" }
+toolnetworkproxyokhttp = { module = "com.infinum.sentinel:tool-networkproxy-okhttp", version.ref = "sentinel" }
+toolnetworkproxyokhttpnoop = { module = "com.infinum.sentinel:tool-networkproxy-okhttp-no-op", version.ref = "sentinel" }
 toolshowkase = { module = "com.infinum.sentinel:tool-showkase", version.ref = "sentinel" }
 toolshowkasenoop = { module = "com.infinum.sentinel:tool-showkase-no-op", version.ref = "sentinel" }
 
@@ -122,6 +125,8 @@ junit = { module = "junit:junit", version.ref = "junit" }
 robolectric-shadowapi = { module = "org.robolectric:shadowapi", version.ref = "robolectricShadow" }
 
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+okhttp-mockwebserver = { module = "com.squareup.okhttp3:mockwebserver3", version.ref = "okhttp" }
+orgjson = { module = "org.json:json", version.ref = "orgjson" }
 
 showkase = { module = "com.airbnb.android:showkase", version.ref = "showkase" }
 showkase-annotation = { module = "com.airbnb.android:showkase-annotation", version.ref = "showkase" }
@@ -185,6 +190,7 @@ tools = [
     "tooltimber",
     "tooldeeplinks",
     "toolnetworkemulatorokhttp",
+    "toolnetworkproxyokhttp",
     "toolshowkase"
 ]
 

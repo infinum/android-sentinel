@@ -12,6 +12,7 @@ import com.infinum.sentinel.ui.tools.DeepLinkTool
 import com.infinum.sentinel.ui.tools.GooglePlayTool
 import com.infinum.sentinel.ui.tools.LeakCanaryTool
 import com.infinum.sentinel.ui.tools.NetworkEmulatorTool
+import com.infinum.sentinel.ui.tools.NetworkProxyTool
 import com.infinum.sentinel.ui.tools.ShowkaseTool
 import com.infinum.sentinel.ui.tools.TimberTool
 import java.security.cert.CertificateFactory
@@ -34,6 +35,7 @@ class SampleApplication : Application() {
         tools.add(DbInspectorTool())
         tools.add(LeakCanaryTool())
         tools.add(NetworkEmulatorTool())
+        tools.add(NetworkProxyTool())
         tools.add(AppGalleryTool(appId = "102016595"))
         tools.add(GooglePlayTool())
         tools.add(TimberTool(allowedTags = listOf("Main")))
