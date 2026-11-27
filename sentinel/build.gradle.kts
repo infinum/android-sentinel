@@ -93,6 +93,7 @@ dependencies {
     ksp(libs.inject.compiler)
     implementation(libs.inject.runtime)
 
+    compileOnly(platform(libs.compose.bom))
     compileOnly(libs.compose.ui)
     compileOnly(libs.compose.ui.tooling.data)
 

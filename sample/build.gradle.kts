@@ -1,5 +1,3 @@
-import java.util.Properties
-
 @Suppress("UNCHECKED_CAST")
 val buildConfig = extra["buildConfig"] as Map<String, Any>
 
@@ -23,22 +21,6 @@ android {
         targetSdk = buildConfig["targetSdk"] as Int
         versionCode = releaseConfig["versionCode"] as Int
         versionName = releaseConfig["version"] as String
-
-        val localProperties =
-            Properties().apply {
-                val file = rootProject.file("local.properties")
-                if (file.exists()) file.inputStream().use { load(it) }
-            }
-        buildConfigField(
-            "String",
-            "CLAUDE_CODE_TOKEN",
-            "\"${localProperties.getProperty("claude.code.token", "")}\"",
-        )
-        buildConfigField(
-            "String",
-            "CLAUDE_ROUTINE_FIRE_URL",
-            "\"${localProperties.getProperty("claude.routine.fireUrl", "")}\"",
-        )
     }
 
     signingConfigs {
@@ -68,7 +50,6 @@ android {
 
     buildFeatures {
         viewBinding = true
-        buildConfig = true
         compose = true
     }
 
@@ -97,11 +78,8 @@ dependencies {
     implementation(libs.okhttp)
 
     // Compose screen used to exercise Sentinel's Compose annotation-target resolution.
-    // Declared directly so both variants resolve the catalog's runtime version instead of the
-    // older one material3 and activity-compose pull in transitively.
-    implementation(libs.compose.runtime)
-    implementation(libs.compose.material3)
-    implementation(libs.compose.activity)
+    implementation(platform(libs.compose.bom))
+    implementation(libs.bundles.compose)
     // ui-tooling is what puts ui-tooling-data on the runtime classpath, which is what lets
     // Sentinel read composable source locations. Without it annotations still work, but with
     // no file:line.
