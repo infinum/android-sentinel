@@ -17,9 +17,11 @@ import com.infinum.sentinel.ui.tools.CertificateTool;
 import com.infinum.sentinel.ui.tools.ChuckerTool;
 import com.infinum.sentinel.ui.tools.CollarTool;
 import com.infinum.sentinel.ui.tools.DbInspectorTool;
+import com.infinum.sentinel.ui.tools.DeepLinkTool;
 import com.infinum.sentinel.ui.tools.GooglePlayTool;
 import com.infinum.sentinel.ui.tools.TimberTool;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,6 +38,10 @@ public class JavaMainActivity extends AppCompatActivity {
         tools.add(new ChuckerTool());
         tools.add(new CollarTool());
         tools.add(new DbInspectorTool());
+        tools.add(new DeepLinkTool(Arrays.asList(
+                new DeepLinkTool.ExampleLink("sentinelsample://catalog/product/123?ref=sentinel", "Product 123"),
+                new DeepLinkTool.ExampleLink("https://example.org/promo?code=SUMMER", "Promo on an undeclared domain")
+        )));
         tools.add(new GooglePlayTool());
         tools.add(new TimberTool());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

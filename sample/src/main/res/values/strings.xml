@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Sentinel Sample</string>
+
+    <!-- Deep link demo screens -->
+    <string name="deep_link_title">Deep link</string>
+    <string name="deep_link_search_title">Search</string>
+    <string name="deep_link_subtitle">Sentinel sample app</string>
+    <string name="deep_link_navigate_up">Navigate up</string>
+    <string name="deep_link_description">Opened from a deep link. Try it from the Deep links tool in Sentinel.</string>
+    <string name="deep_link_no_link">No link</string>
+    <string name="deep_link_no_parameters">No query parameters</string>
+    <string name="deep_link_no_value">(none)</string>
+    <!-- One query parameter, for example "q = summer sale". %1$s is the key, %2$s the value. -->
+    <string name="deep_link_parameter">%1$s = %2$s</string>
 </resources>

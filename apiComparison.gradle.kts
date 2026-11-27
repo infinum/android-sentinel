@@ -64,10 +64,14 @@ tasks.register("compareSentinelApis") {
                 name !in autoRegisteredInitializers
         }
 
+        // The Compose compiler adds a $stable field to every public class of a module that applies it, tool-deeplinks
+        // included. Its no-op stub has no Compose, and consumers never reference the field.
+        fun isComposeStabilityField(line: String) = line.trim() == "public static final field \$stable I"
+
         val missingClasses = checkedClasses.keys - noOpClasses.keys
         val missingLines = checkedClasses
             .filterKeys { it in noOpClasses }
-            .mapValues { (name, lines) -> lines - noOpClasses.getValue(name) }
+            .mapValues { (name, lines) -> lines.filterNot(::isComposeStabilityField).toSet() - noOpClasses.getValue(name) }
             .filterValues { it.isNotEmpty() }
 
         if (missingClasses.isNotEmpty() || missingLines.isNotEmpty()) {

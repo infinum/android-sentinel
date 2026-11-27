@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sentinel_test_deep_link_host" translatable="false">ref.example.com</string>
+</resources>

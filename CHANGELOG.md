@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+## Unreleased
+
+* New Sentinel tool: Deep links tool (`tool-deeplinks`) - for listing the deep links an app declares and launching them with custom query parameters
+* Fix Sentinel lists ignoring taps after an overscroll
+
 ## Version 2.0.0
 
 _2026-02-13_

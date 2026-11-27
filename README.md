@@ -26,6 +26,7 @@ The project is organized in the following modules:
 - `tool-appgallery` - contains a class wrapper for Huawei AppGallery
 - `tool-googleplay` - contains a class wrapper for Google Play
 - `tool-timber` - contains a class wrapper for Timber
+- `tool-deeplinks` - contains the Deep links tool, built with Jetpack Compose
 - `tool-networkemulator-okhttp` - contains a class wrapper for NetworkEmulator
 - `tool-networkemulator-okhttp-no-op` - contains stubs for easy release implementation of the NetworkEmulator interceptor
 - `tool-networkproxy-okhttp` - contains a class wrapper for NetworkProxy
@@ -109,6 +110,7 @@ debugImplementation "com.infinum.sentinel:tool-leakcanary:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-appgallery:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-googleplay:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-timber:$sentinelVersion"
+debugImplementation "com.infinum.sentinel:tool-deeplinks:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-networkemulator-okhttp:$sentinelVersion"
 releaseImplementation "com.infinum.sentinel:tool-networkemulator-okhttp-no-op:$sentinelVersion"
 debugImplementation "com.infinum.sentinel:tool-networkproxy-okhttp:$sentinelVersion"
@@ -127,6 +129,7 @@ debugImplementation("com.infinum.sentinel:tool-leakcanary:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-appgallery:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-googleplay:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-timber:$sentinelVersion")
+debugImplementation("com.infinum.sentinel:tool-deeplinks:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-networkemulator-okhttp:$sentinelVersion")
 releaseImplementation("com.infinum.sentinel:tool-networkemulator-okhttp-no-op:$sentinelVersion")
 debugImplementation("com.infinum.sentinel:tool-networkproxy-okhttp:$sentinelVersion")
@@ -156,7 +159,8 @@ Sentinel.watch(
         AppGalleryTool(appId = "123456789"),
         GooglePlayTool(),
         TimberTool(allowedTags = listOf("EXAMPLE")),
-        CertificateTool(userCertificates = listOf())
+        CertificateTool(userCertificates = listOf()),
+        DeepLinkTool()
     )
 )
 ```
@@ -224,6 +228,8 @@ Depending of what you include as module dependencies, very specific tools are pr
 - `NetworkProxyTool` - a wrapper class that opens [NetworkProxy](https://github.com/infinum/android-sentinel/tree/master/tool-networkproxy-okhttp). Lets the user alter the status code and body of API responses, or mock them, from inside the app. Requires the interceptor, see [Network Proxy](#network-proxy) below.
 - `ShowkaseTool` - a wrapper class that opens [Showkase](https://github.com/airbnb/Showkase), Airbnb's
   Compose component browser. Requires additional setup, see [Showkase](#showkase) below.
+- `DeepLinkTool` - lists the deep links the application declares in its manifest, and lets you build, save and launch
+  variants of them with your own query parameters. Requires `tool-deeplinks`, see [Deep links](#deep-links) below.
 
 ##### Network Proxy
 
@@ -410,6 +416,63 @@ for a specific screen, you can do so in the _AndroidManifest.xml_ by adding a _m
       android:value="false" />
 </activity>
 ```
+
+### Deep links
+
+The Deep links tool lives in its own module. Add it to your debug build; the `DeepLinkTool` stub for release builds is
+already in `sentinel-no-op`:
+
+```kotlin
+debugImplementation("com.infinum.sentinel:tool-deeplinks:$sentinelVersion")
+```
+
+If testers get another build type with `sentinel`, such as a `qa` or `staging` build from Firebase App Distribution,
+add the tool to that build type too, for example with `qaImplementation(...)`. Builds that use `sentinel-no-op` get
+the stub, and the tool doesn't appear in them.
+
+<!-- TODO: generateReadme only fills in Sentinel's own version. Extend it to read composeBom and navigation3 from
+     gradle/libs.versions.toml, so this note can't fall behind a dependency update. -->
+The tool is built with Jetpack Compose 1.12 and Material 3 1.4 (Compose BOM 2026.09.00) and Navigation 3 1.2, so
+`tool-deeplinks` brings them into your debug build; `sentinel` doesn't. If your app also uses Compose, Gradle resolves
+the higher of the two versions, so your debug build can run a newer Compose than your release build.
+
+_Sentinel_ reads the intent filters declared in the application's manifest and lists the deep links they accept (content and file schemes,
+MIME-type filters and non-exported screens are left out), grouped by the screen that declares them. Add `DeepLinkTool`
+to the watched tools:
+
+```kotlin
+DeepLinkTool(
+    exampleLinks = listOf(
+        DeepLinkTool.ExampleLink("myapp://product/123?ref=push", "Product 123")
+    )
+)
+```
+
+Example links are optional. Use them for links with realistic IDs or parameters that the manifest can't describe.
+They are listed in an "Example links" section above the declared links.
+
+For every link you can:
+
+- create variants with your own query parameters, and fill in pattern links such as `/product/*`. Variants are saved
+  on the device. Pattern links (templates) can't be launched, copied or shared as they are: you launch, copy and share
+  them through a variant that fills them in.
+- launch the link the way a tap in another app would ("Real tap"), or, for web links, directly into the application ("Open in this app"). Web links ask which one; other links open with Real tap.
+  A link whose screen lacks the `BROWSABLE` category can't take a Real tap, so it opens in the application directly.
+  The variant editor's Launch action saves the variant and launches it in one step.
+- see warnings for declarations that break real links, such as a missing `DEFAULT` or `BROWSABLE` category, a link
+  declared by two screens, or a disabled screen
+- open a breakdown of the link's parts, and copy or share it
+- on Android 12 and later, see whether a web link's domain is verified, and open the system link settings
+
+When you test with the tool:
+
+- Every launch from the tool is a warm start, because the application is already running. To test a cold start, copy
+  the link, force-stop the application in Settings > Apps > (the application) > Force stop, or with
+  `adb shell am force-stop <applicationId>`, then open the link from another app, such as a notes or chat app.
+- Only one installed app can own a web link's domain or receive a custom scheme without a chooser. If a second build of
+  the application is installed, for example a debug and a release build, links can open in that build instead.
+- On Android 17 and later, `adb shell am start --debug-link -a android.intent.action.VIEW -d "<link>"` shows how the
+  system resolved a link, including Dynamic App Links rules that the tool can't read.
 
 ## Contributing
 
