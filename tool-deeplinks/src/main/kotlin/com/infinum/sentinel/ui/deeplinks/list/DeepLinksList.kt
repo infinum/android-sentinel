@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,6 +33,7 @@ import com.infinum.sentinel.ui.deeplinks.compose.SentinelTheme
  *
  * A divider is drawn above each group of rows, see [DeepLinksItemKeys.hasDividerAbove]. [launchMenu] and
  * [moreMenu] are drawn inside the box of their button on every row, so a DropdownMenu placed there anchors to it.
+ * A list at the top stays at the top when [items] change, so a notice added there is on screen.
  */
 @Composable
 internal fun DeepLinksList(
@@ -44,6 +46,7 @@ internal fun DeepLinksList(
     moreMenu: @Composable (DeepLinksItem.LinkRow) -> Unit = {},
 ) {
     val keys = remember(items) { DeepLinksItemKeys.lazyKeys(items) }
+    KeepAtTopEffect(items = items, listState = listState)
     LazyColumn(modifier = modifier, state = listState, contentPadding = contentPadding) {
         itemsIndexed(items = items, key = { index, _ -> keys[index] }, contentType = { _, item -> item::class }) { index, item ->
             // Rows fade in and out and slide into place, as the XML list's default item animator did.
@@ -54,6 +57,24 @@ internal fun DeepLinksList(
                 DeepLinksListItem(item = item, callbacks = callbacks, launchMenu = launchMenu, moreMenu = moreMenu)
             }
         }
+    }
+}
+
+/**
+ * A LazyColumn keeps its first visible row in place when rows are added above it. Without this, the notice added when
+ * the tester comes back from link settings would sit above the screen until they scroll up.
+ */
+@Composable
+private fun KeepAtTopEffect(
+    items: List<DeepLinksItem>,
+    listState: LazyListState,
+) {
+    // The effect runs when the new items are applied, before the list measures them, so this reads the old position.
+    DisposableEffect(items) {
+        if (listState.firstVisibleItemIndex == 0 && listState.firstVisibleItemScrollOffset == 0) {
+            listState.requestScrollToItem(0)
+        }
+        onDispose {}
     }
 }
 
