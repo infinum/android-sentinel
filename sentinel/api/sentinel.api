@@ -70,97 +70,16 @@ public final class com/infinum/sentinel/SentinelInitializer : androidx/startup/I
 }
 
 public abstract interface class com/infinum/sentinel/annotations/AnnotationExporter {
-	public abstract fun export (Landroid/content/Context;Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun export (Landroid/content/Context;Ljava/lang/String;ILkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun icon ()I
 	public abstract fun label ()I
 }
 
-public final class com/infinum/sentinel/annotations/AnnotationToolkit : java/lang/Enum {
-	public static final field COMPOSE Lcom/infinum/sentinel/annotations/AnnotationToolkit;
-	public static final field Companion Lcom/infinum/sentinel/annotations/AnnotationToolkit$Companion;
-	public static final field VIEW Lcom/infinum/sentinel/annotations/AnnotationToolkit;
-	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lcom/infinum/sentinel/annotations/AnnotationToolkit;
-	public static fun values ()[Lcom/infinum/sentinel/annotations/AnnotationToolkit;
-}
-
-public final class com/infinum/sentinel/annotations/AnnotationToolkit$Companion {
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
-public final class com/infinum/sentinel/annotations/ClaudeRoutineExporter : com/infinum/sentinel/annotations/AnnotationExporter {
-	public fun <init> (Lkotlin/jvm/functions/Function0;Ljava/lang/String;)V
-	public fun export (Landroid/content/Context;Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public fun icon ()I
-	public fun label ()I
-}
-
 public final class com/infinum/sentinel/annotations/ClipboardAnnotationExporter : com/infinum/sentinel/annotations/AnnotationExporter {
 	public fun <init> ()V
-	public fun export (Landroid/content/Context;Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun export (Landroid/content/Context;Ljava/lang/String;ILkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun icon ()I
 	public fun label ()I
-}
-
-public final class com/infinum/sentinel/annotations/SentinelAnnotation {
-	public static final field Companion Lcom/infinum/sentinel/annotations/SentinelAnnotation$Companion;
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;Lcom/infinum/sentinel/annotations/AnnotationToolkit;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIZ)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lcom/infinum/sentinel/annotations/AnnotationToolkit;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIZILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component10 ()I
-	public final fun component11 ()Ljava/lang/String;
-	public final fun component12 ()Ljava/lang/String;
-	public final fun component13 ()Ljava/lang/String;
-	public final fun component14 ()Ljava/lang/String;
-	public final fun component15 ()I
-	public final fun component16 ()I
-	public final fun component17 ()Z
-	public final fun component2 ()Ljava/lang/String;
-	public final fun component3 ()Lcom/infinum/sentinel/annotations/AnnotationToolkit;
-	public final fun component4 ()Ljava/lang/String;
-	public final fun component5 ()Ljava/lang/String;
-	public final fun component6 ()Ljava/lang/String;
-	public final fun component7 ()Ljava/lang/String;
-	public final fun component8 ()Ljava/lang/String;
-	public final fun component9 ()I
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;Lcom/infinum/sentinel/annotations/AnnotationToolkit;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIZ)Lcom/infinum/sentinel/annotations/SentinelAnnotation;
-	public static synthetic fun copy$default (Lcom/infinum/sentinel/annotations/SentinelAnnotation;Ljava/lang/String;Ljava/lang/String;Lcom/infinum/sentinel/annotations/AnnotationToolkit;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIZILjava/lang/Object;)Lcom/infinum/sentinel/annotations/SentinelAnnotation;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getFragment ()Ljava/lang/String;
-	public final fun getId ()Ljava/lang/String;
-	public final fun getNote ()Ljava/lang/String;
-	public final fun getOrdinal ()I
-	public final fun getOrdinalCount ()I
-	public final fun getRebindX ()I
-	public final fun getRebindY ()I
-	public final fun getRoute ()Ljava/lang/String;
-	public final fun getScreen ()Ljava/lang/String;
-	public final fun getSourceLocation ()Ljava/lang/String;
-	public final fun getTargetPath ()Ljava/lang/String;
-	public final fun getTargetType ()Ljava/lang/String;
-	public final fun getTestTag ()Ljava/lang/String;
-	public final fun getText ()Ljava/lang/String;
-	public final fun getToolkit ()Lcom/infinum/sentinel/annotations/AnnotationToolkit;
-	public final fun getViewId ()Ljava/lang/String;
-	public fun hashCode ()I
-	public final fun isSent ()Z
-	public final fun toExportJson ()Ljava/lang/String;
-	public fun toString ()Ljava/lang/String;
-}
-
-public final synthetic class com/infinum/sentinel/annotations/SentinelAnnotation$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Lcom/infinum/sentinel/annotations/SentinelAnnotation$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/infinum/sentinel/annotations/SentinelAnnotation;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/infinum/sentinel/annotations/SentinelAnnotation;)V
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-}
-
-public final class com/infinum/sentinel/annotations/SentinelAnnotation$Companion {
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-	public final fun toExportJson (Ljava/util/List;)Ljava/lang/String;
 }
 
 public final class com/infinum/sentinel/databinding/SentinelDialogAnnotationNoteBinding : androidx/viewbinding/ViewBinding {
