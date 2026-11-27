@@ -10,6 +10,7 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.infinum.sentinel.annotations.SentinelAnnotation
 import com.infinum.sentinel.data.sources.memory.annotations.InMemoryAnnotationCache
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -156,10 +157,19 @@ internal class AnnotationOverlayControllerTest {
 
         val cache = InMemoryAnnotationCache()
         val controller = AnnotationOverlayController(cache)
+        val captureAnnotation =
+            AnnotationOverlayController::class.java
+                .getDeclaredMethod("captureAnnotation", Activity::class.java, ResolvedTarget::class.java)
+                .apply { isAccessible = true }
         val saveNote =
             AnnotationOverlayController::class.java
-                .getDeclaredMethod("saveNote", Activity::class.java, ResolvedTarget::class.java, String::class.java)
-                .apply { isAccessible = true }
+                .getDeclaredMethod(
+                    "saveNote",
+                    SentinelAnnotation::class.java,
+                    ResolvedTarget::class.java,
+                    String::class.java,
+                    Boolean::class.javaPrimitiveType,
+                ).apply { isAccessible = true }
 
         ActivityScenario.launch(AnnotationHostTestActivity::class.java).use { scenario ->
             scenario.onActivity { activity ->
@@ -171,7 +181,8 @@ internal class AnnotationOverlayControllerTest {
                 second.getLocationOnScreen(location)
                 val target = ViewTargetResolver().resolve(activity.window.decorView, location[0] + 5, location[1] + 5)!!
                 assertEquals("second", target.node.text)
-                saveNote.invoke(controller, activity, target, "note on the second one")
+                val captured = captureAnnotation.invoke(controller, activity, target)
+                saveNote.invoke(controller, captured, target, "note on the second one", false)
             }
             InstrumentationRegistry.getInstrumentation().waitForIdleSync()
         }
