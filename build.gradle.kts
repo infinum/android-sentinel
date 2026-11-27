@@ -26,6 +26,12 @@ plugins {
     alias(libs.plugins.gradle.maven.publish) apply false
 }
 
+apiValidation {
+    // The Compose compiler makes public ComposableSingletons classes in the Deep links tool's internal UI packages.
+    // Their members are renamed on every UI edit and aren't API, so they stay out of the dumps.
+    ignoredPackages.add("com.infinum.sentinel.ui.deeplinks")
+}
+
 allprojects {
 
     repositories {
@@ -113,11 +119,14 @@ tasks.register("lintAll") {
         ":tool-leakcanary:lintRelease",
         ":tool-appgallery:lintRelease",
         ":tool-googleplay:lintRelease",
+        ":tool-networkproxy-okhttp:lintRelease",
+        ":tool-networkproxy-okhttp-no-op:lintRelease",
         ":tool-showkase:lintRelease",
         ":tool-showkase-no-op:lintRelease",
         ":tool-timber:lintRelease",
         ":tool-networkemulator-okhttp:lintRelease",
-        ":tool-networkemulator-okhttp-no-op:lintRelease"
+        ":tool-networkemulator-okhttp-no-op:lintRelease",
+        ":tool-deeplinks:lintRelease"
     )
     group = "Verification"
     description = "Run Detekt on all modules"
@@ -133,11 +142,14 @@ tasks.register("detektAll") {
         ":tool-leakcanary:detekt",
         ":tool-appgallery:detekt",
         ":tool-googleplay:detekt",
+        ":tool-networkproxy-okhttp:detekt",
+        ":tool-networkproxy-okhttp-no-op:detekt",
         ":tool-showkase:detekt",
         ":tool-showkase-no-op:detekt",
         ":tool-timber:detekt",
         ":tool-networkemulator-okhttp:detekt",
-        ":tool-networkemulator-okhttp-no-op:detekt"
+        ":tool-networkemulator-okhttp-no-op:detekt",
+        ":tool-deeplinks:detekt"
     )
     group = "Verification"
     description = "Run Detekt on all modules"

@@ -16,6 +16,7 @@ Each module has its own `AGENTS.md` with the details. **Read it before changing 
 | [`tool-timber`](tool-timber/AGENTS.md) | In-app log viewer backed by a Timber tree |
 | [`tool-networkemulator-okhttp`](tool-networkemulator-okhttp/AGENTS.md) (+ [`-no-op`](tool-networkemulator-okhttp-no-op/AGENTS.md)) | OkHttp interceptor that adds delay/failures, with a settings UI |
 | [`tool-showkase`](tool-showkase/AGENTS.md) (+ [`-no-op`](tool-showkase-no-op/AGENTS.md)) | Launcher for the Airbnb Showkase browser |
+| [`tool-deeplinks`](tool-deeplinks/AGENTS.md) | Lists the app's declared deep links and launches saved variants (Compose UI) |
 
 ## Build and verify
 
@@ -23,7 +24,7 @@ Each module has its own `AGENTS.md` with the details. **Read it before changing 
 - Static checks (what CI runs, `.github/workflows/code-analysis.yml`): `./gradlew lintAll detektAll` (or `runStaticChecks`).
   - `detekt` has `autoCorrect = true` and **rewrites files**. Config: `config/detekt.yml` (maxIssues 0).
 - Build the sample: `./gradlew :sample:assembleDebug :sample:assembleRelease`.
-- Tests exist only in `sentinel`. See [sentinel/AGENTS.md](sentinel/AGENTS.md). CI does not run tests or `apiCheck`, so run them locally.
+- Tests exist only in `sentinel` and `tool-deeplinks`. See each module's `AGENTS.md`. CI does not run tests or `apiCheck`, so run them locally.
 - Public API dumps: `./gradlew apiDump` / `apiCheck` (binary-compatibility-validator). Every library module commits `api/<module>.api`, and `publish*` tasks depend on `apiCheck`.
 - Publish locally: `./gradlew deployDebug` (Maven Local). Release publishing (`deployAll`) is done by maintainers only.
 

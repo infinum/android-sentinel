@@ -79,6 +79,15 @@ tasks.register("deployToolTimber") {
     description = "Deploy Tool Timber module to Maven Central repository"
 }
 
+tasks.register("deployToolDeepLinks") {
+    dependsOn(
+        ":tool-deeplinks:clean",
+        ":tool-deeplinks:publishMavenPublicationToMavenCentralRepository"
+    )
+    group = "Deploy"
+    description = "Deploy Tool Deep links module to Maven Central repository"
+}
+
 tasks.register("deployToolNetworkEmulatorOkhttp") {
     dependsOn(
         ":tool-networkemulator-okhttp:clean",
@@ -88,6 +97,17 @@ tasks.register("deployToolNetworkEmulatorOkhttp") {
     )
     group = "Deploy"
     description = "Deploy Tool NetworkEmulator OkHttp modules to Maven Central repository"
+}
+
+tasks.register("deployToolNetworkProxyOkhttp") {
+    dependsOn(
+        ":tool-networkproxy-okhttp:clean",
+        ":tool-networkproxy-okhttp-no-op:clean",
+        ":tool-networkproxy-okhttp:publishMavenPublicationToMavenCentralRepository",
+        ":tool-networkproxy-okhttp-no-op:publishMavenPublicationToMavenCentralRepository"
+    )
+    group = "Deploy"
+    description = "Deploy Tool NetworkProxy OkHttp modules to Maven Central repository"
 }
 
 tasks.register("deployToolShowkase") {
@@ -119,7 +139,9 @@ tasks.register("deployToolsAll") {
         "deployToolAppGallery",
         "deployToolGooglePlay",
         "deployToolTimber",
+        "deployToolDeepLinks",
         "deployToolNetworkEmulatorOkhttp",
+        "deployToolNetworkProxyOkhttp",
         "deployToolShowkase"
     )
     group = "Deploy"
@@ -137,7 +159,9 @@ tasks.register("deployAll") {
         "deployToolAppGallery",
         "deployToolGooglePlay",
         "deployToolTimber",
+        "deployToolDeepLinks",
         "deployToolNetworkEmulatorOkhttp",
+        "deployToolNetworkProxyOkhttp",
         "deployToolShowkase"
     )
     group = "Deploy"
@@ -155,8 +179,11 @@ tasks.register("deployDebug") {
         ":tool-appgallery:clean",
         ":tool-googleplay:clean",
         ":tool-timber:clean",
+        ":tool-deeplinks:clean",
         ":tool-networkemulator-okhttp:clean",
         ":tool-networkemulator-okhttp-no-op:clean",
+        ":tool-networkproxy-okhttp:clean",
+        ":tool-networkproxy-okhttp-no-op:clean",
         ":tool-showkase:clean",
         ":tool-showkase-no-op:clean",
         ":sentinel:publishMavenPublicationToMavenLocal",
@@ -168,8 +195,11 @@ tasks.register("deployDebug") {
         ":tool-appgallery:publishMavenPublicationToMavenLocal",
         ":tool-googleplay:publishMavenPublicationToMavenLocal",
         ":tool-timber:publishMavenPublicationToMavenLocal",
+        ":tool-deeplinks:publishMavenPublicationToMavenLocal",
         ":tool-networkemulator-okhttp:publishMavenPublicationToMavenLocal",
         ":tool-networkemulator-okhttp-no-op:publishMavenPublicationToMavenLocal",
+        ":tool-networkproxy-okhttp:publishMavenPublicationToMavenLocal",
+        ":tool-networkproxy-okhttp-no-op:publishMavenPublicationToMavenLocal",
         ":tool-showkase:publishMavenPublicationToMavenLocal",
         ":tool-showkase-no-op:publishMavenPublicationToMavenLocal"
     )

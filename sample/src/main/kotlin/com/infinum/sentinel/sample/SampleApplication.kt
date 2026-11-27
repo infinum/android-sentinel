@@ -8,9 +8,11 @@ import com.infinum.sentinel.ui.tools.CertificateTool
 import com.infinum.sentinel.ui.tools.ChuckerTool
 import com.infinum.sentinel.ui.tools.CollarTool
 import com.infinum.sentinel.ui.tools.DbInspectorTool
+import com.infinum.sentinel.ui.tools.DeepLinkTool
 import com.infinum.sentinel.ui.tools.GooglePlayTool
 import com.infinum.sentinel.ui.tools.LeakCanaryTool
 import com.infinum.sentinel.ui.tools.NetworkEmulatorTool
+import com.infinum.sentinel.ui.tools.NetworkProxyTool
 import com.infinum.sentinel.ui.tools.ShowkaseTool
 import com.infinum.sentinel.ui.tools.TimberTool
 import java.security.cert.CertificateFactory
@@ -33,10 +35,21 @@ class SampleApplication : Application() {
         tools.add(DbInspectorTool())
         tools.add(LeakCanaryTool())
         tools.add(NetworkEmulatorTool())
+        tools.add(NetworkProxyTool())
         tools.add(AppGalleryTool(appId = "102016595"))
         tools.add(GooglePlayTool())
         tools.add(TimberTool(allowedTags = listOf("Main")))
         tools.add(ShowkaseTool(SampleShowkaseRootModule::class))
+        tools.add(
+            DeepLinkTool(
+                exampleLinks =
+                listOf(
+                    DeepLinkTool.ExampleLink("sentinelsample://catalog/product/123?ref=sentinel", "Product 123"),
+                    // A domain the sample doesn't declare, to show the "Not registered" status on Android 12+.
+                    DeepLinkTool.ExampleLink("https://example.org/promo?code=SUMMER", "Promo on an undeclared domain"),
+                ),
+            ),
+        )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             tools.add(CertificateTool(userCertificates = loadDebugCertificates()))
         }

@@ -1,0 +1,7 @@
+appId: com.infinum.sentinel.sample.debug
+---
+# From the Network Proxy list, back to the sample's main screen
+- back
+- back
+- assertVisible:
+    id: "showSentinel"

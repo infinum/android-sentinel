@@ -93,17 +93,22 @@ dependencies {
     debugImplementation(project(":tool-leakcanary"))
     debugImplementation(project(":tool-networkemulator-okhttp"))
     releaseImplementation(project(":tool-networkemulator-okhttp-no-op"))
+    debugImplementation(project(":tool-networkproxy-okhttp"))
+    releaseImplementation(project(":tool-networkproxy-okhttp-no-op"))
     debugImplementation(project(":tool-timber"))
+    debugImplementation(project(":tool-deeplinks"))
 
     debugImplementation(project(":tool-showkase"))
     releaseImplementation(project(":tool-showkase-no-op"))
 
     debugImplementation(libs.showkase)
+    debugImplementation(platform(libs.compose.bom))
     debugImplementation(libs.compose.runtime)
     debugImplementation(libs.compose.material)
 
     // The Compose compiler plugin applies to every variant and refuses to run without the
     // runtime on the compile classpath, even though release has no composables
+    releaseCompileOnly(platform(libs.compose.bom))
     releaseCompileOnly(libs.compose.runtime)
 
     // Variant-scoped on purpose. The project-wide `ksp` configuration would run the

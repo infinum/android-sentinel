@@ -1,0 +1,74 @@
+@Suppress("UNCHECKED_CAST")
+val buildConfig = extra["buildConfig"] as Map<String, Any>
+@Suppress("UNCHECKED_CAST")
+val releaseConfig = extra["releaseConfig"] as Map<String, Any>
+
+plugins {
+    id("com.android.library")
+    alias(libs.plugins.gradle.maven.publish)
+}
+
+android {
+    buildFeatures {
+        buildConfig = false
+    }
+
+    compileSdk = buildConfig["compileSdk"] as Int
+    buildToolsVersion = buildConfig["buildTools"] as String
+
+    defaultConfig {
+        minSdk = buildConfig["minSdk"] as Int
+    }
+
+    buildTypes {
+        debug {
+            isMinifyEnabled = false
+        }
+        release {
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.txt")
+        }
+    }
+
+    namespace = "com.infinum.sentinel.tool.networkproxy"
+    resourcePrefix = "sentinel_"
+
+    kotlin {
+        jvmToolchain(11)
+
+        compilerOptions {
+            freeCompilerArgs.addAll(
+                listOf(
+                    "-Xexplicit-api=strict",
+                    "-jvm-default=no-compatibility"
+                )
+            )
+        }
+    }
+
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(11))
+        }
+    }
+}
+
+tasks.named("dokkaGenerate") {
+    mustRunAfter(":tool-networkproxy-okhttp-no-op:generateReleaseRFile")
+}
+
+dependencies {
+    implementation(libs.kotlin.core)
+    // OkHttp is provided by the app using the network proxy
+    compileOnly(libs.okhttp)
+}
+
+val groupId = project.property("groupId") as String
+
+mavenPublishing {
+    coordinates(
+        groupId = groupId,
+        artifactId = "tool-networkproxy-okhttp-no-op",
+        version = releaseConfig["version"] as String
+    )
+}

@@ -9,7 +9,7 @@ appcompat = "1.8.0"
 binaryCompatibility = "0.18.2"
 chucker = "4.4.0"
 collar = "2.1.0"
-compose = "1.12.1"
+composeBom = "2026.09.00"
 core = "1.19.1"
 coroutines = "1.11.0"
 crypto = "1.1.0"
@@ -31,7 +31,9 @@ kotlin = "2.4.21"
 ksp = "2.3.14"
 leakcanary = "2.14"
 lifecycle = "2.11.0"
+navigation3 = "1.2.2"
 okhttp = "5.5.1"
+orgjson = "20250517"
 preference = "1.2.1"
 recycler = "1.4.0"
 robolectricShadow = "4.18"
@@ -53,8 +55,11 @@ toolleakcanary = { module = "com.infinum.sentinel:tool-leakcanary", version.ref 
 toolappgallery = { module = "com.infinum.sentinel:tool-appgallery", version.ref = "sentinel" }
 toolgoogleplay = { module = "com.infinum.sentinel:tool-googleplay", version.ref = "sentinel" }
 tooltimber = { module = "com.infinum.sentinel:tool-timber", version.ref = "sentinel" }
+tooldeeplinks = { module = "com.infinum.sentinel:tool-deeplinks", version.ref = "sentinel" }
 toolnetworkemulatorokhttp = { module = "com.infinum.sentinel:tool-networkemulator-okhttp", version.ref = "sentinel" }
 toolnetworkemulatorokhttpnoop = { module = "com.infinum.sentinel:tool-networkemulator-okhttp-no-op", version.ref = "sentinel" }
+toolnetworkproxyokhttp = { module = "com.infinum.sentinel:tool-networkproxy-okhttp", version.ref = "sentinel" }
+toolnetworkproxyokhttpnoop = { module = "com.infinum.sentinel:tool-networkproxy-okhttp-no-op", version.ref = "sentinel" }
 toolshowkase = { module = "com.infinum.sentinel:tool-showkase", version.ref = "sentinel" }
 toolshowkasenoop = { module = "com.infinum.sentinel:tool-showkase-no-op", version.ref = "sentinel" }
 
@@ -120,15 +125,43 @@ junit = { module = "junit:junit", version.ref = "junit" }
 robolectric-shadowapi = { module = "org.robolectric:shadowapi", version.ref = "robolectricShadow" }
 
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+okhttp-mockwebserver = { module = "com.squareup.okhttp3:mockwebserver3", version.ref = "okhttp" }
+orgjson = { module = "org.json:json", version.ref = "orgjson" }
 
 showkase = { module = "com.airbnb.android:showkase", version.ref = "showkase" }
 showkase-annotation = { module = "com.airbnb.android:showkase-annotation", version.ref = "showkase" }
 showkase-processor = { module = "com.airbnb.android:showkase-processor", version.ref = "showkase" }
 
-compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
-compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
+# Compose libraries take their versions from the BOM.
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+compose-runtime = { module = "androidx.compose.runtime:runtime" }
+compose-material = { module = "androidx.compose.material:material" }
+compose-ui = { module = "androidx.compose.ui:ui" }
+compose-foundation = { module = "androidx.compose.foundation:foundation" }
+compose-material3 = { module = "androidx.compose.material3:material3" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
+androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "lifecycle" }
+androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "navigation3" }
+androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "navigation3" }
 
 [bundles]
+compose = [
+    "compose-runtime",
+    "compose-ui",
+    "compose-foundation",
+    "compose-material3",
+    "compose-ui-tooling-preview",
+    "androidx-activity-compose",
+    "androidx-lifecycle-runtime-compose",
+    "androidx-lifecycle-viewmodel-compose",
+    "androidx-lifecycle-viewmodel-navigation3",
+    "androidx-navigation3-runtime",
+    "androidx-navigation3-ui"
+]
 androidx = [
     "androidx-core",
     "androidx-appcompat",
@@ -155,7 +188,9 @@ tools = [
     "toolappgallery",
     "toolgoogleplay",
     "tooltimber",
+    "tooldeeplinks",
     "toolnetworkemulatorokhttp",
+    "toolnetworkproxyokhttp",
     "toolshowkase"
 ]
 
